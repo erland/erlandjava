@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<resources>
+    <services>
+        <service id="stock-brokermanager" reference="brokermanager:erland/webapp/stocks/bl/service/brokermanager.xml"/>
+        <service id="stock-brokerconnectionfactory" reference="brokerconnectionfactory:erland/webapp/stocks/bl/service/brokerconnectionfactory.xml"/>
+        <service id="stock-stockaccountmanager" reference="stockaccountmanager:erland/webapp/stocks/bl/service/stockaccountmanager.xml"/>
+    </services>
+    <entities>
+        <entity id="common-resource" reference="resource:erland/webapp/common/resource.xml"/>
+        <entity id="usermgmt-user" reference="user:erland/webapp/usermgmt/user.xml"/>
+        <entity id="usermgmt-userapplicationrole" reference="userapplicationrole:erland/webapp/usermgmt/userapplicationrole.xml"/>
+        <entity id="usermgmt-userinfo" reference="userinfo:erland/webapp/usermgmt/userinfo.xml"/>
+        <entity id="stock-account" reference="account:erland/webapp/stocks/bl/entity/account.xml"/>
+        <entity id="stock-transaction" reference="transaction:erland/webapp/stocks/bl/entity/transaction.xml"/>
+        <entity id="stock-stockaccountstockentry" reference="stockaccountstockentry:erland/webapp/stocks/bl/entity/stockaccountstockentry.xml"/>
+        <entity id="stock-stockaccount">
+            <class>erland.webapp.stocks.bl.entity.DatabaseStockAccount</class>
+        </entity>
+    </entities>
+    <brokers>
+        <broker id="robur">
+            <name>Robur</name>
+            <data id="connection">
+                <class>erland.webapp.stocks.bl.logic.broker.robur.RoburConnection</class>
+            </data>
+        </broker>
+        <broker id="sb">
+            <name>Stockholmsbörsen</name>
+            <data id="connection">
+                <class>erland.webapp.stocks.bl.logic.broker.sb.SBConnection</class>
+            </data>
+        </broker>
+    </brokers>
+</resources>
