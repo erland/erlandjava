@@ -20,17 +20,17 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="3" width="1004" height="728" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="-1" />
-      <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="-1" />
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
+      <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.24395373" order="0" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.18086225" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.3305369" order="-1" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33011273" order="8" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="6" />
-      <window_info id="Aspects" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="-1" />
+      <window_info id="Aspects" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="3" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.2502629" order="1" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
@@ -59,7 +59,11 @@
   <component name="ProjectViewSettings">
     <navigator currentView="ProjectPane" flattenPackages="false" showMembers="false" showStructure="false" autoscrollToSource="false" splitterProportion="0.5" />
     <view id="ProjectPane">
+      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland" />
       <expanded_node type="directory" url="file://$PROJECT_DIR$" />
+      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/game/tetris" />
+      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/game" />
+      <expanded_node type="directory" url="file://$PROJECT_DIR$/src" />
     </view>
     <view id="SourcepathPane" />
     <view id="ClasspathPane" />
@@ -88,38 +92,38 @@
       <is-autoscroll-to-source value="true" />
     </todo-panel>
   </component>
-  <component name="editorManager" selected-file="file://$PROJECT_DIR$/readme.txt">
+  <component name="editorManager" selected-file="file://$PROJECT_DIR$/build.xml">
     <entry file="file://$PROJECT_DIR$/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="0" selection-start="1453" selection-end="1453" vertical-scroll-proportion="0.45" horizontal-scroll-proportion="0.0">
+        <state line="39" column="0" selection-start="1518" selection-end="1518" vertical-scroll-proportion="0.4391144" horizontal-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/erland/game/tetris/Block.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="0" selection-start="28" selection-end="817" vertical-scroll-proportion="0.59594095" horizontal-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/readme.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
+        <state line="44" column="0" selection-start="0" selection-end="1525" vertical-scroll-proportion="0.8118081" horizontal-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/erland/game/tetris/TetrisServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="0" selection-start="28" selection-end="817" vertical-scroll-proportion="0.59594095" horizontal-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/erland/game/tetris/Block6.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/erland/game/tetris/Block7.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/game/tetris/BlockContainerData.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
           <folding />
@@ -154,13 +158,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/game/tetris/TetrisMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/erland/game/tetris/TetrisModelInterface.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
@@ -189,23 +186,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/game/tetris/TetrisServer.java">
+    <entry file="file://$PROJECT_DIR$/src/erland/game/tetris/TetrisMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="0" selection-start="817" selection-end="817" vertical-scroll-proportion="0.61877394" horizontal-scroll-proportion="0.0">
+        <state line="142" column="0" selection-start="4686" selection-end="4686" vertical-scroll-proportion="0.584375" horizontal-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/erland/game/tetris/BlockContainerData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="6" selection-start="934" selection-end="934" vertical-scroll-proportion="0.35588235" horizontal-scroll-proportion="0.10294118">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="0" selection-start="1453" selection-end="1453" vertical-scroll-proportion="0.45" horizontal-scroll-proportion="0.0">
+        <state line="39" column="0" selection-start="1518" selection-end="1518" vertical-scroll-proportion="0.4391144" horizontal-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/erland/game/tetris/Block.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="0" selection-start="28" selection-end="817" vertical-scroll-proportion="0.59594095" horizontal-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/readme.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
+        <state line="44" column="0" selection-start="0" selection-end="1525" vertical-scroll-proportion="0.8118081" horizontal-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/erland/game/tetris/TetrisServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="0" selection-start="28" selection-end="817" vertical-scroll-proportion="0.59594095" horizontal-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -397,7 +415,9 @@
     <option name="LAST_COMMIT_MESSAGE" value="" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
   </component>
-  <component name="CheckinPanelState" />
+  <component name="CheckinPanelState">
+    <Excluded key="$PROJECT_DIR$/Tetris.iws" />
+  </component>
   <component name="WebViewSettings">
     <webview flattenPackages="false" showMembers="false" autoscrollToSource="false" />
   </component>
