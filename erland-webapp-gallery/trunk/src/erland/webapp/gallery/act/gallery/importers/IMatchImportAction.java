@@ -89,6 +89,7 @@ public class IMatchImportAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ImportFB fb = (ImportFB) form;
         try {
+            long orderNoStart = 0;
             if (fb.getClearCategories().booleanValue()) {
                 QueryFilter filter = new QueryFilter("allforgallery");
                 filter.setAttribute("gallery", fb.getGallery());
@@ -100,6 +101,16 @@ public class IMatchImportAction extends BaseAction {
                 filter.setAttribute("gallery", fb.getGallery());
                 getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").delete(filter);
                 getEnvironment().getEntityStorageFactory().getStorage("gallery-categorypictureassociation").delete(filter);
+            }else {
+                QueryFilter filter = new QueryFilter("allforgallerywithlimit","byordernodesc");
+                filter.setAttribute("gallery",fb.getGallery());
+                filter.setAttribute("start",new Integer(0));
+                filter.setAttribute("max",new Integer(1));
+                EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").search(filter);
+                if(entities.length>0) {
+                    Long orderNo = ((Picture)entities[0]).getOrderNo();
+                    orderNoStart=orderNo!=null?orderNo.longValue()+1:0;
+                }
             }
             Map categories = new HashMap();
             loadCategories(categories, fb.getGallery());
@@ -114,7 +125,7 @@ public class IMatchImportAction extends BaseAction {
                 reader.readLine();
                 String line = reader.readLine();
                 while (line != null) {
-                    doImport(categories, fb.getGallery(), line, fb.getLocalLinks(), fb.getFilenameAsPictureTitle(), fb.getFilenameAsPictureDescription(), fb.getCutLongPictureTitles());
+                    doImport(categories, fb.getGallery(), line, fb.getLocalLinks(), fb.getFilenameAsPictureTitle(), fb.getFilenameAsPictureDescription(), orderNoStart++);
                     line = reader.readLine();
                 }
 
@@ -163,7 +174,7 @@ public class IMatchImportAction extends BaseAction {
         }
     }
 
-    private void doImport(Map previousCategories, Integer gallery, String line, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean cutLongPictureTitles) {
+    private void doImport(Map previousCategories, Integer gallery, String line, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, long orderNoStart) {
         StringTokenizer tokenizer = new StringTokenizer(line, "\t", true);
         if (tokenizer.countTokens() >= 8) {
             String picture = tokenizer.nextToken();
@@ -216,7 +227,7 @@ public class IMatchImportAction extends BaseAction {
             } catch (NoSuchElementException e) {
                 // Do nothing
             }
-            Integer pictureId = createPicture(gallery, picture.substring(1, picture.length() - 1), date, oid, title, description, localLinks, filenameAsPictureTitle, filenameAsPictureDescription, cutLongPictureTitles);
+            Integer pictureId = createPicture(gallery, picture.substring(1, picture.length() - 1), date, oid, title, description, localLinks, filenameAsPictureTitle, filenameAsPictureDescription, new Long(orderNoStart));
             for (StringTokenizer it = new StringTokenizer(categories.substring(1, categories.length() - 1), ","); it.hasMoreTokens();) {
                 String category = it.nextToken();
                 Integer categoryId = createCategory(previousCategories, gallery, category);
@@ -225,7 +236,7 @@ public class IMatchImportAction extends BaseAction {
         }
     }
 
-    private Integer createPicture(Integer gallery, String picture, Date modificationDate, Integer id, String title, String description, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean cutLongPictureTitles) {
+    private Integer createPicture(Integer gallery, String picture, Date modificationDate, Integer id, String title, String description, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Long orderNo) {
         picture = picture.replace('\\',File.separatorChar);
         QueryFilter filter = new QueryFilter("ingallerywithname");
         filter.setAttribute("gallery", gallery);
@@ -237,11 +248,6 @@ public class IMatchImportAction extends BaseAction {
             Picture entity = (Picture) getEnvironment().getEntityFactory().create("gallery-picture");
             if ((title == null || title.length() == 0) && filenameAsPictureTitle.booleanValue()) {
                 title = picture;
-            }
-            if (cutLongPictureTitles.booleanValue()) {
-                if (title != null && title.length() > 30) {
-                    title = "..." + title.substring(title.length() - 27);
-                }
             }
             entity.setTitle(title);
             if ((description == null || description.length() == 0) && filenameAsPictureDescription != null && filenameAsPictureDescription.booleanValue()) {
@@ -258,6 +264,7 @@ public class IMatchImportAction extends BaseAction {
             entity.setGallery(gallery);
             entity.setDate(modificationDate);
             entity.setId(id);
+            entity.setOrderNo(orderNo);
             getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").store(entity);
             return entity.getId();
         }
