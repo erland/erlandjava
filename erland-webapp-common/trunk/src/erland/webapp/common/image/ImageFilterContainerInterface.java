@@ -1,11 +1,9 @@
 package erland.webapp.common.image;
 
-import java.io.IOException;
-import java.net.URL;
-import java.awt.image.BufferedImage;
+import java.awt.image.ImageFilter;
 
 /*
- * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
+ * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,6 +21,6 @@ import java.awt.image.BufferedImage;
  * 
  */
 
-public interface ThumbnailCreatorInterface {
-    public BufferedImage create(URL url, int requestedWidth, ImageFilterContainerInterface filters) throws IOException;
+public interface ImageFilterContainerInterface {
+    ImageFilter[] getFilters();
 }

@@ -31,14 +31,15 @@ import java.net.URL;
 
 public class ImageThumbnail implements ThumbnailCreatorInterface {
 
-    public BufferedImage create(URL url, int requestedWidth, ImageFilter[] filters) throws IOException {
+    public BufferedImage create(URL url, int requestedWidth, ImageFilterContainerInterface filters) throws IOException {
         BufferedImage image = ImageIO.read(new BufferedInputStream(url.openStream()));
         BufferedImage thumbnail = null;
         if (image != null) {
-            if(filters!=null && filters.length>0) {
+            ImageFilter[] filterList = filters.getFilters();
+            if(filterList!=null && filterList.length>0) {
                 ImageProducer prod = thumbnail.getSource();
-                for (int i = 0; i < filters.length; i++) {
-                    ImageFilter postFilter = filters[i];
+                for (int i = 0; i < filterList.length; i++) {
+                    ImageFilter postFilter = filterList[i];
                     prod = new FilteredImageSource(prod,postFilter);
                 }
                 Image img = Toolkit.getDefaultToolkit().createImage(prod);

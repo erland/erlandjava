@@ -73,7 +73,7 @@ public class ImageWriteHelper {
         return writeThumbnail(environment,width,useCache,compression,username,imageFile,copyrightText,thumbnailCreator,null,null,output);
     }
 
-    public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, ImageFilter[] preFilters, ImageFilter postFilters[], OutputStream output) {
+    public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, ImageFilterContainerInterface preFilters, ImageFilterContainerInterface postFilters, OutputStream output) {
         Log.println(getLogInstance(), "Loading thumbnail image: " + imageFile);
         String cacheDir = environment.getConfigurableResources().getParameter("thumbnail.cache");
         int requestedWidth = width!=null?width.intValue():THUMBNAIL_WIDTH;
@@ -112,10 +112,11 @@ public class ImageWriteHelper {
                     return true;
                 } else {
                     thumbnail = thumbnailCreator.create(url, requestedWidth, preFilters);
-                    if(postFilters!=null && postFilters.length>0) {
+                    ImageFilter[] filters = postFilters.getFilters();
+                    if(filters!=null && filters.length>0) {
                         ImageProducer prod = thumbnail.getSource();
-                        for (int i = 0; i < postFilters.length; i++) {
-                            ImageFilter postFilter = postFilters[i];
+                        for (int i = 0; i < filters.length; i++) {
+                            ImageFilter postFilter = filters[i];
                             prod = new FilteredImageSource(prod,postFilter);
                         }
                         Toolkit.getDefaultToolkit().createImage(prod);
