@@ -34,10 +34,10 @@ public class ViewAppendixEntryCommand implements CommandInterface, ViewAppendixE
 
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("id");
-        AppendixEntry template = (AppendixEntry)environment.getEntityFactory().create("appendixentry");
+        AppendixEntry template = (AppendixEntry)environment.getEntityFactory().create("diary-appendixentry");
         if(id!=null) {
             template.setId(Integer.valueOf(id));
-            entry = (AppendixEntry) environment.getEntityStorageFactory().getStorage("appendixentry").load(template);
+            entry = (AppendixEntry) environment.getEntityStorageFactory().getStorage("diary-appendixentry").load(template);
         }
         return null;
     }

@@ -51,7 +51,7 @@ public class SearchEntriesCommand extends BaseEntryCommand implements CommandInt
                     e.printStackTrace();  //To change body of catch statement use Options | File Templates.
                 }
             }
-            EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("diaryentry").search(filter);
+            EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("diary-diaryentry").search(filter);
             entries = new DiaryEntryInterface[entities.length];
             for(int i=0;i<entities.length;i++) {
                 entries[i] = (DiaryEntryInterface)entities[i];
@@ -100,9 +100,9 @@ public class SearchEntriesCommand extends BaseEntryCommand implements CommandInt
 
     public Diary getDiary() {
         if(diary==null) {
-            Diary template = (Diary) getEnvironment().getEntityFactory().create("diary");
+            Diary template = (Diary) getEnvironment().getEntityFactory().create("diary-diary");
             template.setId(diaryId);
-            diary = (Diary) getEnvironment().getEntityStorageFactory().getStorage("diary").load(template);
+            diary = (Diary) getEnvironment().getEntityStorageFactory().getStorage("diary-diary").load(template);
         }
         return diary;
     }

@@ -37,12 +37,12 @@ public class ViewEntryCommand extends BaseEntryCommand implements CommandInterfa
         try {
             String dateString = request.getParameter("date");
             Date date = dateFormat.parse(dateString);
-            DiaryEntryInterface template = (DiaryEntryInterface)getEnvironment().getEntityFactory().create("diaryentry");
+            DiaryEntryInterface template = (DiaryEntryInterface)getEnvironment().getEntityFactory().create("diary-diaryentry");
             Integer diary = getDiary(request.getParameter("diary"),request.getParameter("user"),request.getSession());
             if(diary!=null) {
                 template.setDiary(diary);
                 template.setDate(date);
-                entry = (DiaryEntryInterface) getEnvironment().getEntityStorageFactory().getStorage("diaryentry").load(template);
+                entry = (DiaryEntryInterface) getEnvironment().getEntityStorageFactory().getStorage("diary-diaryentry").load(template);
             }
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.

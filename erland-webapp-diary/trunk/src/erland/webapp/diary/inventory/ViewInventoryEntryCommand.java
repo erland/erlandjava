@@ -35,10 +35,10 @@ public class ViewInventoryEntryCommand implements CommandInterface, ViewInventor
 
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("id");
-        InventoryEntry template = (InventoryEntry)environment.getEntityFactory().create("inventoryentry");
+        InventoryEntry template = (InventoryEntry)environment.getEntityFactory().create("diary-inventoryentry");
         if(id!=null) {
             template.setId(Integer.valueOf(id));
-            entry = (InventoryEntry) environment.getEntityStorageFactory().getStorage("inventoryentry").load(template);
+            entry = (InventoryEntry) environment.getEntityStorageFactory().getStorage("diary-inventoryentry").load(template);
         }
         return null;
     }
@@ -50,7 +50,7 @@ public class ViewInventoryEntryCommand implements CommandInterface, ViewInventor
     public InventoryEntryEvent[] getEvents() {
         QueryFilter filter = new QueryFilter("allforid");
         filter.setAttribute("id",entry.getId());
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("inventoryentryevent").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diary-inventoryentryevent").search(filter);
         InventoryEntryEvent[] events = new InventoryEntryEvent[entities.length];
         for (int i = 0; i < entities.length; i++) {
             events[i] = (InventoryEntryEvent) entities[i];

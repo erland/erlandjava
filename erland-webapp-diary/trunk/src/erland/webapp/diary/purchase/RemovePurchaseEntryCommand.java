@@ -32,10 +32,10 @@ public class RemovePurchaseEntryCommand implements CommandInterface {
 
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("id");
-        PurchaseEntry entry = (PurchaseEntry)environment.getEntityFactory().create("purchaseentry");
+        PurchaseEntry entry = (PurchaseEntry)environment.getEntityFactory().create("diary-purchaseentry");
         if(id!=null) {
             entry.setId(Integer.valueOf(id));
-            environment.getEntityStorageFactory().getStorage("purchaseentry").delete(entry);
+            environment.getEntityStorageFactory().getStorage("diary-purchaseentry").delete(entry);
         }
         return null;
     }

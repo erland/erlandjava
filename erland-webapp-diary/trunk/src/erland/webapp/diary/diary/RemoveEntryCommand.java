@@ -37,10 +37,10 @@ public class RemoveEntryCommand extends BaseEntryCommand implements CommandInter
             if(diary!=null) {
                 String dateString = request.getParameter("date");
                 Date date = dateFormat.parse(dateString);
-                DiaryEntryInterface entry = (DiaryEntryInterface)getEnvironment().getEntityFactory().create("diaryentry");
+                DiaryEntryInterface entry = (DiaryEntryInterface)getEnvironment().getEntityFactory().create("diary-diaryentry");
                 entry.setDiary(diary);
                 entry.setDate(date);
-                getEnvironment().getEntityStorageFactory().getStorage("diaryentry").delete(entry);
+                getEnvironment().getEntityStorageFactory().getStorage("diary-diaryentry").delete(entry);
             }
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.

@@ -33,10 +33,10 @@ public class RemoveAppendixEntryCommand implements CommandInterface {
 
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("id");
-        AppendixEntry entry = (AppendixEntry)environment.getEntityFactory().create("appendixentry");
+        AppendixEntry entry = (AppendixEntry)environment.getEntityFactory().create("diary-appendixentry");
         if(id!=null) {
             entry.setId(Integer.valueOf(id));
-            environment.getEntityStorageFactory().getStorage("appendixentry").delete(entry);
+            environment.getEntityStorageFactory().getStorage("diary-appendixentry").delete(entry);
         }
         return null;
     }

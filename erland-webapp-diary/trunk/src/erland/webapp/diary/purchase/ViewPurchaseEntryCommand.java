@@ -34,10 +34,10 @@ public class ViewPurchaseEntryCommand implements CommandInterface, ViewPurchaseE
 
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("id");
-        PurchaseEntry template = (PurchaseEntry)environment.getEntityFactory().create("purchaseentry");
+        PurchaseEntry template = (PurchaseEntry)environment.getEntityFactory().create("diary-purchaseentry");
         if(id!=null) {
             template.setId(Integer.valueOf(id));
-            entry = (PurchaseEntry) environment.getEntityStorageFactory().getStorage("purchaseentry").load(template);
+            entry = (PurchaseEntry) environment.getEntityStorageFactory().getStorage("diary-purchaseentry").load(template);
         }
         return null;
     }

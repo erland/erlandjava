@@ -37,7 +37,7 @@ public class EditDiaryCommand implements CommandInterface, ViewDiaryInterface {
         String title = request.getParameter("title");
         String description = request.getParameter("description");
         String officialString = request.getParameter("official");
-        diary = (Diary) environment.getEntityFactory().create("diary");
+        diary = (Diary) environment.getEntityFactory().create("diary-diary");
         User user = (User) request.getSession().getAttribute("user");
         String username = user.getUsername();
         Boolean official = Boolean.FALSE;
@@ -51,7 +51,7 @@ public class EditDiaryCommand implements CommandInterface, ViewDiaryInterface {
         diary.setTitle(title);
         diary.setDescription(description);
         diary.setOfficial(official);
-        environment.getEntityStorageFactory().getStorage("diary").store(diary);
+        environment.getEntityStorageFactory().getStorage("diary-diary").store(diary);
         return null;
     }
 

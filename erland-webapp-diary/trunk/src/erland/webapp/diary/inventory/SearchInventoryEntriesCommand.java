@@ -40,7 +40,7 @@ public class SearchInventoryEntriesCommand implements CommandInterface, ViewInve
         User user = (User) request.getSession().getAttribute("user");
         String username = user.getUsername();
         filter.setAttribute("username",username);
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("inventoryentry").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diary-inventoryentry").search(filter);
         entries = new InventoryEntry[entities.length];
         String idString=request.getParameter("id");
         Integer id=null;
@@ -64,7 +64,7 @@ public class SearchInventoryEntriesCommand implements CommandInterface, ViewInve
     public InventoryEntryEvent[] getEvents(InventoryEntry entry) {
         QueryFilter filter = new QueryFilter("allforid");
         filter.setAttribute("id",entry.getId());
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("inventoryentryevent").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diary-inventoryentryevent").search(filter);
         InventoryEntryEvent[] events = new InventoryEntryEvent[entities.length];
         for (int i = 0; i < entities.length; i++) {
             events[i] = (InventoryEntryEvent) entities[i];

@@ -40,7 +40,7 @@ public class SearchPurchaseEntriesCommand implements CommandInterface, ViewPurch
         User user = (User) request.getSession().getAttribute("user");
         String username = user.getUsername();
         filter.setAttribute("username",username);
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("purchaseentry").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diary-purchaseentry").search(filter);
         entries = new PurchaseEntry[entities.length];
         for(int i=0;i<entities.length;i++) {
             entries[i] = (PurchaseEntry)entities[i];

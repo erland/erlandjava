@@ -44,7 +44,7 @@ public class EditInventoryEntryEventCommand implements CommandInterface, ViewInv
             String size = request.getParameter("size");
             String dateString = request.getParameter("date");
             Date date = dateFormat.parse(dateString);
-            entry = (InventoryEntryEvent)environment.getEntityFactory().create("inventoryentryevent");
+            entry = (InventoryEntryEvent)environment.getEntityFactory().create("diary-inventoryentryevent");
             if(eventId!=null && eventId.length()>0) {
                 entry.setEventId(Integer.valueOf(eventId));
             }
@@ -52,7 +52,7 @@ public class EditInventoryEntryEventCommand implements CommandInterface, ViewInv
             entry.setDate(date);
             entry.setSize(Double.valueOf(size));
             entry.setDescription(Integer.valueOf(description));
-            environment.getEntityStorageFactory().getStorage("inventoryentryevent").store(entry);
+            environment.getEntityStorageFactory().getStorage("diary-inventoryentryevent").store(entry);
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }

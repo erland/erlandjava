@@ -42,7 +42,7 @@ public class SearchDiariesCommand implements CommandInterface, ViewDiariesInterf
         }
         QueryFilter filter = new QueryFilter(getQueryFilter());
         filter.setAttribute("username",username);
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diary").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diary-diary").search(filter);
         diaries = new Diary[entities.length];
         for (int i = 0; i < entities.length; i++) {
             diaries[i]= (Diary) entities[i];

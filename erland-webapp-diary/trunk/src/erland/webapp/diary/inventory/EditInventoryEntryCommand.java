@@ -50,7 +50,7 @@ public class EditInventoryEntryCommand implements CommandInterface, ViewInventor
             String gallery = request.getParameter("gallery");
             User user = (User) request.getSession().getAttribute("user");
             String username = user.getUsername();
-            entry = (InventoryEntry)environment.getEntityFactory().create("inventoryentry");
+            entry = (InventoryEntry)environment.getEntityFactory().create("diary-inventoryentry");
             if(id!=null && id.length()>0) {
                 entry.setId(Integer.valueOf(id));
             }
@@ -64,17 +64,17 @@ public class EditInventoryEntryCommand implements CommandInterface, ViewInventor
             entry.setLargeImage(largeImage);
             entry.setLink(link);
             entry.setUsername(username);
-            environment.getEntityStorageFactory().getStorage("inventoryentry").store(entry);
+            environment.getEntityStorageFactory().getStorage("diary-inventoryentry").store(entry);
             if(id==null || id.length()==0) {
                 String event = request.getParameter("eventdescription");
                 String dateString = request.getParameter("date");
                 Date date = dateFormat.parse(dateString);
-                InventoryEntryEvent entryEvent = (InventoryEntryEvent)environment.getEntityFactory().create("inventoryentryevent");
+                InventoryEntryEvent entryEvent = (InventoryEntryEvent)environment.getEntityFactory().create("diary-inventoryentryevent");
                 entryEvent.setId(entry.getId());
                 entryEvent.setDate(date);
                 entryEvent.setSize(Double.valueOf(size));
                 entryEvent.setDescription(Integer.valueOf(event));
-                environment.getEntityStorageFactory().getStorage("inventoryentryevent").store(entryEvent);
+                environment.getEntityStorageFactory().getStorage("diary-inventoryentryevent").store(entryEvent);
             }
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
@@ -89,7 +89,7 @@ public class EditInventoryEntryCommand implements CommandInterface, ViewInventor
     public InventoryEntryEvent[] getEvents() {
         QueryFilter filter = new QueryFilter("allforid");
         filter.setAttribute("id",entry.getId());
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("inventoryentryevent").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diary-inventoryentryevent").search(filter);
         InventoryEntryEvent[] events = new InventoryEntryEvent[entities.length];
         for (int i = 0; i < entities.length; i++) {
             events[i] = (InventoryEntryEvent) entities[i];

@@ -32,11 +32,11 @@ public class RemoveInventoryEntryEventCommand implements CommandInterface {
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("id");
         String eventId = request.getParameter("eventid");
-        InventoryEntryEvent entry = (InventoryEntryEvent)environment.getEntityFactory().create("inventoryentryevent");
+        InventoryEntryEvent entry = (InventoryEntryEvent)environment.getEntityFactory().create("diary-inventoryentryevent");
         if(id!=null && eventId!=null) {
             entry.setId(Integer.valueOf(id));
             entry.setEventId(Integer.valueOf(eventId));
-            environment.getEntityStorageFactory().getStorage("inventoryentryevent").delete(entry);
+            environment.getEntityStorageFactory().getStorage("diary-inventoryentryevent").delete(entry);
         }
         return null;
     }

@@ -46,7 +46,7 @@ public class SearchGalleryEntriesCommand implements CommandInterface, ViewGaller
             }else {
                 QueryFilter filter = new QueryFilter("allforgallery");
                 filter.setAttribute("gallery",galleryId);
-                EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diarygalleryentry").search(filter);
+                EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diary-galleryentry").search(filter);
                 entries = new GalleryEntry[entities.length];
                 for (int i = 0; i < entities.length; i++) {
                     entries[i] = (GalleryEntry) entities[i];
@@ -62,9 +62,9 @@ public class SearchGalleryEntriesCommand implements CommandInterface, ViewGaller
 
     public Gallery getGallery() {
         if(galleryId!=null && gallery==null) {
-            Gallery template = (Gallery) environment.getEntityFactory().create("diarygallery");
+            Gallery template = (Gallery) environment.getEntityFactory().create("diary-gallery");
             template.setId(galleryId);
-            gallery = (Gallery) environment.getEntityStorageFactory().getStorage("diarygallery").load(template);
+            gallery = (Gallery) environment.getEntityStorageFactory().getStorage("diary-gallery").load(template);
         }
         return gallery;
     }

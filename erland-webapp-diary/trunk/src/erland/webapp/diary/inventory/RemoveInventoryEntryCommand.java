@@ -31,18 +31,18 @@ public class RemoveInventoryEntryCommand implements CommandInterface {
 
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("id");
-        InventoryEntry entry = (InventoryEntry)environment.getEntityFactory().create("inventoryentry");
+        InventoryEntry entry = (InventoryEntry)environment.getEntityFactory().create("diary-inventoryentry");
         if(id!=null) {
             entry.setId(Integer.valueOf(id));
             QueryFilter filter = new QueryFilter("allforid");
             filter.setAttribute("id",entry.getId());
-            EntityStorageInterface storage = environment.getEntityStorageFactory().getStorage("inventoryentryevent");
+            EntityStorageInterface storage = environment.getEntityStorageFactory().getStorage("diary-inventoryentryevent");
             EntityInterface[] entities = storage.search(filter);
             for (int i = 0; i < entities.length; i++) {
                 EntityInterface entity = entities[i];
                 storage.delete(entity);
             }
-            environment.getEntityStorageFactory().getStorage("inventoryentry").delete(entry);
+            environment.getEntityStorageFactory().getStorage("diary-inventoryentry").delete(entry);
         }
         return null;
     }

@@ -49,7 +49,7 @@ public class EditPurchaseEntryCommand implements CommandInterface, ViewPurchaseE
             Double price = Double.valueOf(priceString);
             User user = (User) request.getSession().getAttribute("user");
             String username = user.getUsername();
-            entry = (PurchaseEntry)environment.getEntityFactory().create("purchaseentry");
+            entry = (PurchaseEntry)environment.getEntityFactory().create("diary-purchaseentry");
             if(id!=null && id.length()>0) {
                 entry.setId(Integer.valueOf(id));
             }
@@ -58,7 +58,7 @@ public class EditPurchaseEntryCommand implements CommandInterface, ViewPurchaseE
             entry.setPrice(price);
             entry.setDate(date);
             entry.setUsername(username);
-            environment.getEntityStorageFactory().getStorage("purchaseentry").store(entry);
+            environment.getEntityStorageFactory().getStorage("diary-purchaseentry").store(entry);
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }

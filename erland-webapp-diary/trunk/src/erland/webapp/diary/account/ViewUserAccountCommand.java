@@ -49,9 +49,9 @@ public class ViewUserAccountCommand implements CommandInterface, ViewUserAccount
                 }
             }
         }
-        UserAccount template = (UserAccount)environment.getEntityFactory().create("diaryuseraccount");
+        UserAccount template = (UserAccount)environment.getEntityFactory().create("diary-useraccount");
         template.setUsername(username);
-        account = (UserAccount) environment.getEntityStorageFactory().getStorage("diaryuseraccount").load(template);
+        account = (UserAccount) environment.getEntityStorageFactory().getStorage("diary-useraccount").load(template);
         return null;
     }
 
@@ -60,9 +60,9 @@ public class ViewUserAccountCommand implements CommandInterface, ViewUserAccount
     }
 
     public User getUser() {
-        User template = (User) environment.getEntityFactory().create("userinfo");
+        User template = (User) environment.getEntityFactory().create("usermgmt-userinfo");
         template.setUsername(account.getUsername());
-        User user = (User) environment.getEntityStorageFactory().getStorage("userinfo").load(template);
+        User user = (User) environment.getEntityStorageFactory().getStorage("usermgmt-userinfo").load(template);
         return user;
     }
 
@@ -70,7 +70,7 @@ public class ViewUserAccountCommand implements CommandInterface, ViewUserAccount
         if(diaries==null) {
             QueryFilter filter = new QueryFilter("allforuser");
             filter.setAttribute("username",account.getUsername());
-            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diary").search(filter);
+            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diary-diary").search(filter);
             diaries = new Diary[entities.length];
             for (int i = 0; i < entities.length; i++) {
                 diaries[i] = (Diary) entities[i];

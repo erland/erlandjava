@@ -34,11 +34,11 @@ public class ViewInventoryEntryEventCommand implements CommandInterface, ViewInv
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("id");
         String eventId = request.getParameter("eventid");
-        InventoryEntryEvent template = (InventoryEntryEvent)environment.getEntityFactory().create("inventoryentryevent");
+        InventoryEntryEvent template = (InventoryEntryEvent)environment.getEntityFactory().create("diary-inventoryentryevent");
         if(eventId!=null) {
             template.setId(Integer.valueOf(id));
             template.setEventId(Integer.valueOf(eventId));
-            entry = (InventoryEntryEvent) environment.getEntityStorageFactory().getStorage("inventoryentryevent").load(template);
+            entry = (InventoryEntryEvent) environment.getEntityStorageFactory().getStorage("diary-inventoryentryevent").load(template);
         }
         return null;
     }

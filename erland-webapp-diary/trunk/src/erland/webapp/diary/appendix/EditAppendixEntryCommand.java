@@ -36,13 +36,13 @@ public class EditAppendixEntryCommand implements CommandInterface, ViewAppendixE
         String id = request.getParameter("id");
         String name = request.getParameter("name");
         String description = request.getParameter("description");
-        entry = (AppendixEntry)environment.getEntityFactory().create("appendixentry");
+        entry = (AppendixEntry)environment.getEntityFactory().create("diary-appendixentry");
         if(id!=null && id.length()>0) {
             entry.setId(Integer.valueOf(id));
         }
         entry.setName(name);
         entry.setDescription(description);
-        environment.getEntityStorageFactory().getStorage("appendixentry").store(entry);
+        environment.getEntityStorageFactory().getStorage("diary-appendixentry").store(entry);
         return null;
     }
 

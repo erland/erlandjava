@@ -35,7 +35,7 @@ public class SearchAppendixEntriesCommand implements CommandInterface, ViewAppen
     }
 
     public String execute(HttpServletRequest request) {
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("appendixentry").search(new QueryFilter("all"));
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diary-appendixentry").search(new QueryFilter("all"));
         entries = new AppendixEntry[entities.length];
         for(int i=0;i<entities.length;i++) {
             entries[i] = (AppendixEntry)entities[i];

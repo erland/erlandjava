@@ -34,13 +34,13 @@ public class ViewGalleryEntryCommand implements CommandInterface, ViewGalleryEnt
     public String execute(HttpServletRequest request) {
         String gallery = request.getParameter("gallery");
         String id = request.getParameter("id");
-        GalleryEntry template = (GalleryEntry)environment.getEntityFactory().create("diarygalleryentry");
+        GalleryEntry template = (GalleryEntry)environment.getEntityFactory().create("diary-galleryentry");
         if(gallery!=null && gallery.length()>0 &&
                 id!=null && id.length()>0) {
 
             template.setGallery(Integer.valueOf(gallery));
             template.setId(Integer.valueOf(id));
-            entry = (GalleryEntry) environment.getEntityStorageFactory().getStorage("diarygalleryentry").load(template);
+            entry = (GalleryEntry) environment.getEntityStorageFactory().getStorage("diary-galleryentry").load(template);
         }
         return null;
     }

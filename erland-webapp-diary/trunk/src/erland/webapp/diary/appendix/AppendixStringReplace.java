@@ -32,7 +32,7 @@ public class AppendixStringReplace implements StringReplaceInterface {
     }
     public String replace(String str) {
         Log.println(this,"replacing appendix entries with "+getClass().getName());
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("appendixentry").search(new QueryFilter("all"));
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diary-appendixentry").search(new QueryFilter("all"));
         for (int i = 0; i < entities.length; i++) {
             AppendixEntry entry = (AppendixEntry) entities[i];
             Log.println(this,"replacing appendix entry "+entry.getName());

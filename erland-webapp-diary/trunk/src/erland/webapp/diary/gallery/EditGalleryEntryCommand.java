@@ -38,7 +38,7 @@ public class EditGalleryEntryCommand implements CommandInterface, ViewGalleryEnt
         String description = request.getParameter("description");
         String image = request.getParameter("image");
         String link = request.getParameter("link");
-        entry = (GalleryEntry) environment.getEntityFactory().create("diarygalleryentry");
+        entry = (GalleryEntry) environment.getEntityFactory().create("diary-galleryentry");
         if(id!=null && id.length()>0) {
             entry.setId(Integer.valueOf(id));
         }
@@ -47,7 +47,7 @@ public class EditGalleryEntryCommand implements CommandInterface, ViewGalleryEnt
         entry.setDescription(description);
         entry.setImage(image);
         entry.setLink(link);
-        environment.getEntityStorageFactory().getStorage("diarygalleryentry").store(entry);
+        environment.getEntityStorageFactory().getStorage("diary-galleryentry").store(entry);
         return null;
     }
 

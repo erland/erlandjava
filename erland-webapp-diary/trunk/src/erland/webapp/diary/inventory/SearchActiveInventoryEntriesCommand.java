@@ -59,7 +59,7 @@ public class SearchActiveInventoryEntriesCommand implements CommandInterface, Vi
             }else {
                 date = new Date();
             }
-            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("inventoryentry").search(filter);
+            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diary-inventoryentry").search(filter);
             String idString=request.getParameter("id");
             Integer id=null;
             if(idString!=null && idString.length()>0) {
@@ -97,7 +97,7 @@ public class SearchActiveInventoryEntriesCommand implements CommandInterface, Vi
     public InventoryEntryEvent[] getEvents(InventoryEntry entry) {
         QueryFilter filter = new QueryFilter("allforid");
         filter.setAttribute("id",entry.getId());
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("inventoryentryevent").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diary-inventoryentryevent").search(filter);
         InventoryEntryEvent[] events = new InventoryEntryEvent[entities.length];
         for (int i = 0; i < entities.length; i++) {
             events[i] = (InventoryEntryEvent) entities[i];

@@ -41,12 +41,12 @@ public class EditEntryCommand extends BaseEntryCommand implements CommandInterfa
                 Date date = dateFormat.parse(dateString);
                 String title = request.getParameter("title");
                 String description = request.getParameter("description");
-                entry = (DiaryEntryInterface)getEnvironment().getEntityFactory().create("diaryentry");
+                entry = (DiaryEntryInterface)getEnvironment().getEntityFactory().create("diary-diaryentry");
                 entry.setDiary(diary);
                 entry.setDate(date);
                 entry.setTitle(title);
                 entry.setDescription(description);
-                getEnvironment().getEntityStorageFactory().getStorage("diaryentry").store(entry);
+                getEnvironment().getEntityStorageFactory().getStorage("diary-diaryentry").store(entry);
             }
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.

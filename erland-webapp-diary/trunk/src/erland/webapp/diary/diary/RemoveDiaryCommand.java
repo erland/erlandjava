@@ -34,13 +34,13 @@ public class RemoveDiaryCommand implements CommandInterface {
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("id");
         if(id!=null && id.length()>0) {
-            Diary diary = (Diary) environment.getEntityFactory().create("diary");
+            Diary diary = (Diary) environment.getEntityFactory().create("diary-diary");
             User user = (User) request.getSession().getAttribute("user");
             String username = user.getUsername();
             diary.setId(Integer.valueOf(id));
-            diary = (Diary) environment.getEntityStorageFactory().getStorage("diary").load(diary);
+            diary = (Diary) environment.getEntityStorageFactory().getStorage("diary-diary").load(diary);
             if(diary.getUsername().equals(username)) {
-                environment.getEntityStorageFactory().getStorage("diary").delete(diary);
+                environment.getEntityStorageFactory().getStorage("diary-diary").delete(diary);
             }
         }
         return null;
