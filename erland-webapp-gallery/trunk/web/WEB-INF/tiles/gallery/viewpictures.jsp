@@ -8,30 +8,22 @@
     <logic:notEmpty name="galleryPB">
         <tr><td><p class="title"><bean:write name="galleryPB" property="title"/></p></td></tr>
         <tr><td><p class="normal"><erland-common:expandhtml><bean:write name="galleryPB" property="description"/></erland-common:expandhtml></p></td></tr>
-        <logic:present name="picturesPB" property="searchLink">
-            <bean:define id="searchLink" name="picturesPB" property="searchLink" type="String"/>
-            <tr><td><a href="<html:rewrite page="<%=searchLink%>"/>" class="bold-link"><bean:message key="gallery.picture.search"/></a></td></tr>
+        <tr>
+        <td>
+        <erland-common:beanlink style="bold-link" name="picturesPB" property="searchLink">
+        <bean:message key="gallery.picture.search"/>
+        </erland-common:beanlink>
+        </td>
+        </tr>
         </logic:present>
     </logic:notEmpty>
 </table>
 
 <table width="600" class="no-border">
     <tr>
-    <logic:present name="picturesPB" property="prevLink">
-        <bean:define id="prevLink" name="picturesPB" property="prevLink" type="String"/>
-        <td align="left"><a class="bold-link" href="<html:rewrite page="<%=prevLink%>" />">&lt; Föregående</a></td>
-    </logic:present>
-    <logic:notPresent name="picturesPB" property="prevLink">
-        <td></td>
-    </logic:notPresent>
+    <td align="left"><erland-common:beanlink style="bold-link" name="picturesPB" property="prevLink">&lt; <bean:message key="gallery.gallery.picture.previous"/></erland-common:beanlink></td>
     <td></td>
-    <logic:present name="picturesPB" property="nextLink">
-        <bean:define id="nextLink" name="picturesPB" property="nextLink" type="String"/>
-        <td align="right"><a class="bold-link" href="<html:rewrite page="<%=nextLink%>"/>">Nästa &gt;</a></td>
-    </logic:present>
-    <logic:notPresent name="picturesPB" property="nextLink">
-        <td></td>
-    </logic:notPresent>
+    <td align="right"><erland-common:beanlink style="bold-link" name="picturesPB" property="nextLink"><bean:message key="gallery.gallery.picture.next"/> &gt;</erland-common:beanlink></td>
     </tr>
 
 
@@ -44,15 +36,8 @@
             <tr>
         </logic:equal>
         <td align="center">
-        <logic:notEmpty name="picture" property="updateLink">
-            <bean:define id="updateLink" name="picture" property="updateLink" type="String"/>
-            <a class="bold-link" href="<html:rewrite page="<%=updateLink%>"/>"><bean:message key="gallery.gallery.picture.modify"/></a>
-            <logic:notEmpty name="picture" property="removeLink">
-                <bean:define id="removeLink" name="picture" property="removeLink" type="String"/>
-                <a class="bold-link" href="<html:rewrite page="<%=removeLink%>"/>" onClick="return confirm('<bean:message key="gallery.gallery.picture.remove.are-you-sure"/>')"><bean:message key="gallery.gallery.picture.remove"/></a>
-            </logic:notEmpty>
-            <br>
-        </logic:notEmpty>
+        <erland-common:beanlink style="bold-link" name="picture" property="updateLink"><bean:message key="gallery.gallery.picture.modify"/></erland-common:beanlink>
+        <erland-common:beanlink style="bold-link" name="picture" property="removeLink" onClickMessageKey="gallery.gallery.picture.remove.are-you-sure"><bean:message key="gallery.gallery.picture.remove"/><br></erland-common:beanlink>
         <logic:notEmpty name="picture" property="resolutionLink">
             <bean:define id="resolutionLink" name="picture" property="resolutionLink" type="String"/>
             <logic:iterate name="picture" property="resolutions" id="resolution">
@@ -62,9 +47,9 @@
             </logic:iterate>
             <br>
         </logic:notEmpty>
-        <bean:define id="link" name="picture" property="link" type="String"/>
-        <bean:define id="image" name="picture" property="image" type="String"/>
-        <a class="bold-link" href="<html:rewrite page="<%=link%>"/>" target="_blank" title="<bean:write name="picture" property="description"/>"><img src="<html:rewrite page="<%=image%>"/>" border="0"></img><br><div align="center"><bean:write name="picture" property="title"/></div></a>
+        <erland-common:beanlink style="bold-link" name="picture" property="link" target="_blank" propertyTitle="description">
+            <erland-common:beanimage name="picture" property="image" border="0"/><br><div align="center"><bean:write name="picture" property="title"/></div>
+        </erland-common:beanlink>
         </td>
     </logic:iterate>
     </tr>
