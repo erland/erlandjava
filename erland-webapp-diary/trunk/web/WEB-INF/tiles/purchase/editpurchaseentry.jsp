@@ -16,6 +16,10 @@
     <tr><td><bean:message key="diary.purchase.edit.store"/></td><td>
     <html:text property="store"/>
     </td></tr>
+    <tr><td><bean:message key="diary.purchase.edit.category"/></td><td>
+    <html:select property="categoryDisplay" size="1">
+        <html:options collection="purchaseEntryCategoriesPB" property="idDisplay" labelProperty="description" />
+    </html:select>
     <tr><td><bean:message key="diary.purchase.edit.description"/></td><td>
     <html:text property="description"/>
     </td></tr>
