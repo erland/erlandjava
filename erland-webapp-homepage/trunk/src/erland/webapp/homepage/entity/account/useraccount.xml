@@ -49,6 +49,10 @@
                 <column>logo_en</column>
                 <type>String</type>
             </field>
+            <field id="showLogo">
+                <column>showlogo</column>
+                <type>Boolean</type>
+            </field>
             <field id="defaultSection">
                 <column>defaultsection</column>
                 <type>Integer</type>

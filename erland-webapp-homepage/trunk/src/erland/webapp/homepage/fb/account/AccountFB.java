@@ -41,6 +41,7 @@ public class AccountFB extends BaseFB {
     private String logo;
     private String logoEnglish;
     private String logoLink;
+    private String showLogoDisplay;
     private String defaultSectionDisplay;
     private String officialDisplay;
     private String stylesheet;
@@ -214,6 +215,22 @@ public class AccountFB extends BaseFB {
         this.logoLink = logoLink;
     }
 
+    public Boolean getShowLogo() {
+        return StringUtil.asBoolean(showLogoDisplay,Boolean.FALSE);
+    }
+
+    public void setShowLogo(Boolean showLogo) {
+        this.showLogoDisplay = StringUtil.asString(showLogo,null);
+    }
+
+    public String getShowLogoDisplay() {
+        return showLogoDisplay;
+    }
+
+    public void setShowLogoDisplay(String showLogoDisplay) {
+        this.showLogoDisplay = showLogoDisplay;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         username = null;
@@ -232,6 +249,7 @@ public class AccountFB extends BaseFB {
         logo = null;
         logoEnglish = null;
         logoLink = null;
+        showLogoDisplay = null;
         officialDisplay = null;
         stylesheet = null;
         skin = null;

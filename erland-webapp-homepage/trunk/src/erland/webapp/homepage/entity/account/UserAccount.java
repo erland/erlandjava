@@ -37,6 +37,7 @@ public class UserAccount extends BaseEntity {
     private String copyrightText;
     private String stylesheet;
     private String skin;
+    private Boolean showLogo;
 
     public String getUsername() {
         return username;
@@ -156,5 +157,13 @@ public class UserAccount extends BaseEntity {
 
     public void setDefaultSection(Integer defaultSection) {
         this.defaultSection = defaultSection;
+    }
+
+    public Boolean getShowLogo() {
+        return showLogo;
+    }
+
+    public void setShowLogo(Boolean showLogo) {
+        this.showLogo = showLogo;
     }
 }
