@@ -37,7 +37,9 @@ public class Stock implements XMLParserHandlerInterface, StockInterface {
     public Stock(InputStream xmlData) {
         rates = new DateValueSerie("");
         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        kursFormat = new DecimalFormat("#,#");
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setDecimalSeparator(',');
+        kursFormat = new DecimalFormat("#,#",symbols);
         XMLParser.getInstance().parse(xmlData,this);
     }
 
