@@ -36,6 +36,9 @@
     <tr><td><bean:message key="homepage.account.edit.logo-english"/></td><td>
     <html:text property="logoEnglish" size="80"/>
     </td></tr>
+    <tr><td><bean:message key="homepage.account.edit.show-logo"/></td><td>
+    <html:checkbox property="showLogoDisplay" value="true"/>
+    </td></tr>
     <tr><td><bean:message key="homepage.account.edit.default-section"/></td><td>
     <html:select property="defaultSectionDisplay" size="1">
         <html:option value="" key="homepage.account.edit.default-section.none"/>
