@@ -5,14 +5,14 @@ import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.usermgmt.User;
-import erland.webapp.gallery.gallery.Gallery;
+import erland.webapp.gallery.gallery.GalleryInterface;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class EditUserAccountCommand implements CommandInterface, ViewUserAccountInterface {
     private WebAppEnvironmentInterface environment;
     private UserAccount account;
-    private Gallery[] galleries;
+    private GalleryInterface[] galleries;
 
     public void init(WebAppEnvironmentInterface environment) {
         this.environment = environment;
@@ -29,6 +29,7 @@ public class EditUserAccountCommand implements CommandInterface, ViewUserAccount
                 }
             }
             String welcomeText = request.getParameter("welcometext");
+            String copyright = request.getParameter("copyright");
             String description = request.getParameter("description");
             String logo = request.getParameter("logo");
             String officialString = request.getParameter("official");
@@ -48,6 +49,7 @@ public class EditUserAccountCommand implements CommandInterface, ViewUserAccount
             account.setLogo(logo);
             account.setOfficial(official);
             account.setDefaultGallery(defaultGallery);
+            account.setCopyrightText(copyright);
             environment.getEntityStorageFactory().getStorage("useraccount").store(account);
         }
         return null;
@@ -64,14 +66,14 @@ public class EditUserAccountCommand implements CommandInterface, ViewUserAccount
         return user;
     }
 
-    public Gallery[] getGalleries() {
+    public GalleryInterface[] getGalleries() {
         if(galleries==null) {
             QueryFilter filter = new QueryFilter("addforuser");
             filter.setAttribute("username",account.getUsername());
             EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery").search(filter);
-            galleries = new Gallery[entities.length];
+            galleries = new GalleryInterface[entities.length];
             for (int i = 0; i < entities.length; i++) {
-                galleries[i] = (Gallery) entities[i];
+                galleries[i] = (GalleryInterface) entities[i];
             }
         }
         return galleries;
