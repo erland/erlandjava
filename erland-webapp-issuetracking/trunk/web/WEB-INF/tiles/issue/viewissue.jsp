@@ -4,8 +4,8 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
-<table class="no-border">
-<erland-common:beanlink style="bold-link" name="issuePB" property="updateLink"><bean:message key="issuetracking.issue.update"/></erland-common:beanlink>
+<table class="propertypage-body">
+<erland-common:beanlink style="propertypage-button" name="issuePB" property="updateLink"><bean:message key="issuetracking.issue.update"/></erland-common:beanlink>
 <tr><td colspan="2">
 <p class="bold"><bean:write name="issuePB" property="title" /></p>
 </td></tr>

@@ -1,20 +1,12 @@
-a.bold-link {
+.bold-link {
 font-family:arial;
 font-size:12px;
 font-weight:bold;
-color:#4477dd;
+color:#397AC0;
 text-decoration:none;
 }
 
-a:hover.bold-link {
-font-family:arial;
-font-size:12px;
-font-weight:bold;
-color:#000000;
-text-decoration:none;
-}
-
-a.bold-link-selected {
+:hover.bold-link {
 font-family:arial;
 font-size:12px;
 font-weight:bold;
@@ -22,7 +14,20 @@ color:#000000;
 text-decoration:none;
 }
 
-a:hover.bold-link-selected {
+.menu {
+font-family:arial;
+border:0px;
+}
+
+.menuitem {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.menuitem {
 font-family:arial;
 font-size:12px;
 font-weight:bold;
@@ -30,24 +35,7 @@ color:#000000;
 text-decoration:none;
 }
 
-a.link {
-font-family:arial;
-color:#000000;
-}
-
-a:hover.link {
-font-family:arial;
-color:#4477dd;
-}
-
-p.normal {
-font-family:arial;
-font-size:12px;
-color:#000000;
-text-decoration:none;
-}
-
-p.bold {
+.menuitem-selected {
 font-family:arial;
 font-size:12px;
 font-weight:bold;
@@ -55,7 +43,31 @@ color:#000000;
 text-decoration:none;
 }
 
-p.title {
+:hover.menuitem-selected {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.propertypage-header {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.propertypage-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.propertypage-title {
 font-family:arial;
 font-size:14px;
 font-weight:bold;
@@ -63,22 +75,77 @@ color:#000000;
 text-decoration:none;
 }
 
-p.big-title {
-font-family:arial;
-font-size:18px;
-font-weight:bold;
-color:#000000;
-text-decoration:none;
-}
-
-font.normal {
+.propertypage-description {
 font-family:arial;
 font-size:12px;
 color:#000000;
 text-decoration:none;
 }
 
-font.title {
+.propertypage-notice {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.propertypage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.propertypage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.propertypage-link {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.propertypage-link {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.loginpage-header {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.loginpage-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.loginpage-footer {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.loginpage-title {
 font-family:arial;
 font-size:14px;
 font-weight:bold;
@@ -86,22 +153,30 @@ color:#000000;
 text-decoration:none;
 }
 
-font.big-title {
+.loginpage-description {
 font-family:arial;
-font-size:18px;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.loginpage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.loginpage-button {
+font-family:arial;
+font-size:12px;
 font-weight:bold;
 color:#000000;
 text-decoration:none;
 }
 
-div.normal {
-font-family:arial;
-font-size:12px;
-color:#000000;
-text-decoration:none;
-}
-
-div.bold {
+.header-text {
 font-family:arial;
 font-size:12px;
 font-weight:bold;
@@ -109,54 +184,67 @@ color:#000000;
 text-decoration:none;
 }
 
-textarea.normal {
-font-family:arial;
-font-size:12px;
-color:#000000;
-text-decoration:none;
-}
-
-td.margin {
-font-family:arial;
-margin:5px;
-padding:7px;
-}
-
-td.left-margin {
-font-family:arial;
-font-size:12px;
-text-decoration:none;
-width:10px;
-}
-
-td.sub-menu {
-font-family:arial;
-font-size:12px;
-text-decoration:none;
-width:5px;
-}
-
-td.no-border-tight {
-font-family:arial;
-margin:0px;
-padding:0px;
-}
-
-td #calendar-month {
-font-family:arial;
-border:0px;
-width=27px;
-}
-
-table.no-border {
+.header-logo {
 font-family:arial;
 border:0px;
 }
 
-table.no-border-tight {
+.header-separator-line {
+}
+
+.layout-header {
+}
+
+.layout-body {
+}
+
+.layout-body-menu {
+}
+
+.layout-body-content {
+}
+
+.layout-footer {
+}
+
+.layout-menu {
+}
+
+.layout {
+}
+
+.layout-main {
 font-family:arial;
-margin:0px;
-padding:0px;
 border:0px;
-border-collapse: collapse;
+}
+
+.layout-header-separator-line {
+}
+
+.layout-header-separator {
+}
+
+.layoutnomenu-header {
+}
+
+.layoutnomenu-body {
+}
+
+.layoutnomenu-body-content {
+}
+
+.layoutnomenu-footer {
+}
+
+.layoutnomenu {
+}
+.layoutnomenu-main {
+font-family:arial;
+border:0px;
+}
+
+.layoutnomenu-header-separator-line {
+}
+
+.layoutnomenu-header-separator {
 }

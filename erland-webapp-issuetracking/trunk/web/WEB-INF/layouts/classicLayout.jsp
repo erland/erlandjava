@@ -13,34 +13,34 @@
                   type="text/css"/>
     <title><tiles:getAsString name="title"/></title>
   </HEAD>
-<body>
+<body class="layout">
 <center>
-<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
+<table class="layout-main" border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
 <tiles:useAttribute name="header" ignore="true" />
 <logic:notEmpty name="header">
-<tr>
-  <td colspan="2"><tiles:insert attribute="header" /></td>
+<tr class="layout-header">
+  <td class="layout-header" colspan="2"><tiles:insert attribute="header" /></td>
 </tr>
 </logic:notEmpty>
-<tr><td colspan="2" height="5" valign="top"></td></tr>
-<tr>
+<tr class="layout-header-separator"><td class="layout-header-separator" colspan="2" height="5" valign="top"></td></tr>
+<tr class="layout-body">
 <tiles:useAttribute name="menu" ignore="true" />
 <logic:notEmpty name="menu">
-  <td width="15%" height="100%" valign="top">
+  <td class="layout-body-menu" width="15%" height="100%" valign="top">
     <tiles:insert attribute='menu' />
   </td>
 </logic:notEmpty>
 <tiles:useAttribute name="body" ignore="true" />
 <logic:notEmpty name="body">
-  <td valign="top" height="100%" align="left">
+  <td class="layout-body-content" valign="top" height="100%" align="left">
     <tiles:insert attribute='body' />
   </td>
 </logic:notEmpty>
 </tr>
 <tiles:useAttribute name="footer" ignore="true" />
 <logic:notEmpty name="footer">
-<tr>
-  <td colspan="2">
+<tr class="layout-footer">
+  <td class="layout-footer" colspan="2">
     <tiles:insert attribute="footer" />
   </td>
 </tr>

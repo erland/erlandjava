@@ -4,7 +4,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
-<erland-common:menu id="mainMenu" menuStyle="no-border" style="bold-link" styleSelected="bold-link-selected" indentWidth="10" indentImage="/images/transparent.gif" >
+<erland-common:menu id="mainMenu" menuStyle="menu" style="menuitem" styleSelected="menuitem-selected" indentWidth="10" indentImage="/images/transparent.gif" >
     <erland-common:menuitem id="newissue" titleKey="issuetracking.menu.newissue" page="/do/guest/menu?id={menuItemId}&application={application}"/>
     <erland-common:menuitem id="all" titleKey="issuetracking.menu.all" page="/do/guest/menu?id={menuItemId}&application={application}"/>
     <erland-common:menuitem id="problem" titleKey="issuetracking.menu.problem" page="/do/guest/menu?id={menuItemId}&application={application}">

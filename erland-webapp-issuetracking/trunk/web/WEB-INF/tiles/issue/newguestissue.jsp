@@ -5,7 +5,7 @@
 
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/guest/editissue" method="POST">
-    <table>
+    <table class="propertypage-body">
     <tr><td><bean:message key="issuetracking.issue.edit.type"/></td><td>
     <html:select property="typeDisplay" size="1">
         <erland-common:htmloptions collection="typesPB" property="id" labelKeyProperty="titleKey" />

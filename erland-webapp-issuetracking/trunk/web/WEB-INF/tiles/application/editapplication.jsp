@@ -5,7 +5,7 @@
 
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/user/editapplication" method="POST">
-    <table>
+    <table class="propertypage-body">
     <html:hidden property="username"/>
     <tr><td><bean:message key="issuetracking.application.edit.name"/></td><td>
     <html:text property="name"/>

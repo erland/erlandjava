@@ -4,7 +4,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
-<table class="no-border">
+<table class="propertypage-body">
 <logic:iterate name="issuesPB" id="issue">
     <tr>
     <td>
@@ -17,7 +17,7 @@
     <bean:write name="issue" property="assignedTo" />
     </td>
     <td nowrap>
-    <erland-common:beanlink name="issue" property="viewLink" style="bold-link"><bean:write name="issue" property="title" /></erland-common:beanlink>
+    <erland-common:beanlink name="issue" property="viewLink" style="propertypage-button"><bean:write name="issue" property="title" /></erland-common:beanlink>
     </td>
     </tr>
 </logic:iterate>
