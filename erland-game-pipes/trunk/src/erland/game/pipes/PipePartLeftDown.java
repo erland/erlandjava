@@ -31,7 +31,7 @@ class PipePartLeftDown extends PipePart
 		if(waterEntry==Direction.LEFT) {
 			g.fillRect(x1,y1,waterProgress,cont.getSquareSize());
 		}else if(waterEntry==Direction.DOWN) {
-			g.fillRect(x1+cont.getSquareSize()-waterProgress,y1,cont.getSquareSize(),waterProgress);
+			g.fillRect(x1,y1+cont.getSquareSize()-waterProgress,cont.getSquareSize(),waterProgress);
 		}
 	}
 	protected void drawWaterForeground(Graphics g)
