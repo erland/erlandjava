@@ -43,4 +43,10 @@ public interface GameServerEnvironmentInterface {
      * @return The current high score list object
      */
     public HighScoreListInterface getHighScoreList();
+
+    /**
+     * Get custom environment object
+     * @return A custom environment object specific for each game
+     */
+    public Object getCustomEnvironment();
 }
