@@ -177,6 +177,17 @@ CREATE TABLE purchaseentrycategories (
 ) TYPE=MyISAM;
 
 --
+-- Table structure for table `sourceappendixentries`
+--
+
+CREATE TABLE sourceappendixentries (
+  id int(11) NOT NULL auto_increment,
+  name varchar(100) NOT NULL default '',
+  description varchar(100) NOT NULL default '',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
 -- Table structure for table `useraccounts`
 --
 
