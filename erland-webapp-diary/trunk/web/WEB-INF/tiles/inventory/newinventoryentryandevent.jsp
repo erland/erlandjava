@@ -1,9 +1,10 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html" %>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
-<jsp:include page="/WEB-INF/tiles/common/validationerrors.jsp" />
+<tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/user/editinventoryentryandevent" method="POST">
     <table>
     <html:hidden property="typeDisplay"/>
@@ -12,6 +13,11 @@
     </td></tr>
     <tr><td><bean:message key="diary.inventory.edit.description"/></td><td>
     <html:textarea property="description" cols="80" rows="15"/>
+    </td></tr>
+    <tr><td><bean:message key="diary.inventory.edit.sex"/></td><td>
+    <html:select property="sexDisplay" size="1">
+        <html:options collection="inventoryEntrySexesPB" property="idDisplay" labelProperty="description" />
+    </html:select>
     </td></tr>
     <tr><td><bean:message key="diary.inventory.edit.image"/></td><td>
     <html:text property="image"/>
@@ -38,6 +44,12 @@
     </td></tr>
     <tr><td><bean:message key="diary.inventory.edit.event.size"/></td><td>
     <html:text property="eventSizeDisplay"/>
+    </td></tr>
+    <tr><td><bean:message key="diary.inventory.edit.event.container"/></td><td>
+    <html:select property="containerDisplay" size="1">
+        <html:option value="" key="diary.inventory.edit.event.container.none"/>
+        <html:options collection="containersPB" property="idDisplay" labelProperty="name" />
+    </html:select>
     </td></tr>
     <tr><td></td><td>
     <html:submit><bean:message key="diary.buttons.save"/></html:submit>

@@ -1,11 +1,12 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html" %>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 <table class="no-border">
 <tr>
 <td valign="top">
-<jsp:include page="viewinventoryentries.jsp"/>
+<tiles:insert page="/WEB-INF/tiles/inventory/viewinventoryentries.jsp"/>
 </td>
 <td valign="top">
 <table class="no-border">
@@ -24,7 +25,7 @@
     <p class="title">
     <bean:write name="inventoryEntryPB" property="name"/>
     <logic:iterate name="inventoryEntryPB" property="events" length="1" id="event">
-        <bean:write name="event" property="sizeDisplay"/> cm
+        <bean:write name="inventoryEntryPB" property="currentSizeText"/>
         <bean:write name="event" property="descriptionText"/>
         <bean:write name="event" property="dateDisplay"/>
     </logic:iterate>
@@ -40,6 +41,21 @@
         </erland-common:beanlink>
         </td>
         </tr>
+    </logic:notEmpty>
+    <logic:notEmpty name="inventoryEntryPB" property="sexDescription">
+        <tr><td colspan="2"><bean:message key="diary.inventory.view.sex"/> : <bean:write name="inventoryEntryPB" property="sexDescription"/></td></tr>
+    </logic:notEmpty>
+    <logic:notEmpty name="inventoryEntryPB" property="currentContainerDescription">
+        <tr><td colspan="2"><bean:message key="diary.inventory.view.container"/>&nbsp;:&nbsp;
+        <logic:notEmpty name="inventoryEntryPB" property="containerLink">
+            <erland-common:beanlink name="inventoryEntryPB" property="containerLink" style="bold-link">
+                <bean:write name="inventoryEntryPB" property="currentContainerDescription"/>
+            </erland-common:beanlink>
+        </logic:notEmpty>
+        <logic:empty name="inventoryEntryPB" property="containerLink">
+            <bean:write name="inventoryEntryPB" property="currentContainerDescription"/>
+        </logic:empty>
+        </td></tr>
     </logic:notEmpty>
     <logic:notEmpty name="inventoryEntryPB" property="description">
         <tr><td>&nbsp</td></tr>
