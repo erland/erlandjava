@@ -19,30 +19,27 @@ package erland.webapp.diary.act.container;
  *
  */
 
-import erland.webapp.common.act.BaseAction;
-import erland.webapp.common.ServletParameterHelper;
-import erland.webapp.common.QueryFilter;
+import erland.util.StringUtil;
 import erland.webapp.common.EntityInterface;
+import erland.webapp.common.QueryFilter;
+import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.common.act.BaseAction;
 import erland.webapp.diary.entity.container.Container;
-import erland.webapp.diary.entity.inventory.InventoryEntry;
+import erland.webapp.diary.entity.inventory.InventorySummary;
 import erland.webapp.diary.fb.container.ContainerPB;
 import erland.webapp.diary.fb.container.SelectContainerFB;
-import erland.webapp.diary.fb.inventory.InventoryEntryFB;
-import erland.webapp.diary.fb.inventory.InventoryEntryEventFB;
 import erland.webapp.diary.fb.inventory.InventorySummaryPB;
-import erland.webapp.diary.logic.inventory.DescriptionIdHelper;
 import erland.webapp.diary.logic.appendix.SourceAppendixStringReplace;
-import erland.util.StringUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ViewContainerInfoAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -95,10 +92,18 @@ public class ViewContainerInfoAction extends BaseAction {
         filter.setAttribute("container",entry.getId());
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("diary-inventorysummary").search(filter);
         InventorySummaryPB[] pbEntries = new InventorySummaryPB[entities.length];
+        ActionForward forward = mapping.findForward("view-species-link");
         for (int i = 0; i < entities.length; i++) {
             pbEntries[i] = new InventorySummaryPB();
-            PropertyUtils.copyProperties(pbEntries[i],entities[i]);
+            InventorySummary entity = (InventorySummary) entities[i];
+            PropertyUtils.copyProperties(pbEntries[i],entity);
+
+            parameters.put("species",entity.getSpecies());
+
+            if(forward!=null && entity.getSpecies()!=null && entity.getSpecies().intValue()!=0) {
+                pbEntries[i].setViewLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+            }
         }
-        request.setAttribute("inventorySummaryEntriesPB",pbEntries);
+        request.getSession().setAttribute("inventorySummaryEntriesPB",pbEntries);
     }
 }
