@@ -29,6 +29,7 @@ import erland.webapp.common.ServletParameterHelper;
 public class ImageFB extends BaseFB {
     private Integer image;
     private Integer gallery;
+    private String skin;
 
     public Integer getImage() {
         return image;
@@ -62,9 +63,18 @@ public class ImageFB extends BaseFB {
         this.gallery = ServletParameterHelper.asInteger(galleryDisplay,null);
     }
 
+    public String getSkin() {
+        return skin;
+    }
+
+    public void setSkin(String skin) {
+        this.skin = skin;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         gallery = null;
         image = null;
+        skin = null;
     }
 }

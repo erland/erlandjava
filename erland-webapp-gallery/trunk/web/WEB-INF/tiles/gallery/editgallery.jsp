@@ -83,6 +83,12 @@
     <tr><td><bean:message key="gallery.gallery.edit.official"/></td><td>
     <html:checkbox property="official" value="true"/>
     </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.skin"/></td><td>
+    <html:select property="skin" size="1">
+        <html:option value="" key="gallery.gallery.edit.skin.none"/>
+        <html:options collection="skinsPB" property="id" labelProperty="id" />
+    </html:select>
+    </td></tr>
     <tr><td><bean:message key="gallery.gallery.edit.referenced-gallery"/></td><td>
     <html:select property="referencedGallery" size="1">
         <html:option value="" key="gallery.gallery.edit.referenced-gallery.none"/>

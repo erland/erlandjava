@@ -30,6 +30,7 @@ public class SelectGalleryFB extends BaseFB {
     private String user;
     private String guestUser;
     private Integer gallery;
+    private String skin;
 
     public String getUser() {
         return user;
@@ -63,10 +64,19 @@ public class SelectGalleryFB extends BaseFB {
         this.gallery = ServletParameterHelper.asInteger(galleryDisplay,null);
     }
 
+    public String getSkin() {
+        return skin;
+    }
+
+    public void setSkin(String skin) {
+        this.skin = skin;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest servletRequest) {
         super.reset(actionMapping, servletRequest);
         gallery=null;
         user=null;
         guestUser = null;
+        skin = null;
     }
 }
