@@ -462,6 +462,33 @@ abstract class PipeBlock
 		}
     	return getSquareSize()*y +dy;
     }
+    public int getPixelDrawingPositionX(int x) {
+        return getOffsetX()-getScrollingOffsetX()+x;
+    }
+
+    public int getPixelDrawingPositionY(int y) {
+        return getOffsetY()-getScrollingOffsetY()+y;
+    }
+
+    public boolean getVisible(int posX, int posY) {
+        return true;
+    }
+
+    public int getScrollingOffsetX() {
+        return 0;
+    }
+
+    public int getScrollingOffsetY() {
+        return 0;
+    }
+
+    public int getScrollingSizeX() {
+        return getSizeX()*getSquareSize();
+    }
+
+    public int getScrollingSizeY() {
+        return getSizeY()*getSquareSize();
+    }
 
 	/**
 	 * Indicates if this block is full with water
@@ -520,4 +547,5 @@ abstract class PipeBlock
 			redrawDone=false;
 		}
 	}
+
 }
