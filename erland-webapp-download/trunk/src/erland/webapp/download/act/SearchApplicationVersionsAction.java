@@ -8,11 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.EntityInterface;
+import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
 import erland.webapp.download.fb.ApplicationVersionPB;
 import erland.webapp.download.fb.ApplicationIdFB;
 import erland.webapp.download.fb.ApplicationFileFB;
 import erland.webapp.download.entity.ApplicationVersion;
+import erland.util.StringUtil;
 
 import java.util.*;
 
@@ -37,13 +39,28 @@ import java.util.*;
 
 public class SearchApplicationVersionsAction extends Action {
     public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+        ApplicationIdFB fb = (ApplicationIdFB) actionForm;
+        String language = fb.getLanguage();
+        if(StringUtil.asNull(language)==null) {
+            language = httpServletRequest.getLocale().getLanguage();
+        }
         QueryFilter filter = getFilter(httpServletRequest,actionForm);
-        filter.setAttribute("language",httpServletRequest.getLocale().getLanguage());
+        filter.setAttribute("language",language);
         EntityInterface[] entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-applicationversion").search(filter);
+        ActionForward downloadForward = actionMapping.findForward("download-link");
         if(entities!=null) {
             Map applicationVersions = new HashMap();
+            Map parameters = new HashMap();
+            if(StringUtil.asNull(httpServletRequest.getServerName())!=null) {
+                parameters.put("hostname",httpServletRequest.getServerName());
+                if(httpServletRequest.getServerPort()!=80) {
+                    parameters.put("port",new Integer(httpServletRequest.getServerPort()));
+                }
+            }
+            parameters.put("contextpath",httpServletRequest.getContextPath());
             for (int i = 0; i < entities.length; i++) {
                 ApplicationVersion entity = (ApplicationVersion) entities[i];
+                parameters.put("application",entity.getApplicationName());
                 if(applicationVersions.containsKey(entity.getApplicationName()+"-"+entity.getVersion())) {
                     ApplicationVersionPB existingEntry = (ApplicationVersionPB) applicationVersions.get(entity.getApplicationName()+"-"+entity.getVersion());
                     ApplicationFileFB[] existingFiles = existingEntry.getFiles();
@@ -51,7 +68,12 @@ public class SearchApplicationVersionsAction extends Action {
                     boolean bInserted = false;
                     for (int j = 0,k=0; j < newFiles.length; j++) {
                         if(!bInserted && (entity.getType()==null || entity.getType().length()==0 || existingFiles[k].getType().compareTo(entity.getType())>=0)) {
-                            newFiles[j] = new ApplicationFileFB(entity.getName(),entity.getType(),entity.getName());
+                            parameters.put("filename",entity.getName());
+                            String url = null;
+                            if(downloadForward!=null) {
+                                url = ServletParameterHelper.replaceDynamicParameters(downloadForward.getPath(),parameters);
+                            }
+                            newFiles[j] = new ApplicationFileFB(language,entity.getName(),entity.getType(),entity.getName(),url);
                             bInserted = true;
                         }else {
                             newFiles[j] = existingFiles[k++];
@@ -73,7 +95,12 @@ public class SearchApplicationVersionsAction extends Action {
                     version.setDate(entity.getDate());
                     version.setVersion(entity.getVersion());
                     version.setDescription(entity.getDescription());
-                    version.setFiles(new ApplicationFileFB[] {new ApplicationFileFB(entity.getName(),entity.getType(),entity.getName())});
+                    parameters.put("filename",entity.getName());
+                    String url = null;
+                    if(downloadForward!=null) {
+                        url = ServletParameterHelper.replaceDynamicParameters(downloadForward.getPath(),parameters);
+                    }
+                    version.setFiles(new ApplicationFileFB[] {new ApplicationFileFB(language,entity.getName(),entity.getType(),entity.getName(),url)});
 
                     applicationVersions.put(entity.getApplicationName()+"-"+entity.getVersion(),version);
                 }
@@ -93,11 +120,15 @@ public class SearchApplicationVersionsAction extends Action {
 
     protected QueryFilter getFilter(HttpServletRequest request, ActionForm actionForm) {
         ApplicationIdFB fb = (ApplicationIdFB) actionForm;
+        String language = fb.getLanguage();
+        if(StringUtil.asNull(language)==null) {
+            language = request.getLocale().getLanguage();
+        }
         QueryFilter filter = new QueryFilter("allforapplication");
         String mainDir = WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("basedirectory");
         filter.setAttribute("directory",mainDir+"/"+fb.getName());
         filter.setAttribute("extensions", ".zip,.exe");
-        filter.setAttribute("language",request.getLocale().getLanguage());
+        filter.setAttribute("language",language);
         return filter;
     }
 }
