@@ -42,7 +42,7 @@ skall du markera alternativet "Bilder ej tillgängliga på internet" nedan.
     <input type="checkbox" name="clearpictures" value="true" checked>
     </td></tr>
     <tr><td>Bilder ej tillgängliga på internet</td><td>
-    <input type="checkbox" name="locallinks" value="true" checked>
+    <input type="checkbox" name="locallinks" value="true">
     </td></tr>
     <tr><td>Använd filnamn som bild titel om ingen riktig bild titel är tillgänglig</td><td>
     <input type="checkbox" name="filenameaspicturetitle" value="true" checked>
