@@ -23,34 +23,16 @@
     <target name="Make archive">
         <antcall target="Clean All"/>
         <antcall target="Build Application"/>
-        <zip file="${dist}/${ant.project.name}.zip">
-            <fileset file="readme.txt"/>
-            <fileset file="${dist}/*.jar">
-                <exclude name="jdklinkedlist.jar"/>
-                <exclude name="displaymode.jar"/>
-                <exclude name="netscapejavascript.jar"/>
-            </fileset>
-            <fileset file="${dist}/*.jnlp">
-                <exclude name="*Local.jnlp"/>
-            </fileset>
-            <fileset file="${dist}/*.bat"/>
-        </zip>
+        <ant dir="${basedir}" antfile="${buildutil}" target="makedeliverable">
+            <property name="currentproject" value="${ant.project.name}"/>
+        </ant>
     </target>
     <target name="Make archive (Debug)">
         <antcall target="Clean All"/>
         <antcall target="Build Application (Debug)"/>
-        <zip file="${dist}/${ant.project.name}.zip">
-            <fileset file="readme.txt"/>
-            <fileset file="${dist}/*.jar">
-                <exclude name="jdklinkedlist.jar"/>
-                <exclude name="displaymode.jar"/>
-                <exclude name="netscapejavascript.jar"/>
-            </fileset>
-            <fileset file="${dist}/*.jnlp">
-                <exclude name="*Local.jnlp"/>
-            </fileset>
-            <fileset file="${dist}/*.bat"/>
-        </zip>
+        <ant dir="${basedir}" antfile="${buildutil}" target="makedeliverable">
+            <property name="currentproject" value="${ant.project.name}"/>
+        </ant>
     </target>
 
     <target name="Build Applet">
