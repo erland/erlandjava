@@ -48,7 +48,7 @@ public class ExternalIMatchImportPlugin extends BaseTaskPlugin{
         String active = WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("backgroundexternalimport");
         return ServletParameterHelper.asBoolean(active,Boolean.FALSE).booleanValue();
     }
-    public boolean importPictures(Integer galleryId, Reader reader, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription) {
+    public boolean importPictures(Integer galleryId, Reader reader, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean clearAssociations) {
         try {
             StringBuffer sb = new StringBuffer(100000);
             BufferedReader br = new BufferedReader(reader);
@@ -59,7 +59,7 @@ public class ExternalIMatchImportPlugin extends BaseTaskPlugin{
                 line = br.readLine();
             }
             reader = new StringReader(sb.toString());
-            return addTask(galleryId,new Task(galleryId,reader,localLinks,filenameAsPictureTitle,filenameAsPictureDescription));
+            return addTask(galleryId,new Task(galleryId,reader,localLinks,filenameAsPictureTitle,filenameAsPictureDescription,clearAssociations));
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             return false;
@@ -85,16 +85,18 @@ public class ExternalIMatchImportPlugin extends BaseTaskPlugin{
         private Boolean localLinks;
         private Boolean filenameAsPictureTitle;
         private Boolean filenameAsPictureDescription;
+        private Boolean clearAssociations;
 
-        public Task(Integer galleryId, Reader reader, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription) {
+        public Task(Integer galleryId, Reader reader, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean clearAssociations) {
             this.galleryId = galleryId;
             this.reader = new BufferedReader(reader);
             this.localLinks = localLinks;
             this.filenameAsPictureTitle = filenameAsPictureTitle;
             this.filenameAsPictureDescription = filenameAsPictureDescription;
+            this.clearAssociations = clearAssociations;
         }
         public void run() {
-            ExternalIMatchImportHelper.importPictures(galleryId,reader,localLinks,filenameAsPictureTitle,filenameAsPictureDescription);
+            ExternalIMatchImportHelper.importPictures(galleryId,reader,localLinks,filenameAsPictureTitle,filenameAsPictureDescription,clearAssociations);
         }
     }
 }

@@ -99,11 +99,11 @@ public class ExternalIMatchImportAction extends BaseAction {
         }
         ExternalIMatchImportPlugin plugin = ExternalIMatchImportPlugin.getInstance();
         if(plugin!=null && plugin.isActive()) {
-            if(!plugin.importPictures(galleryId,request.getReader(),fb.getLocalLinks(),fb.getFilenameAsPictureTitle(),fb.getFilenameAsPictureDescription())) {
+            if(!plugin.importPictures(galleryId,request.getReader(),fb.getLocalLinks(),fb.getFilenameAsPictureTitle(),fb.getFilenameAsPictureDescription(),Boolean.valueOf(!fb.getClearPictures().booleanValue()))) {
                 saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.import.parse-failure"}));
                 return;
             }
-        }else if(!ExternalIMatchImportHelper.importPictures(galleryId,request.getReader(),fb.getLocalLinks(),fb.getFilenameAsPictureTitle(),fb.getFilenameAsPictureDescription())){
+        }else if(!ExternalIMatchImportHelper.importPictures(galleryId,request.getReader(),fb.getLocalLinks(),fb.getFilenameAsPictureTitle(),fb.getFilenameAsPictureDescription(),Boolean.valueOf(!fb.getClearPictures().booleanValue()))){
             saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.import.parse-failure"}));
             return;
         }

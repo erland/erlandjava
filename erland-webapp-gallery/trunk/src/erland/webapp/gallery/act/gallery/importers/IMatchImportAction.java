@@ -60,11 +60,11 @@ public class IMatchImportAction extends BaseAction {
             }
             IMatchImportPlugin plugin = IMatchImportPlugin.getInstance();
             if(plugin!=null && plugin.isActive()) {
-                if(!plugin.importPictures(fb.getGallery(),reader,fb.getLocalLinks(),fb.getFilenameAsPictureTitle(),fb.getFilenameAsPictureDescription())) {
+                if(!plugin.importPictures(fb.getGallery(),reader,fb.getLocalLinks(),fb.getFilenameAsPictureTitle(),fb.getFilenameAsPictureDescription(),Boolean.valueOf(!fb.getClearPictures().booleanValue()))) {
                     saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.import.parse-failure"}));
                     return;
                 }
-            }else if(!IMatchImportHelper.importPictures(fb.getGallery(),reader,fb.getLocalLinks(),fb.getFilenameAsPictureTitle(),fb.getFilenameAsPictureDescription())) {
+            }else if(!IMatchImportHelper.importPictures(fb.getGallery(),reader,fb.getLocalLinks(),fb.getFilenameAsPictureTitle(),fb.getFilenameAsPictureDescription(),Boolean.valueOf(!fb.getClearPictures().booleanValue()))) {
                 saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.import.parse-failure"}));
                 return;
             }

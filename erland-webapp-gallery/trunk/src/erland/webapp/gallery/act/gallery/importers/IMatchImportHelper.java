@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat;
 public class IMatchImportHelper extends ImportHelper {
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public static boolean importPictures(Integer galleryId, Reader reader, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription) {
+    public static boolean importPictures(Integer galleryId, Reader reader, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean clearAssociations) {
         long orderNoStart = getFirstFreeOrderNo(galleryId);
         Map categories = new HashMap();
         loadCategories(categories, galleryId);
@@ -41,7 +41,7 @@ public class IMatchImportHelper extends ImportHelper {
                 bufferedReader.readLine();
                 String line = bufferedReader.readLine();
                 while (line != null) {
-                    doImport(categories, galleryId, line, localLinks, filenameAsPictureTitle, filenameAsPictureDescription, orderNoStart++);
+                    doImport(categories, galleryId, line, localLinks, filenameAsPictureTitle, filenameAsPictureDescription, clearAssociations, orderNoStart++);
                     line = bufferedReader.readLine();
                 }
 
@@ -53,7 +53,7 @@ public class IMatchImportHelper extends ImportHelper {
         }
         return false;
     }
-    private static void doImport(Map previousCategories, Integer gallery, String line, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, long orderNoStart) {
+    private static void doImport(Map previousCategories, Integer gallery, String line, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean clearAssociations, long orderNoStart) {
         StringTokenizer tokenizer = new StringTokenizer(line, "\t", true);
         if (tokenizer.countTokens() >= 8) {
             String picture = tokenizer.nextToken();
@@ -107,6 +107,9 @@ public class IMatchImportHelper extends ImportHelper {
                 // Do nothing
             }
             Integer pictureId = createPicture(gallery, picture.substring(1, picture.length() - 1), date, oid, title, description, localLinks, filenameAsPictureTitle, filenameAsPictureDescription, new Long(orderNoStart));
+            if(clearAssociations.booleanValue()) {
+                clearPictureAssociations(gallery,pictureId);
+            }
             for (StringTokenizer it = new StringTokenizer(categories.substring(1, categories.length() - 1), ","); it.hasMoreTokens();) {
                 String category = it.nextToken();
                 Integer categoryId = createCategory(previousCategories, gallery, category);

@@ -37,7 +37,7 @@ public class ExternalIMatchImportHelper extends ImportHelper {
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private static Object logInstance = new ExternalIMatchImportHelper();
 
-    public static boolean importPictures(Integer galleryId, Reader reader, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription) {
+    public static boolean importPictures(Integer galleryId, Reader reader, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean clearAssociations) {
         long orderNoStart = getFirstFreeOrderNo(galleryId);
         Map categories = new HashMap();
         loadCategories(categories, galleryId);
@@ -53,7 +53,7 @@ public class ExternalIMatchImportHelper extends ImportHelper {
                 for (Iterator iter = list.iterator(); iter.hasNext(); ) {
                     Element element = (Element) iter.next();
                     Log.println(logInstance,"Parsing image "+ i++);
-                    doImport(categories, galleryId, element, localLinks, filenameAsPictureTitle, filenameAsPictureDescription, orderNoStart++);
+                    doImport(categories, galleryId, element, localLinks, filenameAsPictureTitle, filenameAsPictureDescription, clearAssociations, orderNoStart++);
                 }
                 Log.println(logInstance,"All image elements imported, updating visibility flags...");
                 updatePictures(galleryId);
@@ -65,7 +65,7 @@ public class ExternalIMatchImportHelper extends ImportHelper {
         }
         return false;
     }
-    private static void doImport(Map previousCategories, Integer gallery, Element element, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, long orderNoStart) {
+    private static void doImport(Map previousCategories, Integer gallery, Element element, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean clearAssociations, long orderNoStart) {
         if (element != null) {
             Node node = element.selectSingleNode("last-modified");
             Date date = null;
@@ -103,6 +103,9 @@ public class ExternalIMatchImportHelper extends ImportHelper {
             Log.println(logInstance,"title="+title,Log.DEBUG);
             Log.println(logInstance,"description="+description,Log.DEBUG);
             Integer pictureId = createPicture(gallery, filename, date, oid, title, description, localLinks, filenameAsPictureTitle, filenameAsPictureDescription, new Long(orderNoStart));
+            if(clearAssociations.booleanValue()) {
+                clearPictureAssociations(gallery,pictureId);
+            }
             List list = element.selectNodes( "categories/category" );
             for (Iterator iter = list.iterator(); iter.hasNext(); ) {
                 Element e = (Element) iter.next();

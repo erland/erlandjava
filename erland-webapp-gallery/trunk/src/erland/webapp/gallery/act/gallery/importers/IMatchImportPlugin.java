@@ -61,7 +61,7 @@ public class IMatchImportPlugin extends BaseTaskPlugin{
         return (Gallery[]) galleryList.toArray(new Gallery[0]);
     }
 
-    public boolean importPictures(Integer galleryId, Reader reader, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription) {
+    public boolean importPictures(Integer galleryId, Reader reader, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean clearAssociations) {
         try {
             StringBuffer sb = new StringBuffer(100000);
             BufferedReader br = new BufferedReader(reader);
@@ -72,7 +72,7 @@ public class IMatchImportPlugin extends BaseTaskPlugin{
                 line = br.readLine();
             }
             reader = new StringReader(sb.toString());
-            return addTask(galleryId,new Task(galleryId,reader,localLinks,filenameAsPictureTitle,filenameAsPictureDescription));
+            return addTask(galleryId,new Task(galleryId,reader,localLinks,filenameAsPictureTitle,filenameAsPictureDescription,clearAssociations));
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             return false;
@@ -85,16 +85,18 @@ public class IMatchImportPlugin extends BaseTaskPlugin{
         private Boolean localLinks;
         private Boolean filenameAsPictureTitle;
         private Boolean filenameAsPictureDescription;
+        private Boolean clearAssociations;
 
-        public Task(Integer galleryId, Reader reader, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription) {
+        public Task(Integer galleryId, Reader reader, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean clearAssociations) {
             this.galleryId = galleryId;
             this.reader = reader;
             this.localLinks = localLinks;
             this.filenameAsPictureTitle = filenameAsPictureTitle;
             this.filenameAsPictureDescription = filenameAsPictureDescription;
+            this.clearAssociations = clearAssociations;
         }
         public void run() {
-            IMatchImportHelper.importPictures(galleryId,reader,localLinks,filenameAsPictureTitle,filenameAsPictureDescription);
+            IMatchImportHelper.importPictures(galleryId,reader,localLinks,filenameAsPictureTitle,filenameAsPictureDescription,clearAssociations);
         }
     }
 }

@@ -270,6 +270,13 @@ public class ImportHelper {
         getEnvironment().getEntityStorageFactory().getStorage("gallery-categorypictureassociation").store(entity);
     }
 
+    public static void clearPictureAssociations(Integer gallery, Integer picture) {
+        QueryFilter filter = new QueryFilter("allforgalleryandpicture");
+        filter.setAttribute("gallery",gallery);
+        filter.setAttribute("picture",picture);
+        getEnvironment().getEntityStorageFactory().getStorage("gallery-categorypictureassociation").delete(filter);
+    }
+
     private static void updateMembership(Integer gallery, Integer parent, Integer category) {
         CategoryMembership template = (CategoryMembership) getEnvironment().getEntityFactory().create("gallery-categorymembership");
         template.setGallery(gallery);
