@@ -30,6 +30,7 @@ public class RemoveGalleryCommand implements CommandInterface {
                 environment.getEntityStorageFactory().getStorage("categorypictureassociation").delete(filter);
                 environment.getEntityStorageFactory().getStorage("categorymembership").delete(filter);
                 environment.getEntityStorageFactory().getStorage("category").delete(filter);
+                environment.getEntityStorageFactory().getStorage("gallerycategoryassociation").delete(filter);
             }
         }
         return null;
