@@ -79,11 +79,12 @@
         </resource>
         <resource>
             <directory>${basedir}</directory>
-            <includes dir="images">
-                <include>**/*.gif</include>
+            <includes>
+                <include>images/**/*.gif</include>
             </includes>
         </resource>
     </resources>
   </build>
+  <reports><report>maven-javadoc-plugin</report></reports>
 </project>
 
