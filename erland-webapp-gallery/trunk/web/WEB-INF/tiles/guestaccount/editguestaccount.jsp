@@ -11,7 +11,7 @@
     <html:text property="guestUser" />
     </td></tr>
     <tr><td></td><td>
-    <html:submit titleKey="gallery.buttons.save"/>
+    <html:submit><bean:message key="gallery.buttons.save"/></html:submit>
     </td></tr>
     <table>
 </html:form>

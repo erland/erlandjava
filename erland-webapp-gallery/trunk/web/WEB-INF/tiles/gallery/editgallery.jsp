@@ -42,6 +42,6 @@
         </logic:notEqual>
     </logic:notEmpty>
     <tr><td></td><td>
-    <html:submit titleKey="gallery.buttons.save"><bean:message key="gallery.buttons.save"/></html:submit>
+    <html:submit><bean:message key="gallery.buttons.save"/></html:submit>
     </td></tr>
 </html:form>

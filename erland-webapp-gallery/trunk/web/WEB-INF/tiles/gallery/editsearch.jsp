@@ -24,7 +24,7 @@
     <html:checkbox property="allCategories" value="true"/>
     </td></tr>
     <tr><td></td><td>
-    <html:submit titleKey="gallery.buttons.search"/>
+    <html:submit><bean:message key="gallery.buttons.search"/></html:submit>
     </td></tr>
     </table>
 </html:form>
