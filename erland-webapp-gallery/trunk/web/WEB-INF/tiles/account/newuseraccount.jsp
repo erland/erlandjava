@@ -24,7 +24,8 @@
     <html:password property="password2"/>
     </td></tr>
     <tr><td></td><td>
-    <input type="hidden" name="welcometext" value="<bean:message key="gallery.account.new.welcome-text"/>">
+    <input type="hidden" name="description" value="<bean:message key="gallery.account.new.description-initial"/>">
+    <input type="hidden" name="welcomeText" value="<bean:message key="gallery.account.new.welcome-text-initial"/>">
     <input type="submit" value="<bean:message key="gallery.account.new.register"/>">
     <input type="button" value="<bean:message key="gallery.account.new.cancel"/>" onClick="window.location='<html:rewrite page="/do/index"/>'">
     </td></tr>
