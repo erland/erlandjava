@@ -174,7 +174,6 @@ public class MenuItemTag extends BodyTagSupport implements MenuItemInterface {
                 selected = true;
             }
             try {
-                System.out.println("Draw "+getItemId()+" "+this);
                 out.write("<tr>");
                 int indent = getIndent();
                 out.write("<td nowrap>");
