@@ -1,13 +1,22 @@
-<tag>
-  <name>safehtml</name>
-  <tagclass>erland.webapp.common.tags.ExpandHtmlTag</tagclass>
-  <bodycontent>JSP</bodycontent>
-  <info>Removes all &gt; and &lt; characters from string and inserts &lt;br&gt;</info>
-</tag>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<tag>
-  <name>expandhtml</name>
-  <tagclass>erland.webapp.common.tags.ExpandHtmlTag</tagclass>
-  <bodycontent>JSP</bodycontent>
-  <info>Expands text to html, use HTMLEncoder to configure the expansion routine</info>
-</tag>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+    <tlibversion>1.0</tlibversion>
+    <jspversion>1.1</jspversion>
+    <shortname>erland-common</shortname>
+    <uri>http://erland.homeip.net/tags/erland-common</uri>
+    <tag>
+        <name>safehtml</name>
+        <tagclass>erland.webapp.common.tags.ExpandHtmlTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>Removes all &gt; and &lt; characters from string and inserts &lt;br&gt;</info>
+    </tag>
+
+    <tag>
+        <name>expandhtml</name>
+        <tagclass>erland.webapp.common.tags.ExpandHtmlTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>Expands text to html, use HTMLEncoder to configure the expansion routine</info>
+    </tag>
+</taglib>
