@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<resources>
+    <commands>
+        <command id="default">
+            <class>erland.webapp.common.DefaultCommand</class>
+        </command>
+        <command id="home">
+            <class>erland.webapp.usermgmt.LoginStatusCommand</class>
+        </command>
+        <command id="login">
+            <class>erland.webapp.usermgmt.LoginCommand</class>
+        </command>
+        <command id="logout">
+            <class>erland.webapp.usermgmt.LogoutCommand</class>
+        </command>
+        <command id="editentry">
+            <class>erland.webapp.diary.diary.EditEntryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="newentry">
+            <class>erland.webapp.diary.diary.ViewEntryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="removeentry">
+            <class>erland.webapp.diary.diary.RemoveEntryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="editdiary">
+            <class>erland.webapp.diary.diary.EditDiaryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="newdiary">
+            <class>erland.webapp.diary.diary.ViewDiaryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="removediary">
+            <class>erland.webapp.diary.diary.RemoveDiaryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="searchdiaries">
+            <class>erland.webapp.diary.diary.SearchDiariesCommand</class>
+            <role>user</role>
+            <delete type="session">menugalleries</delete>
+        </command>
+        <command id="searchdiariesguest">
+            <class>erland.webapp.diary.diary.SearchOfficialDiariesCommand</class>
+            <delete type="session">menugalleries</delete>
+        </command>
+        <command id="searchentries">
+            <save>searchentriescmd</save>
+            <class>erland.webapp.diary.diary.SearchEntriesCommand</class>
+            <role>user</role>
+        </command>
+        <command id="searchentriesguest">
+            <save>searchentriescmd</save>
+            <class>erland.webapp.diary.diary.SearchEntriesCommand</class>
+        </command>
+        <command id="editappendixentry">
+            <class>erland.webapp.diary.appendix.EditAppendixEntryCommand</class>
+            <role>manager</role>
+        </command>
+        <command id="editgallery">
+            <class>erland.webapp.diary.gallery.EditGalleryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="newgallery">
+            <class>erland.webapp.gallery.gallery.SearchGalleriesCommand</class>
+            <role>user</role>
+            <save type="request">galleriescmd</save>
+        </command>
+        <command id="newgalleryviewgallery">
+            <class>erland.webapp.diary.gallery.ViewGalleryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="removegallery">
+            <class>erland.webapp.diary.gallery.RemoveGalleryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="editgalleryentry">
+            <class>erland.webapp.diary.gallery.EditGalleryEntryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="newgalleryentry">
+            <class>erland.webapp.diary.gallery.ViewGalleryEntryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="removegalleryentry">
+            <class>erland.webapp.diary.gallery.RemoveGalleryEntryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="searchgalleries">
+            <class>erland.webapp.diary.gallery.SearchGalleriesCommand</class>
+            <role>user</role>
+            <save type="session">menugalleries</save>
+        </command>
+        <command id="searchgalleriesguest">
+            <class>erland.webapp.diary.gallery.SearchOfficialGalleriesCommand</class>
+            <save type="session">menugalleries</save>
+        </command>
+        <command id="searchgalleryentries">
+            <class>erland.webapp.diary.gallery.SearchGalleryEntriesCommand</class>
+            <role>user</role>
+            <save type="request">gallerycmd</save>
+        </command>
+        <command id="searchgalleryentriesexternal">
+            <class>erland.webapp.gallery.gallery.picture.SearchPicturesCommand</class>
+            <role>user</role>
+        </command>
+        <command id="searchgalleryentriesguest">
+            <class>erland.webapp.diary.gallery.SearchGalleryEntriesCommand</class>
+            <save type="request">gallerycmd</save>
+        </command>
+        <command id="searchgalleryentriesexternalguest">
+            <class>erland.webapp.gallery.gallery.picture.SearchOfficialPicturesCommand</class>
+        </command>
+        <command id="newappendixentry">
+            <class>erland.webapp.diary.appendix.ViewAppendixEntryCommand</class>
+            <role>manager</role>
+        </command>
+        <command id="removeappendixentry">
+            <class>erland.webapp.diary.appendix.RemoveAppendixEntryCommand</class>
+            <role>manager</role>
+        </command>
+        <command id="searchappendixentries">
+            <class>erland.webapp.diary.appendix.SearchAppendixEntriesCommand</class>
+            <role>manager</role>
+            <delete type="session">menugalleries</delete>
+        </command>
+        <command id="editpurchaseentry">
+            <class>erland.webapp.diary.purchase.EditPurchaseEntryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="newpurchaseentry">
+            <class>erland.webapp.diary.purchase.ViewPurchaseEntryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="removepurchaseentry">
+            <class>erland.webapp.diary.purchase.RemovePurchaseEntryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="searchpurchaseentries">
+            <class>erland.webapp.diary.purchase.SearchPurchaseEntriesCommand</class>
+            <role>user</role>
+            <delete type="session">menugalleries</delete>
+        </command>
+        <command id="editinventoryentry">
+            <class>erland.webapp.diary.inventory.EditInventoryEntryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="newinventoryentry">
+            <class>erland.webapp.diary.gallery.SearchGalleriesCommand</class>
+            <role>user</role>
+            <save type="request">galleriescmd</save>
+        </command>
+        <command id="newinventoryentryviewinventoryentry">
+            <class>erland.webapp.diary.inventory.ViewInventoryEntryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="removeinventoryentry">
+            <class>erland.webapp.diary.inventory.RemoveInventoryEntryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="searchinventoryentries">
+            <class>erland.webapp.diary.inventory.SearchInventoryEntriesCommand</class>
+            <role>user</role>
+            <saveparameters type="session">searchinventorycmd</saveparameters>
+            <delete type="session">menugalleries</delete>
+        </command>
+        <command id="searchactiveinventoryentries">
+            <class>erland.webapp.diary.inventory.SearchActiveInventoryEntriesCommand</class>
+            <role>user</role>
+            <saveparameters type="session">searchinventorycmd</saveparameters>
+            <delete type="session">menugalleries</delete>
+        </command>
+        <command id="searchactiveinventoryentriesguest">
+            <class>erland.webapp.diary.inventory.SearchActiveInventoryEntriesCommand</class>
+            <delete type="session">menugalleries</delete>
+        </command>
+        <command id="editinventoryentryevent">
+            <class>erland.webapp.diary.inventory.EditInventoryEntryEventCommand</class>
+            <role>user</role>
+        </command>
+        <command id="newinventoryentryevent">
+            <class>erland.webapp.diary.inventory.ViewInventoryEntryEventCommand</class>
+            <role>user</role>
+        </command>
+        <command id="removeinventoryentryevent">
+            <class>erland.webapp.diary.inventory.RemoveInventoryEntryEventCommand</class>
+            <role>user</role>
+        </command>
+        <command id="searchofficialuseraccounts">
+            <class>erland.webapp.diary.account.SearchOfficialUserAccountsCommand</class>
+        </command>
+        <command id="searchuseraccounts">
+            <class>erland.webapp.diary.account.SearchUserAccountsCommand</class>
+            <role>manager</role>
+        </command>
+        <command id="viewuseraccount">
+            <class>erland.webapp.diary.account.ViewUserAccountCommand</class>
+            <role>user</role>
+        </command>
+        <command id="edituseraccount">
+            <class>erland.webapp.diary.account.EditUserAccountCommand</class>
+            <role>user</role>
+        </command>
+        <command id="removeuseraccount">
+            <class>erland.webapp.diary.account.RemoveUserAccountCommand</class>
+            <role>manager</role>
+        </command>
+        <command id="viewwelcometext">
+            <class>erland.webapp.diary.account.ViewUserAccountCommand</class>
+        </command>
+        <command id="newuseraccount">
+            <class>erland.webapp.diary.account.NewUserAccountCommand</class>
+        </command>
+        <command id="registernewuseraccount">
+            <class>erland.webapp.common.NoneCommand</class>
+        </command>
+        <command id="editpicture">
+            <class>erland.webapp.gallery.gallery.picture.EditPictureCommand</class>
+            <role>user</role>
+        </command>
+        <command id="newpicture">
+            <class>erland.webapp.gallery.gallery.picture.ViewPictureCommand</class>
+            <role>user</role>
+        </command>
+        <command id="removepicture">
+            <class>erland.webapp.gallery.gallery.picture.RemovePictureCommand</class>
+            <role>user</role>
+        </command>
+        <command id="loadthumbnail">
+            <class>erland.webapp.gallery.loader.LoadThumbnailCommand</class>
+        </command>
+        <command id="loadimage">
+            <class>erland.webapp.gallery.loader.LoadImageCommand</class>
+        </command>
+    </commands>
+    <entities>
+        <entity id="common-resource" reference="resource:erland/webapp/common/resource.xml"/>
+        <entity id="common-metadatafielddescription" reference="descriptiontag:erland/webapp/common/descriptiontag.xml"/>
+        <entity id="usermgmt-user" reference="user:erland/webapp/usermgmt/user.xml"/>
+        <entity id="usermgmt-userapplicationrole" reference="userapplicationrole:erland/webapp/usermgmt/userapplicationrole.xml"/>
+        <entity id="usermgmt-userinfo" reference="userinfo:erland/webapp/usermgmt/userinfo.xml"/>
+        <entity id="diary-appendixentry" reference="appendixentry:erland/webapp/diary/appendix/appendixentry.xml"/>
+        <entity id="diary-purchaseentry" reference="purchaseentry:erland/webapp/diary/purchase/purchaseentry.xml"/>
+        <entity id="diary-inventoryentry" reference="inventoryentry:erland/webapp/diary/inventory/inventoryentry.xml"/>
+        <entity id="diary-inventoryentryevent" reference="inventoryentryevent:erland/webapp/diary/inventory/inventoryentryevent.xml"/>
+        <entity id="diary-inventoryentryeventtype" reference="inventoryentryeventtype:erland/webapp/diary/inventory/inventoryentryeventtype.xml"/>
+        <entity id="diary-inventoryentrytype" reference="inventoryentrytype:erland/webapp/diary/inventory/inventoryentrytype.xml"/>
+        <entity id="diary-diary" reference="diary:erland/webapp/diary/diary/diary.xml"/>
+        <entity id="diary-diaryentry" reference="diaryentry:erland/webapp/diary/diary/diaryentry.xml"/>
+        <entity id="diary-gallery" reference="gallery:erland/webapp/diary/gallery/gallery.xml"/>
+        <entity id="diary-galleryentry" reference="galleryentry:erland/webapp/diary/gallery/galleryentry.xml"/>
+        <entity id="diary-useraccount" reference="useraccount:erland/webapp/diary/account/useraccount.xml"/>
+        <entity id="gallery-useraccount" reference="useraccount:erland/webapp/gallery/account/useraccount.xml"/>
+        <entity id="gallery-guestaccount" reference="guestaccount:erland/webapp/gallery/guestaccount/guestaccount.xml"/>
+        <entity id="gallery-gallery" reference="gallery:erland/webapp/gallery/gallery/gallery.xml"/>
+        <entity id="gallery-gallerycategoryassociation" reference="gallerycategoryassociation:erland/webapp/gallery/gallery/gallerycategoryassociation.xml"/>
+        <entity id="gallery-picture" reference="picture:erland/webapp/gallery/gallery/picture/picture.xml"/>
+        <entity id="gallery-picturestorage" reference="picturestorage:erland/webapp/gallery/gallery/picturestorage/picturestorage.xml"/>
+        <entity id="gallery-category" reference="category:erland/webapp/gallery/gallery/category/category.xml"/>
+        <entity id="gallery-categorypictureassociation" reference="categorypictureassociation:erland/webapp/gallery/gallery/category/categorypictureassociation.xml"/>
+        <entity id="gallery-categorymembership" reference="categorymembership:erland/webapp/gallery/gallery/category/categorymembership.xml"/>
+    </entities>
+    <pages>
+        <page id="login">
+            <page id="success">
+                <forward>portal?do=home</forward>
+                <page id="main">index.jsp</page>
+                <page id="header">welcome.jsp</page>
+            </page>
+            <page id="failure">
+                <forward>portal?do=default</forward>
+            </page>
+        </page>
+        <page id="logout">
+            <forward>portal?do=default</forward>
+        </page>
+        <page id="newentry">
+            <page>editentry.jsp</page>
+        </page>
+        <page id="editentry">
+            <forward>portal?do=searchentries</forward>
+        </page>
+        <page id="removeentry">
+            <forward>portal?do=searchentries</forward>
+        </page>
+        <page id="newdiary">
+            <page>editdiary.jsp</page>
+        </page>
+        <page id="editdiary">
+            <forward>portal?do=searchentries</forward>
+        </page>
+        <page id="removediary">
+            <forward>portal?do=searchentries</forward>
+        </page>
+        <page id="searchentries">
+            <page id="withdate">
+                <page>viewentry.jsp</page>
+                <page id="menu">menu.jsp</page>
+            </page>
+            <page id="withoutdatewithdiary">
+                <page>viewdiary.jsp</page>
+                <page id="menu">menu.jsp</page>
+            </page>
+            <page id="withoutdatewithoutdiary">
+                <forward>portal?do=viewwelcometext</forward>
+                <page id="menu">menu.jsp</page>
+            </page>
+        </page>
+        <page id="searchentriesguest">
+            <page id="withdate">
+                <page>viewentryguest.jsp</page>
+                <page id="main">index.jsp</page>
+                <page id="header">welcomeguest.jsp</page>
+                <page id="menu">menuguest.jsp</page>
+            </page>
+            <page id="withoutdatewithdiary">
+                <page>viewdiaryguest.jsp</page>
+                <page id="main">index.jsp</page>
+                <page id="header">welcomeguest.jsp</page>
+                <page id="menu">menuguest.jsp</page>
+            </page>
+            <page id="withoutdatewithoutdiary">
+                <forward>portal?do=viewwelcometext</forward>
+                <page id="main">index.jsp</page>
+                <page id="header">welcomeguest.jsp</page>
+                <page id="menu">menuguest.jsp</page>
+            </page>
+        </page>
+        <page id="newgallery">
+            <forward>portal?do=newgalleryviewgallery</forward>
+        </page>
+        <page id="newgalleryviewgallery">
+            <page>editgallery.jsp</page>
+        </page>
+        <page id="editgallery">
+            <forward>portal?do=searchgalleryentries&amp;gallery={id}</forward>
+        </page>
+        <page id="removegallery">
+            <forward>portal?do=searchgalleries</forward>
+        </page>
+        <page id="newgalleryentry">
+            <page>editgalleryentry.jsp</page>
+        </page>
+        <page id="editgalleryentry">
+            <forward>portal?do=searchgalleryentries</forward>
+        </page>
+        <page id="removegalleryentry">
+            <forward>portal?do=searchgalleryentries</forward>
+        </page>
+        <page id="searchgalleryentriesexternal">
+            <page>viewgalleryexternal.jsp</page>
+        </page>
+        <page id="searchgalleryentries">
+            <page id="internal">
+                <page>viewgallery.jsp</page>
+            </page>
+            <page id="external">
+                <forward>portal?do=searchgalleryentriesexternal&amp;gallery={externalgallery}</forward>
+            </page>
+        </page>
+        <page id="searchgalleryentriesexternalguest">
+            <page>viewgalleryexternalguest.jsp</page>
+        </page>
+        <page id="searchgalleryentriesguest">
+            <page id="internal">
+                <page>viewgalleryguest.jsp</page>
+            </page>
+            <page id="external">
+                <forward>portal?do=searchgalleryentriesexternalguest&amp;gallery={externalgallery}</forward>
+            </page>
+        </page>
+        <page id="newappendixentry">
+            <page>editappendixentry.jsp</page>
+        </page>
+        <page id="editappendixentry">
+            <forward>portal?do=searchappendixentries</forward>
+        </page>
+        <page id="removeappendixentry">
+            <forward>portal?do=searchappendixentries</forward>
+        </page>
+        <page id="searchappendixentries">
+            <page>viewappendixentries.jsp</page>
+        </page>
+        <page id="newpurchaseentry">
+            <page>editpurchaseentry.jsp</page>
+        </page>
+        <page id="editpurchaseentry">
+            <forward>portal?do=searchpurchaseentries</forward>
+        </page>
+        <page id="removepurchaseentry">
+            <forward>portal?do=searchpurchaseentries</forward>
+        </page>
+        <page id="searchpurchaseentries">
+            <page>viewpurchaseentries.jsp</page>
+        </page>
+        <page id="newinventoryentry">
+            <forward>portal?do=newinventoryentryviewinventoryentry</forward>
+        </page>
+        <page id="newinventoryentryviewinventoryentry">
+            <page>editinventoryentry.jsp</page>
+        </page>
+        <page id="editinventoryentry">
+            <forward>portal?{searchinventorycmd}</forward>
+        </page>
+        <page id="removeinventoryentry">
+            <forward>portal?{searchinventorycmd}</forward>
+        </page>
+        <page id="searchinventoryentries">
+            <page>viewinventoryentries.jsp</page>
+        </page>
+        <page id="searchactiveinventoryentries">
+            <page>viewactiveinventoryentries.jsp</page>
+        </page>
+        <page id="searchactiveinventoryentriesguest">
+            <page>viewactiveinventoryentriesguest.jsp</page>
+        </page>
+        <page id="newinventoryentryevent">
+            <page>editinventoryentryevent.jsp</page>
+        </page>
+        <page id="editinventoryentryevent">
+            <forward>portal?{searchinventorycmd}</forward>
+        </page>
+        <page id="removeinventoryentryevent">
+            <forward>portal?{searchinventorycmd}</forward>
+        </page>
+        <page id="removeuseraccount">
+            <forward>portal?do=searchentries</forward>
+        </page>
+        <page id="viewuseraccount">
+            <page>edituseraccount.jsp</page>
+        </page>
+        <page id="viewwelcometext">
+            <page>viewwelcometext.jsp</page>
+        </page>
+        <page id="edituseraccount">
+            <forward>portal?do=searchentries</forward>
+        </page>
+        <page id="searchofficialuseraccounts">
+            <page>login.jsp</page>
+        </page>
+        <page id="searchuseraccounts">
+            <page>viewuseraccounts.jsp</page>
+        </page>
+        <page id="newuseraccount">
+            <page id="success">
+                <page>newuseraccountsuccess.jsp</page>
+            </page>
+            <page id="failure">
+                <page>newuseraccount.jsp</page>
+            </page>
+        </page>
+        <page id="registernewuseraccount">
+            <page>newuseraccount.jsp</page>
+        </page>
+        <page id="newpicture">
+            <page>editpicture.jsp</page>
+        </page>
+        <page id="editpicture">
+            <forward>portal?do=searchgalleryentries</forward>
+        </page>
+        <page id="removepicture">
+            <forward>portal?do=searchgalleryentries</forward>
+        </page>
+        <page id="home">
+            <page id="user">
+                <forward>portal?do=searchentries</forward>
+                <page id="menu">menu.jsp</page>
+            </page>
+            <page id="guest">
+                <forward>portal?do=searchentriesguest</forward>
+                <page id="main">index.jsp</page>
+                <page id="header">welcomeguest.jsp</page>
+                <page id="menu">menuguest.jsp</page>
+            </page>
+            <page id="none">
+                <forward>portal?do=default</forward>
+            </page>
+        </page>
+        <page id="default">
+            <forward>portal?do=searchofficialuseraccounts</forward>
+            <page id="main">index.jsp</page>
+            <page id="header">welcomelogin.jsp</page>
+            <page id="menu"/>
+        </page>
+        <page id="accessdenied">
+            <page>accessdenied.jsp</page>
+        </page>
+        <page id="notallowed">
+            <forward>portal?do=default</forward>
+        </page>
+        <page id="error">
+            <page>error.jsp</page>
+        </page>
+    </pages>
+</resources>

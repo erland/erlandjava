@@ -1,0 +1,1 @@
+Du har inte rättigheter till denna del av dagboken

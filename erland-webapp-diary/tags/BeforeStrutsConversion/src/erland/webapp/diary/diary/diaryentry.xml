@@ -1,0 +1,43 @@
+<entity id="diaryentry">
+    <class>erland.webapp.diary.diary.DiaryEntry</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/diary</datasource>
+        <table>diaryentries</table>
+        <fields>
+            <field id="diary">
+                <column>diary</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+            <field id="date">
+                <column>date</column>
+                <type>Date</type>
+                <identity>true</identity>
+            </field>
+            <field id="title">
+                <column>title</column>
+                <type>String</type>
+            </field>
+            <field id="description">
+                <column>description</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allfordiary">
+                <querystring>diary=?</querystring>
+                <orderstring>order by date desc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>diary</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
