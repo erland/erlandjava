@@ -35,7 +35,6 @@ public class ImportFB extends BaseFB {
     private Boolean localLinks;
     private Boolean filenameAsPictureTitle;
     private Boolean filenameAsPictureDescription;
-    private Boolean cutLongPictureTitles;
 
     public Integer getGallery() {
         return gallery;
@@ -141,22 +140,6 @@ public class ImportFB extends BaseFB {
         this.filenameAsPictureDescription = ServletParameterHelper.asBoolean(filenameAsPictureDescriptionDisplay,Boolean.FALSE);
     }
 
-    public Boolean getCutLongPictureTitles() {
-        return cutLongPictureTitles;
-    }
-
-    public void setCutLongPictureTitles(Boolean cutLongPictureTitles) {
-        this.cutLongPictureTitles = cutLongPictureTitles;
-    }
-
-    public String getCutLongPictureTitlesDisplay() {
-        return ServletParameterHelper.asString(cutLongPictureTitles,null);
-    }
-
-    public void setCutLongPictureTitlesDisplay(String cutLongPictureTitlesDisplay) {
-        this.cutLongPictureTitles = ServletParameterHelper.asBoolean(cutLongPictureTitlesDisplay,Boolean.FALSE);
-    }
-
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         gallery = null;
@@ -166,7 +149,5 @@ public class ImportFB extends BaseFB {
         localLinks = Boolean.FALSE;
         filenameAsPictureTitle = Boolean.FALSE;
         filenameAsPictureDescription = Boolean.FALSE;
-        cutLongPictureTitles = Boolean.FALSE;
-
     }
 }
