@@ -33,13 +33,9 @@ public class InventoryEntryEventFB extends BaseFB {
     private Integer id;
     private Integer eventId;
     private Integer description;
-    private String descriptionText;
     private Integer container;
     private Double size;
-    private String sizeText;
     private Date date;
-    private String updateLink;
-    private String deleteLink;
 
     public Integer getId() {
         return id;
@@ -89,14 +85,6 @@ public class InventoryEntryEventFB extends BaseFB {
         this.description = StringUtil.asInteger(descriptionDisplay,null);
     }
 
-    public String getDescriptionText() {
-        return descriptionText;
-    }
-
-    public void setDescriptionText(String descriptionText) {
-        this.descriptionText = descriptionText;
-    }
-
     public Double getSize() {
         return size;
     }
@@ -111,14 +99,6 @@ public class InventoryEntryEventFB extends BaseFB {
 
     public void setSizeDisplay(String sizeDisplay) {
         this.size = StringUtil.asDouble(sizeDisplay,null);
-    }
-
-    public String getSizeText() {
-        return sizeText;
-    }
-
-    public void setSizeText(String sizeText) {
-        this.sizeText = sizeText;
     }
 
     public Date getDate() {
@@ -153,32 +133,13 @@ public class InventoryEntryEventFB extends BaseFB {
         this.container = StringUtil.asInteger(containerDisplay,null);
     }
 
-    public String getUpdateLink() {
-        return updateLink;
-    }
-
-    public void setUpdateLink(String updateLink) {
-        this.updateLink = updateLink;
-    }
-
-    public String getDeleteLink() {
-        return deleteLink;
-    }
-
-    public void setDeleteLink(String deleteLink) {
-        this.deleteLink = deleteLink;
-    }
-
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         id = null;
         eventId = null;
         description = null;
         size = null;
-        sizeText = null;
         date = null;
-        updateLink = null;
-        deleteLink = null;
         container = null;
     }
 }
