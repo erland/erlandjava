@@ -208,4 +208,27 @@ public class StringUtil {
         sb.delete(0,startPos);
         return sb;
     }
+
+    /**
+     * Returns null if string is null or if String.trim().length()==0
+     * @param str The string to check
+     * @return null if str is null or if str.trim().length()==0, else unmodified str
+     */
+    public static String asNull(String str) {
+        if(str!=null && str.trim().length()==0) {
+            str=null;
+        }
+        return str;
+    }
+    /**
+     * Returns "" if string is null
+     * @param str The string to check
+     * @return "" if str is null else unmodified str
+     */
+    public static String asEmpty(String str) {
+        if(str==null) {
+            str="";
+        }
+        return str;
+    }
 }
