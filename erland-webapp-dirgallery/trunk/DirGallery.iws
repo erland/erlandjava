@@ -68,7 +68,7 @@
     <option name="PUT_FOCUS_INTO_COMMENT" value="false" />
     <option name="SHOW_CHECKIN_OPTIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated so it inherits BaseFB or BasePB" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated version number to 1.2 and updated most of the dependencies" />
     <option name="SAVE_LAST_COMMIT_MESSAGE" value="true" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -284,20 +284,23 @@
     </configuration>
   </component>
   <component name="SQL">
-    <database name="Users" driver="jdbc:mysql" user="erland" db="users" maxReconnects="3" host="dual350" initialTimeout="2" port="3306" />
-    <database name="Mysql" driver="jdbc:mysql" user="root" db="mysql" maxReconnects="3" host="dual350" initialTimeout="2" port="3306" />
-    <database name="DirGallery" driver="jdbc:mysql" user="erland" db="dirgallery" maxReconnects="3" host="dual350" initialTimeout="2" port="3306" />
-    <database name="Gallery" driver="jdbc:mysql" user="erland" db="gallery" maxReconnects="3" host="dual350" initialTimeout="2" port="3306" />
-    <database name="Common" driver="jdbc:mysql" user="erland" db="common" maxReconnects="3" host="dual350" initialTimeout="2" port="3306" current="true" />
-    <htmlExport table="border: 1px solid black; border-spacing:0px" cell="border: 1px solid black" header="background: darkgrey; font-weight:bold; text-align: center" row1="background: white" row2="background: lightgrey" alternate="false" interval="1" />
-    <csvExport delimiter="," text="&quot;" />
-    <partialExecute value="0" />
-    <rowLimit enabled="true" value="1000" />
-    <primaryKeyCols enabled="true" />
-    <savePasswords enabled="false" encode="false" />
-    <datesWithTime enabled="true" />
-    <resizeColumns toHeader="true" toContent="true" />
-    <nullString value="" />
+    <export>
+      <html table="border: 1px solid black; border-spacing:0px" cell="border: 1px solid black" header="background: darkgrey; font-weight:bold; text-align: center" row1="background: white" row2="background: lightgrey" alternate="true" interval="1" />
+      <csvExport delimiter="," text="&quot;" />
+    </export>
+    <general />
+    <databases savePasswords="false" encodePasswords="true">
+      <database name="Users" driver="jdbc:mysql" db="users" host="dual350" initialTimeout="2" port="3306" user="erland" maxReconnects="3" />
+      <database name="Mysql" driver="jdbc:mysql" db="mysql" host="dual350" initialTimeout="2" port="3306" user="root" maxReconnects="3" />
+      <database name="DirGallery" driver="jdbc:mysql" db="dirgallery" host="dual350" initialTimeout="2" port="3306" user="erland" maxReconnects="3" />
+      <database name="Gallery" driver="jdbc:mysql" db="gallery" host="dual350" initialTimeout="2" port="3306" user="erland" maxReconnects="3" />
+      <database name="Common" driver="jdbc:mysql" db="common" host="dual350" initialTimeout="2" port="3306" user="erland" maxReconnects="3" current="true" />
+    </databases>
+    <queries projectClassLoader="false" save="false" />
+    <results primaryKeyCols="true" saveTableConfig="false">
+      <rowLimit enabled="true" value="1000" />
+      <resizeColumns toHeader="true" toContent="true" />
+    </results>
   </component>
   <component name="SelectInManager" />
   <component name="StarteamConfiguration">
@@ -347,10 +350,11 @@
     <frame x="10" y="3" width="1004" height="728" extended-state="0" />
     <editor active="false" />
     <layout>
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.67785233" order="8" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.3305369" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.42647058" order="0" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.33" order="1" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.39390758" order="0" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.32998326" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="6" />
@@ -360,7 +364,6 @@
       <window_info id="CVS File View" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.835084" order="3" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.39932886" order="4" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.4" order="0" />
-      <window_info id="SQL" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.67785233" order="8" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="0" />
       <window_info id="App Server" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
@@ -446,131 +449,154 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/category/SelectCategoryFB.java">
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/common/guestmenu.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="1" selection-start="1972" selection-end="1972" vertical-scroll-proportion="0.79476863">
+        <state line="8" column="57" selection-start="701" selection-end="701" vertical-scroll-proportion="0.2630561">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/importers/ImportFB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="171" column="1" selection-start="5677" selection-end="5677" vertical-scroll-proportion="0.8038462">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/picture/PictureFB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="146" column="1" selection-start="3718" selection-end="3718" vertical-scroll-proportion="0.8410463">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/picture/SearchPictureFB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="126" column="1" selection-start="3948" selection-end="3948" vertical-scroll-proportion="0.8038462">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/picture/SelectPictureFB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="1" selection-start="2499" selection-end="2499" vertical-scroll-proportion="0.8410463">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/picturestorage/PictureStorageFB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="1" selection-start="1975" selection-end="1975" vertical-scroll-proportion="0.8410463">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/GalleryFB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="163" column="1" selection-start="4595" selection-end="4595" vertical-scroll-proportion="0.8410463">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/SelectGalleryFB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="1" selection-start="2059" selection-end="2059" vertical-scroll-proportion="0.8038462">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/guestaccount/GuestAccountFB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="1" selection-start="1405" selection-end="1405" vertical-scroll-proportion="0.8038462">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/loader/ImageFB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="1" selection-start="2098" selection-end="2098" vertical-scroll-proportion="0.8038462">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/loader/MetadataImageFB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="1" selection-start="1717" selection-end="1717" vertical-scroll-proportion="0.8903846">
-          <folding>
-            <marker date="1077697989193" expanded="true" signature="1433:1527" placeholder="{...}" />
-            <marker date="1077697989193" expanded="true" signature="1149:1180" placeholder="{...}" />
-            <marker date="1077697989193" expanded="true" signature="1619:1715" placeholder="{...}" />
-            <marker date="1077697989193" expanded="true" signature="1226:1265" placeholder="{...}" />
-            <marker date="1077697989193" expanded="true" signature="1305:1374" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/project.xml">
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/common/header.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/loader/ThumbnailImageFB.java">
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/common/usermenu.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="0" selection-start="1541" selection-end="1541" vertical-scroll-proportion="0.6057692">
-          <folding>
-            <marker date="1077697989263" expanded="true" signature="2455:2601" placeholder="{...}" />
-            <marker date="1077697989263" expanded="true" signature="1893:1984" placeholder="{...}" />
-            <marker date="1077697989263" expanded="true" signature="2282:2363" placeholder="{...}" />
-            <marker date="1077697989263" expanded="true" signature="1313:1383" placeholder="{...}" />
-            <marker date="1077697989263" expanded="true" signature="1151:1183" placeholder="{...}" />
-            <marker date="1077697989263" expanded="true" signature="1662:1709" placeholder="{...}" />
-            <marker date="1077697989263" expanded="true" signature="1444:1539" placeholder="{...}" />
-            <marker date="1077697989263" expanded="true" signature="1753:1826" placeholder="{...}" />
-            <marker date="1077697989263" expanded="true" signature="1575:1610" placeholder="{...}" />
-            <marker date="1077697989263" expanded="true" signature="2016:2045" placeholder="{...}" />
-            <marker date="1077697989263" expanded="true" signature="2160:2227" placeholder="{...}" />
-            <marker date="1077697989263" expanded="true" signature="1231:1272" placeholder="{...}" />
-            <marker date="1077697989263" expanded="true" signature="2087:2122" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/EGNA/Working/Java/Common/util/project.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="896" selection-end="896" vertical-scroll-proportion="0.59116024">
+        <state line="10" column="22" selection-start="947" selection-end="947" vertical-scroll-proportion="0.3288201">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common/act/BaseAction.java">
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/common/login.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="318" column="1" selection-start="10278" selection-end="10278" vertical-scroll-proportion="0.17679559">
+        <state line="10" column="42" selection-start="520" selection-end="520" vertical-scroll-proportion="0.3288201">
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/common/validationerrors.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/common/viewuseraccounts.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/common/welcome.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/gallery/editcomment.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="13" selection-start="413" selection-end="413" vertical-scroll-proportion="0.19729207">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/gallery/viewpictures.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/gallery/editgallery.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="13" selection-start="413" selection-end="413" vertical-scroll-proportion="0.19729207">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/loader/viewmetadata.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/loader/viewimage.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="0" selection-start="233" selection-end="233" vertical-scroll-proportion="0.09864604">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/layouts/classicLayout.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="26" selection-start="588" selection-end="588" vertical-scroll-proportion="0.62475824">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Web/UserMgmt/project.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="26" selection-start="449" selection-end="457" vertical-scroll-proportion="0.49323016">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="ideajad">
+    <property name="annotate" value="false" />
+    <property name="annotateFully" value="false" />
+    <property name="braces" value="false" />
+    <property name="clear" value="false" />
+    <property name="confirmNavigationTriggeredDecompile" value="true" />
+    <property name="dead" value="true" />
+    <property name="defaultInitializers" value="false" />
+    <property name="dissassemblerOnly" value="false" />
+    <property name="fieldsFirst" value="true" />
+    <property name="fileExtension" value="java" />
+    <property name="fullyQualifiedNames" value="false" />
+    <property name="indentation" value="4" />
+    <property name="intRadix" value="10" />
+    <property name="lineNumbersAsComments" value="true" />
+    <property name="longRadix" value="10" />
+    <property name="maxStringLength" value="64" />
+    <property name="nocast" value="false" />
+    <property name="noclass" value="false" />
+    <property name="nocode" value="false" />
+    <property name="noconv" value="false" />
+    <property name="noctor" value="false" />
+    <property name="nodos" value="false" />
+    <property name="nofd" value="false" />
+    <property name="noinner" value="false" />
+    <property name="nolvt" value="false" />
+    <property name="nonlb" value="false" />
+    <property name="outputDirectory" value="" />
+    <property name="packFields" value="3" />
+    <property name="packImports" value="7" />
+    <property name="prefixNumericalClasses" value="_cls" />
+    <property name="prefixNumericalFields" value="_fld" />
+    <property name="prefixNumericalLocals" value="_lcl" />
+    <property name="prefixNumericalMethods" value="_mth" />
+    <property name="prefixNumericalParameters" value="_prm" />
+    <property name="prefixUnusedExceptions" value="_ex" />
+    <property name="readonly" value="false" />
+    <property name="safe" value="false" />
+    <property name="sort" value="false" />
+    <property name="spaceAfterKeyword" value="false" />
+    <property name="splitStringsAtNewline" value="false" />
+    <property name="useTabs" value="false" />
   </component>
 </project>
 
