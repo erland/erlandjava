@@ -12,10 +12,11 @@
         <tr>
         <td class="sub-menu"></td>
         <td>
-        <a href="portal?do=newgallery" class="bold-link">Add new</a>
+        <a href="portal?do=newgallery" class="bold-link">Lägg till</a>
         </td>
         </tr>
         <jsp:include page="menugalleriescommon.jsp">
+            <jsp:param name="indentgalleries" value="true"/>
             <jsp:param name="searchcategoriescmd" value="searchcategories"/>
         </jsp:include>
         </table>
