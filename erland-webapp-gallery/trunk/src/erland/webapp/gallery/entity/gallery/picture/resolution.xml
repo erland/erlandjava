@@ -27,6 +27,16 @@
                 <querystring/>
                 <orderstring>order by width asc</orderstring>
             </query>
+            <query id="all-smaller-than">
+                <querystring>width &lt;= ?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>width</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+                <orderstring>order by width asc</orderstring>
+            </query>
         </queries>
     </data>
 </entity>
