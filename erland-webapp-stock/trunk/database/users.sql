@@ -23,6 +23,7 @@ CREATE TABLE users (
   username varchar(100) NOT NULL default '',
   firstname varchar(100) NOT NULL default '',
   lastname varchar(100) NOT NULL default '',
-  password varchar(100) NOT NULL default ''
+  password varchar(100) NOT NULL default '',
+  mail varchar(100) default NULL
 ) TYPE=MyISAM;
 
