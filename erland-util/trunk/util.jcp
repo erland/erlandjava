@@ -1,0 +1,26 @@
+! ** JCreator Project File (C)2000
+! ********** DO NOT EDIT *********
+
+VERSION := "1.10"
+LABEL := "util"
+JDKPROFILE := "JDK version 1.3.1"
+ACTIVE := "0"
+OUTPUTPATH := "classes"
+COMPILER := ""
+
+! Start RunTime Configuration Structure
+#[BeginRunTime]LABEL := "<Default>" RUNAPPLIC := "" RUNAPPLET := "<Default>" PARAM := "" RUN := "" CHECK := "10" #[EndRunTime]
+! Start Required Libraries Structure
+#[BeginRLibrary]LABEL := "Netscape JSObject" #[EndRLibrary]
+
+! Start Project Folder Structure
+#[BeginFolder]
+LABEL := "Root"
+FILTER := ""
+
+#[BeginFile]SOURCE := "src\\erland\\util\\XMLNode.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\util\\ParameterValueStorageInterface.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\util\\CookieHandler.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\util\\ParameterStorage.java" #[EndFile]
+#[BeginFile]SOURCE := "build.xml" #[EndFile]
+#[EndFolder]
