@@ -58,6 +58,7 @@ public class SkinHelper {
         if(forward!=null) {
             pbSkin.setViewPictures(forward.getPath());
         }
+        pbSkin.setStylesheet(null);
         if(skin!=null && skin.length()>0) {
             Skin template = (Skin) WebAppEnvironmentPlugin.getEnvironment().getEntityFactory().create("gallery-skin");
             template.setId(skin);
@@ -83,6 +84,9 @@ public class SkinHelper {
                 }
                 if(StringUtil.asNull(skinEntity.getViewPictures())!=null) {
                     pbSkin.setViewPictures(skinEntity.getViewPictures());
+                }
+                if(StringUtil.asNull(skinEntity.getStylesheet())!=null) {
+                    pbSkin.setStylesheet(skinEntity.getStylesheet());
                 }
             }
         }
