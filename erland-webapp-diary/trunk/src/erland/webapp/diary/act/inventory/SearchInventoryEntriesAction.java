@@ -22,6 +22,7 @@ package erland.webapp.diary.act.inventory;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.common.html.StringReplaceInterface;
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.diary.entity.inventory.InventoryEntry;
 import erland.webapp.diary.entity.inventory.InventoryEntryEvent;
@@ -30,7 +31,9 @@ import erland.webapp.diary.fb.inventory.InventoryEntryEventFB;
 import erland.webapp.diary.fb.inventory.SelectInventoryFB;
 import erland.webapp.diary.fb.inventory.InventoryEntryFB;
 import erland.webapp.diary.logic.inventory.DescriptionIdHelper;
+import erland.webapp.diary.logic.appendix.SourceAppendixStringReplace;
 import erland.webapp.usermgmt.User;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
@@ -79,11 +82,18 @@ public class SearchInventoryEntriesAction extends BaseAction {
         Map parameters = new HashMap();
         parameters.put("user",username);
         List result = new ArrayList();
+        StringReplaceInterface sourceReplace = new SourceAppendixStringReplace();
         for (int i = 0; i < entities.length; i++) {
             InventoryEntryEventFB[] events = getEvents(((InventoryEntry) entities[i]).getId(),fb.getDate(),container,forwardUpdateEvent,forwardDeleteEvent);
             if(events.length>0 || getAllEvents()) {
                 InventoryEntryFB entry = new InventoryEntryFB();
                 PropertyUtils.copyProperties(entry,entities[i]);
+                if(StringUtil.asNull(entry.getLink())!=null) {
+                    String link = sourceReplace.replace(entry.getLink());
+                    if(!entry.getLink().equals(link)) {
+                        entry.setLinkSource(link);
+                    }
+                }
                 entry.setEvents(events);
                 entry.setTypeDescription(DescriptionIdHelper.getDescription("diary-inventoryentrytype",entry.getType()));
                 entry.setSexDescription(DescriptionIdHelper.getDescription("diary-inventoryentrysex",entry.getSex()));

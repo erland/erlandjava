@@ -22,10 +22,13 @@ package erland.webapp.diary.act.container;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.common.html.StringReplaceInterface;
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.diary.fb.account.SelectUserFB;
 import erland.webapp.diary.fb.container.ContainerPB;
 import erland.webapp.diary.entity.container.Container;
+import erland.webapp.diary.logic.appendix.SourceAppendixStringReplace;
+import erland.util.StringUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -51,9 +54,16 @@ public class SearchContainersAction extends BaseAction {
         ActionForward deleteForward = mapping.findForward("delete-entry-link");
         Map parameters = new HashMap();
         parameters.put("user", username);
+        StringReplaceInterface sourceReplace = new SourceAppendixStringReplace();
         for (int i = 0; i < entities.length; i++) {
             pb[i] = new ContainerPB();
             PropertyUtils.copyProperties(pb[i], entities[i]);
+            if(StringUtil.asNull(pb[i].getLink())!=null) {
+                String link = sourceReplace.replace(pb[i].getLink());
+                if(!pb[i].getLink().equals(link)) {
+                    pb[i].setLinkSource(link);
+                }
+            }
             parameters.put("id", ((Container) entities[i]).getId());
             if (updateForward != null) {
                 pb[i].setUpdateLink(ServletParameterHelper.replaceDynamicParameters(updateForward.getPath(), parameters));

@@ -31,6 +31,8 @@ import erland.webapp.diary.fb.inventory.InventoryEntryFB;
 import erland.webapp.diary.fb.inventory.InventoryEntryEventFB;
 import erland.webapp.diary.fb.inventory.InventorySummaryPB;
 import erland.webapp.diary.logic.inventory.DescriptionIdHelper;
+import erland.webapp.diary.logic.appendix.SourceAppendixStringReplace;
+import erland.util.StringUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -59,6 +61,12 @@ public class ViewContainerInfoAction extends BaseAction {
         }
         ContainerPB pb = new ContainerPB();
         PropertyUtils.copyProperties(pb, entry);
+        if(StringUtil.asNull(pb.getLink())!=null) {
+            String link = new SourceAppendixStringReplace().replace(pb.getLink());
+            if(!pb.getLink().equals(link)) {
+                pb.setLinkSource(link);
+            }
+        }
 
         ActionForward updateForward = mapping.findForward("update-container-link");
         ActionForward deleteForward = mapping.findForward("delete-container-link");

@@ -30,6 +30,8 @@ import erland.webapp.diary.logic.inventory.DescriptionIdHelper;
 import erland.webapp.diary.entity.inventory.DescriptionId;
 import erland.webapp.diary.entity.container.Container;
 import erland.webapp.diary.logic.inventory.DescriptionIdHelper;
+import erland.webapp.diary.logic.appendix.SourceAppendixStringReplace;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
@@ -54,6 +56,13 @@ public class ViewInventoryEntryInfoAction extends BaseAction {
         InventoryEntry entry = (InventoryEntry) getEnvironment().getEntityStorageFactory().getStorage("diary-inventoryentry").load(template);
         InventoryEntryFB pb = new InventoryEntryFB();
         PropertyUtils.copyProperties(pb,entry);
+
+        if(StringUtil.asNull(pb.getLink())!=null) {
+            String link = new SourceAppendixStringReplace().replace(pb.getLink());
+            if(!pb.getLink().equals(link)) {
+                pb.setLinkSource(link);
+            }
+        }
         pb.setTypeDescription(DescriptionIdHelper.getDescription("diary-inventoryentrytype",entry.getType()));
         pb.setSexDescription(DescriptionIdHelper.getDescription("diary-inventoryentrysex",entry.getSex()));
         Map parameters = new HashMap();
