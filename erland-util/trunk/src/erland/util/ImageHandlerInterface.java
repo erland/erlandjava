@@ -4,6 +4,7 @@ import java.awt.*;
 
 /**
  * Specifies and interface for image loading
+ * @author Erland Isaksson
  */
 public interface ImageHandlerInterface
 {
