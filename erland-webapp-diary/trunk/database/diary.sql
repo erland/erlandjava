@@ -127,8 +127,19 @@ CREATE TABLE purchaseentries (
   username varchar(100) NOT NULL default '',
   date date NOT NULL default '0000-00-00',
   store varchar(100) NOT NULL default '',
+  category int(11) NOT NULL default '0',
   description varchar(100) NOT NULL default '',
   price double NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Table structure for table `purchaseentrycategories`
+--
+
+CREATE TABLE purchaseentrycategories (
+  id int(11) NOT NULL default '0',
+  description char(100) NOT NULL default '',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
