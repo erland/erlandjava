@@ -122,35 +122,37 @@ public class ImageWriteHelper {
                     return true;
                 } else {
                     thumbnail = thumbnailCreator.create(url, requestedWidth, requestedHeight, preFilters);
-                    ImageFilter[] filters = postFilters!=null?postFilters.getFilters():null;
-                    if(filters!=null && filters.length>0) {
-                        Log.println(getLogInstance(),"Applying filters",Log.DEBUG);
-                        ImageProducer prod = thumbnail.getSource();
-                        for (int i = 0; i < filters.length; i++) {
-                            ImageFilter postFilter = filters[i];
-                            prod = new FilteredImageSource(prod,postFilter);
+                    if (thumbnail != null) {
+                        ImageFilter[] filters = postFilters!=null?postFilters.getFilters():null;
+                        if(filters!=null && filters.length>0) {
+                            Log.println(getLogInstance(),"Applying filters",Log.DEBUG);
+                            ImageProducer prod = thumbnail.getSource();
+                            for (int i = 0; i < filters.length; i++) {
+                                ImageFilter postFilter = filters[i];
+                                prod = new FilteredImageSource(prod,postFilter);
+                            }
+                            Image img = Toolkit.getDefaultToolkit().createImage(prod);
+                            thumbnail = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
+                            Graphics g = thumbnail.createGraphics();
+                            g.drawImage(img, 0, 0, null);
+                            g.dispose();
+                            Log.println(getLogInstance(),"Filters applied",Log.DEBUG);
                         }
-                        Image img = Toolkit.getDefaultToolkit().createImage(prod);
-                        thumbnail = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
-                        Graphics g = thumbnail.createGraphics();
-                        g.drawImage(img, 0, 0, null);
-                        g.dispose();
-                        Log.println(getLogInstance(),"Filters applied",Log.DEBUG);
-                    }
-                    Graphics2D g2= thumbnail.createGraphics();
-                    int finalWidth = thumbnail.getWidth();
-                    int finalHeight = thumbnail.getHeight();
-                    if (finalWidth >= COPYRIGHT_WIDTH || finalHeight>= COPYRIGHT_HEIGHT) {
-                        if (copyrightText != null && copyrightText.length() > 0) {
-                            Log.println(getLogInstance(),"Drawing copyright",Log.DEBUG);
-                            FontMetrics metrics = g2.getFontMetrics();
-                            Rectangle2D rc = metrics.getStringBounds(copyrightText, g2);
-                            g2.setColor(new Color(1f, 1f, 1f, 0.4f));
-                            g2.fill3DRect(finalWidth - (int) rc.getWidth() - COPYRIGHT_OFFSET * 3, finalHeight - (int) rc.getHeight() - COPYRIGHT_OFFSET * 3, (int) rc.getWidth() + COPYRIGHT_OFFSET * 2, (int) rc.getHeight() + COPYRIGHT_OFFSET * 2, true);
-                            g2.setColor(Color.black);
-                            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-                            g2.drawString(copyrightText, finalWidth - (int) rc.getWidth() - COPYRIGHT_OFFSET * 2, finalHeight - COPYRIGHT_OFFSET * 2 - metrics.getDescent());
-                            Log.println(getLogInstance(),"Copyright drawed",Log.DEBUG);
+                        Graphics2D g2= thumbnail.createGraphics();
+                        int finalWidth = thumbnail.getWidth();
+                        int finalHeight = thumbnail.getHeight();
+                        if (finalWidth >= COPYRIGHT_WIDTH || finalHeight>= COPYRIGHT_HEIGHT) {
+                            if (copyrightText != null && copyrightText.length() > 0) {
+                                Log.println(getLogInstance(),"Drawing copyright",Log.DEBUG);
+                                FontMetrics metrics = g2.getFontMetrics();
+                                Rectangle2D rc = metrics.getStringBounds(copyrightText, g2);
+                                g2.setColor(new Color(1f, 1f, 1f, 0.4f));
+                                g2.fill3DRect(finalWidth - (int) rc.getWidth() - COPYRIGHT_OFFSET * 3, finalHeight - (int) rc.getHeight() - COPYRIGHT_OFFSET * 3, (int) rc.getWidth() + COPYRIGHT_OFFSET * 2, (int) rc.getHeight() + COPYRIGHT_OFFSET * 2, true);
+                                g2.setColor(Color.black);
+                                g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                                g2.drawString(copyrightText, finalWidth - (int) rc.getWidth() - COPYRIGHT_OFFSET * 2, finalHeight - COPYRIGHT_OFFSET * 2 - metrics.getDescent());
+                                Log.println(getLogInstance(),"Copyright drawed",Log.DEBUG);
+                            }
                         }
                     }
 
