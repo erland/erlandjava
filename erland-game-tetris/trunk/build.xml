@@ -5,7 +5,7 @@
   <property name="build" value="classes"/>
   <property name="dist"  value="lib"/>
   <property name="docs" value="docs/api"/>
-  <property file="C:/Program/Java/build.properties"/>
+  <property file="C:/Program Files/Java/build.properties"/>
 
   <target name="init">
     <!-- Create the time stamp -->
@@ -18,6 +18,14 @@
     <!-- Compile the java code from ${src} into ${build} -->
 
     <javac srcdir="${src}" destdir="${build}">
+	    <classpath path="${classpath};../common/util/${dist}/util.jar;../common/game/${dist}/game.jar"/>
+    </javac>
+  </target>
+
+  <target name="compiledebug" depends="init">
+    <!-- Compile the java code from ${src} into ${build} -->
+
+    <javac srcdir="${src}" destdir="${build}" debug="on">
 	    <classpath path="${classpath};../common/util/${dist}/util.jar;../common/game/${dist}/game.jar"/>
     </javac>
   </target>
@@ -59,7 +67,7 @@
 		classpath="../Common/util/${dist}/util.jar"
 		bottom="Copyright &#169; 2000 Erland Isaksson. All Rights Reserved.">
     <link offline="true" href="file://${java.home.jdk.docs.local}" packagelistLoc="${java.home.jdk.docs.local}"/>
-    <link offline="true" href="file://E:/Egna/Java/Common/util/${docs}" packagelistLoc="E:/Egna/Java/Common/util/${docs}"/>
+    <link offline="true" href="file://E:/Egna/Working/Java/Common/util/${docs}" packagelistLoc="E:/Egna/Java/Common/util/${docs}"/>
 	</javadoc>
   </target>
   <target name="docpublic">
@@ -76,7 +84,7 @@
 		classpath="../Common/util/${dist}/util.jar"
 		bottom="Copyright &#169; 2000 Erland Isaksson. All Rights Reserved.">
     <link offline="true" href="file://${java.home.jdk.docs.local}" packagelistLoc="${java.home.jdk.docs.local}"/>
-    <link offline="true" href="file://E:/Egna/Java/Common/util/${docs}" packagelistLoc="E:/Egna/Java/Common/util/${docs}"/>
+    <link offline="true" href="file://E:/Egna/Working/Java/Common/util/${docs}" packagelistLoc="E:/Egna/Java/Common/util/${docs}"/>
 	</javadoc>
   </target>
   <target name="clean">
