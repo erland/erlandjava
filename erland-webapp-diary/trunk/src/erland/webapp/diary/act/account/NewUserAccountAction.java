@@ -54,6 +54,7 @@ public class NewUserAccountAction extends BaseAction {
 
         template.setFirstName(fb.getFirstName());
         template.setLastName(fb.getLastName());
+        template.setMail(fb.getMail());
         template.setPassword(fb.getPassword1());
         getEnvironment().getEntityStorageFactory().getStorage("usermgmt-user").store(template);
         UserApplicationRole templateRole = (UserApplicationRole) getEnvironment().getEntityFactory().create("usermgmt-userapplicationrole");
