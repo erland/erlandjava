@@ -155,14 +155,26 @@ public class IsoBitmapObjectMovable extends IsoBitmapObject {
     }
 
     public int getMovingPosX() {
-        return (int)(getPosX()+getMovingProgressX()/Math.abs(getMovingProgressX()));
+        if(isMoving() && getMovingProgressX()!=0) {
+            return (int)(getPosX()+getMovingProgressX()/Math.abs(getMovingProgressX()));
+        }else {
+            return getPosX();
+        }
     }
 
     public int getMovingPosY() {
-        return (int)(getPosY()+getMovingProgressY()/Math.abs(getMovingProgressY()));
+        if(isMoving() && getMovingProgressY()!=0) {
+            return (int)(getPosY()+getMovingProgressY()/Math.abs(getMovingProgressY()));
+        }else {
+            return getPosY();
+        }
     }
 
     public int getMovingPosZ() {
-        return (int)(getPosZ()+getMovingProgressZ()/Math.abs(getMovingProgressZ()));
+        if(isMoving() && getMovingProgressZ()!=0) {
+            return (int)(getPosZ()+getMovingProgressZ()/Math.abs(getMovingProgressZ()));
+        }else {
+            return getPosZ();
+        }
     }
 }
