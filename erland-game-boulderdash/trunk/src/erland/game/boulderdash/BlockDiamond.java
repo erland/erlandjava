@@ -1,0 +1,170 @@
+package erland.game.boulderdash;
+import java.awt.*;
+import erland.util.*;
+import erland.game.*;
+
+/**
+ * Represents a block on the game area
+ */
+ 
+class BlockDiamond extends Block
+{
+	/** Indicates that the block is moving */
+	protected boolean moving;
+	
+	/** Indicates the block moving direction of the block, see {@link erland.game#Direction} */
+	protected int movingDirection;
+	
+	/** Indicates the moving progress in the direction specified in {@link #movingDirection} */
+	protected int movingProgress;
+
+	/** Indicates the fall height when the block is falling down */
+	protected int fallHeight;
+
+	/** Image of the block */
+	protected Image img;
+	
+	public void init(BoulderDashContainerInterface c, ImageHandlerInterface images, BlockContainerInterface cont, int x, int y)
+	{
+		super.init(c,images,cont,x,y);
+		img = images.getImage("diamond.gif");
+	}
+
+	public void update()
+	{
+		if(moving) {
+			movingProgress++;
+			if(movingProgress>=cont.getSquareSize()) {
+				int newX = getMovingPosX();
+				int newY = getMovingPosY();
+				if(movingDirection==Direction.DOWN) {
+					fallHeight++;
+				}
+				moving = false;
+				movingProgress=0;
+				c.setBlockPos(x,y,newX,newY);
+			}
+		}else {
+			fallHeight=0;
+		}
+		if(!moving) {
+			if(c.isFree(x,y+1)) {
+				c.moveBlock(x,y,Direction.DOWN);
+			}else if(c.isFree(x-1,y) && c.isFree(x-1,y+1) && c.isSlippery(x,y+1)) {
+				c.moveBlock(x,y,Direction.LEFT);
+			}else if(c.isFree(x+1,y) && c.isFree(x+1,y+1) && c.isSlippery(x,y+1)) {
+				c.moveBlock(x,y,Direction.RIGHT);
+			}
+		}
+	}
+	
+	public void draw(Graphics g)
+	{
+		int dx = cont.getDrawingPositionX(x);
+		int dy = cont.getDrawingPositionY(y);
+		if(moving) {
+			switch(movingDirection) {
+				case Direction.LEFT:
+					dx-=movingProgress;
+					break;
+				case Direction.RIGHT:
+					dx+=movingProgress;
+					break;
+				case Direction.UP:
+					dy-=movingProgress;
+					break;
+				case Direction.DOWN:
+					dy+=movingProgress;
+					break;
+				default:
+					break;
+			}
+		}
+		g.drawImage(img,dx,dy,null);
+		
+		//g.setColor(Color.lightGray);
+		//g.fillRect(dx,dy,cont.getSquareSize(),cont.getSquareSize());
+	}
+
+	public boolean isDigThrough()
+	{
+		return true;
+	}
+	
+	public boolean dig(int direction)
+	{
+		c.increaseDiamonds();
+		c.delBlock(this);
+		return true;
+	}
+	public boolean move(int direction)
+	{
+		if(!moving) {
+			if(direction==Direction.DOWN) {
+				if(c.isFree(x,y+1)) {
+					moving= true;
+					movingDirection = Direction.DOWN;
+					return true;
+				}
+			}else if(direction==Direction.LEFT) {
+				if(c.isFree(x-1,y)) {
+					moving= true;
+					movingDirection = Direction.LEFT;
+					return true;
+				}
+			}else if(direction==Direction.RIGHT) { 
+				if(c.isFree(x+1,y)) {
+					moving = true;
+					movingDirection = Direction.RIGHT;
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public boolean isMoving()
+	{
+		return moving;
+	}
+	public boolean isSlippery()
+	{
+		return true;
+	}
+
+	public int getMovingPosX()
+	{
+		int newX = x;
+		if(moving) {
+			switch(movingDirection) {
+				case Direction.LEFT:
+					newX--;
+					break;
+				case Direction.RIGHT:
+					newX++;
+					break;
+				default:
+					break;
+			}
+		}
+		return newX;
+	}
+
+	public int getMovingPosY()
+	{
+		int newY = y;
+		if(moving) {
+			switch(movingDirection) {
+				case Direction.UP:
+					newY--;
+					break;
+				case Direction.DOWN:
+					newY++;
+					break;
+				default:
+					break;
+			}
+		}
+		return newY;
+	}
+
+}

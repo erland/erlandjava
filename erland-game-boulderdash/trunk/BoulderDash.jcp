@@ -1,0 +1,34 @@
+! ** JCreator Project File (C)2000
+! ********** DO NOT EDIT *********
+
+VERSION := "1.10"
+LABEL := "BoulderDash"
+JDKPROFILE := "JDK version 1.3.1"
+ACTIVE := "1"
+OUTPUTPATH := ".\\"
+COMPILER := "Ant"
+
+! Start RunTime Configuration Structure
+#[BeginRunTime]LABEL := "<Default>" RUNAPPLIC := "<Default>" RUNAPPLET := "Internet Explorer" PARAM := "" RUN := "BoulderDash.html" CHECK := "10" #[EndRunTime]
+! Start Required Libraries Structure
+#[BeginRLibrary]LABEL := "erland.util" #[EndRLibrary]
+#[BeginRLibrary]LABEL := "erland.game" #[EndRLibrary]
+
+! Start Project Folder Structure
+#[BeginFolder]
+LABEL := "Root"
+FILTER := ""
+
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\BlockBoulder.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\BlockEarth.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\BlockDiamond.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\LevelFactory.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\BoulderDashMain.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\BoulderDash.java" #[EndFile]
+#[BeginFile]SOURCE := "BoulderDash.html" #[EndFile]
+#[BeginFile]SOURCE := "BoulderDash.bat" #[EndFile]
+#[BeginFile]SOURCE := "build.xml" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\Block.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\BoulderDashContainerInterface.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\Player.java" #[EndFile]
+#[EndFolder]
