@@ -17,15 +17,15 @@
             String broker = (String) it.next();
             String brokerString = environment.getBrokers().getBrokerName(broker);
             %>
-            <tr><a class="bold-link" href="portal?do=stockaccountnewmultiple&value=&broker=<%=broker%>&addcmd=stockaccountaddmultiple"><%=brokerString%> : Lägg till (antal aktier)</a></td></tr>
+            <tr><td><a class="bold-link" href="portal?do=stockaccountnewmultiple&value=&broker=<%=broker%>&addcmd=stockaccountaddmultiple"><%=brokerString%> : Lägg till (för värde)</a></td></tr>
             <%
         }
         %>
         </table>
         <table class="no-border">
-        <tr><td><p class="bold">Mäklare</p></td><td><p class="bold">Aktie</p></td><td><p class="bold">Datum</p></td><td><p class="bold">Antal</p></td><td><p class="bold">Värde</p></td></tr>
+        <tr><td><p class="bold">Mäklare</p></td><td><p class="bold">Aktie</p></td><td><p class="bold">Datum</p></td><td><p class="bold">Värde</p></td></tr>
         <%
-        it = account.getPurchaseOnceEntries().iterator();
+        it = account.getPurchaseContinouslyEntries().iterator();
         while(it.hasNext()) {
             StockAccountTransaction entry = (StockAccountTransaction) it.next();
             %>
@@ -33,10 +33,10 @@
             <td><%=environment.getBrokers().getBrokerName(entry.getBroker())%></td>
             <td><%=environment.getBrokers().getStockName(entry.getBroker(),entry.getStock())%></td>
             <td><%=dateFormat.format(entry.getDate())%></td>
-            <td><%=entry.getNumber()!=0?""+entry.getNumber():""%></td>
             <td><%=entry.getValue()!=0?""+entry.getValue():""%></td>
             <td>
             <a class="bold-link" href="portal?do=stockaccountremovemultiple&broker=<%=entry.getBroker()%>&stock=<%=entry.getStock()%>&purchasedate=<%=dateFormat.format(entry.getDate())%>" onClick="return confirm('Är du säker på att du vill ta bort denna ?')">Ta bort</a>
+            </td>
             </tr>
 <%      } %>
         </table>
