@@ -25,7 +25,7 @@
                 <column>mail</column>
                 <type>String</type>
             </field>
-            <field id="password">
+            <field id="encryptedPassword">
                 <column>password</column>
                 <type>String</type>
             </field>
