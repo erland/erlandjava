@@ -495,7 +495,7 @@
             scope="request">
             <forward name="show-all-metadata-link" path="/do/user/viewresolutionimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;showAll=true"/>
             <forward name="show-selected-metadata-link" path="/do/user/viewresolutionimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
-            <forward name="picture-image" path="/do/user/loadresolutionimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;useCache=false"/>
+            <forward name="picture-image" path="/do/user/loadresolutionimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
             <forward name="success" path=".user.viewresolutionimage"/>
             <forward name="failure" path="/images/thumbnailna.gif"/>
         </action>
@@ -508,7 +508,7 @@
             scope="request">
             <forward name="show-all-metadata-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;showAll=true"/>
             <forward name="show-selected-metadata-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
-            <forward name="picture-image" path="/do/guest/loadimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;useCache=false"/>
+            <forward name="picture-image" path="/do/guest/loadimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
             <forward name="success" path=".guest.viewimage"/>
             <forward name="failure" path="/images/thumbnailna.gif"/>
         </action>
@@ -931,7 +931,7 @@
             parameter="useskin">
             <forward name="show-all-metadata-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;showAll=true[skin,&amp;skin={skin}]"/>
             <forward name="show-selected-metadata-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}[skin,&amp;skin={skin}]"/>
-            <forward name="picture-image" path="/do/guest/loadimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;useCache=false"/>
+            <forward name="picture-image" path="/do/guest/loadimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
             <forward name="success" path=".skin.viewimage"/>
             <forward name="failure" path="/images/thumbnailna.gif"/>
 
