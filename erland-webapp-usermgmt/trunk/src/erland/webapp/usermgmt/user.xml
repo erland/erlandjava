@@ -21,6 +21,10 @@
                 <column>lastname</column>
                 <type>String</type>
             </field>
+            <field id="mail">
+                <column>mail</column>
+                <type>String</type>
+            </field>
             <field id="password">
                 <column>password</column>
                 <type>String</type>

@@ -34,6 +34,7 @@ public class User implements EntityInterface {
     private String password;
     private String firstName;
     private String lastName;
+    private String mail;
     private boolean isValid;
     private Set roles;
     private WebAppEnvironmentInterface environment;
@@ -114,6 +115,14 @@ public class User implements EntityInterface {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     private Set getApplicationRoleList(String application) {
