@@ -244,6 +244,12 @@
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5000" />
     </configuration>
+    <configuration name="Pipes" type="Application" default="false" selected="true">
+      <option name="MAIN_CLASS_NAME" value="erland.game.pipes.Pipes" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
   </component>
   <component class="com.intellij.ide.SelectInManager" />
   <component class="com.intellij.ide.bookmarks.BookmarkManager" />
@@ -301,6 +307,15 @@
   </component>
   <component class="com.intellij.projectRoots.ProjectRootContainer">
     <jdk name="java version &quot;1.3.1&quot;" />
+    <root file="file://$PROJECT_DIR$/classes">
+      <property name="type" value="outputPath" />
+    </root>
+    <root file="jar://$PROJECT_DIR$/lib/game.jar!/">
+      <property name="type" value="classPathEntry" />
+    </root>
+    <root file="jar://$PROJECT_DIR$/lib/util.jar!/">
+      <property name="type" value="classPathEntry" />
+    </root>
     <root file="file://$PROJECT_DIR$">
       <property name="type" value="projectFiles" />
     </root>
