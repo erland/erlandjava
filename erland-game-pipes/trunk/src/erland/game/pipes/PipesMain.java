@@ -87,6 +87,8 @@ class PipesMain
 	protected int gameType;
 	/** Description countdown */
 	protected int descriptionCounter;
+	/** Indicates if the blocks has been drawn at least once */
+	protected boolean drawnOnce;
 	
 	/**
 	 * Creates a new instance of the main game class
@@ -211,6 +213,7 @@ class PipesMain
 	 */
 	protected void initLevel()
 	{
+		drawnOnce=false;
 		blocks = levelFactory.getLevel(level);
 		for (int i=0; i<blocks.length; i++) {
 			blocks[i].updateBlock();
@@ -245,11 +248,16 @@ class PipesMain
 		}
 		g.setColor(Color.blue);
 		g.drawRect(offsetX, offsetY, gameSizeX-1,gameSizeY-1);
-		
+		if(!drawnOnce) {
+			g.clearRect(offsetX+1,offsetY+1,gameSizeX-3,gameSizeY-3);
+		}
 		if(blocks!=null) {
 			for (int i=0; i<blocks.length; i++) {
-				blocks[i].draw(g);
+				if(blocks[i].needRedraw() || !drawnOnce) {
+					blocks[i].draw(g);
+				}
 		    }
+		    drawnOnce = true;
 		}else {
 			drawGameDescription(g,gameType);
 		}
@@ -258,7 +266,7 @@ class PipesMain
 			g.setColor(Color.white);
 			g.drawRect(selectedBlock.getMovingDrawingPosX(),
 			selectedBlock.getMovingDrawingPosY(),
-			cont.getSquareSize(),cont.getSquareSize());
+			cont.getSquareSize()-1,cont.getSquareSize()-1);
 		}
 
 		int rightColumnX = offsetX+gameSizeX+20;
@@ -497,6 +505,9 @@ class PipesMain
 			int blockPosY = (y-offsetY-1)/blockSize;
 			for (int i=0; i<blocks.length; i++) {
 				if(blockPosX==blocks[i].getPosX() && blockPosY==blocks[i].getPosY()) {
+					if(selectedBlock!=null) {
+						selectedBlock.setRedraw(true);
+					}
 					selectedBlock = blocks[i];
 					break;
 				}
@@ -510,6 +521,9 @@ class PipesMain
 	 */
 	public void handleLeftMouseReleased(int x, int y)
 	{
+		if(selectedBlock!=null) {
+			selectedBlock.setRedraw(true);
+		}
 		selectedBlock = null;
 	}
 

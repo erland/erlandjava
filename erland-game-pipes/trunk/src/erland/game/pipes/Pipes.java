@@ -268,12 +268,15 @@ public class Pipes extends Applet
 			offScreen = imag.getGraphics();
 			offScreen.setColor(getBackground());
 		}
-		offScreen.clearRect(0,0,width,height);
 		offScreen.setColor(Color.blue);
 		if(main!=null) {
+			offScreen.clearRect(320,0,width-320,height);
 			main.draw(offScreen);
 		}else if(options != null) {
+			offScreen.clearRect(0,0,width,height);
 			options.draw(offScreen);
+		}else {
+			offScreen.clearRect(0,0,width,height);
 		}
 		g.drawImage(imag,0,0,null);
 	}
@@ -364,7 +367,8 @@ public class Pipes extends Applet
 		/*You can change the string value to show your desired label*/
 		/*for the frame */
 		myFrame = new Frame ("Pipes");
-		
+        myFrame.setBackground(Color.black);
+
 		/*Create a instance. */
 		Pipes myApp = new Pipes();         /*Add the current application to the Frame */
 		myFrame.add ("Center",myApp);
