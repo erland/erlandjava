@@ -62,6 +62,9 @@
     <tr><td><bean:message key="gallery.gallery.edit.thumbnailwidth"/></td><td>
     <html:text property="thumbnailWidthDisplay"/>
     </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.thumbnailheight"/></td><td>
+    <html:text property="thumbnailHeightDisplay"/>
+    </td></tr>
     <tr><td><bean:message key="gallery.gallery.edit.noofrows"/></td><td>
     <html:text property="noOfRowsDisplay"/>
     </td></tr>
@@ -79,6 +82,9 @@
     </td></tr>
     <tr><td><bean:message key="gallery.gallery.edit.showpicturetitle"/></td><td>
     <html:checkbox property="showPictureTitleDisplay" value="true"/>
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.showpicturedescription"/></td><td>
+    <html:checkbox property="showPictureDescriptionDisplay" value="true"/>
     </td></tr>
     <tr><td><bean:message key="gallery.gallery.edit.official"/></td><td>
     <html:checkbox property="official" value="true"/>
@@ -118,6 +124,9 @@
             </td></tr>
         </logic:notEqual>
     </logic:notEmpty>
+    <tr><td><bean:message key="gallery.gallery.edit.forcepictureupdate"/></td><td>
+    <html:checkbox property="forcePictureUpdateDisplay" value="true"/>
+    </td></tr>
     <tr><td></td><td>
     <html:submit><bean:message key="gallery.buttons.save"/></html:submit>
     </td></tr>
