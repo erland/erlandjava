@@ -70,6 +70,7 @@ public class FullScreenHandler implements ScreenHandlerInterface, ImageCreatorIn
                 getLocalGraphicsEnvironment();
             device = env.getDefaultScreenDevice();
             GraphicsConfiguration gc = device.getDefaultConfiguration();
+            NullRepaintManager.install();
             mainFrame = new JFrame(gc);
             mainFrame.getContentPane().setLayout(null);
             mainFrame.getContentPane().setIgnoreRepaint(true);
@@ -271,6 +272,29 @@ public class FullScreenHandler implements ScreenHandlerInterface, ImageCreatorIn
 
     public boolean isExit() {
         return bQuit;
+    }
+    private static class NullRepaintManager extends RepaintManager {
+        public static void install() {
+            RepaintManager repaintManager = new NullRepaintManager();
+            repaintManager.setDoubleBufferingEnabled(false);
+            RepaintManager.setCurrentManager(repaintManager);
+
+        }
+        public void addInvalidComponent(JComponent invalidComponent) {
+            // Do nothing
+        }
+
+        public void addDirtyRegion(JComponent c, int x, int y, int w, int h) {
+            // Do nothing
+        }
+
+        public void markCompletelyDirty(JComponent aComponent) {
+            // Do nothing
+        }
+
+        public void paintDirtyRegions() {
+            // Do nothing
+        }
     }
 }
 
