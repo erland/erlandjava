@@ -13,7 +13,7 @@
     <html:hidden property="typeDisplay"/>
     <tr><td><bean:message key="diary.inventory.edit.species"/></td><td>
     <html:select property="speciesDisplay" size="1">
-        <html:option value=""/>
+        <html:option value="" key="diary.inventory.edit.species.none"/>
         <html:options collection="speciesPB" property="idDisplay" labelProperty="name" />
     </html:select>
     </td></tr>
