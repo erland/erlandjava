@@ -75,6 +75,15 @@
     <definition name=".user.editskin" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/skin/editskin.jsp"/>
     </definition>
+    <definition name=".user.edittasks" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/tasks/edittasks.jsp"/>
+    </definition>
+    <definition name=".user.viewtaskstatus" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/tasks/viewtasks.jsp"/>
+    </definition>
+    <definition name=".user.viewusertaskstatus" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/tasks/viewusertasks.jsp"/>
+    </definition>
     <definition name=".user.viewfilters" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/gallery/filter/viewfilters.jsp"/>
     </definition>
