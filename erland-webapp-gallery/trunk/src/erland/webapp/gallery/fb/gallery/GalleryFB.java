@@ -29,7 +29,9 @@ import erland.webapp.common.ServletParameterHelper;
 public class GalleryFB extends BaseFB {
     private Integer id;
     private String title;
+    private String titleEnglish;
     private String description;
+    private String descriptionEnglish;
     private Boolean official;
     private Integer topCategory;
     private Integer referencedGallery;
@@ -55,7 +57,12 @@ public class GalleryFB extends BaseFB {
     private Boolean showPictureTitle;
     private Boolean showResolutionLinks;
     private Boolean forcePictureUpdate;
-    private Boolean showPictureDescription;
+    private String pictureTitle;
+    private String thumbnailPictureTitle;
+    private String thumbnailRow1;
+    private String thumbnailRow2;
+    private String thumbnailRow3;
+    private String copyrightText;
 
     public Integer getId() {
         return id;
@@ -81,12 +88,28 @@ public class GalleryFB extends BaseFB {
         this.title = title;
     }
 
+    public String getTitleEnglish() {
+        return titleEnglish;
+    }
+
+    public void setTitleEnglish(String titleEnglish) {
+        this.titleEnglish = titleEnglish;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getDescriptionEnglish() {
+        return descriptionEnglish;
+    }
+
+    public void setDescriptionEnglish(String descriptionEnglish) {
+        this.descriptionEnglish = descriptionEnglish;
     }
 
     public Boolean getOfficial() {
@@ -455,22 +478,6 @@ public class GalleryFB extends BaseFB {
         this.forcePictureUpdate = ServletParameterHelper.asBoolean(forcePictureUpdateDisplay,Boolean.FALSE);
     }
 
-    public Boolean getShowPictureDescription() {
-        return showPictureDescription;
-    }
-
-    public void setShowPictureDescription(Boolean showPictureDescription) {
-        this.showPictureDescription = showPictureDescription;
-    }
-
-    public String getShowPictureDescriptionDisplay() {
-        return ServletParameterHelper.asString(showPictureDescription,null);
-    }
-
-    public void setShowPictureDescriptionDisplay(String showPictureDescriptionDisplay) {
-        this.showPictureDescription = ServletParameterHelper.asBoolean(showPictureDescriptionDisplay,Boolean.FALSE);
-    }
-
     public Integer getThumbnailHeight() {
         return thumbnailHeight;
     }
@@ -487,14 +494,64 @@ public class GalleryFB extends BaseFB {
         this.thumbnailHeight = ServletParameterHelper.asInteger(thumbnailHeightDisplay,null);
     }
 
+    public String getThumbnailPictureTitle() {
+        return thumbnailPictureTitle;
+    }
+
+    public void setThumbnailPictureTitle(String thumbnailPictureTitle) {
+        this.thumbnailPictureTitle = thumbnailPictureTitle;
+    }
+
+    public String getPictureTitle() {
+        return pictureTitle;
+    }
+
+    public void setPictureTitle(String pictureTitle) {
+        this.pictureTitle = pictureTitle;
+    }
+
+    public String getThumbnailRow1() {
+        return thumbnailRow1;
+    }
+
+    public void setThumbnailRow1(String thumbnailRow1) {
+        this.thumbnailRow1 = thumbnailRow1;
+    }
+
+    public String getThumbnailRow2() {
+        return thumbnailRow2;
+    }
+
+    public void setThumbnailRow2(String thumbnailRow2) {
+        this.thumbnailRow2 = thumbnailRow2;
+    }
+
+    public String getThumbnailRow3() {
+        return thumbnailRow3;
+    }
+
+    public void setThumbnailRow3(String thumbnailRow3) {
+        this.thumbnailRow3 = thumbnailRow3;
+    }
+
+    public String getCopyrightText() {
+        return copyrightText;
+    }
+
+    public void setCopyrightText(String copyrightText) {
+        this.copyrightText = copyrightText;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         id = null;
         categories = null;
         description = null;
+        descriptionEnglish = null;
         official = Boolean.FALSE;
         referencedGallery = null;
         title = null;
+        titleEnglish = null;
         topCategory = null;
         defaultResolution = null;
         maxWidth = null;
@@ -517,6 +574,11 @@ public class GalleryFB extends BaseFB {
         showPictureTitle = Boolean.FALSE;
         showResolutionLinks = Boolean.FALSE;
         forcePictureUpdate = Boolean.FALSE;
-        showPictureDescription = Boolean.FALSE;
+        pictureTitle = null;
+        thumbnailPictureTitle = null;
+        thumbnailRow1 = null;
+        thumbnailRow2 = null;
+        thumbnailRow3 = null;
+        copyrightText = null;
     }
 }
