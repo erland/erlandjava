@@ -51,6 +51,7 @@ public class BeanMenuItemTag extends TagSupport {
     private String id;
     private String style;
     private String styleSelected;
+    private String target;
     private String roles;
 
     public void setBean(String bean) {
@@ -83,6 +84,10 @@ public class BeanMenuItemTag extends TagSupport {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
     }
 
     public void setId(String id) {
@@ -222,8 +227,14 @@ public class BeanMenuItemTag extends TagSupport {
         for (int i = 0; i < items.length; i++) {
             Object item = items[i];
             String id = (String) PropertyUtils.getProperty(item, this.id);
-            String titleKey = (String) PropertyUtils.getProperty(item, this.titleKey);
-            String title = (String) PropertyUtils.getProperty(item, this.title);
+            String titleKey = null;
+            if(this.titleKey!=null) {
+                titleKey = (String) PropertyUtils.getProperty(item, this.titleKey);
+            }
+            String title = null;
+            if(this.title!=null) {
+                title = (String) PropertyUtils.getProperty(item, this.title);
+            }
             String page = (String) PropertyUtils.getProperty(item, this.page);
             if (parentId != null && parentId.length() > 0) {
                 id = parentId + "-" + id;
@@ -238,7 +249,7 @@ public class BeanMenuItemTag extends TagSupport {
             if(indent>0) {
                 out.write("<img src=\""+((HttpServletRequest)pageContext.getRequest()).getContextPath()+getIndentImage()+"\" width=\""+(getIndentWidth()*indent)+"\" height=\"1\"></img>");
             }
-            out.write("<a " + (style != null ? "class=\"" + style + "\" " : "") + "href=\"" + addContextPath(ServletParameterHelper.replaceDynamicParameters((String) page, getParameterMap(item, getMenuId(), (String) id))) + "\">");
+            out.write("<a " + (style != null ? "class=\"" + style + "\" " : "") + "href=\"" + addContextPath(ServletParameterHelper.replaceDynamicParameters((String) page, getParameterMap(item, getMenuId(), (String) id))) + "\""+(target!=null?" target=\""+target+"\"":"")+">");
             if (title != null) {
                 out.write((String) title);
             }else if(titleKey != null) {
