@@ -3,6 +3,13 @@
 	<property environment="env"/>
     <property file="${env.ERLAND_ANT_BUILD_PROPERTIES}"/>
 
+  <target name="init" unless="buildutil">
+    <get dest="buildutil.xml" usetimestamp="true" ignoreerrors="false" src="http://erland.homeip.net/~ant/buildutil.xml"/>
+    <property name="buildutil" value="${basedir}/buildutil.xml"/>
+    <get dest="build.properties" usetimestamp="true" ignoreerrors="false" src="http://erland.homeip.net/~ant/build.properties"/>
+	<property file="build.properties"/>
+  </target>
+
     <target name="buildlibraries">
         <!-- Make sure to build other project this depend on -->
         <ant dir="../common"/>
@@ -17,14 +24,14 @@
         </copy>
     </target>
 
-    <target name="Make archive">
+    <target name="Make archive" depends="init">
         <antcall target="Clean All"/>
         <antcall target="Build Application"/>
         <ant dir="${basedir}" antfile="${buildutil}" target="makedeliverable">
             <property name="currentproject" value="${ant.project.name}"/>
         </ant>
     </target>
-    <target name="Make archive (Debug)">
+    <target name="Make archive (Debug)" depends="init">
         <antcall target="Clean All"/>
         <antcall target="Build Application (Debug)"/>
         <ant dir="${basedir}" antfile="${buildutil}" target="makedeliverable">
@@ -32,7 +39,7 @@
         </ant>
     </target>
 
-    <target name="Build Application">
+    <target name="Build Application" depends="init">
         <antcall target="buildlibraries"/>
         <property name="nojarsign" value="true"/>
         <ant dir="${basedir}" antfile="${buildutil}" target="dist">
@@ -42,12 +49,12 @@
         </ant>
         <antcall target="copylibraries"/>
     </target>
-    <target name="Build Application (Debug)">
+    <target name="Build Application (Debug)" depends="init">
         <property name="debug" value="true"/>
         <antcall target="Build Application"/>
     </target>
 
-    <target name="Documentation">
+    <target name="Documentation" depends="init">
         <ant dir="../common" target="Documentation"/>
         <ant dir="${basedir}" antfile="${buildutil}" target="doc">
             <property name="currentproject" value="${ant.project.name}"/>
@@ -55,7 +62,7 @@
             <property name="projectclasspath" value="${java.home.j2ee};${java.home.securityfilter.lib};${java.home.beanutils};../common/${dist}/webcommon.jar;../../common/util/${dist}/util.jar"/>
         </ant>
     </target>
-    <target name="Public Documentation">
+    <target name="Public Documentation" depends="init">
         <ant dir="../common" target="Public Documentation"/>
         <ant dir="${basedir}" antfile="${buildutil}" target="docpublic">
             <property name="currentproject" value="${ant.project.name}"/>
@@ -64,10 +71,10 @@
         </ant>
     </target>
 
-    <target name="Clean All" depends="Clean This">
+    <target name="Clean All" depends="init,Clean This">
         <ant dir="../common" target="Clean This"/>
     </target>
-    <target name="Clean This">
+    <target name="Clean This" depends="init">
         <ant dir="${basedir}" antfile="${buildutil}" target="clean"/>
     </target>
 </project>
