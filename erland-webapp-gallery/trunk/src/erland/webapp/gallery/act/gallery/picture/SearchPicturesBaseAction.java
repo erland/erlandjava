@@ -185,6 +185,7 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
             }
         }
         pictureParameters.put("contextpath",request.getContextPath());
+        pictureParameters.put("user",username);
         PicturePB[] picturesPB = new PicturePB[entities.length];
         ActionForward updateForward = mapping.findForward("picture-update-link");
         ActionForward removeForward = mapping.findForward("picture-remove-link");
@@ -224,6 +225,14 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         }
         Map currentLinkPictureParameters = new HashMap();
         Map currentParameters = new HashMap();
+        currentParameters.put("user",username);
+        if(StringUtil.asNull(request.getServerName())!=null) {
+            currentParameters.put("hostname",request.getServerName());
+            if(request.getServerPort()!=80) {
+                currentParameters.put("port",new Integer(request.getServerPort()));
+            }
+        }
+        currentParameters.put("contextpath",request.getContextPath());
         Enumeration enum = request.getParameterNames();
         while (enum.hasMoreElements()) {
             String parameter = (String) enum.nextElement();
@@ -524,7 +533,10 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         for (int i = 0; i < properties.length; i++) {
             PropertyDescriptor property = properties[i];
             try {
-                map.put(property.getName(),PropertyUtils.getProperty(fb,property.getName()));
+                Object value = PropertyUtils.getProperty(fb,property.getName());
+                if(value!=null && StringUtil.asNull(value.toString())!=null) {
+                    map.put(property.getName(),value);
+                }
             } catch (IllegalAccessException e) {
             } catch (InvocationTargetException e) {
             } catch (NoSuchMethodException e) {
