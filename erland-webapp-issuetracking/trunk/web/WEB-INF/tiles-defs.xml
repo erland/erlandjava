@@ -35,10 +35,10 @@
         <put name="body" value="/WEB-INF/tiles/common/login.jsp"/>
     </definition>
 
-    <definition name=".user.newuseraccount" extends=".user.index">
+    <definition name=".user.newuseraccount" extends=".index">
         <put name="body" value="/WEB-INF/tiles/account/newuseraccount.jsp"/>
     </definition>
-    <definition name=".user.newuseraccount.success" extends=".user.index"/>
+    <definition name=".user.newuseraccount.success" extends=".index"/>
 
     <definition name=".user.index" extends=".mainLayout">
         <put name="menu" value="/WEB-INF/tiles/common/usermenu.jsp"/>
