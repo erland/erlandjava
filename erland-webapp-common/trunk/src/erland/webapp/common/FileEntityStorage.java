@@ -105,6 +105,7 @@ public class FileEntityStorage implements EntityStorageInterface {
     public EntityInterface load(EntityInterface template) {
         EntityInterface entity = null;
         try {
+            Log.println(this,"load called");
             Set fields = PropertyUtils.describe(template).keySet();
             File file = null;
             EntityInterface temp = environment.getEntityFactory().create(entityName);
@@ -145,6 +146,7 @@ public class FileEntityStorage implements EntityStorageInterface {
                 }
                 Log.println(this,"Read entry: "+entity);
             }else {
+                Log.println(this,"File does not exist");
                 entity = null;
             }
         } catch (IllegalAccessException e) {
@@ -170,6 +172,7 @@ public class FileEntityStorage implements EntityStorageInterface {
     public EntityInterface[] search(FilterInterface filter) {
         EntityInterface[] entities=new EntityInterface[0];
         try {
+            Log.println(this,"search called");
             if(filter instanceof QueryFilter) {
                 EntityInterface entity=environment.getEntityFactory().create(entityName);
                 Set fields = PropertyUtils.describe(entity).keySet();
@@ -185,6 +188,7 @@ public class FileEntityStorage implements EntityStorageInterface {
                 }
 
                 String directory = (String)((QueryFilter)filter).getAttribute("directory");
+                Log.println(this,"directory="+directory);
                 if(directory!=null && directory.length()>0) {
                     File dir = new File(directory);
                     if(dir.exists() && dir.isDirectory()) {
@@ -193,12 +197,15 @@ public class FileEntityStorage implements EntityStorageInterface {
                         if(extensions!=null && extensions.length()>0) {
                             fileFilter= new FileExtensionFilter(extensions);
                         }
+                        Log.println(this,"extensions="+extensions);
                         Boolean tree =  (Boolean)((QueryFilter)filter).getAttribute("tree");
                         if(tree==null) {
                             tree = Boolean.FALSE;
                         }
+                        Log.println(this,"tree="+tree);
 
                         Boolean directoriesOnly = (Boolean) ((QueryFilter)filter).getAttribute("directoriesonly");
+                        Log.println(this,"directoriesonly="+directoriesOnly);
                         if(directoriesOnly!=null && directoriesOnly.booleanValue()) {
                             if(fileFilter!=null) {
                                 fileFilter = new FileMultipleAndFilter(fileFilter,new FileDirectoryFilter());
@@ -213,6 +220,7 @@ public class FileEntityStorage implements EntityStorageInterface {
                             }
                         }
                         File[] files = getFilesInDir(dir,fileFilter,tree.booleanValue());
+                        Log.println(this,"Got "+(files.length)+" files/directories");
                         Arrays.sort(files,orderByDate);
                         entities = new EntityInterface[files.length];
                         for (int i = 0; i < files.length; i++) {
@@ -231,6 +239,8 @@ public class FileEntityStorage implements EntityStorageInterface {
                             entities[i]=entity;
                             Log.println(this,"Read entry: "+entity);
                         }
+                    }else {
+                        Log.println(this,"directory does not exist");
                     }
                 }
             }

@@ -1,5 +1,8 @@
 package erland.webapp.common.tags.menu;
 
+import erland.util.Log;
+import erland.util.StringUtil;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
@@ -143,6 +146,9 @@ public class MenuItemSeparatorTag extends TagSupport implements MenuItemInterfac
 
     public int doStartTag() throws JspException {
         JspWriter out = pageContext.getOut();
+        if(Log.isEnabled(this,Log.DEBUG)) {
+            Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
+        }
         String menuObjName = getMenuId();
         String menuObj = (String) pageContext.getAttribute(menuObjName,PageContext.SESSION_SCOPE);
         if((getParentId().length()==0 || (menuObj!=null && menuObj.startsWith(getParentId()))) && (isUserInRole(roles))) {

@@ -1,6 +1,8 @@
 package erland.webapp.common.tags;
 
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
+import erland.util.Log;
+import erland.util.StringUtil;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -37,6 +39,9 @@ public class ConfigurableResourceTag extends TagSupport {
     }
 
     public int doStartTag() throws JspException {
+        if(Log.isEnabled(this,Log.DEBUG)) {
+            Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
+        }
         try {
             // getJspWriter to output content
             JspWriter out = pageContext.getOut();

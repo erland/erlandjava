@@ -1,6 +1,8 @@
 package erland.webapp.common.tags.calendar;
 
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.Log;
+import erland.util.StringUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -156,6 +158,9 @@ public class CalendarTag extends TagSupport {
     public int doStartTag() throws JspException {
         try {
             JspWriter out = pageContext.getOut();
+            if(Log.isEnabled(this,Log.DEBUG)) {
+                Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
+            }
             Calendar cal = Calendar.getInstance();
             String month = this.month;
             String year = this.year;
