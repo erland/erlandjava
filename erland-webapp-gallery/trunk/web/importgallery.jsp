@@ -8,12 +8,18 @@ been exported from the <a class="bold-link" href="http://www.photools.com/" targ
 <li>Select the category or database you want to export
 <li>Choose menu: Database->Import and Export...
 <li>Choose the export module: Export to Text Format
-<li>Select the following image attributes and change nothing else
+<li>Select the following image attributes
 <ul>
 <li>Full File Name
 <li>Last Modified
 <li>Image Object Identifier (OID)
 <li>Categories (fully qualified)
+</ul>
+</li>
+<li>Select the following image properties
+<ul>
+<li>Title
+<li>Description
 </ul>
 </li>
 <li>Save the export file on a web server where this web service can access it. Enter the path to the file below
@@ -37,10 +43,10 @@ select the option "Pictures not available on internet" below.
     <tr><td>Pictures not available on internet</td><td>
     <input type="checkbox" name="locallinks" value="true" checked>
     </td></tr>
-    <tr><td>Use file names as picture title</td><td>
+    <tr><td>Use file names as picture title if no title is available</td><td>
     <input type="checkbox" name="filenameaspicturetitle" value="true" checked>
     </td></tr>
-    <tr><td>Use file names as picture description</td><td>
+    <tr><td>Use file names as picture description if no description is available</td><td>
     <input type="checkbox" name="filenameaspicturedescription" value="true" checked>
     </td></tr>
     <tr><td>Cut long picture titles (more than 30 characters)</td><td>
