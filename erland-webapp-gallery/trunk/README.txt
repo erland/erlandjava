@@ -56,6 +56,8 @@ This source archive should contain the following files:
 There are a number of database configuration scripts in the database directory.
 I personally run the application in three different databases, but it is also
 be possible to put all tables in the same database.
+There are also upgrade scripts available to upgrade a database created in some
+of the previous versions.
 Anyway here are a short description of the scripts:
 
 Table creation scripts:
@@ -65,6 +67,17 @@ Table creation scripts:
   Creates the tables needed in the database which will be accessed as jdbc/gallery
 - users.sql
   Creates the tables needed in the database which will be accessed as jdbc/users
+
+Table upgrade scripts:
+- common_upgrade_x_y.sql
+  Upgrades the tables in the database which will be accessed as jdbc/common from a
+  database created previously in version x.y
+- gallery_upgrade_x_y.sql
+  Creates the tables in the database which will be accessed as jdbc/gallery from a
+  database created previously in version x.y
+- users_upgrade_x_y.sql
+  Creates the tables in the database which will be accessed as jdbc/users from a
+  database created previously in version x.y
 
 Data scripts:
 - common_data.sql
