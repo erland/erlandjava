@@ -4,6 +4,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.StringTokenizer;
@@ -27,7 +28,7 @@ import java.util.StringTokenizer;
  * 
  */
 
-public class MenuItemSeparatorTag extends BodyTagSupport implements MenuItemInterface {
+public class MenuItemSeparatorTag extends TagSupport implements MenuItemInterface {
     private String id;
     private String style;
     private String styleSelected;
