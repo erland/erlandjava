@@ -1,6 +1,9 @@
 package erland.webapp.gallery.fb.gallery.picturestorage;
 
 import org.apache.struts.validator.ValidatorForm;
+import org.apache.struts.action.ActionMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -60,5 +63,12 @@ public class PictureStorageFB extends ValidatorForm {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
+        super.reset(actionMapping, httpServletRequest);
+        id = null;
+        name = null;
+        path = null;
     }
 }

@@ -1,6 +1,9 @@
 package erland.webapp.gallery.fb.guestaccount;
 
 import erland.webapp.gallery.fb.account.AccountFB;
+import org.apache.struts.action.ActionMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -30,5 +33,10 @@ public class GuestAccountFB extends AccountFB {
 
     public void setGuestUser(String guestUser) {
         this.guestUser = guestUser;
+    }
+
+    public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
+        super.reset(actionMapping, httpServletRequest);
+        guestUser = null;
     }
 }
