@@ -30,6 +30,7 @@ public class ApplicationVersionPB extends BasePB {
     private ApplicationFileFB[] files;
     private String name;
     private String title;
+    private String applicationLink;
     private String version;
     private String description;
 
@@ -87,5 +88,13 @@ public class ApplicationVersionPB extends BasePB {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getApplicationLink() {
+        return applicationLink;
+    }
+
+    public void setApplicationLink(String applicationLink) {
+        this.applicationLink = applicationLink;
     }
 }
