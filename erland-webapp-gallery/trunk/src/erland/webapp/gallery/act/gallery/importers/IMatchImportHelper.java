@@ -45,6 +45,7 @@ public class IMatchImportHelper extends ImportHelper {
                     line = bufferedReader.readLine();
                 }
 
+                clearUnusedCategories(galleryId);
                 updatePictures(galleryId);
                 return true;
             } catch (IOException e) {

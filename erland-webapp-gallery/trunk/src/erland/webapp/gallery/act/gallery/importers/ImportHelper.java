@@ -110,6 +110,20 @@ public class ImportHelper {
         getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").delete(filter);
         getEnvironment().getEntityStorageFactory().getStorage("gallery-categorypictureassociation").delete(filter);
     }
+
+    public static void clearUnusedCategories(Integer galleryId) {
+        QueryFilter filter = new QueryFilter("allforgallerynotused");
+        filter.setAttribute("gallery",galleryId);
+        EntityInterface[] categories = getEnvironment().getEntityStorageFactory().getStorage("gallery-category").search(filter);
+        for (int i = 0; i < categories.length; i++) {
+            Category category = (Category) categories[i];
+            QueryFilter memberFilter = new QueryFilter("allforgallerywithmember");
+            memberFilter.setAttribute("gallery",galleryId);
+            memberFilter.setAttribute("member",category.getCategory());
+            getEnvironment().getEntityStorageFactory().getStorage("gallery-categorymembership").delete(memberFilter);
+            getEnvironment().getEntityStorageFactory().getStorage("gallery-category").delete(category);
+        }
+    }
     public static long getFirstFreeOrderNo(Integer gallery) {
         long orderNoStart = 0;
         QueryFilter filter = new QueryFilter("allforgallerywithlimit","byordernodesc");

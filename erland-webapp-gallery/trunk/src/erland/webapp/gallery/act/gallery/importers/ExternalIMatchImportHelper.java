@@ -55,7 +55,8 @@ public class ExternalIMatchImportHelper extends ImportHelper {
                     Log.println(logInstance,"Parsing image "+ i++);
                     doImport(categories, galleryId, element, localLinks, filenameAsPictureTitle, filenameAsPictureDescription, clearAssociations, orderNoStart++);
                 }
-                Log.println(logInstance,"All image elements imported, updating visibility flags...");
+                Log.println(logInstance,"All image elements imported, removing unused categories and updating visibility flags...");
+                clearUnusedCategories(galleryId);
                 updatePictures(galleryId);
                 Log.println(logInstance,"Visibility flags updated");
                 return true;
