@@ -6,7 +6,7 @@
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
 <logic:notEmpty name="diaryEntriesPB">
-    <jsp:include page="calendar.jsp"/>
+    <tiles:insert page="/WEB-INF/tiles/common/calendar.jsp"/>
     <br>
     <table class="no-border-tight">
         <html:form action="/user/newdiaryentry" method="POST" type="" >
@@ -22,6 +22,10 @@
         <erland-common:menuitem id="new" titleKey="diary.menu.purchase.new" page="/do/user/newpurchaseentry" />
         <erland-common:menuitem id="all" titleKey="diary.menu.purchase.all" page="/do/user/viewpurchaseentries" />
         <erland-common:menuitem id="stats" titleKey="diary.menu.purchase.stats" page="/do/user/viewpurchasestats" />
+    </erland-common:menuitem>
+    <erland-common:menuitem id="containers" titleKey="diary.menu.containers" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" >
+        <erland-common:menuitem id="new" titleKey="diary.menu.containers.new" page="/do/user/newcontainer" />
+        <erland-common:beanmenuitem bean="menuContainersPB" id="idDisplay" title="name" page="path" childs="childs" />
     </erland-common:menuitem>
     <erland-common:menuitem id="inventory" titleKey="diary.menu.inventory" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" >
         <erland-common:menuitem id="new" titleKey="diary.menu.inventory.new" page="/do/user/newinventoryentry" />
