@@ -19,6 +19,9 @@
         <form-bean name="selectPictureFB" type="erland.webapp.gallery.fb.gallery.picture.SelectPictureFB"/>
         <form-bean name="searchPictureFB" type="erland.webapp.gallery.fb.gallery.picture.SearchPictureFB"/>
         <form-bean name="imageFB" type="erland.webapp.gallery.fb.loader.ImageFB"/>
+        <form-bean name="resolutionImageFB" type="erland.webapp.gallery.fb.loader.ThumbnailImageFB"/>
+        <form-bean name="metadataImageFB" type="erland.webapp.gallery.fb.loader.MetadataImageFB"/>
+        <form-bean name="metadataResolutionImageFB" type="erland.webapp.gallery.fb.loader.MetadataImageFB"/>
         <form-bean name="importFB" type="erland.webapp.gallery.fb.gallery.importers.ImportFB"/>
     </form-beans>
 
@@ -65,6 +68,9 @@
 
             <forward name="gallery" path="/do/user/menuviewgallery?menuName={menuId}&amp;menuItemId={menuItemId}&amp;gallery={gallery}"/>
             <forward name="category" path="/do/user/menuviewcategory?menuName={menuId}&amp;menuItemId={menuItemId}&amp;gallery={gallery}&amp;category={category}"/>
+            <forward name="guestuser" path="/do/user/menu?menuName={menuId}&amp;menuItemId={menuItemId}"/>
+            <forward name="guestusergallery" path="/do/user/menuviewguestusergallery?menuName={menuId}&amp;menuItemId={menuItemId}&amp;user={user}&amp;gallery={gallery}"/>
+            <forward name="guestusercategory" path="/do/user/menuviewguestusercategory?menuName={menuId}&amp;menuItemId={menuItemId}&amp;user={user}&amp;gallery={gallery}&amp;category={category}"/>
             <forward name="success" path="/do/user/viewdefaultgallery"/>
         </action>
         <action
@@ -142,6 +148,22 @@
             validate="false">
 
             <forward name="success" path="/do/user/viewpictures"/>
+        </action>
+        <action
+            path="/user/menuviewguestusercategory"
+            type="erland.webapp.common.act.MenuExpandCollapseAction"
+            name="mainMenuFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/viewguestpictures"/>
+        </action>
+        <action
+            path="/user/menuviewguestusergallery"
+            type="erland.webapp.common.act.MenuExpandCollapseAction"
+            name="mainMenuFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/viewguestpictures"/>
         </action>
 
         <action
@@ -242,7 +264,7 @@
             validate="false">
 
             <forward name="success" path=".user.viewpictures"/>
-            <forward name="picture-link" path="/do/user/loadimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}"/>
             <forward name="picture-update-link" path="/do/user/viewpicture?gallery={gallery}&amp;id={picture}"/>
             <forward name="picture-remove-link" path="/do/user/removepicture?gallery={gallery}&amp;id={picture}"/>
             <forward name="picture-image" path="/do/user/loadthumbnail?gallery={gallery}&amp;image={picture}"/>
@@ -252,17 +274,30 @@
         </action>
 
         <action
+            path="/user/viewguestpictures"
+            type="erland.webapp.gallery.act.gallery.picture.SearchPicturesAction"
+            name="selectPictureFB"
+            validate="false">
+
+            <forward name="success" path=".user.viewguestpictures"/>
+            <forward name="picture-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-image" path="/do/user/loadthumbnail?gallery={gallery}&amp;image={picture}"/>
+            <forward name="previous-link" path="/do/user/viewguestpictures?gallery={gallery}[category,&amp;category={category}]&amp;start={start}&amp;max={max}"/>
+            <forward name="next-link" path="/do/user/viewguestpictures?gallery={gallery}[category,&amp;category={category}]&amp;start={start}&amp;max={max}"/>
+            <forward name="search-link" path="/do/user/newguestsearch?gallery={gallery}&amp;max={max}"/>
+        </action>
+
+        <action
             path="/guest/viewpictures"
             type="erland.webapp.gallery.act.gallery.picture.SearchOfficialPicturesAction"
             name="selectPictureFB"
             validate="false">
 
             <forward name="success" path=".guest.viewpictures"/>
-            <forward name="picture-link" path="/do/guest/loadimage?gallery={gallery}&amp;image={picture}"/>
             <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}"/>
             <forward name="previous-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}&amp;max={max}"/>
-            <forward name="picture-resolution-link" path="/do/guest/loadresolutionimage?gallery={gallery}&amp;image={picture}"/>
-            <forward name="picture-resolution-link-complete" path="/do/guest/loadresolutionimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
+            <forward name="picture-resolution-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-resolution-link-complete" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
             <forward name="next-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}&amp;max={max}"/>
             <forward name="search-link" path="/do/guest/newsearch?user={user}&amp;gallery={gallery}&amp;max={max}"/>
         </action>
@@ -274,11 +309,25 @@
             validate="false">
 
             <forward name="success" path=".user.viewpictures"/>
-            <forward name="picture-link" path="/do/user/loadimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}"/>
             <forward name="picture-image" path="/do/user/loadthumbnail?gallery={gallery}&amp;image={picture}"/>
             <forward name="previous-link" path="/do/user/viewsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}&amp;max={max}"/>
             <forward name="next-link" path="/do/user/viewsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}&amp;max={max}"/>
             <forward name="search-link" path="/do/user/newsearch?gallery={gallery}&amp;max={max}"/>
+        </action>
+
+        <action
+            path="/user/viewguestsearchpictures"
+            type="erland.webapp.gallery.act.gallery.picture.AdvancedSearchPicturesAction"
+            name="searchPictureFB"
+            validate="false">
+
+            <forward name="success" path=".user.viewguestpictures"/>
+            <forward name="picture-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-image" path="/do/user/loadthumbnail?gallery={gallery}&amp;image={picture}"/>
+            <forward name="previous-link" path="/do/user/viewguestsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}&amp;max={max}"/>
+            <forward name="next-link" path="/do/user/viewguestsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}&amp;max={max}"/>
+            <forward name="search-link" path="/do/user/newguestsearch?gallery={gallery}&amp;max={max}"/>
         </action>
 
         <action
@@ -288,11 +337,10 @@
             validate="false">
 
             <forward name="success" path=".guest.viewpictures"/>
-            <forward name="picture-link" path="/do/guest/loadimage?gallery={gallery}&amp;image={picture}"/>
             <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}"/>
             <forward name="previous-link" path="/do/guest/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}&amp;max={max}"/>
-            <forward name="picture-resolution-link" path="/do/guest/loadresolutionimage?gallery={gallery}&amp;image={picture}"/>
-            <forward name="picture-resolution-link-complete" path="/do/guest/loadresolutionimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
+            <forward name="picture-resolution-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-resolution-link-complete" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
             <forward name="next-link" path="/do/guest/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}&amp;max={max}"/>
             <forward name="search-link" path="/do/guest/newsearch?user={user}&amp;gallery={gallery}&amp;max={max}"/>
         </action>
@@ -307,12 +355,60 @@
         </action>
 
         <action
+            path="/user/newguestsearch"
+            type="erland.webapp.gallery.act.gallery.picture.NewSearchPicturesAction"
+            name="searchPictureFB"
+            validate="false">
+
+            <forward name="success" path=".user.editguestsearch"/>
+        </action>
+
+        <action
             path="/guest/newsearch"
             type="erland.webapp.gallery.act.gallery.picture.NewOfficialSearchPicturesAction"
             name="searchPictureFB"
             validate="false">
 
             <forward name="success" path=".guest.editsearch"/>
+        </action>
+
+        <action
+            path="/user/viewimage"
+            type="erland.webapp.gallery.act.loader.LoadMetadataAction"
+            name="metadataImageFB"
+            validate="false"
+            scope="request">
+            <forward name="show-all-metadata-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}&amp;showAll=true"/>
+            <forward name="show-selected-metadata-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-image" path="/do/user/loadimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="success" path=".user.viewimage"/>
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/user/viewresolutionimage"
+            type="erland.webapp.gallery.act.loader.LoadMetadataAction"
+            name="metadataResolutionImageFB"
+            validate="false"
+            scope="request">
+            <forward name="show-all-metadata-link" path="/do/user/viewresolutionimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;showAll=true"/>
+            <forward name="show-selected-metadata-link" path="/do/user/viewresolutionimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
+            <forward name="picture-image" path="/do/user/loadresolutionimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;useCache=false"/>
+            <forward name="success" path=".user.viewresolutionimage"/>
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/guest/viewimage"
+            type="erland.webapp.gallery.act.loader.LoadMetadataAction"
+            name="metadataResolutionImageFB"
+            validate="false"
+            scope="request">
+            <forward name="show-all-metadata-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;showAll=true"/>
+            <forward name="show-selected-metadata-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
+            <forward name="picture-image" path="/do/guest/loadimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;useCache=false"/>
+            <forward name="success" path=".guest.viewimage"/>
+            <forward name="failure" path="/images/thumbnailna.gif"/>
         </action>
 
         <action
@@ -325,9 +421,9 @@
         </action>
 
         <action
-            path="/guest/loadresolutionimage"
+            path="/guest/loadimage"
             type="erland.webapp.gallery.act.loader.LoadThumbnailAction"
-            name="imageFB"
+            name="resolutionImageFB"
             validate="false"
             scope="request">
             <forward name="failure" path="/images/thumbnailna.gif"/>
@@ -336,7 +432,7 @@
         <action
             path="/user/loadresolutionimage"
             type="erland.webapp.gallery.act.loader.LoadThumbnailAction"
-            name="imageFB"
+            name="resolutionImageFB"
             validate="false"
             scope="request">
             <forward name="failure" path="/images/thumbnailna.gif"/>
@@ -345,16 +441,7 @@
         <action
             path="/user/loadthumbnail"
             type="erland.webapp.gallery.act.loader.LoadThumbnailAction"
-            name="imageFB"
-            validate="false"
-            scope="request">
-            <forward name="failure" path="/images/thumbnailna.gif"/>
-        </action>
-
-        <action
-            path="/guest/loadimage"
-            type="erland.webapp.gallery.act.loader.LoadImageAction"
-            name="imageFB"
+            name="resolutionImageFB"
             validate="false"
             scope="request">
             <forward name="failure" path="/images/thumbnailna.gif"/>
@@ -363,7 +450,7 @@
         <action
             path="/guest/loadthumbnail"
             type="erland.webapp.gallery.act.loader.LoadThumbnailAction"
-            name="imageFB"
+            name="resolutionImageFB"
             validate="false"
             scope="request">
             <forward name="failure" path="/images/thumbnailna.gif"/>
@@ -513,6 +600,9 @@
         <set-property
             property="applicationName"
             value="gallery"/>
+        <set-property
+            property="xmlParser"
+            value="erland.util.SAXXMLParser"/>
     </plug-in>
     <plug-in className="erland.webapp.common.act.LogConfigurationPlugin">
         <set-property
