@@ -62,6 +62,7 @@ public class Gallery extends BaseEntity {
     private String copyrightText;
     private Boolean useExifThumbnails;
     private Boolean scaleExifThumbnails;
+    private Boolean useCacheLargeImages;
 
     public Integer getId() {
         return id;
@@ -365,5 +366,13 @@ public class Gallery extends BaseEntity {
 
     public void setScaleExifThumbnails(Boolean scaleExifThumbnails) {
         this.scaleExifThumbnails = scaleExifThumbnails;
+    }
+
+    public Boolean getUseCacheLargeImages() {
+        return useCacheLargeImages;
+    }
+
+    public void setUseCacheLargeImages(Boolean useCacheLargeImages) {
+        this.useCacheLargeImages = useCacheLargeImages;
     }
 }

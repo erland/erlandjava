@@ -162,6 +162,10 @@
                 <column>useexifthumbnails</column>
                 <type>Boolean</type>
             </field>
+            <field id="useCacheLargeImages">
+                <column>usecachelargeimages</column>
+                <type>Boolean</type>
+            </field>
         </fields>
         <queries>
             <query id="all">
