@@ -78,6 +78,46 @@
                 <column>cachedate</column>
                 <type>Timestamp</type>
             </field>
+            <field id="stylesheet">
+                <column>stylesheet</column>
+                <type>String</type>
+            </field>
+            <field id="thumbnailWidth">
+                <column>thumbnailwidth</column>
+                <type>Integer</type>
+            </field>
+            <field id="sortOrder">
+                <column>sortorder</column>
+                <type>String</type>
+            </field>
+            <field id="noOfRows">
+                <column>noofrows</column>
+                <type>Integer</type>
+            </field>
+            <field id="noOfCols">
+                <column>noofcols</column>
+                <type>Integer</type>
+            </field>
+            <field id="allowSearch">
+                <column>allowsearch</column>
+                <type>Boolean</type>
+            </field>
+            <field id="cutLongPictureTitles">
+                <column>cutlongpicturetitles</column>
+                <type>Boolean</type>
+            </field>
+            <field id="useShortPictureNames">
+                <column>useshortpicturenames</column>
+                <type>Boolean</type>
+            </field>
+            <field id="showPictureTitle">
+                <column>showpicturetitle</column>
+                <type>Boolean</type>
+            </field>
+            <field id="showResolutionLinks">
+                <column>showresolutionlinks</column>
+                <type>Boolean</type>
+            </field>
         </fields>
         <queries>
             <query id="allforuser">

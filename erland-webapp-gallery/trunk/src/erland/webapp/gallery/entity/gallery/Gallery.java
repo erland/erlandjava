@@ -41,6 +41,16 @@ public class Gallery extends BaseEntity {
     private Boolean antialias;
     private Boolean thumbnailAntialias;
     private Date cacheDate;
+    private String stylesheet;
+    private Integer thumbnailWidth;
+    private String sortOrder;
+    private Integer noOfRows;
+    private Integer noOfCols;
+    private Boolean allowSearch;
+    private Boolean cutLongPictureTitles;
+    private Boolean useShortPictureNames;
+    private Boolean showPictureTitle;
+    private Boolean showResolutionLinks;
 
     public Integer getId() {
         return id;
@@ -176,5 +186,85 @@ public class Gallery extends BaseEntity {
 
     public void setCacheDate(Date cacheDate) {
         this.cacheDate = cacheDate;
+    }
+
+    public String getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(String stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    public Integer getThumbnailWidth() {
+        return thumbnailWidth;
+    }
+
+    public void setThumbnailWidth(Integer thumbnailWidth) {
+        this.thumbnailWidth = thumbnailWidth;
+    }
+
+    public String getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(String sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+    public Integer getNoOfRows() {
+        return noOfRows;
+    }
+
+    public void setNoOfRows(Integer noOfRows) {
+        this.noOfRows = noOfRows;
+    }
+
+    public Integer getNoOfCols() {
+        return noOfCols;
+    }
+
+    public void setNoOfCols(Integer noOfCols) {
+        this.noOfCols = noOfCols;
+    }
+
+    public Boolean getAllowSearch() {
+        return allowSearch;
+    }
+
+    public void setAllowSearch(Boolean allowSearch) {
+        this.allowSearch = allowSearch;
+    }
+
+    public Boolean getCutLongPictureTitles() {
+        return cutLongPictureTitles;
+    }
+
+    public void setCutLongPictureTitles(Boolean cutLongPictureTitles) {
+        this.cutLongPictureTitles = cutLongPictureTitles;
+    }
+
+    public Boolean getUseShortPictureNames() {
+        return useShortPictureNames;
+    }
+
+    public void setUseShortPictureNames(Boolean useShortPictureNames) {
+        this.useShortPictureNames = useShortPictureNames;
+    }
+
+    public Boolean getShowPictureTitle() {
+        return showPictureTitle;
+    }
+
+    public void setShowPictureTitle(Boolean showPictureTitle) {
+        this.showPictureTitle = showPictureTitle;
+    }
+
+    public Boolean getShowResolutionLinks() {
+        return showResolutionLinks;
+    }
+
+    public void setShowResolutionLinks(Boolean showResolutionLinks) {
+        this.showResolutionLinks = showResolutionLinks;
     }
 }
