@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
  * 
  */
 
-public class MenuExpandCollapseFB extends ActionForm {
+public class MenuExpandCollapseFB extends BaseFB {
     private String menuItemId;
     private String menuName;
 
