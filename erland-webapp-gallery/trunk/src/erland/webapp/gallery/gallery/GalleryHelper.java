@@ -1,4 +1,5 @@
-package erland.webapp.gallery.gallery;
+package erland.webapp.gallery.act.gallery;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -19,22 +20,27 @@ package erland.webapp.gallery.gallery;
  */
 
 import erland.webapp.common.WebAppEnvironmentInterface;
+import erland.webapp.common.QueryFilter;
+import erland.webapp.common.EntityInterface;
+import erland.webapp.gallery.entity.gallery.Gallery;
+import erland.webapp.gallery.entity.gallery.GalleryInterface;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 public class GalleryHelper {
-    public static Integer getGalleryId(WebAppEnvironmentInterface environment,HttpServletRequest request) {
+    public static Integer getGalleryId(WebAppEnvironmentInterface environment, HttpServletRequest request) {
         String galleryString = request.getParameter("gallery");
         Integer galleryId = null;
-        if(galleryString!=null && galleryString.length()>0) {
+        if (galleryString != null && galleryString.length() > 0) {
             galleryId = Integer.valueOf(galleryString);
         }
-        if(galleryId!=null) {
+        if (galleryId != null) {
             Gallery template = (Gallery) environment.getEntityFactory().create("gallery-gallery");
             template.setId(galleryId);
             Gallery entity = (Gallery) environment.getEntityStorageFactory().getStorage("gallery-gallery").load(template);
-            if(entity!=null) {
-                if(entity.getReferencedGallery()!=null && !entity.getReferencedGallery().equals(new Integer(0))) {
+            if (entity != null) {
+                if (entity.getReferencedGallery() != null && !entity.getReferencedGallery().equals(new Integer(0))) {
                     return entity.getReferencedGallery();
                 }
             }
@@ -42,4 +48,41 @@ public class GalleryHelper {
         return galleryId;
     }
 
+    public static Integer getGalleryId(WebAppEnvironmentInterface environment, Integer galleryId) {
+        if (galleryId != null) {
+            Gallery template = (Gallery) environment.getEntityFactory().create("gallery-gallery");
+            template.setId(galleryId);
+            Gallery entity = (Gallery) environment.getEntityStorageFactory().getStorage("gallery-gallery").load(template);
+            return getGalleryId(entity);
+        }
+        return galleryId;
+    }
+
+    public static Integer getGalleryId(GalleryInterface gallery) {
+        if (gallery != null) {
+            if (gallery.getReferencedGallery() != null && !gallery.getReferencedGallery().equals(new Integer(0))) {
+                return gallery.getReferencedGallery();
+            }else {
+                return gallery.getId();
+            }
+        }
+        return null;
+    }
+
+    public static GalleryInterface getGallery(WebAppEnvironmentInterface environment, Integer galleryId) {
+        GalleryInterface gallery = null;
+        if (galleryId != null) {
+            Gallery template = (Gallery) environment.getEntityFactory().create("gallery-gallery");
+            template.setId(galleryId);
+            gallery = (GalleryInterface) environment.getEntityStorageFactory().getStorage("gallery-gallery").load(template);
+        }
+        return gallery;
+    }
+
+    public static GalleryInterface[] searchGalleries(WebAppEnvironmentInterface environment, String entityName, String username, String filterName) {
+        QueryFilter filter = new QueryFilter(filterName);
+        filter.setAttribute("username", username);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage(entityName).search(filter);
+        return (GalleryInterface[]) Arrays.asList(entities).toArray(new GalleryInterface[0]);
+    }
 }

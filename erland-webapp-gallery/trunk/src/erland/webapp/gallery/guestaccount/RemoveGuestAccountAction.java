@@ -19,19 +19,21 @@ package erland.webapp.gallery.act.guestaccount;
  *
  */
 
-import erland.webapp.common.WebAppEnvironmentInterface;
+import erland.webapp.common.act.BaseAction;
 import erland.webapp.gallery.entity.guestaccount.GuestAccount;
+import erland.webapp.gallery.fb.guestaccount.GuestAccountFB;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionMapping;
 
-public class GuestAccountHelper {
-    public static boolean isGuestUser(WebAppEnvironmentInterface environment, String username, String guestuser) {
-        GuestAccount template = (GuestAccount) environment.getEntityFactory().create("gallery-guestaccount");
-        template.setUsername(username);
-        template.setGuestUser(guestuser);
-        GuestAccount account = (GuestAccount) environment.getEntityStorageFactory().getStorage("gallery-guestaccount").load(template);
-        if (account != null) {
-            return true;
-        } else {
-            return false;
-        }
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class RemoveGuestAccountAction extends BaseAction {
+    protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GuestAccountFB fb = (GuestAccountFB) form;
+        GuestAccount template = (GuestAccount) getEnvironment().getEntityFactory().create("gallery-guestaccount");
+        template.setGuestUser(fb.getGuestUser());
+        template.setUsername(request.getRemoteUser());
+        getEnvironment().getEntityStorageFactory().getStorage("gallery-guestaccount").delete(template);
     }
 }

@@ -1,4 +1,7 @@
-package erland.webapp.gallery.gallery;
+package erland.webapp.gallery.act.gallery;
+
+import erland.webapp.gallery.entity.gallery.GalleryInterface;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *

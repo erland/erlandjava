@@ -1,4 +1,5 @@
-package erland.webapp.gallery.loader;
+package erland.webapp.gallery.act.loader;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -20,6 +21,8 @@ package erland.webapp.gallery.loader;
 
 public interface ViewMetadataInterface {
     String[] getMetadataNames();
+
     String getMetadataValue(String name);
+
     String getMetadataDescription(String name);
 }

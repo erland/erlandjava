@@ -1,4 +1,7 @@
-package erland.webapp.gallery.guestaccount;
+package erland.webapp.gallery.act.guestaccount;
+
+import erland.webapp.gallery.entity.guestaccount.GuestAccount;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *

@@ -1,4 +1,7 @@
-package erland.webapp.gallery.gallery.picturestorage;
+package erland.webapp.gallery.act.gallery.picturestorage;
+
+import erland.webapp.gallery.entity.gallery.picturestorage.PictureStorage;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *

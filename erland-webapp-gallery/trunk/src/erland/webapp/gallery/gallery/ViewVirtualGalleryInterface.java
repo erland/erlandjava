@@ -1,4 +1,5 @@
-package erland.webapp.gallery.gallery;
+package erland.webapp.gallery.act.gallery;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
