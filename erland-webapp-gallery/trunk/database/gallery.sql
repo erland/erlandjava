@@ -31,17 +31,6 @@ CREATE TABLE categorymembers (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'descriptiontags'
---
-
-CREATE TABLE descriptiontags (
-  type varchar(100) NOT NULL default '',
-  tag varchar(100) NOT NULL default '',
-  description varchar(100) NOT NULL default '',
-  PRIMARY KEY  (type,tag)
-) TYPE=MyISAM;
-
---
 -- Table structure for table 'galleries'
 --
 
@@ -102,16 +91,6 @@ CREATE TABLE picturestorages (
   username varchar(100) NOT NULL default '',
   name varchar(255) NOT NULL default '',
   path varchar(255) NOT NULL default '',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
-
---
--- Table structure for table 'resources'
---
-
-CREATE TABLE resources (
-  id varchar(100) NOT NULL default '',
-  value varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
