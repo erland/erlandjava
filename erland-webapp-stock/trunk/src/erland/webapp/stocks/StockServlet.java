@@ -25,6 +25,9 @@ import erland.util.*;
 
 public class StockServlet extends UserMgmtServlet {
     private StockServletEnvironment environment;
+    protected String getApplicationName() {
+        return "stock";
+    }
     protected WebAppEnvironmentInterface getEnvironment() {
         if(environment==null) {
             environment = new StockServletEnvironment(this);
