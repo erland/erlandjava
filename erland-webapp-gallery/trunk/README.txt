@@ -38,7 +38,7 @@ This archive should contain the following files:
 5. CONFIGURING OF THE DATABASE
 ==============================
 There are a number of database configuration scripts in the database directory.
-I personally run the application in three different databases, but it might also
+I personally run the application in three different databases, but it is also
 be possible to put all tables in the same database.
 Anyway here are a short description of the scripts:
 
@@ -67,7 +67,7 @@ jdbc/gallery: Should have the tables defined in the file(database\gallery.sql)
 jdbc/user: Should have the tables defined in the file(database\users.sql)
 
 The datasources in my installation points to tree different databases in the same
-database server, but I think you also could point them to the same database.
+database server, but I you could also point them to the same database.
 
 Also remember to install the JDBC drivers for your database if you haven't done
 it already
@@ -83,6 +83,10 @@ exists.
 You will have to make sure that you have installed the BeanUtils library(commons-beanutils.jar)
 on your webserver, you can download it from:
 http://jakarta.apache.org/commons/beanutils.html
+If you run another webserver than tomcat you may also have to install the following libraries:
+commons-logging-api.jar : http://jakarta.apache.org/commons/logging.html
+commons-collections.jar : http://jakarta.apache.org/commons/collections.html
+
 
 9. DEPLOY AND RUN
 =================
