@@ -244,6 +244,12 @@ public class GenericEntityStorage extends EntityStorage {
                 Log.println(this,"insert:"+sb.toString());
                 PreparedStatement stmt = conn.prepareStatement(sb.toString(),(String[])autoKeys.toArray(new String[0]));
                 Log.println(this,"Created prepared statement: "+stmt);
+                boolean bUseMySQLOldMethod = false;
+                if(stmt==null) {
+                    bUseMySQLOldMethod = true;
+                    stmt = conn.prepareStatement(sb.toString());
+                    Log.println(this,"Created prepared statement(For old MySQL method): "+stmt);
+                }
                 int fieldNo = 1;
                 for(Iterator it=fields.iterator();it.hasNext();) {
                     String field = (String)it.next();
@@ -255,7 +261,13 @@ public class GenericEntityStorage extends EntityStorage {
                     }
                 }
                 if(stmt.executeUpdate()>0) {
-                    ResultSet rs = stmt.getGeneratedKeys();
+                    ResultSet rs = null;
+                    if(!bUseMySQLOldMethod) {
+                        rs = stmt.getGeneratedKeys();
+                    }else {
+                        PreparedStatement autoStmt = conn.prepareStatement("SELECT LAST_INSERT_ID()");
+                        rs = autoStmt.executeQuery();
+                    }
                     if(rs.next()) {
                         fieldNo=1;
                         for (Iterator it=fields.iterator(); it.hasNext();) {
