@@ -31,6 +31,7 @@ import erland.webapp.gallery.entity.gallery.picture.Resolution;
 import erland.webapp.gallery.entity.gallery.picture.Picture;
 import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.entity.skin.Skin;
+import erland.webapp.gallery.entity.account.UserAccount;
 import erland.webapp.gallery.fb.gallery.picture.*;
 import erland.webapp.gallery.fb.gallery.GalleryPB;
 import erland.webapp.gallery.fb.skin.SkinFB;
@@ -172,6 +173,9 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         if(gallery.getThumbnailWidth()!=null && gallery.getThumbnailWidth().intValue()>0) {
             pictureParameters.put("thumbnailwidth",gallery.getThumbnailWidth());
         }
+        if(gallery.getThumbnailHeight()!=null && gallery.getThumbnailHeight().intValue()>0) {
+            pictureParameters.put("thumbnailheight",gallery.getThumbnailHeight());
+        }
         for (int i = 0; i < entities.length; i++) {
             picturesPB[i] = new PicturePB();
             PropertyUtils.copyProperties(picturesPB[i], entities[i]);
@@ -298,10 +302,18 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         if(StringUtil.asNull(fb.getSkin())!=null) {
             skin = fb.getSkin();
         }
-        SkinFB previous = (SkinFB) request.getSession().getAttribute("skinPB");
-        if(mapping.getParameter()!=null && mapping.getParameter().equals("useskin") && (previous==null || previous.getId()==null || !previous.getId().equals(skin))) {
-            SkinFB pbSkin = SkinHelper.loadSkin(mapping,skin);
-            request.getSession().setAttribute("skinPB",pbSkin);
+        if(mapping.getParameter()!=null && mapping.getParameter().equals("useskin")) {
+            SkinFB previous = (SkinFB) request.getSession().getAttribute("skinPB");
+            if(StringUtil.asNull(skin)==null) {
+                UserAccount template = (UserAccount) getEnvironment().getEntityFactory().create("gallery-useraccount");
+                template.setUsername(username);
+                UserAccount account = (UserAccount) getEnvironment().getEntityStorageFactory().getStorage("gallery-useraccount").load(template);
+                skin = account.getSkin();
+            }
+            if(previous==null || previous.getId()==null || !previous.getId().equals(skin)) {
+                SkinFB pbSkin = SkinHelper.loadSkin(mapping,skin);
+                request.getSession().setAttribute("skinPB",pbSkin);
+            }
         }
     }
 
