@@ -1,0 +1,352 @@
+.bold-link {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.bold-link {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.menu {
+font-family:arial;
+border:0px;
+}
+
+.menuitem {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.menuitem {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.menuitem-selected {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+:hover.menuitem-selected {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.propertypage-header {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.propertypage-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.propertypage-title {
+font-family:arial;
+font-size:14px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.propertypage-description {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.propertypage-notice {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.propertypage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.propertypage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.propertypage-link {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.propertypage-link {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.helppage {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+.helppage-title {
+font-family:arial;
+font-size:14px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+.helppage-header-row {
+}
+.helppage-header-cell {
+}
+.helppage-body-row {
+}
+.helppage-body-cell {
+}
+.helppage-body {
+border-width:1px;
+border-style:outset;
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+.helppage-footer-row {
+}
+.helppage-footer-cell {
+}
+.helppage-attribute-row {
+}
+.helppage-attribute-name {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+border-style:inset;
+border-width:1px;
+padding-bottom:10px;
+padding-top:10px;
+padding-right:10px;
+padding-left:10px;
+}
+.helppage-attribute-description {
+border-style:inset;
+border-width:1px;
+padding-bottom:10px;
+padding-top:10px;
+padding-right:10px;
+padding-left:10px;
+}
+.helppage-attribute-button-cell{
+}
+.helppage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.helppage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.helppage-footer {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.picturepage-header {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.loginpage-header {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.loginpage-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.loginpage-footer {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.loginpage-title {
+font-family:arial;
+font-size:14px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.loginpage-description {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.loginpage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.loginpage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.header-text {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.header-logo {
+font-family:arial;
+border:0px;
+}
+
+.layout-header {
+}
+
+.layout-body {
+}
+
+.layout-body-menu {
+}
+
+.layout-body-content {
+}
+
+.layout-footer {
+}
+
+.layout-menu {
+}
+
+.layout {
+}
+
+.layout-main {
+font-family:arial;
+border:0px;
+}
+
+.layout-header-separator-line {
+}
+
+.layout-header-separator {
+}
+
+.layoutempty-body {
+}
+
+.layoutempty-body-content {
+}
+
+.layoutempty {
+}
+
+.layoutempty-main {
+font-family:arial;
+border:0px;
+}
+
+.layoutnomenu-header {
+}
+
+.layoutnomenu-body {
+}
+
+.layoutnomenu-body-content {
+}
+
+.layoutnomenu-footer {
+}
+
+.layoutnomenu {
+}
+.layoutnomenu-main {
+font-family:arial;
+border:0px;
+}
+
+.layoutnomenu-header-separator-line {
+}
+
+.layoutnomenu-header-separator {
+}

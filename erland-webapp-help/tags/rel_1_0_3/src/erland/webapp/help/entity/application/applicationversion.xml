@@ -1,0 +1,43 @@
+<entity id="applicationversion">
+    <class>erland.webapp.help.entity.application.ApplicationVersion</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/help</datasource>
+        <table>applicationversions</table>
+        <fields>
+            <field id="application">
+                <column>application</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="version">
+                <column>version</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="orderNo">
+                <column>orderno</column>
+                <type>Integer</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="all">
+                <querystring/>
+                <orderstring>order by application asc,orderno asc</orderstring>
+            </query>
+            <query id="allforapplication">
+                <querystring>application=?</querystring>
+                <orderstring>order by orderno asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>application</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>

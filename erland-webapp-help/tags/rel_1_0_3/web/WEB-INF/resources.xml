@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<resources>
+    <entities>
+        <entity id="common-resource" reference="resource:erland/webapp/common/resource.xml"/>
+        <entity id="usermgmt-user" reference="user:erland/webapp/usermgmt/user.xml"/>
+        <entity id="usermgmt-userapplicationrole" reference="userapplicationrole:erland/webapp/usermgmt/userapplicationrole.xml"/>
+        <entity id="usermgmt-userinfo" reference="userinfo:erland/webapp/usermgmt/userinfo.xml"/>
+        <entity id="help-useraccount" reference="useraccount:erland/webapp/help/entity/account/useraccount.xml"/>
+        <entity id="help-application" reference="application:erland/webapp/help/entity/application/application.xml"/>
+        <entity id="help-applicationversion" reference="applicationversion:erland/webapp/help/entity/application/applicationversion.xml"/>
+        <entity id="help-chapter" reference="chapter:erland/webapp/help/entity/chapter/chapter.xml"/>
+        <entity id="help-chapterattribute" reference="chapterattribute:erland/webapp/help/entity/chapter/chapterattribute.xml"/>
+    </entities>
+</resources>
