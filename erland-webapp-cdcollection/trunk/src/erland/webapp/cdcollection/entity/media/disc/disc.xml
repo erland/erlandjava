@@ -1,0 +1,80 @@
+<entity id="disc">
+    <class>erland.webapp.cdcollection.entity.media.disc.Disc</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/cdcollection</datasource>
+        <table>discs</table>
+        <fields>
+            <field id="mediaId">
+                <column>mediaid</column>
+                <type>Integer</type>
+            </field>
+            <field id="id">
+                <column>id</column>
+                <type>Integer</type>
+                <identity>true</identity>
+                <auto>true</auto>
+            </field>
+            <field id="uniqueDiscId">
+                <column>uniquediscid</column>
+                <type>String</type>
+            </field>
+            <field id="title">
+                <column>title</column>
+                <type>String</type>
+            </field>
+            <field id="artist">
+                <column>artist</column>
+                <type>String</type>
+            </field>
+            <field id="trackArtistPattern">
+                <column>trackartistpattern</column>
+                <type>String</type>
+            </field>
+            <field id="trackTitlePattern">
+                <column>tracktitlepattern</column>
+                <type>String</type>
+            </field>
+            <field id="year">
+                <column>year</column>
+                <type>Integer</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="all">
+                <querystring/>
+            </query>
+            <query id="allformedia">
+                <querystring>mediaid=?</querystring>
+                <orderstring>order by title</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>media</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allfordisc">
+                <querystring>discid=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>disc</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforuniquediscid">
+                <querystring>uniquediscid=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>uniquediscid</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
