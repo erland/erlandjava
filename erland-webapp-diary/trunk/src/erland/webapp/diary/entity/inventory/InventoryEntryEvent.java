@@ -81,6 +81,7 @@ public class InventoryEntryEvent extends BaseEntity {
                     return true;
                 case 5: //Lekt
                 case 6: //Yngel
+                case 8: //Född
                 default:
                     return false;
             }
@@ -95,6 +96,7 @@ public class InventoryEntryEvent extends BaseEntity {
                 case 5: //Lekt
                 case 6: //Yngel
                 case 7: //Uppmätt
+                case 8: //Född
                     return true;
                 case 2: //Dödad
                 case 3: //Död
