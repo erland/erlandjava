@@ -67,6 +67,12 @@
         <html:option value="byordernoasc" key="gallery.gallery.edit.sort-order.byordernoasc"/>
     </html:select>
     </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.use-exif-thumbnails"/></td><td>
+    <html:checkbox property="useExifThumbnailsDisplay" value="true"/>
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.scale-exif-thumbnails"/></td><td>
+    <html:checkbox property="scaleExifThumbnailsDisplay" value="true"/>
+    </td></tr>
     <tr><td><bean:message key="gallery.gallery.edit.thumbnailwidth"/></td><td>
     <html:text property="thumbnailWidthDisplay"/>
     </td></tr>
