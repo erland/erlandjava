@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<resources>
+    <entities>
+        <entity id="common-resource" reference="resource:erland/webapp/common/resource.xml"/>
+        <entity id="common-metadatafielddescription" reference="descriptiontag:erland/webapp/common/descriptiontag.xml"/>
+        <entity id="usermgmt-user" reference="user:erland/webapp/usermgmt/user.xml"/>
+        <entity id="usermgmt-userapplicationrole" reference="userapplicationrole:erland/webapp/usermgmt/userapplicationrole.xml"/>
+        <entity id="usermgmt-userinfo" reference="userinfo:erland/webapp/usermgmt/userinfo.xml"/>
+        <entity id="diary-appendixentry" reference="appendixentry:erland/webapp/diary/entity/appendix/appendixentry.xml"/>
+        <entity id="diary-purchaseentry" reference="purchaseentry:erland/webapp/diary/entity/purchase/purchaseentry.xml"/>
+        <entity id="diary-inventoryentry" reference="inventoryentry:erland/webapp/diary/entity/inventory/inventoryentry.xml"/>
+        <entity id="diary-inventoryentryevent" reference="inventoryentryevent:erland/webapp/diary/entity/inventory/inventoryentryevent.xml"/>
+        <entity id="diary-inventoryentryeventtype" reference="inventoryentryeventtype:erland/webapp/diary/entity/inventory/inventoryentryeventtype.xml"/>
+        <entity id="diary-inventoryentrytype" reference="inventoryentrytype:erland/webapp/diary/entity/inventory/inventoryentrytype.xml"/>
+        <entity id="diary-diary" reference="diary:erland/webapp/diary/entity/diary/diary.xml"/>
+        <entity id="diary-diaryentry" reference="diaryentry:erland/webapp/diary/entity/diary/diaryentry.xml"/>
+        <entity id="diary-gallery" reference="gallery:erland/webapp/diary/entity/gallery/gallery.xml"/>
+        <entity id="diary-galleryentry" reference="galleryentry:erland/webapp/diary/entity/gallery/galleryentry.xml"/>
+        <entity id="diary-useraccount" reference="useraccount:erland/webapp/diary/entity/account/useraccount.xml"/>
+        <entity id="gallery-useraccount" reference="useraccount:erland/webapp/gallery/entity/account/useraccount.xml"/>
+        <entity id="gallery-guestaccount" reference="guestaccount:erland/webapp/gallery/entity/guestaccount/guestaccount.xml"/>
+        <entity id="gallery-gallery" reference="gallery:erland/webapp/gallery/entity/gallery/gallery.xml"/>
+        <entity id="gallery-gallerycategoryassociation" reference="gallerycategoryassociation:erland/webapp/gallery/entity/gallery/gallerycategoryassociation.xml"/>
+        <entity id="gallery-picture" reference="picture:erland/webapp/gallery/entity/gallery/picture/picture.xml"/>
+        <entity id="gallery-resolution" reference="resolution:erland/webapp/gallery/entity/gallery/picture/resolution.xml"/>
+        <entity id="gallery-picturestorage" reference="picturestorage:erland/webapp/gallery/entity/gallery/picturestorage/picturestorage.xml"/>
+        <entity id="gallery-category" reference="category:erland/webapp/gallery/entity/gallery/category/category.xml"/>
+        <entity id="gallery-categorypictureassociation" reference="categorypictureassociation:erland/webapp/gallery/entity/gallery/category/categorypictureassociation.xml"/>
+        <entity id="gallery-categorymembership" reference="categorymembership:erland/webapp/gallery/entity/gallery/category/categorymembership.xml"/>
+        <entity id="gallery-filter" reference="filter:erland/webapp/gallery/entity/gallery/filter/filter.xml"/>
+        <entity id="gallery-galleryfilter" reference="galleryfilter:erland/webapp/gallery/entity/gallery/filter/galleryfilter.xml"/>
+    </entities>
+</resources>
