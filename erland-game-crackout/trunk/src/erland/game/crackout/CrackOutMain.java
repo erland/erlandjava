@@ -111,6 +111,7 @@ class CrackOutMain
 		lifes--;
 		if(lifes<=0) {
 			bEnd=true;
+			bStarted=false;
 		}else {
 			ballSpeed = squareSize/4+level/2;
 			batSpeed = squareSize/4+level/2;
@@ -407,6 +408,7 @@ class CrackOutMain
 			if(bFinished) {
 				if(!newLevel()) {
 					bEnd=true;
+					bStarted=false;
 				}
 			}else {
 				if(balls.size()==0) {
@@ -500,7 +502,7 @@ class CrackOutMain
 	}
 	public void start()
 	{
-		if(!bStarted && level>0) {
+		if(!bStarted && level>0 && !bEnd) {
 			bStarted=true;
 		}else {
 			newGame();
