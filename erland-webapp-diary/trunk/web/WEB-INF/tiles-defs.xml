@@ -73,6 +73,12 @@
     <definition name=".user.viewappendixentries" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/appendix/viewappendixentries.jsp"/>
     </definition>
+    <definition name=".user.editsourceappendixentry" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/appendix/editsourceappendixentry.jsp"/>
+    </definition>
+    <definition name=".user.viewsourceappendixentries" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/appendix/viewsourceappendixentries.jsp"/>
+    </definition>
     <definition name=".guest.viewimage" extends=".guest.empty">
         <put name="body" value="/WEB-INF/tiles/loader/viewimage.jsp"/>
     </definition>
