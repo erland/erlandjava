@@ -1,6 +1,6 @@
 1. LICENSE
 ==========
-Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
+Copyright (C) 2003-2004 Erland Isaksson (erland_i@hotmail.com)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -18,23 +18,36 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 2. LIBRARIES
 ============
-This softaware also includes a library "metadata extraction in java" for
+This software also includes a library "metadata extraction in java" for
 extracting exif data from the images, see http://www.drewnoakes.com for
-more information
+more information.
+A number of different libraries from http://jakarta.apache.org is also included
 
 3. PREREQUISITES
 ================
 - A web server supporting Java servlets and JSP, it has only been tested
   with Apache Tomcat 4.1.24
-- A SQL database, it has only been tested with MySQL 4.0.13
+- A SQL database, it has only been tested with MySQL 4.0.15
 
 4. FILES
 ========
-This archive should contain the following files:
-- readme.txt (this file)
-- dirgallery.war (The web application code)
-- src.zip (The web application source code)
+This binary archive should contain the following files:
+- README.txt (this file)
+- LICENSE.txt (the software license)
+- dirgallery.war (The web application)
 - database/*.sql (A number of database configuration scripts)
+- docs/* (The javadoc documentation for the web application classes)
+
+This source archive should contain the following files:
+- README.txt (this file)
+- LICENSE.txt (the software license)
+- database/*.sql (A number of database configuration scripts)
+- src/* (The web application source code)
+- web/* (The web application source code)
+- build.xml (A build file for ant)
+- maven.xml (A build file for maven)
+- project.properties (A configuration file for maven)
+- project.xml (A configuration file for maven)
 
 5. CONFIGURING OF THE DATABASE
 ==============================
@@ -59,6 +72,7 @@ Data scripts:
 - common_data.sql
   Creates a row for all exif parameters that should be shown when showing picture information
   Setup thumbnail cache dir to "D:\users\erland\thumbnail2" (You probably want to change this)
+  Setup base user dir to "D:\users", this should point to the directory above the users directory (You probably want to change this)
   And setup the welcome text shown on the first page (You might want to change this also)
 
 6. CONFIGURATION OF JDBC DATASOURCES
@@ -79,13 +93,13 @@ it already
 The application will store thumbnails in a directory specified in the resources table in
 the database accessed as jdbc/common. You have to make sure that this directory really
 exists.
+The application will seach for image files in a sub directory below th base directory
+specified in the resources table in the database accessed as jdbc/common. You have to make sure
+this directory really exists and that each user has a directory with the same name as the
+username below this directory.
 
 8. THIRD PARTY LIBRARIES
 ========================
-You will have to make sure that you have installed the BeanUtils library(commons-beanutils.jar)
-on your webserver, you can download it from:
-http://jakarta.apache.org/commons/beanutils.html
-
 To make it possible to generate thumbnails for mpeg files you also need to install
 Java Media Framework on the web server, you can download it from:
 http://java.sun.com/products/java-media/jmf/
@@ -96,3 +110,21 @@ You should now be able to deploy the dirgallery.war file on you web-server and t
 as for example:
 http://mywebserver/dirgallery
 
+10. BUILDING
+============
+This chapter is only interesting if you for some reason wants to recompile the web application from
+the source archive. There is an ant build file delivered witht he application but the recommended and
+tested way to build it is by using maven(http://maven.apache.org).
+
+- Install maven
+- You will have to create a build.properties file with the following rows:
+  maven.war.final.name=${maven.webapp.name}.war
+  maven.war.build.dir=${maven.build.dir}
+  maven.war.webapp.dir=${maven.war.build.dir}/${maven.webapp.name}
+  maven.webserver.webapp.dir=D:/users/erland/webappstomcat
+- The maven.webserver.webapp.dir parameter should point to the webapps expansion dir of your webserver
+- Build with:
+  To just generate the war archive:
+  maven all:build
+  To generate a new distribution:
+  maven dist
