@@ -129,6 +129,14 @@ public class LoadMetadataAction extends BaseAction {
                 picturePB.setImage(ServletParameterHelper.replaceDynamicParameters(forward.getPath(), parameters));
             }
         }
+        forward = mapping.findForward("picture-image-small");
+        if (forward != null) {
+            picturePB.setPathSmallImage(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+        }
+        forward = mapping.findForward("picture-image-large");
+        if (forward != null) {
+            picturePB.setPathLargeImage(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+        }
 
         picturePB.setGallery(fb.getGallery());
         picturePB.setComment(getComment(picture));
