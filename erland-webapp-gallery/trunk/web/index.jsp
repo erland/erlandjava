@@ -19,7 +19,7 @@
 <td width="10" bgcolor="#76C7FF"></td>
 <td width="*" bgcolor="#76C7FF">
 <%
-String p = (String) session.getAttribute("header");
+String p = (String) request.getAttribute("header");
 if(p!=null) {
     %>
     <jsp:include page="<%=p%>"/>
@@ -37,7 +37,7 @@ if(p!=null) {
 <tr>
 <td height="*" valign="top" background="gradient.gif">
 <%
-p = (String) session.getAttribute("menu");
+p = (String) request.getAttribute("menu");
 if(p!=null) {
     %>
     <jsp:include page="<%=p%>"/>
@@ -49,7 +49,7 @@ if(p!=null) {
 </td>
 <td valign="top">
 <%
-p = (String) session.getAttribute("content");
+p = (String) request.getAttribute("content");
 if(p!=null) {
     %>
     <jsp:include page="<%=p%>"/>
