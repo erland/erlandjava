@@ -9,6 +9,7 @@ import erland.webapp.diary.fb.diary.DiaryFB;
 import erland.webapp.diary.entity.account.UserAccount;
 import erland.webapp.diary.entity.diary.Diary;
 import erland.webapp.diary.entity.gallery.Gallery;
+import erland.webapp.diary.entity.container.Container;
 import erland.webapp.gallery.fb.gallery.MenuItemPB;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -76,6 +77,22 @@ public class LoadMenuAction extends BaseAction {
             }
         }
         request.getSession().setAttribute("menuGalleriesPB",pb);
+
+        filter = new QueryFilter(getContainerQueryFilter());
+        filter.setAttribute("username", username);
+        entities = getEnvironment().getEntityStorageFactory().getStorage("diary-container").search(filter);
+        pb = new MenuItemPB[entities.length];
+        for (int i = 0; i < entities.length; i++) {
+            pb[i] = new MenuItemPB();
+            pb[i].setId(((Container)entities[i]).getId());
+            pb[i].setName(((Container)entities[i]).getName());
+            pb[i].setUser(username);
+            ActionForward forward = mapping.findForward("view-container-link");
+            if(forward!=null) {
+                pb[i].setPath(forward.getPath());
+            }
+        }
+        request.getSession().setAttribute("menuContainersPB",pb);
     }
 
     protected String getDiaryQueryFilter() {
@@ -83,6 +100,10 @@ public class LoadMenuAction extends BaseAction {
     }
 
     protected String getGalleryQueryFilter() {
+        return "allforuser";
+    }
+
+    protected String getContainerQueryFilter() {
         return "allforuser";
     }
 
