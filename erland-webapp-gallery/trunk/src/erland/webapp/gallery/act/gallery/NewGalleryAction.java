@@ -24,7 +24,6 @@ import erland.webapp.common.EntityInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.act.BaseAction;
-import erland.webapp.gallery.act.gallery.category.ViewCategoriesInterface;
 import erland.webapp.gallery.act.gallery.category.CategoryHelper;
 import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.entity.gallery.GalleryCategoryAssociation;
