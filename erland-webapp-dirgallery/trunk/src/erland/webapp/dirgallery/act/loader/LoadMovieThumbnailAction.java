@@ -40,6 +40,10 @@ public class LoadMovieThumbnailAction extends LoadThumbnailAction {
         MovieThumbnailImageFB fb = (MovieThumbnailImageFB) form;
         Integer width = getWidth(request, fb);
         try {
+            Boolean useCache = fb.getUseCache();
+            if(useCache==null) {
+                useCache = Boolean.TRUE;
+            }
             response.setContentType("image/jpeg");
             String imageFile = getImageFile(request);
             ThumbnailCreatorInterface thumbnailCreator = new ImageThumbnail();
@@ -56,7 +60,7 @@ public class LoadMovieThumbnailAction extends LoadThumbnailAction {
                     }
                 }
             }
-            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, fb.getUseCache(), fb.getCompression(), getUsername(request), imageFile, getCopyright(getGallery(request),getUsername(request)), thumbnailCreator, response.getOutputStream())) {
+            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, useCache, fb.getCompression(), getUsername(request), imageFile, getCopyright(getGallery(request),getUsername(request)), thumbnailCreator, response.getOutputStream())) {
                 return findFailure(mapping, form, request, response);
             }
         } catch (IOException e) {
