@@ -105,55 +105,10 @@ public class ViewChannelInfoAction extends BaseAction {
             pb.setPrevLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
         }
 
-        ProgramHelper.loadPrograms(getEnvironment(),false);
-
         forward = mapping.findForward("add-subscription-link");
 
-        pb.setPrograms(getPrograms(username,fb,channel,forward));
+        pb.setPrograms(ProgramHelper.getChannelPrograms(getEnvironment(),username,channel,fb.getDate(),forward));
         request.setAttribute("channelPB",pb);
     }
 
-    protected ProgramPB[] getPrograms(String username, SelectChannelFB fb,Channel channel,ActionForward subscriptionForward) {
-        QueryFilter filter = new QueryFilter("allforchannelanddateaftertime");
-        filter.setAttribute("channel",channel.getId());
-        Date date = fb.getDate();
-        Date currentDate = new Date();
-        if(fb.getDate()==null) {
-            date = currentDate;
-        }
-        if(!sameDay(currentDate,date) && currentDate.before(date)) {
-            currentDate = date;
-        }
-        filter.setAttribute("time",date);
-        EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("tvguide-program").search(filter);
-        ProgramPB[] programsPB = new ProgramPB[entities.length];
-        for (int i = 0; i < entities.length; i++) {
-            Program entity = (Program) entities[i];
-            programsPB[i] = new ProgramPB();
-            try {
-                PropertyUtils.copyProperties(programsPB[i],entity);
-            } catch (IllegalAccessException e) {
-            } catch (InvocationTargetException e) {
-            } catch (NoSuchMethodException e) {
-            }
-            if(programsPB[i].getStart().before(currentDate)) {
-                programsPB[i].setStarted(Boolean.TRUE);
-            }else {
-                programsPB[i].setStarted(Boolean.FALSE);
-            }
-            if(subscriptionForward!=null) {
-                Map parameters = new HashMap();
-                parameters.put("programName",programsPB[i].getName());
-                programsPB[i].setNewSubscriptionLink(ServletParameterHelper.replaceDynamicParameters(subscriptionForward.getPath(),parameters));
-            }
-        }
-        return programsPB;
-    }
-    private boolean sameDay(Date date1, Date date2) {
-        Calendar c1 = Calendar.getInstance();
-        c1.setTime(date1);
-        Calendar c2 = Calendar.getInstance();
-        c2.setTime(date2);
-        return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c1.get(Calendar.DATE) == c2.get(Calendar.DATE);
-    }
 }

@@ -66,80 +66,12 @@ public class ViewSubscriptionInfoAction extends BaseAction{
             pb.setRemoveLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
         }
 
-        ProgramHelper.loadPrograms(getEnvironment(),false);
-
         String username = request.getRemoteUser();
         if(username==null) {
             username = fb.getUser();
         }
 
-        pb.setPrograms(getPrograms(username,fb,subscription));
+        pb.setPrograms(ProgramHelper.getSubscriptionPrograms(getEnvironment(),username,subscription));
         request.setAttribute("subscriptionPB",pb);
-    }
-
-    protected ProgramPB[] getPrograms(String username, SelectSubscriptionFB fb, Subscription subscription) {
-
-        QueryFilter filter = new QueryFilter("allforuser");
-        filter.setAttribute("username",username);
-        EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("tvguide-favorite").search(filter);
-        if(entities.length>0) {
-            Collection channels = new ArrayList();
-            for (int i = 0; i < entities.length; i++) {
-                Favorite favorite = (Favorite) entities[i];
-                channels.add(favorite.getChannel());
-            }
-
-            filter = new QueryFilter("allinlist");
-            filter.setAttribute("channel",channels);
-            entities = getEnvironment().getEntityStorageFactory().getStorage("tvguide-channel").search(filter);
-            Map channelMap = new HashMap();
-            for (int i = 0; i < entities.length; i++) {
-                Channel channel = (Channel) entities[i];
-                channelMap.put(channel.getId(),channel);
-            }
-            Date date = new Date();
-            filter = new QueryFilter("allinlistaftertime");
-            filter.setAttribute("channel",channels);
-            filter.setAttribute("time",date);
-            entities = getEnvironment().getEntityStorageFactory().getStorage("tvguide-program").search(filter);
-            Collection programCollection = new ArrayList();
-            for (int i = 0; i < entities.length; i++) {
-                Program entity = (Program) entities[i];
-                ProgramPB program = new ProgramPB();
-                if (entity.getName().matches(subscription.getPattern())) {
-                    try {
-                        PropertyUtils.copyProperties(program,entity);
-                    } catch (IllegalAccessException e) {
-                    } catch (InvocationTargetException e) {
-                    } catch (NoSuchMethodException e) {
-                    }
-                    Channel ch = (Channel) channelMap.get(entity.getChannel());
-                    program.setChannelName(ch.getName());
-                    program.setChannelLogo(ch.getLogo());
-                    program.setChannelLink(ch.getLink());
-
-                    if(program.getStart().before(date)) {
-                        program.setStarted(Boolean.TRUE);
-                    }else {
-                        program.setStarted(Boolean.FALSE);
-                    }
-                    if (sameDay(program.getStart(), date)) {
-                        program.setStartSameDay(Boolean.TRUE);
-                    } else {
-                        program.setStartSameDay(Boolean.FALSE);
-                    }
-                    programCollection.add(program);
-                }
-            }
-            return (ProgramPB[]) programCollection.toArray(new ProgramPB[0]);
-        }
-        return new ProgramPB[0];
-    }
-    private boolean sameDay(Date date1, Date date2) {
-        Calendar c1 = Calendar.getInstance();
-        c1.setTime(date1);
-        Calendar c2 = Calendar.getInstance();
-        c2.setTime(date2);
-        return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c1.get(Calendar.DATE) == c2.get(Calendar.DATE);
     }
 }
