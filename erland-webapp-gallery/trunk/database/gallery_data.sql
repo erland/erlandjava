@@ -12,6 +12,10 @@ INSERT INTO resolutions VALUES ('640','640x480',640);
 INSERT INTO resolutions VALUES ('800','800x600',800);
 INSERT INTO resolutions VALUES ('1024','1024x768',1024);
 INSERT INTO resolutions VALUES ('1280','1280x1024',1280);
+INSERT INTO resolutions VALUES ('1600','1600x1200',1600);
+INSERT INTO resolutions VALUES ('2080','2080x1560',2080);
+INSERT INTO resolutions VALUES ('2560','2560x1920',2560);
+INSERT INTO resolutions VALUES ('3264','3264x2448',3264);
 
 --
 -- Dumping data for table `useraccounts`
