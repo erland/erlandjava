@@ -10,7 +10,7 @@
     </form-beans>
 
     <global-forwards>
-        <forward name="index" path="/do/searchapplications"/>
+        <forward name="index" path="/do/searchapplicationsandlatestreleases"/>
     </global-forwards>
 
     <action-mappings>
@@ -19,6 +19,20 @@
             type="erland.webapp.download.act.SearchApplicationsAction">
 
             <forward name="success" path=".viewapplications"/>
+            <forward name="failure" path=".viewapplications"/>
+        </action>
+        <action
+            path="/searchapplicationsandlatestreleases"
+            type="erland.webapp.download.act.SearchApplicationsAction">
+
+            <forward name="success" path="/do/searchapplicationsandlatestreleasespart2"/>
+            <forward name="failure" path=".viewapplications"/>
+        </action>
+        <action
+            path="/searchapplicationsandlatestreleasespart2"
+            type="erland.webapp.download.act.SearchAllApplicationVersionsAction">
+
+            <forward name="success" path=".viewallapplicationversions"/>
             <forward name="failure" path=".viewapplications"/>
         </action>
         <action
