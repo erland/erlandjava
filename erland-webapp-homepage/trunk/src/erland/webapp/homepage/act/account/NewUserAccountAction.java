@@ -59,6 +59,7 @@ public class NewUserAccountAction extends BaseAction {
         getEnvironment().getEntityStorageFactory().getStorage("usermgmt-userapplicationrole").store(templateRole);
         UserAccount templateAccount = (UserAccount) getEnvironment().getEntityFactory().create("homepage-useraccount");
         PropertyUtils.copyProperties(templateAccount,fb);
+        templateAccount.setShowLogo(Boolean.TRUE);
         getEnvironment().getEntityStorageFactory().getStorage("homepage-useraccount").store(templateAccount);
         AccountPB pb = new AccountPB();
         PropertyUtils.copyProperties(pb, template);
