@@ -8,6 +8,8 @@
         <entity id="usermgmt-userinfo" reference="userinfo:erland/webapp/usermgmt/userinfo.xml"/>
         <entity id="diary-appendixentry" reference="appendixentry:erland/webapp/diary/entity/appendix/appendixentry.xml"/>
         <entity id="diary-purchaseentry" reference="purchaseentry:erland/webapp/diary/entity/purchase/purchaseentry.xml"/>
+        <entity id="diary-purchasepricegroupentry" reference="purchasepricegroupentry:erland/webapp/diary/entity/purchase/purchasepricegroupentry.xml"/>
+        <entity id="diary-purchaseentrycategory" reference="purchaseentrycategory:erland/webapp/diary/entity/purchase/purchaseentrycategory.xml"/>
         <entity id="diary-inventoryentry" reference="inventoryentry:erland/webapp/diary/entity/inventory/inventoryentry.xml"/>
         <entity id="diary-inventoryentryevent" reference="inventoryentryevent:erland/webapp/diary/entity/inventory/inventoryentryevent.xml"/>
         <entity id="diary-inventoryentryeventtype" reference="inventoryentryeventtype:erland/webapp/diary/entity/inventory/inventoryentryeventtype.xml"/>
