@@ -45,5 +45,8 @@
     <erland-common:menuitem id="appendix" titleKey="diary.menu.appendix" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" roles="manager" >
         <erland-common:menuitem id="new" titleKey="diary.menu.appendix.new" page="/do/user/newappendixentry" />
     </erland-common:menuitem>
+    <erland-common:menuitem id="sourceappendix" titleKey="diary.menu.sourceappendix" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" roles="manager" >
+        <erland-common:menuitem id="new" titleKey="diary.menu.sourceappendix.new" page="/do/user/newsourceappendixentry" />
+    </erland-common:menuitem>
     <erland-common:menuitem id="logout" titleKey="diary.menu.logout" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" />
 </erland-common:menu>
