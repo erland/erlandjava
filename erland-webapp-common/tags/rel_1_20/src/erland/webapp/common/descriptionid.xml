@@ -1,0 +1,42 @@
+<entity id="descriptionid">
+    <class>erland.webapp.common.DescriptionId</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/common</datasource>
+        <table>descriptionids</table>
+        <fields>
+            <field id="type">
+                <column>type</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="id">
+                <column>id</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+            <field id="description">
+                <column>description</column>
+                <type>String</type>
+            </field>
+            <field id="descriptionEnglish">
+                <column>description_en</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allfortype">
+                <querystring>type=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>type</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
