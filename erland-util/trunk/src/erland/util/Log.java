@@ -4,15 +4,16 @@ import java.util.Hashtable;
 
 /**
  * Logging class which makes it possible to activate/deactivate logging
+ * @author Erland Isaksson
  */
 public abstract class Log 
 {
 	/** Indicates if logging is enabled or not */
-	protected static boolean enabled=false;
+	private static boolean enabled=false;
     /** Indicates that logging is enabled in all files */
-    protected static boolean allEnabled=false;
+    private static boolean allEnabled=false;
 	/** Hash table with all parts with logging enabled */
-	protected static Hashtable configTable = null;
+	private static Hashtable configTable = null;
 	
 	/** 
 	 * Enabled or disable logging everywhere
@@ -74,8 +75,8 @@ public abstract class Log
 
 	/**
 	 * Enabled or disable logging by using a configuration string
-	 * @param logConfig Configuration string with instruction of
-	 * which parts that should be logged. A string like below would
+	 * @param logFile Configuration file with instruction of
+	 * which parts that should be logged. A file like below would
 	 * enable logging in erland.util.XMLNode and erland.util.ParameterStorage
 	 * classes:
 	 * <br>
@@ -87,18 +88,37 @@ public abstract class Log
 	 * <br>
 	 *
 	 */
-	public static void setLog(final String logConfig)
+	public static void setLog(final String logFile)
 	{
-		FileStorage storage = new FileStorage(logConfig);
-        ParameterStorageString config = new ParameterStorageString(storage,"log",false);
-		if(configTable==null) {
-			configTable = new Hashtable();
-		}
+		FileStorage storage = new FileStorage(logFile);
+        ParameterStorageString config = new ParameterStorageString(storage,null,"log");
+        setLogConfig(config);
+	}
 
-		int i=1;
-		String item = config.getParameter("logitem"+i);
+    /**
+     * Enabled or disable logging by using a configuration string
+     * @param config Configuration storage with instruction of
+     * which parts that should be logged. A string like below would
+     * enable logging in erland.util.XMLNode and erland.util.ParameterStorage
+     * classes:
+     * <br>
+     * <br>&lt;log&gt;
+     * <br>&lt;logitem1&gt;erland.util.XMLNode&lt;/logitem1&gt;
+     * <br>&lt;logitem2&gt;erland.util.ParameterStorage&lt;/logitem2&gt;
+     * <br>&lt;logitemlevel2&gt;4&lt;/logitemlevel2&gt;
+     * <br>&lt;/log&gt;
+     * <br>
+     *
+     */
+    public static void setLogConfig(final ParameterValueStorageInterface config) {
+        if(configTable==null) {
+            configTable = new Hashtable();
+        }
+
+        int i=1;
+        String item = config.getParameter("logitem"+i);
         String itemlevelstr = config.getParameter("logitemlevel"+i++);
-		while(item!=null && item.length()>0) {
+        while(item!=null && item.length()>0) {
             int itemlevel = 0;
             if(itemlevelstr!=null) {
                 try {
@@ -110,15 +130,14 @@ public abstract class Log
             configTable.put(item.intern(),new Integer(itemlevel));
             item = config.getParameter("logitem"+i);
             itemlevelstr = config.getParameter("logitemlevel"+i++);
-		}
-		if(configTable.size()==0) {
-			configTable=null;
-		}
-		enabled=true;
+        }
+        if(configTable.size()==0) {
+            configTable=null;
+        }
+        enabled=true;
         allEnabled=false;
-	}
+    }
 
-	
 	/**
 	 * Log a text string if logging is enabled or
 	 * just return without doing anything if logging is
