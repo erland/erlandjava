@@ -6,7 +6,7 @@ package erland.util;
 public class Timer implements Runnable
 {
     /** Reference to object to call at each interval */
-    protected TimerListener listener;
+    protected TimerListenerInterface listener;
     /** Number of milliseconds between two ping calls */
     protected long delay;
     /** Indicates that the timer should be stopped */
@@ -19,7 +19,7 @@ public class Timer implements Runnable
      * @param delay Number of milliseconds between calls
      * @param listener Listener object that should be called
      */
-    public Timer(long delay, TimerListener listener)
+    public Timer(long delay, TimerListenerInterface listener)
     {
         this.delay = delay;
         this.listener = listener;
