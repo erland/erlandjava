@@ -131,10 +131,10 @@
         <put name="body" value="/WEB-INF/tiles/gallery/viewgallery.jsp"/>
     </definition>
     <definition name=".guest.viewexternalpictures" extends=".guest.index">
-        <put name="body" value="/WEB-INF/tiles/gallery/viewgallery.jsp"/>
+        <put name="body" value="/WEB-INF/tiles/gallery/viewexternalgallery.jsp"/>
     </definition>
     <definition name=".user.viewexternalpictures" extends=".user.index">
-        <put name="body" value="/WEB-INF/tiles/gallery/viewgallery.jsp"/>
+        <put name="body" value="/WEB-INF/tiles/gallery/viewexternalgallery.jsp"/>
     </definition>
     <definition name=".guest.empty" extends=".mainLayoutEmpty"/>
     <definition name=".guest.index" extends=".mainLayout">
