@@ -38,6 +38,10 @@
                 <column>referencedgallery</column>
                 <type>Integer</type>
             </field>
+            <field id="defaultResolution">
+                <column>defaultresolution</column>
+                <type>String</type>
+            </field>
         </fields>
         <queries>
             <query id="allforuser">

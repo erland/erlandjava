@@ -47,4 +47,8 @@ public interface GalleryInterface {
     Integer getReferencedGallery();
 
     void setReferencedGallery(Integer referencedGallery);
+
+    String getDefaultResolution();
+
+    void setDefaultResolution(String defaultResolution);
 }

@@ -29,6 +29,7 @@ public class Gallery extends BaseEntity implements GalleryInterface {
     private Integer topCategory;
     private Boolean official;
     private Integer referencedGallery;
+    private String defaultResolution;
 
     public Integer getId() {
         return id;
@@ -84,5 +85,13 @@ public class Gallery extends BaseEntity implements GalleryInterface {
 
     public void setReferencedGallery(Integer referencedGallery) {
         this.referencedGallery = referencedGallery;
+    }
+
+    public String getDefaultResolution() {
+        return defaultResolution;
+    }
+
+    public void setDefaultResolution(String defaultResolution) {
+        this.defaultResolution = defaultResolution;
     }
 }
