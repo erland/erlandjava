@@ -3,10 +3,7 @@ package erland.webapp.download.entity;
 import erland.webapp.common.BaseEntity;
 import erland.webapp.common.EntityReadUpdateInterface;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.File;
+import java.io.*;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -35,6 +32,7 @@ public class Application extends BaseEntity implements EntityReadUpdateInterface
     private String title;
     private String logo;
     private String description;
+    private String language;
 
     public String getId() {
         return id;
@@ -84,6 +82,14 @@ public class Application extends BaseEntity implements EntityReadUpdateInterface
         this.description = description;
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
     public String getDirectory() {
         return directory;
     }
@@ -105,14 +111,22 @@ public class Application extends BaseEntity implements EntityReadUpdateInterface
 
     public void postReadUpdate() {
         if(getId()!=null) {
-            File file = new File(getId()+"/"+"logo.gif");
+            File file = new File(getId()+"/"+"logo_"+(language!=null?language:"")+".gif");
+            if(!file.exists()) {
+                file = new File(getId()+"/"+"logo.gif");
+            }
             if(file.exists()) {
-                setLogo(getName()+"/"+"logo.gif");
+                setLogo(getName()+"/"+file.getName());
             }else {
                 setLogo(null);
             }
             try {
-                BufferedReader reader = new BufferedReader(new FileReader(getId()+"/readme.txt"));
+                BufferedReader reader = null;
+                try {
+                    reader = new BufferedReader(new FileReader(getId()+"/readme_"+(language!=null?language:"")+".txt"));
+                } catch (FileNotFoundException e) {
+                    reader = new BufferedReader(new FileReader(getId()+"/readme.txt"));
+                }
                 StringBuffer description = new StringBuffer();
                 String line = reader.readLine();
                 while(line!=null) {
@@ -122,14 +136,21 @@ public class Application extends BaseEntity implements EntityReadUpdateInterface
                         description.append("\n");
                     }
                 }
+                reader.close();
                 setDescription(description.toString());
             } catch (IOException e) {
                 setDescription(null);
             }
 
             try {
-                BufferedReader reader = new BufferedReader(new FileReader(getId()+"/title.txt"));
+                BufferedReader reader = null;
+                try {
+                    reader = new BufferedReader(new FileReader(getId()+"/title_"+(language!=null?language:"")+".txt"));
+                } catch (FileNotFoundException e) {
+                    reader = new BufferedReader(new FileReader(getId()+"/title.txt"));
+                }
                 setTitle(reader.readLine());
+                reader.close();
             } catch (IOException e) {
                 setTitle(null);
             }
@@ -137,6 +158,7 @@ public class Application extends BaseEntity implements EntityReadUpdateInterface
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(getId()+"/category.txt"));
                 setCategory(reader.readLine());
+                reader.close();
             } catch (IOException e) {
                 setCategory(null);
             }

@@ -6,7 +6,9 @@ import erland.webapp.common.EntityReadUpdateInterface;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -37,6 +39,7 @@ public class ApplicationVersion extends BaseEntity implements EntityReadUpdateIn
     private String version;
     private String description;
     private Date date;
+    private String language;
 
     public String getId() {
         return id;
@@ -114,7 +117,15 @@ public class ApplicationVersion extends BaseEntity implements EntityReadUpdateIn
         this.date = date;
     }
 
-    public void preReadUpdate() {
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+   public void preReadUpdate() {
         if (id != null) {
             id = id.replaceAll("[@:]", "/");
             id = directory + id;
@@ -129,7 +140,12 @@ public class ApplicationVersion extends BaseEntity implements EntityReadUpdateIn
                 pathWithoutExtension = pathWithoutExtension.substring(0,pos);
             }
             try {
-                BufferedReader reader = new BufferedReader(new FileReader(pathWithoutExtension+".txt"));
+                BufferedReader reader = null;
+                try {
+                    reader = new BufferedReader(new FileReader(pathWithoutExtension+"_"+(language!=null?language:"")+".txt"));
+                } catch (FileNotFoundException e) {
+                    reader = new BufferedReader(new FileReader(pathWithoutExtension+".txt"));
+                }
                 StringBuffer description = new StringBuffer();
                 String line = reader.readLine();
                 while(line!=null) {
@@ -139,6 +155,7 @@ public class ApplicationVersion extends BaseEntity implements EntityReadUpdateIn
                         description.append("\n");
                     }
                 }
+                reader.close();
                 setDescription(description.toString());
             } catch (IOException e) {
                 setDescription(null);
@@ -156,8 +173,14 @@ public class ApplicationVersion extends BaseEntity implements EntityReadUpdateIn
             }
 
             try {
-                BufferedReader reader = new BufferedReader(new FileReader(id.substring(0,pos)+"/title.txt"));
+                BufferedReader reader = null;
+                try {
+                    reader = new BufferedReader(new FileReader(id.substring(0,pos)+"/title_"+(language!=null?language:"")+".txt"));
+                } catch (FileNotFoundException e) {
+                    reader = new BufferedReader(new FileReader(id.substring(0,pos)+"/title.txt"));
+                }
                 setApplicationTitle(reader.readLine());
+                reader.close();
             } catch (IOException e) {
                 setApplicationTitle(null);
             }
@@ -173,14 +196,26 @@ public class ApplicationVersion extends BaseEntity implements EntityReadUpdateIn
             }
             pos = nameWithoutExtension.lastIndexOf("-");
             if(pos>=0) {
-                setVersion(nameWithoutExtension.substring(pos+1));
+                if(Pattern.matches("[a-z]+",nameWithoutExtension.substring(pos+1))) {
+                    int pos2 = nameWithoutExtension.lastIndexOf("-",pos-1);
+                    if(pos2>=0) {
+                        setVersion(nameWithoutExtension.substring(pos2+1));
+                    }else {
+                        setVersion(nameWithoutExtension.substring(pos+1));
+                    }
+                }else {
+                    setVersion(nameWithoutExtension.substring(pos+1));
+                }
             }else {
                 setVersion(null);
             }
 
             if(getVersion()!=null) {
                 String version = getVersion();
-                pos = version.indexOf("_");
+                pos = version.indexOf("-");
+                if(pos<0) {
+                    pos = version.indexOf("_");
+                }
                 if(pos>=0) {
                     setVersion(version.substring(0,pos));
                     setType(version.substring(pos+1));
