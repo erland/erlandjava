@@ -32,8 +32,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SearchAppendixEntriesAction extends BaseAction {
+    protected String getEntity() {
+        return "diary-appendixentry";
+    }
+
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("diary-appendixentry").search(new QueryFilter("all"));
+        EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage(getEntity()).search(new QueryFilter("all"));
         AppendixFB[] pb = new AppendixFB[entities.length];
         for (int i = 0; i < entities.length; i++) {
             pb[i] = new AppendixFB();

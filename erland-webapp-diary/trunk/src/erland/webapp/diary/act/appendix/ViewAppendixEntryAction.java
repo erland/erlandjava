@@ -31,11 +31,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ViewAppendixEntryAction extends BaseAction {
+    protected String getEntity() {
+        return "diary-appendixentry";
+    }
+
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AppendixFB fb = (AppendixFB) form;
-        AppendixEntry template = (AppendixEntry) getEnvironment().getEntityFactory().create("diary-appendixentry");
+        AppendixEntry template = (AppendixEntry) getEnvironment().getEntityFactory().create(getEntity());
         template.setId(fb.getId());
-        EntityInterface entity = getEnvironment().getEntityStorageFactory().getStorage("diary-appendixentry").load(template);
+        EntityInterface entity = getEnvironment().getEntityStorageFactory().getStorage(getEntity()).load(template);
         PropertyUtils.copyProperties(fb,entity);
     }
 }

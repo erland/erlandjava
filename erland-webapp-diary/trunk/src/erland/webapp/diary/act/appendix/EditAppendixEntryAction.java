@@ -20,6 +20,7 @@ package erland.webapp.diary.act.appendix;
  */
 
 import erland.webapp.common.act.BaseAction;
+import erland.webapp.common.html.HTMLEncoder;
 import erland.webapp.diary.entity.appendix.AppendixEntry;
 import erland.webapp.diary.fb.appendix.AppendixFB;
 import org.apache.struts.action.ActionForm;
@@ -30,11 +31,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class EditAppendixEntryAction extends BaseAction {
+    protected String getEntity() {
+        return "diary-appendixentry";
+    }
 
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AppendixFB fb = (AppendixFB) form;
-        AppendixEntry entry = (AppendixEntry) getEnvironment().getEntityFactory().create("diary-appendixentry");
+        AppendixEntry entry = (AppendixEntry) getEnvironment().getEntityFactory().create(getEntity());
         PropertyUtils.copyProperties(entry,fb);
-        getEnvironment().getEntityStorageFactory().getStorage("diary-appendixentry").store(entry);
+        getEnvironment().getEntityStorageFactory().getStorage(getEntity()).store(entry);
+        HTMLEncoder.reset();
     }
 }
