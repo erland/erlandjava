@@ -63,7 +63,7 @@ public class ViewSpeciesEntryInfoAction extends BaseAction {
         parameters.put("gallery",entry.getGallery());
 
         ActionForward forward = mapping.findForward("view-gallery-link");
-        if(forward!=null) {
+        if(forward!=null && entry.getGallery()!=null && entry.getGallery().intValue()!=0) {
             pb.setGalleryLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
         }
         forward = mapping.findForward("view-entry-link");
