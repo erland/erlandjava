@@ -169,7 +169,7 @@ abstract class PipeBlock
 		delPartsWithMovingWater.clear();
 		
 		if(moving) {
-			movingProgress+=4;
+			movingProgress+=7;
 			if(movingProgress>cont.getSquareSize()) {
 				moving = false;
 				switch(movingDirection) {
