@@ -315,11 +315,11 @@ public class BeanMenuItemTag extends TagSupport {
             try {
                 result.put(property.getName(),PropertyUtils.getProperty(bean,property.getName()));
             } catch (IllegalAccessException e) {
-                LOG.error("Unable to get property "+property.getName(),e);
+                LOG.trace("Unable to get property "+property.getName(),e);
             } catch (InvocationTargetException e) {
-                LOG.error("Unable to get property "+property.getName(),e);
+                LOG.trace("Unable to get property "+property.getName(),e);
             } catch (NoSuchMethodException e) {
-                LOG.error("Unable to get property "+property.getName(),e);
+                LOG.trace("Unable to get property "+property.getName(),e);
             }
         }
         result.put("menuId",menuId);
