@@ -18,6 +18,7 @@
         <form-bean name="selectPictureFB" type="erland.webapp.gallery.fb.gallery.picture.SelectPictureFB"/>
         <form-bean name="searchPictureFB" type="erland.webapp.gallery.fb.gallery.picture.SearchPictureFB"/>
         <form-bean name="imageFB" type="erland.webapp.gallery.fb.loader.ImageFB"/>
+        <form-bean name="importFB" type="erland.webapp.gallery.fb.gallery.importers.ImportFB"/>
     </form-beans>
 
     <global-forwards>
@@ -151,6 +152,42 @@
         </action>
 
         <action
+            path="/user/editgallery"
+            type="erland.webapp.gallery.act.gallery.EditGalleryAction"
+            name="galleryFB"
+            input=".user.editgallery"
+            validate="true">
+
+            <forward name="success" path="/do/user/viewgallery"/>
+        </action>
+
+        <action
+            path="/user/removegallery"
+            type="erland.webapp.gallery.act.gallery.RemoveGalleryAction"
+            name="galleryFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/home"/>
+        </action>
+
+        <action
+            path="/user/viewimportpictures"
+            type="erland.webapp.gallery.act.gallery.importers.ViewIMatchImportAction"
+            name="importFB"
+            validate="false">
+
+            <forward name="success" path=".user.importpictures"/>
+        </action>
+        <action
+            path="/user/importpictures"
+            type="erland.webapp.gallery.act.gallery.importers.IMatchImportAction"
+            input=".user.importpictures"
+            name="importFB"
+            validate="true">
+
+            <forward name="success" path="/do/user/home"/>
+        </action>
+        <action
             path="/user/viewpictures"
             type="erland.webapp.gallery.act.gallery.picture.SearchPicturesAction"
             name="selectPictureFB"
@@ -159,8 +196,8 @@
             <forward name="success" path=".user.viewpictures"/>
             <forward name="picture-link" path="/do/user/loadimage?gallery={gallery}&amp;image={picture}"/>
             <forward name="picture-image" path="/do/user/loadthumbnail?gallery={gallery}&amp;image={picture}"/>
-            <forward name="previous-link" path="/do/user/viewpictures?gallery={gallery}&amp;category={category}&amp;start={start}&amp;max={max}"/>
-            <forward name="next-link" path="/do/user/viewpictures?gallery={gallery}&amp;category={category}&amp;start={start}&amp;max={max}"/>
+            <forward name="previous-link" path="/do/user/viewpictures?gallery={gallery}[category,&amp;category={category}]&amp;start={start}&amp;max={max}"/>
+            <forward name="next-link" path="/do/user/viewpictures?gallery={gallery}[category,&amp;category={category}]&amp;start={start}&amp;max={max}"/>
             <forward name="search-link" path="/do/user/newsearch?gallery={gallery}&amp;max={max}"/>
         </action>
 
@@ -173,8 +210,8 @@
             <forward name="success" path=".guest.viewpictures"/>
             <forward name="picture-link" path="/do/guest/loadimage?gallery={gallery}&amp;image={picture}"/>
             <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}"/>
-            <forward name="previous-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}&amp;category={category}&amp;start={start}&amp;max={max}"/>
-            <forward name="next-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}&amp;category={category}&amp;start={start}&amp;max={max}"/>
+            <forward name="previous-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}&amp;max={max}"/>
+            <forward name="next-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}&amp;max={max}"/>
             <forward name="search-link" path="/do/guest/newsearch?user={user}&amp;gallery={gallery}&amp;max={max}"/>
         </action>
 
@@ -228,7 +265,8 @@
             path="/user/loadimage"
             type="erland.webapp.gallery.act.loader.LoadImageAction"
             name="imageFB"
-            validate="false">
+            validate="false"
+            scope="request">
             <forward name="failure" path="/images/thumbnailna.gif"/>
         </action>
 
@@ -236,7 +274,8 @@
             path="/user/loadthumbnail"
             type="erland.webapp.gallery.act.loader.LoadThumbnailAction"
             name="imageFB"
-            validate="false">
+            validate="false"
+            scope="request">
             <forward name="failure" path="/images/thumbnailna.gif"/>
         </action>
 
@@ -244,7 +283,8 @@
             path="/guest/loadimage"
             type="erland.webapp.gallery.act.loader.LoadImageAction"
             name="imageFB"
-            validate="false">
+            validate="false"
+            scope="request">
             <forward name="failure" path="/images/thumbnailna.gif"/>
         </action>
 
@@ -252,7 +292,8 @@
             path="/guest/loadthumbnail"
             type="erland.webapp.gallery.act.loader.LoadThumbnailAction"
             name="imageFB"
-            validate="false">
+            validate="false"
+            scope="request">
             <forward name="failure" path="/images/thumbnailna.gif"/>
         </action>
 
@@ -263,6 +304,16 @@
             validate="false">
 
             <forward name="success" path=".user.editcategory"/>
+        </action>
+
+        <action
+            path="/user/editcategory"
+            type="erland.webapp.gallery.act.gallery.category.EditCategoryAction"
+            name="categoryFB"
+            input=".user.editcategory"
+            validate="true">
+
+            <forward name="success" path="/do/user/viewgallery"/>
         </action>
 
         <action
