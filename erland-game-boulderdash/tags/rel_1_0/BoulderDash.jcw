@@ -1,0 +1,22 @@
+! ** JCreator Workspace File (C)2000
+! ********** DO NOT EDIT *********
+
+VERSION := "1.00"
+LABEL := "BoulderDash"
+
+! Start Project Structure
+#[BeginProject]SOURCE := "BoulderDash.jcp" #[EndProject]
+#[BeginProject]SOURCE := "E:\\Egna\\Java\\Common\\game\\game.jcp" #[EndProject]
+#[BeginProject]SOURCE := "E:\\Egna\\Java\\Common\\util\\util.jcp" #[EndProject]
+
+! Start Last Document Structure
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\Player.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\BlockEarth.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\LevelFactory.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\Level.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\BoulderDash.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\BoulderDashMain.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\BoulderDashEditor.java" #[EndFile]
+
+! Start Last Document Structure
+
