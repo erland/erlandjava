@@ -32,6 +32,8 @@ import erland.webapp.gallery.fb.gallery.importers.ImportFB;
 import erland.webapp.gallery.act.gallery.GalleryHelper;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,6 +45,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class IMatchImportAction extends BaseAction {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(IMatchImportAction.class);
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ImportFB fb = (ImportFB) form;
         try {
@@ -69,7 +73,7 @@ public class IMatchImportAction extends BaseAction {
                 return;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error while reading file "+fb.getFile(),e);
         }
     }
 }

@@ -28,6 +28,8 @@ import erland.webapp.gallery.fb.account.AccountPB;
 import erland.webapp.usermgmt.User;
 import erland.util.StringUtil;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 
@@ -36,6 +38,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.InvocationTargetException;
 
 public class SearchUserAccountsAction extends BaseAction {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(SearchUserAccountsAction.class);
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         QueryFilter filter = new QueryFilter(getQueryFilter());
@@ -62,11 +66,11 @@ public class SearchUserAccountsAction extends BaseAction {
                 }
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error while copying properties",e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error while copying properties",e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error while copying properties",e);
         }
         request.setAttribute("accountsPB", accountsPB);
         request.getSession().setAttribute("accountsPB", accountsPB);

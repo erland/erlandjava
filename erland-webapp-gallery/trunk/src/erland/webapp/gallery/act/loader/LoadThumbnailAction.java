@@ -35,6 +35,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,6 +49,8 @@ import java.lang.reflect.InvocationTargetException;
 
 
 public class LoadThumbnailAction extends LoadImageAction {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(LoadThumbnailAction.class);
     private static final int THUMBNAIL_WIDTH = 150;
 
     protected String getImageFileName(Picture picture) {
@@ -96,7 +100,7 @@ public class LoadThumbnailAction extends LoadImageAction {
                 return findFailure(mapping,form,request,response);
             }
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Unable to read file "+getImageFile(request),e);
         }
         return null;
     }
@@ -161,11 +165,11 @@ public class LoadThumbnailAction extends LoadImageAction {
                                 filterList.add(obj);
                             }
                         } catch (ClassNotFoundException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            LOG.error("Unable to create filter class "+filter.getCls(),e);
                         } catch (InstantiationException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            LOG.error("Unable to create filter class "+filter.getCls(),e);
                         } catch (IllegalAccessException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            LOG.error("Unable to create filter class "+filter.getCls(),e);
                         }
                     }
                 }
@@ -187,9 +191,9 @@ public class LoadThumbnailAction extends LoadImageAction {
                         try {
                             BeanUtils.setProperty(filter,name,value);
                         } catch (IllegalAccessException e) {
-                            e.printStackTrace();
+                            LOG.error("Unable to set property "+name,e);
                         } catch (InvocationTargetException e) {
-                            e.printStackTrace();
+                            LOG.error("Unable to set property "+name,e);
                         }
                     }
                 }

@@ -63,7 +63,7 @@ public class ExternalIMatchImportHelper extends ImportHelper {
                 return true;
             }
         } catch (DocumentException e) {
-            e.printStackTrace();
+            LOG.error("Error while reading xml",e);
         }
         return false;
     }
@@ -76,7 +76,7 @@ public class ExternalIMatchImportHelper extends ImportHelper {
                 try {
                     date = dateFormat.parse(dateString);
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    LOG.error("Unable to parse date: "+dateString,e);
                 }
             }
             String oidString = element.valueOf("@oid");

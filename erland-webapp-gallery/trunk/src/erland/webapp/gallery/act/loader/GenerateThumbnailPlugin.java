@@ -43,6 +43,8 @@ import org.apache.struts.action.ActionServlet;
 import org.apache.struts.config.ModuleConfig;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,6 +59,8 @@ import java.lang.reflect.InvocationTargetException;
 
 
 public class GenerateThumbnailPlugin extends BaseTaskPlugin {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(GenerateThumbnailPlugin.class);
     private static final int THUMBNAIL_WIDTH = 150;
     private static GenerateThumbnailPlugin me = null;
 
@@ -267,11 +271,11 @@ public class GenerateThumbnailPlugin extends BaseTaskPlugin {
                                 filterList.add(obj);
                             }
                         } catch (ClassNotFoundException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            LOG.error("Unable to create filter class "+filter.getCls(),e);
                         } catch (InstantiationException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            LOG.error("Unable to create filter class "+filter.getCls(),e);
                         } catch (IllegalAccessException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            LOG.error("Unable to create filter class "+filter.getCls(),e);
                         }
                     }
                 }
@@ -293,9 +297,9 @@ public class GenerateThumbnailPlugin extends BaseTaskPlugin {
                         try {
                             BeanUtils.setProperty(filter,name,value);
                         } catch (IllegalAccessException e) {
-                            e.printStackTrace();
+                            LOG.error("Unable to set property "+name,e);
                         } catch (InvocationTargetException e) {
-                            e.printStackTrace();
+                            LOG.error("Unable to set property "+name,e);
                         }
                     }
                 }

@@ -23,6 +23,8 @@ import erland.webapp.common.act.BaseAction;
 import erland.webapp.gallery.entity.gallery.filter.Filter;
 import erland.webapp.gallery.fb.gallery.filter.FilterFB;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 
@@ -32,13 +34,15 @@ import java.util.Arrays;
 import java.awt.image.ImageFilter;
 
 public class EditFilterAction extends BaseAction {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(EditFilterAction.class);
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         FilterFB fb = (FilterFB) form;
         Class cls = null;
         try {
             cls = Class.forName(fb.getCls());
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            LOG.debug("Filter class "+fb.getCls()+" not found",e);
         }
         if (cls == null) {
             saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.filter.edit.class-dont-exist"}));

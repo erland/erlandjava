@@ -1,5 +1,8 @@
 package erland.webapp.gallery.act.gallery.importers;
 
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
+
 import java.io.Reader;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,6 +31,8 @@ import java.text.SimpleDateFormat;
  */
 
 public class IMatchImportHelper extends ImportHelper {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(IMatchImportHelper.class);
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public static boolean importPictures(Integer galleryId, Reader reader, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean clearAssociations) {
@@ -49,7 +54,7 @@ public class IMatchImportHelper extends ImportHelper {
                 updatePictures(galleryId);
                 return true;
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("Error while reading file",e);
             }
         }
         return false;
@@ -69,7 +74,7 @@ public class IMatchImportHelper extends ImportHelper {
             try {
                 date = dateFormat.parse(dateString);
             } catch (ParseException e) {
-                e.printStackTrace();
+                LOG.error("Error while parsing date: "+dateString,e);
             }
             //Discard delimiter
             tokenizer.nextToken();

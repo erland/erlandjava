@@ -137,7 +137,7 @@ public class LoadImageAction extends BaseAction {
                 return findFailure(mapping,form,request,response);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Unable to read file "+getImageFile(request),e);
         }
         return null;
     }

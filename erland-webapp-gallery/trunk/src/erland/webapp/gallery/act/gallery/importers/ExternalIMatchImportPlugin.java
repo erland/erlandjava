@@ -3,6 +3,8 @@ package erland.webapp.gallery.act.gallery.importers;
 import org.apache.struts.action.PlugIn;
 import org.apache.struts.action.ActionServlet;
 import org.apache.struts.config.ModuleConfig;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 
 import javax.servlet.ServletException;
 import java.io.*;
@@ -35,6 +37,8 @@ import erland.webapp.gallery.act.gallery.GalleryHelper;
  */
 
 public class ExternalIMatchImportPlugin extends BaseTaskPlugin{
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(ExternalIMatchImportPlugin.class);
     private static ExternalIMatchImportPlugin me = null;
 
     public void init(ActionServlet actionServlet, ModuleConfig moduleConfig) throws ServletException {
@@ -61,7 +65,7 @@ public class ExternalIMatchImportPlugin extends BaseTaskPlugin{
             reader = new StringReader(sb.toString());
             return addTask(galleryId,new Task(galleryId,reader,localLinks,filenameAsPictureTitle,filenameAsPictureDescription,clearAssociations));
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error("Error while reading file",e);
             return false;
         }
     }
