@@ -34,8 +34,8 @@ public class ParameterStorageTree implements ParameterValueStorageExInterface {
      */
     private XMLNode getParameter(StringTokenizer tokenizer, Iterator elements) {
         String token=null;
-        if(tokenizer.hasMoreElements()) {
-            token = (String)tokenizer.nextElement();
+        if(tokenizer.hasMoreTokens()) {
+            token = tokenizer.nextToken();
         }else if(elements.hasNext()) {
             XMLNode element = (XMLNode)elements.next();
             return element;
@@ -44,7 +44,7 @@ public class ParameterStorageTree implements ParameterValueStorageExInterface {
             XMLNode element = (XMLNode)elements.next();
             Iterator childs = element.getChilds();
             if(token.equals(element.getName())) {
-                if(tokenizer.hasMoreElements()) {
+                if(tokenizer.hasMoreTokens()) {
                     if(childs!=null && childs.hasNext()) {
                         return getParameter(tokenizer,childs);
                     }
@@ -64,8 +64,8 @@ public class ParameterStorageTree implements ParameterValueStorageExInterface {
                         return getParameter(tokenizer,element.getChilds());
                     }
                 }else if(element.getAttributeValue("id")!=null && element.getAttributeValue("id").equals(token)) {
-                    if(tokenizer.hasMoreElements()) {
-                        String valueName = (String)tokenizer.nextElement();
+                    if(tokenizer.hasMoreTokens()) {
+                        String valueName = tokenizer.nextToken();
                         String value = element.getAttributeValue(valueName);
                         if(value!=null) {
                             XMLNode node = new XMLNode(token,null);
@@ -89,11 +89,20 @@ public class ParameterStorageTree implements ParameterValueStorageExInterface {
      */
     private XMLNode getParameterNode(String str) {
         StringTokenizer tokenizer = new StringTokenizer("resources."+str,".");
-        if(tokenizer.hasMoreElements()) {
+        if(tokenizer.hasMoreTokens()) {
             if(resources!=null) {
                 Vector v = new Vector();
                 v.addElement(resources);
-                return getParameter(tokenizer,v.iterator());
+                XMLNode node = getParameter(tokenizer,v.iterator());
+                if(node!=null && tokenizer.hasMoreTokens()) {
+                    String token = tokenizer.nextToken();
+                    String value = node.getAttributeValue(token);
+                    if(value!=null && !tokenizer.hasMoreTokens()) {
+                        node = new XMLNode(token,null);
+                        node.setValue(value);
+                    }
+                }
+                return node;
             }
         }
         return null;
