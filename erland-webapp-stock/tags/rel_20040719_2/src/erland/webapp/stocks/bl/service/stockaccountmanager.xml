@@ -1,0 +1,3 @@
+<service id="stockaccountmanager">
+    <class>erland.webapp.stocks.bl.service.StockAccountManager</class>
+</service>
