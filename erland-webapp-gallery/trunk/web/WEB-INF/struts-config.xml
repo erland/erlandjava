@@ -294,6 +294,7 @@
             validate="false">
 
             <forward name="success" path=".guest.viewpictures"/>
+            <forward name="picture-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
             <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}"/>
             <forward name="previous-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}&amp;max={max}"/>
             <forward name="picture-resolution-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}"/>
@@ -337,6 +338,7 @@
             validate="false">
 
             <forward name="success" path=".guest.viewpictures"/>
+            <forward name="picture-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
             <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}"/>
             <forward name="previous-link" path="/do/guest/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}&amp;max={max}"/>
             <forward name="picture-resolution-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}"/>
@@ -607,7 +609,7 @@
     <plug-in className="erland.webapp.common.act.LogConfigurationPlugin">
         <set-property
             property="logConfigurationFile"
-            value="C:/gallery_log.xml"/>
+            value="gallery_log.xml"/>
     </plug-in>
     <plug-in className="org.apache.struts.tiles.TilesPlugin">
         <set-property property="definitions-config"
