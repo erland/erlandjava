@@ -63,7 +63,7 @@
         <put name="body" value="/WEB-INF/tiles/gallery/picturestorages/editstorage.jsp"/>
     </definition>
     <definition name=".user.viewpictures" extends=".user.index">
-        <put name="body" value="/WEB-INF/tiles/gallery/viewpictures.jsp"/>
+        <put name="body" value="/WEB-INF/tiles/gallery/gallerycategorymenu.jsp"/>
     </definition>
     <definition name=".guest.viewpictures" extends=".guest.index">
         <put name="body" value="/WEB-INF/tiles/gallery/viewpictures.jsp"/>
@@ -73,6 +73,15 @@
     </definition>
     <definition name=".guest.editsearch" extends=".guest.index">
         <put name="body" value="/WEB-INF/tiles/gallery/editsearchguest.jsp"/>
+    </definition>
+    <definition name=".user.editgallery" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/editgallery.jsp"/>
+    </definition>
+    <definition name=".user.editcategory" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/category/editcategory.jsp"/>
+    </definition>
+    <definition name=".user.importpictures" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/importers/importgallery.jsp"/>
     </definition>
     <definition name=".guest.index" extends=".mainLayout">
         <put name="menu" value="/WEB-INF/tiles/common/guestmenu.jsp"/>
