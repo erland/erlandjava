@@ -6,7 +6,7 @@
 <table class="inventorypage-body">
     <logic:iterate name="inventoryEntriesPB" id="entry">
         <tr>
-        <td><erland-common:beanlink name="entry" property="viewLink" style="inventorypage-button"><bean:write name="entry" property="name"/></erland-common:beanlink></td>
+        <td nowrap><erland-common:beanlink name="entry" property="viewLink" style="inventorypage-button"><bean:write name="entry" property="name"/></erland-common:beanlink></td>
         <td><p class="inventorypage-list-field"><bean:write name="entry" property="sexDescription"/></p></td>
         <logic:iterate name="entry" property="events" id="event" length="1">
             <td><p class="inventorypage-list-field"><bean:write name="event" property="sizeText"/></p></td>
