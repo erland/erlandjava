@@ -106,7 +106,7 @@ public abstract class SearchPicturesBaseCommand implements CommandInterface, Vie
             setFilterAttributes(request, filter);
             EntityInterface[] entities = new EntityInterface[0];
             if(picturesAllowed==null || (picturesAllowed!=null && picturesAllowed.size()>0)) {
-                entities = environment.getEntityStorageFactory().getStorage("picture").search(filter);
+                entities = environment.getEntityStorageFactory().getStorage("gallery-picture").search(filter);
             }
 
             String username = request.getParameter("user");
@@ -116,7 +116,7 @@ public abstract class SearchPicturesBaseCommand implements CommandInterface, Vie
             }
             filter = new QueryFilter("allforuser");
             filter.setAttribute("username",username);
-            EntityInterface[] storageEntities = environment.getEntityStorageFactory().getStorage("picturestorage").search(filter);
+            EntityInterface[] storageEntities = environment.getEntityStorageFactory().getStorage("gallery-picturestorage").search(filter);
 
             pictures = new Picture[entities.length];
             for (int i = 0; i < entities.length; i++) {
@@ -165,9 +165,9 @@ public abstract class SearchPicturesBaseCommand implements CommandInterface, Vie
 
     public GalleryInterface getGallery() {
         if(galleryId!=null && gallery==null && virtualGalleryId!=null) {
-            Gallery template = (Gallery) environment.getEntityFactory().create("gallery");
+            Gallery template = (Gallery) environment.getEntityFactory().create("gallery-gallery");
             template.setId(virtualGalleryId);
-            gallery = (GalleryInterface) environment.getEntityStorageFactory().getStorage("gallery").load(template);
+            gallery = (GalleryInterface) environment.getEntityStorageFactory().getStorage("gallery-gallery").load(template);
         }
         return gallery;
     }
@@ -214,7 +214,7 @@ public abstract class SearchPicturesBaseCommand implements CommandInterface, Vie
         QueryFilter filter = new QueryFilter("allforgalleryandcategorytree");
         filter.setAttribute("gallery",gallery);
         filter.setAttribute("category",category);
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("category").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery-category").search(filter);
         Category[] categories = new Category[entities.length];
         for (int i = 0; i < entities.length; i++) {
             categories[i] = (Category) entities[i];

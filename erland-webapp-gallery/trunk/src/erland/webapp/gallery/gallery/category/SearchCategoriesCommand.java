@@ -39,16 +39,16 @@ public class SearchCategoriesCommand implements CommandInterface, ViewCategories
         initCommand(request);
         Integer category = null;
         Integer gallery = getGalleryId(request);
-        String categoryString = request.getParameter("category");
+        String categoryString = request.getParameter("gallery-category");
         if(categoryString!=null&&categoryString.length()>0) {
             category = Integer.valueOf(categoryString);
         }
         if(gallery!=null) {
             Integer virtualGalleryId = Integer.valueOf(request.getParameter("gallery"));
             if(category==null) {
-                Gallery template = (Gallery) environment.getEntityFactory().create("gallery");
+                Gallery template = (Gallery) environment.getEntityFactory().create("gallery-gallery");
                 template.setId(virtualGalleryId);
-                GalleryInterface entity = (GalleryInterface) environment.getEntityStorageFactory().getStorage("gallery").load(template);
+                GalleryInterface entity = (GalleryInterface) environment.getEntityStorageFactory().getStorage("gallery-gallery").load(template);
                 if(entity!=null && !entity.getTopCategory().equals(new Integer(0))) {
                     category = entity.getTopCategory();
                 }
@@ -61,7 +61,7 @@ public class SearchCategoriesCommand implements CommandInterface, ViewCategories
                 filter = new QueryFilter(getNoParentFilter());
             }
             filter.setAttribute("gallery",gallery);
-            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("category").search(filter);
+            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery-category").search(filter);
             categories = new Category[entities.length];
             for (int i = 0; i < entities.length; i++) {
                 categories[i] = (Category) entities[i];

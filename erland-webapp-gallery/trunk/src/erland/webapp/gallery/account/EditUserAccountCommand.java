@@ -60,7 +60,7 @@ public class EditUserAccountCommand implements CommandInterface, ViewUserAccount
             if(defaultGalleryString!=null && defaultGalleryString.length()>0) {
                 defaultGallery=Integer.valueOf(defaultGalleryString);
             }
-            account = (UserAccount)environment.getEntityFactory().create("galleryuseraccount");
+            account = (UserAccount)environment.getEntityFactory().create("gallery-useraccount");
             account.setUsername(username);
             account.setWelcomeText(welcomeText);
             account.setDescription(description);
@@ -68,7 +68,7 @@ public class EditUserAccountCommand implements CommandInterface, ViewUserAccount
             account.setOfficial(official);
             account.setDefaultGallery(defaultGallery);
             account.setCopyrightText(copyright);
-            environment.getEntityStorageFactory().getStorage("galleryuseraccount").store(account);
+            environment.getEntityStorageFactory().getStorage("gallery-useraccount").store(account);
         }
         return null;
     }
@@ -78,9 +78,9 @@ public class EditUserAccountCommand implements CommandInterface, ViewUserAccount
     }
 
     public User getUser() {
-        User template = (User) environment.getEntityFactory().create("userinfo");
+        User template = (User) environment.getEntityFactory().create("usermgmt-userinfo");
         template.setUsername(account.getUsername());
-        User user = (User) environment.getEntityStorageFactory().getStorage("userinfo").load(template);
+        User user = (User) environment.getEntityStorageFactory().getStorage("usermgmt-userinfo").load(template);
         return user;
     }
 
@@ -88,7 +88,7 @@ public class EditUserAccountCommand implements CommandInterface, ViewUserAccount
         if(galleries==null) {
             QueryFilter filter = new QueryFilter("addforuser");
             filter.setAttribute("username",account.getUsername());
-            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery").search(filter);
+            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery-gallery").search(filter);
             galleries = new GalleryInterface[entities.length];
             for (int i = 0; i < entities.length; i++) {
                 galleries[i] = (GalleryInterface) entities[i];

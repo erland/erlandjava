@@ -69,14 +69,14 @@ public class IMatchImportCommand implements CommandInterface {
                 if(clearCategories.booleanValue()) {
                     QueryFilter filter = new QueryFilter("allforgallery");
                     filter.setAttribute("gallery",gallery);
-                    environment.getEntityStorageFactory().getStorage("category").delete(filter);
-                    environment.getEntityStorageFactory().getStorage("categorymembership").delete(filter);
+                    environment.getEntityStorageFactory().getStorage("gallery-category").delete(filter);
+                    environment.getEntityStorageFactory().getStorage("gallery-categorymembership").delete(filter);
                 }
                 if(clearPictures.booleanValue()) {
                     QueryFilter filter = new QueryFilter("allforgallery");
                     filter.setAttribute("gallery",gallery);
-                    environment.getEntityStorageFactory().getStorage("picture").delete(filter);
-                    environment.getEntityStorageFactory().getStorage("categorypictureassociation").delete(filter);
+                    environment.getEntityStorageFactory().getStorage("gallery-picture").delete(filter);
+                    environment.getEntityStorageFactory().getStorage("gallery-categorypictureassociation").delete(filter);
                 }
                 loadCategories(categories,gallery);
                 BufferedReader reader = null;
@@ -181,11 +181,11 @@ public class IMatchImportCommand implements CommandInterface {
         QueryFilter filter = new QueryFilter("ingallerywithname");
         filter.setAttribute("gallery",gallery);
         filter.setAttribute("link","{"+picture+"}");
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("picture").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery-picture").search(filter);
         if(entities.length>0) {
             return ((Picture)entities[0]).getId();
         }else {
-            Picture entity = (Picture) environment.getEntityFactory().create("picture");
+            Picture entity = (Picture) environment.getEntityFactory().create("gallery-picture");
             if((title==null || title.length()==0) && filenameAsPictureTitle.booleanValue()) {
                 title = picture;
             }
@@ -209,7 +209,7 @@ public class IMatchImportCommand implements CommandInterface {
             entity.setGallery(gallery);
             entity.setDate(modificationDate);
             entity.setId(id);
-            environment.getEntityStorageFactory().getStorage("picture").store(entity);
+            environment.getEntityStorageFactory().getStorage("gallery-picture").store(entity);
             return entity.getId();
         }
     }
@@ -217,14 +217,14 @@ public class IMatchImportCommand implements CommandInterface {
 
     private Integer createCategory(Integer gallery, String categoryPath) {
         StringTokenizer it = new StringTokenizer(categoryPath,".");
-        EntityStorageInterface storage = environment.getEntityStorageFactory().getStorage("category");
+        EntityStorageInterface storage = environment.getEntityStorageFactory().getStorage("gallery-category");
         Integer parent = null;
         Map current = categories;
         while(it.hasMoreTokens()) {
             String category = it.nextToken();
             CategoryCache obj =(CategoryCache) current.get(category);
             if(obj==null) {
-                Category entity = (Category) environment.getEntityFactory().create("category");
+                Category entity = (Category) environment.getEntityFactory().create("gallery-category");
                 entity.setGallery(gallery);
                 entity.setName(category);
                 entity.setParentCategory(parent);
@@ -247,7 +247,7 @@ public class IMatchImportCommand implements CommandInterface {
         QueryFilter filter = new QueryFilter("allforgallery");
         filter.setAttribute("gallery",gallery);
         categories.clear();
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("category").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery-category").search(filter);
         for (int i = 0; i < entities.length; i++) {
             Category category = (Category) entities[i];
             addCategory(categories, category.getName(),category.getCategory(),category.getParentCategory());
@@ -273,25 +273,25 @@ public class IMatchImportCommand implements CommandInterface {
         return false;
     }
     private void createPictureAssociation(Integer gallery, Integer picture, Integer category) {
-        CategoryPictureAssociation entity = (CategoryPictureAssociation) environment.getEntityFactory().create("categorypictureassociation");
+        CategoryPictureAssociation entity = (CategoryPictureAssociation) environment.getEntityFactory().create("gallery-categorypictureassociation");
         entity.setGallery(gallery);
         entity.setPicture(picture);
         entity.setCategory(category);
-        environment.getEntityStorageFactory().getStorage("categorypictureassociation").store(entity);
+        environment.getEntityStorageFactory().getStorage("gallery-categorypictureassociation").store(entity);
     }
 
     private void updateMembership(Integer gallery, Integer parent, Integer category) {
-        CategoryMembership template = (CategoryMembership) environment.getEntityFactory().create("categorymembership");
+        CategoryMembership template = (CategoryMembership) environment.getEntityFactory().create("gallery-categorymembership");
         template.setGallery(gallery);
         template.setCategory(parent);
         template.setMemberCategory(category);
-        environment.getEntityStorageFactory().getStorage("categorymembership").store(template);
+        environment.getEntityStorageFactory().getStorage("gallery-categorymembership").store(template);
 
         if(!parent.equals(new Integer(0))) {
-            Category templateCategory = (Category) environment.getEntityFactory().create("category");
+            Category templateCategory = (Category) environment.getEntityFactory().create("gallery-category");
             templateCategory.setGallery(gallery);
             templateCategory.setCategory(parent);
-            Category entity = (Category) environment.getEntityStorageFactory().getStorage("category").load(templateCategory);
+            Category entity = (Category) environment.getEntityStorageFactory().getStorage("gallery-category").load(templateCategory);
             if(entity!=null && !entity.getParentCategory().equals(new Integer(0))) {
                 updateMembership(gallery,entity.getParentCategory(),category);
             }
@@ -299,9 +299,9 @@ public class IMatchImportCommand implements CommandInterface {
     }
 
     private void updatePictures(QueryFilter filter, Integer gallery, Boolean official) {
-        Picture entity = (Picture) environment.getEntityFactory().create("picture");
+        Picture entity = (Picture) environment.getEntityFactory().create("gallery-picture");
         entity.setOfficial(official);
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("picture").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery-picture").search(filter);
         Collection pictures = new ArrayList(entities.length);
         for (int i = 0; i < entities.length; i++) {
             pictures.add(((Picture) entities[i]).getId());
@@ -310,7 +310,7 @@ public class IMatchImportCommand implements CommandInterface {
             QueryFilter pictureFilter = new QueryFilter("allforgalleryandpicturelist");
             pictureFilter.setAttribute("gallery", gallery);
             pictureFilter.setAttribute("pictures", pictures);
-            environment.getEntityStorageFactory().getStorage("picture").update(pictureFilter, entity);
+            environment.getEntityStorageFactory().getStorage("gallery-picture").update(pictureFilter, entity);
         }
     }
 }

@@ -38,14 +38,14 @@ public class EditPictureStorageCommand implements CommandInterface, ViewPictureS
         String path = request.getParameter("path");
         User user = (User) request.getSession().getAttribute("user");
         String username = user.getUsername();
-        storage = (PictureStorage) environment.getEntityFactory().create("picturestorage");
+        storage = (PictureStorage) environment.getEntityFactory().create("gallery-picturestorage");
         if(idString!=null && idString.length()>0) {
             storage.setId(Integer.valueOf(idString));
         }
         storage.setName(name);
         storage.setPath(path);
         storage.setUsername(username);
-        environment.getEntityStorageFactory().getStorage("picturestorage").store(storage);
+        environment.getEntityStorageFactory().getStorage("gallery-picturestorage").store(storage);
         return null;
     }
 

@@ -35,20 +35,20 @@ public class RemoveGalleryCommand implements CommandInterface {
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("id");
         if(id!=null && id.length()>0) {
-            Gallery gallery = (Gallery) environment.getEntityFactory().create("gallery");
+            Gallery gallery = (Gallery) environment.getEntityFactory().create("gallery-gallery");
             User user = (User) request.getSession().getAttribute("user");
             String username = user.getUsername();
             gallery.setId(Integer.valueOf(id));
-            gallery = (Gallery) environment.getEntityStorageFactory().getStorage("gallery").load(gallery);
+            gallery = (Gallery) environment.getEntityStorageFactory().getStorage("gallery-gallery").load(gallery);
             if(gallery.getUsername().equals(username)) {
-                environment.getEntityStorageFactory().getStorage("gallery").delete(gallery);
+                environment.getEntityStorageFactory().getStorage("gallery-gallery").delete(gallery);
                 QueryFilter filter = new QueryFilter("allforgallery");
                 filter.setAttribute("gallery",gallery.getId());
-                environment.getEntityStorageFactory().getStorage("picture").delete(filter);
-                environment.getEntityStorageFactory().getStorage("categorypictureassociation").delete(filter);
-                environment.getEntityStorageFactory().getStorage("categorymembership").delete(filter);
-                environment.getEntityStorageFactory().getStorage("category").delete(filter);
-                environment.getEntityStorageFactory().getStorage("gallerycategoryassociation").delete(filter);
+                environment.getEntityStorageFactory().getStorage("gallery-picture").delete(filter);
+                environment.getEntityStorageFactory().getStorage("gallery-categorypictureassociation").delete(filter);
+                environment.getEntityStorageFactory().getStorage("gallery-categorymembership").delete(filter);
+                environment.getEntityStorageFactory().getStorage("gallery-category").delete(filter);
+                environment.getEntityStorageFactory().getStorage("gallery-gallerycategoryassociation").delete(filter);
             }
         }
         return null;

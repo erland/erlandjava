@@ -49,19 +49,19 @@ public class EditCategoryCommand implements CommandInterface {
         Integer gallery = getGalleryId(request);
         String name = request.getParameter("name");
         if(gallery!=null && category!=null) {
-            Category template = (Category) environment.getEntityFactory().create("category");
+            Category template = (Category) environment.getEntityFactory().create("gallery-category");
             template.setGallery(gallery);
             template.setCategory(category);
-            Category entity = (Category) environment.getEntityStorageFactory().getStorage("category").load(template);
+            Category entity = (Category) environment.getEntityStorageFactory().getStorage("gallery-category").load(template);
             if(entity!=null && !name.equals(entity.getName())) {
                 entity.setName(name);
-                environment.getEntityStorageFactory().getStorage("category").store(entity);
+                environment.getEntityStorageFactory().getStorage("gallery-category").store(entity);
             }
             if(entity!=null && (forcedOfficial.booleanValue() || !entity.getOfficial().equals(official)) || !entity.getOfficialAlways().equals(alwaysOfficial) || !entity.getOfficialVisible().equals(visible)) {
                 QueryFilter filter = new QueryFilter("allforgalleryandcategorytree");
                 filter.setAttribute("gallery",gallery);
                 filter.setAttribute("category",category);
-                EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("category").search(filter);
+                EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery-category").search(filter);
                 Collection categories = new ArrayList(entities.length);
                 for (int i = 0; i < entities.length; i++) {
                     categories.add(((Category)entities[i]).getCategory());
@@ -69,11 +69,11 @@ public class EditCategoryCommand implements CommandInterface {
                 filter = new QueryFilter("allforgalleryandcategorylist");
                 filter.setAttribute("gallery",gallery);
                 filter.setAttribute("categories",categories);
-                entity = (Category) environment.getEntityFactory().create("category");
+                entity = (Category) environment.getEntityFactory().create("gallery-category");
                 entity.setOfficial(official);
                 entity.setOfficialAlways(alwaysOfficial);
                 entity.setOfficialVisible(visible);
-                environment.getEntityStorageFactory().getStorage("category").update(filter,entity);
+                environment.getEntityStorageFactory().getStorage("gallery-category").update(filter,entity);
 
                 filter = new QueryFilter("calculateofficialforgallery");
                 filter.setAttribute("gallery",gallery);
@@ -92,9 +92,9 @@ public class EditCategoryCommand implements CommandInterface {
     }
 
     private void updatePictures(QueryFilter filter, Integer gallery, Boolean official) {
-        Picture entity = (Picture) environment.getEntityFactory().create("picture");
+        Picture entity = (Picture) environment.getEntityFactory().create("gallery-picture");
         entity.setOfficial(official);
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("picture").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery-picture").search(filter);
         Collection pictures = new ArrayList(entities.length);
         for (int i = 0; i < entities.length; i++) {
             pictures.add(((Picture)entities[i]).getId());
@@ -102,7 +102,7 @@ public class EditCategoryCommand implements CommandInterface {
         QueryFilter pictureFilter = new QueryFilter("allforgalleryandpicturelist");
         pictureFilter.setAttribute("gallery",gallery);
         pictureFilter.setAttribute("pictures",pictures);
-        environment.getEntityStorageFactory().getStorage("picture").update(pictureFilter,entity);
+        environment.getEntityStorageFactory().getStorage("gallery-picture").update(pictureFilter,entity);
     }
     private Boolean asBoolean(String parameter) {
         if(parameter!=null && parameter.equalsIgnoreCase("true")) {

@@ -34,10 +34,10 @@ public class RemoveGuestAccountCommand implements CommandInterface {
     public String execute(HttpServletRequest request) {
         String guestuser = request.getParameter("guestuser");
         User user = (User) request.getSession().getAttribute("user");
-        GuestAccount template = (GuestAccount) environment.getEntityFactory().create("guestaccount");
+        GuestAccount template = (GuestAccount) environment.getEntityFactory().create("gallery-guestaccount");
         template.setGuestUser(guestuser);
         template.setUsername(user.getUsername());
-        environment.getEntityStorageFactory().getStorage("guestaccount").delete(template);
+        environment.getEntityStorageFactory().getStorage("gallery-guestaccount").delete(template);
         return null;
     }
 }

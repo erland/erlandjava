@@ -58,7 +58,7 @@ public class EditPictureCommand implements CommandInterface, ViewPictureInterfac
                 e.printStackTrace();
             }
         }
-        picture = (Picture) environment.getEntityFactory().create("picture");
+        picture = (Picture) environment.getEntityFactory().create("gallery-picture");
         if(id!=null && id.length()>0) {
             picture.setId(Integer.valueOf(id));
         }
@@ -69,7 +69,7 @@ public class EditPictureCommand implements CommandInterface, ViewPictureInterfac
         picture.setLink(link);
         picture.setDate(date);
         picture.setOfficial(official);
-        environment.getEntityStorageFactory().getStorage("picture").store(picture);
+        environment.getEntityStorageFactory().getStorage("gallery-picture").store(picture);
         Integer virtualGalleryId = Integer.valueOf(request.getParameter("gallery"));
         picture.setGallery(virtualGalleryId);
         return null;

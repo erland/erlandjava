@@ -34,16 +34,16 @@ public class ViewCategoryCommand implements CommandInterface, ViewCategoryInterf
 
     public String execute(HttpServletRequest request) {
         Integer gallery = getGalleryId(request);
-        String categoryString = request.getParameter("category");
+        String categoryString = request.getParameter("gallery-category");
         Integer categoryId = null;
         if(categoryString!=null && categoryString.length()>0) {
             categoryId = Integer.valueOf(categoryString);
         }
         if(gallery!=null && categoryId!=null) {
-            Category template = (Category) environment.getEntityFactory().create("category");
+            Category template = (Category) environment.getEntityFactory().create("gallery-category");
             template.setGallery(gallery);
             template.setCategory(categoryId);
-            category = (Category) environment.getEntityStorageFactory().getStorage("category").load(template);
+            category = (Category) environment.getEntityStorageFactory().getStorage("gallery-category").load(template);
             Integer virtualGalleryId = Integer.valueOf(request.getParameter("gallery"));
             if(category!=null) {
                 category.setGallery(virtualGalleryId);

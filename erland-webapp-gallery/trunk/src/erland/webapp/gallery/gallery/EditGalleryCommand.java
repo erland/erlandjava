@@ -40,7 +40,7 @@ public class EditGalleryCommand implements CommandInterface, ViewGalleryInterfac
         String officialString = request.getParameter("official");
         String topCategoryString = request.getParameter("topcategory");
         String referencedGalleryString = request.getParameter("referencedgallery");
-        gallery = (Gallery) environment.getEntityFactory().create("gallery");
+        gallery = (Gallery) environment.getEntityFactory().create("gallery-gallery");
         User user = (User) request.getSession().getAttribute("user");
         String username = user.getUsername();
         Boolean official = Boolean.FALSE;
@@ -62,20 +62,20 @@ public class EditGalleryCommand implements CommandInterface, ViewGalleryInterfac
         gallery.setDescription(description);
         gallery.setOfficial(official);
         gallery.setTopCategory(topCategory);
-        environment.getEntityStorageFactory().getStorage("gallery").store(gallery);
+        environment.getEntityStorageFactory().getStorage("gallery-gallery").store(gallery);
         if(referencedGalleryString!=null && referencedGalleryString.length()>0) {
             String[] categories = request.getParameterValues("categories");
             if(categories!=null) {
                 QueryFilter filter = new QueryFilter("allforgallery");
                 filter.setAttribute("gallery",gallery.getId());
-                environment.getEntityStorageFactory().getStorage("gallerycategoryassociation").delete(filter);
+                environment.getEntityStorageFactory().getStorage("gallery-gallerycategoryassociation").delete(filter);
                 for (int i = 0; i < categories.length; i++) {
                     if(categories[i].length()>0) {
                         Integer categoryId = Integer.valueOf(categories[i]);
-                        GalleryCategoryAssociation category = (GalleryCategoryAssociation) environment.getEntityFactory().create("gallerycategoryassociation");
+                        GalleryCategoryAssociation category = (GalleryCategoryAssociation) environment.getEntityFactory().create("gallery-gallerycategoryassociation");
                         category.setCategory(categoryId);
                         category.setGallery(gallery.getId());
-                        environment.getEntityStorageFactory().getStorage("gallerycategoryassociation").store(category);
+                        environment.getEntityStorageFactory().getStorage("gallery-gallerycategoryassociation").store(category);
                     }
                 }
             }

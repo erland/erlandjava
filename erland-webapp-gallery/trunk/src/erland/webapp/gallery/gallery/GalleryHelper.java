@@ -30,9 +30,9 @@ public class GalleryHelper {
             galleryId = Integer.valueOf(galleryString);
         }
         if(galleryId!=null) {
-            Gallery template = (Gallery) environment.getEntityFactory().create("gallery");
+            Gallery template = (Gallery) environment.getEntityFactory().create("gallery-gallery");
             template.setId(galleryId);
-            Gallery entity = (Gallery) environment.getEntityStorageFactory().getStorage("gallery").load(template);
+            Gallery entity = (Gallery) environment.getEntityStorageFactory().getStorage("gallery-gallery").load(template);
             if(entity!=null) {
                 if(entity.getReferencedGallery()!=null && !entity.getReferencedGallery().equals(new Integer(0))) {
                     return entity.getReferencedGallery();

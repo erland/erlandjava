@@ -35,14 +35,14 @@ public class ViewPictureCommand implements CommandInterface, ViewPictureInterfac
     public String execute(HttpServletRequest request) {
         Integer gallery = getGalleryId(request);
         String id = request.getParameter("id");
-        Picture template = (Picture)environment.getEntityFactory().create("picture");
+        Picture template = (Picture)environment.getEntityFactory().create("gallery-picture");
         if(gallery!=null &&
                 id!=null && id.length()>0) {
 
             Integer virtualGalleryId = Integer.valueOf(request.getParameter("gallery"));
             template.setGallery(gallery);
             template.setId(Integer.valueOf(id));
-            picture = (Picture) environment.getEntityStorageFactory().getStorage("picture").load(template);
+            picture = (Picture) environment.getEntityStorageFactory().getStorage("gallery-picture").load(template);
             if(picture!=null) {
                 picture.setGallery(virtualGalleryId);
             }

@@ -38,7 +38,7 @@ public class SearchGuestAccountsCommand implements CommandInterface, ViewGuestAc
         User user = (User) request.getSession().getAttribute("user");
         QueryFilter filter = new QueryFilter("allforuser");
         filter.setAttribute("username",user.getUsername());
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("guestaccount").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery-guestaccount").search(filter);
         accounts = new GuestAccount[entities.length];
         for (int i = 0; i < entities.length; i++) {
             accounts[i] = (GuestAccount) entities[i];

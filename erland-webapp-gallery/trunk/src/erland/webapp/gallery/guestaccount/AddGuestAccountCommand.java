@@ -34,13 +34,13 @@ public class AddGuestAccountCommand implements CommandInterface {
     public String execute(HttpServletRequest request) {
         String guestuser = request.getParameter("guestuser");
         User user = (User) request.getSession().getAttribute("user");
-        User template = (User) environment.getEntityFactory().create("user");
+        User template = (User) environment.getEntityFactory().create("usermgmt-userinfo");
         template.setUsername(guestuser);
-        if(environment.getEntityStorageFactory().getStorage("user").load(template)!=null) {
-            GuestAccount accountTemplate = (GuestAccount) environment.getEntityFactory().create("guestaccount");
+        if(environment.getEntityStorageFactory().getStorage("usermgmt-userinfo").load(template)!=null) {
+            GuestAccount accountTemplate = (GuestAccount) environment.getEntityFactory().create("gallery-guestaccount");
             accountTemplate.setUsername(user.getUsername());
             accountTemplate.setGuestUser(guestuser);
-            environment.getEntityStorageFactory().getStorage("guestaccount").store(accountTemplate);
+            environment.getEntityStorageFactory().getStorage("gallery-guestaccount").store(accountTemplate);
         }
         return null;
     }

@@ -35,17 +35,17 @@ public class RemovePictureCommand implements CommandInterface {
     public String execute(HttpServletRequest request) {
         Integer gallery = getGalleryId(request);
         String id = request.getParameter("id");
-        Picture template = (Picture)environment.getEntityFactory().create("picture");
+        Picture template = (Picture)environment.getEntityFactory().create("gallery-picture");
         if(gallery!=null &&
                 id!=null && id.length()>0) {
 
             template.setGallery(gallery);
             template.setId(Integer.valueOf(id));
-            environment.getEntityStorageFactory().getStorage("picture").delete(template);
+            environment.getEntityStorageFactory().getStorage("gallery-picture").delete(template);
             QueryFilter filter = new QueryFilter("allforgalleryandpicture");
             filter.setAttribute("gallery",template.getGallery());
             filter.setAttribute("picture",template.getId());
-            environment.getEntityStorageFactory().getStorage("categorypictureassociation").delete(filter);
+            environment.getEntityStorageFactory().getStorage("gallery-categorypictureassociation").delete(filter);
         }
         return null;
     }

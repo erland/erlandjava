@@ -42,7 +42,7 @@ public class SearchPictureStoragesCommand implements CommandInterface, ViewPictu
         }
         QueryFilter filter = new QueryFilter("allforuser");
         filter.setAttribute("username",username);
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("picturestorage").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery-picturestorage").search(filter);
         storages = new PictureStorage[entities.length];
         for (int i = 0; i < entities.length; i++) {
             storages[i]= (PictureStorage) entities[i];
