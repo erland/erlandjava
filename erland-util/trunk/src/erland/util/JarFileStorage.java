@@ -28,8 +28,6 @@ import java.net.URL;
 public class JarFileStorage implements StorageInterface {
     /** The filename of the file where the string is stored */
     private String file;
-    /** The class loader to use when accessing the jar file */
-    private ClassLoader clsLoader;
 
     /**
      * Creates a new FileStorage object
@@ -39,7 +37,6 @@ public class JarFileStorage implements StorageInterface {
     public JarFileStorage(String file)
     {
         this.file = file;
-        this.clsLoader = this.getClass().getClassLoader();
     }
 
     public String load()
@@ -47,7 +44,7 @@ public class JarFileStorage implements StorageInterface {
         BufferedReader r=null;
         StringBuffer str=null;
         try {
-            URL url = clsLoader.getResource(file);
+            URL url = getClass().getClassLoader().getResource(file);
             if(url!=null) {
                 r = new BufferedReader(new InputStreamReader(url.openStream()));
 
