@@ -227,7 +227,7 @@ public class BoulderDash extends Applet
 				this.cookies = new CookieHandler(this);
 			}
 		}else {
-			this.cookies = new BoulderDashParameterStorage("boulderdash.xml");
+			this.cookies = new ParameterStorageGroup(new FileStorage("boulderdash.xml"),"boulderdash","level");
 			images = new ImageHandlerForApplication(this,"images/boulderdash");
 		}
 
