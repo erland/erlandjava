@@ -1,6 +1,6 @@
 package erland.util;
 /*
- * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
+ * Copyright (C) 2003-2004 Erland Isaksson (erland_i@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,6 +29,15 @@ import java.text.SimpleDateFormat;
  */
 public abstract class Log 
 {
+    /** Constant for DEBUG logging level */
+    public static int DEBUG = 10;
+    /** Constant for INFORMATION logging level */
+    public static int INFORMATION = 5;
+    /** Constant for WARNING logging level */
+    public static int WARNING = 3;
+    /** Constant for ERROR logging level */
+    public static int ERROR = 1;
+
 	/** Indicates if logging is enabled or not */
 	private static boolean enabled=false;
     /** Indicates that logging is enabled in all files */
@@ -64,7 +73,7 @@ public abstract class Log
      */
     public static boolean isEnabled(final Object obj)
     {
-        return isEnabled(obj,1);
+        return isEnabled(obj,Log.ERROR);
     }
 
     /**
