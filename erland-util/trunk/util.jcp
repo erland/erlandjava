@@ -26,4 +26,6 @@ FILTER := ""
 #[BeginFile]SOURCE := "src\\erland\\util\\ImageHandlerInterface.java" #[EndFile]
 #[BeginFile]SOURCE := "src\\erland\\util\\ImageHandlerForApplet.java" #[EndFile]
 #[BeginFile]SOURCE := "src\\erland\\util\\ImageHandlerForApplication.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\util\\Log.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\util\\ParameterStorageString.java" #[EndFile]
 #[EndFolder]
