@@ -35,6 +35,7 @@ public abstract class BaseServlet extends HttpServlet implements WebAppEnvironme
     private ParameterValueStorageExInterface configurableResources=null;
     private EntityFactoryInterface entityFactory;
     private EntityStorageFactoryInterface entityStorageFactory;
+    private ServiceFactoryInterface serviceFactory;
     private CommandFactoryInterface commandFactory;
     private StorageInterface storage;
     private static final String SESSION = "session";
@@ -132,6 +133,13 @@ public abstract class BaseServlet extends HttpServlet implements WebAppEnvironme
             entityStorageFactory = new EntityStorageFactory(getEnvironment());
         }
         return entityStorageFactory;
+    }
+
+    public ServiceFactoryInterface getServiceFactory() {
+        if(serviceFactory==null) {
+            serviceFactory = new ServiceFactory(getEnvironment());
+        }
+        return serviceFactory;
     }
 
     public CommandFactoryInterface getCommandFactory() {
