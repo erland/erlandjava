@@ -50,6 +50,7 @@ public class SearchApplicationVersionsAction extends Action {
 
                 version.setName(fb.getName());
                 version.setFilename(entity.getName());
+                version.setDate(entity.getDate());
                 version.setVersion(entity.getVersion());
                 version.setDescription(entity.getDescription());
                 applicationVersions.add(version);
