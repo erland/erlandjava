@@ -1,0 +1,51 @@
+<entity id="disctrack">
+    <class>erland.webapp.cdcollection.entity.media.disc.DiscTrack</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/cdcollection</datasource>
+        <table>disctracks</table>
+        <fields>
+            <field id="discId">
+                <column>discid</column>
+                <type>Integer</type>
+            </field>
+            <field id="id">
+                <column>id</column>
+                <type>Integer</type>
+                <identity>true</identity>
+                <auto>true</auto>
+            </field>
+            <field id="trackNo">
+                <column>trackno</column>
+                <type>Integer</type>
+            </field>
+            <field id="title">
+                <column>title</column>
+                <type>String</type>
+            </field>
+            <field id="artist">
+                <column>artist</column>
+                <type>String</type>
+            </field>
+            <field id="length">
+                <column>length</column>
+                <type>Integer</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allfordisc">
+                <querystring>discid=?</querystring>
+                <orderstring>order by trackno</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>disc</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
