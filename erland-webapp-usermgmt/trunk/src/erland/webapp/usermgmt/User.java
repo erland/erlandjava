@@ -86,11 +86,11 @@ public class User implements EntityInterface {
                 }
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Unable to copy properties",e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Unable to copy properties",e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Unable to copy properties",e);
         }
         setValid(false);
         return isValid();
