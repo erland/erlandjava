@@ -61,6 +61,11 @@ public class GalleryFB extends BaseFB {
     private Boolean showCommentBelowPicture;
     private Integer maxWidth;
     private String defaultResolution;
+    private String copyrightText;
+    private Integer copyrightPosition;
+    private Double copyrightTransparency;
+    private Boolean useCopyright;
+    private Boolean useCacheLargeImages;
     private Integer[] friendGalleries;
 
     public Integer getId() {
@@ -566,6 +571,78 @@ public class GalleryFB extends BaseFB {
         }
     }
 
+    public String getCopyrightText() {
+        return copyrightText;
+    }
+
+    public void setCopyrightText(String copyrightText) {
+        this.copyrightText = copyrightText;
+    }
+
+    public Integer getCopyrightPosition() {
+        return copyrightPosition;
+    }
+
+    public void setCopyrightPosition(Integer copyrightPosition) {
+        this.copyrightPosition = copyrightPosition;
+    }
+
+    public String getCopyrightPositionDisplay() {
+        return StringUtil.asString(copyrightPosition,null);
+    }
+
+    public void setCopyrightPositionDisplay(String copyrightPositionDisplay) {
+        this.copyrightPosition = StringUtil.asInteger(copyrightPositionDisplay,null);
+    }
+
+    public Double getCopyrightTransparency() {
+        return copyrightTransparency;
+    }
+
+    public void setCopyrightTransparency(Double copyrightTransparency) {
+        this.copyrightTransparency = copyrightTransparency;
+    }
+
+    public String getCopyrightTransparencyDisplay() {
+        return StringUtil.asString(copyrightTransparency,null);
+    }
+
+    public void setCopyrightTransparencyDisplay(String copyrightTransparencyDisplay) {
+        this.copyrightTransparency = StringUtil.asDouble(copyrightTransparencyDisplay,null);
+    }
+
+    public Boolean getUseCopyright() {
+        return useCopyright;
+    }
+
+    public void setUseCopyright(Boolean useCopyright) {
+        this.useCopyright = useCopyright;
+    }
+
+    public String getUseCopyrightDisplay() {
+        return StringUtil.asString(useCopyright,null);
+    }
+
+    public void setUseCopyrightDisplay(String useCopyrightDisplay) {
+        this.useCopyright = StringUtil.asBoolean(useCopyrightDisplay,Boolean.FALSE);
+    }
+
+    public Boolean getUseCacheLargeImages() {
+        return useCacheLargeImages;
+    }
+
+    public void setUseCacheLargeImages(Boolean useCacheLargeImages) {
+        this.useCacheLargeImages = useCacheLargeImages;
+    }
+
+    public String getUseCacheLargeImagesDisplay() {
+        return StringUtil.asString(useCacheLargeImages,null);
+    }
+
+    public void setUseCacheLargeImagesDisplay(String useCacheLargeImagesDisplay) {
+        this.useCacheLargeImages = StringUtil.asBoolean(useCacheLargeImagesDisplay,Boolean.FALSE);
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         id = null;
@@ -603,5 +680,10 @@ public class GalleryFB extends BaseFB {
         maxWidth = null;
         defaultResolution = null;
         friendGalleries = null;
+        copyrightText = null;
+        copyrightPosition = new Integer(1);
+        copyrightTransparency = new Double(1);
+        useCopyright = Boolean.FALSE;
+        useCacheLargeImages = Boolean.FALSE;
     }
 }

@@ -71,6 +71,11 @@ public class NewGalleryAction extends BaseAction {
         fb.setFriendGalleries(new Integer[0]);
         fb.setDefaultResolution(null);
         fb.setMaxWidth(null);
+        fb.setUseCopyright(Boolean.TRUE);
+        fb.setCopyrightText(null);
+        fb.setCopyrightTransparency(new Double(0.4));
+        fb.setCopyrightPosition(new Integer(1));
+        fb.setUseCacheLargeImages(Boolean.FALSE);
 
         QueryFilter filter = new QueryFilter("allforuser");
         filter.setAttribute("username", request.getRemoteUser());
