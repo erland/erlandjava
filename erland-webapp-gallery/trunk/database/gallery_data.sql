@@ -17,5 +17,5 @@ INSERT INTO resolutions VALUES ('1280','1280x1024',1280);
 -- Dumping data for table `useraccounts`
 --
 
-INSERT INTO useraccounts VALUES ('test','You+can+change+this+text+and+a+lot+more+by+selecting+Preferences+in+the+menu+to+the+left.%0D%0AWhen+you+feel+that+you+have+entered+all+neccesary+information+you+can+make+your+gallery+visible+on+the+front+page+by+marking+it+as+official+in+the+preferences','An example gallery','',0,'',0);
+INSERT INTO useraccounts VALUES ('test','You+can+change+this+text+and+a+lot+more+by+selecting+Preferences+in+the+menu+to+the+left.%0D%0AWhen+you+feel+that+you+have+entered+all+neccesary+information+you+can+make+your+gallery+visible+on+the+front+page+by+marking+it+as+official+in+the+preferences','An example gallery','',0,'',0,'');
 
