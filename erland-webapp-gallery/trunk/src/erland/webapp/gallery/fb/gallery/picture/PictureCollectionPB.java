@@ -23,6 +23,7 @@ import erland.webapp.common.fb.BasePB;
 
 public class PictureCollectionPB extends BasePB {
     private PicturePB[] pictures;
+    private String pageLink;
     private String prevLink;
     private String nextLink;
     private String searchLink;
@@ -66,5 +67,13 @@ public class PictureCollectionPB extends BasePB {
 
     public void setCurrentLink(String currentLink) {
         this.currentLink = currentLink;
+    }
+
+    public String getPageLink() {
+        return pageLink;
+    }
+
+    public void setPageLink(String pageLink) {
+        this.pageLink = pageLink;
     }
 }
