@@ -157,6 +157,8 @@ public class CalendarTag extends TagSupport {
         try {
             JspWriter out = pageContext.getOut();
             Calendar cal = Calendar.getInstance();
+            String month = this.month;
+            String year = this.year;
             if (month != null) {
                 int monthNo = Integer.valueOf(month).intValue();
                 cal.set(Calendar.MONTH, monthNo - 1);
@@ -268,7 +270,7 @@ public class CalendarTag extends TagSupport {
         if(link==null) {
             return link;
         }
-        if(Pattern.matches("[a-z]*:",link)) {
+        if(Pattern.matches("[a-z]*:.*",link)) {
             return link;
         }else {
             return ((HttpServletRequest) pageContext.getRequest()).getContextPath()+link;
