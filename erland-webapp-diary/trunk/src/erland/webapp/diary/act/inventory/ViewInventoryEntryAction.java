@@ -31,6 +31,7 @@ import erland.webapp.diary.fb.inventory.InventoryEntryEventFB;
 import erland.webapp.diary.fb.inventory.DescriptionIdPB;
 import erland.webapp.diary.fb.gallery.GalleryPB;
 import erland.webapp.diary.fb.container.ContainerPB;
+import erland.webapp.diary.fb.species.SpeciesPB;
 import erland.webapp.diary.logic.inventory.DescriptionIdHelper;
 import erland.webapp.diary.entity.inventory.DescriptionId;
 import org.apache.struts.action.ActionForm;
@@ -55,29 +56,6 @@ public class ViewInventoryEntryAction extends BaseAction {
         QueryFilter filter = new QueryFilter("allforid");
         filter.setAttribute("id", entry.getId());
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("diary-inventoryentryevent").search(filter);
-        InventoryEntryEventFB[] pb = new InventoryEntryEventFB[entities.length];
-        for (int i = 0; i < entities.length; i++) {
-            pb[i] = new InventoryEntryEventFB();
-            try {
-                PropertyUtils.copyProperties(pb[i],entities[i]);
-            } catch (IllegalAccessException e) {
-            } catch (InvocationTargetException e) {
-            } catch (NoSuchMethodException e) {
-            }
-        }
-
-        fb.setEvents(pb);
-        ActionForward forward = mapping.findForward("view-gallery");
-        if(forward!=null) {
-            Map parameters = new HashMap();
-            parameters.put("gallery",fb.getGallery());
-            String user = request.getRemoteUser();
-            if(user==null) {
-                user=(String) request.getSession().getAttribute("user");
-            }
-            parameters.put("user",user);
-            fb.setGalleryLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
-        }
 
         DescriptionId[] types = DescriptionIdHelper.getDescriptionIdList("diary-inventoryentrytype");
         DescriptionIdPB[] typesPB = new DescriptionIdPB[types.length];
@@ -104,5 +82,16 @@ public class ViewInventoryEntryAction extends BaseAction {
             PropertyUtils.copyProperties(pbGalleries[i],entities[i]);
         }
         request.getSession().setAttribute("galleriesPB",pbGalleries);
+
+
+        filter = new QueryFilter("allforuser");
+        filter.setAttribute("username", request.getRemoteUser());
+        entities = getEnvironment().getEntityStorageFactory().getStorage("diary-species").search(filter);
+        SpeciesPB[] pbSpecies= new SpeciesPB[entities.length];
+        for (int i = 0; i < entities.length; i++) {
+            pbSpecies[i] = new SpeciesPB();
+            PropertyUtils.copyProperties(pbSpecies[i],entities[i]);
+        }
+        request.getSession().setAttribute("speciesPB",pbSpecies);
     }
 }
