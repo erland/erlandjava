@@ -31,6 +31,7 @@ CREATE TABLE galleries (
   useshortpicturenames tinyint(1) NOT NULL default '0',
   ordernumber int(11) NOT NULL default '0',
   usethumbnailcache tinyint(1) NOT NULL default '0',
+  uselargecache tinyint(1) NOT NULL default '0',
   thumbnailcompression double NOT NULL default '0',
   typeoffiles int(11) NOT NULL default '0',
   noofmoviecolumns int(11) NOT NULL default '0',
@@ -43,6 +44,10 @@ CREATE TABLE galleries (
   official tinyint(1) NOT NULL default '0',
   defaultresolution varchar(100) default NULL,
   maxwidth int(11) default NULL,
+  copyrighttext varchar(100) NOT NULL default '',
+  copyrightposition int(11) NOT NULL default '1',
+  usecopyright tinyint(1) NOT NULL default '1',
+  copyrighttransparency double NOT NULL default '1',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
