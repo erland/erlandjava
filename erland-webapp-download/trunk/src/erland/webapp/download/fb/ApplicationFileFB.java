@@ -23,14 +23,30 @@ import org.apache.struts.action.ActionForm;
 
 public class ApplicationFileFB extends ActionForm {
     private String name;
+    private String type;
     private String filename;
 
+    public ApplicationFileFB() {}
+
+    public ApplicationFileFB(String name, String type, String filename) {
+        this.name = name;
+        this.type = type;
+        this.filename = filename;
+    }
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getFilename() {
