@@ -20,6 +20,10 @@
         <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
     </definition>
 
+    <definition name=".mainLayoutEmpty" path="/WEB-INF/layouts/classicLayoutEmpty.jsp">
+        <put name="title" value="Bildarkivet"/>
+    </definition>
+
     <!-- ========================================================== -->
     <!-- Index page definition                                      -->
     <!-- ========================================================== -->
@@ -41,6 +45,9 @@
     <definition name=".guest.newuseraccount.success" extends=".mainLayoutNoMenu">
         <put name="body" value="/WEB-INF/tiles/account/newuseraccountsuccess.jsp"/>
     </definition>
+
+    <definition name=".user.empty" extends=".mainLayoutEmpty"/>
+
     <definition name=".user.index" extends=".mainLayout">
         <put name="menu" value="/WEB-INF/tiles/common/usermenu.jsp"/>
     </definition>
@@ -65,11 +72,17 @@
     <definition name=".user.viewpictures" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/gallery/gallerycategorymenu.jsp"/>
     </definition>
+    <definition name=".user.viewguestpictures" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/viewpictures.jsp"/>
+    </definition>
     <definition name=".guest.viewpictures" extends=".guest.index">
         <put name="body" value="/WEB-INF/tiles/gallery/viewpictures.jsp"/>
     </definition>
     <definition name=".user.editsearch" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/gallery/editsearch.jsp"/>
+    </definition>
+    <definition name=".user.editguestsearch" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/editguestsearch.jsp"/>
     </definition>
     <definition name=".guest.editsearch" extends=".guest.index">
         <put name="body" value="/WEB-INF/tiles/gallery/editsearchguest.jsp"/>
@@ -86,6 +99,16 @@
     <definition name=".user.importpictures" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/gallery/importers/importgallery.jsp"/>
     </definition>
+    <definition name=".user.viewimage" extends=".user.empty">
+        <put name="body" value="/WEB-INF/tiles/loader/viewimage.jsp"/>
+    </definition>
+    <definition name=".user.viewresolutionimage" extends=".user.empty">
+        <put name="body" value="/WEB-INF/tiles/loader/viewimage.jsp"/>
+    </definition>
+    <definition name=".guest.viewimage" extends=".guest.empty">
+        <put name="body" value="/WEB-INF/tiles/loader/viewimage.jsp"/>
+    </definition>
+    <definition name=".guest.empty" extends=".mainLayoutEmpty"/>
     <definition name=".guest.index" extends=".mainLayout">
         <put name="menu" value="/WEB-INF/tiles/common/guestmenu.jsp"/>
     </definition>
