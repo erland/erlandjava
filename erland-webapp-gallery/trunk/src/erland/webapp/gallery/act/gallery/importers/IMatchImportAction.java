@@ -46,13 +46,37 @@ public class IMatchImportAction extends BaseAction {
     private class CategoryCache {
         private Map childs = new HashMap();
         private Integer id;
+        private Boolean official;
+        private Boolean officialAlways;
+        private Boolean officialNever;
+        private Boolean officialVisible;
 
-        public CategoryCache(Integer id) {
+        public CategoryCache(Integer id, Boolean official, Boolean officialAlways, Boolean officialNever, Boolean officialVisible) {
             this.id = id;
+            this.official = official;
+            this.officialAlways = officialAlways;
+            this.officialNever = officialNever;
+            this.officialVisible = officialVisible;
         }
 
         public Integer getId() {
             return id;
+        }
+
+        public Boolean getOfficial() {
+            return official;
+        }
+
+        public Boolean getOfficialAlways() {
+            return officialAlways;
+        }
+
+        public Boolean getOfficialNever() {
+            return officialNever;
+        }
+
+        public Boolean getOfficialVisible() {
+            return officialVisible;
         }
 
         public Map getChilds() {
@@ -99,6 +123,14 @@ public class IMatchImportAction extends BaseAction {
                 filter = new QueryFilter("calculateunofficialforgallery");
                 filter.setAttribute("gallery", fb.getGallery());
                 updatePictures(filter, fb.getGallery(), Boolean.FALSE);
+
+                filter = new QueryFilter("calculateofficialguestforgallery");
+                filter.setAttribute("gallery", fb.getGallery());
+                updatePicturesGuest(filter, fb.getGallery(), Boolean.TRUE);
+
+                filter = new QueryFilter("calculateunofficialguestforgallery");
+                filter.setAttribute("gallery", fb.getGallery());
+                updatePicturesGuest(filter, fb.getGallery(), Boolean.FALSE);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -209,7 +241,7 @@ public class IMatchImportAction extends BaseAction {
     private Integer createCategory(Map previousCategories, Integer gallery, String categoryPath) {
         StringTokenizer it = new StringTokenizer(categoryPath, ".");
         EntityStorageInterface storage = getEnvironment().getEntityStorageFactory().getStorage("gallery-category");
-        Integer parent = null;
+        CategoryCache parent = null;
         Map current = previousCategories;
         while (it.hasMoreTokens()) {
             String category = it.nextToken();
@@ -218,21 +250,22 @@ public class IMatchImportAction extends BaseAction {
                 Category entity = (Category) getEnvironment().getEntityFactory().create("gallery-category");
                 entity.setGallery(gallery);
                 entity.setName(category);
-                entity.setParentCategory(parent);
-                entity.setOfficial(Boolean.TRUE);
-                entity.setOfficialVisible(Boolean.TRUE);
-                entity.setOfficialAlways(Boolean.FALSE);
+                entity.setParentCategory(parent!=null?parent.getId():null);
+                entity.setOfficial(parent!=null?parent.getOfficial():Boolean.FALSE);
+                entity.setOfficialVisible(parent!=null?parent.getOfficialVisible():Boolean.TRUE);
+                entity.setOfficialAlways(parent!=null?parent.getOfficialAlways():Boolean.FALSE);
+                entity.setOfficialNever(parent!=null?parent.getOfficialNever():Boolean.FALSE);
                 storage.store(entity);
-                obj = new CategoryCache(entity.getCategory());
+                obj = new CategoryCache(entity.getCategory(),entity.getOfficial(),entity.getOfficialAlways(),entity.getOfficialNever(),entity.getOfficialVisible());
                 current.put(category, obj);
                 if (parent != null) {
-                    updateMembership(gallery, parent, entity.getCategory());
+                    updateMembership(gallery, parent.getId(), entity.getCategory());
                 }
             }
-            parent = obj.getId();
+            parent = obj;
             current = obj.getChilds();
         }
-        return parent;
+        return parent!=null?parent.getId():null;
     }
 
     private void loadCategories(Map categories, Integer gallery) {
@@ -242,22 +275,22 @@ public class IMatchImportAction extends BaseAction {
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-category").search(filter);
         for (int i = 0; i < entities.length; i++) {
             Category category = (Category) entities[i];
-            addCategory(categories, category.getName(), category.getCategory(), category.getParentCategory());
+            addCategory(categories, category);
         }
     }
 
-    private boolean addCategory(Map categories, String name, Integer id, Integer parent) {
-        if (parent.equals(new Integer(0))) {
-            categories.put(name, new CategoryCache(id));
+    private boolean addCategory(Map categories, Category category) {
+        if (category.getParentCategory().equals(new Integer(0))) {
+            categories.put(category.getName(), new CategoryCache(category.getCategory(),category.getOfficial(),category.getOfficialAlways(),category.getOfficialNever(), category.getOfficialVisible()));
             return true;
         } else {
             for (Iterator it = categories.values().iterator(); it.hasNext();) {
-                CategoryCache category = (CategoryCache) it.next();
-                if (category.getId().equals(parent)) {
-                    category.getChilds().put(name, new CategoryCache(id));
+                CategoryCache categoryCache = (CategoryCache) it.next();
+                if (categoryCache.getId().equals(category.getParentCategory())) {
+                    categoryCache.getChilds().put(category.getName(), new CategoryCache(category.getCategory(),category.getOfficial(),category.getOfficialAlways(),category.getOfficialNever(),category.getOfficialVisible()));
                     return true;
                 } else {
-                    if (addCategory(category.getChilds(), name, id, parent)) {
+                    if (addCategory(categoryCache.getChilds(), category)) {
                         return true;
                     }
                 }
@@ -296,6 +329,17 @@ public class IMatchImportAction extends BaseAction {
         Picture entity = (Picture) getEnvironment().getEntityFactory().create("gallery-picture");
         entity.setOfficial(official);
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").search(filter);
+        updatePictures(entities, gallery, entity);
+    }
+
+    private void updatePicturesGuest(QueryFilter filter, Integer gallery, Boolean official) {
+        Picture entity = (Picture) getEnvironment().getEntityFactory().create("gallery-picture");
+        entity.setOfficialGuest(official);
+        EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").search(filter);
+        updatePictures(entities, gallery, entity);
+    }
+
+    private void updatePictures(EntityInterface[] entities, Integer gallery, Picture picture) {
         Collection pictures = new ArrayList(entities.length);
         for (int i = 0; i < entities.length; i++) {
             pictures.add(((Picture) entities[i]).getId());
@@ -304,7 +348,7 @@ public class IMatchImportAction extends BaseAction {
             QueryFilter pictureFilter = new QueryFilter("allforgalleryandpicturelist");
             pictureFilter.setAttribute("gallery", gallery);
             pictureFilter.setAttribute("pictures", pictures);
-            getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").update(pictureFilter, entity);
+            getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").update(pictureFilter, picture);
         }
     }
 }
