@@ -172,7 +172,7 @@ public abstract class BaseServlet extends HttpServlet implements WebAppEnvironme
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        CommandInterface cmd = getEnvironment().getCommandFactory().create(getCommandClassName(request));
+        CommandInterface cmd = getCommandFactory().create(getCommandClassName(request));
         request.setAttribute("environment",getEnvironment());
         String page;
         if(cmd!=null) {
