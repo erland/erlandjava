@@ -27,6 +27,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 public abstract class BaseServlet extends HttpServlet implements WebAppEnvironmentInterface {
@@ -155,6 +156,11 @@ public abstract class BaseServlet extends HttpServlet implements WebAppEnvironme
         initStart();
         XMLParser.setInstance(new SAXXMLParser());
         initEnd();
+        InputStream input = getClass().getResourceAsStream("/"+getApplicationName()+"_log.xml");
+        if(input!=null) {
+            System.out.println("Loading log configuration from: "+getApplicationName()+"_log.xml");
+            Log.setLogConfig(new ParameterStorageString(new StreamStorage(input,null),null,"log"));
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
