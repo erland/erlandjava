@@ -30,6 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class SelectInventoryFB extends SelectUserFB {
     private Date date;
+    private Integer container;
+    private String containerDisplay;
 
     public Date getDate() {
         return date;
@@ -47,8 +49,25 @@ public class SelectInventoryFB extends SelectUserFB {
         this.date = ServletParameterHelper.asDate(dateDisplay,null);
     }
 
+    public Integer getContainer() {
+        return container;
+    }
+
+    public void setContainer(Integer container) {
+        this.container = container;
+    }
+
+    public String getContainerDisplay() {
+        return ServletParameterHelper.asString(container,null);
+    }
+
+    public void setContainerDisplay(String containerDisplay) {
+        this.container = ServletParameterHelper.asInteger(containerDisplay,null);
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         date = null;
+        container = null;
     }
 }

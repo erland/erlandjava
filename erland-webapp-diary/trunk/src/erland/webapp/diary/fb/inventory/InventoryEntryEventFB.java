@@ -33,6 +33,7 @@ public class InventoryEntryEventFB extends BaseFB {
     private Integer eventId;
     private Integer description;
     private String descriptionText;
+    private Integer container;
     private Double size;
     private String sizeText;
     private Date date;
@@ -135,6 +136,22 @@ public class InventoryEntryEventFB extends BaseFB {
         this.date = ServletParameterHelper.asDate(dateDisplay,null);
     }
 
+    public Integer getContainer() {
+        return container;
+    }
+
+    public void setContainer(Integer container) {
+        this.container = container;
+    }
+
+    public String getContainerDisplay() {
+        return ServletParameterHelper.asString(container,null);
+    }
+
+    public void setContainerDisplay(String containerDisplay) {
+        this.container = ServletParameterHelper.asInteger(containerDisplay,null);
+    }
+
     public String getUpdateLink() {
         return updateLink;
     }
@@ -161,5 +178,6 @@ public class InventoryEntryEventFB extends BaseFB {
         date = null;
         updateLink = null;
         deleteLink = null;
+        container = null;
     }
 }

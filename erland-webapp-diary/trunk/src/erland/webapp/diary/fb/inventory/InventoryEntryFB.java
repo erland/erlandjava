@@ -29,6 +29,8 @@ public class InventoryEntryFB extends BaseFB {
     private Integer id;
     private Integer type;
     private String typeDescription;
+    private Integer sex;
+    private String sexDescription;
     private String name;
     private String description;
     private String image;
@@ -40,6 +42,9 @@ public class InventoryEntryFB extends BaseFB {
     private String deleteLink;
     private String viewLink;
     private String newEventLink;
+    private String containerLink;
+    private String currentContainerDescription;
+    private String currentSizeText;
     private InventoryEntryEventFB[] events;
 
     public Integer getId() {
@@ -80,6 +85,30 @@ public class InventoryEntryFB extends BaseFB {
 
     public void setTypeDescription(String typeDescription) {
         this.typeDescription = typeDescription;
+    }
+
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
+
+    public String getSexDisplay() {
+        return ServletParameterHelper.asString(sex,null);
+    }
+
+    public void setSexDisplay(String sexDisplay) {
+        this.sex = ServletParameterHelper.asInteger(sexDisplay,null);
+    }
+
+    public String getSexDescription() {
+        return sexDescription;
+    }
+
+    public void setSexDescription(String sexDescription) {
+        this.sexDescription = sexDescription;
     }
 
     public String getName() {
@@ -178,6 +207,14 @@ public class InventoryEntryFB extends BaseFB {
         this.newEventLink = newEventLink;
     }
 
+    public String getContainerLink() {
+        return containerLink;
+    }
+
+    public void setContainerLink(String containerLink) {
+        this.containerLink = containerLink;
+    }
+
     public InventoryEntryEventFB[] getEvents() {
         return events;
     }
@@ -186,11 +223,29 @@ public class InventoryEntryFB extends BaseFB {
         this.events = events;
     }
 
+    public String getCurrentContainerDescription() {
+        return currentContainerDescription;
+    }
+
+    public void setCurrentContainerDescription(String currentContainerDescription) {
+        this.currentContainerDescription = currentContainerDescription;
+    }
+
+    public String getCurrentSizeText() {
+        return currentSizeText;
+    }
+
+    public void setCurrentSizeText(String currentSizeText) {
+        this.currentSizeText = currentSizeText;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         id = null;
         type = null;
         typeDescription = null;
+        sex = null;
+        sexDescription = null;
         name = null;
         description = null;
         image = null;
@@ -203,5 +258,8 @@ public class InventoryEntryFB extends BaseFB {
         deleteLink = null;
         viewLink = null;
         newEventLink = null;
+        containerLink = null;
+        currentContainerDescription = null;
+        currentSizeText = null;
     }
 }

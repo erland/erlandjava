@@ -31,6 +31,8 @@ public class InventoryEntryAndEventFB extends InventoryEntryFB {
     private Double eventSize;
     private Date eventDate;
     private Integer eventDescription;
+    private Integer container;
+    private String containerDisplay;
 
     public Double getEventSize() {
         return eventSize;
@@ -80,10 +82,27 @@ public class InventoryEntryAndEventFB extends InventoryEntryFB {
         this.eventDescription = ServletParameterHelper.asInteger(eventDescriptionDisplay,null);
     }
 
+    public Integer getContainer() {
+        return container;
+    }
+
+    public void setContainer(Integer container) {
+        this.container = container;
+    }
+
+    public String getContainerDisplay() {
+        return ServletParameterHelper.asString(container,null);
+    }
+
+    public void setContainerDisplay(String containerDisplay) {
+        this.container = ServletParameterHelper.asInteger(containerDisplay,null);
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         eventDate = null;
         eventDescription = null;
         eventSize = null;
+        container = null;
     }
 }
