@@ -1,0 +1,84 @@
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean" %>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html" %>
+<%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
+<table class="no-border">
+<tr>
+<td valign="top">
+<jsp:include page="viewinventoryentries.jsp"/>
+</td>
+<td valign="top">
+<table class="no-border">
+    <tr>
+    <td colspan="2">
+    <erland-common:beanlink name="inventoryEntryPB" property="updateLink" style="bold-link">
+        <bean:message key="diary.inventory.buttons.edit"/>
+    </erland-common:beanlink>
+    <erland-common:beanlink name="inventoryEntryPB" property="deleteLink" style="bold-link" onClickMessageKey="diary.inventory.buttons.delete.are-you-sure">
+        <bean:message key="diary.inventory.buttons.delete"/>
+    </erland-common:beanlink>
+    </td>
+    </tr>
+    <tr>
+    <td colspan="2">
+    <p class="title">
+    <bean:write name="inventoryEntryPB" property="name"/>
+    <logic:iterate name="inventoryEntryPB" property="events" length="1" id="event">
+        <bean:write name="event" property="sizeDisplay"/> cm
+        <bean:write name="event" property="descriptionText"/>
+        <bean:write name="event" property="dateDisplay"/>
+    </logic:iterate>
+    </p>
+    </td>
+    </tr>
+    <logic:notEmpty name="inventoryEntryPB" property="image">
+        <tr><td>&nbsp</td></tr>
+        <tr>
+        <td colspan="2">
+        <erland-common:beanlink name="inventoryEntryPB" property="largeImage" target="_blank">
+            <erland-common:beanimage name="inventoryEntryPB" property="image" border="0" />
+        </erland-common:beanlink>
+        </td>
+        </tr>
+    </logic:notEmpty>
+    <logic:notEmpty name="inventoryEntryPB" property="description">
+        <tr><td>&nbsp</td></tr>
+        <tr>
+        <td colspan="2">
+        <p class="normal"><erland-common:expandhtml><bean:write name="inventoryEntryPB" property="description"/></erland-common:expandhtml></p>
+        </td>
+        </tr>
+    </logic:notEmpty>
+    <tr><td>&nbsp</td></tr>
+    <logic:iterate name="inventoryEntryPB" property="events" id="event">
+        <tr>
+        <td nowrap><p class="normal"><bean:write name="event" property="dateDisplay"/> <bean:write name="event" property="descriptionText"/> <bean:write name="event" property="sizeText"/></p></td>
+        <td nowrap><erland-common:beanlink name="event" property="updateLink" style="bold-link"><bean:message key="diary.inventory.event.buttons.edit"/></erland-common:beanlink> <erland-common:beanlink name="event" property="deleteLink" style="bold-link" onClickMessageKey="diary.inventory.event.buttons.delete.are-you-sure"><bean:message key="diary.inventory.event.buttons.delete"/></erland-common:beanlink></td>
+        <tr>
+    </logic:iterate>
+    <tr><td colspan="2" nowrap>
+    <erland-common:beanlink name="inventoryEntryPB" property="newEventLink" style="bold-link"><bean:message key="diary.inventory.event.buttons.new"/></erland-common:beanlink>
+    </td></tr>
+
+    <logic:notEmpty name="inventoryEntryPB" property="gallery">
+        <tr><td>&nbsp</td></tr>
+        <tr>
+        <td colspan="2">
+        <erland-common:beanlink style="bold-link" name="inventoryEntryPB" property="galleryLink">
+            <bean:message key="diary.inventory.gallery"/>
+        </erland-common:beanlink>
+        </td>
+        </tr>
+    </logic:notEmpty>
+    <logic:notEmpty name="inventoryEntryPB" property="link">
+        <tr>
+        <td colspan="2">
+        <erland-common:beanlink style="bold-link" name="inventoryEntryPB" property="link" target="_blank">
+            <bean:message key="diary.inventory.more-information"/>
+        </erland-common:beanlink>
+        </td>
+        </tr>
+    </logic:notEmpty>
+</table>
+</td></tr>
+</table>

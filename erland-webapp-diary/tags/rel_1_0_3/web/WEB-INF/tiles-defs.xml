@@ -1,0 +1,144 @@
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+
+<!-- Definitions for Tiles documentation   -->
+<tiles-definitions>
+
+    <!-- ========================================================== -->
+    <!-- Master definition                                          -->
+    <!-- ========================================================== -->
+    <!-- Main page layout used as a root for other page definitions -->
+
+    <definition name=".mainLayout" path="/WEB-INF/layouts/classicLayout.jsp">
+        <put name="title" value="Akvariedagboken"/>
+        <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
+    </definition>
+
+    <definition name=".mainLayoutNoMenu" path="/WEB-INF/layouts/classicLayoutNoMenu.jsp">
+        <put name="title" value="Akvariedagboken"/>
+        <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
+    </definition>
+
+    <definition name=".mainLayoutEmpty" path="/WEB-INF/layouts/classicLayoutEmpty.jsp">
+        <put name="title" value="Akvariedagboken"/>
+    </definition>
+
+    <!-- ========================================================== -->
+    <!-- Index page definition                                      -->
+    <!-- ========================================================== -->
+    <!-- This definition inherits from the main definition.
+	  It overloads the page title and the body used.
+	  Use the same mechanism to define new pages sharing common
+	  properties (here header, menu, footer, layout)
+	-->
+
+    <definition name=".index" extends=".login"/>
+
+    <definition name=".login" extends=".mainLayoutNoMenu">
+        <put name="body" value="/WEB-INF/tiles/common/login.jsp"/>
+    </definition>
+
+    <definition name=".guest.newuseraccount" extends=".mainLayoutNoMenu">
+        <put name="body" value="/WEB-INF/tiles/account/newuseraccount.jsp"/>
+    </definition>
+    <definition name=".guest.newuseraccount.success" extends=".mainLayoutNoMenu">
+        <put name="body" value="/WEB-INF/tiles/account/newuseraccountsuccess.jsp"/>
+    </definition>
+
+    <definition name=".user.empty" extends=".mainLayoutEmpty"/>
+
+    <definition name=".user.index" extends=".mainLayout">
+        <put name="menu" value="/WEB-INF/tiles/common/usermenu.jsp"/>
+        <put name="body" value="/WEB-INF/tiles/account/viewwelcometext.jsp"/>
+    </definition>
+    <definition name=".user.editdiary" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/diary/editdiary.jsp"/>
+    </definition>
+    <definition name=".user.edituseraccount" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/account/edituseraccount.jsp"/>
+    </definition>
+    <definition name=".user.viewuseraccounts" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/account/viewuseraccounts.jsp"/>
+    </definition>
+    <definition name=".user.editpicture" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/picture/editpicture.jsp"/>
+    </definition>
+    <definition name=".user.viewimage" extends=".user.empty">
+        <put name="body" value="/WEB-INF/tiles/loader/viewimage.jsp"/>
+    </definition>
+    <definition name=".user.editappendixentry" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/appendix/editappendixentry.jsp"/>
+    </definition>
+    <definition name=".user.viewappendixentries" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/appendix/viewappendixentries.jsp"/>
+    </definition>
+    <definition name=".guest.viewimage" extends=".guest.empty">
+        <put name="body" value="/WEB-INF/tiles/loader/viewimage.jsp"/>
+    </definition>
+    <definition name=".guest.viewdiary" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/diary/viewdiary.jsp"/>
+    </definition>
+    <definition name=".user.viewdiary" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/diary/viewdiary.jsp"/>
+    </definition>
+    <definition name=".user.viewdiaryentry" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/diary/viewentry.jsp"/>
+    </definition>
+    <definition name=".user.editinventoryentry" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/inventory/editinventoryentry.jsp"/>
+    </definition>
+    <definition name=".user.editinventoryentryandevent" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/inventory/newinventoryentryandevent.jsp"/>
+    </definition>
+    <definition name=".user.editinventoryentryevent" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/inventory/editinventoryentryevent.jsp"/>
+    </definition>
+    <definition name=".user.viewinventoryentries" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/inventory/viewinventoryentries.jsp"/>
+    </definition>
+    <definition name=".user.viewinventoryentry" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/inventory/viewinventoryentry.jsp"/>
+    </definition>
+    <definition name=".guest.viewinventoryentries" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/inventory/viewinventoryentries.jsp"/>
+    </definition>
+    <definition name=".guest.viewinventoryentry" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/inventory/viewinventoryentry.jsp"/>
+    </definition>
+    <definition name=".guest.viewdiaryentry" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/diary/viewentry.jsp"/>
+    </definition>
+    <definition name=".user.editdiaryentry" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/diary/editentry.jsp"/>
+    </definition>
+    <definition name=".user.editpurchaseentry" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/purchase/editpurchaseentry.jsp"/>
+    </definition>
+    <definition name=".user.viewpurchaseentries" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/purchase/viewpurchaseentries.jsp"/>
+    </definition>
+    <definition name=".user.editgalleryentry" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/editgalleryentry.jsp"/>
+    </definition>
+    <definition name=".user.editgallery" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/editgallery.jsp"/>
+    </definition>
+    <definition name=".guest.viewpictures" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/viewgallery.jsp"/>
+    </definition>
+    <definition name=".user.viewpictures" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/viewgallery.jsp"/>
+    </definition>
+    <definition name=".guest.viewexternalpictures" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/viewexternalgallery.jsp"/>
+    </definition>
+    <definition name=".user.viewexternalpictures" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/viewexternalgallery.jsp"/>
+    </definition>
+    <definition name=".guest.empty" extends=".mainLayoutEmpty"/>
+    <definition name=".guest.index" extends=".mainLayout">
+        <put name="menu" value="/WEB-INF/tiles/common/guestmenu.jsp"/>
+        <put name="body" value="/WEB-INF/tiles/account/viewwelcometext.jsp"/>
+    </definition>
+</tiles-definitions>
