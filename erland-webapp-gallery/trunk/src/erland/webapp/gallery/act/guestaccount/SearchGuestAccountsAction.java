@@ -30,6 +30,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.InvocationTargetException;
 
 public class SearchGuestAccountsAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -39,7 +40,12 @@ public class SearchGuestAccountsAction extends BaseAction {
         GuestAccountPB[] pb = new GuestAccountPB[entities.length];
         for (int i = 0; i < entities.length; i++) {
             pb[i] = new GuestAccountPB();
-            PropertyUtils.copyProperties(pb[i],entities[i]);
+            try {
+                PropertyUtils.copyProperties(pb[i],entities[i]);
+            } catch (IllegalAccessException e) {
+            } catch (InvocationTargetException e) {
+            } catch (NoSuchMethodException e) {
+            }
         }
         request.setAttribute("guestAccountsPB", pb);
     }
