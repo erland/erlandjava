@@ -9,6 +9,7 @@
         <title><bean:write name="item" property="title"/></title>
         <version><bean:write name="item" property="version"/></version>
         <date><bean:write name="item" property="dateDisplay"/></date>
+        <url><bean:write name="item" property="applicationLink"/></url>
         <files>
         <logic:iterate name="item" property="files" id="file">
             <file>
