@@ -25,9 +25,13 @@ import erland.webapp.usermgmt.UserMgmtServlet;
 import erland.webapp.common.html.HTMLEncoder;
 import erland.webapp.common.html.HTMLBasicStringReplace;
 import erland.webapp.common.html.HTMLLinkStringReplace;
+import erland.webapp.common.DescriptionTagHelper;
 
 
 public class DirGalleryServlet extends UserMgmtServlet {
+    protected String getApplicationName() {
+        return "dirgallery";
+    }
     public void initEnd() {
         Log.setLogConfig(new ParameterStorageString(new StringStorage(
                 "<log>" +
