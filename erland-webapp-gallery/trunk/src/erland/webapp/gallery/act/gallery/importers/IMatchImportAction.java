@@ -168,6 +168,7 @@ public class IMatchImportAction extends BaseAction {
     }
 
     private Integer createPicture(Integer gallery, String picture, Date modificationDate, Integer id, String title, String description, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean cutLongPictureTitles) {
+        picture = picture.replace('\\',File.separatorChar);
         QueryFilter filter = new QueryFilter("ingallerywithname");
         filter.setAttribute("gallery", gallery);
         filter.setAttribute("link", "{" + picture + "}");
