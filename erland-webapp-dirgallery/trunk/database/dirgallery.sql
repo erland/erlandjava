@@ -1,11 +1,11 @@
--- MySQL dump 9.08
+-- MySQL dump 9.09
 --
 -- Host: localhost    Database: dirgallery
 ---------------------------------------------------------
--- Server version	4.0.13-max-nt
+-- Server version	4.0.15-max-debug
 
 --
--- Table structure for table 'galleries'
+-- Table structure for table `galleries`
 --
 
 CREATE TABLE galleries (
@@ -41,11 +41,13 @@ CREATE TABLE galleries (
   showcommentbelowpicture tinyint(1) NOT NULL default '0',
   showfilesizebelowpicture tinyint(1) NOT NULL default '0',
   official tinyint(1) NOT NULL default '0',
+  defaultresolution varchar(100) default NULL,
+  maxwidth int(11) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'galleryfriends'
+-- Table structure for table `galleryfriends`
 --
 
 CREATE TABLE galleryfriends (
@@ -54,7 +56,7 @@ CREATE TABLE galleryfriends (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'picturecomments'
+-- Table structure for table `picturecomments`
 --
 
 CREATE TABLE picturecomments (
@@ -64,7 +66,18 @@ CREATE TABLE picturecomments (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'useraccounts'
+-- Table structure for table `resolutions`
+--
+
+CREATE TABLE resolutions (
+  id varchar(100) NOT NULL default '',
+  description varchar(100) NOT NULL default '',
+  width int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Table structure for table `useraccounts`
 --
 
 CREATE TABLE useraccounts (
