@@ -39,6 +39,8 @@ import org.apache.struts.action.ActionForward;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class SearchGalleriesAndCategoriesAction extends BaseAction {
     protected Comparator SORT_BY_NAME = new Comparator() {
@@ -86,7 +88,7 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
                 categoryPath = categoryForward.getPath();
             }
             Category[] categories = CategoryHelper.searchCategories(getEnvironment(),gallery,entity.getId(),entity.getTopCategory(),getCategoriesFilter(request),getNoTopCategoriesFilter(request));
-            MenuItemPB[] categoriesPB = makeCategoryTree(entity.getId(),username, categories,categoryPath,entity.getTopCategory(),useEnglish);
+            MenuItemPB[] categoriesPB = makeCategoryTree(entity.getId(),username, categories,categoryPath,entity.getTopCategory(),useEnglish,entity.getNationalNamePattern(),entity.getEnglishNamePattern());
             pb[i].setChilds(categoriesPB);
             if(fb!=null && entity.getId().equals(fb.getGallery())) {
                 request.getSession().setAttribute(prefix+"menuCategoriesPB",categoriesPB);
@@ -136,7 +138,7 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
                         categoryPath = categoryForward.getPath();
                     }
                     Category[] categories = CategoryHelper.searchCategories(getEnvironment(),gallery,entity.getId(),entity.getTopCategory(),getCategoriesFilter(request),getNoTopCategoriesFilter(request));
-                    MenuItemPB[] categoriesPB = makeCategoryTree(entity.getId(),((GuestAccount)userEntities[i]).getUsername(), categories,categoryPath,entity.getTopCategory(),useEnglish);
+                    MenuItemPB[] categoriesPB = makeCategoryTree(entity.getId(),((GuestAccount)userEntities[i]).getUsername(), categories,categoryPath,entity.getTopCategory(),useEnglish,entity.getNationalNamePattern(),entity.getEnglishNamePattern());
                     pbGalleries[j].setChilds(categoriesPB);
                 }
                 pbGuest[i].setChilds(pbGalleries);
@@ -154,15 +156,43 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
         }
     }
 
-    private MenuItemPB[] makeCategoryTree(Integer galleryId, String username, Category[] categories, String categoryPath, Integer topCategory, boolean useEnglish) {
+    private MenuItemPB[] makeCategoryTree(Integer galleryId, String username, Category[] categories, String categoryPath, Integer topCategory, boolean useEnglish,String nationalNamePattern, String englishNamePattern) {
         List result = new ArrayList();
+        Pattern nationalPattern = null;
+        Pattern englishPattern = null;
+        if(StringUtil.asNull(nationalNamePattern)!=null) {
+            nationalPattern = Pattern.compile(nationalNamePattern);
+        }
+        if(StringUtil.asNull(englishNamePattern)!=null) {
+            englishPattern = Pattern.compile(englishNamePattern);
+        }
         for (int i = 0; i < categories.length; i++) {
             Category category = categories[i];
             CategoryMenuItemPB pb = new CategoryMenuItemPB();
             pb.setId(category.getCategory());
-            pb.setName(category.getName());
-            if(useEnglish && StringUtil.asNull(category.getNameEnglish())!=null) {
-                pb.setName(category.getNameEnglish());
+
+            // Apply name patterns on category names
+            String nameEnglish = category.getNameEnglish();
+            String name = category.getName();
+            if(englishPattern!=null) {
+                if(StringUtil.asNull(nameEnglish)==null) {
+                    Matcher matcher = englishPattern.matcher(name);
+                    if(matcher.matches()) {
+                        nameEnglish = matcher.group(1);
+                    }
+                }
+            }
+            if(nationalPattern!=null) {
+                Matcher matcher = nationalPattern.matcher(name);
+                if(matcher.matches()) {
+                    name = matcher.group(1);
+                }
+            }
+
+            // Choose if national/english category name should be displayed
+            pb.setName(name);
+            if(useEnglish && StringUtil.asNull(nameEnglish)!=null) {
+                pb.setName(nameEnglish);
             }
             pb.setPath(categoryPath);
             pb.setUser(username);
