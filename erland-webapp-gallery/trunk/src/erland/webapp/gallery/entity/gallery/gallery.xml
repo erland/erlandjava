@@ -164,6 +164,12 @@
             </field>
         </fields>
         <queries>
+            <query id="all">
+                <querystring/>
+            </query>
+            <query id="allofficial">
+                <querystring>official=1</querystring>
+            </query>
             <query id="allforuser">
                 <querystring>username=?</querystring>
                 <fields>
