@@ -302,6 +302,7 @@ public class GenericEntityStorage extends EntityStorage {
                             }
                         }
                     }
+                    return true;
                 }
             }
         } catch (IllegalAccessException e) {
@@ -363,7 +364,11 @@ public class GenericEntityStorage extends EntityStorage {
                         fieldNo++;
                     }
                 }
-                return stmt.execute();
+                if(!stmt.execute()) {
+                    return stmt.getUpdateCount()>0;
+                }else {
+                    return stmt.getResultSet().rowUpdated();
+                }
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
@@ -446,7 +451,11 @@ public class GenericEntityStorage extends EntityStorage {
                                 bLastParameter = true;
                             }
                         }
-                        return stmt.execute();
+                        if(!stmt.execute()) {
+                            return stmt.getUpdateCount()>0;
+                        }else {
+                            return stmt.getResultSet().rowUpdated();
+                        }
                     }
                 }
 
@@ -471,7 +480,11 @@ public class GenericEntityStorage extends EntityStorage {
             PreparedStatement stmt = makeWhereStatement(conn,sb,fields,entity,1);
             LOG.debug("Created prepared statement: "+stmt);
             if(stmt!=null) {
-                return stmt.execute();
+                if(!stmt.execute()) {
+                    return stmt.getUpdateCount()>0;
+                }else {
+                    return stmt.getResultSet().rowDeleted();
+                }
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
@@ -526,7 +539,11 @@ public class GenericEntityStorage extends EntityStorage {
                             }
                         }
 
-                        return stmt.execute();
+                        if(!stmt.execute()) {
+                            return stmt.getUpdateCount()>0;
+                        }else {
+                            return stmt.getResultSet().rowDeleted();
+                        }
                     }
                 }
             }
