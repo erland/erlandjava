@@ -20,6 +20,7 @@ package erland.webapp.common.image;
  */
 
 import erland.webapp.common.WebAppEnvironmentInterface;
+import erland.util.Log;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -34,19 +35,23 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Iterator;
 
-public abstract class ImageWriteHelper {
+public class ImageWriteHelper {
     private static final int THUMBNAIL_WIDTH = 150;
     private static final int COPYRIGHT_WIDTH = 640;
     private static final int COPYRIGHT_HEIGHT = 480;
     private static final float COMPRESSION = 0.9f;
     private static final float SMALL_THUMBNAIL_COMPRESSION = 0.5f;
     private static final int COPYRIGHT_OFFSET = 5;
+    private static ImageWriteHelper me;
+
+    private ImageWriteHelper() {};
 
     public static boolean writeImage(WebAppEnvironmentInterface environment,String file, OutputStream output) {
         try {
             if (file != null) {
                 BufferedInputStream input = null;
-                try {
+                Log.println(getLogInstance(), "Loading image: " + file);
+                 try {
                     input = new BufferedInputStream(new FileInputStream(file));
                 } catch (FileNotFoundException e) {
                     input = new BufferedInputStream(new URL(file).openConnection().getInputStream());
@@ -64,8 +69,9 @@ public abstract class ImageWriteHelper {
 
 
     public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, OutputStream output) {
+        Log.println(getLogInstance(), "Loading thumbnail image: " + imageFile);
         String cacheDir = environment.getConfigurableResources().getParameter("thumbnail.cache");
-        int requestedWidth = width!=null?width.intValue():0;
+        int requestedWidth = width!=null?width.intValue():THUMBNAIL_WIDTH;
         float requestedCompression = compression!=null?compression.floatValue():0f;
         if (requestedCompression == 0) {
             requestedCompression = requestedWidth <= THUMBNAIL_WIDTH ? SMALL_THUMBNAIL_COMPRESSION : COMPRESSION;
@@ -79,7 +85,6 @@ public abstract class ImageWriteHelper {
         try {
             if (imageFile != null) {
                 URL url = null;
-                //Log.println(me, "Loading image" + imageFile);
                 long lastModified = 0;
                 File file = new File(imageFile);
                 if (file.exists()) {
@@ -164,6 +169,7 @@ public abstract class ImageWriteHelper {
 
     private static File getFromCache(String cacheDir,String username, int width, String originalFile, long lastModified) {
         String cacheFileName = getCacheFileName(username, width, originalFile);
+        Log.println(getLogInstance(), "Loading thumbnail from cache: " + cacheDir+"/"+cacheFileName);
         File cachedfile = new File(cacheDir + "/" + cacheFileName);
         if (cachedfile.exists()) {
             if (cachedfile.lastModified() > lastModified) {
@@ -182,5 +188,11 @@ public abstract class ImageWriteHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private static ImageWriteHelper getLogInstance() {
+        if(me==null) {
+            me = new ImageWriteHelper();
+        }
+        return me;
     }
 }
