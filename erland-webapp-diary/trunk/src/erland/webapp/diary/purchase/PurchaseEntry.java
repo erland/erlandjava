@@ -1,22 +1,16 @@
 package erland.webapp.diary.purchase;
 
-import erland.webapp.common.EntityInterface;
-import erland.webapp.common.WebAppEnvironmentInterface;
+import erland.webapp.common.BaseEntity;
 
 import java.util.Date;
 
-public class PurchaseEntry implements EntityInterface {
-    private WebAppEnvironmentInterface environment;
+public class PurchaseEntry extends BaseEntity {
     private Integer id;
     private String username;
     private Date date;
     private String store;
     private String description;
     private Double price;
-
-    public void init(WebAppEnvironmentInterface environment) {
-        this.environment = environment;
-    }
 
     public Integer getId() {
         return id;

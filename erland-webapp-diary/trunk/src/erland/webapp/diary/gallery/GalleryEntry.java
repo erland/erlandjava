@@ -1,20 +1,14 @@
 package erland.webapp.diary.gallery;
 
-import erland.webapp.common.EntityInterface;
-import erland.webapp.common.WebAppEnvironmentInterface;
+import erland.webapp.common.BaseEntity;
 
-public class GalleryEntry implements EntityInterface {
-    private WebAppEnvironmentInterface environment;
+public class GalleryEntry extends BaseEntity {
     private Integer gallery;
     private Integer id;
     private String title;
     private String description;
     private String image;
     private String link;
-
-    public void init(WebAppEnvironmentInterface environment) {
-        this.environment = environment;
-    }
 
     public Integer getGallery() {
         return gallery;

@@ -1,16 +1,10 @@
 package erland.webapp.diary;
 
-import erland.webapp.common.EntityInterface;
-import erland.webapp.common.WebAppEnvironmentInterface;
+import erland.webapp.common.BaseEntity;
 
-public class DescriptionId implements EntityInterface {
-    private WebAppEnvironmentInterface environment;
+public class DescriptionId extends BaseEntity {
     private Integer id;
     private String description;
-
-    public void init(WebAppEnvironmentInterface environment) {
-        this.environment = environment;
-    }
 
     public Integer getId() {
         return id;

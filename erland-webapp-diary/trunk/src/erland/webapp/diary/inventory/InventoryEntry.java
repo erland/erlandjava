@@ -1,11 +1,8 @@
 package erland.webapp.diary.inventory;
 
-import erland.webapp.common.EntityInterface;
-import erland.webapp.common.WebAppEnvironmentInterface;
-import erland.webapp.common.QueryFilter;
+import erland.webapp.common.BaseEntity;
 
-public class InventoryEntry implements EntityInterface {
-    private WebAppEnvironmentInterface environment;
+public class InventoryEntry extends BaseEntity {
     private Integer id;
     private String username;
     private Integer type;
@@ -13,10 +10,6 @@ public class InventoryEntry implements EntityInterface {
     private String description;
     private String image;
     private String link;
-
-    public void init(WebAppEnvironmentInterface environment) {
-        this.environment = environment;
-    }
 
     public Integer getId() {
         return id;

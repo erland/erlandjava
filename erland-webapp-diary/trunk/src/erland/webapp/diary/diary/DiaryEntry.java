@@ -1,32 +1,14 @@
 package erland.webapp.diary.diary;
 
-import erland.webapp.common.EntityInterface;
-import erland.webapp.common.WebAppEnvironmentInterface;
-import erland.webapp.diary.diary.DiaryEntryInterface;
+import erland.webapp.common.BaseEntity;
 
-import javax.sql.DataSource;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.ResultSet;
 
-public class DiaryEntry implements DiaryEntryInterface {
+public class DiaryEntry extends BaseEntity {
     private Integer diary;
     private Date date;
     private String title;
     private String description;
-
-    private WebAppEnvironmentInterface environment;
-
-    public void init(WebAppEnvironmentInterface environment) {
-        this.environment = environment;
-    }
 
     public Integer getDiary() {
         return diary;

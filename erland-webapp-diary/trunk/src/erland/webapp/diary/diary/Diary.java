@@ -1,19 +1,13 @@
 package erland.webapp.diary.diary;
 
-import erland.webapp.common.EntityInterface;
-import erland.webapp.common.WebAppEnvironmentInterface;
+import erland.webapp.common.BaseEntity;
 
-public class Diary implements EntityInterface {
-    private WebAppEnvironmentInterface environment;
+public class Diary extends BaseEntity {
     private String username;
     private Integer id;
     private String title;
     private String description;
     private Boolean official;
-
-    public void init(WebAppEnvironmentInterface environment) {
-        this.environment = environment;
-    }
 
     public String getUsername() {
         return username;

@@ -1,21 +1,15 @@
 package erland.webapp.diary.inventory;
 
-import erland.webapp.common.EntityInterface;
-import erland.webapp.common.WebAppEnvironmentInterface;
+import erland.webapp.common.BaseEntity;
 
 import java.util.Date;
 
-public class InventoryEntryEvent implements EntityInterface {
-    private WebAppEnvironmentInterface environment;
+public class InventoryEntryEvent extends BaseEntity {
     private Integer id;
     private Integer eventId;
     private Integer description;
     private Double size;
     private Date date;
-
-    public void init(WebAppEnvironmentInterface environment) {
-        this.environment = environment;
-    }
 
     public Integer getId() {
         return id;
