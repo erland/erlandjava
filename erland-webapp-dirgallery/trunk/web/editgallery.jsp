@@ -33,7 +33,7 @@
             <input type="text" name="menuname" value="<%=gallery!=null?gallery.getMenuName():""%>">
             </td></tr>
             <tr><td>Beskrivning</td><td>
-            <textarea name="description" cols="80" rows="15" wrap="virtual"><%=gallery!=null?gallery.getDescription():""%></textarea>
+            <textarea class="normal" name="description" cols="80" rows="15" wrap="virtual"><%=gallery!=null?gallery.getDescription():""%></textarea>
             </td></tr>
             <tr><td>Katalog</td><td>
             <input type="text" name="directory" size="80" value="<%=gallery!=null?gallery.getDirectory():"D:\\users\\"+user+"\\public_html"%>">

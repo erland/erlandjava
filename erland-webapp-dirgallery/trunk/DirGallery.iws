@@ -25,7 +25,7 @@
       <window_info id="SQL" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.67785233" order="8" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.4216614" order="0" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.4206099" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.3305369" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.3305369" order="8" />
@@ -62,18 +62,17 @@
       <expanded_node type="directory" url="file://$PROJECT_DIR$" />
     </view>
     <view id="SourcepathPane">
-      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/UserMgmt/src/erland" />
-      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/Common/src/erland" />
       <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Common/util/src/erland" />
-      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp" />
+      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/UserMgmt/src/erland" />
       <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/UserMgmt/src/erland/webapp" />
-      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/UserMgmt/src/erland/webapp/usermgmt" />
-      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/UserMgmt/src" />
       <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Common/util/src" />
-      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Common/util/src/erland/util" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/web" />
+      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/UserMgmt/src/erland/webapp/usermgmt" />
       <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/Common/src" />
+      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/Common/src/erland" />
       <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common" />
+      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/UserMgmt/src" />
+      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp" />
+      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Common/util/src/erland/util" />
     </view>
     <view id="ClasspathPane" />
   </component>
@@ -103,107 +102,109 @@
   </component>
   <component name="editorManager" />
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources.xml">
+    <entry file="file://$PROJECT_DIR$/web/menuguest.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="15" selection-start="504" selection-end="504" vertical-scroll-proportion="1.8053098" horizontal-scroll-proportion="0.21784233">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/erland/webapp/dirgallery/gallery/picture/Picture.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/menu.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="0" selection-start="417" selection-end="417" vertical-scroll-proportion="0.29310346" horizontal-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common/FileEntityStorage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="13" selection-start="241" selection-end="241" vertical-scroll-proportion="0.12546125" horizontal-scroll-proportion="0.1891892">
+        <state line="236" column="0" selection-start="10239" selection-end="10239" vertical-scroll-proportion="0.7816092" horizontal-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/welcome.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="118" selection-end="118" vertical-scroll-proportion="0.0651341" horizontal-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/welcomelogin.jsp">
+    <entry file="file://$PROJECT_DIR$/web/viewpictureguest.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/welcomeguest.jsp">
+    <entry file="file://$PROJECT_DIR$/src/erland/webapp/dirgallery/gallery/Gallery.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="462" selection-end="462" vertical-scroll-proportion="0.29310346" horizontal-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/menuguest.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="555" selection-end="555" vertical-scroll-proportion="0.42337164" horizontal-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/viewgallery.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="605" selection-end="605" vertical-scroll-proportion="0.348659" horizontal-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/viewgallerypicturepart.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="20" selection-start="3077" selection-end="3077" vertical-scroll-proportion="0.159375" horizontal-scroll-proportion="0.114107884">
+        <state line="117" column="45" selection-start="7160" selection-end="7160" vertical-scroll-proportion="0.621875" horizontal-scroll-proportion="0.65352696">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="593" column="39" selection-start="25446" selection-end="25446" vertical-scroll-proportion="0.33333334" horizontal-scroll-proportion="0.56639004">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/erland/webapp/dirgallery/gallery/EditGalleryCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="62" column="84" selection-start="4768" selection-end="4768" vertical-scroll-proportion="0.33333334" horizontal-scroll-proportion="0.3174274">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/index.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="489" selection-end="489" vertical-scroll-proportion="0.5210728" horizontal-scroll-proportion="0.0">
+        <state line="60" column="7" selection-start="1250" selection-end="1250" vertical-scroll-proportion="0.8118081" horizontal-scroll-proportion="0.10144927">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/indexempty.jsp">
+    <entry file="file://$PROJECT_DIR$/web/login.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="18" selection-start="316" selection-end="316" vertical-scroll-proportion="0.478125" horizontal-scroll-proportion="0.2614108">
+        <state line="15" column="9" selection-start="928" selection-end="928" vertical-scroll-proportion="0.5079681" horizontal-scroll-proportion="0.18367347">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/menu.jsp">
+    <entry file="file://$PROJECT_DIR$/web/editgallery.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
+        <state line="35" column="139" selection-start="1904" selection-end="1904" vertical-scroll-proportion="0.35856575" horizontal-scroll-proportion="1.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/menugalleriescommon.jsp">
+    <entry file="file://$PROJECT_DIR$/web/editpicturecomment.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="56" selection-end="56" vertical-scroll-proportion="0.053125" horizontal-scroll-proportion="0.0">
+        <state line="18" column="117" selection-start="1222" selection-end="1222" vertical-scroll-proportion="0.46414343" horizontal-scroll-proportion="1.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/menugalleries.jsp">
+    <entry file="file://$PROJECT_DIR$/web/edituseraccount.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="57" selection-start="687" selection-end="687" vertical-scroll-proportion="0.48850575" horizontal-scroll-proportion="0.8278008">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/menugalleriesguest.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="61" selection-end="61" vertical-scroll-proportion="0.053125" horizontal-scroll-proportion="0.0">
+        <state line="0" column="40" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.81632656">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/styles.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="12" selection-start="998" selection-end="998" vertical-scroll-proportion="0.5440613" horizontal-scroll-proportion="0.17427386">
+        <state line="111" column="8" selection-start="1459" selection-end="1459" vertical-scroll-proportion="0.6436782" horizontal-scroll-proportion="0.11594203">
           <folding />
         </state>
       </provider>
@@ -439,9 +440,9 @@
   </component>
   <component name="AppServerRunManager" />
   <component name="SQL">
-    <database name="Users" driver="jdbc:mysql" host="dual350" user="erland" maxReconnects="3" port="3306" initialTimeout="2" db="users" />
-    <database name="Mysql" driver="jdbc:mysql" host="dual350" user="root" maxReconnects="3" port="3306" initialTimeout="2" db="mysql" />
-    <database name="DirGallery" driver="jdbc:mysql" host="dual350" user="erland" maxReconnects="3" port="3306" initialTimeout="2" db="dirgallery" current="true" />
+    <database name="Users" driver="jdbc:mysql" port="3306" initialTimeout="2" host="dual350" maxReconnects="3" user="erland" db="users" />
+    <database name="Mysql" driver="jdbc:mysql" port="3306" initialTimeout="2" host="dual350" maxReconnects="3" user="root" db="mysql" />
+    <database name="DirGallery" driver="jdbc:mysql" port="3306" initialTimeout="2" host="dual350" maxReconnects="3" user="erland" db="dirgallery" current="true" />
     <htmlExport table="border: 1px solid black; border-spacing:0px" cell="border: 1px solid black" header="background: darkgrey; font-weight:bold; text-align: center" row1="background: white" row2="background: lightgrey" alternate="false" interval="1" />
     <csvExport delimiter="," text="&quot;" />
     <partialExecute value="0" />

@@ -16,7 +16,7 @@
             <input type="hidden" name="id" value="<%=request.getParameter("id")%>">
             <table>
             <tr><td>Beskrivning</td><td>
-            <textarea name="comment" cols="80" rows="5" wrap="virtual"><%=comment!=null?comment:""%></textarea>
+            <textarea class="normal" name="comment" cols="80" rows="5" wrap="virtual"><%=comment!=null?comment:""%></textarea>
             </td></tr>
             <tr><td></td><td>
             <input type="submit" value="Spara">
