@@ -57,6 +57,11 @@ public class Gallery extends BaseEntity {
     private Boolean showCommentBelowPicture;
     private Integer maxWidth;
     private String defaultResolution;
+    private String copyrightText;
+    private Integer copyrightPosition;
+    private Double copyrightTransparency;
+    private Boolean useCopyright;
+    private Boolean useCacheLargeImages;
     public static final Integer PICTUREFILES = new Integer(Picture.PICTUREFILE);
     public static final Integer MOVIEFILES = new Integer(Picture.MOVIEFILE);
 
@@ -330,5 +335,45 @@ public class Gallery extends BaseEntity {
 
     public void setDefaultResolution(String defaultResolution) {
         this.defaultResolution = defaultResolution;
+    }
+
+    public String getCopyrightText() {
+        return copyrightText;
+    }
+
+    public void setCopyrightText(String copyrightText) {
+        this.copyrightText = copyrightText;
+    }
+
+    public Integer getCopyrightPosition() {
+        return copyrightPosition;
+    }
+
+    public void setCopyrightPosition(Integer copyrightPosition) {
+        this.copyrightPosition = copyrightPosition;
+    }
+
+    public Double getCopyrightTransparency() {
+        return copyrightTransparency;
+    }
+
+    public void setCopyrightTransparency(Double copyrightTransparency) {
+        this.copyrightTransparency = copyrightTransparency;
+    }
+
+    public Boolean getUseCopyright() {
+        return useCopyright;
+    }
+
+    public void setUseCopyright(Boolean useCopyright) {
+        this.useCopyright = useCopyright;
+    }
+
+    public Boolean getUseCacheLargeImages() {
+        return useCacheLargeImages;
+    }
+
+    public void setUseCacheLargeImages(Boolean useCacheLargeImages) {
+        this.useCacheLargeImages = useCacheLargeImages;
     }
 }

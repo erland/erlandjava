@@ -146,6 +146,26 @@
                 <column>defaultresolution</column>
                 <type>String</type>
             </field>
+            <field id="copyrightText">
+                <column>copyrighttext</column>
+                <type>String</type>
+            </field>
+            <field id="copyrightPosition">
+                <column>copyrightposition</column>
+                <type>Integer</type>
+            </field>
+            <field id="useCopyright">
+                <column>usecopyright</column>
+                <type>Boolean</type>
+            </field>
+            <field id="copyrightTransparency">
+                <column>copyrighttransparency</column>
+                <type>Double</type>
+            </field>
+            <field id="useCacheLargeImages">
+                <column>uselargecache</column>
+                <type>Boolean</type>
+            </field>
         </fields>
         <queries>
             <query id="allforuser">
