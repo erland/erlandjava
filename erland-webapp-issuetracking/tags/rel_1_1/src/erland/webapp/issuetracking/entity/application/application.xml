@@ -1,0 +1,81 @@
+<entity id="application">
+    <class>erland.webapp.issuetracking.entity.application.Application</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/issuetracking</datasource>
+        <table>applications</table>
+        <fields>
+            <field id="name">
+                <column>name</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="titleNative">
+                <column>titlenative</column>
+                <type>String</type>
+            </field>
+            <field id="titleEnglish">
+                <column>titleenglish</column>
+                <type>String</type>
+            </field>
+            <field id="username">
+                <column>username</column>
+                <type>String</type>
+            </field>
+            <field id="logo">
+                <column>logo</column>
+                <type>String</type>
+            </field>
+            <field id="official">
+                <column>official</column>
+                <type>Boolean</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="all">
+                <querystring/>
+            </query>
+            <query id="allforuser">
+                <querystring>username=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>user</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allofficial">
+                <querystring>official=1</querystring>
+            </query>
+            <query id="allofficialforuser">
+                <completequerystring>select * from applications where official=1 or username=?</completequerystring>
+                <fields>
+                    <field id="1">
+                        <field>user</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allwithissuesforuser">
+                <completequerystring>select distinct applications.* from applications left join issues on applications.name=issues.application and type in ({1}) left join issueevents on issues.id=issueevents.issueid and issueevents.username=? left join issueevents lastissueevents on issues.id=lastissueevents.issueid where issues.id is not null and issueevents.issueid is not null and lastissueevents.issueid is not null and lastissueevents.state in ({3}) group by issues.id having max(lastissueevents.eventid)=max(issueevents.eventid)</completequerystring>
+                <fields>
+                    <field id="1">
+                        <field>type</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>user</field>
+                        <type>String</type>
+                    </field>
+                    <field id="3">
+                        <field>state</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
