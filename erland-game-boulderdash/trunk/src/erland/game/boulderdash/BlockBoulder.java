@@ -1,6 +1,5 @@
 package erland.game.boulderdash;
 import java.awt.*;
-import erland.util.*;
 import erland.game.*;
 
 /**
@@ -30,10 +29,10 @@ class BlockBoulder extends Block
 	/** Falling speed */
 	protected static float FALL_SPEED = 1.5f;
 	
-	public void init(BoulderDashContainerInterface c, ImageHandlerInterface images, BlockContainerInterface cont, int x, int y)
+	public void init(GameEnvironmentInterface environment, BoulderDashContainerInterface c, BlockContainerInterface cont, int x, int y)
 	{
-		super.init(c,images,cont,x,y);
-		img = images.getImage("boulder.gif");
+		super.init(environment,c,cont,x,y);
+		img = environment.getImageHandler().getImage("boulder.gif");
 	}
 
 	public void update()

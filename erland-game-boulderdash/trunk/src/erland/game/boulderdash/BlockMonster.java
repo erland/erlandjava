@@ -1,6 +1,5 @@
 package erland.game.boulderdash;
 import java.awt.*;
-import erland.util.*;
 import erland.game.*;
 
 /**
@@ -27,10 +26,10 @@ class BlockMonster extends Block
 	/** Falling speed */
 	protected float speed = 1.5f;
 	
-	public void init(BoulderDashContainerInterface c, ImageHandlerInterface images, BlockContainerInterface cont, int x, int y)
+	public void init(GameEnvironmentInterface environment, BoulderDashContainerInterface c, BlockContainerInterface cont, int x, int y)
 	{
-		super.init(c,images,cont,x,y);
-		img = images.getImage("monster.gif");
+		super.init(environment,c,cont,x,y);
+		img = environment.getImageHandler().getImage("monster.gif");
 	}
 
 	public void update()

@@ -1,6 +1,8 @@
 package erland.game.boulderdash;
 import erland.util.*;
 import erland.game.*;
+import erland.game.component.EButton;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -8,8 +10,7 @@ import java.util.*;
 /**
  * Main game class that controls the game logic and and screen redrawing
  */
-class BoulderDashMain 
-	implements ActionListener, BoulderDashContainerInterface
+class BoulderDashMain implements GamePanelInterface, ActionListener, BoulderDashContainerInterface
 {
 	/** Horisontal drawing offset, nothing should be drawn to the left of this position */
 	protected int offsetX;
@@ -23,36 +24,24 @@ class BoulderDashMain
 	protected final int BLINK_SPEED=20;
 	/** Indicates if the game is currently running or if it is waiting for the user to press space */
 	protected boolean bStarted;
-	/** Last highscore saved to disk */
-	protected int savedHighScore;
-	/** Current highscore, may not be saved to disk */
-	protected int highScore;
 	/** Current score in the ongoing game */
 	protected int score;
 	/** Current level in the ongoing game */
 	protected int level;
 	/** Number of lifes left in the ongoing game */
 	protected int lifes;
-	/** Parameter storage which is used to save game data and highscores */
-	protected ParameterValueStorageInterface cookies;
 	/** Indicates if cheatmode is active or not */
-	protected boolean cheatMode;
-	/** Counter that contains the time since last FPS calculation in cheatmode */
-	protected long frameTime=0;
-	/** Counter that contains the number of frames drawn since the last FPS calculation in cheatmode */
-	protected int fpsShow=0;
+	protected boolean bCheatMode;
 	/** The last calculated FPS in cheatmode */
-	protected long fps=0;
-	/** Container object which all Buttons should be added to */
-	protected Container container;
+	protected FpsCounter fps;
 	/** Array with all the buttons */
-	protected Button buttons[];
+	protected EButton buttons[];
 	/** Matrix with all the blocks on the game area */
 	protected Block[][] blocks;
 	/** Matrix with indications which positions that is allocated for future blocks */
 	protected boolean allocated[][];
 	/** Matrix with indications about which position that needs to be redrawn */
-	protected boolean redraw[][];
+	protected int redraw[][];
 	/** Block container for the game area */
 	protected ChangeableBlockContainerData cont;
 	/** Block container for the game area */
@@ -65,7 +54,7 @@ class BoulderDashMain
 	protected int diamondsToCollect;
 	/** Indicates if one of the arrow keys are pressed down */
 	protected boolean moving;
-	/** Indicates which of the arrow keys that are pressed down, see {@link erland.game#Direction} */
+	/** Indicates which of the arrow keys that are pressed down, see {@link erland.game.Direction} */
 	protected int movingDirection;
 	/** Player object, represents the player moving around in the game area */
 	protected Player player;
@@ -75,11 +64,14 @@ class BoulderDashMain
 	protected int scrollY;
 	/** Indicates if the Exit button has been pressed */
 	protected boolean bExit;
-	/** Indicates if the level has been drawn at least once */
-	protected boolean drawnOnce;
+	/** Indicates if the level has been drawn at least once, 0 if it has been drawn */
+	protected int drawnOnce;
 	/** Indicates the number of blocks that was redrawn, only used for testing */
-	protected int redrawnBlocks;	
-		
+	protected int redrawnBlocks;
+    /** Game environment */
+    private GameEnvironmentInterface environment;
+    private KeyListener keyListener;
+
 	class ChangeableBlockContainerData extends BlockContainerData
 	{
 		protected int offsetX;
@@ -107,49 +99,90 @@ class BoulderDashMain
 			this.offsetY = offsetY;
 		}
 	}
+    /**
+     * Class that catch all supported keyboard commands
+     * and propagate them further to the main game class
+     */
+    class Keyboard extends KeyAdapter {
+        /**
+         * Called when a key is pressed down
+         * @param e Information about the key pressed
+         */
+        public void keyPressed(KeyEvent e) {
+            if(e.getKeyCode()==e.VK_LEFT) {
+                moveLeft();
+            }else if(e.getKeyCode()==e.VK_RIGHT) {
+                moveRight();
+            }else if(e.getKeyCode()==e.VK_UP) {
+                moveUp();
+            }else if(e.getKeyCode()==e.VK_DOWN) {
+                moveDown();
+            }else if(e.getKeyCode()==e.VK_SPACE) {
+                hitSpace();
+            }else if(bCheatMode && e.getKeyCode()==e.VK_F1) {
+                // TODO: main.someCheatMethod();
+            }
+        }
+        /**
+         * Called when a key is released
+         * @param e Information about the key released
+         */
+        public void keyReleased(KeyEvent e) {
+            if(e.getKeyCode()==e.VK_LEFT) {
+                stopMoveLeft();
+            }else if(e.getKeyCode()==e.VK_RIGHT) {
+                stopMoveRight();
+            }else if(e.getKeyCode()==e.VK_UP) {
+                stopMoveUp();
+            }else if(e.getKeyCode()==e.VK_DOWN) {
+                stopMoveDown();
+            }
+        }
+    };
+
 	/**
 	 * Creates a new instance of the main game class
-	 * @param container Container object which all Button's should be added to
-	 * @param cookies Parameter storage object which should be used to access stored game data and highscores
 	 * @param offsetX Horisontal drawing offset, nothing should be drawn to the left of this position
 	 * @param offsetY Vertical drawing offset, nothing should be drawn above this position
 	 */
-	public BoulderDashMain(java.awt.Container container, ParameterValueStorageInterface cookies, ImageHandlerInterface images, int offsetX, int offsetY)
+	public BoulderDashMain(int offsetX, int offsetY)
 	{
-		this.container = container;
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
-		this.cookies = cookies;
-		cheatMode = false;
+	}
+
+    public void init(GameEnvironmentInterface environment) {
+        this.environment = environment;
+        bExit = false;
+		bCheatMode = false;
 		cont = new ChangeableBlockContainerData(offsetX+1, offsetY+1, 20,20,20);
 		contVisible = new BlockContainerData(offsetX+1, offsetY+1, 20,20,20);
-		levelFactory = new LevelFactory(this,cookies,images,cont);
+		levelFactory = new LevelFactory(environment,this,cont);
 		player = new Player();
+        blocks = null;
 
-		buttons = new Button[1];
-		buttons[0] = new Button("Exit");
-		buttons[0].setBounds(contVisible.getDrawingPositionX(contVisible.getSizeX())+10,
+		buttons = new EButton[1];
+		buttons[0] = EButton.create("Exit");
+		buttons[0].getComponent().setBounds(contVisible.getDrawingPositionX(contVisible.getSizeX())+10,
 							contVisible.getDrawingPositionX(contVisible.getSizeX())+10,73,25);
 		if(buttons!=null) {
 			for(int i=0;i<buttons.length;i++) {
 				buttons[i].addActionListener(this);
-				container.add(buttons[i]);
+				environment.getScreenHandler().add(buttons[i].getComponent());
 			}
 		}
 
 		init();
 		newLevel();
 		level=0;
-		try {
-			if(cookies!=null) {
-				highScore=Integer.valueOf(cookies.getParameter("highscore")).intValue();
-			}
-		}catch(NumberFormatException e) {
-			highScore=0;
-		}
-		savedHighScore=highScore;
-	}
-	
+        environment.getHighScore().load();
+        keyListener = new Keyboard();
+        environment.getScreenHandler().getContainer().requestFocus();
+        environment.getScreenHandler().getContainer().addKeyListener(keyListener);
+        environment.getScreenHandler().getContainer().setBackground(Color.black);
+        fps = new FpsCounter(60);
+    }
+
 	/**
 	 * Initialize a new game
 	 */
@@ -186,11 +219,11 @@ class BoulderDashMain
 		blocks = levelFactory.getLevel(level,player);
 		diamondsToCollect = levelFactory.getDiamonds(blocks);
 		allocated = new boolean[blocks.length][blocks[0].length];
-		redraw = new boolean[blocks.length][blocks[0].length];
-		drawnOnce = false;
+		redraw = new int[blocks.length][blocks[0].length];
+		drawnOnce = 2;
 		for(int x=0;x<blocks.length;x++) {
 			for(int y=0;y<blocks[0].length;y++) {
-				redraw[x][y] = true;
+				redraw[x][y] = 2;
 				if(blocks[x][y]!=null) {
 					allocated[x][y] = true;
 				}else {
@@ -202,20 +235,25 @@ class BoulderDashMain
 	/**
 	 * Exits the game
 	 */
-	protected void exit()
+	protected void exitGame()
 	{
 		bExit = true;
-		if(buttons!=null) {
-			for(int i=0;i<buttons.length;i++) {
-				container.remove(buttons[i]);
-			}
-		}
 	}
+
+    public void exit() {
+        if(buttons!=null) {
+            for(int i=0;i<buttons.length;i++) {
+                environment.getScreenHandler().remove(buttons[i].getComponent());
+            }
+        }
+        environment.getScreenHandler().getContainer().removeKeyListener(keyListener);
+    }
+
 	/**
 	 * Indicates if the Exit button has been pressed
 	 * @return true/false (Pressed/Not pressed)
 	 */
-	protected boolean isExit()
+	public boolean isExit()
 	{
 		return bExit;
 	}
@@ -241,41 +279,37 @@ class BoulderDashMain
 	
 	/**
 	 * Draw all the game graphics
-	 * @param g Graphics object to draw on
 	 */
-	public void draw(Graphics g)
+	public void draw()
 	{
+        Graphics g = environment.getScreenHandler().getCurrentGraphics();
 		redrawnBlocks = 0;
 		int gameSizeX = contVisible.getSizeX()*contVisible.getSquareSize();
 		int gameSizeY = contVisible.getSizeY()*contVisible.getSquareSize();
-		if((++fpsShow)>25) {
-			fpsShow=0;
-			long cur = System.currentTimeMillis();
-			fps = 25000/(cur-frameTime);
-			frameTime = cur;
-		}
+        fps.update();
 		g.setColor(Color.blue);
 		g.drawRect(offsetX, offsetY, gameSizeX+1,gameSizeY+1);
+        g.clearRect(offsetX+gameSizeX+2,0,environment.getScreenHandler().getWidth()-(offsetX+gameSizeX+2),environment.getScreenHandler().getHeight());
 		if(blocks!=null) {
 			cont.setOffsetX(contVisible.getOffsetX()-scrollX*contVisible.getSquareSize());
 			cont.setOffsetY(contVisible.getOffsetY()-scrollY*contVisible.getSquareSize());
-			g.setColor(container.getBackground());
+			g.setColor(environment.getScreenHandler().getContainer().getBackground());
 			player.drawClear(g);
 			for(int x=0;x<blocks.length;x++) {
 				for(int y=0;y<blocks[0].length;y++) {
-					if(blocks[x][y]==null && (!drawnOnce || redraw[x][y])) {
-						g.fillRect(contVisible.getDrawingPositionX(x),
+					if(blocks[x][y]==null && (drawnOnce>0 || redraw[x][y]>0)) {
+						g.clearRect(contVisible.getDrawingPositionX(x),
 							contVisible.getDrawingPositionY(y),
 							contVisible.getSquareSize(),
 							contVisible.getSquareSize());
-					}else if(redraw[x][y]) {
+					}else if(redraw[x][y]>0) {
 						blocks[x][y].drawClear(g);
 					}
 				}
 			}
 			for(int x=0;x<blocks.length;x++) {
 				for(int y=0;y<blocks[0].length;y++) {
-					if(blocks[x][y]!=null && (!drawnOnce || redraw[x][y])) {
+					if(blocks[x][y]!=null && (drawnOnce>0 || redraw[x][y]>0)) {
 						if(blocks[x][y].getPosX()>=scrollX && blocks[x][y].getPosX()<(scrollX+contVisible.getSizeX()) &&
 							blocks[x][y].getPosY()>=scrollY && blocks[x][y].getPosY()<(scrollY+contVisible.getSizeY())) {
 							
@@ -286,19 +320,30 @@ class BoulderDashMain
 				}
 			}
 			player.draw(g);
-			drawnOnce = true;
-		}
+            for (int x=0; x<blocks.length; x++) {
+                for (int y=0; y<blocks[0].length; y++) {
+                    if(redraw[x][y]>0) {
+                        redraw[x][y]--;
+                    }
+                }
+            }
+			if(drawnOnce>0) {
+                drawnOnce--;
+            }
+		}else {
+            g.clearRect(offsetX+1, offsetY+1, gameSizeX,gameSizeY);
+        }
 		
 		
 		int rightColumnX = offsetX+gameSizeX+20;
 		int rightColumnY = offsetY+20;
-		if(!cheatMode && score>highScore) {
-			highScore=score;
+		if(!bCheatMode) {
+			environment.getHighScore().update(score);
 		}
 		g.setColor(Color.white);
 		g.drawString("HIGHSCORE:",rightColumnX, rightColumnY);
 		rightColumnY+=20;
-		g.drawString(String.valueOf(highScore),rightColumnX, rightColumnY);
+		g.drawString(String.valueOf(environment.getHighScore().get()),rightColumnX, rightColumnY);
 		rightColumnY+=20;
 		g.drawString("SCORE:", rightColumnX, rightColumnY);
 		rightColumnY+=20;
@@ -310,8 +355,9 @@ class BoulderDashMain
 		rightColumnY+=20;
 		g.drawString("Diamonds: "+String.valueOf(diamonds),rightColumnX, rightColumnY);
 		rightColumnY+=20;
-		if(cheatMode) {
-			g.drawString("*** Cheatmode *** FPS=" + fps,rightColumnX,rightColumnY);
+		if(bCheatMode) {
+			g.drawString("*** Cheatmode *** FPS=",rightColumnX,rightColumnY);
+            fps.draw(g,g.getColor(),rightColumnX+150,rightColumnY);
 			rightColumnY+=20;
 			g.drawString("Redrawn: " + redrawnBlocks,rightColumnX,rightColumnY);
 		}else {
@@ -319,13 +365,8 @@ class BoulderDashMain
 		}
 		rightColumnY+=20;
 		if(bEnd) {
-			if(highScore>savedHighScore) {
-				if(cookies!=null) {
-					cookies.setParameter("highscore",Integer.toString(highScore));
-				}
-				savedHighScore=highScore;
-			}
-			if(blinkCounter<BLINK_SPEED) {
+            environment.getHighScore().save();
+            if(blinkCounter<BLINK_SPEED) {
 				blinkCounter++;
 				if(level==(levelFactory.getLastLevel()+1)) {
 					g.drawString("CONGRATUALTIONS", rightColumnX, rightColumnY);
@@ -337,7 +378,7 @@ class BoulderDashMain
 				}else {
 					g.drawString("GAME OVER",rightColumnX, rightColumnY);
 					rightColumnY+=20;
-				}				
+				}
 				g.drawString("Press space for a new game",rightColumnX, rightColumnY);
 				rightColumnY+=20;
 			}else if(blinkCounter<(BLINK_SPEED*2)){
@@ -365,6 +406,7 @@ class BoulderDashMain
 		}
 		g.setColor(Color.red);
 		g.drawString("by Erland Isaksson",rightColumnX,offsetY+gameSizeY);
+        environment.getScreenHandler().paintComponents(g);
 	}
 
 	/**
@@ -378,11 +420,6 @@ class BoulderDashMain
 		}
 		if(!bEnd && bStarted) {
 			if(blocks!=null) {
-				for (int x=0; x<blocks.length; x++) {
-					for (int y=0; y<blocks[0].length; y++) {
-						redraw[x][y]=false;
-				    }
-			    }
 				for(int x=0;x<blocks.length;x++) {
 					for(int y=0;y<blocks[0].length;y++) {
 						if(blocks[x][y]!=null) {
@@ -401,7 +438,7 @@ class BoulderDashMain
 				for (int x=0; x<blocks.length; x++) {
 					for (int y=0; y<blocks[0].length; y++) {
 						if(blocks[x][y]!=null && blocks[x][y].needRedraw()) {
-							redraw[x][y]=true;
+							redraw[x][y]=2;
 						}
 				    }
 			    }
@@ -489,49 +526,12 @@ class BoulderDashMain
 	}
 
 	/**
-	 * Called when the left mouse button has been clicked (pressed + released)
-	 * @param x X position of the mouse pointer
-	 * @param y Y position of the mouse pointer
-	 */
-	public void handleLeftMouseClicked(int x, int y) {
-		// TODO: Handle a mouse click
-	}
-	/**
-	 * Called when the left mouse button has been pressed down
-	 * @param x X position of the mouse pointer
-	 * @param y Y position of the mouse pointer
-	 */
-	public void handleLeftMousePressed(int x, int y)
-	{
-		// TODO: Handle a mouse press
-	}
-	/**
-	 * Called when the left mouse button has been released
-	 * @param x X position of the mouse pointer
-	 * @param y Y position of the mouse pointer
-	 */
-	public void handleLeftMouseReleased(int x, int y)
-	{
-		// TODO: Handle a mouse release
-	}
-	/**
-	 * Called when the mouse has been dragged with the left 
-	 * mouse button has been pressed down
-	 * @param x X position of the mouse pointer
-	 * @param y Y position of the mouse pointer
-	 */
-	public void handleLeftMouseDragged(int x, int y)
-	{
-		// TODO: Handle mouse drag
-	}
-
-	/**
 	 * Activate or deactivate cheatmode
 	 * @param cheat true/false (Activate/Deactivate)
 	 */
-	public void setCheatMode(boolean cheat)
+	public void setCheatmode(boolean cheat)
 	{
-		cheatMode=cheat;
+		bCheatMode=cheat;
 	}
 
 	/**
@@ -542,10 +542,10 @@ class BoulderDashMain
 	{
 		if(buttons!=null) {
 			for(int i=0;i<buttons.length;i++) {
-				if(e.getSource()==buttons[i]) {
+				if(e.getSource()==buttons[i].getComponent()) {
 					switch(i) {
 						case 0:
-							exit();
+							exitGame();
 							break;
 						default:
 							break;
@@ -569,7 +569,9 @@ class BoulderDashMain
 	 */
 	public void stopMoveLeft()
 	{
-		moving = false;
+        if(player.movingDirection()==movingDirection) {
+		    moving = false;
+        }
 	}
 	/**
 	 * Called when the right arrow is pressed
@@ -585,7 +587,9 @@ class BoulderDashMain
 	 */
 	public void stopMoveRight()
 	{
-		moving = false;
+        if(player.movingDirection()==movingDirection) {
+    		moving = false;
+        }
 	}
 	/**
 	 * Called when the up arrow is pressed
@@ -601,7 +605,9 @@ class BoulderDashMain
 	 */
 	public void stopMoveUp()
 	{
-		moving = false;
+        if(player.movingDirection()==movingDirection) {
+    		moving = false;
+        }
 	}
 	/**
 	 * Called when the down arrow is pressed
@@ -617,7 +623,9 @@ class BoulderDashMain
 	 */
 	public void stopMoveDown()
 	{
-		moving = false;
+        if(player.movingDirection()==movingDirection) {
+    		moving = false;
+        }
 	}
 
 	/**
@@ -809,8 +817,8 @@ class BoulderDashMain
 					blocks[oldX][oldY]=null;
 					allocated[oldX][oldY]=false;
 					allocated[newX][newY]=true;
-					redraw[oldX][oldY]=true;
-					redraw[newX][newY]=true;
+					redraw[oldX][oldY]=2;
+					redraw[newX][newY]=2;
 					blocks[newX][newY].setPos(newX,newY);
 					return true;
 				}
@@ -827,10 +835,11 @@ class BoulderDashMain
 			Block b = blocks[x][y];
 			if(blocks[x][y].isMoving()) {
 				blocks[b.getMovingPosX()][b.getMovingPosY()]=null;
+                redraw[b.getMovingPosX()][b.getMovingPosY()]=2;
 				allocated[b.getMovingPosX()][b.getMovingPosY()]=false;
 			}
 			blocks[x][y] = null;
-			redraw[x][y]=true;
+			redraw[x][y]=2;
 			allocated[x][y] = false;
 		}
 	}
@@ -842,7 +851,7 @@ class BoulderDashMain
 		if(isInside(x,y)) {
 			blocks[x][y] = block;
 			allocated[x][y] = true;
-			redraw[x][y]=true;
+			redraw[x][y]=2;
 		}
 	}
 	

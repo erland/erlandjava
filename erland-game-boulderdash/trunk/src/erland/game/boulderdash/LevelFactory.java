@@ -5,9 +5,6 @@ import erland.util.*;
 import erland.game.*;
 class LevelFactory
 {
-	/** Image handler object */
-	protected ImageHandlerInterface images;
-	
 	/** Boulderdash container object */
 	protected BoulderDashContainerInterface c;
 	
@@ -23,21 +20,20 @@ class LevelFactory
 	/** List of all user made levels */
 	protected LinkedList levels;
 
-	/** Reference to parameter storage */
-	ParameterValueStorageInterface cookies;
+	/** Game environment */
+	private GameEnvironmentInterface environment;
 
 	/**
 	 * Creates a new level factory
-	 * @param images Image handler object
+	 * @param environment Game environment
 	 * @param cont Block container object which the blocks should be put in
 	 */
-	public LevelFactory(BoulderDashContainerInterface c, ParameterValueStorageInterface cookies,ImageHandlerInterface images, BlockContainerInterface cont)
+	public LevelFactory(GameEnvironmentInterface environment, BoulderDashContainerInterface c, BlockContainerInterface cont)
 	{
-		this.images = images;
+        this.environment = environment;
 		this.cont = cont;
 		this.c = c;
 		this.levels = new LinkedList();
-		this.cookies = cookies;
 		this.maxLevel = MAX_DEFAULT_LEVELS;
 		loadAll();
 	}
@@ -54,7 +50,7 @@ class LevelFactory
 		for(int x=0;x<cont.getSizeX();x++) {
 			for(int y=0;y<cont.getSizeY();y++) {
 				blocks[x][y] = new BlockEarth();
-				blocks[x][y].init(c,images,cont,x,y);
+				blocks[x][y].init(environment,c,cont,x,y);
 			}
 		}
 		
@@ -137,7 +133,7 @@ class LevelFactory
 		i++;
 		
 		for (int j=0;j<i;j++) {
-			blocks[j/blocks[0].length][j%blocks[0].length].init(c,images,cont,j/blocks[0].length,j%blocks[0].length);
+			blocks[j/blocks[0].length][j%blocks[0].length].init(environment,c,cont,j/blocks[0].length,j%blocks[0].length);
 		}
 		return blocks;
 	}
@@ -161,7 +157,7 @@ class LevelFactory
 		int randomPosY = (int)(Math.random()*cont.getSizeY());
 		blocks[randomPosX][randomPosY] = block;
 		if(block!=null) {
-			block.init(c,images,cont,randomPosX,randomPosY);
+			block.init(environment,c,cont,randomPosX,randomPosY);
 		}
 	}
 	 
@@ -178,7 +174,7 @@ class LevelFactory
 			int randomPosY = (int)(Math.random()*cont.getSizeY());
 			if(!(blocks[randomPosX][randomPosY] instanceof BlockDiamond)) {
 				blocks[randomPosX][randomPosY]=null;
-				player.init(c,images,cont,randomPosX,randomPosY);
+				player.init(environment,c,cont,randomPosX,randomPosY);
 				bInserted = true;
 			}
 		}
@@ -198,7 +194,7 @@ class LevelFactory
 				if(Level.getBlockType(blocks[x][y])==Level.BlockType.bPlayer) {
 					blocks[x][y] = null;
 					if(!bInserted) {
-						player.init(c,images,cont,x,y);
+						player.init(environment,c,cont,x,y);
 						bInserted = true;
 					}
 				}
@@ -224,8 +220,8 @@ class LevelFactory
 	 */
 	protected boolean loadAll()
 	{
-		if(cookies!=null) {
-			String maxlevelstr = cookies.getParameter("maxlevel");
+		if(environment.getStorage()!=null) {
+			String maxlevelstr = environment.getStorage().getParameter("maxlevel");
 			levels.clear();
 			
 			if(maxlevelstr.length()>0) {
@@ -249,10 +245,10 @@ class LevelFactory
 	 */
 	protected boolean loadLevel(int level)
 	{
-		if(cookies!=null) {
-			String leveldata = cookies.getParameter("level"+String.valueOf(level));
+		if(environment.getStorage()!=null) {
+			String leveldata = environment.getStorage().getParameter("level"+String.valueOf(level));
 			if(leveldata.length()>0) {
-				Level lev = new Level(c,images, cont);
+				Level lev = new Level(environment,c, cont);
 				Log.println(this,"Loading level "+level+"...");
 				if(lev.load(level,leveldata)) {
 					Log.println(this,"Level "+level+" loaded");
@@ -286,7 +282,7 @@ class LevelFactory
 				l.setId(l.getId()+1);
 			}
 		}
-		Level lev = new Level(c,images, cont);
+		Level lev = new Level(environment,c,cont);
 		lev.setId(level+1);
 		levels.add(lev);
 		maxLevel++;
@@ -337,15 +333,15 @@ class LevelFactory
 	 */
 	public boolean saveLevel(int level) 
 	{
-		if(cookies!=null) {
+		if(environment.getStorage()!=null) {
 			ListIterator it = levels.listIterator();
 			while(it.hasNext()) {
 				Level l = (Level)(it.next());
 				if(l.getId()==level) {
-					cookies.setParameter("level"+String.valueOf(l.getId()),l.getDataAsString());
+					environment.getStorage().setParameter("level"+String.valueOf(l.getId()),l.getDataAsString());
 				}
 			}
-			cookies.setParameter("maxlevel",String.valueOf(maxLevel));
+			environment.getStorage().setParameter("maxlevel",String.valueOf(maxLevel));
 			return true;
 		}
 		return false;
@@ -370,7 +366,7 @@ class LevelFactory
 		}
 
 		if(lev==null) {
-			lev = new Level(c,images, cont);
+			lev = new Level(environment,c,cont);
 			levels.add(lev);
 		}
 		lev.setId(level);
@@ -384,16 +380,16 @@ class LevelFactory
 	 */
 	public boolean saveAll()
 	{
-		if(cookies!=null) {
+		if(environment.getStorage()!=null) {
 			for(int i=0;i<maxLevel;i++) {
-				cookies.delParameter("level"+String.valueOf(i+1));
+				environment.getStorage().delParameter("level"+String.valueOf(i+1));
 			}
 			ListIterator it = levels.listIterator();
 			while(it.hasNext()) {
 				Level l = (Level)(it.next());
-				cookies.setParameter("level"+String.valueOf(l.getId()),l.getDataAsString());
+				environment.getStorage().setParameter("level"+String.valueOf(l.getId()),l.getDataAsString());
 			}
-			cookies.setParameter("maxlevel",String.valueOf(maxLevel));
+			environment.getStorage().setParameter("maxlevel",String.valueOf(maxLevel));
 			return true;
 		}else {
 			return false;

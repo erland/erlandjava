@@ -1,15 +1,16 @@
 package erland.game.boulderdash;
 import erland.util.*;
 import erland.game.*;
+import erland.game.component.EButton;
+
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 
 /**
  * Main editor class that implements the level editor
  */
 class BoulderDashEditor 
-	implements ActionListener
+	implements GamePanelInterface, ActionListener
 {
 	/** Horisontal drawing offset, nothing should be drawn to the left of this position */
 	protected int offsetX;
@@ -21,16 +22,10 @@ class BoulderDashEditor
 	protected ParameterValueStorageInterface cookies;
 	/** Indicates if cheatmode is active or not */
 	protected boolean cheatMode;
-	/** Counter that contains the time since last FPS calculation in cheatmode */
-	protected long frameTime=0;
-	/** Counter that contains the number of frames drawn since the last FPS calculation in cheatmode */
-	protected int fpsShow=0;
 	/** The last calculated FPS in cheatmode */
-	protected long fps=0;
-	/** Container object which all Buttons should be added to */
-	protected Container container;
+	protected FpsCounter fps;
 	/** Array with all the buttons */
-	protected Button buttons[];
+	protected EButton buttons[];
 	/** Array with up/down arrows */
 	protected ImageObject[] buttonObjects;
 	/** Matrix with all the blocks on the game area */
@@ -49,15 +44,20 @@ class BoulderDashEditor
 	protected LevelFactory levelFactory;
 	/** Level factory object which creates the blocks for all levels */
 	protected LevelFactory levelFactorySelect;
-	/** Image handler object */
-	ImageHandlerInterface images;
 	/** X scrolling position */
 	protected int scrollX;
 	/** Y scrolling position */
 	protected int scrollY;
 	/** Indicates if Exit button has been pressed */
 	protected boolean bExit;
-		
+    private GameEnvironmentInterface environment;
+    private MouseListener mouseListener;
+    private MouseMotionListener mouseMotionListener;
+    /** Matrix with indications about which position that needs to be redrawn */
+    protected int redraw[][];
+    /** Indicates if the level has been drawn at least once, 0 if it has been drawn */
+    protected int drawnOnce;
+
 	class ChangeableBlockContainerData extends BlockContainerData
 	{
 		protected int offsetX;
@@ -87,68 +87,100 @@ class BoulderDashEditor
 	}
 	/**
 	 * Creates a new instance of the main level editor class
-	 * @param container Container object which all Button's should be added to
-	 * @param cookies Parameter storage object which should be used to access stored game data and highscores
 	 * @param offsetX Horisontal drawing offset, nothing should be drawn to the left of this position
 	 * @param offsetY Vertical drawing offset, nothing should be drawn above this position
 	 */
-	public BoulderDashEditor(java.awt.Container container, ParameterValueStorageInterface cookies, ImageHandlerInterface images, int offsetX, int offsetY)
+	public BoulderDashEditor(int offsetX, int offsetY)
 	{
-		this.container = container;
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
-		this.cookies = cookies;
-		this.images = images;
+	}
+
+    public void init(GameEnvironmentInterface environ) {
+        this.environment = environ;
+        bExit = false;
 		cheatMode = false;
-		cont = new ChangeableBlockContainerData(offsetX, offsetY, 20,20,20);
-		contVisible = new BlockContainerData(offsetX, offsetY, 20,20,20);
-		contSelect = new BlockContainerData(contVisible.getDrawingPositionX(contVisible.getSizeX())+20, 
-											contVisible.getDrawingPositionY(0)+40, 
+		cont = new ChangeableBlockContainerData(offsetX+1, offsetY+1, 20,20,20);
+		contVisible = new BlockContainerData(offsetX+1, offsetY+1, 20,20,20);
+		contSelect = new BlockContainerData(contVisible.getDrawingPositionX(contVisible.getSizeX())+20,
+											contVisible.getDrawingPositionY(0)+40,
 											2,5,20);
-		levelFactory = new LevelFactory((BoulderDashContainerInterface)null,cookies,images,cont);
-		levelFactorySelect = new LevelFactory((BoulderDashContainerInterface)null,cookies,images,contSelect);
+		levelFactory = new LevelFactory(environment,null,cont);
+		levelFactorySelect = new LevelFactory(environment,null,contSelect);
 
 		int rightOffsetX = contSelect.getDrawingPositionX(0);
 		int rightOffsetY = contSelect.getDrawingPositionY(contSelect.getSizeY())+10;
-		buttons = new Button[7];
-		buttons[0] = new Button("Clear This");
-		buttons[0].setBounds(rightOffsetX,rightOffsetY,73,25);
+		buttons = new EButton[7];
+		buttons[0] = EButton.create("Clear This");
+		buttons[0].getComponent().setBounds(rightOffsetX,rightOffsetY,73,25);
 		rightOffsetY+=30;
-		buttons[1] = new Button("Delete");
-		buttons[1].setBounds(rightOffsetX,rightOffsetY,73,25);
+		buttons[1] = EButton.create("Delete");
+		buttons[1].getComponent().setBounds(rightOffsetX,rightOffsetY,73,25);
 		rightOffsetY+=30;
-		buttons[2] = new Button("New");
-		buttons[2].setBounds(rightOffsetX,rightOffsetY,73,25);
+		buttons[2] = EButton.create("New");
+		buttons[2].getComponent().setBounds(rightOffsetX,rightOffsetY,73,25);
 		rightOffsetY+=30;
-		buttons[3] = new Button("Get Default");
-		buttons[3].setBounds(rightOffsetX,rightOffsetY,73,25);
+		buttons[3] = EButton.create("Get Default");
+		buttons[3].getComponent().setBounds(rightOffsetX,rightOffsetY,73,25);
 		rightOffsetY+=30;
-		buttons[4] = new Button("Save This");
-		buttons[4].setBounds(rightOffsetX,rightOffsetY,73,25);
+		buttons[4] = EButton.create("Save This");
+		buttons[4].getComponent().setBounds(rightOffsetX,rightOffsetY,73,25);
 		rightOffsetY+=30;
-		buttons[5] = new Button("Save All");
-		buttons[5].setBounds(rightOffsetX,rightOffsetY,73,25);
+		buttons[5] = EButton.create("Save All");
+		buttons[5].getComponent().setBounds(rightOffsetX,rightOffsetY,73,25);
 		rightOffsetY+=30;
-		buttons[6] = new Button("Exit");
-		buttons[6].setBounds(rightOffsetX,rightOffsetY,73,25);
+		buttons[6] = EButton.create("Exit");
+		buttons[6].getComponent().setBounds(rightOffsetX,rightOffsetY,73,25);
 		if(buttons!=null) {
 			for(int i=0;i<buttons.length;i++) {
 				buttons[i].addActionListener(this);
-				container.add(buttons[i]);
+				environment.getScreenHandler().add(buttons[i].getComponent());
 			}
 		}
 		buttonObjects = new ImageObject[2];
 		rightOffsetX = contSelect.getDrawingPositionX(contSelect.getSizeX())+10;
 		rightOffsetY = offsetY-10;
-		buttonObjects[0] = new ImageObject(images.getImage("button_arrowup.gif"),offsetX,offsetY,rightOffsetX,rightOffsetY,14,14,true,Color.lightGray);
+		buttonObjects[0] = new ImageObject(environment.getImageHandler().getImage("button_arrowup.gif"),offsetX,offsetY,rightOffsetX,rightOffsetY,14,14,true,Color.lightGray);
 		rightOffsetY+=17;
-		buttonObjects[1] = new ImageObject(images.getImage("button_arrowdown.gif"),offsetX,offsetY,rightOffsetX,rightOffsetY,14,14,true,Color.lightGray);
+		buttonObjects[1] = new ImageObject(environment.getImageHandler().getImage("button_arrowdown.gif"),offsetX,offsetY,rightOffsetX,rightOffsetY,14,14,true,Color.lightGray);
 
 		selectBlocks = levelFactorySelect.getAllBlocks();
 		level=1;
 		initLevel(level);
-	}
-	
+        mouseListener = new MouseAdapter() {
+            public void mousePressed(MouseEvent e)
+            {
+                if((e.getModifiers() & e.BUTTON1_MASK)!=0) {
+                    handleLeftMousePressed(environment.getScreenHandler().getScreenX(e.getX()),environment.getScreenHandler().getScreenY(e.getY()));
+                }
+            }
+            public void mouseReleased(MouseEvent e)
+            {
+                if((e.getModifiers() & e.BUTTON1_MASK)!=0) {
+                    handleLeftMouseReleased(environment.getScreenHandler().getScreenX(e.getX()),environment.getScreenHandler().getScreenY(e.getY()));
+                }
+            }
+            public void mouseClicked(MouseEvent e)
+            {
+                if((e.getModifiers() & e.BUTTON1_MASK)!=0) {
+                    handleLeftMouseClicked(environment.getScreenHandler().getScreenX(e.getX()),environment.getScreenHandler().getScreenY(e.getY()));
+                }
+            }
+        };
+        environment.getScreenHandler().getContainer().addMouseListener(mouseListener);
+        mouseMotionListener = new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent e)
+            {
+                if((e.getModifiers() & e.BUTTON1_MASK)!=0) {
+                    handleLeftMouseDragged(environment.getScreenHandler().getScreenX(e.getX()),environment.getScreenHandler().getScreenY(e.getY()));
+                }
+            }
+        };
+        environment.getScreenHandler().getContainer().addMouseMotionListener(mouseMotionListener);
+        environment.getScreenHandler().getContainer().requestFocus();
+        environment.getScreenHandler().getContainer().setBackground(Color.black);
+        fps = new FpsCounter(60);
+    }
 
 	/**
 	 * Increase the level currently edited
@@ -185,55 +217,76 @@ class BoulderDashEditor
 	void initLevel(int level) 
 	{
 		blocks = levelFactory.getLevel(level,null);
+        redraw = new int[blocks.length][blocks[0].length];
+        drawnOnce = 2;
+        for(int x=0;x<blocks.length;x++) {
+            for(int y=0;y<blocks[0].length;y++) {
+                redraw[x][y] = 2;
+            }
+        }
 	}
 	/**
 	 * Exits the editor
 	 */
-	protected void exit()
+	protected void exitEditor()
 	{
 		bExit = true;
-		if(buttons!=null) {
-			for(int i=0;i<buttons.length;i++) {
-				container.remove(buttons[i]);
-			}
-		}
 	}
+
+    public void exit() {
+        if(buttons!=null) {
+            for(int i=0;i<buttons.length;i++) {
+                environment.getScreenHandler().remove(buttons[i].getComponent());
+            }
+        }
+        environment.getScreenHandler().getContainer().removeMouseListener(mouseListener);
+        environment.getScreenHandler().getContainer().removeMouseMotionListener(mouseMotionListener);
+    }
 
 	/**
 	 * Indicates if the Exit button has been pressed
 	 * @return true/false (Pressed/Not pressed)
 	 */
-	protected boolean isExit()
+	public boolean isExit()
 	{
 		return bExit;
 	}
 	
 	/**
 	 * Draw all the game graphics
-	 * @param g Graphics object to draw on
 	 */
-	public void draw(Graphics g)
+	public void draw()
 	{
+        Graphics g = environment.getScreenHandler().getCurrentGraphics();
 		int gameSizeX = contVisible.getSizeX()*contVisible.getSquareSize();
 		int gameSizeY = contVisible.getSizeY()*contVisible.getSquareSize();
-		if((++fpsShow)>25) {
-			fpsShow=0;
-			long cur = System.currentTimeMillis();
-			fps = 25000/(cur-frameTime);
-			frameTime = cur;
-		}
+        fps.update();
 		g.setColor(Color.blue);
-		g.drawRect(offsetX, offsetY, gameSizeX,gameSizeY);
-		g.drawRect(contSelect.getDrawingPositionX(0), contSelect.getDrawingPositionY(0), 
+		g.drawRect(offsetX, offsetY, gameSizeX+1,gameSizeY+1);
+        g.clearRect(offsetX+gameSizeX+2,0,environment.getScreenHandler().getWidth()-(offsetX+gameSizeX+2),environment.getScreenHandler().getHeight());
+		g.drawRect(contSelect.getDrawingPositionX(0), contSelect.getDrawingPositionY(0),
 			contSelect.getDrawingSizeX(),contSelect.getDrawingSizeY());
 		
 		if(blocks!=null) {
 			cont.setOffsetX(contVisible.getOffsetX()-scrollX*contVisible.getSquareSize());
 			cont.setOffsetY(contVisible.getOffsetY()-scrollY*contVisible.getSquareSize());
+
+            for(int x=0;x<blocks.length;x++) {
+                for(int y=0;y<blocks[0].length;y++) {
+                    if(blocks[x][y]==null && (drawnOnce>0 || redraw[x][y]>0)) {
+                        g.clearRect(contVisible.getDrawingPositionX(x),
+                            contVisible.getDrawingPositionY(y),
+                            contVisible.getSquareSize(),
+                            contVisible.getSquareSize());
+                    }else if(redraw[x][y]>0) {
+                        blocks[x][y].drawClear(g);
+                    }
+                }
+            }
 			for(int x=0;x<blocks.length;x++) {
 				for(int y=0;y<blocks[0].length;y++) {
-					if(blocks[x][y]!=null) {
-						if(blocks[x][y].getPosX()>=scrollX && blocks[x][y].getPosX()<(scrollX+contVisible.getSizeX()) &&
+                    if(blocks[x][y]!=null && (drawnOnce>0 || redraw[x][y]>0)) {
+                        if(blocks[x][y].getPosX()>=scrollX && blocks[x][y].getPosX()<(scrollX+contVisible.getSizeX()) &&
 							blocks[x][y].getPosY()>=scrollY && blocks[x][y].getPosY()<(scrollY+contVisible.getSizeY())) {
 							
 							blocks[x][y].draw(g);
@@ -241,7 +294,19 @@ class BoulderDashEditor
 					}
 				}
 			}
-		}
+            for (int x=0; x<blocks.length; x++) {
+                for (int y=0; y<blocks[0].length; y++) {
+                    if(redraw[x][y]>0) {
+                        redraw[x][y]--;
+                    }
+                }
+            }
+			if(drawnOnce>0) {
+                drawnOnce--;
+            }
+		}else {
+            g.clearRect(offsetX+1, offsetY+1, gameSizeX,gameSizeY);
+        }
 		if(selectBlocks!=null) {
 			for (int x=0;x<selectBlocks.length; x++) {
 				for (int y=0;y<selectBlocks[0].length; y++) {
@@ -269,11 +334,13 @@ class BoulderDashEditor
 		g.drawString("Level: "+String.valueOf(level),rightColumnX, rightColumnY);
 		rightColumnY+=20;
 		if(cheatMode) {
-			g.drawString("*** Cheatmode *** FPS=" + fps,rightColumnX,rightColumnY);
+			g.drawString("*** Cheatmode *** FPS=",rightColumnX,rightColumnY);
+            fps.draw(g,g.getColor(),rightColumnX+150,rightColumnY);
 		}
 		rightColumnY+=20;
 		g.setColor(Color.red);
 		g.drawString("by Erland Isaksson",rightColumnX,offsetY+gameSizeY);
+        environment.getScreenHandler().paintComponents(g);
 	}
 
 
@@ -310,7 +377,8 @@ class BoulderDashEditor
 				}else if(selected!=null) {
 					try {
 						blocks[posX][posY]=(Block)selected.clone();
-						blocks[posX][posY].init(null,images,cont,posX,posY);
+						blocks[posX][posY].init(environment,null,cont,posX,posY);
+                        redraw[posX][posY] = 2;
 					}catch(CloneNotSupportedException e) {
 						// Should never happend
 					}
@@ -374,7 +442,8 @@ class BoulderDashEditor
 				if(selected!=null) {
 					try {
 						blocks[posX][posY]=(Block)selected.clone();
-						blocks[posX][posY].init(null,images,cont,posX,posY);
+						blocks[posX][posY].init(environment,null,cont,posX,posY);
+                        redraw[posX][posY] = 2;
 					}catch(CloneNotSupportedException e) {
 						// Should never happend
 					}
@@ -389,7 +458,7 @@ class BoulderDashEditor
 	 * Activate or deactivate cheatmode
 	 * @param cheat true/false (Activate/Deactivate)
 	 */
-	public void setCheatMode(boolean cheat)
+	public void setCheatmode(boolean cheat)
 	{
 		cheatMode=cheat;
 	}
@@ -402,7 +471,7 @@ class BoulderDashEditor
 	{
 		if(buttons!=null) {
 			for(int i=0;i<buttons.length;i++) {
-				if(e.getSource()==buttons[i]) {
+				if(e.getSource()==buttons[i].getComponent()) {
 					switch(i) {
 						case 0:
 							clearLevel();
@@ -423,7 +492,7 @@ class BoulderDashEditor
 							saveAllLevels();
 							break;
 						case 6:
-							exit();
+							exitEditor();
 							break;
 						default:
 							break;
@@ -442,6 +511,7 @@ class BoulderDashEditor
 		for (int x=0; x<blocks.length; x++) {
 			for (int y=0; y<blocks[0].length; y++) {
 				blocks[x][y]=null;
+                redraw[x][y]=2;
 		    }
 	    }
 	}
@@ -455,7 +525,7 @@ class BoulderDashEditor
 		if(level>levelFactory.getLastLevel()) {
 			level = levelFactory.getLastLevel();			
 		}
-		blocks = levelFactory.getLevel(level,(Player)null);
+		blocks = levelFactory.getLevel(level,null);
 	}
 	/**
 	 * Inserts a new level after the currently active level
@@ -471,7 +541,7 @@ class BoulderDashEditor
 	 */
 	protected void getDefaultLevel()
 	{
-		blocks = levelFactory.getDefaultLevel(level,(Player)null);
+		blocks = levelFactory.getDefaultLevel(level,null);
 	}
 	
 	/**
@@ -508,4 +578,8 @@ class BoulderDashEditor
 		}
 		return false;
 	}
+
+    public void update() {
+        // Do nothing
+    }
 }

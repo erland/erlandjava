@@ -1,6 +1,5 @@
 package erland.game.boulderdash;
 import java.awt.*;
-import erland.util.*;
 import erland.game.*;
 
 /**
@@ -30,10 +29,10 @@ class BlockDiamond extends Block
 	/** Image of the block */
 	protected Image img;
 	
-	public void init(BoulderDashContainerInterface c, ImageHandlerInterface images, BlockContainerInterface cont, int x, int y)
+	public void init(GameEnvironmentInterface environment, BoulderDashContainerInterface c, BlockContainerInterface cont, int x, int y)
 	{
-		super.init(c,images,cont,x,y);
-		img = images.getImage("diamond.gif");
+		super.init(environment,c,cont,x,y);
+		img = environment.getImageHandler().getImage("diamond.gif");
 	}
 
 	public void update()

@@ -1,6 +1,5 @@
 package erland.game.boulderdash;
 import java.awt.*;
-import erland.util.*;
 import erland.game.*;
 
 /**
@@ -9,26 +8,23 @@ import erland.game.*;
  
 class Player extends Block
 {
-	/** Image handler object */
-	protected ImageHandlerInterface images;
-	
 	/** Boulderdash container object */
 	protected BoulderDashContainerInterface c;
 	
 	/** Block container object */
 	protected BlockContainerInterface cont;
-	
-	/** X position of the player */
-	protected int x;
-
-	/** Y position of the player */
-	protected int y;
 
 	/** Previous X position of the player */
 	protected int oldX;
 
 	/** Previous Y position of the player */
 	protected int oldY;
+
+    /** Previous X position of the player before the previous position */
+    protected int prevOldX;
+
+    /** Previous Y position of the player before the previous position */
+    protected int prevOldY;
 
 	/** Indicates that the block is moving */
 	protected boolean moving;
@@ -132,23 +128,25 @@ class Player extends Block
 	/**
 	 * Initialize player object
 	 * @param c Boulderdash container interface
-	 * @param images Image handler interface
+	 * @param environment Image handler interface
 	 * @param cont Block container interface
 	 * @param x X position of the block
 	 * @param y Y position of the block
 	 */
-	public void init(BoulderDashContainerInterface c, ImageHandlerInterface images, BlockContainerInterface cont, int x, int y)
+	public void init(GameEnvironmentInterface environment, BoulderDashContainerInterface c, BlockContainerInterface cont, int x, int y)
 	{
 		this.c = c;
-		this.images = images;
+		this.environment = environment;
 		this.cont = cont;
 		this.x = x;
 		this.y = y;
-		this.oldX =x ;
-		this.oldY =y;
+        this.oldX =x ;
+        this.oldY =y;
+        this.prevOldX =x ;
+        this.prevOldY =y;
 		this.alive = true;
 		this.moving = false;
-		this.img = images.getImage("player.gif");
+		this.img = environment.getImageHandler().getImage("player.gif");
 	}
 	
 	/**
@@ -174,6 +172,8 @@ class Player extends Block
 	 */
 	public void update()
 	{
+        prevOldX = oldX;
+        prevOldY = oldY;
 		oldX = x;
 		oldY = y;
 		if(moving) {
@@ -234,14 +234,19 @@ class Player extends Block
 
 	public void drawClear(Graphics g)
 	{
-		g.setColor(Color.black);
-		g.fillRect(cont.getDrawingPositionX(oldX),cont.getDrawingPositionY(oldY),
-			cont.getSquareSize(),cont.getSquareSize());
-		g.fillRect(cont.getDrawingPositionX(x),cont.getDrawingPositionY(y),
-			cont.getSquareSize(),cont.getSquareSize());
+        g.clearRect(cont.getDrawingPositionX(oldX),cont.getDrawingPositionY(oldY),
+            cont.getSquareSize(),cont.getSquareSize());
+        if(oldX!=prevOldX || oldY!=prevOldY) {
+            g.clearRect(cont.getDrawingPositionX(prevOldX),cont.getDrawingPositionY(prevOldY),
+                cont.getSquareSize(),cont.getSquareSize());
+        }
+        if(x!=prevOldX || y!=prevOldY) {
+            g.clearRect(cont.getDrawingPositionX(x),cont.getDrawingPositionY(y),
+                cont.getSquareSize(),cont.getSquareSize());
+        }
 
 	}
-	
+
 	/**
 	 * Get the last stable x position of the player
 	 * @return The X position (block coordinate)
@@ -259,7 +264,7 @@ class Player extends Block
 	{
 		return y;
 	}
-	
+
 
 	/**
 	 * Get the x position which the player i moving towards

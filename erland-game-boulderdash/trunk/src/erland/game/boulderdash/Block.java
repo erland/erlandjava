@@ -10,9 +10,6 @@ import erland.game.*;
 abstract class Block
 	implements Cloneable
 {
-	/** Image handler object */
-	protected ImageHandlerInterface images;
-	
 	/** Boulderdash container object */
 	protected BoulderDashContainerInterface c;
 	
@@ -24,10 +21,13 @@ abstract class Block
 
 	/** Y position of the block */
 	protected int y;
-	
+
 	/** Indicates if the blocks needs to be redrawn */
 	protected boolean redraw;
-	
+
+    /** Game environment */
+    protected GameEnvironmentInterface environment;
+
 	/**
 	 * Checks if it is possible to dig through the block
 	 * @return true/false (Possible to dig through/Not possible to dig through)
@@ -81,7 +81,7 @@ abstract class Block
 	 * @param speed The speed the moving is done with
 	 * @return true/false (Success/Failure)
 	 */
-	public boolean move(int direction,float move)
+	public boolean move(int direction,float speed)
 	{
 		return false;
 	}
@@ -154,16 +154,16 @@ abstract class Block
 	}
 	/**
 	 * Initialize the block
+     * @param environment Game environment interface
 	 * @param c Boulderdash container interface
-	 * @param images Image handler interface
 	 * @param cont Block container interface
 	 * @param x X position of the block
 	 * @param y Y position of the block
 	 */
-	public void init(BoulderDashContainerInterface c, ImageHandlerInterface images, BlockContainerInterface cont, int x, int y)
+	public void init(GameEnvironmentInterface environment, BoulderDashContainerInterface c, BlockContainerInterface cont, int x, int y)
 	{
 		this.c = c;
-		this.images = images;
+		this.environment = environment;
 		this.cont = cont;
 		this.x = x;
 		this.y = y;
@@ -210,8 +210,7 @@ abstract class Block
 	 */	
 	public void drawClear(Graphics g)
 	{
-		g.setColor(Color.black);
-		g.fillRect(cont.getDrawingPositionX(x),cont.getDrawingPositionY(y),
+		g.clearRect(cont.getDrawingPositionX(x),cont.getDrawingPositionY(y),
 			cont.getSquareSize(),cont.getSquareSize());
 
 	}

@@ -1,6 +1,5 @@
 package erland.game.boulderdash;
 import erland.game.*;
-import erland.util.*;
 import java.util.*;
 
 class Level
@@ -9,13 +8,13 @@ class Level
 	protected Block blocks[][];
 	/** Level number of the level */
 	protected int id;
-	/** Image handler object */
-	protected ImageHandlerInterface images;
 	/** Block container which the blocks resides in */
 	protected BlockContainerInterface cont;
 	/** BoulderDash container interface */
 	protected BoulderDashContainerInterface boulderCont;
-	
+    /** Game environment */
+    protected GameEnvironmentInterface environment;
+
 	/** Defines the different block types */
 	abstract class BlockType
 	{
@@ -29,14 +28,14 @@ class Level
 	
 	/**
 	 * Creates a new Level object
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 * @param cont Block container which the blocks should reside in
 	 */
-	public Level(BoulderDashContainerInterface boulderCont, ImageHandlerInterface images, BlockContainerInterface cont)
+	public Level(GameEnvironmentInterface environment, BoulderDashContainerInterface boulderCont, BlockContainerInterface cont)
 	{
 		blocks = new Block[0][0];
 		id=0;
-		this.images = images;
+		this.environment = environment;
 		this.cont = cont;
 		this.boulderCont = boulderCont;
 	}
@@ -114,15 +113,15 @@ class Level
 	
 	/**
 	 * Creates a new block and returns it
+     * @param environment Game environment
 	 * @param boulderCont BoulderDash container interface
-	 * @param images Image handler object
 	 * @param cont Block container which the block should reside in
 	 * @param x X position of the block (Square coordinate)
 	 * @param y Y position of the block (Square coordinate)
 	 * @param type Type of block to create, see {@link BlockType}
 	 * @return The newly created block
 	 */
-	public static Block newBlock(BoulderDashContainerInterface boulderCont,ImageHandlerInterface images, BlockContainerInterface cont, int x, int y, int type)
+	public static Block newBlock(GameEnvironmentInterface environment, BoulderDashContainerInterface boulderCont, BlockContainerInterface cont, int x, int y, int type)
 	{
 		Block block = null;
 		switch(type) {
@@ -131,23 +130,23 @@ class Level
 				break;
 			case BlockType.bEarth:
 				block = new BlockEarth();
-				block.init(boulderCont,images,cont,x,y);
+				block.init(environment,boulderCont,cont,x,y);
 				break;
 			case BlockType.bBoulder:
 				block = new BlockBoulder();
-				block.init(boulderCont,images,cont,x,y);
+				block.init(environment,boulderCont,cont,x,y);
 				break;
 			case BlockType.bDiamond:
 				block = new BlockDiamond();
-				block.init(boulderCont,images,cont,x,y);
+				block.init(environment,boulderCont,cont,x,y);
 				break;
 			case BlockType.bMonster:
 				block = new BlockMonster();
-				block.init(boulderCont,images,cont,x,y);
+				block.init(environment,boulderCont,cont,x,y);
 				break;
 			case BlockType.bPlayer:
 				block = new Player();
-				block.init(boulderCont,images,cont,x,y);
+				block.init(environment,boulderCont,cont,x,y);
 				break;
 			default:
 				block = null;
@@ -218,7 +217,7 @@ class Level
 				break;
 			}
 			if(bSuccess) {
-				Block block = newBlock(boulderCont,images, cont,x,y,type);
+				Block block = newBlock(environment,boulderCont, cont,x,y,type);
 				if(block!=null) {
 					blocklist.add(block);
 				}

@@ -66,7 +66,7 @@ interface BoulderDashContainerInterface
 	 * Destroy the specified block in the specified position
 	 * @param x The x position of the block
 	 * @param y The y position of the block
-	 * @param direction The height the destroying block is falling from
+	 * @param height The height the destroying block is falling from
 	 * @return true/false (Success/Failure)
 	 */
 	boolean destroyBlock(int x, int y, int height);
