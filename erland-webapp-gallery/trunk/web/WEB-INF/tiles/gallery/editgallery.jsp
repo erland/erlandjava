@@ -150,7 +150,8 @@
     <logic:notEmpty name="galleryFB" property="referencedGallery">
         <logic:notEqual name="galleryFB" property="referencedGallery" value="0">
             <tr><td><bean:message key="gallery.gallery.edit.required-categories"/></td><td>
-            <html:select property="categories" size="10" multiple="true">
+            <html:select property="categoriesDisplay" size="10" multiple="true">
+                <html:option value=""/>
                 <html:options collection="categoriesPB" property="categoryDisplay" labelProperty="name" />
             </html:select>
             </td></tr>
