@@ -207,7 +207,8 @@ class PipesMain
 		blocks[startBlockPos] = startBlock;
 		addWater(blocks[startBlockPos].getPosX(), blocks[startBlockPos].getPosY(),1,1,PipePart.Direction.LEFT);
 		leftToFill = 5+level*2;
-		timeUntilWater = 1000-level*25;
+		timeUntilWater = 1000-level*75;
+		speed = 45+level/2;
 	}
 	
 	/**
@@ -279,7 +280,7 @@ class PipesMain
 			if(blinkCounter<BLINK_SPEED) {
 				blinkCounter++;
 				if(level==(MAX_LEVEL+1)) {
-					g.drawString(" CONGRATUALTIONS", rightColumnX, rightColumnY);
+					g.drawString("CONGRATUALTIONS", rightColumnX, rightColumnY);
 					rightColumnY+=20;
 					g.drawString("You have finished", rightColumnX, rightColumnY);
 					rightColumnY+=20;
