@@ -36,6 +36,9 @@ public class PicturePB extends BasePB {
     private String updateLink;
     private String removeLink;
     private ResolutionLinkPB[] resolutionLinks;
+    private String row1Info;
+    private String row2Info;
+    private String row3Info;
 
     public Integer getGallery() {
         return gallery;
@@ -123,5 +126,29 @@ public class PicturePB extends BasePB {
 
     public void setResolutions(ResolutionLinkPB[] resolutionLinks) {
         this.resolutionLinks = resolutionLinks;
+    }
+
+    public String getRow1Info() {
+        return row1Info;
+    }
+
+    public void setRow1Info(String row1Info) {
+        this.row1Info = row1Info;
+    }
+
+    public String getRow2Info() {
+        return row2Info;
+    }
+
+    public void setRow2Info(String row2Info) {
+        this.row2Info = row2Info;
+    }
+
+    public String getRow3Info() {
+        return row3Info;
+    }
+
+    public void setRow3Info(String row3Info) {
+        this.row3Info = row3Info;
     }
 }
