@@ -8,16 +8,16 @@
 <logic:notEmpty name="diaryEntriesPB">
     <tiles:insert page="/WEB-INF/tiles/common/calendar.jsp"/>
     <br>
-    <table class="no-border-tight">
+    <table class="menu-header">
         <html:form action="/user/newdiaryentry" method="POST" type="" >
         <tr>
         <td><html:text property="dateDisplay" size="10" /></td>
-        <td><a href="javascript: window.location='<html:rewrite page="/do/user/newdiaryentry"/>?diary=<bean:write name="diary"/>&dateDisplay='+editDiaryEntryFB.dateDisplay.value" class="bold-link"><bean:message key="diary.diary.entry.new"/></a></td>
+        <td><a href="javascript: window.location='<html:rewrite page="/do/user/newdiaryentry"/>?diary=<bean:write name="diary"/>&dateDisplay='+document.editDiaryEntryFB.dateDisplay.value" class="menu-button"><bean:message key="diary.diary.entry.new"/></a></td>
         </tr>
         </html:form>
     </table>
 </logic:notEmpty>
-<erland-common:menu id="mainMenu" menuStyle="no-border" style="bold-link" styleSelected="bold-link-selected" indentWidth="10" indentImage="/images/transparent.gif" >
+<erland-common:menu id="mainMenu" menuStyle="menu" style="menuitem" styleSelected="menuitem-selected" indentWidth="10" indentImage="/images/transparent.gif" >
     <erland-common:menuitem id="purchase" titleKey="diary.menu.purchase" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" >
         <erland-common:menuitem id="new" titleKey="diary.menu.purchase.new" page="/do/user/newpurchaseentry" />
         <erland-common:menuitem id="all" titleKey="diary.menu.purchase.all" page="/do/user/viewpurchaseentries" />
