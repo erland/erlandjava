@@ -1,5 +1,7 @@
 package erland.webapp.dirgallery.act.loader;
 
+import javax.servlet.http.HttpServletRequest;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -22,7 +24,17 @@ package erland.webapp.dirgallery.act.loader;
 
 
 public class LoadMovieAction extends LoadImageAction {
-    protected String getContentType() {
+    protected String getContentType(HttpServletRequest request) {
+        String imageFile = getImageFile(request);
+        int pos = imageFile.lastIndexOf(".");
+        if(pos>=0) {
+            String extension = imageFile.substring(pos);
+            if(extension.equalsIgnoreCase(".avi")) {
+                return "video/avi";
+            }else if(extension.equalsIgnoreCase(".mov")) {
+                return "video/quicktime";
+            }
+        }
         return "video/mpeg";
     }
 }
