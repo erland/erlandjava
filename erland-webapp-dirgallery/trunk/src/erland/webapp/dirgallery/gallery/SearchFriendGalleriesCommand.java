@@ -44,7 +44,7 @@ public class SearchFriendGalleriesCommand implements CommandInterface, ViewGalle
         if (gallery != null) {
             QueryFilter filter = new QueryFilter("allforgallery");
             filter.setAttribute("gallery", gallery);
-            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("friendgallery").search(filter);
+            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("dirgallery-friendgallery").search(filter);
             if (entities.length > 0) {
                 Collection requestedGalleries = new ArrayList();
                 for (int i = 0; i < entities.length; i++) {
@@ -52,7 +52,7 @@ public class SearchFriendGalleriesCommand implements CommandInterface, ViewGalle
                 }
                 filter = new QueryFilter(getGalleryListQuery());
                 filter.setAttribute("galleries", requestedGalleries);
-                entities = environment.getEntityStorageFactory().getStorage("gallery").search(filter);
+                entities = environment.getEntityStorageFactory().getStorage("dirgallery-gallery").search(filter);
                 galleries = new GalleryInterface[entities.length];
                 for (int i = 0; i < entities.length; i++) {
                     galleries[i] = (GalleryInterface) entities[i];

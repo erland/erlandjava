@@ -42,9 +42,9 @@ public class ViewGalleryCommand implements CommandInterface, ViewGalleryInterfac
         User user = (User) request.getSession().getAttribute("user");
         username = user.getUsername();
         if (id != null && id.length() > 0) {
-            GalleryInterface template = (GalleryInterface) environment.getEntityFactory().create("gallery");
+            GalleryInterface template = (GalleryInterface) environment.getEntityFactory().create("dirgallery-gallery");
             template.setId(Integer.valueOf(id));
-            gallery = (GalleryInterface) environment.getEntityStorageFactory().getStorage("gallery").load(template);
+            gallery = (GalleryInterface) environment.getEntityStorageFactory().getStorage("dirgallery-gallery").load(template);
             if (gallery != null && !gallery.getUsername().equals(username)) {
                 gallery = null;
             }
@@ -60,7 +60,7 @@ public class ViewGalleryCommand implements CommandInterface, ViewGalleryInterfac
         if (galleries == null) {
             QueryFilter filter = new QueryFilter("allforuser");
             filter.setAttribute("username", username);
-            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery").search(filter);
+            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("dirgallery-gallery").search(filter);
             galleries = new GalleryInterface[entities.length];
             for (int i = 0; i < entities.length; i++) {
                 galleries[i] = (GalleryInterface) entities[i];
@@ -74,7 +74,7 @@ public class ViewGalleryCommand implements CommandInterface, ViewGalleryInterfac
             if (gallery != null) {
                 QueryFilter filter = new QueryFilter("allforgallery");
                 filter.setAttribute("gallery", gallery.getId());
-                EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("friendgallery").search(filter);
+                EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("dirgallery-friendgallery").search(filter);
                 friendGalleries = new Integer[entities.length];
                 for (int i = 0; i < entities.length; i++) {
                     friendGalleries[i] = ((FriendGallery) entities[i]).getFriendGallery();

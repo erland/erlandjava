@@ -52,7 +52,7 @@ public class SearchGalleriesCommand implements CommandInterface, ViewGalleriesIn
     }
 
     protected String getEntityName() {
-        return "gallery";
+        return "dirgallery-gallery";
     }
 
     public GalleryInterface[] getGalleries() {

@@ -41,24 +41,24 @@ public class EditPictureCommentCommand implements CommandInterface {
             gallery = Integer.valueOf(galleryString);
         }
         if (gallery != null && id != null) {
-            GalleryInterface template = (GalleryInterface) environment.getEntityFactory().create("gallery");
+            GalleryInterface template = (GalleryInterface) environment.getEntityFactory().create("dirgallery-gallery");
             template.setId(gallery);
-            GalleryInterface galleryEntity = (GalleryInterface) environment.getEntityStorageFactory().getStorage("gallery").load(template);
+            GalleryInterface galleryEntity = (GalleryInterface) environment.getEntityStorageFactory().getStorage("dirgallery-gallery").load(template);
             User user = (User) request.getSession().getAttribute("user");
             if (galleryEntity != null && user != null && user.getUsername().equals(galleryEntity.getUsername())) {
-                Picture pictureTemplate = (Picture) environment.getEntityFactory().create("picture");
+                Picture pictureTemplate = (Picture) environment.getEntityFactory().create("dirgallery-picture");
                 pictureTemplate.setDirectory(galleryEntity.getDirectory());
                 pictureTemplate.setGallery(galleryEntity.getId());
                 pictureTemplate.setId(id);
-                Picture picture = (Picture) environment.getEntityStorageFactory().getStorage("picture").load(pictureTemplate);
+                Picture picture = (Picture) environment.getEntityStorageFactory().getStorage("dirgallery-picture").load(pictureTemplate);
                 if (picture != null) {
-                    PictureComment commentTemplate = (PictureComment) environment.getEntityFactory().create("picturecomment");
+                    PictureComment commentTemplate = (PictureComment) environment.getEntityFactory().create("dirgallery-picturecomment");
                     commentTemplate.setId(picture.getFullPath());
                     if (comment == null || comment.length() == 0) {
-                        environment.getEntityStorageFactory().getStorage("picturecomment").delete(commentTemplate);
+                        environment.getEntityStorageFactory().getStorage("dirgallery-picturecomment").delete(commentTemplate);
                     } else {
                         commentTemplate.setComment(comment);
-                        environment.getEntityStorageFactory().getStorage("picturecomment").store(commentTemplate);
+                        environment.getEntityStorageFactory().getStorage("dirgallery-picturecomment").store(commentTemplate);
                     }
                 }
             }

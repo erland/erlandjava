@@ -52,9 +52,9 @@ public class SearchPicturesCommand implements CommandInterface, ViewPicturesInte
             start = new Integer(0);
         }
         if (galleryId != null) {
-            GalleryInterface template = (GalleryInterface) environment.getEntityFactory().create("gallery");
+            GalleryInterface template = (GalleryInterface) environment.getEntityFactory().create("dirgallery-gallery");
             template.setId(galleryId);
-            gallery = (GalleryInterface) environment.getEntityStorageFactory().getStorage("gallery").load(template);
+            gallery = (GalleryInterface) environment.getEntityStorageFactory().getStorage("dirgallery-gallery").load(template);
             if (gallery != null) {
                 int thumbnailsPerRow = gallery.getNumberOfThumbnailsPerRow().intValue();
                 if (thumbnailsPerRow == 0) {
@@ -70,7 +70,7 @@ public class SearchPicturesCommand implements CommandInterface, ViewPicturesInte
                 }
                 filter.setAttribute("tree", gallery.getIncludeSubDirectories());
                 EntityInterface[] entities = new EntityInterface[0];
-                entities = environment.getEntityStorageFactory().getStorage("picture").search(filter);
+                entities = environment.getEntityStorageFactory().getStorage("dirgallery-picture").search(filter);
 
                 if (max.intValue() != 0) {
                     int length = max.intValue();
@@ -118,13 +118,15 @@ public class SearchPicturesCommand implements CommandInterface, ViewPicturesInte
         for (int i = 0; i < pictures.length; i++) {
             commentIds.add(pictures[i].getFullPath());
         }
-        QueryFilter filter = new QueryFilter("allforcommentlist");
-        filter.setAttribute("comments", commentIds);
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("picturecomment").search(filter);
         comments = new HashMap();
-        for (int i = 0; i < entities.length; i++) {
-            PictureComment comment = (PictureComment) entities[i];
-            comments.put(comment.getId(), comment.getComment());
+        if(commentIds.size()>0) {
+            QueryFilter filter = new QueryFilter("allforcommentlist");
+            filter.setAttribute("comments", commentIds);
+            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("dirgallery-picturecomment").search(filter);
+            for (int i = 0; i < entities.length; i++) {
+                PictureComment comment = (PictureComment) entities[i];
+                comments.put(comment.getId(), comment.getComment());
+            }
         }
     }
 

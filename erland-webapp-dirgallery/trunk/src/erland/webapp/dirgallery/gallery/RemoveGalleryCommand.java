@@ -35,13 +35,13 @@ public class RemoveGalleryCommand implements CommandInterface {
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("id");
         if (id != null && id.length() > 0) {
-            GalleryInterface gallery = (GalleryInterface) environment.getEntityFactory().create("gallery");
+            GalleryInterface gallery = (GalleryInterface) environment.getEntityFactory().create("dirgallery-gallery");
             User user = (User) request.getSession().getAttribute("user");
             String username = user.getUsername();
             gallery.setId(Integer.valueOf(id));
-            gallery = (GalleryInterface) environment.getEntityStorageFactory().getStorage("gallery").load(gallery);
+            gallery = (GalleryInterface) environment.getEntityStorageFactory().getStorage("dirgallery-gallery").load(gallery);
             if (gallery.getUsername().equals(username)) {
-                environment.getEntityStorageFactory().getStorage("gallery").delete(gallery);
+                environment.getEntityStorageFactory().getStorage("dirgallery-gallery").delete(gallery);
                 QueryFilter filter = new QueryFilter("allforgallery");
                 filter.setAttribute("gallery", gallery.getId());
             }

@@ -40,19 +40,19 @@ public class ViewPictureCommentCommand implements CommandInterface, ViewPictureC
             gallery = Integer.valueOf(galleryString);
         }
         if (gallery != null && id != null) {
-            GalleryInterface template = (GalleryInterface) environment.getEntityFactory().create("gallery");
+            GalleryInterface template = (GalleryInterface) environment.getEntityFactory().create("dirgallery-gallery");
             template.setId(gallery);
-            GalleryInterface galleryEntity = (GalleryInterface) environment.getEntityStorageFactory().getStorage("gallery").load(template);
+            GalleryInterface galleryEntity = (GalleryInterface) environment.getEntityStorageFactory().getStorage("dirgallery-gallery").load(template);
             if (galleryEntity != null) {
-                Picture pictureTemplate = (Picture) environment.getEntityFactory().create("picture");
+                Picture pictureTemplate = (Picture) environment.getEntityFactory().create("dirgallery-picture");
                 pictureTemplate.setDirectory(galleryEntity.getDirectory());
                 pictureTemplate.setGallery(galleryEntity.getId());
                 pictureTemplate.setId(id);
-                Picture picture = (Picture) environment.getEntityStorageFactory().getStorage("picture").load(pictureTemplate);
+                Picture picture = (Picture) environment.getEntityStorageFactory().getStorage("dirgallery-picture").load(pictureTemplate);
                 if (picture != null) {
-                    PictureComment commentTemplate = (PictureComment) environment.getEntityFactory().create("picturecomment");
+                    PictureComment commentTemplate = (PictureComment) environment.getEntityFactory().create("dirgallery-picturecomment");
                     commentTemplate.setId(picture.getFullPath());
-                    comment = (PictureComment) environment.getEntityStorageFactory().getStorage("picturecomment").load(commentTemplate);
+                    comment = (PictureComment) environment.getEntityStorageFactory().getStorage("dirgallery-picturecomment").load(commentTemplate);
                 }
             }
         }
