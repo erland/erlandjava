@@ -8,6 +8,11 @@
 <html:form action="/user/editinventoryentryandevent" method="POST">
     <table class="propertypage-body">
     <html:hidden property="typeDisplay"/>
+    <tr><td><bean:message key="diary.inventory.edit.species"/></td><td>
+    <html:select property="speciesDisplay" size="1">
+        <html:options collection="speciesPB" property="idDisplay" labelProperty="name" />
+    </html:select>
+    </td></tr>
     <tr><td><bean:message key="diary.inventory.edit.name"/></td><td>
     <html:text property="name"/>
     </td></tr>
