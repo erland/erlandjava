@@ -29,6 +29,7 @@ import erland.webapp.gallery.fb.gallery.GalleryMenuItemPB;
 import erland.webapp.gallery.act.gallery.category.CategoryHelper;
 import erland.webapp.gallery.entity.gallery.GalleryInterface;
 import erland.webapp.gallery.entity.gallery.category.Category;
+import erland.webapp.gallery.entity.guestaccount.GuestAccount;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
@@ -52,7 +53,7 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
         if (fb != null) {
             username = fb.getUser();
         }
-        QueryFilter filter = new QueryFilter(getQueryFilter());
+        QueryFilter filter = new QueryFilter(getQueryFilter(request));
         filter.setAttribute("username", username);
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage(getEntityName()).search(filter);
         GalleryMenuItemPB[] pb = new GalleryMenuItemPB[entities.length];
@@ -76,11 +77,58 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
             if(categoryForward!=null) {
                 categoryPath = categoryForward.getPath();
             }
-            Category[] categories = CategoryHelper.searchCategories(getEnvironment(),gallery,entity.getId(),entity.getTopCategory(),getCategoriesFilter(),getNoTopCategoriesFilter());
+            Category[] categories = CategoryHelper.searchCategories(getEnvironment(),gallery,entity.getId(),entity.getTopCategory(),getCategoriesFilter(request),getNoTopCategoriesFilter(request));
             MenuItemPB[] categoriesPB = makeCategoryTree(entity.getId(),username, categories,categoryPath,entity.getTopCategory());
             pb[i].setChilds(categoriesPB);
         }
         request.getSession().setAttribute("menuGalleriesAndCategoriesPB", pb);
+
+        if(username.equals(request.getRemoteUser())) {
+            filter = new QueryFilter("allforguestuser");
+            filter.setAttribute("guestuser",username);
+            EntityInterface[] userEntities = getEnvironment().getEntityStorageFactory().getStorage("gallery-guestaccount").search(filter);
+            MenuItemPB[] pbGuest = new MenuItemPB[userEntities.length];
+            for (int i = 0; i < pbGuest.length; i++) {
+                pbGuest[i] = new MenuItemPB();
+                pbGuest[i].setId(new Integer(i));
+                pbGuest[i].setName(((GuestAccount)userEntities[i]).getUsername());
+                pbGuest[i].setUser(((GuestAccount)userEntities[i]).getUsername());
+                ActionForward forward = mapping.findForward("guestuser");
+                if(forward!=null) {
+                    pbGuest[i].setPath(forward.getPath());
+                }
+                filter = new QueryFilter(getQueryFilter(request));
+                filter.setAttribute("username",((GuestAccount)userEntities[i]).getUsername());
+                EntityInterface[] galleryEntities = getEnvironment().getEntityStorageFactory().getStorage(getEntityName()).search(filter);
+                GalleryMenuItemPB[] pbGalleries = new GalleryMenuItemPB[galleryEntities.length];
+                for (int j = 0; j < galleryEntities.length; j++) {
+                    GalleryInterface entity = (GalleryInterface)galleryEntities[j];
+                    pbGalleries[j] = new GalleryMenuItemPB();
+                    Integer gallery = entity.getId();
+                    if (entity.getReferencedGallery() != null && !entity.getReferencedGallery().equals(new Integer(0))) {
+                        gallery = entity.getReferencedGallery();
+                    }
+                    pbGalleries[j].setId(entity.getId());
+                    pbGalleries[j].setName(entity.getTitle());
+                    pbGalleries[j].setUser(((GuestAccount)userEntities[i]).getUsername());
+                    pbGalleries[j].setGallery(entity.getId());
+                    ActionForward galleryForward = mapping.findForward("guestusergallery");
+                    if(galleryForward!=null) {
+                        pbGalleries[j].setPath(galleryForward.getPath());
+                    }
+                    ActionForward categoryForward = mapping.findForward("guestusercategory");
+                    String categoryPath = null;
+                    if(categoryForward!=null) {
+                        categoryPath = categoryForward.getPath();
+                    }
+                    Category[] categories = CategoryHelper.searchCategories(getEnvironment(),gallery,entity.getId(),entity.getTopCategory(),getCategoriesFilter(request),getNoTopCategoriesFilter(request));
+                    MenuItemPB[] categoriesPB = makeCategoryTree(entity.getId(),((GuestAccount)userEntities[i]).getUsername(), categories,categoryPath,entity.getTopCategory());
+                    pbGalleries[j].setChilds(categoriesPB);
+                }
+                pbGuest[i].setChilds(pbGalleries);
+            }
+            request.getSession().setAttribute("guestMenuGalleriesAndCategoriesPB", pbGuest);
+        }
     }
 
     private MenuItemPB[] makeCategoryTree(Integer galleryId, String username, Category[] categories, String categoryPath, Integer topCategory) {
@@ -128,11 +176,11 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
         return false;
     }
 
-    protected String getCategoriesFilter() {
+    protected String getCategoriesFilter(HttpServletRequest request) {
         return "allforgallerywithtopcategory";
     }
 
-    protected String getNoTopCategoriesFilter() {
+    protected String getNoTopCategoriesFilter(HttpServletRequest request) {
         return "allforgallery";
     }
 
@@ -140,7 +188,7 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
         return "gallery-gallery";
     }
 
-    protected String getQueryFilter() {
+    protected String getQueryFilter(HttpServletRequest request) {
         return "allforuser";
     }
 }
