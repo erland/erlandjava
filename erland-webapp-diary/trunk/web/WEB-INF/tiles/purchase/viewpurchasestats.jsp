@@ -25,6 +25,30 @@
     </logic:iterate>
 </table>
 
+<p class="purchasepage-stats-title"><bean:message key="diary.purchase.stats.years"/></p>
+<table border="0">
+    <logic:iterate name="purchaseYearsEntriesPB" id="entry">
+        <tr>
+        <td nowrap><p class="purchasepage-stats-list-field"><bean:write name="entry" property="group"/></p></td>
+        <td nowrap><p class="purchasepage-stats-list-field">&nbsp&nbsp&nbsp</p></td>
+        <td align="right" nowrap><p class="purchasepage-stats-list-field"><bean:write name="entry" property="priceDisplay"/> kr</p></td>
+        </tr>
+    </logic:iterate>
+</table>
+
+<logic:iterate name="purchaseYearsCategoriesEntriesPB" id="year">
+    <p class="purchasepage-stats-title"><bean:message key="diary.purchase.stats.categories"/> <bean:write name="year" property="key"/></p>
+    <table border="0">
+        <logic:iterate name="year" property="value" id="entry">
+            <tr>
+            <td nowrap><p class="purchasepage-stats-list-field"><bean:write name="entry" property="group"/></p></td>
+            <td nowrap><p class="purchasepage-stats-list-field">&nbsp&nbsp&nbsp</p></td>
+            <td align="right" nowrap><p class="purchasepage-stats-list-field"><bean:write name="entry" property="priceDisplay"/> kr</p></td>
+            </tr>
+        </logic:iterate>
+    </table>
+</logic:iterate>
+
 <p class="purchasepage-stats-title"><bean:message key="diary.purchase.stats.months"/></p>
 <table border="0">
     <logic:iterate name="purchaseMonthsEntriesPB" id="entry">
