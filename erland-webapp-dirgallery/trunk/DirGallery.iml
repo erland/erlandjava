@@ -22,7 +22,6 @@
     <orderEntry type="module" module-name="WebCommon" />
     <orderEntry type="module" module-name="util" />
     <orderEntry type="module" module-name="UserMgmt" />
-    <orderEntry type="library" name="Generic" level="application_server_libraries" />
     <orderEntryProperties />
   </component>
   <component name="WebModuleBuildComponent">
@@ -46,30 +45,6 @@
     <containerElement type="module" name="WebCommon">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/classes" />
-    </containerElement>
-    <containerElement type="library" level="application" name="commons-beanutils">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib" />
-    </containerElement>
-    <containerElement type="library" level="application" name="commons-logging">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib" />
-    </containerElement>
-    <containerElement type="library" level="application" name="Jakarta Struts">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib" />
-    </containerElement>
-    <containerElement type="library" level="application" name="JMF">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib" />
-    </containerElement>
-    <containerElement type="library" level="application" name="metadata-extractor">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib" />
-    </containerElement>
-    <containerElement type="library" level="application" name="securityfilter">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib" />
     </containerElement>
     <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" version="2.3" />
     <webroots>
