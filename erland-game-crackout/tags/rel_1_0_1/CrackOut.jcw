@@ -1,0 +1,15 @@
+! ** JCreator Workspace File (C)2000
+! ********** DO NOT EDIT *********
+
+VERSION := "1.00"
+LABEL := "CrackOut"
+
+! Start Project Structure
+#[BeginProject]SOURCE := "E:\\Egna\\Java\\Common\\game\\game.jcp" #[EndProject]
+#[BeginProject]SOURCE := "E:\\Egna\\Java\\Common\\util\\util.jcp" #[EndProject]
+#[BeginProject]SOURCE := "CrackOut.jcp" #[EndProject]
+
+! Start Last Document Structure
+
+! Start Last Document Structure
+
