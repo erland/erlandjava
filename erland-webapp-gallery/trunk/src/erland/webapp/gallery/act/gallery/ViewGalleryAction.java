@@ -32,6 +32,7 @@ import erland.webapp.gallery.entity.gallery.GalleryInterface;
 import erland.webapp.gallery.entity.gallery.category.Category;
 import erland.webapp.gallery.fb.gallery.GalleryFB;
 import erland.webapp.gallery.fb.gallery.GalleryPB;
+import erland.webapp.gallery.fb.gallery.picture.ResolutionPB;
 import erland.webapp.gallery.fb.gallery.category.CategoryPB;
 import erland.webapp.usermgmt.User;
 
@@ -79,14 +80,22 @@ public class ViewGalleryAction extends BaseAction {
             pbGalleries[i] = new GalleryPB();
             PropertyUtils.copyProperties(pbGalleries[i], galleries[i]);
         }
-        request.setAttribute("galleriesPB", pbGalleries);
+        request.getSession().setAttribute("galleriesPB", pbGalleries);
 
         Category[] categories = CategoryHelper.searchCategories(getEnvironment(),gallery.getReferencedGallery()!=null&&gallery.getReferencedGallery().intValue()!=0?gallery.getReferencedGallery():gallery.getId(),"allforgalleryorderedbyname");
         CategoryPB[] pbCategories = new CategoryPB[categories.length];
-        for (int i = 0; i < categories.length; i++) {
+        for (int i = 0; i < pbCategories.length; i++) {
             pbCategories[i] = new CategoryPB();
             PropertyUtils.copyProperties(pbCategories[i], categories[i]);
         }
-        request.setAttribute("categoriesPB", pbCategories);
+        request.getSession().setAttribute("categoriesPB", pbCategories);
+
+        EntityInterface[] resolutions = getEnvironment().getEntityStorageFactory().getStorage("gallery-resolution").search(new QueryFilter("all"));
+        ResolutionPB[] pbResolutions = new ResolutionPB[resolutions.length];
+        for (int i = 0; i < pbResolutions.length; i++) {
+            pbResolutions[i] = new ResolutionPB();
+            PropertyUtils.copyProperties(pbResolutions[i], resolutions[i]);
+        }
+        request.getSession().setAttribute("resolutionsPB", pbResolutions);
     }
 }
