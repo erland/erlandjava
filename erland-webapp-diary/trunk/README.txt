@@ -63,6 +63,20 @@ Table creation scripts:
 - users.sql
   Creates the tables needed in the database which will be accessed as jdbc/users
 
+Table upgrade scripts:
+- common_upgrade_x_y.sql
+  Upgrades the tables in the database which will be accessed as jdbc/common from a
+  database created previously in version x.y
+- diary_upgrade_x_y.sql
+  Creates the tables in the database which will be accessed as jdbc/gallery from a
+  database created previously in version x.y
+- gallery_upgrade_x_y.sql
+  Creates the tables in the database which will be accessed as jdbc/gallery from a
+  database created previously in version x.y
+- users_upgrade_x_y.sql
+  Creates the tables in the database which will be accessed as jdbc/users from a
+  database created previously in version x.y
+
 Data scripts:
 - common_data.sql
   Setup thumbnail cache dir to "D:\users\erland\thumbnails" (You probably want to change this)
