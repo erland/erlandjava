@@ -6,13 +6,15 @@
 
 <logic:notEmpty name="galleryPB">
     <a href="<html:rewrite page="/do/user/viewgallery"/>?id=<bean:write name="galleryPB" property="id"/>" class="bold-link"><bean:message key="gallery.gallery.modify"/></a>
-    <a href="<html:rewrite page="/do/user/deletegallery"/>?id=<bean:write name="galleryPB" property="id"/>" class="bold-link" onClick="return confirm('<bean:message key="gallery.gallery.delete.are-you-sure"/>')"><bean:message key="gallery.buttons.delete"/></a>
-    <logic:equal name="galleryPB" property="virtual" value="true">
-        <a href="<html:rewrite page="/do/newpicture"/>?gallery=<bean:write name="galleryPB" property="id"/>" class="bold-link"><bean:message key="gallery.gallery.picture.add"/></a>
-        <a href="<html:rewrite page="/do/importpictures"/>?gallery=<bean:write name="galleryPB" property="id"/>" class="bold-link"><bean:message key="gallery.gallery.picture.import"/></a>
-    </logic:equal>
-    <logic:notEmpty name="categoryFB">
-        <a href="<html:rewrite page="/do/viewcategory"/>?gallery=<bean:write name="galleryPB" property="id"/>&category=<bean:write name="categoryFB" property="category"/>" class="bold-link"><bean:message key="gallery.gallery.category.modify"/></a>
+    <a href="<html:rewrite page="/do/user/deletegallery"/>?id=<bean:write name="galleryPB" property="id"/>" class="bold-link" onClick="return confirm('<bean:message key="gallery.gallery.delete.are-you-sure"/>')"><bean:message key="gallery.gallery.delete"/></a>
+    <logic:notEqual name="galleryPB" property="virtual" value="true">
+        <a href="<html:rewrite page="/do/user/newpicture"/>?gallery=<bean:write name="galleryPB" property="id"/>" class="bold-link"><bean:message key="gallery.gallery.add-picture"/></a>
+        <a href="<html:rewrite page="/do/user/viewimportpictures"/>?gallery=<bean:write name="galleryPB" property="id"/>" class="bold-link"><bean:message key="gallery.gallery.import-pictures"/></a>
+    </logic:notEqual>
+    <logic:notEmpty name="selectPictureFB">
+        <logic:notEmpty name="selectPictureFB" property="category">
+            <a href="<html:rewrite page="/do/user/viewcategory"/>?gallery=<bean:write name="galleryPB" property="id"/>&category=<bean:write name="selectPictureFB" property="category"/>" class="bold-link"><bean:message key="gallery.gallery.modify-category"/></a>
+        </logic:notEmpty>
     </logic:notEmpty>
     <br>
 </logic:notEmpty>
