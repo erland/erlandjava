@@ -70,17 +70,30 @@ public class ParameterStorageGroup
                 XMLNode nodeval = (XMLNode)it.next();
                 Log.println(this,"getSpecialParameterAsStorage..."+nodeval.getName()+" "+nodeval.getValue());
 				if(nodeval.getName().equalsIgnoreCase("data")) {
-                    Iterator it2 = nodeval.getChilds();
-                    if(it2.hasNext()) {
-                        return new XMLStorage((XMLNode)it2.next());
-                    }else {
-                        return new StringStorage(nodeval.getValue());
-                    }
+                    return getNodeAsStorage(nodeval,name);
 				}
 			}
 		}
 		return null;
 	}
+
+    protected void setSpecialParameterAsStorageInData(XMLNode data, String name, StorageInterface value) {
+        XMLNode node = findGroupNode(data,name);
+        if(node!=null) {
+            Iterator it = node.getChilds();
+            while(it.hasNext()) {
+                XMLNode groupdatanode = (XMLNode)it.next();
+                if(groupdatanode.getName().equalsIgnoreCase("data")) {
+                    setNodeAsStorage(groupdatanode,name,value);
+                    return;
+                }
+            }
+        }else {
+            XMLNode child = addChild(data,groupPrefix,null);
+            addChild(child,"name",name);
+            addChildAsStorage(child,"data",value);
+        }
+    }
 
 	protected boolean isSpecialHandled(String name)
 	{
