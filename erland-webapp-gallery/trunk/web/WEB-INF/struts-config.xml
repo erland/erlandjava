@@ -11,6 +11,7 @@
         <form-bean name="newUserAccountFB" type="erland.webapp.gallery.fb.account.AccountFB"/>
         <form-bean name="userAccountFB" type="erland.webapp.gallery.fb.account.AccountFB"/>
         <form-bean name="storageFB" type="erland.webapp.gallery.fb.gallery.picturestorage.PictureStorageFB"/>
+        <form-bean name="skinFB" type="erland.webapp.gallery.fb.skin.SkinFB"/>
         <form-bean name="filterFB" type="erland.webapp.gallery.fb.gallery.filter.FilterFB"/>
         <form-bean name="galleryFilterFB" type="erland.webapp.gallery.fb.gallery.filter.GalleryFilterFB"/>
         <form-bean name="guestAccountFB" type="erland.webapp.gallery.fb.guestaccount.GuestAccountFB"/>
@@ -141,6 +142,8 @@
             <forward name="mainMenu-filters" path="/do/user/viewfilters"/>
             <forward name="mainMenu-filters-new" path="/do/user/newfilter"/>
             <forward name="mainMenu-logout" path="/do/logout"/>
+            <forward name="mainMenu-skins" path="/do/user/viewskins"/>
+            <forward name="mainMenu-skins-new" path="/do/user/newskin"/>
             <forward name="success" path=".user.index"/>
         </action>
         <action
@@ -669,6 +672,49 @@
         </action>
 
         <action
+            path="/user/viewskins"
+            type="erland.webapp.gallery.act.skin.SearchSkinsAction">
+
+            <forward name="success" path=".user.viewskins"/>
+        </action>
+
+        <action
+            path="/user/viewskin"
+            type="erland.webapp.gallery.act.skin.ViewSkinAction"
+            name="skinFB"
+            validate="false">
+
+            <forward name="success" path=".user.editskin"/>
+        </action>
+
+        <action
+            path="/user/newskin"
+            type="org.apache.struts.actions.ForwardAction"
+            name="skinFB"
+            validate="false"
+            parameter=".user.editskin">
+        </action>
+
+        <action
+            path="/user/editskin"
+            type="erland.webapp.gallery.act.skin.EditSkinAction"
+            name="skinFB"
+            input=".user.editskin"
+            validate="true">
+
+            <forward name="success" path="/do/user/viewskins"/>
+        </action>
+
+        <action
+            path="/user/removeskin"
+            type="erland.webapp.gallery.act.skin.RemoveSkinAction"
+            name="skinFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/viewskins"/>
+        </action>
+
+        <action
             path="/user/viewfilters"
             type="erland.webapp.gallery.act.gallery.filter.SearchFiltersAction">
 
@@ -757,6 +803,140 @@
             validate="false">
 
             <forward name="success" path="/do/user/viewgalleryfilters"/>
+        </action>
+
+        <action
+            path="/skin/menuviewcategory"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path="/do/skin/viewpicturesloadmenu"/>
+        </action>
+        <action
+            path="/skin/menuviewpictures"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path="/do/skin/viewpicturesloadmenu"/>
+        </action>
+
+        <action
+            path="/skin/menuviewgallery"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path="/do/skin/viewpicturesloadmenu"/>
+        </action>
+
+        <action
+            path="/skin/viewpicturesloadmenu"
+            type="erland.webapp.gallery.act.gallery.SearchOfficialGalleriesAndCategoriesAction"
+            name="menuFB"
+            parameter="skin">
+            <forward name="gallery" path="/do/skin/menuviewgallery?user={user}&amp;menuItemId={menuItemId}&amp;gallery={gallery}[max,&amp;max={max}]"/>
+            <forward name="category" path="/do/skin/menuviewcategory?user={user}&amp;menuItemId={menuItemId}&amp;gallery={gallery}&amp;category={category}[max,&amp;max={max}]"/>
+            <forward name="success" path="/do/skin/viewpictures"/>
+        </action>
+
+        <action
+            path="/skin/viewpictures"
+            type="erland.webapp.gallery.act.gallery.picture.SearchOfficialPicturesAction"
+            name="selectPictureFB"
+            validate="false"
+            parameter="useskin">
+
+            <forward name="success" path=".skin.viewpictures"/>
+            <forward name="picture-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
+            <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}]"/>
+            <forward name="previous-link" path="/do/skin/menuviewpictures?user={user}&amp;[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="picture-resolution-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
+            <forward name="next-link" path="/do/skin/menuviewpictures?user={user}&amp;[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="search-link" path="/do/skin/newsearch?user={user}&amp;gallery={gallery}[max,&amp;max={max}]"/>
+
+            <forward name="skin-layout" path="/WEB-INF/tiles/skin/default/layout.jsp"/>
+            <forward name="skin-layoutSingle" path="/WEB-INF/tiles/skin/default/layoutSingle.jsp"/>
+            <forward name="skin-header" path="/WEB-INF/tiles/skin/default/header.jsp"/>
+            <forward name="skin-menu" path="/WEB-INF/tiles/skin/default/menu.jsp"/>
+            <forward name="skin-search" path="/WEB-INF/tiles/skin/default/search.jsp"/>
+            <forward name="skin-viewpicture" path="/WEB-INF/tiles/skin/default/viewpicture.jsp"/>
+            <forward name="skin-viewpictures" path="/WEB-INF/tiles/skin/default/viewpictures.jsp"/>
+        </action>
+
+        <action
+            path="/skin/viewimage"
+            type="erland.webapp.gallery.act.loader.LoadMetadataAction"
+            name="metadataResolutionImageFB"
+            validate="false"
+            scope="request"
+            parameter="useskin">
+            <forward name="show-all-metadata-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;showAll=true"/>
+            <forward name="show-selected-metadata-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
+            <forward name="picture-image" path="/do/guest/loadimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;useCache=false"/>
+            <forward name="success" path=".skin.viewimage"/>
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+
+            <forward name="skin-layout" path="/WEB-INF/tiles/skin/default/layout.jsp"/>
+            <forward name="skin-layoutSingle" path="/WEB-INF/tiles/skin/default/layoutSingle.jsp"/>
+            <forward name="skin-header" path="/WEB-INF/tiles/skin/default/header.jsp"/>
+            <forward name="skin-menu" path="/WEB-INF/tiles/skin/default/menu.jsp"/>
+            <forward name="skin-search" path="/WEB-INF/tiles/skin/default/search.jsp"/>
+            <forward name="skin-viewpicture" path="/WEB-INF/tiles/skin/default/viewpicture.jsp"/>
+            <forward name="skin-viewpictures" path="/WEB-INF/tiles/skin/default/viewpictures.jsp"/>
+        </action>
+
+        <action
+            path="/skin/newsearch"
+            type="erland.webapp.gallery.act.gallery.picture.NewOfficialSearchPicturesAction"
+            name="searchPictureFB"
+            validate="false">
+
+            <forward name="success" path=".skin.editsearch"/>
+        </action>
+
+        <action
+            path="/skin/viewsearchpictures"
+            type="erland.webapp.gallery.act.gallery.picture.AdvancedSearchOfficialPicturesAction"
+            name="searchPictureFB"
+            validate="false"
+            parameter="useskin">
+
+            <forward name="success" path=".skin.viewpictures"/>
+            <forward name="picture-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
+            <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}]"/>
+            <forward name="previous-link" path="/do/skin/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="picture-resolution-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
+            <forward name="next-link" path="/do/skin/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="search-link" path="/do/skin/newsearch?user={user}&amp;gallery={gallery}[max,&amp;max={max}]"/>
+        </action>
+
+        <action
+            path="/skin/home"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/do/skin/loadmenu">
+        </action>
+
+        <action
+            path="/skin/loadmenu"
+            type="erland.webapp.gallery.act.gallery.SearchOfficialGalleriesAndCategoriesAction"
+            name="menuFB"
+            parameter="skin">
+            <forward name="gallery" path="/do/skin/menuviewgallery?user={user}&amp;menuItemId={menuItemId}&amp;gallery={gallery}[max,&amp;max={max}]"/>
+            <forward name="category" path="/do/skin/menuviewcategory?user={user}&amp;menuItemId={menuItemId}&amp;gallery={gallery}&amp;category={category}[max,&amp;max={max}]"/>
+            <forward name="success" path="/do/skin/viewdefaultgallery"/>
+        </action>
+
+        <action
+            path="/skin/viewdefaultgallery"
+            type="erland.webapp.gallery.act.account.ViewOfficialDefaultGalleryAction"
+            name="selectUserFB">
+            <forward name="success" path="/do/skin/menuviewgallery?user={user}&amp;menuName=mainMenu&amp;menuItemId={gallery}&amp;gallery={gallery}"/>
+            <forward name="failure" path=".skin.index"/>
         </action>
 
         <action
