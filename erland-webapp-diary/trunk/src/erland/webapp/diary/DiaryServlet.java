@@ -37,7 +37,7 @@ public class DiaryServlet extends UserMgmtServlet {
                 "<logitem3>erland.webapp.usermgmt.User</logitem3>"+
                 "<logitem4>erland.webapp.diary.DiaryEntryStorageDisabled</logitem4>"+
                 "<logitem5>erland.webapp.diary.DiaryServlet</logitem5>"+
-                "<logitem6>erland.webapp.usermgmt.UserMgmtServlet</logitem6>"+
+                "<logitem6>erland.webapp.usermgmt.UserMgmtServletDisabled</logitem6>"+
                 "<logitem7>erland.webapp.common.GenericEntityStorageDisabled</logitem7>"+
                 "<logitem8>erland.webapp.diary.HTMLBasicStringReplaceDisabled</logitem8>"+
                 "<logitem9>erland.webapp.diary.HTMLLinkStringReplaceDisabled</logitem9>"+
