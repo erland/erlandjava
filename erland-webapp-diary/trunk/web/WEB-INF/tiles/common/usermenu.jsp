@@ -32,6 +32,9 @@
         <erland-common:menuitem id="current" titleKey="diary.menu.inventory.current" page="/do/user/viewcurrentinventory" />
         <erland-common:menuitem id="whole" titleKey="diary.menu.inventory.whole" page="/do/user/viewwholeinventory" />
     </erland-common:menuitem>
+    <erland-common:menuitem id="species" titleKey="diary.menu.species" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}">
+        <erland-common:menuitem id="new" titleKey="diary.menu.species.new" page="/do/user/newspeciesentry" />
+    </erland-common:menuitem>
     <erland-common:menuitem id="galleries" titleKey="diary.menu.galleries" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" >
         <erland-common:menuitem id="new" titleKey="diary.menu.galleries.new" page="/do/user/newgallery" />
         <erland-common:beanmenuitem bean="menuGalleriesPB" id="idDisplay" title="name" page="path" childs="childs" />

@@ -13,6 +13,7 @@
         <erland-common:beanmenuitem bean="menuContainersPB" id="idDisplay" title="name" page="path" childs="childs" />
     </erland-common:menuitem>
     <erland-common:menuitem id="inventory" titleKey="diary.menu.inventory" page="/do/guest/viewinventory?user={user}" />
+    <erland-common:menuitem id="species" titleKey="diary.menu.species" page="/do/guest/viewspecies?user={user}" />
     <erland-common:menuitem id="galleries" titleKey="diary.menu.galleries" page="/do/guest/menu?user={user}&menuName={menuId}&menuItemId={menuItemId}" >
         <erland-common:beanmenuitem bean="menuGalleriesPB" id="idDisplay" title="name" page="path" childs="childs" />
     </erland-common:menuitem>
