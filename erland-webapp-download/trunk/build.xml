@@ -10,11 +10,9 @@
         <!-- Copy required libraries to distribution dir -->
         <copy todir="${dist}">
             <fileset dir="${java.home.struts}">
-                <include name="*.tld"/>
                 <include name="*.jar"/>
             </fileset>
             <fileset dir="../common/${dist}">
-                <include name="*.tld"/>
                 <include name="*.jar"/>
             </fileset>
             <fileset dir="../../common/util/${dist}">
