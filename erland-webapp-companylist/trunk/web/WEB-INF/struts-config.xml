@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE struts-config PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+    "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+    <form-beans>
+        <form-bean name="companyFB" type="erland.webapp.companylist.fb.CompanyFB"/>
+    </form-beans>
+
+    <global-forwards>
+        <forward name="index" path="/do/index"/>
+    </global-forwards>
+
+    <action-mappings>
+        <action
+            path="/index"
+            type="erland.webapp.companylist.act.SearchCompanyAction">
+
+            <forward name="success" path=".index"/>
+        </action>
+        <action
+            path="/logout"
+            type="erland.webapp.common.act.InvalidateSessionAction">
+            <forward name="success" path="/do/index"/>
+        </action>
+        <action
+            path="/manager/listcompanies"
+            type="erland.webapp.companylist.act.SearchCompanyAction">
+
+            <forward name="success" path=".manager.listcompanies"/>
+        </action>
+        <action
+            path="/user/listcompanies"
+            type="erland.webapp.companylist.act.SearchCompanyAction">
+
+            <forward name="success" path=".user.listcompanies"/>
+        </action>
+        <action
+            path="/user/registercompany"
+            type="erland.webapp.companylist.act.NewCompanyAction"
+            validate="false"
+            name="companyFB">
+
+            <forward name="success" path=".user.editcompany"/>
+        </action>
+
+        <action
+            path="/user/viewcompany"
+            type="erland.webapp.companylist.act.ViewCompanyAction"
+            validate="false"
+            name="companyFB">
+
+            <forward name="success" path=".user.editcompany"/>
+        </action>
+
+        <action
+            path="/user/editcompany"
+            type="erland.webapp.companylist.act.EditCompanyAction"
+            validate="true"
+            input=".user.editcompany"
+            name="companyFB">
+
+            <forward name="success" path="/do/user/listcompanies"/>
+        </action>
+        <action
+            path="/listcompanies"
+            type="erland.webapp.companylist.act.SearchCompanyAction">
+
+            <forward name="success" path=".listcompanies"/>
+        </action>
+
+        <action
+            path="/viewcompany"
+            type="erland.webapp.companylist.act.ViewCompanyAction"
+            validate="false"
+            name="companyFB">
+
+            <forward name="success" path=".viewcompany"/>
+        </action>
+    </action-mappings>
+
+    <message-resources parameter="erland.webapp.companylist.resources.message" null="false"/>
+
+    <plug-in className="erland.webapp.common.act.WebAppEnvironmentPlugin">
+        <set-property
+            property="applicationName"
+            value="companylist"/>
+    </plug-in>
+    <plug-in className="erland.webapp.common.act.LogConfigurationPlugin">
+        <set-property
+            property="logConfigurationFile"
+            value="D:/companylist_log.xml"/>
+    </plug-in>
+    <plug-in className="org.apache.struts.tiles.TilesPlugin">
+        <set-property property="definitions-config"
+            value="/WEB-INF/tiles-defs.xml"/>
+    </plug-in>
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property
+            property="pathnames"
+            value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    </plug-in>
+    <plug-in className="erland.webapp.common.act.HtmlEncoderPlugin">
+        <set-property property="replaceRoutines"
+            value="erland.webapp.common.html.HTMLBasicStringReplace,
+                   erland.webapp.common.html.HTMLLinkStringReplace,
+                   erland.webapp.common.html.HTMLBoldLinkStringReplace"/>
+    </plug-in>
+</struts-config>
