@@ -91,6 +91,28 @@
         </attribute>
     </tag>
     <tag>
+        <name>menuitemseparator</name>
+        <tagclass>erland.webapp.common.tags.menu.MenuItemSeparatorTag</tagclass>
+        <bodycontent>Empty</bodycontent>
+        <info>The body is visible if the name attribute value starts with the id value</info>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>styleSelected</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>roles</name>
+            <required>false</required>
+        </attribute>
+    </tag>
+    <tag>
         <name>beanmenuitem</name>
         <tagclass>erland.webapp.common.tags.menu.BeanMenuItemTag</tagclass>
         <bodycontent>JSP</bodycontent>
