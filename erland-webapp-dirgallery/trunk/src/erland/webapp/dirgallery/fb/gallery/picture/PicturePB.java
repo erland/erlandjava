@@ -40,6 +40,8 @@ public class PicturePB extends BasePB {
     private String link;
     private String resolutionLink;
     private String updateCommentLink;
+    private String pathSmallImage;
+    private String pathLargeImage;
     private ResolutionPB[] resolutions;
 
     public static final int TYPEOFFILE_PICTUREFILE = Picture.PICTUREFILE;
@@ -169,6 +171,22 @@ public class PicturePB extends BasePB {
         this.updateCommentLink = updateCommentLink;
     }
 
+    public String getPathSmallImage() {
+        return pathSmallImage;
+    }
+
+    public void setPathSmallImage(String pathSmallImage) {
+        this.pathSmallImage = pathSmallImage;
+    }
+
+    public String getPathLargeImage() {
+        return pathLargeImage;
+    }
+
+    public void setPathLargeImage(String pathLargeImage) {
+        this.pathLargeImage = pathLargeImage;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         id = null;
@@ -182,5 +200,7 @@ public class PicturePB extends BasePB {
         resolutionLink = null;
         resolutions = null;
         updateCommentLink = null;
+        pathSmallImage = null;
+        pathLargeImage = null;
     }
 }
