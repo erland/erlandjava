@@ -1,0 +1,18 @@
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean" %>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html" %>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
+
+<p class="normal"><bean:message key="gallery.guestaccount.add.description"/></p>
+<tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
+<html:form action="/user/editguestaccount" method="POST">
+    <table>
+    <tr><td><bean:message key="gallery.guestaccount.edit.username"/></td><td>
+    <html:text property="guestUser" />
+    </td></tr>
+    <tr><td></td><td>
+    <html:submit><bean:message key="gallery.buttons.save"/></html:submit>
+    </td></tr>
+    <table>
+</html:form>
