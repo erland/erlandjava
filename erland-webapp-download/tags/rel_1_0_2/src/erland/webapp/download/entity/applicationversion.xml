@@ -1,0 +1,28 @@
+<entity id="applicationversion">
+    <class>erland.webapp.download.entity.ApplicationVersion</class>
+    <data id="storage">
+        <class>erland.webapp.common.FileEntityStorage</class>
+        <name>file</name>
+    </data>
+    <data id="file">
+        <fields>
+            <field id="id">
+                <attribute>path</attribute>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="name">
+                <attribute>name</attribute>
+                <type>String</type>
+            </field>
+            <field id="date">
+                <attribute>lastModified</attribute>
+                <type>Date</type>
+            </field>
+            <field id="directory">
+                <attribute>directory</attribute>
+                <type>String</type>
+            </field>
+        </fields>
+    </data>
+</entity>
