@@ -33,6 +33,7 @@ more information
 This archive should contain the following files:
 - readme.txt (this file)
 - gallery.war (The web application code)
+- src.zip (The web application source code)
 - database/*.sql (A number of database configuration scripts)
 
 5. CONFIGURING OF THE DATABASE
@@ -54,6 +55,7 @@ Data scripts:
 - common_data.sql
   Setup thumbnail cache dir to "D:\users\erland\thumbnails" (You probably want to change this)
   Creates a row for all exif parameters that should be shown when showing picture information
+  Also contains a row for the welcome text shown on the first page (You might want to change this text)
 - users_data.sql
   Create a user with username "test" and password "test" and configure it with roles "user" and "manager"
 - gallery_data.sql
