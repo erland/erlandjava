@@ -37,6 +37,10 @@
                 <column>skin</column>
                 <type>String</type>
             </field>
+            <field id="mailNotification">
+                <column>mailnotification</column>
+                <type>Boolean</type>
+            </field>
         </fields>
         <queries>
             <query id="all">

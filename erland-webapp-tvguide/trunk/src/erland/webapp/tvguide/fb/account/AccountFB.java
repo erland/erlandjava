@@ -37,6 +37,7 @@ public class AccountFB extends BaseFB {
     private String officialDisplay;
     private String stylesheet;
     private String skin;
+    private String mailNotificationDisplay;
 
     public String getUsername() {
         return username;
@@ -134,6 +135,22 @@ public class AccountFB extends BaseFB {
         this.skin = skin;
     }
 
+    public Boolean getMailNotification() {
+        return StringUtil.asBoolean(mailNotificationDisplay,Boolean.FALSE);
+    }
+
+    public void setMailNotification(Boolean mailNotification) {
+        this.mailNotificationDisplay = StringUtil.asString(mailNotification, null);
+    }
+
+    public String getMailNotificationDisplay() {
+        return mailNotificationDisplay;
+    }
+
+    public void setMailNotificationDisplay(String mailNotificationDisplay) {
+        this.mailNotificationDisplay = mailNotificationDisplay;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         username = null;
@@ -147,5 +164,6 @@ public class AccountFB extends BaseFB {
         officialDisplay = null;
         stylesheet = null;
         skin = null;
+        mailNotificationDisplay = null;
     }
 }

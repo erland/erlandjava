@@ -27,6 +27,9 @@
         <html:options collection="skinsPB" property="id" labelProperty="id" />
     </html:select>
     </td></tr>
+    <tr><td><bean:message key="tvguide.account.edit.mailnotification"/></td><td>
+    <html:checkbox property="mailNotificationDisplay" value="true"/>
+    </td></tr>
     <tr><td><bean:message key="tvguide.account.edit.official"/></td><td>
     <html:checkbox property="officialDisplay" value="true"/>
     </td></tr>

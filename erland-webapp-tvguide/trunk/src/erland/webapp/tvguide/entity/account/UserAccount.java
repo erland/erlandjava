@@ -29,6 +29,7 @@ public class UserAccount extends BaseEntity {
     private Boolean official;
     private String stylesheet;
     private String skin;
+    private Boolean mailNotification;
 
     public String getUsername() {
         return username;
@@ -84,5 +85,13 @@ public class UserAccount extends BaseEntity {
 
     public void setSkin(String skin) {
         this.skin = skin;
+    }
+
+    public Boolean getMailNotification() {
+        return mailNotification;
+    }
+
+    public void setMailNotification(Boolean mailNotification) {
+        this.mailNotification = mailNotification;
     }
 }
