@@ -1,7 +1,5 @@
 package erland.game.racer;
 
-import erland.util.Log;
-
 import java.awt.*;
 
 public class FrictionBlock implements FrictionObjectInterface, Cloneable {
@@ -25,13 +23,19 @@ public class FrictionBlock implements FrictionObjectInterface, Cloneable {
     {
         this.offsetX = offsetX;
         this.offsetY = offsetY;
-        rc.setRect(offsetX+x*squareSize,offsetY+y*squareSize,squareSize,squareSize);
+        rc.setLocation(offsetX+x*squareSize,offsetY+y*squareSize);
+        rc.setSize(squareSize,squareSize);
+        //TODO Remove next line, it was replaced to make it work with java 1.1
+        //rc.setRect(offsetX+x*squareSize,offsetY+y*squareSize,squareSize,squareSize);
     }
     public void setPos(int x, int y)
     {
         this.x = x;
         this.y = y;
-        rc.setRect(offsetX+x*squareSize,offsetY+y*squareSize,squareSize,squareSize);
+        rc.setLocation(offsetX+x*squareSize,offsetY+y*squareSize);
+        rc.setSize(squareSize,squareSize);
+        //TODO Remove next line, it was replaced to make it work with java 1.1
+        //rc.setRect(offsetX+x*squareSize,offsetY+y*squareSize,squareSize,squareSize);
     }
     public double getFriction() {
         return friction;

@@ -1,44 +1,43 @@
-/*
- * Created by IntelliJ IDEA.
- * User: Erland Isaksson
- * Date: 2002-apr-21
- * Time: 08:14:35
- * To change template for new class use 
- * Code Style | Class Templates options (Tools | IDE Options).
- */
 package erland.game.racer;
 
 import erland.game.MapEditorBlockInterface;
-import erland.game.BlockContainerData;
 import erland.util.*;
 
 import java.awt.*;
 import java.util.Vector;
 
-public class LevelGameIcon extends LevelSimple {
-    protected Image iconImage;
-    protected MapEditorBlockInterface iconBlock;
+/**
+ * Implementation of the block that is used to build the track in the race mode.
+ */
+public class LevelGameIcon extends Level {
+    /**
+     * Creates a block
+     * @param blockCloneManager Object used for cloning the blocks
+     * @param sizeX Number of horizontal blocks in the game area
+     * @param sizeY Number of vertial blocks in the game area
+     */
     public LevelGameIcon(BlockCloneInterface blockCloneManager, int sizeX, int sizeY)
     {
         super(blockCloneManager,sizeX,sizeY);
     }
-    public void write(ParameterValueStorageInterface out)
+    /**
+     * This method is NOT IMPLEMENTED in this class
+     * @param out
+     */
+    public void write(ParameterValueStorageExInterface out)
     {
 
     }
 
-    public void read(ParameterValueStorageInterface in)
+    public void readBlocks(ParameterValueStorageExInterface in)
     {
-        StringStorage levelStorage = new StringStorage(in.getParameter("data"));
-        ParameterStorageGroup allBlocks = new ParameterStorageGroup(levelStorage,"blockdata","block");
         int i=0;
         int x;
         int y;
-        String s = allBlocks.getParameter("block"+i);
+        StorageInterface blockStorage = in.getParameterAsStorage("block"+i);
         MapEditorBlockInterface b = null;
-        if(s!=null && s.length()>0) {
-            StringStorage blockStorage = new StringStorage(s);
-            ParameterStorageString oneBlock = new ParameterStorageString(blockStorage);
+        if(blockStorage!=null) {
+            ParameterStorageString oneBlock = new ParameterStorageString(blockStorage,null);
             String cls = oneBlock.getParameter("class");
             try {
                 b = (MapEditorBlockInterface)Class.forName(cls).newInstance();
@@ -62,10 +61,9 @@ public class LevelGameIcon extends LevelSimple {
             Vector frictionBlocks = new Vector();
             while(!bQuit) {
                 i++;
-                s = allBlocks.getParameter("block"+i);
-                if(s!=null && s.length()>0) {
-                    StringStorage frictionStorage = new StringStorage(s);
-                    ParameterStorageString oneBlockText = new ParameterStorageString(frictionStorage);
+                StorageInterface frictionStorage = in.getParameterAsStorage("block"+i);
+                if(frictionStorage!=null ) {
+                    ParameterStorageString oneBlockText = new ParameterStorageString(frictionStorage,null);
                     cls = oneBlockText.getParameter("class");
                     MapEditorBlockInterface blockText = null;
                     try {
@@ -89,15 +87,18 @@ public class LevelGameIcon extends LevelSimple {
                         frictionBlock.setOffset(cont.getPositionX(x),cont.getPositionY(y));
                         //Log.println(this,"Friction: "+cont.getPositionX(x)+","+cont.getPositionY(y)+","+blockText.getPosX()+","+blockText.getPosY());
                         frictionBlock.setPos(blockText.getPosX(),blockText.getPosY());
-                        frictionBlocks.add(frictionBlock);
+                        frictionBlocks.addElement(frictionBlock);
                     }
                 }else {
                     bQuit = true;
                 }
             }
             if(frictionBlocks.size()>0) {
-                FrictionBlock[] tmp = new FrictionBlock[0];
-                tmp = (FrictionBlock[])frictionBlocks.toArray(tmp);
+                FrictionBlock[] tmp = new FrictionBlock[frictionBlocks.size()];
+                for(int j=0;j<frictionBlocks.size();j++) {
+                    tmp[j] = (FrictionBlock) frictionBlocks.elementAt(j);
+                }
+
                 ((Block)b).setFrictionObjects(tmp);
             }
         }

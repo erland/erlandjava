@@ -1,41 +1,40 @@
-/*
- * Created by IntelliJ IDEA.
- * User: Erland Isaksson
- * Date: 2002-apr-14
- * Time: 12:07:27
- * To change template for new class use
- * Code Style | Class Templates options (Tools | IDE Options).
- */
 package erland.game.racer;
 
-import erland.game.MapEditorBlockInterface;
-import erland.game.BlockContainerInterface;
-import erland.game.GameEnvironmentInterface;
-import erland.util.SubImageHandler;
-import erland.util.Log;
-import erland.util.ParameterValueStorageInterface;
+import erland.util.ParameterValueStorageExInterface;
 
-import java.awt.*;
-
+/**
+ * Class that implements a block that can be drawn as
+ * a {@link BlockBitmap} but also has information about which
+ * type of block it is
+ * @author Erland Isaksson
+ */
 public class BlockGroup extends BlockBitmap {
-    protected int blockType;
+    private int blockType;
 
+    /**
+     * Get block type of the block
+     * @return The block type of the block
+     */
     public int getBlockType()
     {
         return blockType;
     }
+    /**
+     * Set the block type of the block
+     * @param blockType The block type
+     */
     public void setBlockType(int blockType)
     {
         this.blockType = blockType;
     }
 
-    public void write(ParameterValueStorageInterface out) {
+    public void write(ParameterValueStorageExInterface out) {
         out.setParameter("x",Integer.toString(getPosX()));
         out.setParameter("y",Integer.toString(getPosY()));
         out.setParameter("blocktype",Integer.toString(blockType));
     }
 
-    public void read(ParameterValueStorageInterface in) {
+    public void read(ParameterValueStorageExInterface in) {
         int x = Integer.valueOf(in.getParameter("x")).intValue();
         int y = Integer.valueOf(in.getParameter("y")).intValue();
         blockType = Integer.valueOf(in.getParameter("blocktype")).intValue();

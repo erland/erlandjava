@@ -1,1 +1,1 @@
-java -classpath ".;game.jar;util.jar;Racer.jar" erland.game.racer.Racer
+java -classpath "game.jar;util.jar;network.jar;Racer.jar" erland.game.racer.Racer %*

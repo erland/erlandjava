@@ -6,23 +6,32 @@ import erland.game.BlockContainerData;
 
 import java.awt.*;
 
-public class LevelEditorIcon extends LevelSimple {
-    protected Image iconImage;
+/**
+ * Implements the icons used in the {@link RacerMapIconEditor} where it is possible to
+ * set a fricton on each icon. This object basically makes it possible to overlay the
+ * original block with another block which is partly transparent
+ */
+public class LevelEditorIcon extends Level {
+    /** Original block without the overlay */
     protected MapEditorBlockInterface iconBlock;
+    /**
+     * Creates the icon
+     * @param blockCloneManager Object that is used to clone the icons
+     * @param sizeX Number of horizontal blocks in the container
+     * @param sizeY Number of vertical blocks in the container
+     */
     public LevelEditorIcon(BlockCloneInterface blockCloneManager, int sizeX, int sizeY)
     {
         super(blockCloneManager,sizeX,sizeY);
     }
-    public void write(ParameterValueStorageInterface out)
+    public void writeBlocks(ParameterValueStorageExInterface out)
     {
-        StringStorage levelStorage = new StringStorage();
-        ParameterStorageGroup allBlocks = new ParameterStorageGroup(levelStorage,"blockdata","block",true);
         if(iconBlock!=null) {
             StringStorage blockStorage = new StringStorage();
-            ParameterStorageString oneBlock = new ParameterStorageString(blockStorage,true);
+            ParameterStorageString oneBlock = new ParameterStorageString(blockStorage,null);
             oneBlock.setParameter("class",iconBlock.getClass().getName());
             iconBlock.write(oneBlock);
-            allBlocks.setParameter("block0",blockStorage.load());
+            out.setParameter("block0",blockStorage.load());
 
             if(blocks!=null) {
                 int i=0;
@@ -32,28 +41,23 @@ public class LevelEditorIcon extends LevelSimple {
                             if(blocks[x][y] instanceof BlockText) {
                                 i++;
                                 blockStorage = new StringStorage();
-                                oneBlock = new ParameterStorageString(blockStorage,true);
+                                oneBlock = new ParameterStorageString(blockStorage,null);
                                 oneBlock.setParameter("class",blocks[x][y].getClass().getName());
                                 blocks[x][y].write(oneBlock);
-                                allBlocks.setParameter("block"+i,blockStorage.load());
+                                out.setParameter("block"+i,blockStorage.load());
                             }
                         }
                     }
                 }
             }
-            out.setParameter("data",levelStorage.load());
         }
     }
 
-    public void read(ParameterValueStorageInterface in)
+    public void readBlocks(ParameterValueStorageExInterface in)
     {
-        clearBlocks();
-        StringStorage levelStorage = new StringStorage(in.getParameter("data"));
-        ParameterStorageGroup allBlocks = new ParameterStorageGroup(levelStorage,"blockdata","block");
-        String s = allBlocks.getParameter("block0");
-        if(s!=null && s.length()>0) {
-            StringStorage blockStorage = new StringStorage(s);
-            ParameterStorageString oneBlock = new ParameterStorageString(blockStorage);
+        StorageInterface blockStorage = in.getParameterAsStorage("block0");
+        if(blockStorage!=null ) {
+            ParameterStorageString oneBlock = new ParameterStorageString(blockStorage,null);
             String cls = oneBlock.getParameter("class");
             iconBlock = null;
             try {
@@ -67,7 +71,7 @@ public class LevelEditorIcon extends LevelSimple {
             iconBlock.read(oneBlock);
 
             if(iconBlock instanceof Block) {
-                iconImage = environment.getImageCreator().createImage(256,256);
+                Image iconImage = environment.getImageCreator().createImage(256,256);
                 Image tmpImage = environment.getImageCreator().createImage(cont.getSquareSize(),cont.getSquareSize());
                 ((Block)iconBlock).draw(tmpImage.getGraphics(),0);
                 iconImage.getGraphics().setColor(Color.black);
@@ -92,7 +96,7 @@ public class LevelEditorIcon extends LevelSimple {
                 }
             }
         }
-        readBlocks(in);
+        super.readBlocks(in);
     }
     protected MapEditorBlockInterface prepareNewBlock(MapEditorBlockInterface oldBlock,MapEditorBlockInterface newBlock)
     {

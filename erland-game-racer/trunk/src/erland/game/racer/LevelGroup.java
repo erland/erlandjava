@@ -1,56 +1,45 @@
 package erland.game.racer;
 
 import erland.game.MapEditorBlockInterface;
-import erland.game.BlockContainerInterface;
-import erland.game.GameEnvironmentInterface;
 import erland.util.*;
 
+/**
+ * Implements a block that consists of other sub blocks
+ */
 public class LevelGroup extends Level {
+    /** The level manager that loads the sub blocks */
     protected LevelManager blockManager;
+    /**
+     * Creates a block
+     * @param blockManager Level manager that should be used to load the sub blocks
+     * @param blockCloneManager Object that should be used when cloning blocks
+     * @param sizeX Horizontal number of blocks in the container
+     * @param sizeY Vertical number of blocks in the container
+     */
     public LevelGroup(LevelManager blockManager, BlockCloneInterface blockCloneManager, int sizeX, int sizeY)
     {
         super(blockCloneManager,sizeX,sizeY);
         this.blockManager = blockManager;
     }
 
-    public void write(ParameterValueStorageInterface out)
+    /**
+     * This method is NOT IMPLEMENTED in this class
+     * @param out
+     */
+    public void write(ParameterValueStorageExInterface out)
     {
         return;
-        /*
-        if(blocks!=null) {
-            StringStorage levelStorage = new StringStorage();
-            ParameterStorageGroup allBlocks = new ParameterStorageGroup(levelStorage,"blockdata","block",true);
-            int i=0;
-            for(int x=0;x<blocks.length;x++) {
-                for(int y=0;y<blocks[x].length;y++) {
-                    if(blocks[x][y]!=null) {
-                        i++;
-                        StringStorage blockStorage = new StringStorage();
-                        ParameterStorageString oneBlock = new ParameterStorageString(blockStorage,true);
-                        oneBlock.setParameter("class",blocks[x][y].getClass().getName());
-                        blocks[x][y].write(oneBlock);
-                        allBlocks.setParameter("block"+i,blockStorage.load());
-                    }
-                }
-            }
-            out.setParameter("data",levelStorage.load());
-        }
-        */
     }
 
-    public void read(ParameterValueStorageInterface in)
+    public void readBlocks(ParameterValueStorageExInterface in)
     {
-        clearBlocks();
-        StringStorage levelStorage = new StringStorage(in.getParameter("data"));
-        ParameterStorageGroup allBlocks = new ParameterStorageGroup(levelStorage,"blockdata","block");
         int i=0;
         boolean bQuit = false;
         while(!bQuit) {
             i++;
-            String s = allBlocks.getParameter("block"+i);
-            if(s!=null && s.length()>0) {
-                StringStorage blockStorage = new StringStorage(s);
-                ParameterStorageString oneBlock = new ParameterStorageString(blockStorage);
+            StorageInterface blockStorage = in.getParameterAsStorage("block"+i);
+            if(blockStorage!=null) {
+                ParameterStorageString oneBlock = new ParameterStorageString(blockStorage,null);
                 String cls = oneBlock.getParameter("class");
                 MapEditorBlockInterface b = null;
                 try {
@@ -64,7 +53,11 @@ public class LevelGroup extends Level {
                     b.setContainer(cont);
                     b.read(oneBlock);
                     int blockType = ((BlockGroup)b).getBlockType();
-                    MapEditorBlockInterface[][] blocks = blockManager.getLevel(blockType);
+                    LevelInfoInterface levelInfo = blockManager.getLevel(blockType);
+                    MapEditorBlockInterface[][] blocks = null;
+                    if(levelInfo!=null) {
+                        blocks = levelInfo.getBlocks();
+                    }
                     if(blocks!=null) {
                         for(int x1=0;x1<blocks.length;x1++) {
                             for(int y1=0;y1<blocks[x1].length;y1++) {

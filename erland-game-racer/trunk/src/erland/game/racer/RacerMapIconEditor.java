@@ -1,29 +1,49 @@
 package erland.game.racer;
 
 import erland.game.MapEditorBlockInterface;
-import erland.util.Log;
 
+import java.awt.*;
+/**
+ * This is an editor for the icon objects that can be used
+ * in the {@link RacerMapBlockEditor} to create a block that
+ * can be used to create a track in the {@link RacerMapTrackEditor}
+ * The RacerMapIconEditor is mainly used to set the friction
+ * on the icon objects.
+ */
 public class RacerMapIconEditor extends RacerMapEditor {
 
     protected MapEditorBlockInterface getSelectBlock(int blockNo)
     {
         BlockText b = null;
-        if(blockNo<5) {
-            b = new BlockText();
-            b.init(environment);
-            b.setText(String.valueOf(blockNo));
-        }
+        b = new BlockText();
+        b.init(getEnvironment());
+        b.setText(String.valueOf(blockNo));
         return b;
+    }
+    protected int getNoOfSelectBlocks() {
+        return 5;
     }
 
     protected void initFinish()
     {
         levelManager = new LevelManager();
         LevelFactoryInterface levelFactoryLevel = new RacerLevelFactoryEditorIcon(new BlockClone(),cont.getSizeX(),cont.getSizeY());
-        levelManager.init(environment,levelFactoryLevel,getLevelFileLabel(),getLevelFileGroupLabel());
+        levelManager.init(getEnvironment(),levelFactoryLevel,getLevelFileLabel(),getLevelFileGroupLabel());
         levelManager.setContainer(cont);
     }
 
+    protected Image getMapBlockImage()
+    {
+        return null;
+    }
+    protected int getSelectSizeX()
+    {
+        return 1;
+    }
+    protected int getSelectSizeY()
+    {
+        return 5;
+    }
     protected int getSizeX()
     {
         return 4;
@@ -61,6 +81,7 @@ public class RacerMapIconEditor extends RacerMapEditor {
     }
     protected int getMaxLevel()
     {
-        return 14;
+        return 88;
     }
+
 }

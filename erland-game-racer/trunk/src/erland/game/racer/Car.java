@@ -1,56 +1,67 @@
 package erland.game.racer;
 
-import erland.util.ImageCreatorInterface;
-import erland.util.ImageHandlerInterface;
-import erland.util.SubImageHandler;
-import erland.util.Log;
-import erland.game.BlockContainerInterface;
 import erland.game.GameEnvironmentInterface;
 
 import java.awt.*;
 
-public class Car implements CollisionObjectInterface,FrictionSensitiveInterface {
-    protected BlockContainerInterface cont;
-    protected SubImageHandler subImages;
-    protected Image mainImage;
-    protected double accelerateSpeed;
-    protected double topSpeed;
-    protected double breakSpeed;
-    protected double turnSpeed;
-    protected double slowdownSpeed;
-    protected double grip;
-    protected GameEnvironmentInterface environment;
+/**
+ * Implements the full implementation of a racing car
+ * @author Erland Isaksson
+ */
+public class Car extends CarClient implements CollisionObjectInterface,FrictionSensitiveInterface, CarDrawInterface, CarClientInterface {
+    /** Accelleration speed */
+    private double accelerateSpeed;
+    /** Maximum speed */
+    private double topSpeed;
+    /** Breaking speed */
+    private double breakSpeed;
+    /** Turning speed */
+    private double turnSpeed;
+    /** Slowdown speed */
+    private double slowdownSpeed;
+    /** Tyre grip factor */
+    private double grip;
+    /** Previous X pixel position of the car */
+    private double oldPosX;
+    /** Previous Y pixel position of the car */
+    private double oldPosY;
+    /** Current friction of the ground */
+    private double friction;
+    /** Current bounding rectangle of the car */
+    private Rectangle bounds;
+    /** Last reqeusted offset bounding rectangle of the car */
+    private Rectangle boundsCustom;
+    /** The next moving angle, will be set during collisions */
+    private double nextMovingAngle;
+    /** The next speed of the car, will be set during collisions */
+    private double nextSpeed;
+    /** Indicates that {@link #nextMovingAngle} and {@link #nextSpeed} is available */
+    private boolean bNextAvailable;
+    /** Indicates if car accellerated last time */
+    private boolean bAccellerating;
 
-    protected double carAngle;
-    protected double movingAngle;
-    protected double speed;
-    protected int image;
-    protected double posX;
-    protected double posY;
-
-    public double friction;
-
-    protected Rectangle bounds;
-    protected double nextMovingAngle;
-    protected double nextSpeed;
-    protected boolean bNextAvailable;
-
+    /**
+     * Initialize the car in a new game environment
+     * @param environment The game environment which the car exists in
+     */
     public void init(GameEnvironmentInterface environment)
     {
-        bounds = new Rectangle((int)posX,(int)posY,12,12);
-        this.environment = environment;
+        super.init(environment);
+        bounds = new Rectangle((int)serverPosX,(int)serverPosY,12,12);
+        boundsCustom = new Rectangle((int)serverPosX,(int)serverPosY,12,12);
         bNextAvailable=false;
-    }
-    public void setContainer(BlockContainerInterface cont)
-    {
-        this.cont = cont;
-    }
-    public void setImage(String image)
-    {
-        mainImage = environment.getImageHandler().getImage(image);
-        subImages = new SubImageHandler(mainImage, 32,32,9,4);
+        bAccellerating = false;
     }
 
+    /**
+     * Initialize the capabilities of the car
+     * @param topSpeed The maximum speed of the car
+     * @param accelerateSpeed The acceleration speed of the car
+     * @param breakSpeed The brake speed of the car
+     * @param turnSpeed The turning speed of the car
+     * @param slowdownSpeed The slowdown speed of the car
+     * @param grip The tyre grip factor of the car
+     */
     public void setCapabilities(double topSpeed,double accelerateSpeed, double breakSpeed, double turnSpeed, double slowdownSpeed, double grip)
     {
         this.topSpeed = topSpeed;
@@ -61,192 +72,194 @@ public class Car implements CollisionObjectInterface,FrictionSensitiveInterface 
         this.grip = grip;
     }
 
-    public void setPos(int x, int y)
+    /**
+     * Set the pixel position of the car
+     * @param x X pixel position
+     * @param y Y pixel position
+     */
+    public void setServerPos(int x, int y)
     {
-        posX = x;
-        posY = y;
+        super.setServerPos(x,y);
+        oldPosX = serverPosX;
+        oldPosY = serverPosY;
     }
-    public void setAngle(int angle)
-    {
-        carAngle = angle;
-    }
-    public void setSpeed(int speed)
-    {
-        this.speed = speed;
-    }
-    public int getPosX()
-    {
-        return (int)posX;
-    }
-    public int getPosY()
-    {
-        return (int)posY;
-    }
+
+    /**
+     * Perform accelerate action
+     */
     public void accelerating()
     {
-        speed += accelerateSpeed;
-        if(speed>topSpeed) {
-            speed=topSpeed;
+        bAccellerating = true;
+        serverSpeed += accelerateSpeed;
+        if(serverSpeed>topSpeed) {
+            serverSpeed=topSpeed;
         }
     }
 
-    public void breaking()
+    /**
+     * Perform brake action
+     */
+    public void braking()
     {
-        speed -= breakSpeed;
-        if(speed<0) {
-            speed = 0;
+        serverSpeed -= breakSpeed;
+        if(serverSpeed<0) {
+            serverSpeed = 0;
         }
     }
+    /**
+     * Perform turn right action
+     */
     public void turnRight()
     {
-        carAngle += turnSpeed;
-        if(carAngle>360) {
-            carAngle -= 360;
+        serverCarAngle += turnSpeed;
+        if(serverCarAngle>360) {
+            serverCarAngle -= 360;
         }
     }
+    /**
+     * Perform turn left action
+     */
     public void turnLeft()
     {
-        carAngle -= turnSpeed;
-        if(carAngle<0) {
-            carAngle += 360;
+        serverCarAngle -= turnSpeed;
+        if(serverCarAngle<0) {
+            serverCarAngle += 360;
         }
     }
+    /**
+     * Perform slow down action
+     */
     public void slowdown()
     {
-        speed -= slowdownSpeed;
-        if(speed<0) {
-            speed = 0;
+        serverSpeed -= slowdownSpeed;
+        if(serverSpeed<0) {
+            serverSpeed = 0;
         }
     }
 
-    public double normalizeAngle(double angle)
-    {
-        if(angle<0) {
-            angle+=360;
-        }
-        if(angle>360) {
-            angle-=360;
-        }
-        return angle;
+    public boolean isAccelerating() {
+        return bAccellerating;
     }
-    public void update()
+    public void clientUpdate() {
+        oldPosX = serverPosX;
+        oldPosY = serverPosY;
+        serverMovingAngle = normalizeAngle(serverMovingAngle);
+        serverCarAngle = normalizeAngle(serverCarAngle);
+
+        serverPosX += serverSpeed*Math.cos((serverMovingAngle)*Math.PI/180);
+        serverPosY += serverSpeed*Math.sin((serverMovingAngle)*Math.PI/180);
+
+        serverPosX = normalizePosX(serverPosX);
+        serverPosY = normalizePosY(serverPosY);
+
+        setClientPos((int)serverPosX,(int)serverPosY);
+        setClientCarAngle((int)serverCarAngle);
+        setClientMovingAngle((int)serverMovingAngle);
+        setClientSpeed((int)serverSpeed);
+    }
+    /**
+     * Update the car position
+     */
+    public void serverUpdate()
     {
-        if(bNextAvailable) {
-            movingAngle = nextMovingAngle;
-            speed = nextSpeed;
-            bNextAvailable=false;
+        bAccellerating = false;
+        if(serverSpeed>topSpeed - (topSpeed/2)*friction) {
+            serverSpeed = topSpeed - (topSpeed/2)*friction;
         }
 
-        if(speed>topSpeed - (topSpeed/2)*friction) {
-            speed = topSpeed - (topSpeed/2)*friction;
-        }
-        if(Math.abs(movingAngle-carAngle)<grip) {
-            movingAngle = carAngle;
+        double xspeed1 = serverSpeed*Math.cos((serverMovingAngle)*Math.PI/180);
+        double yspeed1 = serverSpeed*Math.sin((serverMovingAngle)*Math.PI/180);
+        double steerspeed = (this.grip-(this.grip/2)*friction);
+        double xspeed2 = steerspeed*Math.cos((serverCarAngle)*Math.PI/180);
+        double yspeed2 = steerspeed*Math.sin((serverCarAngle)*Math.PI/180);
+        xspeed1+=xspeed2;
+        yspeed1+=yspeed2;
+        if(xspeed1<0) {
+            serverMovingAngle = normalizeAngle(180-(Math.atan((yspeed1/-xspeed1))*180/Math.PI));
         }else {
-            double angle1 = movingAngle-carAngle;
-            double angle2 = carAngle-movingAngle;
-            angle1 = normalizeAngle(angle1);
-            angle2 = normalizeAngle(angle2);
-
-            if(angle1>angle2) {
-                double gripSpeed = angle2/10;
-                if(gripSpeed<grip) {
-                    gripSpeed = grip;
-                }
-                movingAngle+=gripSpeed;
-                if(angle2>90) {
-                    slowdown();
-                }
-            }else {
-                double gripSpeed = angle1/10;
-                if(gripSpeed<grip) {
-                    gripSpeed = grip;
-                }
-                movingAngle-=grip;
-                if(angle1>90) {
-                    slowdown();
-                }
-            }
+            serverMovingAngle = normalizeAngle(Math.atan((yspeed1/xspeed1))*180/Math.PI);
         }
-        movingAngle = normalizeAngle(movingAngle);
-        carAngle = normalizeAngle(carAngle);
+        serverSpeed = Math.sqrt(xspeed1*xspeed1 + yspeed1*yspeed1)-steerspeed;
 
-        image = (int)((carAngle+90)/10);
-        if(image>35) {
-            image-=36;
-        }
-
-        posX += speed*Math.cos((movingAngle)*Math.PI/180);
-        posY += speed*Math.sin((movingAngle)*Math.PI/180);
-
-        if(posX<0) {
-            posX=0;
-        }else if(posX+32>cont.getScrollingSizeX()) {
-            posX=cont.getScrollingSizeX()-32;
-        }
-        if(posY<0) {
-            posY=0;
-        }else if(posY+32>cont.getScrollingSizeY()) {
-            posY=cont.getScrollingSizeY()-32;
-        }
-        bounds.setLocation((int)posX+10,(int)(posY)+10);
+        clientUpdate();
+        bounds.setLocation((int)serverPosX+10,(int)(serverPosY)+10);
     }
 
-    public void draw(Graphics g,int level)
-    {
-        if(level==0) {
-            g.setClip(cont.getOffsetX(),cont.getOffsetY(),cont.getDrawingSizeX(),cont.getDrawingSizeY());
-            //g.setColor(Color.white);
-            //g.drawRect(cont.getPixelDrawingPositionX(bounds.x), cont.getPixelDrawingPositionY(bounds.y),bounds.width,bounds.height);
-            //g.drawString(String.valueOf((int)movingAngle),
-            //        cont.getPixelDrawingPositionX((int)posX+32),cont.getPixelDrawingPositionY((int)posY));
-            subImages.drawImage(g,image,cont.getPixelDrawingPositionX((int)posX),cont.getPixelDrawingPositionY((int)posY));
 
-        }
-    }
-
+    /**
+     * Get current bounding rectangle of the car
+     * @return Bounding rectangle of the car
+     */
     public Rectangle getBounds() {
         return bounds;
     }
 
-    public void handleCollision(CollisionObjectInterface object) {
-        if(!bNextAvailable) {
-            double angle = object.getCollisionAngle();
-            double speed = object.getCollisionSpeed();
+    /**
+     * Get bounding rectangle of the car with the specified offset
+     * @param x The x pixel offset
+     * @param y The y pixel offset
+     * @return The bounding rectangle of the car
+     */
+    public Rectangle getBounds(int x,int y) {
+        if(!isInsideContainer(x,y)) {
+            return null;
+        }
+        boundsCustom.setLocation(x+10,y+10);
+        return boundsCustom;
+    }
 
-            double xspeed1 = this.speed*Math.cos((this.movingAngle)*Math.PI/180);
-            double yspeed1 = this.speed*Math.sin((this.movingAngle)*Math.PI/180);
-            double xspeed2 = speed*Math.cos((angle)*Math.PI/180);
-            double yspeed2 = speed*Math.sin((angle)*Math.PI/180);
-            double newxspeed;
-            double newyspeed;
-            if((xspeed1<0 && xspeed2>0)||(xspeed1>0 && xspeed2<0)) {
-                newxspeed = xspeed1+xspeed2;
-            }else {
-                newxspeed = (xspeed1+xspeed2)/2;
-            }
-            if((yspeed1<0 && yspeed2>0)||(yspeed1>0 && yspeed2<0)) {
-                newyspeed = yspeed1+yspeed2;
-            }else {
-                newyspeed = (yspeed1+yspeed2)/2;
-            }
-            nextSpeed = Math.sqrt(newxspeed*newxspeed + newyspeed*newyspeed);
-            nextMovingAngle = Math.atan2(newxspeed,newyspeed)*180/Math.PI;
-            if(nextMovingAngle<0) {
-                nextMovingAngle+=360;
-            }
-            if(Math.abs(nextSpeed-speed)>0.05) {
-                bNextAvailable=true;
-            }
+    public void handleCollision(CollisionObjectInterface object) {
+        double angle = object.getCollisionAngle();
+        double speed = object.getCollisionSpeed();
+
+        double xspeed1 = serverSpeed*Math.cos((serverMovingAngle)*Math.PI/180);
+        double yspeed1 = serverSpeed*Math.sin((serverMovingAngle)*Math.PI/180);
+        double xspeed2 = speed*Math.cos((angle)*Math.PI/180);
+        double yspeed2 = speed*Math.sin((angle)*Math.PI/180);
+        double newxspeed;
+        double newyspeed;
+        if((xspeed1<0 && xspeed2>0)||(xspeed1>0 && xspeed2<0)) {
+            newxspeed = xspeed1+xspeed2;
+        }else {
+            newxspeed = (xspeed1+xspeed2)/2;
+        }
+        if(Math.abs(xspeed1)>Math.abs(xspeed2)) {
+            newxspeed-=newxspeed/4;
+        }else {
+            newxspeed+=newxspeed/4;
+        }
+        if((yspeed1<0 && yspeed2>0)||(yspeed1>0 && yspeed2<0)) {
+            newyspeed = yspeed1+yspeed2;
+        }else {
+            newyspeed = (yspeed1+yspeed2)/2;
+        }
+        if(Math.abs(yspeed1)>Math.abs(yspeed2)) {
+            newyspeed-=newyspeed/4;
+        }else {
+            newyspeed+=newyspeed/4;
+        }
+        nextSpeed = Math.sqrt(newxspeed*newxspeed + newyspeed*newyspeed);
+        if(newxspeed<0) {
+            nextMovingAngle = normalizeAngle(180-(Math.atan((newyspeed/-newxspeed))*180/Math.PI));
+        }else {
+            nextMovingAngle = normalizeAngle(Math.atan((newyspeed/newxspeed))*180/Math.PI);
+        }
+
+        if(Math.abs(newxspeed-xspeed1)>0.2 || Math.abs(newyspeed-yspeed1)>0.2) {
+        //final double MINCOLLISIONSPEED = -1.0;
+        //if(Math.abs(xspeed1)>MINCOLLISIONSPEED || Math.abs(xspeed2)>MINCOLLISIONSPEED || Math.abs(yspeed1)>MINCOLLISIONSPEED || Math.abs(yspeed2)>MINCOLLISIONSPEED) {
+            serverPosX = oldPosX;
+            serverPosY = oldPosY;
+            bNextAvailable=true;
         }
     }
 
     public double getCollisionAngle() {
-        return movingAngle;
+        return serverMovingAngle;
     }
 
     public double getCollisionSpeed() {
-        return speed;
+        return serverSpeed;
     }
 
     public double getCollisionWeight() {
@@ -255,5 +268,14 @@ public class Car implements CollisionObjectInterface,FrictionSensitiveInterface 
 
     public void setFriction(double friction) {
         this.friction = friction;
+    }
+
+    public void applyCollisions() {
+        if(bNextAvailable) {
+            serverMovingAngle = nextMovingAngle;
+            serverSpeed = nextSpeed;
+            bNextAvailable=false;
+            serverUpdate();
+        }
     }
 }
