@@ -69,6 +69,18 @@
     <definition name=".user.editpicturestorage" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/gallery/picturestorages/editstorage.jsp"/>
     </definition>
+    <definition name=".user.viewfilters" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/filter/viewfilters.jsp"/>
+    </definition>
+    <definition name=".user.editfilter" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/filter/editfilter.jsp"/>
+    </definition>
+    <definition name=".user.viewgalleryfilters" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/filter/viewgalleryfilters.jsp"/>
+    </definition>
+    <definition name=".user.editgalleryfilter" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/filter/editgalleryfilter.jsp"/>
+    </definition>
     <definition name=".user.viewpictures" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/gallery/gallerycategorymenu.jsp"/>
     </definition>
