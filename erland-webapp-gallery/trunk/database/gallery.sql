@@ -88,6 +88,7 @@ CREATE TABLE galleries (
   copyright longtext default NULL,
   scaleExifThumbnails tinyint(1) NOT NULL default '0',
   useExifThumbnails tinyint(1) NOT NULL default '0',
+  usecachelargeimages tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
