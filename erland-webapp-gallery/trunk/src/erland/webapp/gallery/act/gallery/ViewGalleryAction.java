@@ -25,11 +25,14 @@ import erland.webapp.common.QueryFilter;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.gallery.act.gallery.category.ViewCategoriesInterface;
+import erland.webapp.gallery.act.gallery.category.CategoryHelper;
 import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.entity.gallery.GalleryCategoryAssociation;
 import erland.webapp.gallery.entity.gallery.GalleryInterface;
 import erland.webapp.gallery.entity.gallery.category.Category;
 import erland.webapp.gallery.fb.gallery.GalleryFB;
+import erland.webapp.gallery.fb.gallery.GalleryPB;
+import erland.webapp.gallery.fb.gallery.category.CategoryPB;
 import erland.webapp.usermgmt.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,5 +61,32 @@ public class ViewGalleryAction extends BaseAction {
             return;
         }
         PropertyUtils.copyProperties(fb,gallery);
+        if(gallery.getReferencedGallery()!=null&&gallery.getReferencedGallery().intValue()!=0) {
+            QueryFilter filter = new QueryFilter("allforgallery");
+            filter.setAttribute("gallery",gallery.getId());
+            EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-gallerycategoryassociation").search(filter);
+            String[] categories = new String[entities.length];
+            for (int i = 0; i < entities.length; i++) {
+                GalleryCategoryAssociation entity = (GalleryCategoryAssociation) entities[i];
+                categories[i] = String.valueOf(entity.getCategory());
+            }
+            fb.setCategories(categories);
+        }
+
+        GalleryInterface[] galleries = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",gallery.getUsername(),"allforuser");
+        GalleryPB[] pbGalleries = new GalleryPB[galleries.length];
+        for (int i = 0; i < galleries.length; i++) {
+            pbGalleries[i] = new GalleryPB();
+            PropertyUtils.copyProperties(pbGalleries[i], galleries[i]);
+        }
+        request.setAttribute("galleriesPB", pbGalleries);
+
+        Category[] categories = CategoryHelper.searchCategories(getEnvironment(),gallery.getReferencedGallery()!=null&&gallery.getReferencedGallery().intValue()!=0?gallery.getReferencedGallery():gallery.getId(),"allforgalleryorderedbyname");
+        CategoryPB[] pbCategories = new CategoryPB[categories.length];
+        for (int i = 0; i < categories.length; i++) {
+            pbCategories[i] = new CategoryPB();
+            PropertyUtils.copyProperties(pbCategories[i], categories[i]);
+        }
+        request.setAttribute("categoriesPB", pbCategories);
     }
 }
