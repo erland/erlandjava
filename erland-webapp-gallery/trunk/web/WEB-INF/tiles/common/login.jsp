@@ -3,12 +3,10 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
-<%@ page session="true" %>
-
 <p class="normal">
 <erland-common:expandhtml><erland-common:cfgresource name="welcometext"/></erland-common:expandhtml>
 <center>
-<jsp:include page="viewuseraccounts.jsp"/>
+<tiles:insert page="/WEB-INF/tiles/common/viewuseraccounts.jsp"/>
 <form name="loginForm" action="j_security_check" method="POST">
 <table class="no-border">
 <tr><td><bean:message key="gallery.login.username"/></td><td>

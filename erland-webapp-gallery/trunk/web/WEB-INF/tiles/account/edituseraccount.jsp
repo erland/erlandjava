@@ -3,7 +3,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
-<jsp:include page="/WEB-INF/tiles/common/validationerrors.jsp" />
+<tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/user/edituseraccount" method="POST">
     <table>
     <html:hidden property="username"/>

@@ -1,13 +1,14 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html" %>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
 <p class="normal"><bean:message key="gallery.gallery.import.edit.description01"/> <a class="bold-link" href="http://www.photools.com/" target="_blank">IMatch</a>.
 <p class="normal"><bean:message key="gallery.gallery.import.edit.description02"/>
 <p class="normal"><bean:message key="gallery.gallery.import.edit.description03"/>
 <br>
-<jsp:include page="/WEB-INF/tiles/common/validationerrors.jsp" />
+<tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/user/importpictures" method="POST">
     <html:hidden property="gallery"/>
     <table>

@@ -5,7 +5,7 @@
 
 <p class="bold"><bean:message key="gallery.account.new.title"/></p>
 <p class="normal"><bean:message key="gallery.account.new.mandatory-text"/></p>
-<jsp:include page="/WEB-INF/tiles/common/validationerrors.jsp" />
+<tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/guest/newuseraccount" method="POST">
     <table>
     <tr><td><bean:message key="gallery.account.new.username"/></td><td>
