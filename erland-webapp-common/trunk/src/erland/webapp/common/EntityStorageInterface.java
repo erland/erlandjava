@@ -10,4 +10,6 @@ public interface EntityStorageInterface {
     boolean store(EntityInterface entity);
     boolean delete(EntityInterface entity);
     EntityInterface[] search(FilterInterface filter);
+    boolean update(FilterInterface filter, EntityInterface entity);
+    boolean delete(FilterInterface filter);
 }
