@@ -217,7 +217,7 @@ public class CrackOut extends Applet
 			this.cookies = new CookieHandler(this);
 		}else {
 			if(!inApplet) {
-				this.cookies = new CrackOutParameterStorage("data.xml");
+				this.cookies = new ParameterStorageGroup(new FileStorage("data.xml"),"crackout","level");
 			}
 		}
 		//buttons = new ImageObject[2];
