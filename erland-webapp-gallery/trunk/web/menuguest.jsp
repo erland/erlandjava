@@ -22,4 +22,25 @@
             <%
         }
     %>
+    <%
+    if(request.getSession().getAttribute("guestuser")==null) {
+        %>
+        <tr>
+        <td class="left-margin"></td>
+        <td colspan="3">
+        <a href="portal?do=loginasguest<%=user!=null?"&user="+user:""%>" class="bold-link">Login</a>
+        </td>
+        </tr>
+        <%
+    }else {
+        %>
+        <tr>
+        <td class="left-margin"></td>
+        <td colspan="3">
+        <a href="portal?do=logoutguest<%=user!=null?"&user="+user:""%>" class="bold-link">Logout</a>
+        </td>
+        </tr>
+        <%
+    }
+    %>
 </table>
