@@ -82,6 +82,7 @@ public class SimpleXMLParser implements XMLParserInterface {
         boolean bEndElementFound = false;
         boolean bSimpleEndElementFound = false;
         boolean bPreprocessorDirective = false;
+        int mainStartNodes = 0;
         int startNodes = 0;
         int endNodes = 0;
         handler.startDocument();
@@ -108,10 +109,16 @@ public class SimpleXMLParser implements XMLParserInterface {
                         }else if(bSimpleEndElementFound) {
                             handler.startElement(name,attributes!=null&&attributes.size()>0?attributes:null);
                             handler.endElement(name);
+                            if(startNodes==endNodes) {
+                                mainStartNodes++;
+                            }
                             startNodes++;
                             endNodes++;
                         }else {
                             handler.startElement(name,attributes!=null&&attributes.size()>0?attributes:null);
+                            if(startNodes==endNodes) {
+                                mainStartNodes++;
+                            }
                             startNodes++;
                         }
                         name=null;
@@ -171,7 +178,7 @@ public class SimpleXMLParser implements XMLParserInterface {
             pos++;
         }
         handler.endDocument();
-        if(startNodes==endNodes && startNodes>0) {
+        if(startNodes==endNodes && startNodes>0 && mainStartNodes==1) {
             return true;
         }else {
             return false;
