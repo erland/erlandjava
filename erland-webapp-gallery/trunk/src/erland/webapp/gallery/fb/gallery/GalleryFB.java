@@ -35,7 +35,14 @@ public class GalleryFB extends BaseFB {
     private Integer referencedGallery;
     private String defaultResolution;
     private Integer maxWidth;
-    private String[] categories;
+    private Float thumbnailCompression;
+    private Float compression;
+    private Integer officialCategory;
+    private Integer officialGuestCategory;
+    private Integer[] categories;
+    private String skin;
+    private Boolean antialias;
+    private Boolean thumbnailAntialias;
 
     public Integer getId() {
         return id;
@@ -141,12 +148,138 @@ public class GalleryFB extends BaseFB {
         this.defaultResolution = defaultResolution;
     }
 
-    public String[] getCategories() {
+    public Integer[] getCategories() {
         return categories;
     }
 
-    public void setCategories(String[] categories) {
+    public void setCategories(Integer[] categories) {
         this.categories = categories;
+    }
+
+    public String[] getCategoriesDisplay() {
+        if(categories!=null) {
+            String[] result = new String[categories.length];
+            for (int i = 0; i < categories.length; i++) {
+                result[i] = ServletParameterHelper.asString(categories[i],null);
+            }
+            return result;
+        }else {
+            return null;
+        }
+    }
+    public void setCategoriesDisplay(String[] categoriesDisplay) {
+        if(categoriesDisplay!=null) {
+            this.categories = new Integer[categoriesDisplay.length];
+            for (int i = 0; i < categoriesDisplay.length; i++) {
+                this.categories[i] = ServletParameterHelper.asInteger(categoriesDisplay[i],null);
+            }
+        }else {
+            this.categories = null;
+        }
+    }
+
+    public Float getThumbnailCompression() {
+        return thumbnailCompression;
+    }
+
+    public void setThumbnailCompression(Float thumbnailCompression) {
+        this.thumbnailCompression = thumbnailCompression;
+    }
+
+    public String getThumbnailCompressionDisplay() {
+        return ServletParameterHelper.asString(thumbnailCompression,null);
+    }
+
+    public void setThumbnailCompressionDisplay(String thumbnailCompressionDisplay) {
+        this.thumbnailCompression = ServletParameterHelper.asFloat(thumbnailCompressionDisplay,null);
+    }
+
+    public Float getCompression() {
+        return compression;
+    }
+
+    public void setCompression(Float compression) {
+        this.compression = compression;
+    }
+
+    public String getCompressionDisplay() {
+        return ServletParameterHelper.asString(compression,null);
+    }
+
+    public void setCompressionDisplay(String compressionDisplay) {
+        this.compression = ServletParameterHelper.asFloat(compressionDisplay,null);
+    }
+
+    public Integer getOfficialCategory() {
+        return officialCategory;
+    }
+
+    public void setOfficialCategory(Integer officialCategory) {
+        this.officialCategory = officialCategory;
+    }
+
+    public String getOfficialCategoryDisplay() {
+        return ServletParameterHelper.asString(officialCategory,null);
+    }
+
+    public void setOfficialCategoryDisplay(String officialCategoryDisplay) {
+        this.officialCategory = ServletParameterHelper.asInteger(officialCategoryDisplay,null);
+    }
+
+    public Integer getOfficialGuestCategory() {
+        return officialGuestCategory;
+    }
+
+    public void setOfficialGuestCategory(Integer officialGuestCategory) {
+        this.officialGuestCategory = officialGuestCategory;
+    }
+
+    public String getOfficialGuestCategoryDisplay() {
+        return ServletParameterHelper.asString(officialGuestCategory,null);
+    }
+
+    public void setOfficialGuestCategoryDisplay(String officialGuestCategoryDisplay) {
+        this.officialGuestCategory = ServletParameterHelper.asInteger(officialGuestCategoryDisplay,null);
+    }
+
+    public String getSkin() {
+        return skin;
+    }
+
+    public void setSkin(String skin) {
+        this.skin = skin;
+    }
+
+    public Boolean getAntialias() {
+        return antialias;
+    }
+
+    public void setAntialias(Boolean antialias) {
+        this.antialias = antialias;
+    }
+
+    public String getAntialiasDisplay() {
+        return ServletParameterHelper.asString(antialias,null);
+    }
+
+    public void setAntialiasDisplay(String antialiasDisplay) {
+        this.antialias = ServletParameterHelper.asBoolean(antialiasDisplay,Boolean.FALSE);
+    }
+
+    public Boolean getThumbnailAntialias() {
+        return thumbnailAntialias;
+    }
+
+    public void setThumbnailAntialias(Boolean thumbnailAntialias) {
+        this.thumbnailAntialias = thumbnailAntialias;
+    }
+
+    public String getThumbnailAntialiasDisplay() {
+        return ServletParameterHelper.asString(thumbnailAntialias,null);
+    }
+
+    public void setThumbnailAntialiasDisplay(String thumbnailAntialiasDisplay) {
+        this.thumbnailAntialias = ServletParameterHelper.asBoolean(thumbnailAntialiasDisplay,Boolean.FALSE);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
@@ -160,5 +293,12 @@ public class GalleryFB extends BaseFB {
         topCategory = null;
         defaultResolution = null;
         maxWidth = null;
+        thumbnailCompression = null;
+        compression = null;
+        officialCategory = null;
+        officialGuestCategory = null;
+        skin = null;
+        antialias = Boolean.FALSE;
+        thumbnailAntialias = Boolean.FALSE;
     }
 }
