@@ -320,7 +320,7 @@ public class TableGridTag extends TagSupport {
                     } catch (IllegalAccessException e) {
                         LOG.error("Unable to get property "+rowIterationsProperty,e);
                     } catch (InvocationTargetException e) {
-                        LOG.error("Unable to get property "+´rowIterationsProperty,e);
+                        LOG.error("Unable to get property "+rowIterationsProperty,e);
                     } catch (NoSuchMethodException e) {
                         LOG.error("Unable to get property "+rowIterationsProperty,e);
                     }
