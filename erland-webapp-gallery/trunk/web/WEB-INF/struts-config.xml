@@ -11,6 +11,8 @@
         <form-bean name="newUserAccountFB" type="erland.webapp.gallery.fb.account.AccountFB"/>
         <form-bean name="userAccountFB" type="erland.webapp.gallery.fb.account.AccountFB"/>
         <form-bean name="storageFB" type="erland.webapp.gallery.fb.gallery.picturestorage.PictureStorageFB"/>
+        <form-bean name="filterFB" type="erland.webapp.gallery.fb.gallery.filter.FilterFB"/>
+        <form-bean name="galleryFilterFB" type="erland.webapp.gallery.fb.gallery.filter.GalleryFilterFB"/>
         <form-bean name="guestAccountFB" type="erland.webapp.gallery.fb.guestaccount.GuestAccountFB"/>
         <form-bean name="pictureFB" type="erland.webapp.gallery.fb.gallery.picture.PictureFB"/>
         <form-bean name="galleryFB" type="erland.webapp.gallery.fb.gallery.GalleryFB"/>
@@ -135,6 +137,9 @@
             <forward name="mainMenu-users" path="/do/user/viewuseraccounts"/>
             <forward name="mainMenu-guestusers" path="/do/user/viewguestaccounts"/>
             <forward name="mainMenu-storages" path="/do/user/viewpicturestorages"/>
+            <forward name="mainMenu-storages-new" path="/do/user/newpicturestorage"/>
+            <forward name="mainMenu-filters" path="/do/user/viewfilters"/>
+            <forward name="mainMenu-filters-new" path="/do/user/newfilter"/>
             <forward name="mainMenu-logout" path="/do/logout"/>
             <forward name="success" path=".user.index"/>
         </action>
@@ -648,6 +653,97 @@
             validate="false">
 
             <forward name="success" path="/do/user/viewpicturestorages"/>
+        </action>
+
+        <action
+            path="/user/viewfilters"
+            type="erland.webapp.gallery.act.gallery.filter.SearchFiltersAction">
+
+            <forward name="success" path=".user.viewfilters"/>
+        </action>
+
+        <action
+            path="/user/viewfilter"
+            type="erland.webapp.gallery.act.gallery.filter.ViewFilterAction"
+            name="filterFB"
+            validate="false">
+
+            <forward name="success" path=".user.editfilter"/>
+        </action>
+
+        <action
+            path="/user/newfilter"
+            type="org.apache.struts.actions.ForwardAction"
+            name="filterFB"
+            validate="false"
+            parameter=".user.editfilter">
+        </action>
+
+        <action
+            path="/user/editfilter"
+            type="erland.webapp.gallery.act.gallery.filter.EditFilterAction"
+            name="filterFB"
+            input=".user.editfilter"
+            validate="true">
+
+            <forward name="success" path="/do/user/viewfilters"/>
+        </action>
+
+        <action
+            path="/user/removefilter"
+            type="erland.webapp.gallery.act.gallery.filter.RemoveFilterAction"
+            name="filterFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/viewfilters"/>
+        </action>
+
+        <action
+            path="/user/viewgalleryfilters"
+            type="erland.webapp.gallery.act.gallery.filter.SearchGalleryFiltersAction"
+            name="menuFB"
+            validate="false">
+
+            <forward name="new-filter-link" path="/do/user/newgalleryfilter?gallery={gallery}"/>
+
+            <forward name="success" path=".user.viewgalleryfilters"/>
+        </action>
+
+        <action
+            path="/user/viewgalleryfilter"
+            type="erland.webapp.gallery.act.gallery.filter.ViewGalleryFilterAction"
+            name="galleryFilterFB"
+            validate="false">
+
+            <forward name="success" path=".user.editgalleryfilter"/>
+        </action>
+
+        <action
+            path="/user/newgalleryfilter"
+            type="erland.webapp.gallery.act.gallery.filter.NewGalleryFilterAction"
+            name="galleryFilterFB"
+            validate="false">
+
+            <forward name="success" path=".user.editgalleryfilter"/>
+        </action>
+
+        <action
+            path="/user/editgalleryfilter"
+            type="erland.webapp.gallery.act.gallery.filter.EditGalleryFilterAction"
+            name="galleryFilterFB"
+            input=".user.editgalleryfilter"
+            validate="true">
+
+            <forward name="success" path="/do/user/viewgalleryfilters?gallery={gallery}"/>
+        </action>
+
+        <action
+            path="/user/removegalleryfilter"
+            type="erland.webapp.gallery.act.gallery.filter.RemoveGalleryFilterAction"
+            name="galleryFilterFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/viewgalleryfilters"/>
         </action>
 
         <action
