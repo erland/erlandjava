@@ -1,1 +1,0 @@
-<div class="bold">Välkommen till min akvariedagbokssida</div>
