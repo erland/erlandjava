@@ -22,7 +22,6 @@
     <orderEntry type="module" module-name="WebCommon" />
     <orderEntry type="module" module-name="util" />
     <orderEntry type="module" module-name="UserMgmt" />
-    <orderEntry type="library" name="Generic" level="application_server_libraries" />
     <orderEntry type="library" name="wsdl4j" level="application" />
     <orderEntry type="library" name="axis" level="application" />
     <orderEntryProperties />
@@ -46,10 +45,6 @@
       <attribute name="URI" value="/WEB-INF/lib" />
     </containerElement>
     <containerElement type="library" level="application" name="commons-logging">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib" />
-    </containerElement>
-    <containerElement type="library" level="application" name="Dom4J">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib" />
     </containerElement>
