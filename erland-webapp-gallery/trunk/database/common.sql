@@ -22,7 +22,7 @@ CREATE TABLE descriptiontags (
 CREATE TABLE resources (
   application varchar(100) NOT NULL default '',
   id varchar(100) NOT NULL default '',
-  value varchar(255) NOT NULL default '',
+  value longtext NOT NULL,
   PRIMARY KEY  (application,id)
 ) TYPE=MyISAM;
 
