@@ -31,6 +31,8 @@ public class GalleryFB extends ValidatorForm {
     private Boolean official;
     private Integer topCategory;
     private Integer referencedGallery;
+    private String defaultResolution;
+    private Integer maxWidth;
     private String[] categories;
 
     public Integer getId() {
@@ -125,6 +127,34 @@ public class GalleryFB extends ValidatorForm {
         }
     }
 
+    public Integer getMaxWidth() {
+        return maxWidth;
+    }
+
+    public void setMaxWidth(Integer maxWidth) {
+        this.maxWidth = maxWidth;
+    }
+
+    public String getMaxWidthDisplay() {
+        return maxWidth!=null?maxWidth.toString():null;
+    }
+
+    public void setMaxWidthDisplay(String maxWidthDisplay) {
+        try {
+            this.maxWidth = Integer.valueOf(maxWidthDisplay);
+        } catch (NumberFormatException e) {
+            this.maxWidth = null;
+        }
+    }
+
+    public String getDefaultResolution() {
+        return defaultResolution;
+    }
+
+    public void setDefaultResolution(String defaultResolution) {
+        this.defaultResolution = defaultResolution;
+    }
+
     public String[] getCategories() {
         return categories;
     }
@@ -142,5 +172,7 @@ public class GalleryFB extends ValidatorForm {
         referencedGallery = null;
         title = null;
         topCategory = null;
+        defaultResolution = null;
+        maxWidth = null;
     }
 }
