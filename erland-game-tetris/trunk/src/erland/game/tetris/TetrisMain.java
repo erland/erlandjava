@@ -132,23 +132,13 @@ public class TetrisMain implements GamePanelInterface {
      * @param m The BlockMatrix to draw the logo in
      */
     protected void makeTitle(BlockMatrix m) {
-        //XXXXX-XXXXX-XXXXX-XXXX----X----XXXX
-        //--X---X-------X---X---X---X---X----
-        //--X---XXXX----X---XXXX----X----XXX-
-        //--X---X-------X---X--X----X-------X
-        //--X---XXXXX---X---X---X---X---XXXX-
+        //XXXXX-XXXXX-XXXX----X----XXXX
+        //X-------X---X---X---X---X----
+        //XXXX----X---XXXX----X----XXX-
+        //X-------X---X--X----X-------X
+        //XXXXX---X---X---X---X---XXXX-
 
-        // "T"
         Color c = Color.red;
-        m.setUsed(0,0,c);
-        m.setUsed(1,0,c);
-        m.setUsed(2,0,c);
-        m.setUsed(3,0,c);
-        m.setUsed(4,0,c);
-        m.setUsed(2,1,c);
-        m.setUsed(2,2,c);
-        m.setUsed(2,3,c);
-        m.setUsed(2,4,c);
         // "E"
         m.setUsed(6,0,c);
         m.setUsed(7,0,c);
