@@ -79,6 +79,10 @@ Data scripts:
   Setup text to show on first page (You might want to change this)
   Setup the native language code to sv (swedish)
   Setup the path to the online help
+  Setup the smtp server to use when sending daily mails (You will have to change this parameter)
+  Setup the from e-mail address to use when sending daily mails (You will have to change this parameter)
+  Setup the subject to use in daily mails
+  Setup the time when daily mails should be sent
 - users_data.sql
   Create a user with username "test" and password "test" and configure it with roles "user" and "manager"
 - tvguide_data.sql
