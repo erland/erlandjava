@@ -28,6 +28,7 @@ import erland.webapp.common.fb.BaseFB;
 public class SelectUserFB extends BaseFB {
     private String user;
     private String skin;
+    private String language;
 
     public String getUser() {
         return user;
@@ -45,9 +46,18 @@ public class SelectUserFB extends BaseFB {
         this.skin = skin;
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         user=null;
         skin = null;
+        language = null;
     }
 }
