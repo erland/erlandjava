@@ -11,7 +11,7 @@
 CREATE TABLE descriptiontags (
   type varchar(100) NOT NULL default '',
   tag varchar(100) NOT NULL default '',
-  description varchar(100) NOT NULL default '',
+  description longtext NOT NULL,
   PRIMARY KEY  (type,tag)
 ) TYPE=MyISAM;
 
