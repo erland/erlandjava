@@ -14,8 +14,6 @@
         <put name="title" value="Nedladdningssidan"/>
         <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
         <put name="menu" value="/WEB-INF/tiles/viewapplicationnames.jsp"/>
-        <put name="footer" value="/WEB-INF/tiles/common/footer.jsp"/>
-        <put name="body" value="/WEB-INF/tiles/body.jsp"/>
     </definition>
 
     <!-- ========================================================== -->
