@@ -30,6 +30,7 @@ import erland.webapp.gallery.entity.gallery.picture.Picture;
 import erland.webapp.gallery.entity.gallery.picturestorage.PictureStorage;
 import erland.webapp.gallery.entity.guestaccount.GuestAccount;
 import erland.webapp.gallery.fb.loader.ImageFB;
+import erland.util.Log;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -80,10 +81,12 @@ public class LoadImageAction extends BaseAction {
                     if(entity!=null) {
                         //OK, authorized guest user logged in
                     }else {
+                        Log.println(this,"User logged in but is not quest");
                         saveErrors(request, Arrays.asList(new String[]{"gallery.loader.invalid-user"}));
                         return;
                     }
                 }else {
+                    Log.println(this,"User logged is not logged in");
                     saveErrors(request, Arrays.asList(new String[]{"gallery.loader.invalid-user"}));
                     return;
                 }
