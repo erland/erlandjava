@@ -81,4 +81,43 @@ public class ServletParameterHelper {
         }
         return sb.toString();
     }
+    public static Boolean asBoolean(String value) {
+        Boolean booleanValue = Boolean.FALSE;
+        if(value!=null && value.equalsIgnoreCase("true")) {
+            booleanValue = Boolean.TRUE;
+        }
+        return booleanValue;
+    }
+
+    public static Integer asInteger(String value) {
+        Integer integerValue = null;
+        if(value!=null && value.length()>0) {
+            integerValue = Integer.valueOf(value);
+        }
+        return integerValue;
+    }
+
+    public static Long asLong(String value) {
+        Long longValue = null;
+        if(value!=null && value.length()>0) {
+            longValue = Long.valueOf(value);
+        }
+        return longValue;
+    }
+
+    public static Double asDouble(String value) {
+        Double doubleValue = null;
+        if(value!=null && value.length()>0) {
+            doubleValue = Double.valueOf(value);
+        }
+        return doubleValue;
+    }
+
+    public static Float asFloat(String value) {
+        Float floatValue = null;
+        if(value!=null && value.length()>0) {
+            floatValue = Float.valueOf(value);
+        }
+        return floatValue;
+    }
 }
