@@ -121,6 +121,15 @@
     <definition name=".user.viewpurchasestats" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/purchase/viewpurchasestats.jsp"/>
     </definition>
+    <definition name=".user.editcontainer" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/container/editcontainer.jsp"/>
+    </definition>
+    <definition name=".user.viewcontainer" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/container/viewcontainer.jsp"/>
+    </definition>
+    <definition name=".guest.viewcontainer" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/container/viewcontainer.jsp"/>
+    </definition>
     <definition name=".user.editgalleryentry" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/gallery/editgalleryentry.jsp"/>
     </definition>
