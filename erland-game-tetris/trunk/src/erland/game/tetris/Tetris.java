@@ -77,7 +77,7 @@ public class Tetris extends Applet
 				cookies = null;
 			}
 		}else {
-			this.cookies = new ParameterStorage("data.xml","tetris");
+			this.cookies = new ParameterStorageString(new FileStorage("data.xml"),"tetris");
 		}
 		container = new BlockContainer(cookies,20,20,10,30,13,1);
 		addKeyListener(new Keyboard());
