@@ -23,4 +23,7 @@ FILTER := ""
 #[BeginFile]SOURCE := "src\\erland\\util\\CookieHandler.java" #[EndFile]
 #[BeginFile]SOURCE := "src\\erland\\util\\ParameterStorage.java" #[EndFile]
 #[BeginFile]SOURCE := "build.xml" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\util\\ImageHandlerInterface.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\util\\ImageHandlerForApplet.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\util\\ImageHandlerForApplication.java" #[EndFile]
 #[EndFolder]
