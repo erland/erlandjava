@@ -12,6 +12,10 @@
                 <column>name</column>
                 <type>String</type>
             </field>
+            <field id="species">
+                <column>species</column>
+                <type>Integer</type>
+            </field>
             <field id="numberOf">
                 <column>numberof</column>
                 <type>Integer</type>
@@ -19,7 +23,7 @@
         </fields>
         <queries>
             <query id="allcurrentforuserandcontainer">
-                <completequerystring>select name,count(*) numberof from inventoryentries entry left join inventoryentryhistory event on entry.id=event.id and username=? left join inventoryentryhistory lastevent on event.id=lastevent.id and event.eventid&lt;lastevent.eventid where event.eventid is not null and lastevent.eventid is null and event.container=? and event.description in (1,5,6,7,8,9) group by entry.name</completequerystring>
+                <completequerystring>select name,species,count(*) numberof from inventoryentries entry left join inventoryentryhistory event on entry.id=event.id and username=? left join inventoryentryhistory lastevent on event.id=lastevent.id and event.eventid&lt;lastevent.eventid where event.eventid is not null and lastevent.eventid is null and event.container=? and event.description in (1,5,6,7,8,9) group by entry.name,entry.species</completequerystring>
                 <orderstring>order by name</orderstring>
                 <fields>
                     <field id="1">

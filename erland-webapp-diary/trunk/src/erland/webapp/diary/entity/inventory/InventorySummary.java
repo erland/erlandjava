@@ -23,6 +23,7 @@ import erland.webapp.common.BaseEntity;
 
 public class InventorySummary extends BaseEntity {
     private String name;
+    private Integer species;
     private Integer numberOf;
 
     public String getName() {
@@ -31,6 +32,14 @@ public class InventorySummary extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(Integer species) {
+        this.species = species;
     }
 
     public Integer getNumberOf() {
