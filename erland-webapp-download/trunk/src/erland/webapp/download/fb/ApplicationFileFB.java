@@ -22,17 +22,30 @@ import erland.webapp.common.fb.BaseFB;
  */
 
 public class ApplicationFileFB extends BaseFB {
+    private String language;
     private String name;
     private String type;
     private String filename;
+    private String url;
 
     public ApplicationFileFB() {}
 
-    public ApplicationFileFB(String name, String type, String filename) {
+    public ApplicationFileFB(String language, String name, String type, String filename, String url) {
+        this.language = language;
         this.name = name;
         this.type = type;
         this.filename = filename;
+        this.url = url;
     }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
     public String getName() {
         return name;
     }
@@ -55,5 +68,13 @@ public class ApplicationFileFB extends BaseFB {
 
     public void setFilename(String name) {
         this.filename = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
