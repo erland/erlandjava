@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.Arrays;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -47,13 +49,27 @@ public class SearchApplicationsAction extends Action {
                 Application entity = (Application) entities[i];
 
                 application.setTitle(entity.getTitle()!=null?entity.getTitle():entity.getName());
+                application.setCategory(entity.getCategory());
                 application.setName(entity.getName());
                 application.setDescription(entity.getDescription());
                 application.setLogo(entity.getLogo());
 
                 applications.add(application);
             }
-            httpServletRequest.getSession().setAttribute("applicationsPB",applications);
+            ApplicationFB[] pb = (ApplicationFB[]) applications.toArray(new ApplicationFB[0]);
+            Arrays.sort(pb,new Comparator() {
+                public int compare(Object o1, Object o2) {
+                    String category1 = ((ApplicationFB)o1).getCategory()!=null?((ApplicationFB)o1).getCategory():"";
+                    String category2 = ((ApplicationFB)o2).getCategory()!=null?((ApplicationFB)o2).getCategory():"";
+                    int order = category1.compareTo(category2);
+                    if(order!=0) {
+                        return order;
+                    }else {
+                        return ((ApplicationFB)o1).getTitle().compareTo(((ApplicationFB)o2).getTitle());
+                    }
+                }
+            });
+            httpServletRequest.getSession().setAttribute("applicationsPB",pb);
             return actionMapping.findForward("success");
         }else {
             return actionMapping.findForward("failure");
