@@ -59,6 +59,14 @@
                 <column>serviceparameters</column>
                 <type>String</type>
             </field>
+            <field id="ipAddr">
+                <column>ipaddr</column>
+                <type>String</type>
+            </field>
+            <field id="hosts">
+                <column>hosts</column>
+                <type>String</type>
+            </field>
             <field id="official">
                 <column>official</column>
                 <type>Boolean</type>

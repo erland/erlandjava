@@ -38,6 +38,8 @@ public class SectionFB extends BaseFB {
     private String serviceDisplay;
     private String serviceParameters;
     private String officialDisplay;
+    private String hosts;
+    private String ipAddr;
 
     public Integer getId() {
         return StringUtil.asInteger(idDisplay, null);
@@ -175,6 +177,22 @@ public class SectionFB extends BaseFB {
         this.serviceParameters = serviceParameters;
     }
 
+    public String getHosts() {
+        return hosts;
+    }
+
+    public void setHosts(String hosts) {
+        this.hosts = hosts;
+    }
+
+    public String getIpAddr() {
+        return ipAddr;
+    }
+
+    public void setIpAddr(String ipAddr) {
+        this.ipAddr = ipAddr;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         idDisplay = null;
@@ -189,5 +207,7 @@ public class SectionFB extends BaseFB {
         officialDisplay = null;
         serviceDisplay = null;
         serviceParameters = null;
+        hosts = null;
+        ipAddr = null;
     }
 }

@@ -45,6 +45,12 @@
     <tr><td><bean:message key="homepage.section.edit.order-no"/></td><td>
     <html:text property="orderNoDisplay"/>
     </td></tr>
+    <tr><td><bean:message key="homepage.section.edit.ipaddr"/></td><td>
+    <html:text property="ipAddr"/>
+    </td></tr>
+    <tr><td><bean:message key="homepage.section.edit.hosts"/></td><td>
+    <html:text property="hosts"/>
+    </td></tr>
     <tr><td><bean:message key="homepage.section.edit.official"/></td><td>
     <html:checkbox property="officialDisplay" value="true"/>
     </td></tr>

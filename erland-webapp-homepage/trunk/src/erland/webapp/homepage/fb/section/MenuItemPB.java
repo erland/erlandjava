@@ -28,6 +28,8 @@ public class MenuItemPB extends BasePB {
     private String nameKey;
     private String path;
     private String user;
+    private String hosts;
+    private String ipAddr;
     private Integer orderNo;
     private MenuItemPB[] childs;
 
@@ -93,5 +95,21 @@ public class MenuItemPB extends BasePB {
 
     public void setOrderNo(Integer orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public String getHosts() {
+        return hosts;
+    }
+
+    public void setHosts(String hosts) {
+        this.hosts = hosts;
+    }
+
+    public String getIpAddr() {
+        return ipAddr;
+    }
+
+    public void setIpAddr(String ipAddr) {
+        this.ipAddr = ipAddr;
     }
 }

@@ -35,6 +35,8 @@ public class Section extends BaseEntity {
     private Integer service;
     private String serviceParameters;
     private Boolean official;
+    private String hosts;
+    private String ipAddr;
 
     public String getUsername() {
         return username;
@@ -138,5 +140,21 @@ public class Section extends BaseEntity {
 
     public void setOfficial(Boolean official) {
         this.official = official;
+    }
+
+    public String getHosts() {
+        return hosts;
+    }
+
+    public void setHosts(String hosts) {
+        this.hosts = hosts;
+    }
+
+    public String getIpAddr() {
+        return ipAddr;
+    }
+
+    public void setIpAddr(String ipAddr) {
+        this.ipAddr = ipAddr;
     }
 }
