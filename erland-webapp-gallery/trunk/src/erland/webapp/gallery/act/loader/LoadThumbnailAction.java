@@ -19,20 +19,27 @@ package erland.webapp.gallery.act.loader;
  *
  */
 
-import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.common.QueryFilter;
+import erland.webapp.common.EntityInterface;
 import erland.webapp.common.image.ImageThumbnail;
 import erland.webapp.common.image.ImageWriteHelper;
+import erland.webapp.common.image.ImageFilterContainerInterface;
 import erland.webapp.gallery.entity.account.UserAccount;
 import erland.webapp.gallery.entity.gallery.picture.Picture;
+import erland.webapp.gallery.entity.gallery.Gallery;
+import erland.webapp.gallery.entity.gallery.filter.GalleryFilter;
+import erland.webapp.gallery.entity.gallery.filter.Filter;
 import erland.webapp.gallery.fb.loader.ThumbnailImageFB;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.awt.image.ImageFilter;
+import java.util.List;
+import java.util.ArrayList;
 
 
 public class LoadThumbnailAction extends LoadImageAction {
@@ -43,13 +50,14 @@ public class LoadThumbnailAction extends LoadImageAction {
     protected ActionForward findSuccess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ThumbnailImageFB fb = (ThumbnailImageFB) form;
         Integer width = fb.getWidth();
+        Gallery gallery = getGallery(request);
         if(getGallery(request).getMaxWidth()!=null && getGallery(request).getMaxWidth().intValue()>0 && width!=null && getGallery(request).getMaxWidth().compareTo(width)<0) {
 
-           width = getGallery(request).getMaxWidth();
+           width = gallery.getMaxWidth();
         }
         try {
             response.setContentType("image/jpeg");
-            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, fb.getUseCache(), fb.getCompression(), getUsername(request), getImageFile(request), getCopyrightText(getUsername(request)), new ImageThumbnail(), response.getOutputStream())) {
+            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, fb.getUseCache(), fb.getCompression(), getUsername(request), getImageFile(request), getCopyrightText(getUsername(request)), new ImageThumbnail(), gallery.getId().toString(),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_PREFILTER),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_POSTFILTER),response.getOutputStream())) {
                 return findFailure(mapping,form,request,response);
             }
         } catch (IOException e) {
@@ -71,5 +79,55 @@ public class LoadThumbnailAction extends LoadImageAction {
             return account.getCopyrightText();
         }
         return null;
+    }
+
+    private class FilterContainer implements ImageFilterContainerInterface {
+        private Integer gallery;
+        private Integer type;
+        private ImageFilter[] filters;
+        public FilterContainer(Integer gallery, Integer type) {
+            this.gallery = gallery;
+            this.type = type;
+            this.filters = null;
+        }
+
+        public ImageFilter[] getFilters() {
+            if(filters==null) {
+                QueryFilter query = null;
+                if(GalleryFilter.TYPE_PREFILTER.equals(type)) {
+                    query = new QueryFilter("allpreforgallery");
+                }else {
+                    query = new QueryFilter("allpostforgallery");
+                }
+                query.setAttribute("gallery",gallery);
+                List filterList = new ArrayList();
+                EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-galleryfilter").search(query);
+                for (int i = 0; i < entities.length; i++) {
+                    GalleryFilter entity = (GalleryFilter) entities[i];
+                    Filter filter = (Filter) getEnvironment().getEntityFactory().create("gallery-filter");
+                    filter.setId(entity.getFilter());
+                    filter = (Filter) getEnvironment().getEntityStorageFactory().getStorage("gallery-filter").load(filter);
+                    if(filter!=null) {
+                        try {
+                            Class cls = Class.forName(filter.getCls());
+                            Object obj = cls.newInstance();
+                            if(obj instanceof ImageFilter) {
+                                filterList.add(obj);
+                            }
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        } catch (InstantiationException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        }
+                    }
+                }
+                if(filterList.size()>0) {
+                    filters =  (ImageFilter[]) filterList.toArray(new ImageFilter[0]);
+                }
+            }
+            return filters;
+        }
     }
 }
