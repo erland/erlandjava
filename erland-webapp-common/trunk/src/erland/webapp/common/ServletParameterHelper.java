@@ -1,6 +1,11 @@
 package erland.webapp.common;
 
 import java.util.Map;
+import java.util.Date;
+import java.util.Locale;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -22,6 +27,7 @@ import java.util.Map;
  */
 
 public class ServletParameterHelper {
+    private final static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public static String replaceDynamicParameters(String address, Map parameters) {
         StringBuffer sb = new StringBuffer(address);
@@ -212,5 +218,49 @@ public class ServletParameterHelper {
             floatValue = Float.valueOf(value);
         }
         return floatValue;
+    }
+
+    public static Date asDate(String value, Date defaultValue) {
+        Date dateValue = defaultValue;
+        if(value!=null) {
+            try {
+                dateValue = dateFormat.parse(value);
+            } catch (ParseException e) {
+            }
+        }
+        return dateValue;
+    }
+
+    public static Date asDate(String value, Date defaultValue, Locale locale) {
+        Date dateValue = defaultValue;
+        if(value!=null) {
+            try {
+                dateValue = DateFormat.getDateInstance(DateFormat.SHORT,locale).parse(value);
+            } catch (ParseException e) {
+            }
+        }
+        return dateValue;
+    }
+
+    public static String asString(Integer value, String defaultValue) {
+        return value!=null?value.toString():defaultValue;
+    }
+    public static String asString(Long value, String defaultValue) {
+        return value!=null?value.toString():defaultValue;
+    }
+    public static String asString(Boolean value, String defaultValue) {
+        return value!=null?value.toString():defaultValue;
+    }
+    public static String asString(Float value, String defaultValue) {
+        return value!=null?value.toString():defaultValue;
+    }
+    public static String asString(Double value, String defaultValue) {
+        return value!=null?value.toString():defaultValue;
+    }
+    public static String asString(Date value, String defaultValue) {
+        return value!=null?dateFormat.format(value):defaultValue;
+    }
+    public static String asString(Date value, String defaultValue, Locale locale) {
+        return value!=null?DateFormat.getDateInstance(DateFormat.SHORT,locale).format(value):defaultValue;
     }
 }
