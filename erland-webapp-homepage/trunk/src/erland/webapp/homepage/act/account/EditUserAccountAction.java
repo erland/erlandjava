@@ -22,6 +22,7 @@ package erland.webapp.homepage.act.account;
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.homepage.entity.account.UserAccount;
 import erland.webapp.homepage.fb.account.AccountFB;
+import erland.util.StringUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -40,6 +41,12 @@ public class EditUserAccountAction extends BaseAction {
             request.getSession().setAttribute("stylesheetPB", account.getStylesheet());
         } else {
             request.getSession().removeAttribute("stylesheetPB");
+        }
+        boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
+        if(useEnglish && StringUtil.asNull(account.getTitleEnglish())!=null) {
+            request.setAttribute("titlePB",account.getTitleEnglish());
+        }else {
+            request.setAttribute("titlePB",account.getTitle());
         }
     }
 }

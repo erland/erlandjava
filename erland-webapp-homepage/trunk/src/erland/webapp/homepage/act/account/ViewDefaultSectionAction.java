@@ -62,7 +62,11 @@ public class ViewDefaultSectionAction extends BaseAction {
         if(useEnglish && StringUtil.asNull(pb.getWelcomeTextEnglish())!=null) {
             pb.setWelcomeText(pb.getWelcomeTextEnglish());
         }
+        if(useEnglish && StringUtil.asNull(pb.getTitleEnglish())!=null) {
+            pb.setTitle(pb.getTitleEnglish());
+        }
         request.getSession().setAttribute("accountPB",pb);
+        request.getSession().setAttribute("titlePB",pb.getTitle());
         if (account.getDefaultSection() == null || account.getDefaultSection().intValue() == 0) {
             saveErrors(request, Arrays.asList(new String[]{"homepage.useraccount.no-default-section"}));
             return;
