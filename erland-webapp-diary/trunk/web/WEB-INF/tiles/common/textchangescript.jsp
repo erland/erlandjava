@@ -16,9 +16,10 @@ var content=new Array()
 %>
 
 function changetext(whichcontent){
-    if (document.all)
-        <%=request.getParameter("textchangescriptchangetag")%>.innerHTML=whichcontent
-    else if (document.layers){
+    if (document.all||document.getElementById) {
+        cross_el=document.getElementById? document.getElementById("<%=request.getParameter("textchangescriptchangetag")%>"):document.all.descriptions
+        cross_el.innerHTML=whichcontent
+    }else if (document.layers){
         document.d1.document.d2.document.write(whichcontent)
         document.d1.document.d2.document.close()
     }
