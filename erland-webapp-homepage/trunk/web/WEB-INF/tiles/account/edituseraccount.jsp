@@ -3,12 +3,18 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
-<div class="propertypage-title"><bean:message key="homepage.account.edit.title"/></div>
+<div class="propertypage-title"><bean:message key="homepage.account.edit.windowtitle"/></div>
 <erland-common:helplink style="propertypage-button" context="account.edit" target="_blank"><bean:message key="homepage.help.button"/></erland-common:helplink>
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/user/edituseraccount" method="POST">
     <table class="propertypage-body">
     <html:hidden property="username"/>
+    <tr><td><bean:message key="homepage.account.edit.title"/></td><td>
+    <html:text property="title" size="80"/>
+    </td></tr>
+    <tr><td><bean:message key="homepage.account.edit.title-english"/></td><td>
+    <html:text property="titleEnglish" size="80"/>
+    </td></tr>
     <tr><td><bean:message key="homepage.account.edit.header-text"/></td><td>
     <html:text property="headerText" size="80"/>
     </td></tr>
