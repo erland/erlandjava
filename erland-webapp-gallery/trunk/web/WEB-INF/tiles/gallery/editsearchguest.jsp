@@ -6,7 +6,6 @@
 
 <html:form action="/guest/viewsearchpictures" method="POST">
     <html:hidden property="user"/>
-    <html:hidden property="guestUser"/>
     <html:hidden property="start"/>
     <html:hidden property="max"/>
     <html:hidden property="gallery"/>
