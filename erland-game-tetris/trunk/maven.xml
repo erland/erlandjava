@@ -27,11 +27,9 @@
 	</postGoal>
 
 	<postGoal name="dist:prepare-src-filesystem">
-	    <!-- Copy bat and jnlp files -->
+	    <!-- Copy bat and files -->
 	    <ant:copy todir="${maven.dist.src.assembly.dir}">
 	      <ant:fileset dir="${pom.dir}">
-	        <ant:include name="*.jnlp"/>
-	        <ant:include name="*.html"/>
 	        <ant:include name="*.bat"/>
 	      </ant:fileset>
 	    </ant:copy>
