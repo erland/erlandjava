@@ -29,6 +29,7 @@ public class AccountFB extends BaseFB {
     private String username;
     private String firstName;
     private String lastName;
+    private String mail;
     private String password1;
     private String password2;
     private String welcomeText;
@@ -59,6 +60,14 @@ public class AccountFB extends BaseFB {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public String getPassword1() {
@@ -142,6 +151,7 @@ public class AccountFB extends BaseFB {
         username = null;
         firstName = null;
         lastName = null;
+        mail = null;
         password1 = null;
         password2 = null;
         welcomeText = null;

@@ -17,6 +17,9 @@
     <tr><td><bean:message key="diary.account.new.lastname"/></td><td>
     <html:text property="lastName"/>
     </td></tr>
+    <tr><td><bean:message key="diary.account.new.mail"/></td><td>
+    <html:text property="mail"/>
+    </td></tr>
     <tr><td><bean:message key="diary.account.new.password1"/></td><td>
     <html:password property="password1"/>
     </td></tr>
