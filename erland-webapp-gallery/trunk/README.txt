@@ -43,26 +43,30 @@ be possible to put all tables in the same database.
 Anyway here are a short description of the scripts:
 
 Table creation scripts:
+- common.sql
+  Creates the tables needed in the database which will be accessed as jdbc/common
 - gallery.sql
   Creates the tables needed in the database which will be accessed as jdbc/gallery
 - users.sql
   Creates the tables needed in the database which will be accessed as jdbc/users
 
 Data scripts:
+- common_data.sql
+  Setup thumbnail cache dir to "D:\users\erland\thumbnails" (You probably want to change this)
+  Creates a row for all exif parameters that should be shown when showing picture information
 - users_data.sql
   Create a user with username "test" and password "test" and configure it with roles "user" and "manager"
 - gallery_data.sql
   Creates a user account for the "test" user.
-  Setup thumbnail cache dir to "D:\users\erland\thumbnails" (You probably want to change this)
-  Creates a row for all exif parameters that should be shown when showing picture information
 
 6. CONFIGURATION OF JDBC DATASOURCES
 ====================================
 You will need to configure tree JDBC datasources in your web-server
+jdbc/common: Should have the tables defined in the file(database\common.sql)
 jdbc/gallery: Should have the tables defined in the file(database\gallery.sql)
 jdbc/user: Should have the tables defined in the file(database\users.sql)
 
-The datasources in my installation points to two different databases in the same
+The datasources in my installation points to tree different databases in the same
 database server, but I think you also could point them to the same database.
 
 Also remember to install the JDBC drivers for your database if you haven't done
@@ -71,7 +75,7 @@ it already
 7. DIRECTORIES
 ==============
 The application will store thumbnails in a directory specified in the resources table in
-the database accessed as jdbc/gallery. You have to make sure that this directory really
+the database accessed as jdbc/common. You have to make sure that this directory really
 exists.
 
 8. THIRD PARTY LIBRARIES
