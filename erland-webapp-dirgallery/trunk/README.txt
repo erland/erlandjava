@@ -33,6 +33,7 @@ more information
 This archive should contain the following files:
 - readme.txt (this file)
 - dirgallery.war (The web application code)
+- src.zip (The web application source code)
 - database/*.sql (A number of database configuration scripts)
 
 5. CONFIGURING OF THE DATABASE
@@ -45,8 +46,8 @@ Anyway here are a short description of the scripts:
 Table creation scripts:
 - dirgallery.sql:
   Creates the tables needed in the datbase which will be accessed as jdbc/dirgallery
-- gallery.sql
-  Creates the tables needed in the database which will be accessed as jdbc/gallery
+- common.sql
+  Creates the tables needed in the database which will be accessed as jdbc/common
 - users.sql
   Creates the tables needed in the database which will be accessed as jdbc/users
 
@@ -55,14 +56,15 @@ Data scripts:
   Create a user with username "test" and password "test" and configure it with roles "user" and "manager"
 - dirgallery_data.sql
   Creates a user account for the "test" user.
-  Setup thumbnail cache dir to "D:\users\erland\thumbnail2" (You probably want to change this)
-- gallery_data.sql
+- common_data.sql
   Creates a row for all exif parameters that should be shown when showing picture information
+  Setup thumbnail cache dir to "D:\users\erland\thumbnail2" (You probably want to change this)
+  And setup the welcome text shown on the first page (You might want to change this also)
 
 6. CONFIGURATION OF JDBC DATASOURCES
 ====================================
 You will need to configure tree JDBC datasources in your web-server
-jdbc/gallery: Should have the tables defined in the file(database\gallery.sql)
+jdbc/common: Should have the tables defined in the file(database\common.sql)
 jdbc/dirgallery: Should have the tables defined in the file(database\dirgallery.sql)
 jdbc/user: Should have the tables defined in the file(database\users.sql)
 
@@ -75,7 +77,7 @@ it already
 7. DIRECTORIES
 ==============
 The application will store thumbnails in a directory specified in the resources table in
-the database accessed as jdbc/dirgallery. You have to make sure that this directory really
+the database accessed as jdbc/common. You have to make sure that this directory really
 exists.
 
 8. THIRD PARTY LIBRARIES
