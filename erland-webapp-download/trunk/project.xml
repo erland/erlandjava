@@ -32,6 +32,7 @@
     A web application for downloading software
   </shortDescription>
 
+  <siteDirectory>\\xp2500\erland/public_html/java/erland-webapp-download</siteDirectory>
   <!-- any mailing lists for the project -->
   <mailingLists/>
   
