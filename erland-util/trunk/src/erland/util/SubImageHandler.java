@@ -1,26 +1,27 @@
 package erland.util;
 
 import java.awt.*;
-import java.util.LinkedList;
 
+/**
+ * Implements a image handler which makes it easier to extract and drag sub images from
+ * a large image
+ * @author Erland Isaksson
+ */
 public class SubImageHandler {
     /** Main images which sub images are extracted from */
-    protected Image image;
+    private Image image;
     /** Width of sub images */
-    protected int width;
+    private int width;
     /** Heigth of sub images */
-    protected int height;
+    private int height;
     /** Number of sub images on each row */
-    protected int noOfX;
+    private int noOfX;
     /** Number of rows with sub images */
-    protected int noOfY;
-    /** Array with all sub images */
-    protected Image[] images;
+    private int noOfY;
 
     /**
      * Creates a image handler which makes it possible to extract sub images
      * from a main image
-     * @param imageCreator The image creator object which should be used to create new images for the sub images
      * @param image The main image to extract sub images from
      * @param width The width of each subimage
      * @param height The height of each subimage
