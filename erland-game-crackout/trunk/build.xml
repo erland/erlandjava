@@ -83,6 +83,24 @@
     <link offline="true" href="file://E:/Egna/Java/Common/game/${docs}" packagelistLoc="E:/Egna/Java/Common/game/${docs}"/>
 	</javadoc>
   </target>
+  <target name="docpublic">
+    <mkdir dir="${docs}"/>
+	<javadoc sourcepath="${src}"
+		packagenames="erland.game.crackout"
+		destdir="${docs}"
+		public="true"
+		author="true"
+		version="true"
+		use="true"
+		windowtitle="${ant.project.name} API"
+		doctitle="${ant.project.name}"
+		classpath="../Common/util/${dist}/util.jar;../Common/game/${dist}/game.jar"
+		bottom="Copyright &#169; 2000 Erland Isaksson. All Rights Reserved.">
+    <link offline="true" href="file://${java.home.jdk.docs.local}" packagelistLoc="${java.home.jdk.docs.local}"/>
+    <link offline="true" href="file://E:/Egna/Java/Common/util/${docs}" packagelistLoc="E:/Egna/Java/Common/util/${docs}"/>
+    <link offline="true" href="file://E:/Egna/Java/Common/game/${docs}" packagelistLoc="E:/Egna/Java/Common/game/${docs}"/>
+	</javadoc>
+  </target>
 
   <target name="clean">
     <!-- Delete the ${build} and ${dist} directory trees -->
