@@ -7,12 +7,12 @@
     <img src="/download/do/viewapplicationlogo?name=<bean:write name="applicationPB" property="name"/>"></img>
 </logic:notEmpty>
 <logic:empty name="applicationPB" property="logo">
-    <p class="title"><bean:write name="applicationPB" property="title"/></p>
+    <p class="propertypage-title"><bean:write name="applicationPB" property="title"/></p>
 </logic:empty>
 
-<p class="normal"><erland-common:expandhtml><bean:write name="applicationPB" property="description"/></erland-common:expandhtml>
+<p class="propertypage-description"><erland-common:expandhtml><bean:write name="applicationPB" property="description"/></erland-common:expandhtml>
 
-<table class="no-border">
+<table class="propertypage-body">
     <logic:iterate name="applicationversionsPB" id="item">
         <tr>
         <td valign="top" nowrap><bean:write name="item" property="version"/></td>
@@ -21,7 +21,7 @@
         <td width="20">&nbsp;</td>
         <td valign="top">
         <logic:iterate name="item" property="files" id="file">
-        <a class="bold-link" href="/download/do/downloadapplication?name=<bean:write name="item" property="name"/>&filename=<bean:write name="file" property="filename"/>"><bean:write name="file" property="filename"/></a>&nbsp;&nbsp;&nbsp;
+        <a class="propertypage-button" href="/download/do/downloadapplication?name=<bean:write name="item" property="name"/>&filename=<bean:write name="file" property="filename"/>"><bean:write name="file" property="filename"/></a>&nbsp;&nbsp;&nbsp;
         </logic:iterate>
         <br>
         <erland-common:expandhtml><bean:write name="item" property="description"/></erland-common:expandhtml>
