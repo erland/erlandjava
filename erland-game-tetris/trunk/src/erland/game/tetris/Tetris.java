@@ -16,18 +16,38 @@ import java.awt.*;
 import java.applet.*;
 import java.awt.event.*;
 
+/**
+ * Main Applet/Application class
+ * @author Erland Isaksson
+ */
 public class Tetris extends Applet 
 	implements Runnable 
 {
-	static boolean inApplet =true;
-	static Frame myFrame;
-	Thread animator;
-	BlockContainer container;
-	Image imag;
-	Graphics offScreen;
-	ParameterValueStorageInterface cookies;
+	/** Indicates if it is running as an applet or application, true indicates applet */
+	protected static boolean inApplet =true;
+	/** The main Frame object if it is running as an application */
+	protected static Frame myFrame;
+	/** The thread that updates the game data at regular intervals */
+	protected Thread animator;
+	/** The main game class that contains all the game logic */
+	protected BlockContainer container;
+	/** Image object for the double buffering mechanism */
+	protected Image imag;
+	/** Graphics object for the double buffering mechanism */
+	protected Graphics offScreen;
+	/** Parameter storage where highscore can be saved */
+	protected ParameterValueStorageInterface cookies;
 
+	/**
+	 * Handles the keyboard events and calls the appropriate
+	 * method in {@link #container}
+	 */
 	class Keyboard extends KeyAdapter {
+		/**
+		 * Handles keyPressed events, will be called when a
+		 * key is pressed on the keyboard
+		 * @param e A KeyEvent
+		 */
 		public void keyPressed(KeyEvent e) {
 			if(e.getKeyCode()==e.VK_LEFT) {
 				container.moveLeft();
@@ -45,6 +65,9 @@ public class Tetris extends Applet
 		}
 	}
 
+	/**
+	 * Initialize class
+	 */
 	public void init() {
 		if(inApplet) {
 			String mayScript = this.getParameter("MAYSCRIPT");
@@ -61,6 +84,10 @@ public class Tetris extends Applet
 		this.setBackground(Color.black);
 	}
 
+	/**
+	 * Draw the graphics
+	 * @param g The Grapics object to draw on
+	 */
 	public void paint(Graphics g) {
 		int width = getSize().width;
 		int height = getSize().height;
@@ -79,6 +106,9 @@ public class Tetris extends Applet
 		g.drawImage(imag,0,0,null);
 	}
 	
+	/**
+	 * Start the application/applet
+	 */
 	public void start()
 	{
 		this.requestFocus();
@@ -88,6 +118,9 @@ public class Tetris extends Applet
 		}
 	}
 	
+	/**
+	 * Stop the application/applet
+	 */
 	public void stop()
 	{
 		if((animator != null) && (animator.isAlive())) {
@@ -95,6 +128,9 @@ public class Tetris extends Applet
 		}
 	}
 	
+	/**
+	 * Main loop for thread
+	 */
 	public void run()
 	{
 		while(animator != null) {
@@ -108,11 +144,21 @@ public class Tetris extends Applet
 			}
 		}
 	}
+	
+	/**
+	 * Calls {@link #paint(Graphics)} to redraw the screen
+	 */
 	public void update(Graphics g)
 	{
 		paint(g);
 	}
 	
+	/**
+	 * Start method if runned as an application.
+	 * Creates a Frame window and initializes the class as if it
+	 * was running in a applet container
+	 * @param args Command line arguments (No arguments available today)
+	 */
 	public static void main(String args[]){
 		/*set a boolean flag to show if you are in an applet or not */
 		inApplet=false;

@@ -2,19 +2,44 @@ package erland.game.tetris;
 
 import java.awt.*;
 
-public abstract class Block
+/**
+ * Represents a tetris block, all Block sub classes should
+ * be derived from this
+ * @author Erland Isaksson
+ */
+abstract class Block
 {
-	int rotation;
-	int x,y;
+	/** rotation angle of block */
+	protected int rotation;
+	/** x position of block(This is a block coordinate and not a pixel coordinate) */
+	protected int x;
+	/** y position of block(This is a block coordinate and not a pixel coordinate) */
+	protected int y;
 
+	/**
+	 * Get the color of the block
+	 * @return The color of the block
+	 */
 	public abstract Color getColor();
-	void init(int x, int y, int rotation)
+	
+	/**
+	 * Initialize block
+	 * @param x x position of block(Block coordinate)
+	 * @param y y position of block(Block coordinate)
+	 * @param rotation rotation angle of block
+	 */
+	protected void init(int x, int y, int rotation)
 	{
 		this.x = x;
 		this.y = y; 
 		this.rotation = rotation;
 	}
 	
+	/**
+	 * Move block once step down
+	 * @param m The BlockMatrix in which the block resides
+	 * @return true/false (Success/Failure)
+	 */
 	public boolean moveDown(BlockMatrix m)
 	{
 		unset(m,x,y,rotation);
@@ -28,6 +53,11 @@ public abstract class Block
 	}
 	
 	
+	/**
+	 * Move the block one step right
+	 * @param m The BlockMatrix in which the block resides
+	 * @return true/false (Success/Failure)
+	 */
 	public boolean moveRight(BlockMatrix m)
 	{
 		unset(m,x,y,rotation);
@@ -40,6 +70,11 @@ public abstract class Block
 		}
 	}
 
+	/**
+	 * Move the block one step left
+	 * @param m The BlockMatrix in which the block resides
+	 * @return true/false (Success/Failure)
+	 */
 	public boolean moveLeft(BlockMatrix m)
 	{
 		unset(m,x,y,rotation);
@@ -52,6 +87,11 @@ public abstract class Block
 		}
 	}
 	
+	/**
+	 * Rotate the block 90 degrees clockwize
+	 * @param m The BlockMatrix in which the block resides
+	 * @return true/false (Success/Failure)
+	 */
 	public boolean rotateRight(BlockMatrix m) 
 	{
 		unset(m,x,y,rotation);
@@ -64,6 +104,11 @@ public abstract class Block
 		}
 	}
 	
+	/**
+	 * Rotate the block 90 degrees counter clockwize
+	 * @param m The BlockMatrix in which the block resides
+	 * @return true/false (Success/Failure)
+	 */
 	public boolean rotateLeft(BlockMatrix m)
 	{
 		unset(m,x,y,rotation);
@@ -76,8 +121,35 @@ public abstract class Block
 		}
 	}	
 	
-	public abstract boolean check(BlockMatrix m, int x, int y, int rotation);
-	public abstract void set(BlockMatrix m, int x, int y, int rotation);
-	public abstract void unset(BlockMatrix m, int x, int y, int rotation);
+	/**
+	 * Check if it is possible to put the block in the specified position and
+	 * rotation angle
+	 * @param m The BlockMatrix in which the block resides
+	 * @param x The x position which should be checked(Block coordinate)
+	 * @param y The y position which should be checked(Block coordinate)
+	 * @param rotaton The rotation angle which should be checked
+	 * @return true/false (Success/Failure)
+	 */
+	protected abstract boolean check(BlockMatrix m, int x, int y, int rotation);
+
+	/**
+	 * Put the block in the specified position and rotation angle
+	 * @param m The BlockMatrix in which the block resides
+	 * @param x The x position (Block coordinate)
+	 * @param y The y position (Block coordinate)
+	 * @param rotaton The rotation angle 
+	 * @return true/false (Success/Failure)
+	 */
+	protected abstract void set(BlockMatrix m, int x, int y, int rotation);
+
+	/**
+	 * Remove the block from the specified position and rotation angle
+	 * @param m The BlockMatrix in which the block resides
+	 * @param x The x position (Block coordinate)
+	 * @param y The y position (Block coordinate)
+	 * @param rotaton The rotation angle 
+	 * @return true/false (Success/Failure)
+	 */
+	protected abstract void unset(BlockMatrix m, int x, int y, int rotation);
 	
 }

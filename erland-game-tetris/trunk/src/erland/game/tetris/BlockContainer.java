@@ -4,49 +4,101 @@ import erland.util.*;
 import java.awt.*;
 import java.math.*;
 
-public class BlockContainer
+/**
+ * This is the main class that handles most of the logic
+ * @author Erland Isaksson
+ */
+class BlockContainer
 {
-	BlockContainerData mainContainer;
-	BlockContainerData previewContainer;
-	BlockContainerData titleContainer;
+	/** Container representing the main game area */
+	protected BlockContainerData mainContainer;
+	/** Container representing the preview block area */
+	protected BlockContainerData previewContainer;
+	/** Container representing the game logo */
+	protected BlockContainerData titleContainer;
 	
-	int squareSize;
-	int offsetX, offsetY;
-	int spaceBetweenSquares;
-	Block block;
-	Block blockNext;
-	boolean bEnd;
-	boolean bStarted;
-	int endBlink;
-	int highScore;
-	int savedHighScore;
-	int score;
-	int level;
-	int rowsThisLevel;
-	final int ROWS_PER_LEVEL=10;
-	int updateCounter;
-	final int MAX_LEVEL=9;
-	final int MAX_SPEED=9;
-	final int END_BLINK_SPEED=10;
-	ParameterValueStorageInterface cookies;
+	/** Size of the squares */
+	protected int squareSize;
 	
+	/** Horizontal drawing offset */
+	protected int offsetX;
+	/** Vertical drawing offset */
+	protected int offsetY;
+	/** Number of pixels between squares */
+	protected int spaceBetweenSquares;
+	/** Current active block in the main game area */
+	protected Block block;
+	/** Current active block in the preview block area */
+	protected Block blockNext;
+	/** true if game is completed or game over has occurred */
+	protected boolean bEnd;
+	/** Indicates if game is running or waiting for user */
+	protected boolean bStarted;
+	
+	/** Counter to handle blinking of text when game is completed or GAME OVER has occurred */
+	protected int endBlink;
+	/** Highscore */
+	protected int highScore;
+	/** Last highscore saved to parameter storage */
+	protected int savedHighScore;
+	/** Current score */
+	protected int score;
+	/** Current level */
+	protected int level;
+	/** Number of rows that has been removed in this level */
+	protected int rowsThisLevel;
+	/** Number of rows that has to be removed before level is increased */
+	protected final int ROWS_PER_LEVEL=10;
+	/** Counter that is increased every update, when it reaches the current game
+	    speed the active block will be moved down one step */
+	protected int updateCounter;
+	/** Number of levels */
+	protected final int MAX_LEVEL=9;
+	/** Maximum block speed */
+	protected final int MAX_SPEED=9;
+	/** Speed of blinking text */
+	protected final int END_BLINK_SPEED=10;
+	
+	/** Storage class for highscore */
+	protected ParameterValueStorageInterface cookies;
+	
+	/**
+	 * Class that keeps track of the color and state on
+	 * all squares in a game area
+	 */
 	class BlockContainerData implements BlockMatrix
 	{
-		boolean matrix[][];
-		Color colorMatrix[][];
+		/** Matrix that keeps track of the state of all squares */
+		protected boolean matrix[][];
+		/** Matrix that keeps track of the colour of all squares */
+		protected Color colorMatrix[][];
+		
+		/**
+		 * Create a new instance
+		 * @param sizeX Number of horizontal squares
+		 * @param sizeY Number of vertical squares
+		 */
 		BlockContainerData(int sizeX, int sizeY) 
 		{
 			matrix = new boolean[sizeX][sizeY];
 			colorMatrix = new Color[sizeX][sizeY];
 		}
-		void clear()
+		
+		/**
+		 * Reset the states on all squares
+		 */
+		public void clear()
 		{
 			for(int y=0;y<getHeight();y++) {
 				clearRow(y);
 			}
 		}
 		
-		void clearRow(int y)
+		/**
+		 * Reset the states on all squares in a row
+		 * @param y Vertical row that should be cleared, 0 is the top row
+		 */
+		public void clearRow(int y)
 		{
 			for(int x=0;x<getWidth();x++) {
 				matrix[x][y]=false;
@@ -70,6 +122,7 @@ public class BlockContainer
 		{
 			return matrix[0].length;
 		}
+		
 		public boolean isUsed(int x, int y)
 		{
 			if(x>=0 && x<matrix.length && y<matrix[0].length) {
@@ -82,6 +135,7 @@ public class BlockContainer
 				return true;
 			}
 		}
+		
 		public void setUsed(int x, int y, Color c)
 		{
 			if(x>=0 && x<matrix.length && y>=0 && y<matrix[0].length) {
@@ -97,7 +151,16 @@ public class BlockContainer
 		}
 	}
 
-
+	/**
+	 * Creates a new instance
+	 * @param cookies The parameter storage that should be used to store highscore
+	 * @param offsetX The horisontal drawing offset
+	 * @param offsetY The vertical drawing offset
+	 * @param sizeX Number of horizontal squares in the main game area
+	 * @param sizeY Number of vertical squares in the main game area
+	 * @param squareSize Square size in pixels
+	 * @param spaceBetweenSquares Number of pixels between each square
+	 */
 	public BlockContainer(ParameterValueStorageInterface cookies, int offsetX, int offsetY, int sizeX,int sizeY, int squareSize, int spaceBetweenSquares)
 	{
 		this.cookies = cookies;
@@ -123,7 +186,11 @@ public class BlockContainer
 		}
 		savedHighScore = highScore;
 	}
-	void makeTitle(BlockMatrix m) {
+	/**
+	 * Draw the tetris logo in the specied BlockMatrix
+	 * @param m The BlockMatrix to draw the logo in
+	 */
+	protected void makeTitle(BlockMatrix m) {
 		//XXXXX-XXXXX-XXXXX-XXXX----X----XXXX
 		//--X---X-------X---X---X---X---X----
 		//--X---XXXX----X---XXXX----X----XXX-
@@ -204,7 +271,11 @@ public class BlockContainer
 		m.setUsed(31,4,c);
 		m.setUsed(32,4,c);
 	}
-	public void init()
+	
+	/**
+	 * Initialize a new game
+	 */
+	protected void init()
 	{
 		bEnd = false;
 		bStarted=true;
@@ -218,6 +289,10 @@ public class BlockContainer
 		block=null;
 		blockNext=null;
 	}
+	
+	/**
+	 * Start a new game, this will only succeed if there is not a game already running
+	 */
 	public void newGame()
 	{
 		if(bEnd || !bStarted) {
@@ -225,6 +300,10 @@ public class BlockContainer
 		}
 	}
 	
+	/**
+	 * Draw all the grapics
+	 * @param g The Grapics object to draw on
+	 */
 	public void draw(Graphics g)
 	{
 		int rightColumnX = offsetX + mainContainer.getWidth()*(squareSize+spaceBetweenSquares)+10;
@@ -301,7 +380,19 @@ public class BlockContainer
 		}
 	}
 
-	public void drawContainer(Graphics g, BlockMatrix m, int offsetX, int offsetY, int squareSize, int spaceBetweenSquares, int borderSize, Color borderColor, Color gridColor)
+	/**
+	 * Draw all grapics in a specific BlockMatrix
+	 * @param g The Graphics object to draw on
+	 * @param m The BlockMatix object to draw
+	 * @param offsetX The horisontal drawing offset
+	 * @param offsetY The vertical drawing offset
+	 * @param squareSize The size of each square in pixels
+	 * @param spaceBetweenSquares Number of pixels between each square
+	 * @param borderSize The size in pixels of the border around the drawn area
+	 * @param borderColor The color of the border
+	 * @param gridColor The color of the grid
+	 */
+	protected void drawContainer(Graphics g, BlockMatrix m, int offsetX, int offsetY, int squareSize, int spaceBetweenSquares, int borderSize, Color borderColor, Color gridColor)
 	{
 		// Draw block container
 		if(borderSize>=0) {
@@ -335,7 +426,10 @@ public class BlockContainer
 			}
 		}
 	}	
-	public void removeCompletedRows()
+	/**
+	 * Removes all completed rows in the main game area and increases score
+	 */
+	protected void removeCompletedRows()
 	{
 		for(int y=mainContainer.getHeight()-1;y>=0;y--) {
 			boolean bCompleted = true;
@@ -372,6 +466,11 @@ public class BlockContainer
 		}
 	}
 	
+	/**
+	 * Updates the game objects. 
+	 * Moves down the active block if it is time to do this.
+	 * Removes all rows completed.
+	 */
 	public void update() {
 		if(!bEnd && bStarted) {
 			updateCounter++;
@@ -409,7 +508,11 @@ public class BlockContainer
 		}
 	}
 
-	Block newBlock()
+	/**
+	 * Creates a new random block
+	 * @return A new Block object
+	 */
+	protected Block newBlock()
 	{
 		Block block;
 		switch((int)(Math.random()*7+1.0)) {
@@ -439,6 +542,10 @@ public class BlockContainer
 		return block;
 	}	
 	
+	/**
+	 * Move the active block in the main game area one step left
+	 * @return true/false (Success/Failure)
+	 */
 	public boolean moveLeft()
 	{
 		if(block != null) {
@@ -447,6 +554,10 @@ public class BlockContainer
 		return false;
 	}
 
+	/**
+	 * Move the active block in the main game area one step right
+	 * @return true/false (Success/Failure)
+	 */
 	public boolean moveRight()
 	{
 		if(block != null) {
@@ -455,6 +566,10 @@ public class BlockContainer
 		return false;
 	}
 
+	/**
+	 * Rotate the active block in the main game area 90 degrees clockwize
+	 * @return true/false (Success/Failure)
+	 */
 	public boolean rotateRight()
 	{
 		if(block != null) {
@@ -462,6 +577,11 @@ public class BlockContainer
 		}
 		return false;
 	}
+
+	/**
+	 * Move the active block in the main game area one step down
+	 * @return true/false (Success/Failure)
+	 */
 	public boolean moveDown()
 	{
 		if(block != null) {

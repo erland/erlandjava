@@ -2,14 +2,22 @@ package erland.game.tetris;
 
 import java.awt.*;
 
-public class Block1 extends Block
+/**
+ * Represents the block:
+ * <br>0x00
+ * <br>xxx0
+ * <br>0000
+ * @author Erland Isaksson
+ */
+class Block1 extends Block
 {
-	static Color color = Color.red;
+	/** The color of the block */
+	protected static Color color = Color.red;
 	public Color getColor()
 	{
 		return color;
 	}
-	public boolean check(BlockMatrix m, int x, int y, int rotation)
+	protected boolean check(BlockMatrix m, int x, int y, int rotation)
 	{
 		if(rotation>=360) {
 			rotation-=360;
@@ -37,7 +45,7 @@ public class Block1 extends Block
 		return false;
 	}
 	
-	public void unset(BlockMatrix m, int x, int y, int rotation)
+	protected void unset(BlockMatrix m, int x, int y, int rotation)
 	{
 		if(rotation>=360) {
 			rotation-=360;
@@ -68,7 +76,7 @@ public class Block1 extends Block
 		}
 	}
 	
-	public void set(BlockMatrix m, int x, int y, int rotation)
+	protected void set(BlockMatrix m, int x, int y, int rotation)
 	{
 		if(rotation>=360) {
 			rotation-=360;
