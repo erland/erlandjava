@@ -9,6 +9,10 @@
         <form-bean name="applicationFileFB" type="erland.webapp.download.fb.ApplicationFileFB"/>
     </form-beans>
 
+    <global-forwards>
+        <forward name="index" path="/do/searchapplications"/>
+    </global-forwards>
+
     <action-mappings>
         <action
             path="/searchapplications"
@@ -49,18 +53,18 @@
         </action>
     </action-mappings>
 
-    <plug-in className="erland.webapp.download.act.WebAppEnvironment">
+    <plug-in className="erland.webapp.common.act.WebAppEnvironmentPlugin">
         <set-property
             property="applicationName"
             value="download"/>
     </plug-in>
-    <plug-in className="erland.webapp.download.act.LogConfigurationPlugin">
+    <plug-in className="erland.webapp.common.act.LogConfigurationPlugin">
         <set-property
             property="logConfigurationFile"
             value="D:/download_log.xml"/>
     </plug-in>
-    <plug-in className="org.apache.struts.tiles.TilesPlugin" >
+    <plug-in className="org.apache.struts.tiles.TilesPlugin">
         <set-property property="definitions-config"
-                         value="/WEB-INF/tiles-defs.xml"/>
+            value="/WEB-INF/tiles-defs.xml"/>
     </plug-in>
 </struts-config>
