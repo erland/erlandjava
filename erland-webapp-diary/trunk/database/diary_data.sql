@@ -17,12 +17,21 @@ INSERT INTO inventoryentryeventtypes VALUES (5,'Lekt');
 INSERT INTO inventoryentryeventtypes VALUES (6,'Yngel');
 INSERT INTO inventoryentryeventtypes VALUES (7,'Uppm%C3%A4tt');
 INSERT INTO inventoryentryeventtypes VALUES (8,'F%C3%B6dd');
+INSERT INTO inventoryentryeventtypes VALUES (9,'Flyttad');
 
 --
 -- Dumping data for table `inventoryentrytypes`
 --
 
 INSERT INTO inventoryentrytypes VALUES (1,'Fisk');
+
+--
+-- Dumping data for table `inventoryentrysexes`
+--
+
+INSERT INTO inventoryentrysexes VALUES (1,'Hane');
+INSERT INTO inventoryentrysexes VALUES (2,'Hona');
+INSERT INTO inventoryentrysexes VALUES (0,'');
 
 --
 -- Dumping data for table `purchaseentrycategories`
