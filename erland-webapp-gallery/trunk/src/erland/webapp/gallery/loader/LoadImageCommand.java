@@ -1,4 +1,5 @@
 package erland.webapp.gallery.loader;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -19,98 +20,104 @@ package erland.webapp.gallery.loader;
  */
 
 import erland.webapp.common.*;
+import erland.webapp.common.image.ImageWriteHelper;
+import erland.webapp.gallery.gallery.Gallery;
+import erland.webapp.gallery.gallery.GalleryHelper;
 import erland.webapp.gallery.gallery.picture.Picture;
 import erland.webapp.gallery.gallery.picturestorage.PictureStorage;
-import erland.webapp.gallery.gallery.GalleryHelper;
-import erland.webapp.gallery.gallery.Gallery;
 import erland.webapp.gallery.guestaccount.GuestAccountHelper;
 import erland.webapp.usermgmt.User;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
-import java.io.*;
-import java.net.URL;
+import java.io.IOException;
 
-public class LoadImageCommand implements CommandInterface, CommandResponseInterface{
+public class LoadImageCommand implements CommandInterface, CommandResponseInterface {
     private WebAppEnvironmentInterface environment;
     private String imageFile;
     private String username;
 
-    public void init(WebAppEnvironmentInterface environment) {
-        this.environment = environment;
-    }
-
     public String execute(HttpServletRequest request) {
         String imageString = request.getParameter("image");
         Integer image = null;
-        if(imageString!=null && imageString.length()>0) {
+        if (imageString != null && imageString.length() > 0) {
             image = Integer.valueOf(imageString);
         }
         Integer gallery = getGalleryId(request);
-        if(image!=null && gallery!=null) {
-            Picture template = (Picture) environment.getEntityFactory().create("picture");
+        if (image != null && gallery != null) {
+            Picture template = (Picture) getEnvironment().getEntityFactory().create("gallery-picture");
             template.setGallery(gallery);
             template.setId(image);
-            Picture picture = (Picture) environment.getEntityStorageFactory().getStorage("picture").load(template);
-            if(picture!=null) {
-                username = request.getParameter("user");
-                if(username==null || username.length()==0) {
+            Picture picture = (Picture) getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").load(template);
+            if (picture != null) {
+                String username = request.getParameter("user");
+                if (username == null || username.length() == 0) {
                     User user = (User) request.getSession().getAttribute("user");
                     username = user.getUsername();
                 }
-                if(!picture.getOfficial().booleanValue()) {
-                    Gallery templateGallery = (Gallery) environment.getEntityFactory().create("gallery");
+                setUsername(username);
+                if (!picture.getOfficial().booleanValue()) {
+                    Gallery templateGallery = (Gallery) getEnvironment().getEntityFactory().create("gallery-gallery");
                     templateGallery.setId(gallery);
-                    Gallery entity = (Gallery) environment.getEntityStorageFactory().getStorage("gallery").load(templateGallery);
-                    if(entity==null) {
+                    Gallery entity = (Gallery) getEnvironment().getEntityStorageFactory().getStorage("gallery-gallery").load(templateGallery);
+                    if (entity == null) {
                         return null;
                     }
 
                     User realUser = (User) request.getSession().getAttribute("user");
-                    if(realUser!=null && (!username.equals(realUser.getUsername()) || !username.equals(entity.getUsername()))) {
+                    if (realUser != null && (!username.equals(realUser.getUsername()) || !username.equals(entity.getUsername()))) {
                         return null;
-                    }else if(realUser==null) {
+                    } else if (realUser == null) {
                         User guestUser = (User) request.getSession().getAttribute("guestuser");
-                        if(guestUser==null || !username.equals(entity.getUsername()) || !GuestAccountHelper.isGuestUser(environment,username,guestUser.getUsername())) {
+                        if (guestUser == null || !username.equals(entity.getUsername()) || !GuestAccountHelper.isGuestUser(getEnvironment(), username, guestUser.getUsername())) {
                             return null;
                         }
                     }
                 }
 
                 QueryFilter filter = new QueryFilter("allforuser");
-                filter.setAttribute("username",username);
-                EntityInterface[] storageEntities = environment.getEntityStorageFactory().getStorage("picturestorage").search(filter);
+                filter.setAttribute("username", username);
+                EntityInterface[] storageEntities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picturestorage").search(filter);
 
-                imageFile = getImageFileName(picture);
+                String imageFile = getImageFileName(picture);
                 for (int j = 0; j < storageEntities.length; j++) {
                     PictureStorage storage = (PictureStorage) storageEntities[j];
-                    if(imageFile.startsWith(storage.getName())) {
-                        imageFile = storage.getPath()+imageFile.substring(storage.getName().length());
+                    if (imageFile.startsWith(storage.getName())) {
+                        imageFile = storage.getPath() + imageFile.substring(storage.getName().length());
                         break;
                     }
                 }
+                setImageFile(imageFile);
             }
         }
         return null;
     }
 
+    protected String getImageFileName(Picture picture) {
+        return picture.getLink().substring(1, picture.getLink().length() - 1);
+    }
+
+    public void init(WebAppEnvironmentInterface environment) {
+        this.environment = environment;
+    }
+
+    protected void setUsername(String username) {
+        this.username = username;
+    }
+
+    protected void setImageFile(String imageFile) {
+        this.imageFile = imageFile;
+    }
+
     protected Integer getGalleryId(HttpServletRequest request) {
-        return GalleryHelper.getGalleryId(environment,request);
+        return GalleryHelper.getGalleryId(environment, request);
     }
 
     public void makeResponse(HttpServletRequest request, HttpServletResponse response) {
         try {
-            if(getImageFile()!=null) {
-                BufferedInputStream input = null;
-                try {
-                    input = new BufferedInputStream(new FileInputStream(getImageFile()));
-                } catch (FileNotFoundException e) {
-                    input = new BufferedInputStream(new URL(getImageFile()).openConnection().getInputStream());
-                }
-                write(input,response.getOutputStream());
-            }else {
-                request.getRequestDispatcher("thumbnailna.gif").forward(request,response);
+            if (!ImageWriteHelper.writeImage(environment, getImageFile(), response.getOutputStream())) {
+                request.getRequestDispatcher("thumbnailna.gif").forward(request, response);
             }
         } catch (ServletException e) {
             e.printStackTrace();
@@ -119,23 +126,8 @@ public class LoadImageCommand implements CommandInterface, CommandResponseInterf
         }
     }
 
-    protected String getImageFileName(Picture picture) {
-        return picture.getLink().substring(1,picture.getLink().length()-1);
-    }
-
-    protected String getImageFile() {
+    public String getImageFile() {
         return imageFile;
-    }
-
-    protected void write(InputStream input,OutputStream output) throws IOException {
-        byte[] data = new byte[100000];
-        while(true){
-            int length= input.read(data);
-            if(length<0) {
-                return;
-            }
-            output.write(data,0,length);
-        }
     }
 
     public WebAppEnvironmentInterface getEnvironment() {
