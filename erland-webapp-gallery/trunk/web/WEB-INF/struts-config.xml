@@ -351,8 +351,9 @@
             <forward name="picture-update-link" path="/do/user/viewpicture?gallery={gallery}&amp;id={picture}"/>
             <forward name="picture-remove-link" path="/do/user/removepicture?gallery={gallery}&amp;id={picture}"/>
             <forward name="picture-image" path="/do/user/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
-            <forward name="previous-link" path="/do/user/menuviewpictures?[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
-            <forward name="next-link" path="/do/user/menuviewpictures?[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="previous-link" path="/do/user/menuviewpictures?[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}][thumbnailwidth,&amp;thumbnailwidth={thumbnailwidth}][thumbnailheight,&amp;thumbnailheight={thumbnailheight}]"/>
+            <forward name="next-link" path="/do/user/menuviewpictures?[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}][thumbnailwidth,&amp;thumbnailwidth={thumbnailwidth}][thumbnailheight,&amp;thumbnailheight={thumbnailheight}]"/>
+            <forward name="current-link" path="/do/user/menuviewpictures?[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
             <forward name="search-link" path="/do/user/newsearch?gallery={gallery}[max,&amp;max={max}]"/>
             <forward name="search-private-link" path="/do/user/newsearch?gallery={gallery}[max,&amp;max={max}]"/>
         </action>
@@ -366,8 +367,9 @@
             <forward name="success" path=".user.viewguestpictures"/>
             <forward name="picture-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}"/>
             <forward name="picture-image" path="/do/user/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
-            <forward name="previous-link" path="/do/user/viewguestpictures?gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
-            <forward name="next-link" path="/do/user/viewguestpictures?gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="previous-link" path="/do/user/viewguestpictures?gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}][thumbnailwidth,&amp;thumbnailwidth={thumbnailwidth}][thumbnailheight,&amp;thumbnailheight={thumbnailheight}]"/>
+            <forward name="next-link" path="/do/user/viewguestpictures?gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}][thumbnailwidth,&amp;thumbnailwidth={thumbnailwidth}][thumbnailheight,&amp;thumbnailheight={thumbnailheight}]"/>
+            <forward name="current-link" path="/do/user/viewguestpictures?gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
             <forward name="search-link" path="/do/user/newguestsearch?gallery={gallery}[max,&amp;max={max}]"/>
             <forward name="search-private-link" path="/do/user/newsearch?gallery={gallery}[max,&amp;max={max}]"/>
         </action>
@@ -381,9 +383,10 @@
             <forward name="success" path=".guest.viewpictures"/>
             <forward name="picture-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
             <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
-            <forward name="previous-link" path="/do/guest/menuviewpictures?user={user}&amp;[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="previous-link" path="/do/guest/menuviewpictures?user={user}&amp;[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}][thumbnailwidth,&amp;thumbnailwidth={thumbnailwidth}][thumbnailheight,&amp;thumbnailheight={thumbnailheight}]"/>
             <forward name="picture-resolution-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
-            <forward name="next-link" path="/do/guest/menuviewpictures?user={user}&amp;[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="next-link" path="/do/guest/menuviewpictures?user={user}&amp;[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}][thumbnailwidth,&amp;thumbnailwidth={thumbnailwidth}][thumbnailheight,&amp;thumbnailheight={thumbnailheight}]"/>
+            <forward name="current-link" path="/do/guest/menuviewpictures?user={user}&amp;[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
             <forward name="search-link" path="/do/guest/newsearch?user={user}&amp;gallery={gallery}[max,&amp;max={max}]"/>
         </action>
         <action
@@ -405,8 +408,9 @@
             <forward name="success" path=".user.viewpictures"/>
             <forward name="picture-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}"/>
             <forward name="picture-image" path="/do/user/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
-            <forward name="previous-link" path="/do/user/viewsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
-            <forward name="next-link" path="/do/user/viewsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="previous-link" path="/do/user/viewsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}][thumbnailwidth,&amp;thumbnailwidth={thumbnailwidth}][thumbnailheight,&amp;thumbnailheight={thumbnailheight}]"/>
+            <forward name="next-link" path="/do/user/viewsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}][thumbnailwidth,&amp;thumbnailwidth={thumbnailwidth}][thumbnailheight,&amp;thumbnailheight={thumbnailheight}]"/>
+            <forward name="current-link" path="/do/user/viewsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
             <forward name="search-link" path="/do/user/newsearch?gallery={gallery}[max,&amp;max={max}]"/>
             <forward name="search-private-link" path="/do/user/newsearch?gallery={gallery}[max,&amp;max={max}]"/>
         </action>
@@ -420,8 +424,9 @@
             <forward name="success" path=".user.viewguestpictures"/>
             <forward name="picture-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}"/>
             <forward name="picture-image" path="/do/user/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
-            <forward name="previous-link" path="/do/user/viewguestsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
-            <forward name="next-link" path="/do/user/viewguestsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="previous-link" path="/do/user/viewguestsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}][thumbnailwidth,&amp;thumbnailwidth={thumbnailwidth}][thumbnailheight,&amp;thumbnailheight={thumbnailheight}]"/>
+            <forward name="next-link" path="/do/user/viewguestsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}][thumbnailwidth,&amp;thumbnailwidth={thumbnailwidth}][thumbnailheight,&amp;thumbnailheight={thumbnailheight}]"/>
+            <forward name="current-link" path="/do/user/viewguestsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
             <forward name="search-link" path="/do/user/newguestsearch?gallery={gallery}[max,&amp;max={max}]"/>
             <forward name="search-private-link" path="/do/user/newguestsearch?gallery={gallery}[max,&amp;max={max}]"/>
         </action>
@@ -435,9 +440,10 @@
             <forward name="success" path=".guest.viewpictures"/>
             <forward name="picture-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
             <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
-            <forward name="previous-link" path="/do/guest/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="previous-link" path="/do/guest/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}][thumbnailwidth,&amp;thumbnailwidth={thumbnailwidth}][thumbnailheight,&amp;thumbnailheight={thumbnailheight}]"/>
             <forward name="picture-resolution-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
-            <forward name="next-link" path="/do/guest/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="next-link" path="/do/guest/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}][thumbnailwidth,&amp;thumbnailwidth={thumbnailwidth}][thumbnailheight,&amp;thumbnailheight={thumbnailheight}]"/>
+            <forward name="current-link" path="/do/guest/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
             <forward name="search-link" path="/do/guest/newsearch?user={user}&amp;gallery={gallery}[max,&amp;max={max}]"/>
         </action>
 
@@ -901,9 +907,10 @@
             <forward name="success" path=".skin.viewpictures"/>
             <forward name="picture-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
             <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
-            <forward name="previous-link" path="/do/skin/menuviewpictures?user={user}&amp;[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
+            <forward name="previous-link" path="/do/skin/menuviewpictures?user={user}&amp;[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}][skin,&amp;skin={skin}][thumbnailwidth,&amp;thumbnailwidth={thumbnailwidth}][thumbnailheight,&amp;thumbnailheight={thumbnailheight}]"/>
             <forward name="picture-resolution-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
-            <forward name="next-link" path="/do/skin/menuviewpictures?user={user}&amp;[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
+            <forward name="next-link" path="/do/skin/menuviewpictures?user={user}&amp;[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}][skin,&amp;skin={skin}][thumbnailwidth,&amp;thumbnailwidth={thumbnailwidth}][thumbnailheight,&amp;thumbnailheight={thumbnailheight}]"/>
+            <forward name="current-link" path="/do/skin/menuviewpictures?user={user}&amp;[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
             <forward name="search-link" path="/do/skin/newsearch?user={user}&amp;gallery={gallery}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
 
             <forward name="skin-layout" path="/WEB-INF/tiles/skin/default/layout.jsp"/>
@@ -956,9 +963,10 @@
             <forward name="success" path=".skin.viewpictures"/>
             <forward name="picture-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
             <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
-            <forward name="previous-link" path="/do/skin/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
+            <forward name="previous-link" path="/do/skin/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}][skin,&amp;skin={skin}][thumbnailwidth,&amp;thumbnailwidth={thumbnailwidth}][thumbnailheight,&amp;thumbnailheight={thumbnailheight}]"/>
             <forward name="picture-resolution-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
-            <forward name="next-link" path="/do/skin/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
+            <forward name="next-link" path="/do/skin/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}][skin,&amp;skin={skin}][thumbnailwidth,&amp;thumbnailwidth={thumbnailwidth}][thumbnailheight,&amp;thumbnailheight={thumbnailheight}]"/>
+            <forward name="current-link" path="/do/skin/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
             <forward name="search-link" path="/do/skin/newsearch?user={user}&amp;gallery={gallery}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
 
             <forward name="skin-layout" path="/WEB-INF/tiles/skin/default/layout.jsp"/>
@@ -1044,4 +1052,5 @@
     <plug-in className="erland.webapp.gallery.act.gallery.importers.ExternalIMatchImportPlugin"/>
     <plug-in className="erland.webapp.gallery.act.gallery.importers.IMatchImportPlugin"/>
     <plug-in className="erland.webapp.gallery.act.loader.GenerateThumbnailPlugin"/>
+    <plug-in className="erland.webapp.common.act.ManagedDirPlugin"/>
 </struts-config>
