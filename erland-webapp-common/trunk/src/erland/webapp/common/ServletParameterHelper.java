@@ -29,11 +29,12 @@ import erland.util.*;
 public class ServletParameterHelper {
     /** Logging instance */
     private static Log LOG = LogFactory.getLog(ServletParameterHelper.class);
+    private static boolean bLogging = LOG.isDebugEnabled();
     public static String replaceDynamicParameters(String address, Map parameters) {
         return replaceDynamicParameters(address,new ObjectStorageMap(parameters));
     }
     public static String replaceDynamicParameters(String address, ObjectStorageInterface parameters) {
-        LOG.debug("Got: "+address);
+        if(bLogging) LOG.debug("Got: "+address);
         StringBuffer sb = new StringBuffer(address);
         int startPos = sb.indexOf("[");
 
@@ -115,11 +116,12 @@ public class ServletParameterHelper {
             }
         }
         String result = internalReplaceDynamicParameters(sb.toString(),parameters, 0);
-        LOG.debug("Return: "+result);
+        if(bLogging) LOG.debug("Return: "+result);
         return result;
     }
 
     private static String internalReplaceDynamicParameters(String address, ObjectStorageInterface parameters, int index) {
+        if(bLogging) LOG.debug("Got: "+address);
         StringBuffer sb = new StringBuffer(address);
         int startPos = sb.indexOf("{");
         while(startPos>=0) {
@@ -147,14 +149,16 @@ public class ServletParameterHelper {
                 startPos = -1;
             }
         }
-        return sb.toString();
+        String result = sb.toString();
+        if(bLogging) LOG.debug("Return: "+result);
+        return result;
     }
 
     public static String replaceParametersInUrl(String url, String replaceParameterString) {
         return replaceParametersInUrl(url,replaceParameterString,'&');
     }
     public static String replaceParametersInUrl(String url, String replaceParameterString, char parameterDelimiter) {
-        LOG.debug("Got: "+url);
+        if(bLogging) LOG.debug("Got: "+url);
         String result = null;
         int pos = url.indexOf('?');
         if(pos>=0) {
@@ -167,14 +171,14 @@ public class ServletParameterHelper {
         }else {
             result = url+"?"+replaceParameterString;
         }
-        LOG.debug("Return: "+result);
+        if(bLogging) LOG.debug("Return: "+result);
         return result;
     }
     public static String replaceParameters(String parameterString, String replaceParameterString) {
         return replaceParameters(parameterString,replaceParameterString,'&');
     }
     public static String replaceParameters(String parameterString, String replaceParameterString,char parameterDelimiter) {
-        LOG.debug("Got: "+parameterString);
+        if(bLogging) LOG.debug("Got: "+parameterString);
         StringTokenizer tokenString = new StringTokenizer(replaceParameterString,""+parameterDelimiter);
         while(tokenString.hasMoreElements()) {
             String parameterValue = (String) tokenString.nextElement();
@@ -191,13 +195,14 @@ public class ServletParameterHelper {
                 }
             }
         }
-        LOG.debug("Return: "+parameterString);
+        if(bLogging) LOG.debug("Return: "+parameterString);
         return parameterString;
     }
     public static String replaceParameter(String parameterString,String parameter,String value) {
         return replaceParameter(parameterString,parameter,value,'&');
     }
     public static String replaceParameter(String parameterString,String parameter,String value,char parameterDelimiter) {
+        if(bLogging) LOG.debug("replaceParameter: "+parameter+"="+value);
         StorageInterface storage = new StringStorage(parameterString);
         ParameterValueStorageInterface parameters = new ParameterStorageParameterString(storage,null,parameterDelimiter);
         parameters.setParameter(parameter,value);
@@ -208,6 +213,7 @@ public class ServletParameterHelper {
         return removeParameter(parameterString,parameter,'&');
     }
     public static String removeParameter(String parameterString, String parameter,char parameterDelimiter) {
+        if(bLogging) LOG.debug("removeParameter: "+parameter);
         StorageInterface storage = new StringStorage(parameterString);
         ParameterValueStorageInterface parameters = new ParameterStorageParameterString(storage,null,parameterDelimiter);
         parameters.delParameter(parameter);
@@ -220,6 +226,8 @@ public class ServletParameterHelper {
     public static String getParameter(String parameterString, String parameter,char parameterDelimiter) {
         StorageInterface storage = new StringStorage(parameterString);
         ParameterValueStorageInterface parameters = new ParameterStorageParameterString(storage,null,parameterDelimiter);
-        return parameters.getParameter(parameter);
+        String result = parameters.getParameter(parameter);
+        if(bLogging) LOG.debug("getParameter: "+parameter+"="+result);
+        return result;
     }
 }
