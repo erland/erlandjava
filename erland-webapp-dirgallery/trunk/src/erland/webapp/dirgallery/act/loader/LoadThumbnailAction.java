@@ -19,8 +19,7 @@ package erland.webapp.dirgallery.act.loader;
  *
  */
 
-import erland.webapp.common.image.ImageThumbnail;
-import erland.webapp.common.image.ImageWriteHelper;
+import erland.webapp.common.image.*;
 import erland.webapp.dirgallery.entity.account.UserAccount;
 import erland.webapp.dirgallery.entity.gallery.Gallery;
 import erland.webapp.dirgallery.fb.loader.ThumbnailImageFB;
@@ -34,12 +33,21 @@ import java.io.IOException;
 
 
 public class LoadThumbnailAction extends LoadImageAction {
+    private static final int THUMBNAIL_WIDTH = 150;
     protected ActionForward findSuccess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ThumbnailImageFB fb = (ThumbnailImageFB) form;
         Integer width = getWidth(request, fb);
+        Boolean useCache = fb.getUseCache();
+        if(useCache==null) {
+            if(width==null||width.floatValue()<=THUMBNAIL_WIDTH) {
+                useCache=Boolean.TRUE;
+            }else {
+                useCache=getGallery(request).getUseCacheLargeImages();
+            }
+        }
         try {
             response.setContentType("image/jpeg");
-            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, fb.getUseCache(), fb.getCompression(), getUsername(request), getImageFile(request), getCopyrightText(getUsername(request)), new ImageThumbnail(), response.getOutputStream())) {
+            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, useCache, fb.getCompression(), getUsername(request), getImageFile(request), getCopyright(getGallery(request),getUsername(request)), new ImageThumbnail(), response.getOutputStream())) {
                 return findFailure(mapping, form, request, response);
             }
         } catch (IOException e) {
@@ -55,10 +63,16 @@ public class LoadThumbnailAction extends LoadImageAction {
         return account;
     }
 
-    protected String getCopyrightText(String username) {
-        UserAccount account = getUserAccount(username);
-        if (account != null) {
-            return account.getCopyrightText();
+    protected CopyrightCreatorInterface getCopyright(Gallery gallery, String username) {
+        if(gallery.getUseCopyright().booleanValue()) {
+            if(gallery.getCopyrightText()==null|| gallery.getCopyrightText().length()==0) {
+                UserAccount account = getUserAccount(username);
+                if (account != null) {
+                    return new Copyright(account.getCopyrightText(),CopyrightPosition.fromId(gallery.getCopyrightPosition().intValue()),gallery.getCopyrightTransparency().floatValue());
+                }
+            }else {
+                return new Copyright(gallery.getCopyrightText(),CopyrightPosition.fromId(gallery.getCopyrightPosition().intValue()),gallery.getCopyrightTransparency().floatValue());
+            }
         }
         return null;
     }
