@@ -24,6 +24,12 @@
     <tr><td><bean:message key="gallery.gallery.edit.description-english"/></td><td>
     <html:textarea property="descriptionEnglish" cols="80" rows="15" />
     </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.nationalnamepattern"/></td><td>
+    <html:text property="nationalNamePattern"/>
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.englishnamepattern"/></td><td>
+    <html:text property="englishNamePattern"/>
+    </td></tr>
     <logic:notEmpty name="galleryFB" property="id">
         <tr><td><bean:message key="gallery.gallery.edit.top-category"/></td><td>
         <html:select property="topCategory" size="1">
