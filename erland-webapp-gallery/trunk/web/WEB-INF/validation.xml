@@ -31,7 +31,7 @@
                 <arg0 key="gallery.account.new.password2"/>
             </field>
             <field property="welcomeText" depends="required">
-                <arg0 key="gallery.account.new.welcometext"/>
+                <arg0 key="gallery.account.new.welcome-text"/>
             </field>
             <field property="description" depends="required">
                 <arg0 key="gallery.account.new.description"/>
