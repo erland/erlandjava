@@ -1,5 +1,7 @@
 package erland.webapp.gallery.act.gallery.category;
 
+import javax.servlet.http.HttpServletRequest;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -20,11 +22,11 @@ package erland.webapp.gallery.act.gallery.category;
  */
 
 public class SearchAllCategoriesAction extends SearchCategoriesAction {
-    protected String getNoParentFilter() {
+    protected String getNoParentFilter(HttpServletRequest request) {
         return "allforgalleryorderedbyname";
     }
 
-    protected String getParentFilter() {
+    protected String getParentFilter(HttpServletRequest request) {
         return "allforgalleryorderedbyname";
     }
 }

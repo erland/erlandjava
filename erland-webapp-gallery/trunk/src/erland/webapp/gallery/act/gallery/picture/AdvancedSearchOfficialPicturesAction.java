@@ -28,11 +28,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AdvancedSearchOfficialPicturesAction extends AdvancedSearchPicturesAction {
-    private Boolean official;
+    public final static String OFFICIAL = AdvancedSearchOfficialPicturesAction.class + "-official";
 
     protected void preProcess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         SelectPictureFB fb = (SelectPictureFB) form;
-        official = Boolean.TRUE;
+        Boolean official = Boolean.TRUE;
         String username = request.getRemoteUser();
         if (fb != null) {
             username = fb.getUser();
@@ -40,25 +40,33 @@ public class AdvancedSearchOfficialPicturesAction extends AdvancedSearchPictures
         if (GuestAccountHelper.isGuestUser(getEnvironment(), username, fb.getGuestUser())) {
             official = Boolean.FALSE;
         }
+        setOfficial(request,official);
     }
 
-    protected String getAllFilter() {
-        if (official.booleanValue()) {
+    protected String getAllFilter(HttpServletRequest request) {
+        if (getOfficial(request).booleanValue()) {
             return "allofficialforgallerybetweendates";
         } else {
-            return super.getAllFilter();
+            return super.getAllFilter(request);
         }
     }
 
-    protected String getCategoryTreeFilter() {
-        if (official.booleanValue()) {
-            if (!getAllCategories().booleanValue()) {
+    protected String getCategoryTreeFilter(HttpServletRequest request) {
+        if (getOfficial(request).booleanValue()) {
+            if (!getAllCategories(request).booleanValue()) {
                 return "allofficialforgalleryandcategorylistbetweendates";
             } else {
                 return "allofficialforgalleryandcategorylistallrequiredbetweendates";
             }
         } else {
-            return super.getCategoryTreeFilter();
+            return super.getCategoryTreeFilter(request);
         }
+    }
+    public Boolean getOfficial(HttpServletRequest request) {
+        return (Boolean) request.getAttribute(OFFICIAL);
+    }
+
+    public void setOfficial(HttpServletRequest request, Boolean official) {
+        request.setAttribute(OFFICIAL,official);
     }
 }

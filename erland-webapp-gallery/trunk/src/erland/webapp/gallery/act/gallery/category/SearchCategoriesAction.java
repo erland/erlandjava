@@ -41,7 +41,7 @@ public class SearchCategoriesAction extends BaseAction {
         Integer category = fb.getCategory();
         Integer gallery = GalleryHelper.getGalleryId(getEnvironment(), fb.getGallery());
         Integer virtualGalleryId = fb.getGallery();
-        Category[] entities = CategoryHelper.searchCategories(getEnvironment(),gallery,virtualGalleryId,category,getParentFilter(),getNoParentFilter());
+        Category[] entities = CategoryHelper.searchCategories(getEnvironment(),gallery,virtualGalleryId,category,getParentFilter(request),getNoParentFilter(request));
         CategoryPB[] categories = new CategoryPB[entities.length];
         for (int i = 0; i < entities.length; i++) {
             categories[i] = new CategoryPB();
@@ -51,11 +51,11 @@ public class SearchCategoriesAction extends BaseAction {
         request.setAttribute("categoriesPB",categories);
     }
 
-    protected String getNoParentFilter() {
+    protected String getNoParentFilter(HttpServletRequest request) {
         return "allforgallerywithoutparent";
     }
 
-    protected String getParentFilter() {
+    protected String getParentFilter(HttpServletRequest request) {
         return "allforgallerywithparent";
     }
 }

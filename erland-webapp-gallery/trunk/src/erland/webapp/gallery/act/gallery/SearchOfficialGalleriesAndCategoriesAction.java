@@ -28,11 +28,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SearchOfficialGalleriesAndCategoriesAction extends SearchGalleriesAndCategoriesAction {
-    private Boolean official;
+    private final static String OFFICIAL = SearchOfficialGalleriesAndCategoriesAction.class + "-official";
 
     protected void preProcess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         SelectGalleryFB fb = (SelectGalleryFB) form;
-        official = Boolean.TRUE;
+        Boolean official = Boolean.TRUE;
         String username = request.getRemoteUser();
         if (fb != null) {
             username = fb.getUser();
@@ -40,28 +40,37 @@ public class SearchOfficialGalleriesAndCategoriesAction extends SearchGalleriesA
         if (GuestAccountHelper.isGuestUser(getEnvironment(), username, fb.getGuestUser())) {
             official = Boolean.FALSE;
         }
+        setOfficial(request,official);
     }
 
-    protected String getQueryFilter() {
-        if (official.booleanValue()) {
+    protected String getQueryFilter(HttpServletRequest request) {
+        if (getOfficial(request).booleanValue()) {
             return "allofficialforuser";
         } else {
-            return super.getQueryFilter();
+            return super.getQueryFilter(request);
         }
     }
 
-    protected String getCategoriesFilter() {
-        if (official.booleanValue()) {
+    protected String getCategoriesFilter(HttpServletRequest request) {
+        if (getOfficial(request).booleanValue()) {
             return "allofficialforgallerywithtopcategory";
         }else {
-            return super.getCategoriesFilter();
+            return super.getCategoriesFilter(request);
         }
     }
-    protected String getNoTopCategoriesFilter() {
-        if (official.booleanValue()) {
+    protected String getNoTopCategoriesFilter(HttpServletRequest request) {
+        if (getOfficial(request).booleanValue()) {
             return "allofficialforgallery";
         }else {
-            return super.getNoTopCategoriesFilter();
+            return super.getNoTopCategoriesFilter(request);
         }
+    }
+
+    public Boolean getOfficial(HttpServletRequest request) {
+        return (Boolean) request.getAttribute(OFFICIAL);
+    }
+
+    public void setOfficial(HttpServletRequest request, Boolean official) {
+        request.setAttribute(OFFICIAL,official);
     }
 }

@@ -41,7 +41,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class IMatchImportAction extends BaseAction {
-    private Map categories = new HashMap();
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     private class CategoryCache {
@@ -76,6 +75,7 @@ public class IMatchImportAction extends BaseAction {
                 getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").delete(filter);
                 getEnvironment().getEntityStorageFactory().getStorage("gallery-categorypictureassociation").delete(filter);
             }
+            Map categories = new HashMap();
             loadCategories(categories, fb.getGallery());
             BufferedReader reader = null;
             try {
@@ -88,7 +88,7 @@ public class IMatchImportAction extends BaseAction {
                 reader.readLine();
                 String line = reader.readLine();
                 while (line != null) {
-                    doImport(fb.getGallery(), line, fb.getLocalLinks(), fb.getFilenameAsPictureTitle(), fb.getFilenameAsPictureDescription(), fb.getCutLongPictureTitles());
+                    doImport(categories, fb.getGallery(), line, fb.getLocalLinks(), fb.getFilenameAsPictureTitle(), fb.getFilenameAsPictureDescription(), fb.getCutLongPictureTitles());
                     line = reader.readLine();
                 }
 
@@ -105,7 +105,7 @@ public class IMatchImportAction extends BaseAction {
         }
     }
 
-    private void doImport(Integer gallery, String line, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean cutLongPictureTitles) {
+    private void doImport(Map previousCategories, Integer gallery, String line, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean cutLongPictureTitles) {
         StringTokenizer tokenizer = new StringTokenizer(line, "\t", true);
         if (tokenizer.countTokens() >= 8) {
             String picture = tokenizer.nextToken();
@@ -161,7 +161,7 @@ public class IMatchImportAction extends BaseAction {
             Integer pictureId = createPicture(gallery, picture.substring(1, picture.length() - 1), date, oid, title, description, localLinks, filenameAsPictureTitle, filenameAsPictureDescription, cutLongPictureTitles);
             for (StringTokenizer it = new StringTokenizer(categories.substring(1, categories.length() - 1), ","); it.hasMoreTokens();) {
                 String category = it.nextToken();
-                Integer categoryId = createCategory(gallery, category);
+                Integer categoryId = createCategory(previousCategories, gallery, category);
                 createPictureAssociation(gallery, pictureId, categoryId);
             }
         }
@@ -206,11 +206,11 @@ public class IMatchImportAction extends BaseAction {
     }
 
 
-    private Integer createCategory(Integer gallery, String categoryPath) {
+    private Integer createCategory(Map previousCategories, Integer gallery, String categoryPath) {
         StringTokenizer it = new StringTokenizer(categoryPath, ".");
         EntityStorageInterface storage = getEnvironment().getEntityStorageFactory().getStorage("gallery-category");
         Integer parent = null;
-        Map current = categories;
+        Map current = previousCategories;
         while (it.hasMoreTokens()) {
             String category = it.nextToken();
             CategoryCache obj = (CategoryCache) current.get(category);

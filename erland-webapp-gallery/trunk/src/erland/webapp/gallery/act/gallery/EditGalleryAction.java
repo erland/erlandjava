@@ -33,10 +33,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class EditGalleryAction extends BaseAction {
-    private Integer id;
+    private final static String ID = EditGalleryAction.class+"-id";
+
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GalleryFB fb = (GalleryFB) form;
-        id=fb.getId();
+        setId(request,fb.getId());
         String username = request.getRemoteUser();
         Gallery gallery = (Gallery) getEnvironment().getEntityFactory().create("gallery-gallery");
         gallery.setUsername(username);
@@ -63,10 +64,17 @@ public class EditGalleryAction extends BaseAction {
     }
 
     protected ActionForward findSuccess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        if(id!=null) {
+        if(getId(request)!=null) {
             return mapping.findForward("success-edit");
         }else {
             return mapping.findForward("success-new");
         }
+    }
+
+    public Integer getId(HttpServletRequest request) {
+        return (Integer) request.getAttribute(ID);
+    }
+    public void setId(HttpServletRequest request, Integer id) {
+        request.setAttribute(ID,id);
     }
 }

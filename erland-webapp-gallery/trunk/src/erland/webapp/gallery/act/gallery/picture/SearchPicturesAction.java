@@ -32,19 +32,21 @@ import java.util.Collection;
 
 import org.apache.struts.action.ActionForm;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class SearchPicturesAction extends SearchPicturesBaseAction {
-    protected Collection getCategories(ActionForm form) {
-        Integer categoryId = getCategoryId();
-        if (categoryId == null && getGalleryId() != null) {
+    protected Collection getCategories(HttpServletRequest request, ActionForm form) {
+        Integer categoryId = getCategoryId(request);
+        if (categoryId == null && getGalleryId(request) != null) {
             Gallery template = (Gallery) getEnvironment().getEntityFactory().create("gallery-gallery");
-            template.setId(getGalleryId());
+            template.setId(getGalleryId(request));
             GalleryInterface entity = (GalleryInterface) getEnvironment().getEntityStorageFactory().getStorage("gallery-gallery").load(template);
             if (entity != null && !entity.getTopCategory().equals(new Integer(0))) {
                 categoryId = entity.getTopCategory();
             }
         }
         if (categoryId != null) {
-            Category[] categories = getCategoryTree(getGalleryId(), categoryId);
+            Category[] categories = getCategoryTree(getGalleryId(request), categoryId);
             Collection result = new ArrayList();
             for (int i = 0; i < categories.length; i++) {
                 result.add(categories[i].getCategory());
@@ -55,18 +57,18 @@ public class SearchPicturesAction extends SearchPicturesBaseAction {
         }
     }
 
-    protected String getAllFilter() {
+    protected String getAllFilter(HttpServletRequest request) {
         return "allforgallery";
     }
 
-    protected String getCategoryTreeFilter() {
+    protected String getCategoryTreeFilter(HttpServletRequest request) {
         return "allforgalleryandcategorylist";
     }
 
-    protected Collection getPictures(ActionForm form) {
-        if (!getVirtualGalleryId().equals(getGalleryId())) {
+    protected Collection getPictures(HttpServletRequest request, ActionForm form) {
+        if (!getVirtualGalleryId(request).equals(getGalleryId(request))) {
             QueryFilter categoryFilter = new QueryFilter("allforgallery");
-            categoryFilter.setAttribute("gallery", getVirtualGalleryId());
+            categoryFilter.setAttribute("gallery", getVirtualGalleryId(request));
             EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-gallerycategoryassociation").search(categoryFilter);
             if (entities.length == 0) {
                 return null;
@@ -77,7 +79,7 @@ public class SearchPicturesAction extends SearchPicturesBaseAction {
                 categories.add(entity.getCategory());
             }
             QueryFilter pictureFilter = new QueryFilter("allforgalleryandcategorylistallrequired");
-            pictureFilter.setAttribute("gallery", getGalleryId());
+            pictureFilter.setAttribute("gallery", getGalleryId(request));
             pictureFilter.setAttribute("categories", categories);
             pictureFilter.setAttribute("numberofcategories", new Integer(categories.size()));
             entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").search(pictureFilter);

@@ -32,16 +32,16 @@ import java.util.Date;
 import java.util.HashSet;
 
 public class AdvancedSearchPicturesAction extends SearchPicturesAction {
-    private Integer numberOfCategories;
-    private Boolean allCategories;
+    private final static String NUMBER_OF_CATEGORIES = AdvancedSearchPicturesAction.class + "-numberOfCategories";
+    private final static String ALL_CATEGORIES = AdvancedSearchPicturesAction.class + "-allCategories";
 
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SearchPictureFB fb = (SearchPictureFB) form;
-        allCategories = fb.getAllCategories();
-        super.executeLogic(mapping, form, request, response);    //To change body of overriden methods use Options | File Templates.
+        setAllCategories(request,fb.getAllCategories());
+        super.executeLogic(mapping, form, request, response);    
     }
 
-    protected Collection getCategories(ActionForm form) {
+    protected Collection getCategories(HttpServletRequest request, ActionForm form) {
         SearchPictureFB fb = (SearchPictureFB) form;
         if (fb.getCategories() != null && fb.getCategories().length > 0) {
             Collection result = new HashSet();
@@ -50,19 +50,19 @@ public class AdvancedSearchPicturesAction extends SearchPicturesAction {
                 if (fb.getAllCategories().booleanValue()) {
                     result.add(category);
                 } else {
-                    Category[] categories = getCategoryTree(getGalleryId(), category);
+                    Category[] categories = getCategoryTree(getGalleryId(request), category);
                     for (int j = 0; j < categories.length; j++) {
                         result.add(categories[j].getCategory());
                     }
                 }
             }
-            numberOfCategories = new Integer(result.size());
+            setNumberOfCategories(request,new Integer(result.size()));
             return result;
         }
         return null;
     }
 
-    protected void setFilterAttributes(ActionForm form, QueryFilter filter) {
+    protected void setFilterAttributes(HttpServletRequest request, ActionForm form, QueryFilter filter) {
         SearchPictureFB fb = (SearchPictureFB) form;
         Date dateBefore = fb.getDateBefore();
         if (dateBefore == null) {
@@ -74,24 +74,33 @@ public class AdvancedSearchPicturesAction extends SearchPicturesAction {
         }
         filter.setAttribute("dateafter", dateAfter);
         filter.setAttribute("datebefore", dateBefore);
-        if (numberOfCategories != null && fb.getAllCategories().booleanValue()) {
-            filter.setAttribute("numberofcategories", numberOfCategories);
+        if (getNumberOfCategories(request) != null && fb.getAllCategories().booleanValue()) {
+            filter.setAttribute("numberofcategories", getNumberOfCategories(request));
         }
     }
 
-    protected String getAllFilter() {
+    protected String getAllFilter(HttpServletRequest request) {
         return "allforgallerybetweendates";
     }
 
-    protected Boolean getAllCategories() {
-        return allCategories;
-    }
-
-    protected String getCategoryTreeFilter() {
-        if (!allCategories.booleanValue()) {
+    protected String getCategoryTreeFilter(HttpServletRequest request) {
+        if (!getAllCategories(request).booleanValue()) {
             return "allforgalleryandcategorylistbetweendates";
         } else {
             return "allforgalleryandcategorylistallrequiredbetweendates";
         }
+    }
+
+    protected Boolean getAllCategories(HttpServletRequest request) {
+        return (Boolean) request.getAttribute(ALL_CATEGORIES);
+    }
+    protected void setAllCategories(HttpServletRequest request, Boolean allCategories) {
+        request.setAttribute(ALL_CATEGORIES,allCategories);
+    }
+    protected Integer getNumberOfCategories(HttpServletRequest request) {
+        return (Integer) request.getAttribute(NUMBER_OF_CATEGORIES);
+    }
+    protected void setNumberOfCategories(HttpServletRequest request, Integer numberOfCategories) {
+        request.setAttribute(NUMBER_OF_CATEGORIES, numberOfCategories);
     }
 }

@@ -39,7 +39,7 @@ public class SearchGalleriesAction extends BaseAction {
         if (fb != null) {
             username = fb.getUser();
         }
-        GalleryInterface[] entities = GalleryHelper.searchGalleries(getEnvironment(),getEntityName(),username,getQueryFilter());
+        GalleryInterface[] entities = GalleryHelper.searchGalleries(getEnvironment(),getEntityName(),username,getQueryFilter(request));
         GalleryPB[] pb = new GalleryPB[entities.length];
         for (int i = 0; i < entities.length; i++) {
             pb[i] = new GalleryPB();
@@ -52,7 +52,7 @@ public class SearchGalleriesAction extends BaseAction {
         return "gallery-gallery";
     }
 
-    protected String getQueryFilter() {
+    protected String getQueryFilter(HttpServletRequest request) {
         return "allforuser";
     }
 }

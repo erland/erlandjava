@@ -28,11 +28,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SearchOfficialCategoriesAction extends SearchCategoriesAction {
-    private Boolean official;
+    private final static String OFFICIAL = SearchOfficialCategoriesAction.class + "-official";
 
     protected void preProcess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         SelectCategoryFB fb = (SelectCategoryFB) form;
-        official = Boolean.TRUE;
+        Boolean official = Boolean.TRUE;
         String username = request.getRemoteUser();
         if (fb != null) {
             username = fb.getUser();
@@ -40,21 +40,29 @@ public class SearchOfficialCategoriesAction extends SearchCategoriesAction {
         if (GuestAccountHelper.isGuestUser(getEnvironment(), username, fb.getGuestUser())) {
             official = Boolean.FALSE;
         }
+        setOfficial(request,official);
     }
 
-    protected String getNoParentFilter() {
-        if (official.booleanValue()) {
+    protected String getNoParentFilter(HttpServletRequest request) {
+        if (getOfficial(request).booleanValue()) {
             return "allofficialforgallerywithoutparent";
         } else {
-            return super.getNoParentFilter();
+            return super.getNoParentFilter(request);
         }
     }
 
-    protected String getParentFilter() {
-        if (official.booleanValue()) {
+    protected String getParentFilter(HttpServletRequest request) {
+        if (getOfficial(request).booleanValue()) {
             return "allofficialforgallerywithparent";
         } else {
-            return super.getParentFilter();
+            return super.getParentFilter(request);
         }
+    }
+    public Boolean getOfficial(HttpServletRequest request) {
+        return (Boolean) request.getAttribute(OFFICIAL);
+    }
+
+    public void setOfficial(HttpServletRequest request, Boolean official) {
+        request.setAttribute(OFFICIAL,official);
     }
 }
