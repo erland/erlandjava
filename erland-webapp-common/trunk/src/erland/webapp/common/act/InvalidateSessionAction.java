@@ -7,6 +7,7 @@ import org.apache.struts.action.ActionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -27,9 +28,16 @@ import javax.servlet.http.HttpServletResponse;
  * 
  */
 
-public class InvalidateSessionAction extends Action {
-    public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        httpServletRequest.getSession().invalidate();
-        return actionMapping.findForward("success");
+public class InvalidateSessionAction extends BaseAction {
+    protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Enumeration attributes = request.getSession().getAttributeNames();
+        List removeAttributes = new ArrayList();
+        while (attributes.hasMoreElements()) {
+            removeAttributes.add(attributes.nextElement());
+        }
+        for(Iterator it=removeAttributes.iterator();it.hasNext();) {
+            request.getSession().removeAttribute(it.next().toString());
+        }
+        request.getSession().invalidate();
     }
 }
