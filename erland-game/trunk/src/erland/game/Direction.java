@@ -2,6 +2,7 @@ package erland.game;
 
 /**
  * Specifies all possible directions
+ * @author Erland Isaksson
  */
 public abstract class Direction
 {
