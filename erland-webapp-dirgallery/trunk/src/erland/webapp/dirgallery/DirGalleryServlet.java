@@ -36,7 +36,7 @@ public class DirGalleryServlet extends UserMgmtServlet {
                 "<logitem3>erland.webapp.usermgmt.UserDisabled</logitem3>" +
                 "<logitem4>erland.webapp.dirgallery.DirGalleryServlet</logitem4>" +
                 "<logitem5>erland.webapp.usermgmt.UserMgmtServletDisabled</logitem5>" +
-                "<logitem6>erland.webapp.common.GenericEntityStorage</logitem6>" +
+                "<logitem6>erland.webapp.common.GenericEntityStorageDisabled</logitem6>" +
                 "<logitem7>erland.webapp.dirgallery.HTMLBasicStringReplaceDisabled</logitem7>" +
                 "<logitem8>erland.webapp.dirgallery.HTMLLinkStringReplaceDisabled</logitem8>" +
                 "<logitem9>erland.webapp.dirgallery.loader.LoadThumbnailCommandDisabled</logitem9>" +
