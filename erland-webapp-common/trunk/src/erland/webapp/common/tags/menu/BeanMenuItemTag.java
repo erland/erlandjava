@@ -199,13 +199,13 @@ public class BeanMenuItemTag extends TagSupport {
         if(link==null) {
             return link;
         }
-        if(Pattern.matches("[a-z]*:",link)) {
+        if(Pattern.matches("[a-z]*:.*",link)) {
             return link;
         }else {
             return ((HttpServletRequest) pageContext.getRequest()).getContextPath()+link;
         }
     }
- 
+
     private void writeMenu(Object[] items, int indent, String parentId, String menuObj, JspWriter out) throws IOException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         for (int i = 0; i < items.length; i++) {
             Object item = items[i];
