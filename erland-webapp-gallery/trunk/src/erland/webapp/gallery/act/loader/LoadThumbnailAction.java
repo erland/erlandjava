@@ -76,6 +76,14 @@ public class LoadThumbnailAction extends LoadImageAction {
         }else {
             antialias = gallery.getAntialias();
         }
+        Boolean useCache = fb.getUseCache();
+        if(useCache==null) {
+            if(width==null||width.floatValue()<=THUMBNAIL_WIDTH) {
+                useCache=Boolean.TRUE;
+            }else {
+                useCache=gallery.getUseCacheLargeImages();
+            }
+        }
         ImageThumbnail thumbnailCreator = null;
         if((gallery.getUseExifThumbnails()!=null && gallery.getUseExifThumbnails().booleanValue())&& (width==null || width.floatValue()<=THUMBNAIL_WIDTH)) {
             thumbnailCreator = new MetadataImageThumbnail(antialias, gallery.getScaleExifThumbnails());
@@ -84,7 +92,7 @@ public class LoadThumbnailAction extends LoadImageAction {
         }
         try {
             response.setContentType("image/jpeg");
-            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, height,fb.getUseCache(), compression , getUsername(request), getImageFile(request), getCopyrightText(getUsername(request),getGallery(request),getPicture(request)), thumbnailCreator, gallery.getId().toString(),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_PREFILTER),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_POSTFILTER),gallery.getCacheDate(),response.getOutputStream())) {
+            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, height,useCache, compression , getUsername(request), getImageFile(request), getCopyrightText(getUsername(request),getGallery(request),getPicture(request)), thumbnailCreator, gallery.getId().toString(),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_PREFILTER),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_POSTFILTER),gallery.getCacheDate(),response.getOutputStream())) {
                 return findFailure(mapping,form,request,response);
             }
         } catch (IOException e) {
