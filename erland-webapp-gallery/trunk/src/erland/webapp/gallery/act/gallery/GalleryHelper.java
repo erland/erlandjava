@@ -60,6 +60,17 @@ public class GalleryHelper {
         return galleryId;
     }
 
+    public static Integer getGalleryId(WebAppEnvironmentInterface environment, String username, String title) {
+        QueryFilter filter = new QueryFilter("allforuserandtitle");
+        filter.setAttribute("username",username);
+        filter.setAttribute("title",title);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery-gallery").search(filter);
+        if(entities.length==1) {
+            return ((Gallery)entities[0]).getId();
+        }
+        return null;
+    }
+
     public static Integer getGalleryId(Gallery gallery) {
         if (gallery != null) {
             if (gallery.getReferencedGallery() != null && !gallery.getReferencedGallery().equals(new Integer(0))) {
