@@ -6,6 +6,8 @@ import erland.webapp.common.QueryFilter;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.gallery.gallery.ViewGalleryInterface;
 import erland.webapp.gallery.gallery.Gallery;
+import erland.webapp.gallery.gallery.GalleryInterface;
+import erland.webapp.gallery.gallery.GalleryHelper;
 import erland.webapp.gallery.gallery.category.Category;
 import erland.webapp.gallery.gallery.picturestorage.PictureStorage;
 import erland.webapp.usermgmt.User;
@@ -14,10 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
 public abstract class SearchPicturesBaseCommand implements CommandInterface, ViewPicturesInterface, ViewGalleryInterface, ViewPicturePageInterface {
-    protected WebAppEnvironmentInterface environment;
+    private WebAppEnvironmentInterface environment;
     private Picture[] pictures;
-    protected Integer galleryId;
-    private Gallery gallery;
+    private Integer galleryId;
+    private Integer virtualGalleryId;
+    private GalleryInterface gallery;
     private Integer start;
     private Integer max;
 
@@ -26,11 +29,12 @@ public abstract class SearchPicturesBaseCommand implements CommandInterface, Vie
     }
 
     public String execute(HttpServletRequest request) {
-        String galleryString = request.getParameter("gallery");
+        initCommand(request);
+        galleryId = getGalleryId(request);
         start = null;
         max = null;
-        if(galleryString!=null && galleryString.length()>0) {
-            galleryId = Integer.valueOf(galleryString);
+        if(galleryId!=null) {
+            virtualGalleryId = Integer.valueOf(request.getParameter("gallery"));
             String startString = request.getParameter("start");
             if(startString!=null && startString.length()>0) {
                 start = Integer.valueOf(startString);
@@ -41,27 +45,51 @@ public abstract class SearchPicturesBaseCommand implements CommandInterface, Vie
             }
             initRequestParameters(request);
             Collection categories = getCategories(request);
+            Collection picturesAllowed = getPictures(request);
             QueryFilter filter;
             if(start!=null && max!=null) {
-                if(categories!=null) {
-                    filter = new QueryFilter(getCategoryTreeFilter()+"withlimit");
-                    filter.setAttribute("categories",categories);
+                if(picturesAllowed!=null) {
+                    if(categories!=null) {
+                        filter = new QueryFilter(getCategoryTreeFilter()+"andpicturelist"+"withlimit");
+                        filter.setAttribute("categories",categories);
+                    }else {
+                        filter = new QueryFilter(getAllFilter()+"andpicturelist"+"withlimit");
+                    }
+                    filter.setAttribute("pictures",picturesAllowed);
                 }else {
-                    filter = new QueryFilter(getAllFilter()+"withlimit");
+                    if(categories!=null) {
+                        filter = new QueryFilter(getCategoryTreeFilter()+"withlimit");
+                        filter.setAttribute("categories",categories);
+                    }else {
+                        filter = new QueryFilter(getAllFilter()+"withlimit");
+                    }
                 }
                 filter.setAttribute("start",start);
                 filter.setAttribute("max",max);
             }else {
-                if(categories!=null) {
-                    filter = new QueryFilter(getCategoryTreeFilter());
-                    filter.setAttribute("categories",categories);
+                if(picturesAllowed!=null) {
+                    if(categories!=null) {
+                        filter = new QueryFilter(getCategoryTreeFilter()+"andpicturelist");
+                        filter.setAttribute("categories",categories);
+                    }else {
+                        filter = new QueryFilter(getAllFilter()+"andpicturelist");
+                    }
+                    filter.setAttribute("pictures",picturesAllowed);
                 }else {
-                    filter = new QueryFilter(getAllFilter());
+                    if(categories!=null) {
+                        filter = new QueryFilter(getCategoryTreeFilter());
+                        filter.setAttribute("categories",categories);
+                    }else {
+                        filter = new QueryFilter(getAllFilter());
+                    }
                 }
             }
             filter.setAttribute("gallery",galleryId);
             setFilterAttributes(request, filter);
-            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("picture").search(filter);
+            EntityInterface[] entities = new EntityInterface[0];
+            if(picturesAllowed==null || (picturesAllowed!=null && picturesAllowed.size()>0)) {
+                entities = environment.getEntityStorageFactory().getStorage("picture").search(filter);
+            }
 
             String username = request.getParameter("user");
             if(username==null || username.length()==0) {
@@ -85,6 +113,7 @@ public abstract class SearchPicturesBaseCommand implements CommandInterface, Vie
                 }else {
                     pictures[i].setLink(getImagePath(storageEntities,pictures[i].getLink()));
                 }
+                pictures[i].setGallery(virtualGalleryId);
             }
             if(pictures.length>0) {
                 request.setAttribute("firstimage",pictures[0].getId());
@@ -93,10 +122,20 @@ public abstract class SearchPicturesBaseCommand implements CommandInterface, Vie
         return null;
     }
 
+    protected void initCommand(HttpServletRequest request) {
+        //Do nothing
+    }
+
+    protected Integer getGalleryId(HttpServletRequest request) {
+        return GalleryHelper.getGalleryId(environment,request);
+    }
+
     protected void initRequestParameters(HttpServletRequest request) {
     }
 
     protected abstract Collection getCategories(HttpServletRequest request);
+
+    protected abstract Collection getPictures(HttpServletRequest request);
 
     protected abstract String getAllFilter();
 
@@ -106,11 +145,11 @@ public abstract class SearchPicturesBaseCommand implements CommandInterface, Vie
         return pictures;
     }
 
-    public Gallery getGallery() {
-        if(galleryId!=null && gallery==null) {
+    public GalleryInterface getGallery() {
+        if(galleryId!=null && gallery==null && virtualGalleryId!=null) {
             Gallery template = (Gallery) environment.getEntityFactory().create("gallery");
-            template.setId(galleryId);
-            gallery = (Gallery) environment.getEntityStorageFactory().getStorage("gallery").load(template);
+            template.setId(virtualGalleryId);
+            gallery = (GalleryInterface) environment.getEntityStorageFactory().getStorage("gallery").load(template);
         }
         return gallery;
     }
@@ -163,5 +202,13 @@ public abstract class SearchPicturesBaseCommand implements CommandInterface, Vie
             categories[i] = (Category) entities[i];
         }
         return categories;
+    }
+
+    public WebAppEnvironmentInterface getEnvironment() {
+        return environment;
+    }
+
+    public Integer getGalleryId() {
+        return galleryId;
     }
 }
