@@ -8,7 +8,7 @@
     <formset>
         <form name="userAccountFB">
             <field property="welcomeText" depends="required">
-                <arg0 key="gallery.account.edit.welcometext"/>
+                <arg0 key="gallery.account.edit.welcome-text"/>
             </field>
             <field property="description" depends="required">
                 <arg0 key="gallery.account.edit.description"/>
@@ -37,16 +37,48 @@
                 <arg0 key="gallery.account.new.description"/>
             </field>
         </form>
-        <form name="storageFB">
-            <field property="name">
-                <arg0 key="gallery.storage.edit.name"/>
+        <form name="galleryFB">
+            <field property="title" depends="required">
+                <arg0 key="gallery.gallery.edit.title"/>
             </field>
-            <field property="path">
-                <arg0 key="gallery.storage.edit.path"/>
+            <field property="description" depends="required">
+                <arg0 key="gallery.gallery.edit.description"/>
+            </field>
+        </form>
+        <form name="pictureFB">
+            <field property="title" depends="required">
+                <arg0 key="gallery.gallery.picture.edit.title"/>
+            </field>
+            <field property="image" depends="required">
+                <arg0 key="gallery.gallery.picture.edit.image"/>
+            </field>
+            <field property="link" depends="required">
+                <arg0 key="gallery.gallery.picture.edit.link"/>
+            </field>
+            <field property="date" depends="required">
+                <arg0 key="gallery.gallery.picture.edit.date"/>
+            </field>
+        </form>
+        <form name="categoryFB">
+            <field property="name" depends="required">
+                <arg0 key="gallery.gallery.category.edit.name"/>
+            </field>
+        </form>
+        <form name="importFB">
+            <field property="file" depends="required">
+                <arg0 key="gallery.gallery.import.edit.path"/>
+            </field>
+        </form>
+        <form name="storageFB">
+            <field property="name" depends="required">
+                <arg0 key="gallery.picturestorage.edit.name"/>
+            </field>
+            <field property="path" depends="required">
+                <arg0 key="gallery.picturestorage.edit.path"/>
             </field>
         </form>
         <form name="guestAccountFB">
-            <field property="guestUser">
+            <field property="guestUser" depends="required">
                 <arg0 key="gallery.guestaccount.edit.username"/>
             </field>
         </form>
