@@ -38,6 +38,7 @@ CREATE TABLE services (
   customizedservicedata longtext,
   transformerclass varchar(255) default NULL,
   transformerdata longtext,
+  customizedtransformerdata longtext
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -55,6 +56,7 @@ CREATE TABLE useraccounts (
   description_en longtext NOT NULL,
   logo varchar(255) NOT NULL default '',
   logo_en varchar(255) default NULL,
+  showlogo tinyint(1) NOT NULL default '1',
   logolink varchar(255) default NULL,
   defaultsection int(11) default '0',
   copyright longtext NOT NULL,
