@@ -22,6 +22,10 @@
                 <column>description</column>
                 <type>String</type>
             </field>
+            <field id="descriptionEnglish">
+                <column>description_en</column>
+                <type>String</type>
+            </field>
         </fields>
         <queries>
             <query id="allfortype">

@@ -26,6 +26,7 @@ public class DescriptionTag extends BaseEntity {
     private String type;
     private String tag;
     private String description;
+    private String descriptionEnglish;
 
     public String getType() {
         return type;
@@ -49,5 +50,13 @@ public class DescriptionTag extends BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getDescriptionEnglish() {
+        return descriptionEnglish;
+    }
+
+    public void setDescriptionEnglish(String descriptionEnglish) {
+        this.descriptionEnglish = descriptionEnglish;
     }
 }
