@@ -1,4 +1,5 @@
 package erland.webapp.dirgallery.loader;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -18,24 +19,30 @@ package erland.webapp.dirgallery.loader;
  *
  */
 
+import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.common.image.ImageWriteHelper;
+import erland.webapp.common.image.MovieThumbnail;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.awt.image.BufferedImage;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URL;
 
 public class LoadMovieThumbnailCommand extends LoadThumbnailCommand {
-    protected BufferedImage createThumbnail(HttpServletRequest request, URL url, int requestedWidth, BufferedImage thumbnail) throws IOException {
-        MovieThumbnail thumbnailGenerator = new MovieThumbnail();
-        String noOfColsString = request.getParameter("cols");
-        Integer noOfCols = new Integer(2);
-        if (noOfColsString != null && noOfColsString.length() > 0) {
-            noOfCols = Integer.valueOf(noOfColsString);
+    public void makeResponse(HttpServletRequest request, HttpServletResponse response) {
+        Integer requestedWidth = ServletParameterHelper.asInteger(request.getParameter("width"), null);
+        Boolean useCache = ServletParameterHelper.asBoolean(request.getParameter("usecache"), Boolean.TRUE);
+        Float requestedCompression = ServletParameterHelper.asFloat(request.getParameter("compression"), null);
+        Integer noOfCols = ServletParameterHelper.asInteger(request.getParameter("cols"), new Integer(2));
+        Integer noOfRows = ServletParameterHelper.asInteger(request.getParameter("rows"), new Integer(2));
+        try {
+            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), requestedWidth, useCache, requestedCompression, getUsername(), getImageFile(), getCopyrightText(), new MovieThumbnail(noOfCols.intValue(), noOfRows.intValue()), response.getOutputStream())) {
+                request.getRequestDispatcher("thumbnailna.gif").forward(request, response);
+            }
+        } catch (ServletException e) {
+            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
-        String noOfRowsString = request.getParameter("rows");
-        Integer noOfRows = new Integer(2);
-        if (noOfRowsString != null && noOfRowsString.length() > 0) {
-            noOfRows = Integer.valueOf(noOfRowsString);
-        }
-        return thumbnailGenerator.create(url, noOfCols.intValue(), noOfRows.intValue(), requestedWidth);
     }
 }

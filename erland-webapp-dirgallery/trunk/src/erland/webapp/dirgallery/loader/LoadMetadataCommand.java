@@ -1,4 +1,5 @@
 package erland.webapp.dirgallery.loader;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -18,15 +19,12 @@ package erland.webapp.dirgallery.loader;
  *
  */
 
-import com.drew.imaging.jpeg.JpegMetadataReader;
-import com.drew.imaging.jpeg.JpegProcessingException;
-import com.drew.metadata.Directory;
-import com.drew.metadata.Metadata;
-import com.drew.metadata.MetadataException;
-import com.drew.metadata.Tag;
 import erland.webapp.common.CommandInterface;
+import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.WebAppEnvironmentInterface;
-import erland.webapp.dirgallery.DescriptionTagHelper;
+import erland.webapp.common.image.JPEGMetadataHandler;
+import erland.webapp.common.image.MetadataHandlerInterface;
+import erland.webapp.common.image.FileMetadataHandler;
 import erland.webapp.dirgallery.gallery.GalleryHelper;
 import erland.webapp.dirgallery.gallery.GalleryInterface;
 import erland.webapp.dirgallery.gallery.picture.Picture;
@@ -34,24 +32,13 @@ import erland.webapp.dirgallery.gallery.picture.PictureComment;
 import erland.webapp.dirgallery.gallery.picture.ViewPictureInterface;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class LoadMetadataCommand implements CommandInterface, ViewMetadataInterface, ViewPictureInterface {
     private WebAppEnvironmentInterface environment;
     private String imageFile;
-    private Metadata metaData;
     private Picture picture;
-    private Map metaDataMap = new HashMap();
-    private Boolean showAllMetadata;
     private String comment;
+    private MetadataHandlerInterface handler;
 
     public void init(WebAppEnvironmentInterface environment) {
         this.environment = environment;
@@ -59,25 +46,27 @@ public class LoadMetadataCommand implements CommandInterface, ViewMetadataInterf
 
     public String execute(HttpServletRequest request) {
         String image = request.getParameter("image");
-        String showAllMetadataString = request.getParameter("showall");
-        showAllMetadata = Boolean.FALSE;
-        if (showAllMetadataString != null && showAllMetadataString.equalsIgnoreCase("true")) {
-            showAllMetadata = Boolean.TRUE;
-        }
+        Boolean showAll = ServletParameterHelper.asBoolean(request.getParameter("showall"), Boolean.FALSE);
+
         Integer gallery = getGalleryId(request);
         if (image != null && gallery != null) {
-            GalleryInterface templateGallery = (GalleryInterface) environment.getEntityFactory().create("gallery");
+            GalleryInterface templateGallery = (GalleryInterface) environment.getEntityFactory().create("dirgallery-gallery");
             templateGallery.setId(gallery);
-            GalleryInterface entityGallery = (GalleryInterface) environment.getEntityStorageFactory().getStorage("gallery").load(templateGallery);
+            GalleryInterface entityGallery = (GalleryInterface) environment.getEntityStorageFactory().getStorage("dirgallery-gallery").load(templateGallery);
             if (entityGallery != null) {
-                Picture template = (Picture) environment.getEntityFactory().create("picture");
+                Picture template = (Picture) environment.getEntityFactory().create("dirgallery-picture");
                 template.setGallery(gallery);
                 template.setDirectory(entityGallery.getDirectory());
                 template.setId(image);
-                picture = (Picture) environment.getEntityStorageFactory().getStorage("picture").load(template);
+                picture = (Picture) environment.getEntityStorageFactory().getStorage("dirgallery-picture").load(template);
                 if (picture != null) {
                     imageFile = getImageFileName(picture);
-                    metaData = getMetaData(imageFile);
+                    if(imageFile.toLowerCase().endsWith(".jpg") || imageFile.toLowerCase().endsWith(".jpeg")) {
+                        handler = new JPEGMetadataHandler(!showAll.booleanValue());
+                    }else {
+                        handler = new FileMetadataHandler(!showAll.booleanValue());
+                    }
+                    handler.load(imageFile);
                 }
             }
         }
@@ -96,58 +85,16 @@ public class LoadMetadataCommand implements CommandInterface, ViewMetadataInterf
         return imageFile;
     }
 
-    private Metadata getMetaData(String filename) {
-        try {
-            BufferedInputStream input = null;
-            try {
-                input = new BufferedInputStream(new FileInputStream(filename));
-            } catch (FileNotFoundException e) {
-                input = new BufferedInputStream(new URL(filename).openConnection().getInputStream());
-            }
-            if (input != null) {
-                return JpegMetadataReader.readMetadata(input);
-            }
-            input.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JpegProcessingException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public String[] getMetadataNames() {
-        if (metaData != null) {
-            for (Iterator it = metaData.getDirectoryIterator(); it.hasNext();) {
-                Directory directory = (Directory) it.next();
-                for (Iterator tagsIt = directory.getTagIterator(); tagsIt.hasNext();) {
-                    Tag tag = (Tag) tagsIt.next();
-                    try {
-                        if (showAllMetadata.booleanValue() || DescriptionTagHelper.getInstance().getDescription("metadatafielddescription", tag.getDirectoryName() + " " + tag.getTagName()) != null) {
-                            metaDataMap.put(tag.getDirectoryName() + " " + tag.getTagName(), tag.getDescription());
-                        }
-                    } catch (MetadataException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-        }
-        String[] result = (String[]) metaDataMap.keySet().toArray(new String[0]);
-        Arrays.sort(result);
-        return result;
+        return handler!=null?handler.getNames():new String[0];
     }
 
     public String getMetadataValue(String name) {
-        return (String) metaDataMap.get(name);
+        return handler!=null?handler.getValue(name):null;
     }
 
     public String getMetadataDescription(String name) {
-        String description = DescriptionTagHelper.getInstance().getDescription("metadatafielddescription", name);
-        if (showAllMetadata.booleanValue() && description == null) {
-            return name;
-        }
-        return description;
+        return handler!=null?handler.getDescription(name):null;
     }
 
     public Picture getPicture() {
@@ -156,17 +103,13 @@ public class LoadMetadataCommand implements CommandInterface, ViewMetadataInterf
 
     public String getComment() {
         if (picture != null && comment == null) {
-            PictureComment template = (PictureComment) environment.getEntityFactory().create("picturecomment");
+            PictureComment template = (PictureComment) environment.getEntityFactory().create("dirgallery-picturecomment");
             template.setId(picture.getFullPath());
-            PictureComment pictureComment = (PictureComment) environment.getEntityStorageFactory().getStorage("picturecomment").load(template);
+            PictureComment pictureComment = (PictureComment) environment.getEntityStorageFactory().getStorage("dirgallery-picturecomment").load(template);
             if (pictureComment != null) {
                 comment = pictureComment.getComment();
             }
         }
         return comment;
-    }
-
-    public WebAppEnvironmentInterface getEnvironment() {
-        return environment;
     }
 }

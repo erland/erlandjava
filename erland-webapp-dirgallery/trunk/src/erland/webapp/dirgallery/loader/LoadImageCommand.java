@@ -1,4 +1,5 @@
 package erland.webapp.dirgallery.loader;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -18,10 +19,10 @@ package erland.webapp.dirgallery.loader;
  *
  */
 
-import erland.util.Log;
 import erland.webapp.common.CommandInterface;
 import erland.webapp.common.CommandResponseInterface;
 import erland.webapp.common.WebAppEnvironmentInterface;
+import erland.webapp.common.image.ImageWriteHelper;
 import erland.webapp.dirgallery.gallery.GalleryHelper;
 import erland.webapp.dirgallery.gallery.GalleryInterface;
 import erland.webapp.dirgallery.gallery.picture.Picture;
@@ -30,8 +31,7 @@ import erland.webapp.usermgmt.User;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.net.URL;
+import java.io.IOException;
 
 public class LoadImageCommand implements CommandInterface, CommandResponseInterface {
     private WebAppEnvironmentInterface environment;
@@ -46,18 +46,18 @@ public class LoadImageCommand implements CommandInterface, CommandResponseInterf
         String image = request.getParameter("image");
         Integer gallery = getGalleryId(request);
         if (image != null && gallery != null) {
-            GalleryInterface templateGallery = (GalleryInterface) environment.getEntityFactory().create("gallery");
+            GalleryInterface templateGallery = (GalleryInterface) environment.getEntityFactory().create("dirgallery-gallery");
             templateGallery.setId(gallery);
-            GalleryInterface entity = (GalleryInterface) environment.getEntityStorageFactory().getStorage("gallery").load(templateGallery);
+            GalleryInterface entity = (GalleryInterface) environment.getEntityStorageFactory().getStorage("dirgallery-gallery").load(templateGallery);
             if (entity == null || (getClass().equals(LoadImageCommand.class) && !entity.getOriginalDownloadable().booleanValue())) {
                 return null;
             }
             username = entity.getUsername();
-            Picture template = (Picture) environment.getEntityFactory().create("picture");
+            Picture template = (Picture) environment.getEntityFactory().create("dirgallery-picture");
             template.setGallery(gallery);
             template.setDirectory(entity.getDirectory());
             template.setId(image);
-            Picture picture = (Picture) environment.getEntityStorageFactory().getStorage("picture").load(template);
+            Picture picture = (Picture) environment.getEntityStorageFactory().getStorage("dirgallery-picture").load(template);
             if (picture != null) {
                 if (!entity.getOfficial().booleanValue()) {
                     User realUser = (User) request.getSession().getAttribute("user");
@@ -80,17 +80,7 @@ public class LoadImageCommand implements CommandInterface, CommandResponseInterf
 
     public void makeResponse(HttpServletRequest request, HttpServletResponse response) {
         try {
-            if (getImageFile() != null) {
-                BufferedInputStream input = null;
-                Log.println(this, "Loading image" + getImageFile());
-                try {
-                    input = new BufferedInputStream(new FileInputStream(getImageFile()));
-                } catch (FileNotFoundException e) {
-                    input = new BufferedInputStream(new URL(getImageFile()).openConnection().getInputStream());
-                }
-                write(input, response.getOutputStream());
-                input.close();
-            } else {
+            if (!ImageWriteHelper.writeImage(environment, getImageFile(), response.getOutputStream())) {
                 request.getRequestDispatcher("thumbnailna.gif").forward(request, response);
             }
         } catch (ServletException e) {
@@ -106,17 +96,6 @@ public class LoadImageCommand implements CommandInterface, CommandResponseInterf
 
     protected String getImageFile() {
         return imageFile;
-    }
-
-    protected void write(InputStream input, OutputStream output) throws IOException {
-        byte[] data = new byte[100000];
-        while (true) {
-            int length = input.read(data);
-            if (length < 0) {
-                return;
-            }
-            output.write(data, 0, length);
-        }
     }
 
     public WebAppEnvironmentInterface getEnvironment() {
