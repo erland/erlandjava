@@ -27,6 +27,18 @@
     <tr><td><bean:message key="gallery.gallery.edit.max-width"/></td><td>
     <html:text property="maxWidthDisplay"/>
     </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.antialias"/></td><td>
+    <html:checkbox property="antialiasDisplay" value="true"/>
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.thumbnail-antialias"/></td><td>
+    <html:checkbox property="thumbnailAntialiasDisplay" value="true"/>
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.compression"/></td><td>
+    <html:text property="compressionDisplay"/>
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.thumbnail-compression"/></td><td>
+    <html:text property="thumbnailCompressionDisplay"/>
+    </td></tr>
     <tr><td><bean:message key="gallery.gallery.edit.default-resolution"/></td><td>
     <html:select property="defaultResolution" size="1">
         <html:option value="" key="gallery.gallery.edit.default-resolution.none"/>
@@ -42,6 +54,20 @@
         <html:options collection="galleriesPB" property="idDisplay" labelProperty="title" />
     </html:select>
     </td></tr>
+    <logic:equal name="galleryFB" property="referencedGallery" value="0">
+        <tr><td><bean:message key="gallery.gallery.edit.official-category"/></td><td>
+        <html:select property="officialCategory" size="1">
+            <html:option value="" key="gallery.gallery.edit.official-category.none"/>
+            <html:options collection="categoriesPB" property="categoryDisplay" labelProperty="name" />
+        </html:select>
+        </td></tr>
+        <tr><td><bean:message key="gallery.gallery.edit.officialguest-category"/></td><td>
+        <html:select property="officialGuestCategory" size="1">
+            <html:option value="" key="gallery.gallery.edit.officialguest-category.none"/>
+            <html:options collection="categoriesPB" property="categoryDisplay" labelProperty="name" />
+        </html:select>
+        </td></tr>
+    </logic:equal>
     <logic:notEmpty name="galleryFB" property="referencedGallery">
         <logic:notEqual name="galleryFB" property="referencedGallery" value="0">
             <tr><td><bean:message key="gallery.gallery.edit.required-categories"/></td><td>
