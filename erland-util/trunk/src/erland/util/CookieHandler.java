@@ -36,7 +36,7 @@ public class CookieHandler
 			JSObject myBrowser = (JSObject) JSObject.getWindow(applet);
 			JSObject myDocument =  (JSObject) myBrowser.getMember("document");
 			String myCookie = (String)myDocument.getMember("cookie");
-			if (myCookie.length() > 0) 
+			if (myCookie!=null && myCookie.length() > 0)
 				return myCookie;
 		}
 		catch (Exception e){
