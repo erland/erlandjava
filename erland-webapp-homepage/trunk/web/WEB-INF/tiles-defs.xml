@@ -73,6 +73,15 @@
     <definition name=".user.viewservices" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/service/viewservices.jsp"/>
     </definition>
+    <definition name=".user.viewservice" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/service/viewservicedata.jsp"/>
+    </definition>
+    <definition name=".guest.viewservice" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/service/viewservicedata.jsp"/>
+    </definition>
+    <definition name=".guest.viewservicefull" extends=".guest.empty">
+        <put name="body" value="/WEB-INF/tiles/service/viewservicedata.jsp"/>
+    </definition>
     <definition name=".guest.empty" extends=".mainLayoutEmpty"/>
     <definition name=".guest.index" extends=".mainLayout">
         <put name="menu" value="/WEB-INF/tiles/common/guestmenu.jsp"/>
