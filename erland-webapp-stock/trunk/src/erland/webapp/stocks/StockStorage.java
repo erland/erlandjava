@@ -43,7 +43,7 @@ public class StockStorage implements StockStorageInterface {
     }
 
     public StockInterface getStock(String broker, String stock) {
-        File file = new File(environment.getResources().getParameter("brokers."+broker+".cache.directory")+"/"+broker+stock+".xml");
+        File file = new File(environment.getConfigurableResources().getParameter("brokers."+broker+".cache")+"/"+broker+stock+".xml");
         if(!file.exists() || file.lastModified()<System.currentTimeMillis()-1000*60*60) {
             try {
                 FileWriter outFile = new FileWriter(file);
@@ -62,7 +62,7 @@ public class StockStorage implements StockStorageInterface {
         try {
             StockInterface s = (StockInterface) stocks.get(broker+stock);
             if(s==null) {
-                FileInputStream fileInput = new FileInputStream(environment.getResources().getParameter("brokers."+broker+".cache.directory")+"/"+broker+stock+".xml");
+                FileInputStream fileInput = new FileInputStream(environment.getConfigurableResources().getParameter("brokers."+broker+".cache")+"/"+broker+stock+".xml");
                 s = new Stock(fileInput);
                 fileInput.close();
                 stocks.put(broker+stock,s);
