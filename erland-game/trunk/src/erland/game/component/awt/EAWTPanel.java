@@ -31,14 +31,14 @@ public class EAWTPanel extends EPanel {
      * Creates a new instance
      */
     public EAWTPanel() {
-        super(new Container());
+        super(new AWTContainer());
     }
     /**
      * Creates a new instance
      * @param layoutManager The layout manager to use
      */
     public EAWTPanel(LayoutManager layoutManager) {
-        super(new Container());
+        super(new AWTContainer());
         getContainer().setLayout(layoutManager);
     }
 }
