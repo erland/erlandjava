@@ -257,6 +257,7 @@ public class IMatchImportAction extends BaseAction {
             if ((title == null || title.length() == 0) && filenameAsPictureTitle.booleanValue()) {
                 title = picture;
             }
+            entity.setFile(picture);
             entity.setTitle(title);
             if ((description == null || description.length() == 0) && filenameAsPictureDescription != null && filenameAsPictureDescription.booleanValue()) {
                 description = picture;
