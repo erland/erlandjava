@@ -44,6 +44,10 @@ public class NewSectionAction extends BaseAction {
         fb.setTitle(null);
         fb.setTitleEnglish(null);
         fb.setService(null);
+        fb.setOrderNo(null);
+        fb.setServiceParameters(null);
+        fb.setName(null);
+        fb.setNameEnglish(null);
         // We do not want to reset parent, since it should be possible to easy create subsections
 
         boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));

@@ -37,7 +37,10 @@ public class NewServiceAction extends BaseAction {
         fb.setNameEnglish(null);
         fb.setId(null);
         fb.setServiceClass(null);
+        fb.setServiceData(null);
+        fb.setCustomizedServiceData(null);
         fb.setTransformerClass(null);
         fb.setTransformerData(null);
+        fb.setCustomizedTransformerData(null);
     }
 }
