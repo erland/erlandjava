@@ -70,7 +70,7 @@
     <option name="PUT_FOCUS_INTO_COMMENT" value="false" />
     <option name="SHOW_CHECKIN_OPTIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed references to DiaryEntryInterface" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added hegiht attribute to beanimage tag" />
     <option name="SAVE_LAST_COMMIT_MESSAGE" value="true" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -192,49 +192,39 @@
     <option name="HIDE_WARNINGS" value="false" />
   </component>
   <component name="FileEditorManager" split-orientation="horizontal" split-proportion="0.5">
-    <first-group selected-file="file://$PROJECT_DIR$/src/erland/webapp/diary/entity/diary/DiaryEntry.java">
-      <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/act/diary/RemoveEntryAction.java" pinned="false">
+    <first-group selected-file="file://E:/EGNA/Working/Java/Web/Common/project.xml">
+      <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/act/gallery/picture/SearchPicturesBaseAction.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="38" column="28" selection-start="1603" selection-end="1603" vertical-scroll-proportion="0.6054159">
-            <folding>
-              <element signature="imports" expanded="true" />
-            </folding>
+          <state line="73" column="0" selection-start="3550" selection-end="3550" vertical-scroll-proportion="0.5261122">
+            <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/act/diary/SearchEntriesAction.java" pinned="false">
+      <entry file="file://E:/EGNA/Working/Java/Web/Gallery/project.xml" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="25" column="0" selection-start="1012" selection-end="1012" vertical-scroll-proportion="0.3172147">
-            <folding>
-              <element signature="imports" expanded="true" />
-            </folding>
+          <state line="58" column="20" selection-start="1691" selection-end="1691" vertical-scroll-proportion="0.9206963">
+            <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/act/diary/ViewEntryAction.java" pinned="false">
+      <entry file="file://E:/EGNA/Working/Java/Web/Common/project.xml" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="40" column="31" selection-start="1718" selection-end="1718" vertical-scroll-proportion="0.34235978">
-            <folding>
-              <element signature="imports" expanded="true" />
-            </folding>
+          <state line="46" column="18" selection-start="1316" selection-end="1316" vertical-scroll-proportion="0.71240604">
+            <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/act/diary/ViewEntryInfoAction.java" pinned="false">
+      <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/picture/SelectPictureFB.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="45" column="31" selection-start="1931" selection-end="1931" vertical-scroll-proportion="0.3172147">
-            <folding>
-              <element signature="imports" expanded="true" />
-            </folding>
+          <state line="0" column="13" selection-start="13" selection-end="13" vertical-scroll-proportion="0.0">
+            <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/entity/diary/DiaryEntry.java" pinned="false">
+      <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/picture/PictureFB.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="26" column="0" selection-start="943" selection-end="943" vertical-scroll-proportion="0.3326886">
-            <folding>
-              <element signature="imports" expanded="true" />
-            </folding>
+          <state line="30" column="13" selection-start="1120" selection-end="1120" vertical-scroll-proportion="0.3326886">
+            <folding />
           </state>
         </provider>
       </entry>
@@ -265,7 +255,10 @@
   <component name="PackagesPane">
     <expanded_node url="" module="Diary" type="module" />
   </component>
-  <component name="ProjectPane" />
+  <component name="ProjectPane">
+    <expanded_node url="" module="WebCommon" type="module" />
+    <expanded_node url="file://E:/EGNA/Working/Java/Web/Common" module="WebCommon" type="directory" />
+  </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" splitterProportion="0.5">
       <flattenPackages />
@@ -424,12 +417,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="3" width="1004" height="728" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="SQL" active="false" anchor="bottom" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.6694631" order="8" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.32998326" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.3305369" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.3907563" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.38130254" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.32998326" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.33001658" order="8" />
@@ -529,99 +522,9 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/database/diary_data.sql">
+    <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/act/diary/ViewEntryInfoAction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.21663442">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/users_data.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="449" selection-end="449" vertical-scroll-proportion="0.575188">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/common_data.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="19" selection-start="157" selection-end="157" vertical-scroll-proportion="0.19729207">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/WEB-INF/resources.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/index.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common/tags/calendar/CalendarTag.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/project.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="26" selection-start="447" selection-end="455" vertical-scroll-proportion="0.49323016">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/common/textchangescript.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Common/project.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="25" selection-start="1399" selection-end="1399" vertical-scroll-proportion="0.46615088">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/act/diary/EditEntryAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="830" selection-end="830" vertical-scroll-proportion="0.33226836">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/act/diary/RemoveEntryAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="28" selection-start="1603" selection-end="1603" vertical-scroll-proportion="0.6054159">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/act/diary/SearchEntriesAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="1012" selection-end="1012" vertical-scroll-proportion="0.3172147">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/act/diary/ViewEntryAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="31" selection-start="1718" selection-end="1718" vertical-scroll-proportion="0.34235978">
+        <state line="45" column="31" selection-start="1931" selection-end="1931" vertical-scroll-proportion="0.3326886">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -630,19 +533,101 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/entity/diary/DiaryEntry.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="0" selection-start="943" selection-end="943" vertical-scroll-proportion="0.3326886">
+        <state line="0" column="1" selection-start="1" selection-end="1" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/act/diary/ViewEntryInfoAction.java">
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/gallery/viewexternalgallery.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="31" selection-start="1931" selection-end="1931" vertical-scroll-proportion="0.3172147">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="28" column="79" selection-start="2187" selection-end="2187" vertical-scroll-proportion="0.9206963">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/gallery/viewgallery.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="92" selection-start="2200" selection-end="2200" vertical-scroll-proportion="0.9206963">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles-defs.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="136" column="0" selection-start="6948" selection-end="6948" vertical-scroll-proportion="0.5396518">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/struts-config.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="680" column="26" selection-start="30196" selection-end="30196" vertical-scroll-proportion="0.57253385">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common/tags/erland-common.tld">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="240" column="0" selection-start="7662" selection-end="7662" vertical-scroll-proportion="0.76982594">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common/tags/BeanImageTag.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="13" selection-start="1414" selection-end="1414" vertical-scroll-proportion="0.3326886">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/act/gallery/picture/SearchPicturesAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="13" selection-start="1403" selection-end="1403" vertical-scroll-proportion="0.3288201">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/picture/SearchPictureFB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="13" selection-start="1071" selection-end="1071" vertical-scroll-proportion="0.3172147">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/picture/PictureFB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="13" selection-start="1120" selection-end="1120" vertical-scroll-proportion="0.3326886">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/act/gallery/picture/SearchPicturesBaseAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="0" selection-start="3550" selection-end="3550" vertical-scroll-proportion="0.5261122">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/picture/SelectPictureFB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="13" selection-start="13" selection-end="13" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Web/Gallery/project.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="20" selection-start="1691" selection-end="1691" vertical-scroll-proportion="0.9206963">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Web/Common/project.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="18" selection-start="1316" selection-end="1316" vertical-scroll-proportion="0.71240604">
+          <folding />
         </state>
       </provider>
     </entry>
