@@ -17,7 +17,7 @@
             %>
             <tr>
             <td><%=account.getGuestUser()%></td>
-            <td><a href="portal?do=removeguestaccount&guestuser=<%=account.getUsername()%>" class="bold-link" onClick="return confirm('Are you sure you want to delete this ?')">Delete</a></td>
+            <td><a href="portal?do=removeguestaccount&guestuser=<%=account.getGuestUser()%>" class="bold-link" onClick="return confirm('Are you sure you want to delete this ?')">Delete</a></td>
             </tr>
             <%
         }
