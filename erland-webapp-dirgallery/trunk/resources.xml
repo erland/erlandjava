@@ -408,6 +408,14 @@
                         <column>menuname</column>
                         <type>String</type>
                     </field>
+                    <field id="showFileSizeBelowPicture">
+                        <column>showfilesizebelowpicture</column>
+                        <type>Boolean</type>
+                    </field>
+                    <field id="showCommentBelowPicture">
+                        <column>showcommentbelowpicture</column>
+                        <type>Boolean</type>
+                    </field>
                 </fields>
                 <queries>
                     <query id="allforuser">
@@ -582,6 +590,10 @@
                     <field id="directory">
                         <attribute>directory</attribute>
                         <type>String</type>
+                    </field>
+                    <field id="fileSize">
+                        <attribute>length</attribute>
+                        <type>Long</type>
                     </field>
                 </fields>
             </data>

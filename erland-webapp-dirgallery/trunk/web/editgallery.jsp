@@ -71,6 +71,12 @@
             <tr><td>Visa bildnamn i tooltip</td><td>
             <input type="checkbox" name="shoppicturenameintooltip" value="true" <%=(gallery==null || gallery.getShowPictureNameInTooltip().booleanValue())?"checked":""%>>
             </td></tr>
+            <tr><td>Visa kommentar nedanför thumbnail</td><td>
+            <input type="checkbox" name="showcommentbelowpicture" value="true" <%=(gallery!=null && gallery.getShowCommentBelowPicture().booleanValue())?"checked":""%>>
+            </td></tr>
+            <tr><td>Visa filstorlek nedanför thumbnail</td><td>
+            <input type="checkbox" name="showfilesizebelowpicture" value="true" <%=(gallery!=null && gallery.getShowFileSizeBelowPicture().booleanValue())?"checked":""%>>
+            </td></tr>
             <tr><td>Thumbnail bredd</td><td>
             <input type="text" name="thumbnailwidth" value="<%=gallery!=null?gallery.getThumbnailWidth().toString():""%>">
             </td></tr>

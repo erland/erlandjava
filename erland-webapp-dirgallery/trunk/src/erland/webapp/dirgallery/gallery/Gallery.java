@@ -33,6 +33,8 @@ public class Gallery extends BaseEntity implements GalleryInterface {
     private Integer maxPictureNameLength;
     private Boolean showPictureNameInTooltip;
     private Boolean useTooltip;
+    private Boolean showFileSizeBelowPicture;
+    private Boolean showCommentBelowPicture;
 
     public Integer getId() {
         return id;
@@ -272,5 +274,21 @@ public class Gallery extends BaseEntity implements GalleryInterface {
 
     public void setUseTooltip(Boolean useTooltip) {
         this.useTooltip = useTooltip;
+    }
+
+    public Boolean getShowFileSizeBelowPicture() {
+        return showFileSizeBelowPicture;
+    }
+
+    public void setShowFileSizeBelowPicture(Boolean showFileSizeBelowPicture) {
+        this.showFileSizeBelowPicture = showFileSizeBelowPicture;
+    }
+
+    public Boolean getShowCommentBelowPicture() {
+        return showCommentBelowPicture;
+    }
+
+    public void setShowCommentBelowPicture(Boolean showCommentBelowPicture) {
+        this.showCommentBelowPicture = showCommentBelowPicture;
     }
 }

@@ -50,6 +50,8 @@ public class EditGalleryCommand implements CommandInterface, ViewGalleryInterfac
         gallery.setNumberOfMovieThumbnailColumns(ServletParameterHelper.asInteger(request.getParameter("noofmoviethumbnailcolumns")));
         gallery.setNumberOfMovieThumbnailRows(ServletParameterHelper.asInteger(request.getParameter("noofmoviethumbnailrows")));
         gallery.setMaxPictureNameLength(ServletParameterHelper.asInteger(request.getParameter("maxpicturenamelength")));
+        gallery.setShowFileSizeBelowPicture(ServletParameterHelper.asBoolean(request.getParameter("showfilesizebelowpicture")));
+        gallery.setShowCommentBelowPicture(ServletParameterHelper.asBoolean(request.getParameter("showcommentbelowpicture")));
         environment.getEntityStorageFactory().getStorage("gallery").store(gallery);
         String[] friendGalleries = request.getParameterValues("friendgalleries");
         if (friendGalleries != null) {

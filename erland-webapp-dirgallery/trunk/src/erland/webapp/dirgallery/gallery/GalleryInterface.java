@@ -125,4 +125,12 @@ public interface GalleryInterface extends EntityInterface {
     Boolean getUseTooltip();
 
     void setUseTooltip(Boolean useTooltip);
+
+    Boolean getShowFileSizeBelowPicture();
+
+    void setShowFileSizeBelowPicture(Boolean showFileSizeBelowPicture);
+
+    Boolean getShowCommentBelowPicture();
+
+    void setShowCommentBelowPicture(Boolean showCommentBelowPicture);
 }
