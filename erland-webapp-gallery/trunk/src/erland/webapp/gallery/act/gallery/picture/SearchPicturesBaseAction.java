@@ -38,10 +38,7 @@ import org.apache.struts.action.ActionForward;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collection;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Arrays;
+import java.util.*;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -212,6 +209,11 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         pb.setPictures(picturesPB);
 
         Map parameters = new HashMap();
+        Enumeration enum = request.getParameterNames();
+        while (enum.hasMoreElements()) {
+            String parameter = (String) enum.nextElement();
+            parameters.put(parameter,request.getParameter(parameter));
+        }
         addParameters(parameters,fb);
         Integer prevStart = getPreviousPage(fb.getStart(), fb.getMax());
         if(prevStart!=null) {
