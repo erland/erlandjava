@@ -70,7 +70,16 @@
             <role>user</role>
             <save type="session">menugalleries</save>
         </command>
+        <command id="searchgalleriesviewdefaultgallery">
+            <class>erland.webapp.gallery.gallery.SearchGalleriesCommand</class>
+            <role>user</role>
+            <save type="session">menugalleries</save>
+        </command>
         <command id="searchgalleriesguest">
+            <class>erland.webapp.gallery.gallery.SearchOfficialGalleriesCommand</class>
+            <save type="session">menugalleries</save>
+        </command>
+        <command id="searchgalleriesguestviewdefaultgallery">
             <class>erland.webapp.gallery.gallery.SearchOfficialGalleriesCommand</class>
             <save type="session">menugalleries</save>
         </command>
@@ -174,6 +183,45 @@
         </command>
         <command id="loadimage">
             <class>erland.webapp.gallery.loader.LoadImageCommand</class>
+        </command>
+        <command id="viewdefaultgalleryguest">
+            <class>erland.webapp.gallery.account.ViewUserAccountCommand</class>
+        </command>
+        <command id="viewdefaultgallery">
+            <class>erland.webapp.gallery.account.ViewUserAccountCommand</class>
+            <role>user</role>
+        </command>
+        <command id="newguestaccount">
+            <class>erland.webapp.common.NoneCommand</class>
+            <role>user</role>
+        </command>
+        <command id="editguestaccount">
+            <class>erland.webapp.gallery.guestaccount.AddGuestAccountCommand</class>
+            <role>user</role>
+        </command>
+        <command id="removeguestaccount">
+            <class>erland.webapp.gallery.guestaccount.RemoveGuestAccountCommand</class>
+            <role>user</role>
+        </command>
+        <command id="searchguestaccounts">
+            <class>erland.webapp.gallery.guestaccount.SearchGuestAccountsCommand</class>
+            <role>user</role>
+        </command>
+        <command id="loginasguest">
+            <class>erland.webapp.common.NoneCommand</class>
+        </command>
+        <command id="loginguest">
+            <class>erland.webapp.usermgmt.LoginCommand</class>
+            <options>
+                <option id="userattribute">guestuser</option>
+            </options>
+        </command>
+        <command id="logoutguest">
+            <class>erland.webapp.usermgmt.LogoutCommand</class>
+            <options>
+                <option id="userattribute">guestuser</option>
+                <option id="invalidatesession">false</option>
+            </options>
         </command>
     </commands>
     <entities>
@@ -311,6 +359,10 @@
                         <column>official</column>
                         <type>Boolean</type>
                     </field>
+                    <field id="copyrightText">
+                        <column>copyright</column>
+                        <type>String</type>
+                    </field>
                 </fields>
                 <queries>
                     <query id="all">
@@ -318,6 +370,40 @@
                     </query>
                     <query id="allofficial">
                         <querystring>official=1</querystring>
+                    </query>
+                </queries>
+            </data>
+        </entity>
+        <entity id="guestaccount">
+            <class>erland.webapp.gallery.guestaccount.GuestAccount</class>
+            <data id="storage">
+                <class>erland.webapp.common.GenericEntityStorage</class>
+                <name>sql</name>
+            </data>
+            <data id="sql">
+                <datasource>jdbc/gallery</datasource>
+                <table>userguests</table>
+                <fields>
+                    <field id="username">
+                        <column>username</column>
+                        <type>String</type>
+                        <identity>true</identity>
+                    </field>
+                    <field id="guestUser">
+                        <column>guestuser</column>
+                        <type>String</type>
+                        <identity>true</identity>
+                    </field>
+                </fields>
+                <queries>
+                    <query id="allforuser">
+                        <querystring>username=?</querystring>
+                        <fields>
+                            <field id="1">
+                                <field>username</field>
+                                <type>String</type>
+                            </field>
+                        </fields>
                     </query>
                 </queries>
             </data>
@@ -358,6 +444,10 @@
                         <column>official</column>
                         <type>Boolean</type>
                     </field>
+                    <field id="referencedGallery">
+                        <column>referencedgallery</column>
+                        <type>Integer</type>
+                    </field>
                 </fields>
                 <queries>
                     <query id="allforuser">
@@ -375,6 +465,49 @@
                             <field id="1">
                                 <field>username</field>
                                 <type>String</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allrealforuser">
+                        <querystring>username=? and referencedgallery=0</querystring>
+                        <fields>
+                            <field id="1">
+                                <field>username</field>
+                                <type>String</type>
+                            </field>
+                        </fields>
+                    </query>
+                </queries>
+            </data>
+        </entity>
+        <entity id="gallerycategoryassociation">
+            <class>erland.webapp.gallery.gallery.GalleryCategoryAssociation</class>
+            <data id="storage">
+                <class>erland.webapp.common.GenericEntityStorage</class>
+                <name>sql</name>
+            </data>
+            <data id="sql">
+                <datasource>jdbc/gallery</datasource>
+                <table>gallerycategories</table>
+                <fields>
+                    <field id="gallery">
+                        <column>gallery</column>
+                        <type>Integer</type>
+                        <identity>true</identity>
+                    </field>
+                    <field id="category">
+                        <column>category</column>
+                        <type>Integer</type>
+                        <identity>true</identity>
+                    </field>
+                </fields>
+                <queries>
+                    <query id="allforgallery">
+                        <querystring>gallery=?</querystring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
                             </field>
                         </fields>
                     </query>
@@ -438,6 +571,20 @@
                             </field>
                         </fields>
                     </query>
+                    <query id="allforgalleryandpicturelist">
+                        <querystring>gallery=? and id in ({2})</querystring>
+                        <orderstring>order by date desc,id desc</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>pictures</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
                     <query id="allforgallerywithlimit">
                         <querystring>gallery=?</querystring>
                         <orderstring>order by date desc,id desc limit ?,?</orderstring>
@@ -451,6 +598,28 @@
                                 <type>Integer</type>
                             </field>
                             <field id="3">
+                                <field>max</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allforgalleryandpicturelistwithlimit">
+                        <querystring>gallery=? and id in ({2})</querystring>
+                        <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>pictures</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="3">
+                                <field>start</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="4">
                                 <field>max</field>
                                 <type>Integer</type>
                             </field>
@@ -500,30 +669,8 @@
                             </field>
                         </fields>
                     </query>
-                    <query id="allforgalleryandcategorywithlimit">
-                        <completequerystring>select pictures.* from pictures,picturecategories where pictures.id=picturecategories.picture and pictures.gallery=picturecategories.gallery and pictures.gallery=? and category=?</completequerystring>
-                        <orderstring>order by date desc,id desc limit ?,?</orderstring>
-                        <fields>
-                            <field id="1">
-                                <field>gallery</field>
-                                <type>Integer</type>
-                            </field>
-                            <field id="2">
-                                <field>category</field>
-                                <type>Integer</type>
-                            </field>
-                            <field id="3">
-                                <field>start</field>
-                                <type>Integer</type>
-                            </field>
-                            <field id="4">
-                                <field>max</field>
-                                <type>Integer</type>
-                            </field>
-                        </fields>
-                    </query>
-                    <query id="allforgalleryandcategory">
-                        <completequerystring>select pictures.* from pictures,picturecategories where pictures.id=picturecategories.picture and pictures.gallery=picturecategories.gallery and gallery=? and category=?</completequerystring>
+                    <query id="allforgallerybetweendatesandpicturelist">
+                        <querystring>gallery=? and date between ? and ? and id in ({4})</querystring>
                         <orderstring>order by date desc,id desc</orderstring>
                         <fields>
                             <field id="1">
@@ -531,13 +678,21 @@
                                 <type>Integer</type>
                             </field>
                             <field id="2">
-                                <field>category</field>
+                                <field>dateafter</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="3">
+                                <field>datebefore</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="4">
+                                <field>pictures</field>
                                 <type>Integer</type>
                             </field>
                         </fields>
                     </query>
-                    <query id="allforgalleryandcategorytreewithlimit">
-                        <completequerystring>(select pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category=?) union (select pictures.* from pictures,picturecategories,categorymembers where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and picturecategories.gallery=categorymembers.gallery and picturecategories.category=categorymembers.member and pictures.gallery=? and categorymembers.category=?)</completequerystring>
+                    <query id="allforgallerybetweendatesandpicturelistwithlimit">
+                        <querystring>gallery=? and date between ? and ?</querystring>
                         <orderstring>order by date desc,id desc limit ?,?</orderstring>
                         <fields>
                             <field id="1">
@@ -545,15 +700,15 @@
                                 <type>Integer</type>
                             </field>
                             <field id="2">
-                                <field>category</field>
-                                <type>Integer</type>
+                                <field>dateafter</field>
+                                <type>Date</type>
                             </field>
                             <field id="3">
-                                <field>gallery</field>
-                                <type>Integer</type>
+                                <field>datebefore</field>
+                                <type>Date</type>
                             </field>
                             <field id="4">
-                                <field>category</field>
+                                <field>pictures</field>
                                 <type>Integer</type>
                             </field>
                             <field id="5">
@@ -562,28 +717,6 @@
                             </field>
                             <field id="6">
                                 <field>max</field>
-                                <type>Integer</type>
-                            </field>
-                        </fields>
-                    </query>
-                    <query id="allforgalleryandcategorytree">
-                        <completequerystring>(select pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category=?) union (select pictures.* from pictures,picturecategories,categorymembers where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and picturecategories.gallery=categorymembers.gallery and picturecategories.category=categorymembers.member and pictures.gallery=? and categorymembers.category=?)</completequerystring>
-                        <orderstring>order by date desc,id desc</orderstring>
-                        <fields>
-                            <field id="1">
-                                <field>gallery</field>
-                                <type>Integer</type>
-                            </field>
-                            <field id="2">
-                                <field>category</field>
-                                <type>Integer</type>
-                            </field>
-                            <field id="3">
-                                <field>gallery</field>
-                                <type>Integer</type>
-                            </field>
-                            <field id="4">
-                                <field>category</field>
                                 <type>Integer</type>
                             </field>
                         </fields>
@@ -620,6 +753,50 @@
                             </field>
                             <field id="2">
                                 <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allforgalleryandcategorylistandpicturelistwithlimit">
+                        <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2}) and pictures.id in ({3})</completequerystring>
+                        <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="3">
+                                <field>pictures</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="4">
+                                <field>start</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="5">
+                                <field>max</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allforgalleryandcategorylist">
+                        <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2}) and pictures.id in ({3})</completequerystring>
+                        <orderstring>order by date desc,id desc</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="3">
+                                <field>pictures</field>
                                 <type>Integer</type>
                             </field>
                         </fields>
@@ -672,6 +849,66 @@
                             </field>
                             <field id="4">
                                 <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allforgalleryandcategorylistbetweendatesandpicturelistwithlimit">
+                        <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5})</completequerystring>
+                        <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>dateafter</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="3">
+                                <field>datebefore</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="4">
+                                <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="5">
+                                <field>pictures</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="6">
+                                <field>start</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="7">
+                                <field>max</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allforgalleryandcategorylistbetweendatesandpicturelist">
+                        <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5})</completequerystring>
+                        <orderstring>order by date desc,id desc</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>dateafter</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="3">
+                                <field>datebefore</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="4">
+                                <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="5">
+                                <field>pictures</field>
                                 <type>Integer</type>
                             </field>
                         </fields>
@@ -736,38 +973,8 @@
                             </field>
                         </fields>
                     </query>
-                    <query id="allofficialforgalleryandcategorytreewithlimit">
-                        <completequerystring>(select pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category=?) union (select pictures.* from pictures,picturecategories,categorymembers where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and picturecategories.gallery=categorymembers.gallery and picturecategories.category=categorymembers.member and pictures.gallery=? and categorymembers.category=?)</completequerystring>
-                        <orderstring>order by date desc,id desc limit ?,?</orderstring>
-                        <fields>
-                            <field id="1">
-                                <field>gallery</field>
-                                <type>Integer</type>
-                            </field>
-                            <field id="2">
-                                <field>category</field>
-                                <type>Integer</type>
-                            </field>
-                            <field id="3">
-                                <field>gallery</field>
-                                <type>Integer</type>
-                            </field>
-                            <field id="4">
-                                <field>category</field>
-                                <type>Integer</type>
-                            </field>
-                            <field id="5">
-                                <field>start</field>
-                                <type>Integer</type>
-                            </field>
-                            <field id="6">
-                                <field>max</field>
-                                <type>Integer</type>
-                            </field>
-                        </fields>
-                    </query>
-                    <query id="allofficialforgalleryandcategorytree">
-                        <completequerystring>(select pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category=?) union (select pictures.* from pictures,picturecategories,categorymembers where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and picturecategories.gallery=categorymembers.gallery and picturecategories.category=categorymembers.member and pictures.gallery=? and categorymembers.category=?)</completequerystring>
+                    <query id="allforgalleryandcategorylistallrequired">
+                        <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2}) group by pictures.id having count(pictures.id)=?</completequerystring>
                         <orderstring>order by date desc,id desc</orderstring>
                         <fields>
                             <field id="1">
@@ -775,15 +982,79 @@
                                 <type>Integer</type>
                             </field>
                             <field id="2">
-                                <field>category</field>
+                                <field>categories</field>
                                 <type>Integer</type>
                             </field>
                             <field id="3">
+                                <field>numberofcategories</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allforgalleryandcategorylistallrequiredbetweendatesandpicturelistwithlimit">
+                        <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5}) group by pictures.id having count(pictures.id)=?</completequerystring>
+                        <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                        <fields>
+                            <field id="1">
                                 <field>gallery</field>
                                 <type>Integer</type>
                             </field>
+                            <field id="2">
+                                <field>dateafter</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="3">
+                                <field>datebefore</field>
+                                <type>Date</type>
+                            </field>
                             <field id="4">
-                                <field>category</field>
+                                <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="5">
+                                <field>pictures</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="6">
+                                <field>numberofcategories</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="7">
+                                <field>start</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="8">
+                                <field>max</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allforgalleryandcategorylistallrequiredbetweendatesandpicturelist">
+                        <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5}) group by pictures.id having count(pictures.id)=?</completequerystring>
+                        <orderstring>order by date desc,id desc</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>dateafter</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="3">
+                                <field>datebefore</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="4">
+                                <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="5">
+                                <field>pictures</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="6">
+                                <field>numberofcategories</field>
                                 <type>Integer</type>
                             </field>
                         </fields>
@@ -820,6 +1091,50 @@
                             </field>
                             <field id="2">
                                 <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allofficialforgalleryandcategorylistandpicturelistwithlimit">
+                        <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2}) and pictures.id in ({3})</completequerystring>
+                        <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="3">
+                                <field>pictures</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="4">
+                                <field>start</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="5">
+                                <field>max</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allofficialforgalleryandcategorylistandpicturelist">
+                        <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2}) and pictures.id in ({3})</completequerystring>
+                        <orderstring>order by date desc,id desc</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="3">
+                                <field>pictures</field>
                                 <type>Integer</type>
                             </field>
                         </fields>
@@ -872,6 +1187,66 @@
                             </field>
                             <field id="4">
                                 <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allofficialforgalleryandcategorylistbetweendatesandpicturelistwithlimit">
+                        <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5})</completequerystring>
+                        <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>dateafter</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="3">
+                                <field>datebefore</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="4">
+                                <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="5">
+                                <field>pictures</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="6">
+                                <field>start</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="7">
+                                <field>max</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allofficialforgalleryandcategorylistbetweendatesandpicturelist">
+                        <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5})</completequerystring>
+                        <orderstring>order by date desc,id desc</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>dateafter</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="3">
+                                <field>datebefore</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="4">
+                                <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="5">
+                                <field>pictures</field>
                                 <type>Integer</type>
                             </field>
                         </fields>
@@ -936,12 +1311,94 @@
                             </field>
                         </fields>
                     </query>
+                    <query id="allofficialforgalleryandcategorylistallrequiredbetweendatesandpicturelistwithlimit">
+                        <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5}) group by pictures.id having count(pictures.id)=?</completequerystring>
+                        <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>dateafter</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="3">
+                                <field>datebefore</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="4">
+                                <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="5">
+                                <field>pictures</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="5">
+                                <field>numberofcategories</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="6">
+                                <field>start</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="7">
+                                <field>max</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allofficialforgalleryandcategorylistallrequiredbetweendatesandpicturelist">
+                        <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5}) group by pictures.id having count(pictures.id)=?</completequerystring>
+                        <orderstring>order by date desc,id desc</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>dateafter</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="3">
+                                <field>datebefore</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="4">
+                                <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="5">
+                                <field>pictures</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="6">
+                                <field>numberofcategories</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
                     <query id="allofficialforgallery">
                         <querystring>gallery=? and official=1</querystring>
                         <orderstring>order by date desc,id desc</orderstring>
                         <fields>
                             <field id="1">
                                 <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allofficialforgalleryandpicturelist">
+                        <querystring>gallery=? and official=1 and id in ({2})</querystring>
+                        <orderstring>order by date desc,id desc</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>pictures</field>
                                 <type>Integer</type>
                             </field>
                         </fields>
@@ -964,8 +1421,30 @@
                             </field>
                         </fields>
                     </query>
-                    <query id="allofficialforgallerywithlimit">
-                        <querystring>gallery=? and official=1</querystring>
+                    <query id="allofficialforgallerybetweendatesandpicturelist">
+                        <querystring>gallery=? and pictures.date between ? and ? and official=1 and id in ({4})</querystring>
+                        <orderstring>order by date desc,id desc</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>dateafter</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="3">
+                                <field>datebefore</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="4">
+                                <field>pictures</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allofficialforgalleryandpicturelistwithlimit">
+                        <querystring>gallery=? and official=1 and id in ({2})</querystring>
                         <orderstring>order by date desc,id desc limit ?,?</orderstring>
                         <fields>
                             <field id="1">
@@ -973,10 +1452,14 @@
                                 <type>Integer</type>
                             </field>
                             <field id="2">
-                                <field>start</field>
+                                <field>pictures</field>
                                 <type>Integer</type>
                             </field>
                             <field id="3">
+                                <field>start</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="4">
                                 <field>max</field>
                                 <type>Integer</type>
                             </field>
@@ -1008,6 +1491,36 @@
                             </field>
                         </fields>
                     </query>
+                    <query id="allofficialforgallerybetweendatesandpicturelistwithlimit">
+                        <querystring>gallery=? and official=1 and date between ? and ? and id in ({4})</querystring>
+                        <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>dateafter</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="3">
+                                <field>datebefore</field>
+                                <type>Date</type>
+                            </field>
+                            <field id="4">
+                                <field>pictures</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="5">
+                                <field>start</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="6">
+                                <field>max</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
                     <query id="calculateofficialforgallery">
                         <completequerystring>select pictures.* from pictures,picturecategories,categories where pictures.gallery=? and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and picturecategories.gallery=categories.gallery and picturecategories.category=categories.id group by pictures.id having min(categories.official)=1 or max(categories.officialalways)=1</completequerystring>
                         <orderstring>order by date desc,id desc</orderstring>
@@ -1023,19 +1536,6 @@
                         <fields>
                             <field id="1">
                                 <field>gallery</field>
-                                <type>Integer</type>
-                            </field>
-                        </fields>
-                    </query>
-                    <query id="allforgalleryandpicturelist">
-                        <querystring>gallery=? and id in ({2})</querystring>
-                        <fields>
-                            <field id="1">
-                                <field>gallery</field>
-                                <type>Integer</type>
-                            </field>
-                            <field id="2">
-                                <field>pictures</field>
                                 <type>Integer</type>
                             </field>
                         </fields>
@@ -1443,10 +1943,10 @@
             <page>editgallery.jsp</page>
         </page>
         <page id="editgallery">
-            <forward>portal?do=searchgalleryentries&amp;start=0&amp;max=9</forward>
+            <forward>portal?do=searchgalleries</forward>
         </page>
         <page id="removegallery">
-            <forward>portal?do=home</forward>
+            <forward>portal?do=searchgalleries</forward>
         </page>
         <page id="newpicture">
             <page>editpicture.jsp</page>
@@ -1520,13 +2020,58 @@
         <page id="viewpicture">
             <page>viewpicture.jsp</page>
         </page>
+        <page id="searchgalleriesviewdefaultgallery">
+            <forward>portal?do=searchcategories&amp;start=0&amp;max=9</forward>
+        </page>
+        <page id="searchgalleriesguestviewdefaultgallery">
+            <forward>portal?do=searchcategoriesguest&amp;start=0&amp;max=9</forward>
+        </page>
+        <page id="viewdefaultgallery">
+            <page id="withdefaultgallery">
+                <forward>portal?do=searchgalleriesviewdefaultgallery&amp;gallery={defaultgallery}</forward>
+            </page>
+            <page id="withoutdefaultgallery">
+                <forward>portal?do=viewwelcometext&amp;withdifferentpages=0</forward>
+            </page>
+        </page>
+        <page id="viewdefaultgalleryguest">
+            <page id="withdefaultgallery">
+                <forward>portal?do=searchgalleriesguestviewdefaultgallery&amp;gallery={defaultgallery}</forward>
+            </page>
+            <page id="withoutdefaultgallery">
+                <forward>portal?do=viewwelcometext&amp;withdifferentpages=0</forward>
+            </page>
+        </page>
+        <page id="editguestaccount">
+            <forward>portal?do=searchguestaccounts</forward>
+        </page>
+        <page id="removeguestaccount">
+            <forward>portal?do=searchguestaccounts</forward>
+        </page>
+        <page id="searchguestaccounts">
+            <page>viewguestaccounts.jsp</page>
+        </page>
+        <page id="newguestaccount">
+            <page>newguestaccount.jsp</page>
+        </page>
+        <page id="loginasguest">
+            <page>loginguest.jsp</page>
+        </page>
+        <page id="loginguest">
+            <page id="success">
+                <forward>portal?do=home</forward>
+            </page>
+        </page>
+        <page id="logoutguest">
+            <forward>portal?do=home</forward>
+        </page>
         <page id="home">
             <page id="user">
-                <forward>portal?do=viewwelcometext</forward>
+                <forward>portal?do=viewdefaultgallery&amp;withdifferentpages=1</forward>
                 <page id="menu">menu.jsp</page>
             </page>
             <page id="guest">
-                <forward>portal?do=viewwelcometext</forward>
+                <forward>portal?do=viewdefaultgalleryguest&amp;withdifferentpages=1</forward>
                 <page id="main">index.jsp</page>
                 <page id="header">welcomeguest.jsp</page>
                 <page id="menu">menuguest.jsp</page>
