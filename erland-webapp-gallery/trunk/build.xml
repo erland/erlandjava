@@ -19,7 +19,6 @@
             <fileset dir="../../common/util/${dist}">
                 <include name="util.jar"/>
             </fileset>
-            <fileset file="${java.home.metadata-extractor}"/>
             <fileset file="resources.xml"/>
             <fileset dir="web">
                 <include name="*.jsp"/>
@@ -53,7 +52,7 @@
         <ant dir="${basedir}" antfile="${buildutil}" target="dist">
             <property name="currentproject" value="${ant.project.name}"/>
             <property name="currentpackage" value="erland.webapp.gallery"/>
-            <property name="projectclasspath" value="${java.home.j2ee};${java.home.beanutils};${java.home.metadata-extractor};../common/${dist}/webcommon.jar;../usermgmt/${dist}/usermgmt.jar;../diagram/${dist}/diagram.jar;../../common/util/${dist}/util.jar"/>
+            <property name="projectclasspath" value="${java.home.j2ee};${java.home.beanutils};../common/${dist}/webcommon.jar;../usermgmt/${dist}/usermgmt.jar;../diagram/${dist}/diagram.jar;../../common/util/${dist}/util.jar"/>
         </ant>
         <antcall target="copylibraries"/>
         <ant dir="${basedir}" antfile="${buildutil}" target="makewebapp">
@@ -94,7 +93,7 @@
         <ant dir="${basedir}" antfile="${buildutil}" target="doc">
             <property name="currentproject" value="${ant.project.name}"/>
             <property name="currentpackage" value="erland.webapp.gallery"/>
-            <property name="projectclasspath" value="${java.home.j2ee};${java.home.beanutils};${java.home.metadata-extractor};../common/${dist}/webcommon.jar;../usermgmt/${dist}/usermgmt.jar;../diagram/${dist}/diagram.jar;../../common/util/${dist}/util.jar"/>
+            <property name="projectclasspath" value="${java.home.j2ee};${java.home.beanutils};../common/${dist}/webcommon.jar;../usermgmt/${dist}/usermgmt.jar;../diagram/${dist}/diagram.jar;../../common/util/${dist}/util.jar"/>
         </ant>
     </target>
     <target name="Public Documentation">
@@ -103,7 +102,7 @@
         <ant dir="${basedir}" antfile="${buildutil}" target="docpublic">
             <property name="currentproject" value="${ant.project.name}"/>
             <property name="currentpackage" value="erland.webapp.gallery"/>
-            <property name="projectclasspath" value="${java.home.j2ee};${java.home.beanutils};${java.home.metadata-extractor};../common/${dist}/webcommon.jar;../usermgmt/${dist}/usermgmt.jar;../diagram/${dist}/diagram.jar;../../common/util/${dist}/util.jar"/>
+            <property name="projectclasspath" value="${java.home.j2ee};${java.home.beanutils};../common/${dist}/webcommon.jar;../usermgmt/${dist}/usermgmt.jar;../diagram/${dist}/diagram.jar;../../common/util/${dist}/util.jar"/>
         </ant>
     </target>
 
