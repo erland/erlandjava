@@ -42,16 +42,10 @@
     <option name="LOG_MESSAGE" />
     <option name="CHECKOUT_AFTER_IMPORT" value="true" />
     <option name="KEYWORD_SUBSTITUTION_WRAPPERS" value="" />
+    <option name="MAKE_NEW_FILES_READ_ONLY" value="false" />
   </component>
   <component name="J2EEManager">
     <integrations />
-  </component>
-  <component name="J2EEViewSettings">
-    <option name="SHOW_MEMBERS" value="false" />
-    <option name="AUTOSCROLL" value="false" />
-    <expandedElements>
-      <node type="Project" info="" />
-    </expandedElements>
   </component>
   <component name="JavacSettings">
     <option name="DEBUGGING_INFO" value="true" />
@@ -93,22 +87,7 @@
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" assert-keyword="false" />
-  <component name="ProjectViewSettings">
-    <navigator currentView="ProjectPane" flattenPackages="false" showMembers="false" showModules="false" showLibraryContents="false" hideEmptyPackages="false" showStructure="false" autoscrollToSource="false" splitterProportion="0.5" />
-    <view id="ProjectPane">
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp/common/html" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp/common/act" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp/common/fb" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp/common/tags" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp/common/tags/menu" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp/common" />
-    </view>
-    <view id="PackagesPane" />
-  </component>
+  <component name="UI designer component loader factory" />
   <component name="WebManager">
     <option enabled="false" />
   </component>
