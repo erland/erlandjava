@@ -85,7 +85,10 @@ public class LoadThumbnailCommand extends LoadImageCommand implements CommandInt
                     input = new BufferedInputStream(connection.getInputStream());
                 }
 
-                File cachedFile = getFromCache(username,requestedWidth,getImageFile(),lastModified);
+                File cachedFile = null;
+                if(useCache.booleanValue()) {
+                    cachedFile = getFromCache(username,requestedWidth,getImageFile(),lastModified);
+                }
                 if(cachedFile!=null) {
                     write(new FileInputStream(cachedFile),response.getOutputStream());
                 }else {
