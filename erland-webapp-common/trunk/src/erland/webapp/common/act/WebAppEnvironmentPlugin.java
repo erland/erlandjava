@@ -36,6 +36,7 @@ public class WebAppEnvironmentPlugin implements PlugIn, WebAppEnvironmentInterfa
     private ParameterValueStorageExInterface configurableResources=null;
     private EntityFactoryInterface entityFactory = null;
     private EntityStorageFactoryInterface entityStorageFactory = null;
+    private ServiceFactoryInterface serviceFactory = null;
     private StorageInterface storage;
     private HttpServlet servlet = null;
     private String applicationName;
@@ -69,6 +70,13 @@ public class WebAppEnvironmentPlugin implements PlugIn, WebAppEnvironmentInterfa
             resources = new ParameterStorageChild("resources.",new ParameterStorageTree(getStorage(),new JarFileStorageFactory()));
         }
         return resources;
+    }
+
+    public ServiceFactoryInterface getServiceFactory() {
+        if(serviceFactory==null) {
+            serviceFactory = new ServiceFactory(getCurrentEnvironment());
+        }
+        return serviceFactory;
     }
 
     protected StorageInterface getStorage() {

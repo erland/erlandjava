@@ -26,6 +26,7 @@ public class WebAppEnvironmentCustomizable implements WebAppEnvironmentInterface
     private ParameterValueStorageExInterface configurableResources;
     private EntityFactoryInterface entityFactory;
     private EntityStorageFactoryInterface entityStorageFactory;
+    private ServiceFactoryInterface serviceFactory;
 
     public WebAppEnvironmentCustomizable(WebAppEnvironmentInterface environment) {
         this.environment = environment;
@@ -41,6 +42,9 @@ public class WebAppEnvironmentCustomizable implements WebAppEnvironmentInterface
     }
     public void setEntityStorageFactory(EntityStorageFactoryInterface entityStorageFactory) {
         this.entityStorageFactory = entityStorageFactory;
+    }
+    public void setServiceFactory(ServiceFactoryInterface serviceFactory) {
+        this.serviceFactory = serviceFactory;
     }
 
     public ParameterValueStorageExInterface getResources() {
@@ -70,6 +74,14 @@ public class WebAppEnvironmentCustomizable implements WebAppEnvironmentInterface
             return entityStorageFactory;
         }else {
             return environment.getEntityStorageFactory();
+        }
+    }
+
+    public ServiceFactoryInterface getServiceFactory() {
+        if(serviceFactory!=null) {
+            return serviceFactory;
+        }else {
+            return environment.getServiceFactory();
         }
     }
 }
