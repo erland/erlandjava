@@ -58,6 +58,10 @@ public class IMatchImportHelper extends ImportHelper {
         StringTokenizer tokenizer = new StringTokenizer(line, "\t", true);
         if (tokenizer.countTokens() >= 8) {
             String picture = tokenizer.nextToken();
+            // Discard all pictures that is not a jpeg
+            if(picture==null||!picture.toLowerCase().matches(".*\\.jpeg|.*\\.jpg")) {
+                return;
+            }
             //Discard delimiter
             tokenizer.nextToken();
             String dateString = tokenizer.nextToken();
