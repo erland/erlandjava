@@ -32,4 +32,32 @@ public interface BlockContainerInterface
 	 * @return The size of a single block in pixels
 	 */
 	int getSquareSize();
+	
+	/**
+     * Get the drawing position for a specific block coordinate
+     * @param x Block x position (Square coordinate)
+     * @return x drawing position in pixels
+     */
+    int getDrawingPositionX(int x);
+    
+	/**
+     * Get the drawing position for a specific block coordinate
+     * @param y Block y position (Square coordinate)
+     * @return y drawing position in pixels
+     */
+    int getDrawingPositionY(int y);
+
+	/**
+     * Get the position for a specific block coordinate
+     * @param x Block x position (Square coordinate)
+     * @return x position in pixels
+     */
+    int getPositionX(int x);
+    
+	/**
+     * Get the position for a specific block coordinate
+     * @param y Block y position (Square coordinate)
+     * @return y position in pixels
+     */
+    int getPositionY(int y);
 }

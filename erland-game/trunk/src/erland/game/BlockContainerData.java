@@ -68,4 +68,20 @@ public class BlockContainerData
 	{
 		return squareSize;
 	}
+    public int getDrawingPositionX(int x)
+    {
+    	return offsetX + squareSize*x;
+    }
+    public int getDrawingPositionY(int y)
+    {
+    	return offsetY + squareSize*y;
+    }
+    public int getPositionX(int x)
+    {
+    	return squareSize*x;
+    }
+    public int getPositionY(int y)
+    {
+    	return squareSize*y;
+    }
 }
