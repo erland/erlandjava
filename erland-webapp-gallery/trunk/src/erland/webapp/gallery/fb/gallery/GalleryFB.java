@@ -43,6 +43,16 @@ public class GalleryFB extends BaseFB {
     private String skin;
     private Boolean antialias;
     private Boolean thumbnailAntialias;
+    private String stylesheet;
+    private Integer thumbnailWidth;
+    private String sortOrder;
+    private Integer noOfRows;
+    private Integer noOfCols;
+    private Boolean allowSearch;
+    private Boolean cutLongPictureTitles;
+    private Boolean useShortPictureNames;
+    private Boolean showPictureTitle;
+    private Boolean showResolutionLinks;
 
     public Integer getId() {
         return id;
@@ -282,6 +292,150 @@ public class GalleryFB extends BaseFB {
         this.thumbnailAntialias = ServletParameterHelper.asBoolean(thumbnailAntialiasDisplay,Boolean.FALSE);
     }
 
+    public String getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(String stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    public Integer getThumbnailWidth() {
+        return thumbnailWidth;
+    }
+
+    public void setThumbnailWidth(Integer thumbnailWidth) {
+        this.thumbnailWidth = thumbnailWidth;
+    }
+
+    public String getThumbnailWidthDisplay() {
+        return ServletParameterHelper.asString(thumbnailWidth,null);
+    }
+
+    public void setThumbnailWidthDisplay(String thumbnailWidthDisplay) {
+        this.thumbnailWidth = ServletParameterHelper.asInteger(thumbnailWidthDisplay,null);
+    }
+
+    public String getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(String sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+    public Integer getNoOfRows() {
+        return noOfRows;
+    }
+
+    public void setNoOfRows(Integer noOfRows) {
+        this.noOfRows = noOfRows;
+    }
+
+    public String getNoOfRowsDisplay() {
+        return ServletParameterHelper.asString(noOfRows,null);
+    }
+
+    public void setNoOfRowsDisplay(String noOfRowsDisplay) {
+        this.noOfRows = ServletParameterHelper.asInteger(noOfRowsDisplay,null);
+    }
+
+    public Integer getNoOfCols() {
+        return noOfCols;
+    }
+
+    public void setNoOfCols(Integer noOfCols) {
+        this.noOfCols = noOfCols;
+    }
+
+    public String getNoOfColsDisplay() {
+        return ServletParameterHelper.asString(noOfCols,null);
+    }
+
+    public void setNoOfColsDisplay(String noOfColsDisplay) {
+        this.noOfCols = ServletParameterHelper.asInteger(noOfColsDisplay,null);
+    }
+
+    public Boolean getAllowSearch() {
+        return allowSearch;
+    }
+
+    public void setAllowSearch(Boolean allowSearch) {
+        this.allowSearch = allowSearch;
+    }
+
+    public String getAllowSearchDisplay() {
+        return ServletParameterHelper.asString(allowSearch,null);
+    }
+
+    public void setAllowSearchDisplay(String allowSearchDisplay) {
+        this.allowSearch = ServletParameterHelper.asBoolean(allowSearchDisplay,Boolean.FALSE);
+    }
+
+    public Boolean getCutLongPictureTitles() {
+        return cutLongPictureTitles;
+    }
+
+    public void setCutLongPictureTitles(Boolean cutLongPictureTitles) {
+        this.cutLongPictureTitles = cutLongPictureTitles;
+    }
+
+    public String getCutLongPictureTitlesDisplay() {
+        return ServletParameterHelper.asString(cutLongPictureTitles,null);
+    }
+
+    public void setCutLongPictureTitlesDisplay(String cutLongPictureTitlesDisplay) {
+        this.cutLongPictureTitles = ServletParameterHelper.asBoolean(cutLongPictureTitlesDisplay,Boolean.FALSE);
+    }
+
+    public Boolean getUseShortPictureNames() {
+        return useShortPictureNames;
+    }
+
+    public void setUseShortPictureNames(Boolean useShortPictureNames) {
+        this.useShortPictureNames = useShortPictureNames;
+    }
+
+    public String getUseShortPictureNamesDisplay() {
+        return ServletParameterHelper.asString(useShortPictureNames,null);
+    }
+
+    public void setUseShortPictureNamesDisplay(String useShortPictureNamesDisplay) {
+        this.useShortPictureNames = ServletParameterHelper.asBoolean(useShortPictureNamesDisplay,Boolean.FALSE);
+    }
+
+    public Boolean getShowPictureTitle() {
+        return showPictureTitle;
+    }
+
+    public void setShowPictureTitle(Boolean showPictureTitle) {
+        this.showPictureTitle = showPictureTitle;
+    }
+
+    public String getShowPictureTitleDisplay() {
+        return ServletParameterHelper.asString(showPictureTitle,null);
+    }
+
+    public void setShowPictureTitleDisplay(String showPictureTitleDisplay) {
+        this.showPictureTitle = ServletParameterHelper.asBoolean(showPictureTitleDisplay,Boolean.FALSE);
+    }
+
+    public Boolean getShowResolutionLinks() {
+        return showResolutionLinks;
+    }
+
+    public void setShowResolutionLinks(Boolean showResolutionLinks) {
+        this.showResolutionLinks = showResolutionLinks;
+    }
+
+    public String getShowResolutionLinksDisplay() {
+        return ServletParameterHelper.asString(showResolutionLinks,null);
+    }
+
+    public void setShowResolutionLinksDisplay(String showResolutionLinksDisplay) {
+        this.showResolutionLinks = ServletParameterHelper.asBoolean(showResolutionLinksDisplay,Boolean.FALSE);
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         id = null;
@@ -300,5 +454,15 @@ public class GalleryFB extends BaseFB {
         skin = null;
         antialias = Boolean.FALSE;
         thumbnailAntialias = Boolean.FALSE;
+        stylesheet = null;
+        thumbnailWidth = null;
+        sortOrder = null;
+        noOfRows = null;
+        noOfCols = null;
+        allowSearch = Boolean.FALSE;
+        cutLongPictureTitles = Boolean.FALSE;
+        useShortPictureNames = Boolean.FALSE;
+        showPictureTitle = Boolean.FALSE;
+        showResolutionLinks = Boolean.FALSE;
     }
 }
