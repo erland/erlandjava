@@ -27,6 +27,7 @@ import erland.webapp.gallery.act.gallery.GalleryHelper;
 import erland.webapp.gallery.entity.gallery.category.Category;
 import erland.webapp.gallery.entity.gallery.picturestorage.PictureStorage;
 import erland.webapp.gallery.entity.gallery.picture.Resolution;
+import erland.webapp.gallery.entity.gallery.picture.Picture;
 import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.fb.gallery.picture.*;
 import erland.webapp.gallery.fb.gallery.GalleryPB;
@@ -65,7 +66,13 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         Collection categories = getCategories(request, form);
         Collection picturesAllowed = getPictures(request, form);
         QueryFilter filter;
-        if (fb.getStart() != null && fb.getMax() != null && fb.getMax().intValue()!=0) {
+        Integer max = fb.getMax();
+        if(max==null) {
+            if(gallery.getNoOfCols()!=null && gallery.getNoOfCols().intValue()>0 && gallery.getNoOfRows()!=null && gallery.getNoOfRows().intValue()>0) {
+                max = new Integer(gallery.getNoOfCols().intValue()*gallery.getNoOfRows().intValue());
+            }
+        }
+        if (fb.getStart() != null && max != null && max.intValue()!=0) {
             if (picturesAllowed != null) {
                 if (categories != null) {
                     filter = new QueryFilter(getCategoryTreeFilter(request) + "andpicturelist" + "withlimit");
@@ -83,7 +90,9 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
                 }
             }
             filter.setAttribute("start", fb.getStart());
-            filter.setAttribute("max", fb.getMax());
+            if(max!=null) {
+                filter.setAttribute("max", max);
+            }
         } else {
             if (picturesAllowed != null) {
                 if (categories != null) {
@@ -103,6 +112,7 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
             }
         }
         filter.setAttribute("gallery", galleryId);
+        filter.setOrderName(gallery.getSortOrder());
         setFilterAttributes(request,form, filter);
         EntityInterface[] entities = new EntityInterface[0];
         if (picturesAllowed == null || (picturesAllowed != null && picturesAllowed.size() > 0)) {
@@ -152,14 +162,17 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         ActionForward resolutionForward = mapping.findForward("picture-resolution-link");
         ActionForward pictureLinkForward = mapping.findForward("picture-link");
         ActionForward pictureImageForward = mapping.findForward("picture-image");
+        if(defaultResolution!=null) {
+            pictureParameters.put("width",defaultResolution.toString());
+        }
+        if(gallery.getThumbnailWidth()!=null && gallery.getThumbnailWidth().intValue()>0) {
+            pictureParameters.put("thumbnailwidth",gallery.getThumbnailWidth());
+        }
         for (int i = 0; i < entities.length; i++) {
             picturesPB[i] = new PicturePB();
             PropertyUtils.copyProperties(picturesPB[i], entities[i]);
             pictureParameters.put("gallery",virtualGalleryId);
             pictureParameters.put("picture",picturesPB[i].getId());
-            if(defaultResolution!=null) {
-                pictureParameters.put("width",defaultResolution.toString());
-            }
             if (picturesPB[i].getImage().startsWith("{")) {
                 String path = pictureImageForward.getPath();
                 picturesPB[i].setImage(ServletParameterHelper.replaceDynamicParameters(path,pictureParameters));
@@ -176,7 +189,7 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
                     picturesPB[i].setRemoveLink(ServletParameterHelper.replaceDynamicParameters(path,pictureParameters));
                 }
             }else {
-                if(resolutionForward!=null) {
+                if(gallery.getShowResolutionLinks()!=null && gallery.getShowResolutionLinks().booleanValue() && resolutionForward!=null) {
                     ResolutionLinkPB[] resolutionLinksPB = new ResolutionLinkPB[resolutionsPB.length];
                     Map resolutionParameters = new HashMap();
                     resolutionParameters.put("gallery",virtualGalleryId);
@@ -203,7 +216,18 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
             } else {
                 picturesPB[i].setLink(getImagePath(storageEntities, picturesPB[i].getLink()));
             }
+            if(gallery.getShowPictureTitle()!=null && !gallery.getShowPictureTitle().booleanValue()) {
+                picturesPB[i].setTitle(null);
+            }
             picturesPB[i].setGallery(virtualGalleryId);
+            if(picturesPB[i].getTitle()!=null && gallery.getUseShortPictureNames()!=null && gallery.getUseShortPictureNames().booleanValue()) {
+                picturesPB[i].setTitle(((Picture)entities[i]).getShortTitle());
+            }
+            if(picturesPB[i].getTitle()!=null && gallery.getCutLongPictureTitles()!=null && gallery.getCutLongPictureTitles().booleanValue()) {
+                if (picturesPB[i].getTitle() != null && picturesPB[i].getTitle().length() > 30) {
+                    picturesPB[i].setTitle("..." + picturesPB[i].getTitle().substring(picturesPB[i].getTitle().length() - 27));
+                }
+            }
         }
         PictureCollectionPB pb = new PictureCollectionPB();
         pb.setPictures(picturesPB);
@@ -215,7 +239,7 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
             parameters.put(parameter,request.getParameter(parameter));
         }
         addParameters(parameters,fb);
-        Integer prevStart = getPreviousPage(fb.getStart(), fb.getMax());
+        Integer prevStart = getPreviousPage(fb.getStart(), max);
         if(prevStart!=null) {
             parameters.put("start",prevStart.toString());
             ActionForward forward = mapping.findForward("previous-link");
@@ -225,7 +249,7 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         }else {
             pb.setPrevLink(null);
         }
-        Integer nextStart = getNextPage(fb.getStart(),fb.getMax(),picturesPB.length);
+        Integer nextStart = getNextPage(fb.getStart(),max,picturesPB.length);
         if(nextStart!=null) {
             parameters.put("start",nextStart.toString());
             ActionForward forward = mapping.findForward("next-link");
@@ -236,7 +260,12 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
             pb.setNextLink(null);
         }
         parameters.put("start","0");
-        ActionForward forward = mapping.findForward("search-link");
+        ActionForward forward = null;
+        if(gallery.getAllowSearch()!=null && gallery.getAllowSearch().booleanValue()) {
+            forward = mapping.findForward("search-link");
+        }else {
+            forward = mapping.findForward("search-private-link");
+        }
         if(forward!=null) {
             pb.setSearchLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
         }
@@ -245,7 +274,22 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         GalleryPB galleryPB = new GalleryPB();
         PropertyUtils.copyProperties(galleryPB,gallery);
         galleryPB.setVirtual(Boolean.valueOf(!virtualGalleryId.equals(galleryId)));
+        if(galleryPB.getNoOfCols()!=null && galleryPB.getNoOfCols().intValue()<=0) {
+            galleryPB.setNoOfCols(null);
+        }
+        if(galleryPB.getNoOfRows()!=null && galleryPB.getNoOfRows().intValue()<=0) {
+            galleryPB.setNoOfRows(null);
+        }
+        if(max==null||max.intValue()==0||
+          (gallery.getNoOfCols()!=null && gallery.getNoOfRows()!=null && (gallery.getNoOfRows().intValue()*gallery.getNoOfCols().intValue())<max.intValue())) {
+            galleryPB.setNoOfRows(null);
+        }
         request.setAttribute("galleryPB",galleryPB);
+        if(gallery!=null&&gallery.getStylesheet()!=null&&gallery.getStylesheet().length()>0) {
+            request.setAttribute("stylesheetPB",gallery.getStylesheet());
+        }else {
+            request.removeAttribute("stylesheetPB");
+        }
     }
 
     protected void initRequestParameters(HttpServletRequest request) {
