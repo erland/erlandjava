@@ -1,0 +1,92 @@
+<project name="stock" default="Install and Build Application (Debug)" basedir=".">
+    <!-- set global properties for this build -->
+    <property file="C:/Program Files/Java/build.properties"/>
+
+    <target name="buildlibraries">
+        <!-- Make sure to build other project this depend on -->
+        <ant dir="../common"/>
+        <ant dir="../usermgmt"/>
+        <ant dir="../diagram"/>
+    </target>
+    <target name="copylibraries">
+        <!-- Copy required libraries to distribution dir -->
+        <copy todir="${dist}">
+            <fileset dir="../common/${dist}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="../usermgmt/${dist}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="../diagram/${dist}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="../../common/util/${dist}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset file="resources.xml"/>
+            <fileset dir="web">
+                <include name="*.jsp"/>
+                <include name="*.html"/>
+                <include name="*.css"/>
+            </fileset>
+            <fileset dir="images">
+                <include name="*.gif"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="Build Application">
+        <property name="nojarsign" value="true"/>
+        <antcall target="buildlibraries"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="dist">
+            <property name="currentproject" value="${ant.project.name}"/>
+            <property name="currentpackage" value="erland.webapp.usermgmt"/>
+            <property name="projectclasspath" value="${java.home.j2ee};../common/${dist}/webcommon.jar;../usermgmt/${dist}/usermgmt.jar;../diagram/${dist}/diagram.jar;../../common/util/${dist}/util.jar"/>
+        </ant>
+        <antcall target="copylibraries"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="makewebapp">
+            <property name="currentproject" value="${ant.project.name}"/>
+        </ant>
+    </target>
+    <target name="Install and Build Application (Debug)" depends="Build Application (Debug)" >
+        <copy todir="${erland.home.webapps}" file="${dist}/${ant.project.name}.war"/>
+        <unwar dest="${erland.home.webapps}/${ant.project.name}" src="${dist}/${ant.project.name}.war"/>
+    </target>
+    <target name="Install and Build Application" depends="Build Application" >
+        <copy todir="${erland.home.webapps}" file="${dist}/${ant.project.name}.war"/>
+        <unwar dest="${erland.home.webapps}/${ant.project.name}" src="${dist}/${ant.project.name}.war"/>
+    </target>
+    <target name="Build Application (Debug)">
+        <property name="debug" value="true"/>
+        <antcall target="Build Application"/>
+    </target>
+
+    <target name="Documentation">
+        <ant dir="../common" target="Documentation"/>
+        <ant dir="../usermgmt" target="Documentation"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="doc">
+            <property name="currentproject" value="${ant.project.name}"/>
+            <property name="currentpackage" value="erland.webapp.stocks"/>
+            <property name="projectclasspath" value="${java.home.j2ee};../common/${dist}/webcommon.jar;../usermgmt/${dist}/usermgmt.jar;../diagram/${dist}/diagram.jar;../../common/util/${dist}/util.jar"/>
+        </ant>
+    </target>
+    <target name="Public Documentation">
+        <ant dir="../common" target="Public Documentation"/>
+        <ant dir="../usermgmt" target="Public Documentation"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="docpublic">
+            <property name="currentproject" value="${ant.project.name}"/>
+            <property name="currentpackage" value="erland.webapp.stocks"/>
+            <property name="projectclasspath" value="${java.home.j2ee};../common/${dist}/webcommon.jar;../usermgmt/${dist}/usermgmt.jar;../diagram/${dist}/diagram.jar;../../common/util/${dist}/util.jar"/>
+        </ant>
+    </target>
+
+    <target name="Clean All" depends="Clean This">
+        <ant dir="../../common/util" target="Clean This"/>
+        <ant dir="../common" target="Clean This"/>
+        <ant dir="../usermgmt" target="Clean This"/>
+        <ant dir="../diagram" target="Clean This"/>
+    </target>
+    <target name="Clean This">
+        <ant dir="${basedir}" antfile="${buildutil}" target="clean"/>
+    </target>
+</project>
