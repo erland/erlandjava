@@ -13,22 +13,10 @@
     <tr><td><p class="normal"><erland-common:expandhtml><bean:write name="galleryInfoPB" property="description"/></erland-common:expandhtml></p></td></tr>
 </table>
 
-<table width="600" class="no-border">
-    <logic:iterate name="picturesPB" property="pictures" id="picture" indexId="picNo" >
-        <bean:define id="modPicNo" value="<%=String.valueOf(picNo.intValue()%3)%>" type="String"/>
-        <logic:equal name="modPicNo" value="0">
-            <logic:notEqual name="picNo" value="0">
-                </tr>
-            </logic:notEqual>
-            <tr>
-        </logic:equal>
-        <td align="center">
-        <erland-common:beanlink style="bold-link" name="picture" property="updateLink"><bean:message key="diary.gallery.picture.modify"/></erland-common:beanlink>
-        <erland-common:beanlink style="bold-link" name="picture" property="removeLink" onClickMessageKey="diary.gallery.picture.remove.are-you-sure"><bean:message key="diary.gallery.picture.remove"/><br></erland-common:beanlink>
-        <erland-common:beanlink style="bold-link" name="picture" property="link" target="_blank" propertyTitle="description">
-            <erland-common:beanimage name="picture" property="image" border="0"/><br><div align="center"><bean:write name="picture" property="title"/></div>
-        </erland-common:beanlink>
-        </td>
-    </logic:iterate>
-    </tr>
-</table>
+<erland-common:tablegrid name="picturesPB" property="pictures" id="picture" valign="bottom" align="center" cols="3" tableStyle="no-border" width="600">
+    <erland-common:beanlink style="bold-link" name="picture" property="updateLink"><bean:message key="diary.gallery.picture.modify"/></erland-common:beanlink>
+    <erland-common:beanlink style="bold-link" name="picture" property="removeLink" onClickMessageKey="diary.gallery.picture.remove.are-you-sure"><bean:message key="diary.gallery.picture.remove"/><br></erland-common:beanlink>
+    <erland-common:beanlink style="bold-link" name="picture" property="link" target="_blank" propertyTitle="description">
+        <erland-common:beanimage name="picture" property="image" border="0"/><br><div align="center"><bean:write name="picture" property="title"/></div>
+    </erland-common:beanlink>
+</erland-common:tablegrid>
