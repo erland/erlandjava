@@ -8,6 +8,7 @@ import erland.webapp.download.fb.ApplicationFB;
 import erland.webapp.download.entity.Application;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.common.QueryFilter;
+import erland.webapp.common.act.WebAppEnvironmentPlugin;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,9 +37,9 @@ import java.util.Collection;
 public class SearchApplicationsAction extends Action {
     public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         QueryFilter filter = new QueryFilter("all");
-        filter.setAttribute("directory",WebAppEnvironment.getInstance().getConfigurableResources().getParameter("basedirectory"));
+        filter.setAttribute("directory",WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("basedirectory"));
         filter.setAttribute("directoriesonly",Boolean.TRUE);
-        EntityInterface[] entities = WebAppEnvironment.getInstance().getEntityStorageFactory().getStorage("download-application").search(filter);
+        EntityInterface[] entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-application").search(filter);
         if(entities!=null) {
             Collection applications = new ArrayList();
             for (int i = 0; i < entities.length; i++) {

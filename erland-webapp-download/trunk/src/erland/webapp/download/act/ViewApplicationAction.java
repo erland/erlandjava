@@ -13,6 +13,7 @@ import erland.webapp.download.fb.ApplicationFB;
 import erland.webapp.download.fb.ApplicationIdFB;
 import erland.webapp.download.entity.Application;
 import erland.webapp.common.EntityInterface;
+import erland.webapp.common.act.WebAppEnvironmentPlugin;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -37,12 +38,12 @@ public class ViewApplicationAction extends Action {
     public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         ApplicationIdFB fb = (ApplicationIdFB) actionForm;
 
-        Application entity = (Application) WebAppEnvironment.getInstance().getEntityFactory().create("download-application");
+        Application entity = (Application) WebAppEnvironmentPlugin.getEnvironment().getEntityFactory().create("download-application");
 
-        entity.setDirectory(WebAppEnvironment.getInstance().getConfigurableResources().getParameter("basedirectory"));
+        entity.setDirectory(WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("basedirectory"));
         entity.setId(fb.getName());
 
-        entity = (Application) WebAppEnvironment.getInstance().getEntityStorageFactory().getStorage("download-application").load(entity);
+        entity = (Application) WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-application").load(entity);
         if(entity!=null) {
             ApplicationFB pb = new ApplicationFB();
 

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.EntityInterface;
+import erland.webapp.common.act.WebAppEnvironmentPlugin;
 import erland.webapp.download.fb.ApplicationVersionFB;
 import erland.webapp.download.fb.ApplicationIdFB;
 import erland.webapp.download.entity.ApplicationVersion;
@@ -37,10 +38,10 @@ public class SearchApplicationVersionsAction extends Action {
     public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         ApplicationIdFB fb = (ApplicationIdFB) actionForm;
         QueryFilter filter = new QueryFilter("allforapplication");
-        String mainDir = WebAppEnvironment.getInstance().getConfigurableResources().getParameter("basedirectory");
+        String mainDir = WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("basedirectory");
         filter.setAttribute("directory",mainDir+"/"+fb.getName());
         filter.setAttribute("extensions", ".zip,.exe");
-        EntityInterface[] entities = WebAppEnvironment.getInstance().getEntityStorageFactory().getStorage("download-applicationversion").search(filter);
+        EntityInterface[] entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-applicationversion").search(filter);
         if(entities!=null) {
             Collection applicationVersions = new ArrayList();
             for (int i = 0; i < entities.length; i++) {

@@ -16,6 +16,7 @@ import erland.webapp.download.fb.ApplicationFileFB;
 import erland.webapp.download.entity.Application;
 import erland.webapp.download.entity.ApplicationVersion;
 import erland.webapp.common.EntityInterface;
+import erland.webapp.common.act.WebAppEnvironmentPlugin;
 import erland.webapp.common.image.ImageWriteHelper;
 
 import java.io.*;
@@ -43,13 +44,13 @@ public class DownloadApplication extends Action {
     public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         ApplicationFileFB fb = (ApplicationFileFB) actionForm;
 
-        String directory = WebAppEnvironment.getInstance().getConfigurableResources().getParameter("basedirectory");
-        ApplicationVersion entity = (ApplicationVersion) WebAppEnvironment.getInstance().getEntityFactory().create("download-applicationversion");
+        String directory = WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("basedirectory");
+        ApplicationVersion entity = (ApplicationVersion) WebAppEnvironmentPlugin.getEnvironment().getEntityFactory().create("download-applicationversion");
         entity.setDirectory(directory);
         entity.setDirectory(entity.getDirectory()+fb.getName());
         entity.setId(fb.getFilename());
 
-        entity = (ApplicationVersion) WebAppEnvironment.getInstance().getEntityStorageFactory().getStorage("download-applicationversion").load(entity);
+        entity = (ApplicationVersion) WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-applicationversion").load(entity);
 
         if(entity!=null) {
             if(entity.getName()!=null) {
