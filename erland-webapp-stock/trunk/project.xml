@@ -171,6 +171,9 @@
       <artifactId>jasper-runtime</artifactId>
       <version>4.0.4</version>
       <type>jar</type>
+      <properties>
+	      <war.bundle>true</war.bundle>
+      </properties>
     </dependency>
   </dependencies>
   
