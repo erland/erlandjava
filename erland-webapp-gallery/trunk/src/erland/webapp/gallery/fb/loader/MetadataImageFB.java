@@ -24,50 +24,8 @@ import javax.servlet.http.HttpServletRequest;
  * 
  */
 
-public class MetadataImageFB extends ValidatorForm {
+public class MetadataImageFB extends ThumbnailImageFB {
     private Boolean showAll;
-    private Integer image;
-    private Integer gallery;
-
-    public Integer getImage() {
-        return image;
-    }
-
-    public void setImage(Integer image) {
-        this.image = image;
-    }
-
-    public String getImageDisplay() {
-        return image!=null?image.toString():null;
-    }
-
-    public void setImageDisplay(String imageDisplay) {
-        try {
-            this.image = Integer.valueOf(imageDisplay);
-        } catch (NumberFormatException e) {
-            this.image = null;
-        }
-    }
-
-    public Integer getGallery() {
-        return gallery;
-    }
-
-    public void setGallery(Integer gallery) {
-        this.gallery = gallery;
-    }
-
-    public String getGalleryDisplay() {
-        return gallery!=null?gallery.toString():null;
-    }
-
-    public void setGalleryDisplay(String galleryDisplay) {
-        try {
-            this.gallery = Integer.valueOf(galleryDisplay);
-        } catch (NumberFormatException e) {
-            this.gallery = null;
-        }
-    }
 
     public Boolean getShowAll() {
         return showAll;
@@ -87,8 +45,6 @@ public class MetadataImageFB extends ValidatorForm {
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
-        gallery = null;
-        image = null;
         showAll = Boolean.FALSE;
     }
 }
