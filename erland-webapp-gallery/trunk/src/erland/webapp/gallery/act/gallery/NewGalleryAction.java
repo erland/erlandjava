@@ -90,5 +90,6 @@ public class NewGalleryAction extends BaseAction {
             PropertyUtils.copyProperties(pbSkins[i], skins[i]);
         }
         request.getSession().setAttribute("skinsPB",pbSkins);
+        request.getSession().setAttribute("categoriesPB",new CategoryPB[0]);
     }
 }
