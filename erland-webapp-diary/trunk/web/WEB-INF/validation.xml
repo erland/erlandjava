@@ -24,6 +24,9 @@
             <field property="lastName" depends="required">
                 <arg0 key="diary.account.new.lastname"/>
             </field>
+            <field property="mail" depends="required,email">
+                <arg0 key="diary.account.new.mail"/>
+            </field>
             <field property="password1" depends="required">
                 <arg0 key="diary.account.new.password1"/>
             </field>
