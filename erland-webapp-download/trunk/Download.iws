@@ -66,7 +66,7 @@
     <option name="PUT_FOCUS_INTO_COMMENT" value="false" />
     <option name="SHOW_CHECKIN_OPTIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added commons-collection and commons-logging and also set version no to 1.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added support for frominput tags" />
     <option name="SAVE_LAST_COMMIT_MESSAGE" value="true" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -141,38 +141,38 @@
     <option name="HIDE_WARNINGS" value="false" />
   </component>
   <component name="FileEditorManager" split-orientation="horizontal" split-proportion="0.5">
-    <first-group selected-file="file://$PROJECT_DIR$/src/erland/webapp/download/act/SearchApplicationsAction.java">
-      <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/viewallapplicationversions.jsp" pinned="false">
+    <first-group selected-file="file://E:/EGNA/Working/Java/Web/Common/project.xml">
+      <entry file="file://$PROJECT_DIR$/project.xml" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="3" column="0" selection-start="154" selection-end="233" vertical-scroll-proportion="0.09864604">
+          <state line="58" column="18" selection-start="1678" selection-end="1678" vertical-scroll-proportion="0.5551402">
             <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles-defs.xml" pinned="false">
+      <entry file="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common/GenericEntityStorage.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="16" column="0" selection-start="807" selection-end="807" vertical-scroll-proportion="0.16729324">
+          <state line="33" column="0" selection-start="1171" selection-end="1171" vertical-scroll-proportion="0.68653846">
             <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/web/WEB-INF/layouts/classicLayout.jsp" pinned="false">
+      <entry file="file://E:/EGNA/Working/Java/Web/Common/project.xml" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="31" column="0" selection-start="1186" selection-end="1186" vertical-scroll-proportion="0.4410058">
+          <state line="102" column="0" selection-start="2844" selection-end="2844" vertical-scroll-proportion="0.82616824">
             <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/web/WEB-INF/struts-config.xml" pinned="false">
+      <entry file="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common/EntityStorage.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="43" column="12" selection-start="1749" selection-end="1749" vertical-scroll-proportion="0.5261122">
+          <state line="33" column="22" selection-start="1222" selection-end="1222" vertical-scroll-proportion="0.3596154">
             <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/src/erland/webapp/download/act/SearchApplicationsAction.java" pinned="false">
+      <entry file="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common/FileEntityStorage.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="71" column="12" selection-start="3545" selection-end="3545" vertical-scroll-proportion="0.7369439">
+          <state line="240" column="0" selection-start="10351" selection-end="10603" vertical-scroll-proportion="0.3326923">
             <folding />
           </state>
         </provider>
@@ -208,25 +208,8 @@
     <option name="ADD_LABEL_ON_UNIT_TEST_PASSED" value="true" />
     <option name="ADD_LABEL_ON_UNIT_TEST_FAILED" value="true" />
   </component>
-  <component name="PackagesPane">
-    <expanded_node url="erland.webapp.download" module="Download" type="package" />
-    <expanded_node url="erland.webapp" module="Download" type="package" />
-    <expanded_node url="" module="Download" type="module" />
-    <expanded_node url="erland" module="Download" type="package" />
-  </component>
-  <component name="ProjectPane">
-    <expanded_node url="file://$PROJECT_DIR$/src/erland" module="Download" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/web/WEB-INF/layouts" module="Download" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp" module="Download" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp/download" module="Download" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$" module="Download" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp/download/act" module="Download" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/web/WEB-INF" module="Download" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/web" module="Download" type="directory" />
-    <expanded_node url="" module="Download" type="module" />
-    <expanded_node url="file://$PROJECT_DIR$/src" module="Download" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/web/WEB-INF/tiles" module="Download" type="directory" />
-  </component>
+  <component name="PackagesPane" />
+  <component name="ProjectPane" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" splitterProportion="0.5">
       <flattenPackages />
@@ -370,20 +353,20 @@
     <frame x="10" y="3" width="1004" height="728" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.8442211" order="8" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.29411766" order="0" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.32998326" order="1" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.355042" order="0" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.3296" order="8" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.39966834" order="6" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
-      <window_info id="CVS File View" active="true" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="true" weight="0.8592437" order="3" />
+      <window_info id="CVS File View" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.8592437" order="3" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="4" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.4" order="0" />
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.8442211" order="8" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="0" />
       <window_info id="ConsoleMavenPlugin" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
@@ -469,111 +452,107 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/layouts/classicLayout.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="4" selection-start="650" selection-end="650" vertical-scroll-proportion="0.425">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/erland/webapp/download/resources/message_sv_SE.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="8" selection-start="8" selection-end="8" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/erland/webapp/download/entity/Application.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="23" selection-start="1219" selection-end="1223" vertical-scroll-proportion="0.3326886">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/download/entity/applicationversion.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common/FileEntityStorage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="203" column="99" selection-start="8354" selection-end="8363" vertical-scroll-proportion="0.34817815">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/viewapplicationversions.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="8" selection-start="1212" selection-end="1212" vertical-scroll-proportion="0.791498">
+        <state line="160" column="31" selection-start="4770" selection-end="4770" vertical-scroll-proportion="0.6403846">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/erland/webapp/download/entity/ApplicationVersion.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="148" column="0" selection-start="4103" selection-end="4103" vertical-scroll-proportion="0.39458415">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="227" column="16" selection-start="7081" selection-end="7081" vertical-scroll-proportion="0.9778672">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common/image/ImageWriteHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="97" column="0" selection-start="4000" selection-end="4000" vertical-scroll-proportion="0.44423077">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/erland/webapp/download/act/ViewApplicationLogoAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="38" selection-start="2520" selection-end="2520" vertical-scroll-proportion="0.775">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/erland/webapp/download/resources/message.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="16" selection-end="16" vertical-scroll-proportion="0.033203125">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/erland/webapp/download/act/SearchAllApplicationVersionsAction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="13" selection-start="1754" selection-end="1754" vertical-scroll-proportion="0.6402321">
+        <state line="37" column="13" selection-start="1491" selection-end="1491" vertical-scroll-proportion="0.44423077">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/erland/webapp/download/act/SearchApplicationVersionsAction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="0" selection-start="4618" selection-end="4618" vertical-scroll-proportion="0.8239845">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/viewapplications.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="8" selection-start="838" selection-end="838" vertical-scroll-proportion="0.46034816">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/download/act/ViewApplicationAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="38" selection-start="557" selection-end="557" vertical-scroll-proportion="0.5261122">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="0" selection-start="2059" selection-end="2059" vertical-scroll-proportion="0.4567669">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/viewallapplicationversions.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="154" selection-end="233" vertical-scroll-proportion="0.09864604">
+        <state line="52" column="24" selection-start="2843" selection-end="2843" vertical-scroll-proportion="0.59615386">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles-defs.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="807" selection-end="807" vertical-scroll-proportion="0.16729324">
+        <state line="13" column="0" selection-start="608" selection-end="608" vertical-scroll-proportion="0.4076923">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/WEB-INF/layouts/classicLayout.jsp">
+    <entry file="file://$PROJECT_DIR$/project.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="1186" selection-end="1186" vertical-scroll-proportion="0.4410058">
+        <state line="58" column="18" selection-start="1678" selection-end="1678" vertical-scroll-proportion="0.5551402">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/download/act/SearchApplicationsAction.java">
+    <entry file="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common/EntityStorage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="12" selection-start="3545" selection-end="3545" vertical-scroll-proportion="0.7369439">
+        <state line="33" column="22" selection-start="1222" selection-end="1222" vertical-scroll-proportion="0.3596154">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/WEB-INF/struts-config.xml">
+    <entry file="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common/GenericEntityStorage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="12" selection-start="1749" selection-end="1749" vertical-scroll-proportion="0.5261122">
+        <state line="33" column="0" selection-start="1171" selection-end="1171" vertical-scroll-proportion="0.68653846">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common/FileEntityStorage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="240" column="0" selection-start="10351" selection-end="10603" vertical-scroll-proportion="0.3326923">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Web/Common/project.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="102" column="0" selection-start="2844" selection-end="2844" vertical-scroll-proportion="0.82616824">
           <folding />
         </state>
       </provider>
