@@ -31,6 +31,10 @@
                 <column>description</column>
                 <type>Integer</type>
             </field>
+            <field id="container">
+                <column>container</column>
+                <type>Integer</type>
+            </field>
         </fields>
         <queries>
             <query id="allforid">

@@ -27,6 +27,7 @@ public class InventoryEntryEvent extends BaseEntity {
     private Integer id;
     private Integer eventId;
     private Integer description;
+    private Integer container;
     private Double size;
     private Date date;
 
@@ -70,6 +71,14 @@ public class InventoryEntryEvent extends BaseEntity {
         this.date = date;
     }
 
+    public Integer getContainer() {
+        return container;
+    }
+
+    public void setContainer(Integer container) {
+        this.container = container;
+    }
+
     public boolean isSizeRelevant() {
         if (description != null) {
             switch (description.intValue()) {
@@ -78,6 +87,7 @@ public class InventoryEntryEvent extends BaseEntity {
                 case 3: //Död
                 case 4: //Såld
                 case 7: //Uppmätt
+                case 9: //Flyttad
                     return true;
                 case 5: //Lekt
                 case 6: //Yngel
@@ -97,6 +107,7 @@ public class InventoryEntryEvent extends BaseEntity {
                 case 6: //Yngel
                 case 7: //Uppmätt
                 case 8: //Född
+                case 9: //Flyttad
                     return true;
                 case 2: //Dödad
                 case 3: //Död
