@@ -4,6 +4,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
+<div class="propertypage-title"><bean:message key="gallery.gallery.search.edit.title"/></div>
 <html:form action="/skin/viewsearchpictures" method="POST">
     <html:hidden property="user"/>
     <html:hidden property="start"/>

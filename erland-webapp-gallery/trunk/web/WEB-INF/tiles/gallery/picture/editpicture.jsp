@@ -4,6 +4,8 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
+<div class="propertypage-title"><bean:message key="gallery.gallery.picture.edit.windowtitle"/></div>
+<erland-common:helplink style="propertypage-button" context="gallery.picture.edit" target="_blank"><bean:message key="gallery.help.button"/></erland-common:helplink>
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/user/editpicture" method="POST">
     <html:hidden property="gallery"/>

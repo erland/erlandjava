@@ -4,6 +4,7 @@
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
 <p class="propertypage-title"><bean:message key="gallery.account.new.title"/></p>
+<erland-common:helplink style="propertypage-button" context="account.new" target="_blank"><bean:message key="gallery.help.button"/></erland-common:helplink>
 <p class="propertypage-description"><bean:message key="gallery.account.new.mandatory-text"/></p>
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/guest/newuseraccount" method="POST">

@@ -3,6 +3,8 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
+<div class="propertypage-title"><bean:message key="gallery.gallery.import.edit.title"/></div>
+<erland-common:helplink style="propertypage-button" context="gallery.import.edit" target="_blank"><bean:message key="gallery.help.button"/></erland-common:helplink>
 <table class="propertypage-header">
 <tr><td>
 <p class="propertypage-description"><bean:message key="gallery.gallery.import.edit.description01"/> <a class="propertypage-link" href="http://www.photools.com/" target="_blank">IMatch</a>.
