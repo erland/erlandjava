@@ -24,7 +24,10 @@ abstract class Block
 
 	/** Y position of the block */
 	protected int y;
-
+	
+	/** Indicates if the blocks needs to be redrawn */
+	protected boolean redraw;
+	
 	/**
 	 * Checks if it is possible to dig through the block
 	 * @return true/false (Possible to dig through/Not possible to dig through)
@@ -164,6 +167,7 @@ abstract class Block
 		this.cont = cont;
 		this.x = x;
 		this.y = y;
+		this.redraw = true;
 	}
 	
 	public Object clone()
@@ -171,6 +175,22 @@ abstract class Block
 	{
 		Block b=(Block)super.clone();
 		return b;
+	}
+	
+	/**
+	 * Check if the block needs to be redrawn
+	 */
+	public boolean needRedraw()
+	{
+		return redraw;
+	}
+	
+	/**
+	 * Set if the block should be redrawn or not
+	 */
+	protected void setRedraw(boolean redraw)
+	{
+		this.redraw = redraw;
 	}
 	/**
 	 * Update the position and state of the block
@@ -182,4 +202,17 @@ abstract class Block
 	 * @param g Graphics object to draw on
 	 */	
 	abstract public void draw(Graphics g);
+
+
+	/**
+	 * Fill the block with black color
+	 * @param g Graphics object to draw on
+	 */	
+	public void drawClear(Graphics g)
+	{
+		g.setColor(Color.black);
+		g.fillRect(cont.getDrawingPositionX(x),cont.getDrawingPositionY(y),
+			cont.getSquareSize(),cont.getSquareSize());
+
+	}
 }

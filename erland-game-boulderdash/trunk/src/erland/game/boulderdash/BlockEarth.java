@@ -29,7 +29,9 @@ class BlockEarth extends Block
 
 	public void update()
 	{
+		setRedraw(false);
 		if(digging) {
+			setRedraw(true);
 			digProgress+=digSpeed;
 			if(digProgress>=cont.getSquareSize()) {
 				c.delBlock(this);
@@ -39,7 +41,6 @@ class BlockEarth extends Block
 	
 	public void draw(Graphics g)
 	{
-
 		int dx = cont.getDrawingPositionX(x);
 		int dy = cont.getDrawingPositionY(y);
 		int width = cont.getSquareSize();

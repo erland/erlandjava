@@ -39,6 +39,7 @@ class BlockBoulder extends Block
 	public void update()
 	{
 		if(moving) {
+			setRedraw(true);
 			movingProgress+=moveSpeed;
 			if(movingProgress>=cont.getSquareSize()) {
 				moving = false;
@@ -65,6 +66,7 @@ class BlockBoulder extends Block
 				c.setBlockPos(x,y,newX,newY);
 			}
 		}else {
+			setRedraw(false);
 			fallHeight=0;
 		}
 		if(!moving) {

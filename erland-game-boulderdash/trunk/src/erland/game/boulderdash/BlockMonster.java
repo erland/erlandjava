@@ -36,6 +36,7 @@ class BlockMonster extends Block
 	public void update()
 	{
 		if(moving) {
+			setRedraw(true);
 			movingProgress+=moveSpeed;
 			if(movingProgress>=cont.getSquareSize()) {
 				moving = false;
@@ -60,6 +61,8 @@ class BlockMonster extends Block
 				}
 				c.setBlockPos(x,y,newX,newY);
 			}
+		}else {
+			setRedraw(false);
 		}
 		if(!moving) {
 			int firstChoiceDir = c.getPlayerDirection(x,y);

@@ -24,6 +24,12 @@ class Player extends Block
 	/** Y position of the player */
 	protected int y;
 
+	/** Previous X position of the player */
+	protected int oldX;
+
+	/** Previous Y position of the player */
+	protected int oldY;
+
 	/** Indicates that the block is moving */
 	protected boolean moving;
 	
@@ -138,6 +144,8 @@ class Player extends Block
 		this.cont = cont;
 		this.x = x;
 		this.y = y;
+		this.oldX =x ;
+		this.oldY =y;
 		this.alive = true;
 		this.moving = false;
 		this.img = images.getImage("player.gif");
@@ -166,6 +174,8 @@ class Player extends Block
 	 */
 	public void update()
 	{
+		oldX = x;
+		oldY = y;
 		if(moving) {
 			movingProgress+=movingSpeed;
 			if(movingProgress>=cont.getSquareSize()) {
@@ -220,6 +230,16 @@ class Player extends Block
 		g.drawImage(img,dx,dy,null);
 		//g.setColor(Color.cyan);
 		//g.fillRect(dx+cont.getSquareSize()/4,dy+cont.getSquareSize()/4,cont.getSquareSize()/2,cont.getSquareSize()/2);
+	}
+
+	public void drawClear(Graphics g)
+	{
+		g.setColor(Color.black);
+		g.fillRect(cont.getDrawingPositionX(oldX),cont.getDrawingPositionY(oldY),
+			cont.getSquareSize(),cont.getSquareSize());
+		g.fillRect(cont.getDrawingPositionX(x),cont.getDrawingPositionY(y),
+			cont.getSquareSize(),cont.getSquareSize());
+
 	}
 	
 	/**

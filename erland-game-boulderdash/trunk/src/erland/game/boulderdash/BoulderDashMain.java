@@ -51,6 +51,8 @@ class BoulderDashMain
 	protected Block[][] blocks;
 	/** Matrix with indications which positions that is allocated for future blocks */
 	protected boolean allocated[][];
+	/** Matrix with indications about which position that needs to be redrawn */
+	protected boolean redraw[][];
 	/** Block container for the game area */
 	protected ChangeableBlockContainerData cont;
 	/** Block container for the game area */
@@ -73,7 +75,10 @@ class BoulderDashMain
 	protected int scrollY;
 	/** Indicates if the Exit button has been pressed */
 	protected boolean bExit;
-		
+	/** Indicates if the level has been drawn at least once */
+	protected boolean drawnOnce;
+	/** Indicates the number of blocks that was redrawn, only used for testing */
+	protected int redrawnBlocks;	
 		
 	class ChangeableBlockContainerData extends BlockContainerData
 	{
@@ -116,8 +121,8 @@ class BoulderDashMain
 		this.offsetY = offsetY;
 		this.cookies = cookies;
 		cheatMode = false;
-		cont = new ChangeableBlockContainerData(offsetX, offsetY, 20,20,20);
-		contVisible = new BlockContainerData(offsetX, offsetY, 20,20,20);
+		cont = new ChangeableBlockContainerData(offsetX+1, offsetY+1, 20,20,20);
+		contVisible = new BlockContainerData(offsetX+1, offsetY+1, 20,20,20);
 		levelFactory = new LevelFactory(this,cookies,images,cont);
 		player = new Player();
 
@@ -181,8 +186,11 @@ class BoulderDashMain
 		blocks = levelFactory.getLevel(level,player);
 		diamondsToCollect = levelFactory.getDiamonds(blocks);
 		allocated = new boolean[blocks.length][blocks[0].length];
+		redraw = new boolean[blocks.length][blocks[0].length];
+		drawnOnce = false;
 		for(int x=0;x<blocks.length;x++) {
 			for(int y=0;y<blocks[0].length;y++) {
+				redraw[x][y] = true;
 				if(blocks[x][y]!=null) {
 					allocated[x][y] = true;
 				}else {
@@ -237,6 +245,7 @@ class BoulderDashMain
 	 */
 	public void draw(Graphics g)
 	{
+		redrawnBlocks = 0;
 		int gameSizeX = contVisible.getSizeX()*contVisible.getSquareSize();
 		int gameSizeY = contVisible.getSizeY()*contVisible.getSquareSize();
 		if((++fpsShow)>25) {
@@ -246,23 +255,38 @@ class BoulderDashMain
 			frameTime = cur;
 		}
 		g.setColor(Color.blue);
-		g.drawRect(offsetX, offsetY, gameSizeX,gameSizeY);
-		
+		g.drawRect(offsetX, offsetY, gameSizeX+1,gameSizeY+1);
 		if(blocks!=null) {
 			cont.setOffsetX(contVisible.getOffsetX()-scrollX*contVisible.getSquareSize());
 			cont.setOffsetY(contVisible.getOffsetY()-scrollY*contVisible.getSquareSize());
+			g.setColor(container.getBackground());
+			player.drawClear(g);
 			for(int x=0;x<blocks.length;x++) {
 				for(int y=0;y<blocks[0].length;y++) {
-					if(blocks[x][y]!=null) {
+					if(blocks[x][y]==null && (!drawnOnce || redraw[x][y])) {
+						g.fillRect(contVisible.getDrawingPositionX(x),
+							contVisible.getDrawingPositionY(y),
+							contVisible.getSquareSize(),
+							contVisible.getSquareSize());
+					}else if(redraw[x][y]) {
+						blocks[x][y].drawClear(g);
+					}
+				}
+			}
+			for(int x=0;x<blocks.length;x++) {
+				for(int y=0;y<blocks[0].length;y++) {
+					if(blocks[x][y]!=null && (!drawnOnce || redraw[x][y])) {
 						if(blocks[x][y].getPosX()>=scrollX && blocks[x][y].getPosX()<(scrollX+contVisible.getSizeX()) &&
 							blocks[x][y].getPosY()>=scrollY && blocks[x][y].getPosY()<(scrollY+contVisible.getSizeY())) {
 							
 							blocks[x][y].draw(g);
+							redrawnBlocks++;
 						}
 					}
 				}
 			}
 			player.draw(g);
+			drawnOnce = true;
 		}
 		
 		
@@ -288,6 +312,10 @@ class BoulderDashMain
 		rightColumnY+=20;
 		if(cheatMode) {
 			g.drawString("*** Cheatmode *** FPS=" + fps,rightColumnX,rightColumnY);
+			rightColumnY+=20;
+			g.drawString("Redrawn: " + redrawnBlocks,rightColumnX,rightColumnY);
+		}else {
+			rightColumnY+=20;
 		}
 		rightColumnY+=20;
 		if(bEnd) {
@@ -350,6 +378,11 @@ class BoulderDashMain
 		}
 		if(!bEnd && bStarted) {
 			if(blocks!=null) {
+				for (int x=0; x<blocks.length; x++) {
+					for (int y=0; y<blocks[0].length; y++) {
+						redraw[x][y]=false;
+				    }
+			    }
 				for(int x=0;x<blocks.length;x++) {
 					for(int y=0;y<blocks[0].length;y++) {
 						if(blocks[x][y]!=null) {
@@ -364,6 +397,15 @@ class BoulderDashMain
 			}
 			player.update();
 			
+			if(blocks!=null) {
+				for (int x=0; x<blocks.length; x++) {
+					for (int y=0; y<blocks[0].length; y++) {
+						if(blocks[x][y]!=null && blocks[x][y].needRedraw()) {
+							redraw[x][y]=true;
+						}
+				    }
+			    }
+			}
 			adjustScrollingOffset();	
 			if(!player.isAlive()) {
 					handleDeath();
@@ -767,6 +809,8 @@ class BoulderDashMain
 					blocks[oldX][oldY]=null;
 					allocated[oldX][oldY]=false;
 					allocated[newX][newY]=true;
+					redraw[oldX][oldY]=true;
+					redraw[newX][newY]=true;
 					blocks[newX][newY].setPos(newX,newY);
 					return true;
 				}
@@ -786,6 +830,7 @@ class BoulderDashMain
 				allocated[b.getMovingPosX()][b.getMovingPosY()]=false;
 			}
 			blocks[x][y] = null;
+			redraw[x][y]=true;
 			allocated[x][y] = false;
 		}
 	}
@@ -797,6 +842,7 @@ class BoulderDashMain
 		if(isInside(x,y)) {
 			blocks[x][y] = block;
 			allocated[x][y] = true;
+			redraw[x][y]=true;
 		}
 	}
 	

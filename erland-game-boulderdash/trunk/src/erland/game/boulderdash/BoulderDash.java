@@ -266,12 +266,17 @@ public class BoulderDash extends Applet
 			offScreen = imag.getGraphics();
 			offScreen.setColor(getBackground());
 		}
-		offScreen.clearRect(0,0,width,height);
-		offScreen.setColor(Color.blue);
 		if(main!=null) {
+			offScreen.clearRect(420,10,width-420,height/2+40);
+			offScreen.setColor(Color.blue);
 			main.draw(offScreen);
 		}else if(editor != null) {
+			offScreen.clearRect(0,0,width,height);
+			offScreen.setColor(Color.blue);
 			editor.draw(offScreen);
+		}else {
+			offScreen.clearRect(0,0,width,height);
+			offScreen.setColor(Color.blue);
 		}
 		g.drawImage(imag,0,0,null);
 	}
@@ -306,7 +311,7 @@ public class BoulderDash extends Applet
 	public void run()
 	{
 		long time = System.currentTimeMillis();
-		final int frameDelay=20;
+		final int frameDelay=19;
 		int setSleepTime=0;
 		while(animator != null) {
 			animator.setPriority(Thread.MAX_PRIORITY);
@@ -360,6 +365,7 @@ public class BoulderDash extends Applet
 		/*You can change the string value to show your desired label*/
 		/*for the frame */
 		myFrame = new Frame ("BoulderDash");
+		myFrame.setBackground(Color.black);
 		
 		/*Create a instance. */
 		BoulderDash myApp = new BoulderDash();         /*Add the current application to the Frame */
