@@ -8,7 +8,7 @@
 <p class="normal">
 <erland-common:expandhtml><erland-common:cfgresource name="welcometext"/></erland-common:expandhtml>
 <center>
-<jsp:include page="viewuseraccounts.jsp"/>
+<tiles:insert page="/WEB-INF/tiles/common/viewuseraccounts.jsp"/>
 <form name="loginForm" action="j_security_check" method="POST">
 <table class="no-border">
 <tr><td><bean:message key="diary.login.username"/></td><td>
