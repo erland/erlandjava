@@ -119,7 +119,7 @@ public class IsoAdventureMain implements GamePanelInterface {
         environment.getScreenHandler().getContainer().addKeyListener(keyListener);
 
         fps = new FpsCounter(50);
-        cont = new IsoBlockContainerData(20, 20, 38,38, 32, 16,8,200,200);
+        cont = new IsoBlockContainerData(20, 20, 38,38, 32, 16,8,600,400);
 
         model.init(environment,cont);
 
