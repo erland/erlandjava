@@ -13,6 +13,7 @@
         <entity id="stock-account" reference="account:erland/webapp/stocks/bl/entity/account.xml"/>
         <entity id="stock-transaction" reference="transaction:erland/webapp/stocks/bl/entity/transaction.xml"/>
         <entity id="stock-stockaccountstockentry" reference="stockaccountstockentry:erland/webapp/stocks/bl/entity/stockaccountstockentry.xml"/>
+        <entity id="stock-brokerstockentry" reference="brokerstockentry:erland/webapp/stocks/bl/entity/brokerstockentry.xml"/>
         <entity id="stock-stockaccount">
             <class>erland.webapp.stocks.bl.entity.DatabaseStockAccount</class>
         </entity>
@@ -24,10 +25,16 @@
                 <class>erland.webapp.stocks.bl.logic.broker.robur.RoburConnection</class>
             </data>
         </broker>
-        <broker id="sb">
-            <name>Stockholmsbörsen</name>
+        <broker id="sb_aktie">
+            <name>Stockholmsbörsen (Aktier)</name>
             <data id="connection">
                 <class>erland.webapp.stocks.bl.logic.broker.sb.SBConnection</class>
+            </data>
+        </broker>
+        <broker id="sb_obligation">
+            <name>Stockholmsbörsen (Obligationer)</name>
+            <data id="connection">
+                <class>erland.webapp.stocks.bl.logic.broker.sb.SBObligationConnection</class>
             </data>
         </broker>
     </brokers>
