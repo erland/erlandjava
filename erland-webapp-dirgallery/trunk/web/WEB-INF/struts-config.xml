@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE struts-config PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+    "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+    <form-beans>
+        <form-bean name="mainMenuFB" type="erland.webapp.common.fb.MenuExpandCollapseFB"/>
+        <form-bean name="menuFB" type="erland.webapp.dirgallery.fb.gallery.SelectGalleryFB"/>
+        <form-bean name="selectUserFB" type="erland.webapp.dirgallery.fb.account.SelectUserFB"/>
+        <form-bean name="newUserAccountFB" type="erland.webapp.dirgallery.fb.account.AccountFB"/>
+        <form-bean name="editUserAccountFB" type="erland.webapp.dirgallery.fb.account.AccountFB"/>
+        <form-bean name="editGalleryFB" type="erland.webapp.dirgallery.fb.gallery.GalleryFB"/>
+        <form-bean name="editPictureCommentFB" type="erland.webapp.dirgallery.fb.gallery.picture.PictureCommentFB"/>
+        <form-bean name="selectPictureFB" type="erland.webapp.dirgallery.fb.gallery.picture.SelectPictureFB"/>
+        <form-bean name="imageFB" type="erland.webapp.dirgallery.fb.loader.ImageFB"/>
+        <form-bean name="resolutionImageFB" type="erland.webapp.dirgallery.fb.loader.ThumbnailImageFB"/>
+        <form-bean name="resolutionMovieImageFB" type="erland.webapp.dirgallery.fb.loader.MovieThumbnailImageFB"/>
+        <form-bean name="metadataImageFB" type="erland.webapp.dirgallery.fb.loader.MetadataImageFB"/>
+        <form-bean name="metadataResolutionImageFB" type="erland.webapp.dirgallery.fb.loader.MetadataImageFB"/>
+    </form-beans>
+
+    <global-forwards>
+        <forward name="index" path="/do/index"/>
+    </global-forwards>
+
+    <action-mappings>
+        <action
+            path="/index"
+            type="erland.webapp.dirgallery.act.account.SearchOfficialUserAccountsAction">
+
+            <forward name="success" path=".index"/>
+        </action>
+
+        <action
+            path="/user/registeruser"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter=".user.newuseraccount">
+        </action>
+
+        <action
+            path="/user/newuseraccount"
+            type="erland.webapp.dirgallery.act.account.NewUserAccountAction"
+            input=".user.newuseraccount"
+            name="newUserAccountFB">
+
+            <forward name="success" path="/do/user/viewuseraccounts"/>
+        </action>
+        <action
+            path="/user/home"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/do/user/viewdefaultgallery">
+        </action>
+        <action
+            path="/guest/home"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/do/guest/viewdefaultgallery">
+        </action>
+
+        <action
+            path="/guest/selectgallery"
+            type="erland.webapp.common.act.MenuExpandCollapseAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu&amp;menuItemIdParameter=gallery">
+
+            <forward name="success" path="/do/guest/selectgallerypart2"/>
+        </action>
+        <action
+            path="/user/selectgallery"
+            type="erland.webapp.common.act.MenuExpandCollapseAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu&amp;menuItemIdPrefix=galleries-&amp;menuItemIdParameter=gallery">
+
+            <forward name="success" path="/do/user/selectgallerypart2"/>
+        </action>
+        <action
+            path="/user/selectgallerypart2"
+            type="erland.webapp.dirgallery.act.gallery.LoadMenuAllGalleriesAction"
+            name="menuFB">
+
+            <forward name="view-gallery-link" path="/do/user/selectgallery?gallery={id}"/>
+            <forward name="success" path="/do/user/viewpictures?gallery={gallery}"/>
+        </action>
+        <action
+            path="/guest/selectgallerypart2"
+            type="erland.webapp.dirgallery.act.gallery.LoadOfficialMenuGalleriesAction"
+            name="menuFB">
+
+            <forward name="view-gallery-link" path="/do/guest/selectgallery?user={user}&amp;gallery={id}"/>
+            <forward name="success" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}"/>
+        </action>
+        <action
+            path="/user/loadmenuall"
+            type="erland.webapp.dirgallery.act.gallery.LoadMenuAllGalleriesAction"
+            name="menuFB">
+
+            <forward name="view-gallery-link" path="/do/user/selectgallery?gallery={id}"/>
+            <forward name="success" path=".user.index"/>
+        </action>
+        <action
+            path="/guest/loadmenuall"
+            type="erland.webapp.dirgallery.act.gallery.LoadOfficialMenuAllGalleriesAction"
+            name="menuFB">
+
+            <forward name="view-gallery-link" path="/do/guest/selectgallery?user={user}&amp;gallery={id}"/>
+            <forward name="success" path=".guest.index"/>
+        </action>
+        <action
+            path="/guest/viewdefaultgallery"
+            type="erland.webapp.dirgallery.act.account.ViewOfficialDefaultGalleryAction"
+            name="selectUserFB">
+            <forward name="success" path="/do/guest/selectgallery?user={user}&amp;gallery={gallery}"/>
+            <forward name="failure" path="/do/guest/loadmenuall?user={user}" redirect="true" />
+        </action>
+        <action
+            path="/user/viewdefaultgallery"
+            type="erland.webapp.dirgallery.act.account.ViewDefaultGalleryAction"
+            name="selectUserFB">
+            <forward name="success" path="/do/user/selectgallery?gallery={gallery}"/>
+            <forward name="failure" path="/do/user/loadmenuall" redirect="true" />
+        </action>
+        <action
+            path="/guest/menu"
+            type="erland.webapp.common.act.MenuExpandCollapseAction"
+            name="mainMenuFB"
+            validate="false">
+
+            <forward name="success" path=".guest.index"/>
+        </action>
+        <action
+            path="/user/menu"
+            type="erland.webapp.common.act.MenuExpandCollapseAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu&amp;menuItemIdParameter=id">
+
+            <forward name="mainMenu-galleries-new" path="/do/user/newgallery"/>
+            <forward name="mainMenu-users" path="/do/user/viewuseraccounts"/>
+            <forward name="mainMenu-preferences" path="/do/user/viewuseraccount"/>
+            <forward name="mainMenu-users-new" path="/do/user/registeruser"/>
+            <forward name="success" path=".user.index"/>
+        </action>
+
+        <action
+            path="/user/viewimagecomment"
+            type="erland.webapp.dirgallery.act.gallery.picture.ViewPictureCommentAction"
+            name="editPictureCommentFB"
+            validate="false">
+
+            <forward name="success" path=".user.editimagecomment"/>
+        </action>
+
+        <action
+            path="/user/editimagecomment"
+            type="erland.webapp.dirgallery.act.gallery.picture.EditPictureCommentAction"
+            name="editPictureCommentFB"
+            input=".user.editimagecomment">
+
+            <forward name="failure" path=".user.editimagecomment"/>
+            <forward name="success" path="/do/user/viewpictures"/>
+        </action>
+
+        <action
+            path="/user/viewgallery"
+            type="erland.webapp.dirgallery.act.gallery.ViewGalleryAction"
+            name="editGalleryFB"
+            validate="false">
+
+            <forward name="success" path=".user.editgallery"/>
+        </action>
+
+        <action
+            path="/user/newgallery"
+            type="erland.webapp.dirgallery.act.gallery.NewGalleryAction"
+            name="editGalleryFB"
+            validate="false">
+
+            <forward name="success" path=".user.editgallery"/>
+        </action>
+
+        <action
+            path="/user/editgallery"
+            type="erland.webapp.dirgallery.act.gallery.EditGalleryAction"
+            name="editGalleryFB"
+            input=".user.editgallery">
+
+            <forward name="success" path="/do/user/selectgallery?gallery={id}"/>
+        </action>
+
+        <action
+            path="/user/removegallery"
+            type="erland.webapp.dirgallery.act.gallery.RemoveGalleryAction"
+            name="editGalleryFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/home"/>
+        </action>
+
+        <action
+            path="/user/viewpictures"
+            type="erland.webapp.dirgallery.act.gallery.picture.SearchPicturesAction"
+            name="selectPictureFB"
+            validate="false">
+
+            <forward name="failure" path=".user.index"/>
+            <forward name="success" path=".user.viewpictures"/>
+            <forward name="update-gallery-link" path="/do/user/viewgallery?id={gallery}"/>
+            <forward name="remove-gallery-link" path="/do/user/removegallery?id={gallery}"/>
+            <forward name="picture-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-image" path="/do/user/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][useCache,&amp;useCache={useCache}][compression,&amp;compression={compression}]"/>
+            <forward name="movie-link" path="/do/user/loadmovie?gallery={gallery}&amp;image={picture}"/>
+            <forward name="movie-image" path="/do/user/loadmoviethumbnail?gallery={gallery}&amp;image={picture}[movieRows,&amp;rows={movieRows}][movieCols,&amp;cols={movieCols}][thumbnailwidth,&amp;width={thumbnailwidth}][useCache,&amp;useCache={useCache}][compression,&amp;compression={compression}]"/>
+            <forward name="picture-resolution-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="movie-resolution-link" path="/do/user/viewmovie?gallery={gallery}&amp;image={picture}"/>
+            <forward name="previous-link" path="/do/user/viewpictures?gallery={gallery}&amp;start={start}"/>
+            <forward name="next-link" path="/do/user/viewpictures?gallery={gallery}&amp;start={start}"/>
+            <forward name="update-comment-link" path="/do/user/viewimagecomment?gallery={gallery}&amp;id={picture}"/>
+        </action>
+
+        <action
+            path="/guest/viewpictures"
+            type="erland.webapp.dirgallery.act.gallery.picture.SearchPicturesAction"
+            name="selectPictureFB"
+            validate="false">
+
+            <forward name="failure" path=".guest.index"/>
+            <forward name="success" path=".guest.viewpictures"/>
+            <forward name="picture-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][useCache,&amp;useCache={useCache}][compression,&amp;compression={compression}]"/>
+            <forward name="movie-link" path="/do/guest/loadmovie?gallery={gallery}&amp;image={picture}"/>
+            <forward name="movie-image" path="/do/guest/loadmoviethumbnail?gallery={gallery}&amp;image={picture}[movieRows,&amp;rows={movieRows}][movieCols,&amp;cols={movieCols}][thumbnailwidth,&amp;width={thumbnailwidth}][useCache,&amp;useCache={useCache}][compression,&amp;compression={compression}]"/>
+            <forward name="picture-resolution-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="movie-resolution-link" path="/do/guest/viewmovie?gallery={gallery}&amp;image={picture}"/>
+            <forward name="previous-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}&amp;start={start}"/>
+            <forward name="next-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}&amp;start={start}"/>
+        </action>
+
+        <action
+            path="/user/viewimage"
+            type="erland.webapp.dirgallery.act.loader.LoadMetadataAction"
+            name="metadataImageFB"
+            validate="false"
+            scope="request">
+            <forward name="show-all-metadata-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]&amp;showAll=true"/>
+            <forward name="show-selected-metadata-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]&amp;showSelected=true"/>
+            <forward name="hide-all-metadata-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]"/>
+            <forward name="picture-image" path="/do/user/loadimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]"/>
+            <forward name="picture-resolution-image" path="/do/user/loadresolutionimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]&amp;useCache=false"/>
+            <forward name="success" path=".user.viewimage"/>
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/guest/viewimage"
+            type="erland.webapp.dirgallery.act.loader.LoadMetadataAction"
+            name="metadataResolutionImageFB"
+            validate="false"
+            scope="request">
+            <forward name="show-all-metadata-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]&amp;showAll=true"/>
+            <forward name="show-selected-metadata-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]&amp;showSelected=true"/>
+            <forward name="hide-all-metadata-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]"/>
+            <forward name="picture-image" path="/do/guest/loadimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]"/>
+            <forward name="picture-resolution-image" path="/do/guest/loadresolutionimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]&amp;useCache=false"/>
+            <forward name="success" path=".guest.viewimage"/>
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/user/viewmovie"
+            type="erland.webapp.dirgallery.act.loader.LoadMetadataAction"
+            name="metadataImageFB"
+            validate="false"
+            scope="request">
+            <forward name="show-all-metadata-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]&amp;showAll=true"/>
+            <forward name="show-selected-metadata-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]&amp;showSelected=true"/>
+            <forward name="hide-all-metadata-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]"/>
+            <forward name="picture-image" path="/do/user/loadmovieresolutionimage?gallery={gallery}&amp;image={picture}[movieRows,&amp;rows={movieRows}][movieCols,&amp;cols={movieCols}][width,&amp;width={width}]"/>
+            <forward name="picture-resolution-image" path="/do/user/loadmovieresolutionimage?gallery={gallery}&amp;image={picture}[movieRows,&amp;rows={movieRows}][movieCols,&amp;cols={movieCols}][width,&amp;width={width}]"/>
+            <forward name="success" path=".user.viewimage"/>
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/guest/viewmovie"
+            type="erland.webapp.dirgallery.act.loader.LoadMetadataAction"
+            name="metadataResolutionImageFB"
+            validate="false"
+            scope="request">
+            <forward name="show-all-metadata-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]&amp;showAll=true"/>
+            <forward name="show-selected-metadata-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]&amp;showSelected=true"/>
+            <forward name="hide-all-metadata-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]"/>
+            <forward name="picture-image" path="/do/guest/loadmovieresolutionimage?gallery={gallery}&amp;image={picture}[movieRows,&amp;rows={movieRows}][movieCols,&amp;cols={movieCols}][width,&amp;width={width}]"/>
+            <forward name="picture-resolution-image" path="/do/guest/loadmovieresolutionimage?gallery={gallery}&amp;image={picture}[movieRows,&amp;rows={movieRows}][movieCols,&amp;cols={movieCols}][width,&amp;width={width}]"/>
+            <forward name="success" path=".guest.viewimage"/>
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/user/loadimage"
+            type="erland.webapp.dirgallery.act.loader.LoadImageAction"
+            name="imageFB"
+            validate="false"
+            scope="request">
+            <forward name="forward-to-thumbnail" path="/do/user/loadresolutionimage?useCache=false"/>
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/guest/loadimage"
+            type="erland.webapp.dirgallery.act.loader.LoadMovieAction"
+            name="imageFB"
+            validate="false"
+            scope="request">
+            <forward name="forward-to-thumbnail" path="/do/guest/loadresolutionimage?useCache=false"/>
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/user/loadmovie"
+            type="erland.webapp.dirgallery.act.loader.LoadMovieAction"
+            name="imageFB"
+            validate="false"
+            scope="request">
+            <forward name="forward-to-thumbnail" path="/do/user/viewmovie"/>
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/guest/loadmovie"
+            type="erland.webapp.dirgallery.act.loader.LoadMovieAction"
+            name="imageFB"
+            validate="false"
+            scope="request">
+            <forward name="forward-to-thumbnail" path="/do/guest/viewmovie"/>
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/guest/loadresolutionimage"
+            type="erland.webapp.dirgallery.act.loader.LoadResolutionImageAction"
+            name="resolutionImageFB"
+            validate="false"
+            scope="request">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/user/loadresolutionimage"
+            type="erland.webapp.dirgallery.act.loader.LoadResolutionImageAction"
+            name="resolutionImageFB"
+            validate="false"
+            scope="request">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/guest/loadmovieresolutionimage"
+            type="erland.webapp.dirgallery.act.loader.LoadMovieResolutionImageAction"
+            name="resolutionMovieImageFB"
+            validate="false"
+            scope="request">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/user/loadmovieresolutionimage"
+            type="erland.webapp.dirgallery.act.loader.LoadMovieResolutionImageAction"
+            name="resolutionMovieImageFB"
+            validate="false"
+            scope="request">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/user/loadthumbnail"
+            type="erland.webapp.dirgallery.act.loader.LoadThumbnailAction"
+            name="resolutionImageFB"
+            validate="false"
+            scope="request">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/guest/loadthumbnail"
+            type="erland.webapp.dirgallery.act.loader.LoadThumbnailAction"
+            name="resolutionImageFB"
+            validate="false"
+            scope="request">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/user/loadmoviethumbnail"
+            type="erland.webapp.dirgallery.act.loader.LoadMovieThumbnailAction"
+            name="resolutionMovieImageFB"
+            validate="false"
+            scope="request">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/guest/loadmoviethumbnail"
+            type="erland.webapp.dirgallery.act.loader.LoadMovieThumbnailAction"
+            name="resolutionMovieImageFB"
+            validate="false"
+            scope="request">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/user/viewuseraccount"
+            type="erland.webapp.dirgallery.act.account.ViewUserAccountAction"
+            name="editUserAccountFB"
+            validate="false">
+
+            <forward name="success" path=".user.edituseraccount"/>
+        </action>
+
+        <action
+            path="/user/viewotheruseraccount"
+            type="erland.webapp.dirgallery.act.account.ViewOtherUserAccountAction"
+            name="editUserAccountFB"
+            validate="false">
+
+            <forward name="success" path=".user.edituseraccount"/>
+        </action>
+
+        <action
+            path="/user/edituseraccount"
+            type="erland.webapp.dirgallery.act.account.EditUserAccountAction"
+            name="editUserAccountFB"
+            input=".user.edituseraccount">
+
+            <forward name="failure" path=".user.edituseraccount"/>
+            <forward name="success" path=".user.index"/>
+        </action>
+
+        <action
+            path="/user/viewuseraccounts"
+            type="erland.webapp.dirgallery.act.account.SearchUserAccountsAction">
+
+            <forward name="success" path=".user.viewuseraccounts"/>
+        </action>
+
+        <action
+            path="/logout"
+            type="erland.webapp.common.act.InvalidateSessionAction">
+            <forward name="success" path="/do/index"/>
+        </action>
+    </action-mappings>
+
+    <message-resources parameter="erland.webapp.gallery.resources.message" null="false"/>
+
+    <plug-in className="erland.webapp.common.act.WebAppEnvironmentPlugin">
+        <set-property
+            property="applicationName"
+            value="dirgallery"/>
+        <set-property
+            property="xmlParser"
+            value="erland.util.SAXXMLParser"/>
+    </plug-in>
+    <plug-in className="erland.webapp.common.act.LogConfigurationPlugin">
+        <set-property
+            property="logConfigurationFile"
+            value="dirgallery_log.xml"/>
+    </plug-in>
+    <plug-in className="org.apache.struts.tiles.TilesPlugin">
+        <set-property property="definitions-config"
+            value="/WEB-INF/tiles-defs.xml"/>
+    </plug-in>
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property
+            property="pathnames"
+            value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    </plug-in>
+    <plug-in className="erland.webapp.common.act.HtmlEncoderPlugin">
+        <set-property property="replaceRoutines"
+            value="erland.webapp.common.html.HTMLBasicStringReplace,
+                   erland.webapp.common.html.HTMLLinkStringReplace,
+                   erland.webapp.common.html.HTMLBoldLinkStringReplace"/>
+    </plug-in>
+</struts-config>
