@@ -18,8 +18,6 @@ package erland.webapp.common;
  *
  */
 
-import javax.servlet.http.HttpServletRequest;
-
 public class ServletParameterHelper {
     public static String replaceParameter(String parameterString,String parameter,String value) {
         StringBuffer sb = new StringBuffer(parameterString);
@@ -103,6 +101,8 @@ public class ServletParameterHelper {
         Boolean booleanValue = defaultValue;
         if(value!=null && value.equalsIgnoreCase("true")) {
             booleanValue = Boolean.TRUE;
+        }else if(value!=null && value.equalsIgnoreCase("false")) {
+            booleanValue = Boolean.FALSE;
         }
         return booleanValue;
     }
