@@ -60,4 +60,16 @@ public interface BlockContainerInterface
      * @return y position in pixels
      */
     int getPositionY(int y);
+
+	/**
+     * Get the drawing size for container
+     * @return x drawing size in pixels
+     */
+    int getDrawingSizeX();
+    
+	/**
+     * Get the drawing size for container
+     * @return x drawing size in pixels
+     */
+    int getDrawingSizeY();
 }
