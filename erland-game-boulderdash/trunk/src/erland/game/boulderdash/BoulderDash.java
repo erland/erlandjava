@@ -144,7 +144,7 @@ public class BoulderDash extends Applet
 	 * Initializes a new game
 	 */
 	public void init() {
-		Log.setLog("<log><logitem1>erland.game.boulderdash.BoulderDashMain</logitem1></log>");
+		//Log.setLog("<log><logitem1>erland.game.boulderdash.BoulderDashMain</logitem1></log>");
 		this.setLayout(null);
 		bCheatMode=false;
 		cheatCounter=0;
