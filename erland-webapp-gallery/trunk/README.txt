@@ -21,6 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 This software also includes a library "metadata extraction in java" for
 extracting exif data from the images, see http://www.drewnoakes.com for
 more information.
+A library with Java image filters is also included, see http://www.jhlabs.com/ip/filters.html for
+more information.
 A number of different libraries from http://jakarta.apache.org is also included
 
 3. PREREQUISITES
