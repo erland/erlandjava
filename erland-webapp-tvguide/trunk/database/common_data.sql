@@ -16,4 +16,7 @@ INSERT INTO resources VALUES ('tvguide','resources.smtp.server','');
 INSERT INTO resources VALUES ('tvguide','resources.smtp.from','');
 INSERT INTO resources VALUES ('tvguide','resources.smtp.subject','TV-program {date}');
 INSERT INTO resources VALUES ('tvguide','resources.notificationtime','06:00');
+INSERT INTO resources VALUES ('tvguide','resources.jabber.server','');
+INSERT INTO resources VALUES ('tvguide','resources.jabber.user','');
+INSERT INTO resources VALUES ('tvguide','resources.jabber.password','');
 

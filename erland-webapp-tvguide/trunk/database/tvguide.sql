@@ -102,6 +102,8 @@ CREATE TABLE `useraccounts` (
   `skin` varchar(100) default NULL,
   `logo` varchar(255) default NULL,
   `mailnotification` tinyint(4) NOT NULL default '0',
+  `jabberid` varchar(100) default NULL,
+  `jabbernotification` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`username`)
 ) TYPE=MyISAM;
 
