@@ -12,6 +12,7 @@
         <form-bean name="userAccountFB" type="erland.webapp.gallery.fb.account.AccountFB"/>
         <form-bean name="storageFB" type="erland.webapp.gallery.fb.gallery.picturestorage.PictureStorageFB"/>
         <form-bean name="guestAccountFB" type="erland.webapp.gallery.fb.guestaccount.GuestAccountFB"/>
+        <form-bean name="pictureFB" type="erland.webapp.gallery.fb.gallery.picture.PictureFB"/>
         <form-bean name="galleryFB" type="erland.webapp.gallery.fb.gallery.GalleryFB"/>
         <form-bean name="categoryFB" type="erland.webapp.gallery.fb.gallery.category.CategoryFB"/>
         <form-bean name="selectCategoryFB" type="erland.webapp.gallery.fb.gallery.category.SelectCategoryFB"/>
@@ -102,6 +103,7 @@
             name="mainMenuFB"
             validate="false">
 
+            <forward name="mainMenu-galleries-new" path="/do/user/newgallery"/>
             <forward name="mainMenu-preferences" path="/do/user/viewuseraccount"/>
             <forward name="mainMenu-users" path="/do/user/viewuseraccounts"/>
             <forward name="mainMenu-guestusers" path="/do/user/viewguestaccounts"/>
@@ -152,13 +154,23 @@
         </action>
 
         <action
+            path="/user/newgallery"
+            type="erland.webapp.gallery.act.gallery.NewGalleryAction"
+            name="galleryFB"
+            validate="false">
+
+            <forward name="success" path=".user.editgallery"/>
+        </action>
+
+        <action
             path="/user/editgallery"
             type="erland.webapp.gallery.act.gallery.EditGalleryAction"
             name="galleryFB"
             input=".user.editgallery"
             validate="true">
 
-            <forward name="success" path="/do/user/viewgallery"/>
+            <forward name="success-edit" path="/do/user/viewpictures?gallery={id}"/>
+            <forward name="success-new" path="/do/user/home"/>
         </action>
 
         <action
@@ -171,8 +183,44 @@
         </action>
 
         <action
-            path="/user/viewimportpictures"
-            type="erland.webapp.gallery.act.gallery.importers.ViewIMatchImportAction"
+            path="/user/viewpicture"
+            type="erland.webapp.gallery.act.gallery.picture.ViewPictureAction"
+            name="pictureFB"
+            validate="false">
+
+            <forward name="success" path=".user.editpicture"/>
+        </action>
+
+        <action
+            path="/user/newpicture"
+            type="org.apache.struts.actions.ForwardAction"
+            name="pictureFB"
+            validate="false"
+            parameter=".user.editpicture" >
+        </action>
+
+        <action
+            path="/user/editpicture"
+            type="erland.webapp.gallery.act.gallery.picture.EditPictureAction"
+            name="pictureFB"
+            input=".user.editpicture"
+            validate="true">
+
+            <forward name="success" path="/do/user/viewpictures"/>
+        </action>
+
+        <action
+            path="/user/removepicture"
+            type="erland.webapp.gallery.act.gallery.picture.RemovePictureAction"
+            name="pictureFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/viewpictures"/>
+        </action>
+
+        <action
+            path="/user/newimportpictures"
+            type="erland.webapp.gallery.act.gallery.importers.NewIMatchImportAction"
             name="importFB"
             validate="false">
 
@@ -195,6 +243,8 @@
 
             <forward name="success" path=".user.viewpictures"/>
             <forward name="picture-link" path="/do/user/loadimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-update-link" path="/do/user/viewpicture?gallery={gallery}&amp;id={picture}"/>
+            <forward name="picture-remove-link" path="/do/user/removepicture?gallery={gallery}&amp;id={picture}"/>
             <forward name="picture-image" path="/do/user/loadthumbnail?gallery={gallery}&amp;image={picture}"/>
             <forward name="previous-link" path="/do/user/viewpictures?gallery={gallery}[category,&amp;category={category}]&amp;start={start}&amp;max={max}"/>
             <forward name="next-link" path="/do/user/viewpictures?gallery={gallery}[category,&amp;category={category}]&amp;start={start}&amp;max={max}"/>
@@ -313,7 +363,7 @@
             input=".user.editcategory"
             validate="true">
 
-            <forward name="success" path="/do/user/viewgallery"/>
+            <forward name="success" path="/do/user/viewpictures"/>
         </action>
 
         <action
