@@ -23,7 +23,14 @@
             Category category = categories[i];
             %>
             <tr>
-            <td class="sub-menu"></td>
+            <%
+            String indentGalleries = request.getParameter("indentgalleries");
+            if(indentGalleries!=null && indentGalleries.equalsIgnoreCase("true")) {
+                %>
+                <td class="sub-menu"></td>
+                <%
+            }
+            %>
             <td class="sub-menu"></td>
             <%
             for(int j=0;j<indent;j++) {
