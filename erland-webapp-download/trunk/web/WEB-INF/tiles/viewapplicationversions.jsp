@@ -19,7 +19,11 @@
         <td width="20">&nbsp;</td>
         <td valign="top" nowrap><bean:write name="item" property="dateDisplay"/></td>
         <td width="20">&nbsp;</td>
-        <td valign="top"><a class="bold-link" href="/download/do/downloadapplication?name=<bean:write name="item" property="name"/>&filename=<bean:write name="item" property="filename"/>"><bean:write name="item" property="filename"/></a><br>
+        <td valign="top">
+        <logic:iterate name="item" property="files" id="file">
+        <a class="bold-link" href="/download/do/downloadapplication?name=<bean:write name="item" property="name"/>&filename=<bean:write name="file" property="filename"/>"><bean:write name="file" property="filename"/></a>&nbsp;&nbsp;&nbsp;
+        </logic:iterate>
+        <br>
         <erland-common:expandhtml><bean:write name="item" property="description"/></erland-common:expandhtml>
         </td>
         </tr>
