@@ -589,6 +589,8 @@ public class BaseAction extends Action {
             Log.println(this,"Parameter: "+mapping.getParameter());
         }
 
+        request.getSession().setAttribute(Globals.LOCALE_KEY,request.getLocale());
+
         // Check for precondition errors; fail if found
         preProcess(mapping, form, request, response);
 
