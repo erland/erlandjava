@@ -23,52 +23,8 @@ import erland.webapp.common.ServletParameterHelper;
  * 
  */
 
-public class GalleryPB extends BasePB {
-    private Integer id;
-    private String title;
-    private String description;
+public class GalleryPB extends GalleryFB {
     private Boolean virtual;
-    private CategoryPB[] categories;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getIdDisplay() {
-        return ServletParameterHelper.asString(id,"");
-    }
-
-    public void setIdDisplay(String idDisplay) {
-        this.id = ServletParameterHelper.asInteger(idDisplay,null);
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public CategoryPB[] getCategories() {
-        return categories;
-    }
-
-    public void setCategories(CategoryPB[] categories) {
-        this.categories = categories;
-    }
 
     public Boolean getVirtual() {
         return virtual;
