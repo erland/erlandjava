@@ -29,6 +29,7 @@ public class UserAccount extends BaseEntity {
     private Boolean official;
     private Integer defaultGallery;
     private String copyrightText;
+    private String stylesheet;
 
     public String getUsername() {
         return username;
@@ -84,5 +85,13 @@ public class UserAccount extends BaseEntity {
 
     public void setCopyrightText(String copyrightText) {
         this.copyrightText = copyrightText;
+    }
+
+    public String getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(String stylesheet) {
+        this.stylesheet = stylesheet;
     }
 }

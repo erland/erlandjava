@@ -37,6 +37,10 @@
                 <column>copyright</column>
                 <type>String</type>
             </field>
+            <field id="stylesheet">
+                <column>stylesheet</column>
+                <type>String</type>
+            </field>
         </fields>
         <queries>
             <query id="all">
