@@ -23,6 +23,9 @@ import erland.util.Log;
 public class HTMLBoldLinkStringReplace implements StringReplaceInterface {
     public String replace(String str) {
         Log.println(this,"Before: "+str);
+        str = str.replaceAll("\\[boldlinksamewindow=([^\\]]*),([^\\]]*)\\]","<a class=\"bold-link\" href=\"$2\">$1</a>");
+        Log.println(this,"After : "+str);
+        Log.println(this,"Before: "+str);
         str = str.replaceAll("\\[boldlink=([^\\]]*),([^\\]]*)\\]","<a class=\"bold-link\" href=\"$2\" target=\"_blank\">$1</a>");
         Log.println(this,"After : "+str);
         return str;
