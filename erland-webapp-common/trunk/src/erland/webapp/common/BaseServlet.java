@@ -75,7 +75,7 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
 
     public ParameterValueStorageExInterface getResources() {
         if(resources==null) {
-            resources = new ParameterStorageTree(getStorage());
+            resources = new ParameterStorageChild("resources.",new ParameterStorageTree(getStorage()));
         }
         return resources;
     }
@@ -139,6 +139,9 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
                     saveParameter(request,type,REQUEST,saveParameters,getParameters(request));
                 }
                 Log.println(this,cmd.getClass().getName()+"::execute("+request.getQueryString()+")");
+                if(cmd instanceof CommandOptionsInterface) {
+                    ((CommandOptionsInterface)cmd).setOptions(new ParameterStorageChild("commands."+getCommandClassName(request)+".options.",getResources()));
+                }
                 page = cmd.execute(request);
                 String save = getEnvironment().getResources().getParameter("commands."+getCommandClassName(request)+".save");
                 if(save!=null) {
