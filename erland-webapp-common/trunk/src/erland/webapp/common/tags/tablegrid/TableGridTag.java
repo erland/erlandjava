@@ -41,8 +41,10 @@ public class TableGridTag extends TagSupport {
     private String rowsProperty;
     private String colsProperty;
     private String tableStyle;
+    private String rowIterationsProperty;
     private String rowIterations;
     private String columnIterations;
+    private String columnIterationsProperty;
     private String cellStyle;
     private String rowStyle;
     private String width;
@@ -128,6 +130,22 @@ public class TableGridTag extends TagSupport {
 
     public void setColumnIterations(String columnIterations) {
         this.columnIterations = columnIterations;
+    }
+
+    public String getColumnIterationsProperty() {
+        return columnIterationsProperty;
+    }
+
+    public void setColumnIterationsProperty(String columnIterationsProperty) {
+        this.columnIterationsProperty = columnIterationsProperty;
+    }
+
+    public String getRowIterationsProperty() {
+        return rowIterationsProperty;
+    }
+
+    public void setRowIterationsProperty(String rowIterationsProperty) {
+        this.rowIterationsProperty = rowIterationsProperty;
     }
 
     public String getCellStyle() {
@@ -279,6 +297,39 @@ public class TableGridTag extends TagSupport {
                         Object colsValue = (Object) PropertyUtils.getProperty(rowsColsBean,colsProperty);
                         if(colsValue!=null) {
                             cols = colsValue.toString();
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+                }
+            }
+            String rowIterations = this.rowIterations;
+            String columnIterations = this.columnIterations;
+            if((rowIterations==null || columnIterations==null) && nameRowsCols!=null) {
+                Object rowsColsBean = (Object) pageContext.findAttribute(nameRowsCols);
+                if(rowsColsBean!=null && rowIterations==null && rowIterationsProperty!=null) {
+                    try {
+                        Object rowIterationsValue = (Object) PropertyUtils.getProperty(rowsColsBean,rowIterationsProperty);
+                        if(rowIterationsValue!=null) {
+                            rowIterations = rowIterationsValue.toString();
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+                }
+                if(rowsColsBean!=null && columnIterations==null && columnIterationsProperty!=null) {
+                    try {
+                        Object columnIterationsValue = (Object) PropertyUtils.getProperty(rowsColsBean,columnIterationsProperty);
+                        if(columnIterationsValue!=null) {
+                            columnIterations = columnIterationsValue.toString();
                         }
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -441,6 +492,8 @@ public class TableGridTag extends TagSupport {
         tableStyle = null;
         rowIterations = null;
         columnIterations = null;
+        rowIterationsProperty = null;
+        columnIterationsProperty = null;
         rowStyle = null;
         cellStyle = null;
         width = null;
