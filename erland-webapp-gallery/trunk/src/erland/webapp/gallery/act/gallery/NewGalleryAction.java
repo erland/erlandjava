@@ -52,6 +52,15 @@ public class NewGalleryAction extends BaseAction {
         fb.setThumbnailCompression(null);
         fb.setAntialias(Boolean.FALSE);
         fb.setThumbnailAntialias(Boolean.FALSE);
+        fb.setThumbnailWidth(null);
+        fb.setSortOrder("bydatedesc");
+        fb.setNoOfCols(new Integer(3));
+        fb.setNoOfRows(new Integer(3));
+        fb.setAllowSearch(Boolean.TRUE);
+        fb.setCutLongPictureTitles(Boolean.TRUE);
+        fb.setUseShortPictureNames(Boolean.TRUE);
+        fb.setShowPictureTitle(Boolean.TRUE);
+        fb.setShowResolutionLinks(Boolean.TRUE);
 
         Gallery[] galleries = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",request.getRemoteUser(),"allrealforuser");
         GalleryPB[] pbGalleries = new GalleryPB[galleries.length];
