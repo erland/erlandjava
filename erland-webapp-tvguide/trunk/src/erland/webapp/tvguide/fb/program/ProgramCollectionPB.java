@@ -1,12 +1,5 @@
 package erland.webapp.tvguide.fb.program;
 
-import erland.webapp.common.fb.BasePB;
-import erland.util.StringUtil;
-
-import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.text.DateFormat;
-
 /*
  * Copyright (C) 2005 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -25,6 +18,13 @@ import java.text.DateFormat;
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
+
+import erland.webapp.common.fb.BasePB;
+import erland.util.StringUtil;
+
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 
 public class ProgramCollectionPB extends BasePB {
     private static DateFormat FORMAT = new SimpleDateFormat("EEEE d MMM");

@@ -1,7 +1,5 @@
 package erland.webapp.tvguide.fb.subscription;
 
-import erland.webapp.tvguide.fb.program.ProgramPB;
-
 /*
  * Copyright (C) 2005 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -20,6 +18,8 @@ import erland.webapp.tvguide.fb.program.ProgramPB;
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
+
+import erland.webapp.tvguide.fb.program.ProgramPB;
 
 public class SubscriptionPB extends SubscriptionFB {
     private String viewLink;
