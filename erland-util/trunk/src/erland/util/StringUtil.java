@@ -1,4 +1,15 @@
 package erland.util;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Pattern;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -230,5 +241,159 @@ public class StringUtil {
             str="";
         }
         return str;
+    }
+
+    /**
+     * Generates a string with all properties of an object which has a getXXX or isXXX method
+     * In the case that the methods return a value that is not a String it will be converted to a
+     * String by using the toString() method of the object
+     * @param object The object to print
+     * @param exclude A regular expression, if a getXXX or isXXX method matches this it will not be printed
+     * @param excludeFrom If the getXXX or isXXX method is declared in this class or a subclass of this class it will not be printed
+     * @param shortNames Indicates that short class names should be used instead of full names which include the package
+     * @return A string like MyClass1(attr1=value1,attr2=MyClass2[5],attr3=List(5))
+     */
+    public static String beanToString(Object object, String exclude, Class excludeFrom, boolean shortNames) {
+        StringBuffer sb = new StringBuffer(500);
+        if(shortNames) {
+            if(object instanceof Object[]) {
+                int start = object.getClass().getComponentType().getPackage().getName().length();
+                sb.append(object.getClass().getComponentType().getName().substring(start+1));
+                sb.append("[");
+                sb.append(((Object[])object).length);
+                sb.append("]");
+            }else {
+                int start = object.getClass().getPackage().getName().length();
+                sb.append(object.getClass().getName().substring(start+1));
+            }
+        }else {
+            if(object instanceof Object[]) {
+                sb.append(object.getClass().getComponentType().getName());
+                sb.append("[");
+                sb.append(((Object[])object).length);
+                sb.append("]");
+            }else {
+                sb.append(object.getClass().getName());
+            }
+        }
+        sb.append("(");
+        Method[] methods = object.getClass().getMethods();
+        boolean bFirst = true;
+        for (int i = 0; i < methods.length; i++) {
+            try {
+                Method method = methods[i];
+                String fieldName = null;
+                if(method.getName().startsWith("get")) {
+                    fieldName = method.getName().substring(3);
+                }else if(method.getName().startsWith("is")) {
+                    fieldName = method.getName().substring(2);
+                }
+                if(exclude!=null && Pattern.matches(exclude,method.getName())) {
+                    fieldName = null;
+                }
+
+                if(fieldName!=null && Modifier.isPublic(method.getModifiers()) && method.getParameterTypes().length==0 && (excludeFrom==null || !method.getDeclaringClass().isAssignableFrom(excludeFrom))) {
+                    fieldName = ""+Character.toLowerCase(fieldName.charAt(0))+(fieldName.length()>1?fieldName.substring(1):"");
+                    if(!bFirst) {
+                        sb.append(",");
+                    }
+                    bFirst = false;
+                    sb.append(fieldName);
+                    sb.append("=");
+                    Object value = method.invoke(object,null);
+                    if(value instanceof Object[]) {
+                        Object[] o = (Object[]) value;
+                        sb.append(o.getClass().getComponentType().getName()+"["+o.length+"]");
+                    }else if(value instanceof Collection) {
+                        Collection o = (Collection) value;
+                        sb.append(o.getClass().getName()+"("+o.size()+")");
+                    }else {
+                        sb.append(value);
+                    }
+                }
+            } catch (IllegalAccessException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (InvocationTargetException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+        sb.append(")");
+        return sb.toString();
+    }
+
+    /**
+     * Generates a string with all attributes of an object
+     * In the case that the methods return a value that is not a String it will be converted to a
+     * String by using the toString() method of the object
+     * @param object The object to print
+     * @param exclude A regular expression, if an attribute name matches this it will not be printed
+     * @param excludeFrom If the attribute is declared in this class or a subclass of this class it will not be printed
+     * @param shortNames Indicates that short class names should be used instead of full names which include the package
+     * @return A string like MyClass1(attr1=value1,attr2=MyClass2[5],attr3=List(5))
+     */
+    public static String objectToString(Object object, String exclude, Class excludeFrom, boolean shortNames) {
+        StringBuffer sb = new StringBuffer(500);
+        if(shortNames) {
+            if(object instanceof Object[]) {
+                int start = object.getClass().getComponentType().getPackage().getName().length();
+                sb.append(object.getClass().getComponentType().getName().substring(start+1));
+                sb.append("[");
+                sb.append(((Object[])object).length);
+                sb.append("]");
+            }else {
+                int start = object.getClass().getPackage().getName().length();
+                sb.append(object.getClass().getName().substring(start+1));
+            }
+        }else {
+            if(object instanceof Object[]) {
+                sb.append(object.getClass().getComponentType().getName());
+                sb.append("[");
+                sb.append(((Object[])object).length);
+                sb.append("]");
+            }else {
+                sb.append(object.getClass().getName());
+            }
+        }
+        sb.append("(");
+        Class cls = object.getClass();
+        while(cls!=null) {
+            Field[] fields = cls.getDeclaredFields();
+            boolean bFirst = true;
+            for (int i = 0; i < fields.length; i++) {
+                try {
+                    Field field = fields[i];
+                    String fieldName = field.getName();
+                    if(exclude!=null && Pattern.matches(exclude,field.getName())) {
+                        fieldName = null;
+                    }
+
+                    if(fieldName!=null && (excludeFrom==null || !field.getDeclaringClass().isAssignableFrom(excludeFrom))) {
+                        fieldName = ""+Character.toLowerCase(fieldName.charAt(0))+(fieldName.length()>1?fieldName.substring(1):"");
+                        if(!bFirst) {
+                            sb.append(",");
+                        }
+                        bFirst = false;
+                        sb.append(fieldName);
+                        sb.append("=");
+                        field.setAccessible(true);
+                        Object value = field.get(object);
+                        if(value instanceof Object[]) {
+                            Object[] o = (Object[]) value;
+                            sb.append(o.getClass().getComponentType().getName()+"["+o.length+"]");
+                        }else if(value instanceof Collection) {
+                            Collection o = (Collection) value;
+                            sb.append(o.getClass().getName()+"("+o.size()+")");
+                        }else {
+                            sb.append(value);
+                        }
+                    }
+                } catch (IllegalAccessException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+            cls = cls.getSuperclass();
+        }
+        sb.append(")");
+        return sb.toString();
     }
 }
