@@ -217,6 +217,15 @@
         </action>
 
         <action
+            path="/user/clearcachegallery"
+            type="erland.webapp.gallery.act.gallery.ClearCacheGalleryAction"
+            name="galleryFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/viewpictures?gallery={id}"/>
+        </action>
+
+        <action
             path="/user/viewgallery"
             type="erland.webapp.gallery.act.gallery.ViewGalleryAction"
             name="galleryFB"
