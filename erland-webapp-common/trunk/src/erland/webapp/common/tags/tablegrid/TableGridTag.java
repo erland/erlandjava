@@ -234,7 +234,7 @@ public class TableGridTag extends TagSupport {
             }
             String rows = this.rows;
             String cols = this.cols;
-            if(rows==null || cols==null) {
+            if((rows==null || cols==null) && nameRowsCols!=null) {
                 Object rowsColsBean = (Object) pageContext.findAttribute(nameRowsCols);
                 if(rowsColsBean!=null && rows==null && rowsProperty!=null) {
                     try {
