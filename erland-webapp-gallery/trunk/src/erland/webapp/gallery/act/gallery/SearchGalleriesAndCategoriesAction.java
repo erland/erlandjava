@@ -30,6 +30,7 @@ import erland.webapp.gallery.act.gallery.category.CategoryHelper;
 import erland.webapp.gallery.entity.gallery.category.Category;
 import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.entity.guestaccount.GuestAccount;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
@@ -53,10 +54,12 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
         if (fb != null) {
             username = fb.getUser();
         }
+        String prefix = StringUtil.asEmpty(mapping.getParameter());
         QueryFilter filter = new QueryFilter(getQueryFilter(request));
         filter.setAttribute("username", username);
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage(getEntityName()).search(filter);
         GalleryMenuItemPB[] pb = new GalleryMenuItemPB[entities.length];
+        request.getSession().removeAttribute(prefix+"menuCategoriesPB");
         for (int i = 0; i < entities.length; i++) {
             Gallery entity = (Gallery)entities[i];
             pb[i] = new GalleryMenuItemPB();
@@ -80,8 +83,11 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
             Category[] categories = CategoryHelper.searchCategories(getEnvironment(),gallery,entity.getId(),entity.getTopCategory(),getCategoriesFilter(request),getNoTopCategoriesFilter(request));
             MenuItemPB[] categoriesPB = makeCategoryTree(entity.getId(),username, categories,categoryPath,entity.getTopCategory());
             pb[i].setChilds(categoriesPB);
+            if(fb!=null && entity.getId().equals(fb.getGallery())) {
+                request.getSession().setAttribute(prefix+"menuCategoriesPB",categoriesPB);
+            }
         }
-        request.getSession().setAttribute("menuGalleriesAndCategoriesPB", pb);
+        request.getSession().setAttribute(prefix+"menuGalleriesAndCategoriesPB", pb);
 
         if(username.equals(request.getRemoteUser())) {
             filter = new QueryFilter("allforguestuser");
@@ -127,7 +133,7 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
                 }
                 pbGuest[i].setChilds(pbGalleries);
             }
-            request.getSession().setAttribute("guestMenuGalleriesAndCategoriesPB", pbGuest);
+            request.getSession().setAttribute(prefix+"guestMenuGalleriesAndCategoriesPB", pbGuest);
         }
     }
 
