@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project default="all:build"
-    xmlns:ant="jelly:ant">
+    xmlns:ant="jelly:ant"
+    xmlns:j="jelly:core">    
 
 	<postGoal name="dist:prepare-bin-filesystem">
         <attainGoal name="war"/>
@@ -63,6 +64,13 @@
 	    </jspc>
 	    <javac srcdir="${maven.build.dir}/jsp"
 	    	destdir="${maven.build.dir}/jsp">
+
+          <j:if test="${context.getVariable('maven.compile.target') != null}">
+            <ant:setProperty name="target" value="${maven.compile.target}" />
+          </j:if>
+          <j:if test="${context.getVariable('maven.compile.source') != null}">
+            <ant:setProperty name="source" value="${maven.compile.source}" />
+          </j:if>
 
           	<classpath>
             	<path refid="maven.dependency.classpath"/>
