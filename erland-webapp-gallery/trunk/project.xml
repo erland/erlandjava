@@ -86,6 +86,28 @@
     </dependency>
 
     <dependency>
+      <url>http://jakarta.apache.org/commons/collections.html</url>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.0</version>
+      <type>jar</type>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <url>http://jakarta.apache.org/commons/logging.html</url>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.0.3</version>
+      <type>jar</type>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
       <url>http://jakarta.apache.org/commons/digester.html</url>
       <groupId>commons-digester</groupId>
       <artifactId>commons-digester</artifactId>
