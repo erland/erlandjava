@@ -116,6 +116,17 @@ public class XMLNode {
         return attributes!=null?(String)attributes.get(attribute):null;
     }
     /**
+     * Set the value of a specified attribute for the node
+     * @param name The name of the attribute to set
+     * @param value The value of the attribute
+     */
+    public void setAttributeValue(String name,String value) {
+        if(attributes==null) {
+            attributes = new HashMap();
+        }
+        attributes.put(name,value);
+    }
+    /**
      * Get all child nodes
      * @return An Iterator with all child nodes
      */
@@ -132,6 +143,20 @@ public class XMLNode {
         node.childNode = true;
         childs.add(node);
         //Log.println(this,"addChild "+getClass().getName()+"@"+Integer.toHexString(hashCode())+" -> "+node.getClass().getName()+"@"+Integer.toHexString(node.hashCode()));
+    }
+
+    /**
+     * Replaces an existing child node with a new one
+     * @param currentNode  The current child not which should be replaced
+     * @param newNode The new child node which is should be replaced with
+     */
+    public void replaceChild(XMLNode currentNode, XMLNode newNode) {
+        int i = childs.indexOf(currentNode);
+        if(i>=0) {
+            childs.set(i,newNode);
+        }
+        newNode.childNode = true;
+        //Log.println(this,"replaceChild "+getClass().getName()+"@"+Integer.toHexString(hashCode())+" -> "+newNode.getClass().getName()+"@"+Integer.toHexString(node.hashCode()));
     }
 
     /**
@@ -156,7 +181,7 @@ public class XMLNode {
 	 * Delete the first child node matching the name
 	 * If the child node has child nodes itself these will also be deleted.
 	 * @param name The name of the child node which should be deleted
-	 * @see #delChild(erland.util.XMLNode)
+	 * @see #delChild(XMLNode)
 	 */
 	public void delChild(String name) {
 		Iterator it = childs.iterator();
