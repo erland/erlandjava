@@ -88,7 +88,6 @@ public class RacerModelStandalone implements RacerModelInterface {
         model = new RacerModel();
         opponentCars = initComputerCars(4-1);
         Car cars[] = new Car[1+opponentCars.length];
-        model = new RacerModel();
         computerCarControlManager = new CarControlManager();
         CarScanDataContainerStandard computerCarScanData = new CarScanDataContainerStandard();
 
