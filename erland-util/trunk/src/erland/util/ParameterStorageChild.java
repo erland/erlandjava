@@ -41,4 +41,12 @@ public class ParameterStorageChild implements ParameterValueStorageExInterface {
     public void delParameter(String name) {
         values.delParameter(prefix+name);
     }
+
+    public String toString() {
+        if(values!=null) {
+            return values.toString();
+        }else {
+            return "";
+        }
+    }
 }
