@@ -10,6 +10,7 @@
 </td>
 <td valign="top">
 <table class="inventorypage-entry-body">
+    <bean:define id="speciesInfo" name="inventoryEntryPB" property="speciesInfo"/>
     <tr>
     <td colspan="2">
     <erland-common:beanlink name="inventoryEntryPB" property="updateLink" style="inventorypage-button">
@@ -76,8 +77,17 @@
     <erland-common:beanlink name="inventoryEntryPB" property="newEventLink" style="inventorypage-button"><bean:message key="diary.inventory.event.buttons.new"/></erland-common:beanlink>
     </td></tr>
 
+    <tr><td>&nbsp</td></tr>
+    <logic:notEmpty name="inventoryEntryPB" property="species">
+        <tr>
+        <td colspan="2">
+        <erland-common:beanlink style="inventorypage-button" name="speciesInfo" property="viewLink">
+            <bean:message key="diary.inventory.species-description"/>
+        </erland-common:beanlink>
+        </td>
+        </tr>
+    </logic:notEmpty>
     <logic:notEmpty name="inventoryEntryPB" property="gallery">
-        <tr><td>&nbsp</td></tr>
         <tr>
         <td colspan="2">
         <erland-common:beanlink style="inventorypage-button" name="inventoryEntryPB" property="galleryLink">
