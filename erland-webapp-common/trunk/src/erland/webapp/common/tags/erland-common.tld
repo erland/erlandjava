@@ -332,11 +332,19 @@
             <required>false</required>
         </attribute>
         <attribute>
+            <name>columnIterations</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
             <name>tableStyle</name>
             <required>false</required>
         </attribute>
         <attribute>
             <name>cellStyle</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>rowStyle</name>
             <required>false</required>
         </attribute>
         <attribute>
@@ -387,6 +395,36 @@
         <info>Child tag of tablegrid, draws cells of a specific table row</info>
         <attribute>
             <name>row</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>cellStyle</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>cellWidth</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>cellHeight</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>align</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>valign</name>
+            <required>false</required>
+        </attribute>
+    </tag>
+    <tag>
+        <name>tablegridcolumn</name>
+        <tagclass>erland.webapp.common.tags.tablegrid.TableGridColumnTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>Child tag of tablegrid, draws cells of a specific table column</info>
+        <attribute>
+            <name>column</name>
             <required>true</required>
         </attribute>
         <attribute>
