@@ -18,7 +18,12 @@
         <link rel="stylesheet" href="<bean:write name="stylesheetPB"/>"
                       type="text/css"/>
     </logic:notEmpty>
+    <logic:notEmpty name="titlePB">
+    <title><bean:write name="titlePB"/></title>
+    </logic:notEmpty>
+    <logic:empty name="titlePB">
     <title><tiles:getAsString name="title"/></title>
+    </logic:empty>
   </HEAD>
 <body class="layout">
 <table class="layout-main" border="0" width="100%" cellspacing="5">
