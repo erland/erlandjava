@@ -1,0 +1,43 @@
+<entity id="userapplicationrole">
+    <class>erland.webapp.usermgmt.UserApplicationRole</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/users</datasource>
+        <table>userapplicationroles</table>
+        <fields>
+            <field id="username">
+                <column>username</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="application">
+                <column>application</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="role">
+                <column>role</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+        </fields>
+        <queries>
+            <query id="allforuserandapplication">
+                <querystring>username=? and application=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>username</field>
+                        <type>String</type>
+                    </field>
+                    <field id="2">
+                        <field>application</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
