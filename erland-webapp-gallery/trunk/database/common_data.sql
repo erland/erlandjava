@@ -24,6 +24,7 @@ INSERT INTO descriptiontags VALUES ('common-metadatafielddescription','Exif+Date
 --
 
 INSERT INTO resources VALUES ('gallery','resources.thumbnail.cache','D%3A%5Cusers%5Cerland%5Cthumbnails');
+INSERT INTO resources VALUES ('gallery','resources.manageddirectories','D%3A%5Cusers%5Cerland%5Cthumbnails=104857600');
 INSERT INTO resources VALUES ('gallery','resources.welcometext','Login to update your picture gallery or click [boldlinksamewindow=here,http://erland.homeip.net/gallery/do/guest/home?user=erland] to look at my gallery. You can also look at the other users gallery by clicking on the links below.\r\nYou can also register your own picture gallery [boldlinksamewindow=here,/gallery/do/guest/registeruser]\r\n\r\n');
 INSERT INTO resources VALUES ('gallery','resources.welcometext_sv','Logga in för att uppdatera ditt bildarkiv eller klicka [boldlinksamewindow=här,http://erland.homeip.net/gallery/do/guest/home?user=erland] för att titta i mitt bildarkiv. Du kan också titta på någon annans bildarkiv genom att klicka på länkarna nedan.\r\nDu kan också registrera ditt eget bildarkiv [boldlinksamewindow=här,/gallery/do/guest/registeruser]\r\n\r\n');
 INSERT INTO resources VALUES ('gallery','resources.importfile','D:\\imatch.txt');
