@@ -47,7 +47,6 @@ public class NewIMatchImportAction extends BaseAction {
         fb.setFile(getEnvironment().getConfigurableResources().getParameter("importfile"));
         fb.setClearCategories(Boolean.FALSE);
         fb.setClearPictures(Boolean.FALSE);
-        fb.setCutLongPictureTitles(Boolean.TRUE);
         fb.setFilenameAsPictureDescription(Boolean.TRUE);
         fb.setFilenameAsPictureTitle(Boolean.TRUE);
         fb.setLocalLinks(Boolean.FALSE);
