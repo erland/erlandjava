@@ -226,6 +226,14 @@ text-decoration:none;
 .picturepage-picture-title {
 }
 
+.picturepage-picture-description {
+font-family:arial;
+font-size:12px;
+font-weight:normal;
+color:#000000;
+text-decoration:none;
+}
+
 .picturepage-navigation-row {
 }
 
