@@ -31,6 +31,7 @@ import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.entity.gallery.picture.Picture;
 import erland.webapp.gallery.entity.gallery.picture.Resolution;
 import erland.webapp.gallery.entity.gallery.picturestorage.PictureStorage;
+import erland.webapp.gallery.entity.account.UserAccount;
 import erland.webapp.gallery.fb.loader.MetadataImageFB;
 import erland.webapp.gallery.fb.loader.MetadataPB;
 import erland.webapp.gallery.fb.loader.MetadataCollectionPB;
@@ -99,6 +100,9 @@ public class LoadMetadataAction extends BaseAction {
         if(fb.getWidth()!=null) {
             parameters.put("width",fb.getWidth());
         }
+        if(StringUtil.asNull(fb.getSkin())!=null) {
+            parameters.put("skin",fb.getSkin());
+        }
         ActionForward forward = mapping.findForward("show-all-metadata-link");
         if(forward!=null) {
             pb.setShowAllLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
@@ -147,10 +151,18 @@ public class LoadMetadataAction extends BaseAction {
         if(StringUtil.asNull(fb.getSkin())!=null) {
             skin = fb.getSkin();
         }
-        SkinFB previous = (SkinFB) request.getSession().getAttribute("skinPB");
-        if(mapping.getParameter()!=null && mapping.getParameter().equals("useskin") && (previous==null || !previous.getId().equals(skin))) {
-            SkinFB pbSkin = SkinHelper.loadSkin(mapping,skin);
-            request.getSession().setAttribute("skinPB",pbSkin);
+        if(mapping.getParameter()!=null && mapping.getParameter().equals("useskin")) {
+            SkinFB previous = (SkinFB) request.getSession().getAttribute("skinPB");
+            if(StringUtil.asNull(skin)==null) {
+                UserAccount templateAccount = (UserAccount) getEnvironment().getEntityFactory().create("gallery-useraccount");
+                templateAccount.setUsername(username);
+                UserAccount account = (UserAccount) getEnvironment().getEntityStorageFactory().getStorage("gallery-useraccount").load(templateAccount);
+                skin = account.getSkin();
+            }
+            if(previous==null || previous.getId()==null || !previous.getId().equals(skin)) {
+                SkinFB pbSkin = SkinHelper.loadSkin(mapping,skin);
+                request.getSession().setAttribute("skinPB",pbSkin);
+            }
         }
     }
 
