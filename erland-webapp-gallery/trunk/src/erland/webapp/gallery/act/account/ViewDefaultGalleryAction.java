@@ -54,8 +54,8 @@ public class ViewDefaultGalleryAction extends BaseAction {
         return request.getRemoteUser();
     }
 
-    protected Map getDynamicParameters() {
-        Map parameters = super.getDynamicParameters();
+    protected Map getDynamicParameters(HttpServletRequest request) {
+        Map parameters = super.getDynamicParameters(request);
         if(gallery!=null) {
             if(parameters==null) {
                 parameters = new HashMap();
