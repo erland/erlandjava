@@ -156,6 +156,11 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
                     String type = getEnvironment().getResources().getParameter("commands."+getCommandClassName(request)+".save.type");
                     saveParameter(request, type, SESSION, save, cmd);
                 }
+                String delete = getEnvironment().getResources().getParameter("commands."+getCommandClassName(request)+".delete");
+                if(delete!=null) {
+                    String type = getEnvironment().getResources().getParameter("commands."+getCommandClassName(request)+".delete.type");
+                    saveParameter(request, type, SESSION, delete, null);
+                }
             }else {
                 page = getNotAllowedPage(request);
                 setCommandClass(request,null);
@@ -210,12 +215,20 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
             type=defaultType;
         }
         name = decodeParameter(request,name);
-        Log.println(this,"Save "+value.getClass().getName()+" in "+type+" as "+name);
+        Log.println(this,"Save "+(value!=null?value.getClass().getName():"null")+" in "+type+" as "+name);
         if(name.length()>0) {
             if(type.equalsIgnoreCase(SESSION)) {
-                request.getSession().setAttribute(name,value);
+                if(value!=null) {
+                    request.getSession().setAttribute(name,value);
+                }else {
+                    request.getSession().removeAttribute(name);
+                }
             }else {
-                request.setAttribute(name,value);
+                if(value!=null) {
+                    request.setAttribute(name,value);
+                }else {
+                    request.removeAttribute(name);
+                }
             }
         }
     }
