@@ -227,10 +227,25 @@ text-decoration:none;
 }
 
 .picturepage-picture-info-row1 {
+font-family:arial;
+font-size:12px;
+font-weight:normal;
+color:#000000;
+text-decoration:none;
 }
 .picturepage-picture-info-row2 {
+font-family:arial;
+font-size:12px;
+font-weight:normal;
+color:#000000;
+text-decoration:none;
 }
 .picturepage-picture-info-row3 {
+font-family:arial;
+font-size:12px;
+font-weight:normal;
+color:#000000;
+text-decoration:none;
 }
 
 .picturepage-picture-description {
@@ -264,6 +279,14 @@ border:0px;
 }
 
 .singlepicturepage-footer {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.singlepicturepage-footer-metadata {
 font-family:arial;
 font-size:12px;
 color:#000000;
