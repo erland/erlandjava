@@ -29,6 +29,10 @@ import org.apache.commons.logging.LogFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Vector;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class User implements EntityInterface {
     /** Logging instance */
@@ -41,6 +45,9 @@ public class User implements EntityInterface {
     private boolean isValid;
     private Set roles;
     private WebAppEnvironmentInterface environment;
+    private MessageDigest md;
+    private String encryptedPassword;
+    private static final String ENCRYPTION_PREFIX = "encrypted";
 
     public void init(WebAppEnvironmentInterface environment) {
         this.environment = environment;
@@ -58,11 +65,30 @@ public class User implements EntityInterface {
     }
 
     public String getPassword() {
-        return password==null?"":password;
+        return null;
     }
 
     public void setPassword(String password) {
-        this.password = password!=null?password.trim():null;
+        try {
+            this.password =password!=null?encrypt(password.trim()):null;
+            this.encryptedPassword = this.password;
+        } catch (NoSuchAlgorithmException e) {
+            LOG.error("Unable to find encryption library",e);
+            this.password = null;
+            this.encryptedPassword = null;
+        }
+    }
+    /**
+     * Should only be used internally, should never be called from outside, use {@link #getPassword()} instead
+     */
+    public String getEncryptedPassword() {
+        return encryptedPassword;
+    }
+    /**
+     * Should only be used internally, should never be called from outside, use {@link #setPassword(String)} instead
+     */
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
     }
 
     public boolean login(String application) {
@@ -71,13 +97,17 @@ public class User implements EntityInterface {
             EntityStorageInterface storage = getEnvironment().getEntityStorageFactory().getStorage("usermgmt-user");
             User user = (User) storage.load(this);
             if(user!=null) {
+                if(user.getEncryptedPassword()!=null && !user.getEncryptedPassword().startsWith(ENCRYPTION_PREFIX)) {
+                    user.setPassword(user.getEncryptedPassword());
+                    storage.store(user);
+                }
                 roles = user.getApplicationRoleList(application);
                 LOG.debug("Got "+roles.size()+" roles");
                 if(roles.size()>0) {
-                    LOG.debug("Got password "+user.getPassword());
-                    if(user.getPassword() != null) {
-                        LOG.debug("Comparing password with "+getPassword());
-                        if(user.getPassword().equals(getPassword())) {
+                    LOG.debug("Got password "+user.getEncryptedPassword());
+                    if(user.getEncryptedPassword() != null) {
+                        LOG.debug("Comparing password with "+this.password);
+                        if(user.getEncryptedPassword().equals(this.password)) {
                             PropertyUtils.copyProperties(this,user);
                             setValid(true);
                             return isValid();
@@ -147,5 +177,39 @@ public class User implements EntityInterface {
 
     public UserPrincipal createPrincial() {
         return new UserPrincipal(username,(String[])roles.toArray(new String[0]));
+    }
+    public RolePrincipal[] createRolePrincials() {
+        Vector result = new Vector();
+        for (Iterator iterator = roles.iterator(); iterator.hasNext();) {
+            result.add(new RolePrincipal((String)iterator.next()));
+        }
+        return (RolePrincipal[]) result.toArray(new RolePrincipal[0]);
+    }
+
+    private String encrypt(String pwd) throws java.security.NoSuchAlgorithmException
+    {
+        if (null == md) { md = MessageDigest.getInstance("MD5"); }
+        md.reset();
+        byte pwdb[] = new byte[pwd.length()];
+        for (int b = 0; b < pwd.length(); b++) {
+            pwdb[b] = (byte) pwd.charAt(b);
+        }
+        return ENCRYPTION_PREFIX+toHex(md.digest(pwdb));
+    }
+
+    private String toHex(byte src[])
+    {
+        char buf[] = new char[src.length * 2];
+        for (int b = 0; b < src.length; b++) {
+            String byt = Integer.toHexString((int) src[b] & 0xFF);
+            if (byt.length() < 2) {
+                buf[b * 2 + 0] = '0';
+                buf[b * 2 + 1] = byt.charAt(0);
+            } else {
+                buf[b * 2 + 0] = byt.charAt(0);
+                buf[b * 2 + 1] = byt.charAt(1);
+            }
+        }
+        return new String(buf);
     }
 }
