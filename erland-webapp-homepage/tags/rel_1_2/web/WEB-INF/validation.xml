@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN"
+          "http://jakarta.apache.org/commons/dtds/validator_1_0.dtd">
+
+<form-validation>
+    <formset>
+        <form name="userAccountFB">
+            <field property="welcomeText" depends="required">
+                <arg0 key="homepage.account.edit.welcome-text"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="homepage.account.edit.description"/>
+            </field>
+        </form>
+        <form name="newUserAccountFB">
+            <field property="username" depends="required">
+                <arg0 key="homepage.account.new.username"/>
+            </field>
+            <field property="firstName" depends="required">
+                <arg0 key="homepage.account.new.firstname"/>
+            </field>
+            <field property="lastName" depends="required">
+                <arg0 key="homepage.account.new.lastname"/>
+            </field>
+            <field property="password1" depends="required">
+                <arg0 key="homepage.account.new.password1"/>
+            </field>
+            <field property="password2" depends="required">
+                <arg0 key="homepage.account.new.password2"/>
+            </field>
+            <field property="welcomeText" depends="required">
+                <arg0 key="homepage.account.new.welcome-text"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="homepage.account.new.description"/>
+            </field>
+        </form>
+    </formset>
+</form-validation>
