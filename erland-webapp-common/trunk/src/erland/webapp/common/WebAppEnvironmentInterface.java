@@ -28,6 +28,4 @@ public interface WebAppEnvironmentInterface {
     public EntityFactoryInterface getEntityFactory();
 
     public EntityStorageFactoryInterface getEntityStorageFactory();
-
-    public CommandFactoryInterface getCommandFactory();
 }
