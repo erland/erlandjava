@@ -37,6 +37,7 @@ public class AccountFB extends BaseFB {
     private String logo;
     private Boolean official;
     private Integer defaultGallery;
+    private String stylesheet;
 
     public String getUsername() {
         return username;
@@ -142,6 +143,14 @@ public class AccountFB extends BaseFB {
         this.logo = logo;
     }
 
+    public String getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(String stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         username = null;
@@ -155,5 +164,6 @@ public class AccountFB extends BaseFB {
         logo = null;
         official = null;
         defaultGallery = null;
+        stylesheet = null;
     }
 }
