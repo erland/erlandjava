@@ -16,8 +16,11 @@ import java.util.StringTokenizer;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Enumeration;
+import java.util.regex.Pattern;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.net.MalformedURLException;
 
 import org.apache.struts.util.RequestUtils;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -177,9 +180,9 @@ public class MenuItemTag extends BodyTagSupport implements MenuItemInterface {
                 out.write("<td nowrap>");
                 String style = getStyle(selected);
                 if(indent>0) {
-                    out.write("<img src=\""+((HttpServletRequest)pageContext.getRequest()).getContextPath()+getIndentImage()+"\" width=\""+(getIndentWidth()*indent)+"\" height=\"1\"></img>");
+                    out.write("<img src=\""+addContextPath(getIndentImage())+"\" width=\""+(getIndentWidth()*indent)+"\" height=\"1\"></img>");
                 }
-                out.write("<a "+(style!=null?"class=\""+style+"\" ":"")+"href=\""+((HttpServletRequest)pageContext.getRequest()).getContextPath()+ServletParameterHelper.replaceDynamicParameters(page, getParameterMap(getMenuId(),getItemId()))+"\">");
+                out.write("<a "+(style!=null?"class=\""+style+"\" ":"")+"href=\""+addContextPath(ServletParameterHelper.replaceDynamicParameters(page, getParameterMap(getMenuId(),getItemId())))+"\">");
                 if(titleKey!=null) {
                     String title = RequestUtils.message(pageContext,null,null,titleKey);
                     if(title!=null) {
@@ -257,5 +260,15 @@ public class MenuItemTag extends BodyTagSupport implements MenuItemInterface {
             return false;
         }
         return true;
+    }
+    private String addContextPath(String link) {
+        if(link==null) {
+            return link;
+        }
+        if(Pattern.matches("[a-z]*:",link)) {
+            return link;
+        }else {
+            return ((HttpServletRequest) pageContext.getRequest()).getContextPath()+link;
+        }
     }
 }

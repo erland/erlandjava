@@ -13,7 +13,10 @@ import java.util.StringTokenizer;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Enumeration;
+import java.util.regex.Pattern;
 import java.beans.PropertyDescriptor;
+import java.net.URL;
+import java.net.MalformedURLException;
 
 import erland.webapp.common.ServletParameterHelper;
 
@@ -192,9 +195,17 @@ public class BeanMenuItemTag extends TagSupport {
         childs = null;
     }
 
-    private String getContextPath() {
-        return ((HttpServletRequest) pageContext.getRequest()).getContextPath();
+    private String addContextPath(String link) {
+        if(link==null) {
+            return link;
+        }
+        if(Pattern.matches("[a-z]*:",link)) {
+            return link;
+        }else {
+            return ((HttpServletRequest) pageContext.getRequest()).getContextPath()+link;
+        }
     }
+ 
     private void writeMenu(Object[] items, int indent, String parentId, String menuObj, JspWriter out) throws IOException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         for (int i = 0; i < items.length; i++) {
             Object item = items[i];
@@ -214,7 +225,7 @@ public class BeanMenuItemTag extends TagSupport {
             if(indent>0) {
                 out.write("<img src=\""+((HttpServletRequest)pageContext.getRequest()).getContextPath()+getIndentImage()+"\" width=\""+(getIndentWidth()*indent)+"\" height=\"1\"></img>");
             }
-            out.write("<a " + (style != null ? "class=\"" + style + "\" " : "") + "href=\"" + getContextPath() + ServletParameterHelper.replaceDynamicParameters((String) page, getParameterMap(item, getMenuId(), (String) id)) + "\">");
+            out.write("<a " + (style != null ? "class=\"" + style + "\" " : "") + "href=\"" + addContextPath(ServletParameterHelper.replaceDynamicParameters((String) page, getParameterMap(item, getMenuId(), (String) id))) + "\">");
             if (title != null) {
                 out.write((String) title);
             }
