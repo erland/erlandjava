@@ -22,7 +22,7 @@ public class AdvancedSearchPicturesCommand extends SearchPicturesCommand {
                 if(allCategories.booleanValue()) {
                     result.add(category);
                 }else {
-                    Category[] categories = getCategoryTree(galleryId,category);
+                    Category[] categories = getCategoryTree(getGalleryId(),category);
                     for (int j = 0; j < categories.length; j++) {
                         result.add(categories[j].getCategory());
                     }

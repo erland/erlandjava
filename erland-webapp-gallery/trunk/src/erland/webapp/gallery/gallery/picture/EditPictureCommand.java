@@ -2,6 +2,7 @@ package erland.webapp.gallery.gallery.picture;
 
 import erland.webapp.common.CommandInterface;
 import erland.webapp.common.WebAppEnvironmentInterface;
+import erland.webapp.gallery.gallery.GalleryHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
@@ -19,7 +20,7 @@ public class EditPictureCommand implements CommandInterface, ViewPictureInterfac
     }
 
     public String execute(HttpServletRequest request) {
-        String gallery = request.getParameter("gallery");
+        Integer gallery = getGalleryId(request);
         String id = request.getParameter("id");
         String title = request.getParameter("title");
         String description = request.getParameter("description");
@@ -43,7 +44,7 @@ public class EditPictureCommand implements CommandInterface, ViewPictureInterfac
         if(id!=null && id.length()>0) {
             picture.setId(Integer.valueOf(id));
         }
-        picture.setGallery(Integer.valueOf(gallery));
+        picture.setGallery(gallery);
         picture.setTitle(title);
         picture.setDescription(description);
         picture.setImage(image);
@@ -51,10 +52,19 @@ public class EditPictureCommand implements CommandInterface, ViewPictureInterfac
         picture.setDate(date);
         picture.setOfficial(official);
         environment.getEntityStorageFactory().getStorage("picture").store(picture);
+        Integer virtualGalleryId = Integer.valueOf(request.getParameter("gallery"));
+        picture.setGallery(virtualGalleryId);
         return null;
     }
 
     public Picture getPicture() {
         return picture;
+    }
+    protected Integer getGalleryId(HttpServletRequest request) {
+        return GalleryHelper.getGalleryId(environment,request);
+    }
+
+    public WebAppEnvironmentInterface getEnvironment() {
+        return environment;
     }
 }

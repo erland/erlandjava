@@ -2,6 +2,7 @@ package erland.webapp.gallery.gallery.category;
 
 import erland.webapp.common.CommandInterface;
 import erland.webapp.common.WebAppEnvironmentInterface;
+import erland.webapp.gallery.gallery.GalleryHelper;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,11 +15,7 @@ public class ViewCategoryCommand implements CommandInterface, ViewCategoryInterf
     }
 
     public String execute(HttpServletRequest request) {
-        String galleryString = request.getParameter("gallery");
-        Integer gallery = null;
-        if(galleryString!=null && galleryString.length()>0) {
-            gallery = Integer.valueOf(galleryString);
-        }
+        Integer gallery = getGalleryId(request);
         String categoryString = request.getParameter("category");
         Integer categoryId = null;
         if(categoryString!=null && categoryString.length()>0) {
@@ -29,11 +26,23 @@ public class ViewCategoryCommand implements CommandInterface, ViewCategoryInterf
             template.setGallery(gallery);
             template.setCategory(categoryId);
             category = (Category) environment.getEntityStorageFactory().getStorage("category").load(template);
+            Integer virtualGalleryId = Integer.valueOf(request.getParameter("gallery"));
+            if(category!=null) {
+                category.setGallery(virtualGalleryId);
+            }
         }
         return null;
     }
 
+    protected Integer getGalleryId(HttpServletRequest request) {
+        return GalleryHelper.getGalleryId(environment,request);
+    }
+
     public Category getCategory() {
         return category;
+    }
+
+    public WebAppEnvironmentInterface getEnvironment() {
+        return environment;
     }
 }

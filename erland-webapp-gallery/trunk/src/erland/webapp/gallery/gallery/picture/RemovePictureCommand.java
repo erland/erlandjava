@@ -3,7 +3,7 @@ package erland.webapp.gallery.gallery.picture;
 import erland.webapp.common.CommandInterface;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.QueryFilter;
-import erland.webapp.gallery.gallery.picture.Picture;
+import erland.webapp.gallery.gallery.GalleryHelper;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,13 +15,13 @@ public class RemovePictureCommand implements CommandInterface {
     }
 
     public String execute(HttpServletRequest request) {
-        String gallery = request.getParameter("gallery");
+        Integer gallery = getGalleryId(request);
         String id = request.getParameter("id");
         Picture template = (Picture)environment.getEntityFactory().create("picture");
-        if(gallery!=null && gallery.length()>0 &&
+        if(gallery!=null &&
                 id!=null && id.length()>0) {
 
-            template.setGallery(Integer.valueOf(gallery));
+            template.setGallery(gallery);
             template.setId(Integer.valueOf(id));
             environment.getEntityStorageFactory().getStorage("picture").delete(template);
             QueryFilter filter = new QueryFilter("allforgalleryandpicture");
@@ -30,5 +30,13 @@ public class RemovePictureCommand implements CommandInterface {
             environment.getEntityStorageFactory().getStorage("categorypictureassociation").delete(filter);
         }
         return null;
+    }
+
+    protected Integer getGalleryId(HttpServletRequest request) {
+        return GalleryHelper.getGalleryId(environment,request);
+    }
+
+    public WebAppEnvironmentInterface getEnvironment() {
+        return environment;
     }
 }

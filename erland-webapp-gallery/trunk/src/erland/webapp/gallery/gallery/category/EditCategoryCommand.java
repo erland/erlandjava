@@ -5,6 +5,7 @@ import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.gallery.gallery.picture.Picture;
+import erland.webapp.gallery.gallery.GalleryHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -27,11 +28,7 @@ public class EditCategoryCommand implements CommandInterface {
         if(categoryString!=null && categoryString.length()>0) {
             category = Integer.valueOf(categoryString);
         }
-        String galleryString = request.getParameter("gallery");
-        Integer gallery = null;
-        if(galleryString!=null && galleryString.length()>0) {
-            gallery = Integer.valueOf(galleryString);
-        }
+        Integer gallery = getGalleryId(request);
         String name = request.getParameter("name");
         if(gallery!=null && category!=null) {
             Category template = (Category) environment.getEntityFactory().create("category");
@@ -72,6 +69,10 @@ public class EditCategoryCommand implements CommandInterface {
         return null;
     }
 
+    protected Integer getGalleryId(HttpServletRequest request) {
+        return GalleryHelper.getGalleryId(environment,request);
+    }
+
     private void updatePictures(QueryFilter filter, Integer gallery, Boolean official) {
         Picture entity = (Picture) environment.getEntityFactory().create("picture");
         entity.setOfficial(official);
@@ -91,5 +92,9 @@ public class EditCategoryCommand implements CommandInterface {
         }else {
             return Boolean.FALSE;
         }
+    }
+
+    public WebAppEnvironmentInterface getEnvironment() {
+        return environment;
     }
 }
