@@ -27,6 +27,7 @@ import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.entity.gallery.category.Category;
 import erland.webapp.gallery.fb.gallery.category.CategoryPB;
 import erland.webapp.gallery.fb.gallery.category.SelectCategoryFB;
+import erland.util.StringUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -37,6 +38,11 @@ import javax.servlet.http.HttpServletResponse;
 public class SearchCategoriesAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SelectCategoryFB fb = (SelectCategoryFB) form;
+        String language = fb.getLanguage();
+        if(StringUtil.asNull(language)==null) {
+            language = request.getLocale().getLanguage();
+        }
+        boolean useEnglish = !language.equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
         Integer category = fb.getCategory();
         Integer gallery = GalleryHelper.getGalleryId(getEnvironment(), fb.getGallery());
         Integer virtualGalleryId = fb.getGallery();
@@ -46,6 +52,9 @@ public class SearchCategoriesAction extends BaseAction {
             categories[i] = new CategoryPB();
             PropertyUtils.copyProperties(categories[i], entities[i]);
             categories[i].setGallery(virtualGalleryId);
+            if(useEnglish && StringUtil.asNull(entities[i].getNameEnglish())!=null) {
+                categories[i].setName(entities[i].getNameEnglish());
+            }
         }
         request.setAttribute("categoriesPB",categories);
     }
