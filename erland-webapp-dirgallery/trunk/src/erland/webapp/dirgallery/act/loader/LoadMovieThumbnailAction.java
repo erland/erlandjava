@@ -21,6 +21,8 @@ package erland.webapp.dirgallery.act.loader;
 
 import erland.webapp.common.image.ImageWriteHelper;
 import erland.webapp.common.image.MovieThumbnail;
+import erland.webapp.common.image.ThumbnailCreatorInterface;
+import erland.webapp.common.image.ImageThumbnail;
 import erland.webapp.dirgallery.fb.loader.MovieThumbnailImageFB;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -29,6 +31,9 @@ import org.apache.struts.action.ActionMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.File;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class LoadMovieThumbnailAction extends LoadThumbnailAction {
     protected ActionForward findSuccess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -36,7 +41,22 @@ public class LoadMovieThumbnailAction extends LoadThumbnailAction {
         Integer width = getWidth(request, fb);
         try {
             response.setContentType("image/jpeg");
-            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, fb.getUseCache(), fb.getCompression(), getUsername(request), getImageFile(request), getCopyrightText(getUsername(request)), new MovieThumbnail(fb.getCols().intValue(), fb.getRows().intValue()), response.getOutputStream())) {
+            String imageFile = getImageFile(request);
+            ThumbnailCreatorInterface thumbnailCreator = new ImageThumbnail();
+            int pos = imageFile.lastIndexOf(".");
+            if(pos>=0) {
+                imageFile = imageFile.substring(0,pos)+".jpg";
+                File file = new File(imageFile);
+                if (!file.exists()) {
+                    try {
+                        URLConnection connection = new URL(imageFile).openConnection();
+                    } catch (IOException e) {
+                        imageFile = getImageFile(request);
+                        thumbnailCreator = new MovieThumbnail(fb.getCols().intValue(), fb.getRows().intValue());
+                    }
+                }
+            }
+            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, fb.getUseCache(), fb.getCompression(), getUsername(request), imageFile, getCopyrightText(getUsername(request)), thumbnailCreator, response.getOutputStream())) {
                 return findFailure(mapping, form, request, response);
             }
         } catch (IOException e) {
