@@ -34,17 +34,21 @@ public class RemoveSectionAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SectionFB fb = (SectionFB) form;
         Section section = (Section) getEnvironment().getEntityFactory().create("homepage-section");
+        section.setUsername(request.getRemoteUser());
         section.setId(fb.getId());
         section = (Section) getEnvironment().getEntityStorageFactory().getStorage("homepage-section").load(section);
         if (section.getUsername().equals(request.getRemoteUser())) {
-            QueryFilter filter = new QueryFilter("allforparenttree");
-            filter.setAttribute("username", section.getUsername());
-            filter.setAttribute("parent", section.getId());
-            EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("homepage-section").search(filter);
-            for (int i = 0; i < entities.length; i++) {
-                getEnvironment().getEntityStorageFactory().getStorage("homepage-section").delete(entities[i]);
-            }
-            getEnvironment().getEntityStorageFactory().getStorage("homepage-section").delete(section);
+            deleteTree(section);
         }
+    }
+    protected void deleteTree(Section section) {
+        QueryFilter filter = new QueryFilter("allforparent");
+        filter.setAttribute("username", section.getUsername());
+        filter.setAttribute("parent", section.getId());
+        EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("homepage-section").search(filter);
+        for (int i = 0; i < entities.length; i++) {
+            deleteTree((Section)entities[i]);
+        }
+        getEnvironment().getEntityStorageFactory().getStorage("homepage-section").delete(section);
     }
 }
