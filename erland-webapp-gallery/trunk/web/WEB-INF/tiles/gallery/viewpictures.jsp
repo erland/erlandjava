@@ -58,7 +58,7 @@
             <logic:iterate name="picture" property="resolutions" id="resolution">
                 <bean:define id="resolutionWidth" name="resolution" property="widthDisplay" type="String"/>
                 <bean:define id="resolutionDescription" name="resolution" property="description" type="String"/>
-                <a class="bold-link" href="<html:rewrite page="<%=resolutionLink%>"/>&width=<%=resolutionWidth%>" title="<%=resolutionDescription%>"><bean:write name="resolution" property="id"/></a>
+                <a class="bold-link" href="<html:rewrite page="<%=resolutionLink%>"/>&width=<%=resolutionWidth%>" target="_blank" title="<%=resolutionDescription%>"><bean:write name="resolution" property="id"/></a>
             </logic:iterate>
             <br>
         </logic:notEmpty>
