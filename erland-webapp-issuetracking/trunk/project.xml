@@ -13,7 +13,7 @@
   
   <!-- The version of the project under development, e.g.
        1.1, 1.2, 2.0-SNAPSHOT -->
-  <currentVersion>SNAPSHOT</currentVersion>
+  <currentVersion>1.0</currentVersion>
   
   <!-- the year the project started -->
   <inceptionYear>2003</inceptionYear>
@@ -45,7 +45,7 @@
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-util</artifactId>
-      <version>SNAPSHOT</version>
+      <version>1.1</version>
       <type>jar</type>
       <properties>
 	      <war.bundle>true</war.bundle>
@@ -56,7 +56,7 @@
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-webapp-common</artifactId>
-      <version>SNAPSHOT</version>
+      <version>1.7</version>
       <type>jar</type>
       <properties>
 	      <war.bundle>true</war.bundle>
@@ -67,7 +67,7 @@
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-webapp-usermgmt</artifactId>
-      <version>SNAPSHOT</version>
+      <version>1.1</version>
       <type>jar</type>
       <properties>
 	      <war.bundle>true</war.bundle>
@@ -176,28 +176,6 @@
       <artifactId>servletapi</artifactId>
       <version>2.3</version>
       <type>jar</type>
-    </dependency>
-
-	<dependency>
-      <url>http://www.drewnoakes.com/code/exif/</url>
-      <groupId>metadata-extractor</groupId>
-      <artifactId>metadata-extractor</artifactId>
-      <version>2.1</version>
-      <type>jar</type>
-      <properties>
-	      <war.bundle>true</war.bundle>
-      </properties>
-    </dependency>
-
-	<dependency>
-      <url>http://java.sun.com/products/java-media/jmf/index.html</url>
-      <groupId>jmf</groupId>
-      <artifactId>jmf</artifactId>
-      <version>2.1.1e</version>
-      <type>jar</type>
-      <properties>
-	      <war.bundle>true</war.bundle>
-      </properties>
     </dependency>
 
 	<dependency>
