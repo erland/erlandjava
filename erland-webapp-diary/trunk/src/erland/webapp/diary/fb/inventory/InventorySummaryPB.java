@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class InventorySummaryPB extends BasePB {
     private String name;
+    private String viewLink;
     private Integer numberOf;
 
     public String getName() {
@@ -53,5 +54,13 @@ public class InventorySummaryPB extends BasePB {
 
     public void setNumberOfDisplay(String numberOfDisplay) {
         this.numberOf = StringUtil.asInteger(numberOfDisplay,null);
+    }
+
+    public String getViewLink() {
+        return viewLink;
+    }
+
+    public void setViewLink(String viewLink) {
+        this.viewLink = viewLink;
     }
 }
