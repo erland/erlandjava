@@ -18,9 +18,7 @@ package erland.webapp.common;
  *
  */
 
-import erland.util.ParameterValueStorageExInterface;
-import erland.util.StorageInterface;
-import erland.util.StringStorage;
+import erland.util.*;
 import erland.webapp.common.WebAppEnvironmentInterface;
 
 import java.util.Map;
@@ -32,6 +30,7 @@ public class ResourceStorage implements ParameterValueStorageExInterface {
     private boolean enableCache;
     private Map cache = new HashMap();
     private String application;
+    private SimpleXMLParserHandler handler = new SimpleXMLParserHandler();
 
     public ResourceStorage(WebAppEnvironmentInterface environment, String application, String entityName, boolean enableCache) {
         this.entityName = entityName;
@@ -78,6 +77,22 @@ public class ResourceStorage implements ParameterValueStorageExInterface {
             return resource.getValue();
         }else {
             return null;
+        }
+    }
+
+    public void setParameterAsStorage(String name, StorageInterface value) {
+        if(!(value instanceof StringStorage)) {
+            return;
+        }
+        ResourceInterface resource = (ResourceInterface) environment.getEntityFactory().create(entityName);
+        resource.setApplication(application);
+        resource.setId(name);
+        if(XMLParser.getInstance().parse(value.load(),handler)) {
+            resource.setValue(handler.getData().getValue());
+            environment.getEntityStorageFactory().getStorage(entityName).store(resource);
+            if(enableCache) {
+                cache.put(name,value);
+            }
         }
     }
 
