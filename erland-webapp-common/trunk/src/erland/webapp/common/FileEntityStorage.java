@@ -139,7 +139,11 @@ public class FileEntityStorage implements EntityStorageInterface {
                 }
                 for(Iterator it=fields.iterator();it.hasNext();) {
                     String field = (String) it.next();
-                    updateField(file, directory, field,(String)getAttributeName(field),(String)getType(field),entity);
+                    if(isFieldGetFromInput(field)) {
+                        PropertyUtils.setProperty(entity,field,PropertyUtils.getProperty(template,(String)getAttributeName(field)));
+                    }else {
+                        updateField(file, directory, field,(String)getAttributeName(field),(String)getType(field),entity);
+                    }
                 }
                 if(entity instanceof EntityReadUpdateInterface) {
                     ((EntityReadUpdateInterface)entity).postReadUpdate();
@@ -231,7 +235,11 @@ public class FileEntityStorage implements EntityStorageInterface {
                             }
                             for(Iterator it=fields.iterator();it.hasNext();) {
                                 String field = (String) it.next();
-                                updateField(file, directory, field,(String)attributeNames.get(field),(String)types.get(field),entity);
+                                if(isFieldGetFromInput(field)) {
+                                    PropertyUtils.setProperty(entity,field,((QueryFilter)filter).getAttribute((String)attributeNames.get(field)));
+                                }else {
+                                    updateField(file, directory, field,(String)attributeNames.get(field),(String)types.get(field),entity);
+                                }
                             }
                             if(entity instanceof EntityReadUpdateInterface) {
                                 ((EntityReadUpdateInterface)entity).postReadUpdate();
@@ -257,6 +265,15 @@ public class FileEntityStorage implements EntityStorageInterface {
     private boolean isFieldIdentity(String field) {
         String identity = environment.getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".fields."+field+".identity");
         if(identity!=null && identity.equalsIgnoreCase("true")) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    private boolean isFieldGetFromInput(String field) {
+        String fromInput = environment.getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".fields."+field+".frominput");
+        if(fromInput!=null && fromInput.equalsIgnoreCase("true")) {
             return true;
         }else {
             return false;
@@ -292,8 +309,14 @@ public class FileEntityStorage implements EntityStorageInterface {
         }else if(attribute.equals("directory")) {
             return directory;
         }else {
-            return PropertyUtils.getProperty(file,attribute);
+            try {
+                return PropertyUtils.getProperty(file,attribute);
+            } catch (IllegalAccessException e) {
+            } catch (InvocationTargetException e) {
+            } catch (NoSuchMethodException e) {
+            }
         }
+        return null;
     }
     private void updateField(File file, String directory, String field, String attributeName, String type, EntityInterface object) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         if(attributeName!=null) {

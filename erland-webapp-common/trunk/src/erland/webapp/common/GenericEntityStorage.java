@@ -62,7 +62,11 @@ public class GenericEntityStorage extends EntityStorage {
                     }
                     for (Iterator it=fields.iterator(); it.hasNext();) {
                         String field = (String) it.next();
-                        updateField(rs,field,getColumnName(field),getFieldType(field),entity);
+                        if(isFieldGetFromInput(field)) {
+                            PropertyUtils.setProperty(entity,field,PropertyUtils.getProperty(template,(String)getAttributeName(field)));
+                        }else {
+                            updateField(rs,field,getColumnName(field),getFieldType(field),entity);
+                        }
                     }
                     if(entity instanceof EntityReadUpdateInterface) {
                         ((EntityReadUpdateInterface)entity).postReadUpdate();
@@ -175,10 +179,19 @@ public class GenericEntityStorage extends EntityStorage {
                     Collection result = new ArrayList();
                     Map dbFields = new HashMap();
                     Map types = new HashMap();
+                    Map attributes = new HashMap();
+                    Set fromInput = new HashSet();
                     for(Iterator it=fields.iterator();it.hasNext();) {
                         String field = (String) it.next();
                         dbFields.put(field,getColumnName(field));
                         types.put(field,getFieldType(field));
+                        String name = getAttributeName(field);
+                        if(name!=null && name.length()>0) {
+                            attributes.put(field,name);
+                        }
+                        if(isFieldGetFromInput(field)) {
+                            fromInput.add(field);
+                        }
                     }
                     while(rs.next()) {
                         EntityInterface entity = getEnvironment().getEntityFactory().create(getEntityName());
@@ -187,7 +200,11 @@ public class GenericEntityStorage extends EntityStorage {
                         }
                         for(Iterator it=fields.iterator();it.hasNext();) {
                             String field = (String)it.next();
-                            updateField(rs,field,(String)dbFields.get(field),(String)types.get(field),entity);
+                            if(fromInput.contains(field)) {
+                                PropertyUtils.setProperty(entity,field,((QueryFilter)filter).getAttribute((String)attributes.get(field)));
+                            }else {
+                                updateField(rs,field,(String)dbFields.get(field),(String)types.get(field),entity);
+                            }
                         }
                         if(entity instanceof EntityReadUpdateInterface) {
                             ((EntityReadUpdateInterface)entity).postReadUpdate();
@@ -735,6 +752,18 @@ public class GenericEntityStorage extends EntityStorage {
                 }
                 updateDynamicQuery(endPos+1,sb,filter);
             }
+        }
+    }
+    private String getAttributeName(String field) {
+        return getEnvironment().getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".fields."+field+".attribute");
+    }
+
+    private boolean isFieldGetFromInput(String field) {
+        String fromInput = getEnvironment().getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".fields."+field+".frominput");
+        if(fromInput!=null && fromInput.equalsIgnoreCase("true")) {
+            return true;
+        }else {
+            return false;
         }
     }
 }
