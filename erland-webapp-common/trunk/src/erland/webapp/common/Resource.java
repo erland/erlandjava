@@ -22,8 +22,17 @@ package erland.webapp.common;
 import erland.webapp.common.BaseEntity;
 
 public class Resource extends BaseEntity implements ResourceInterface {
+    private String application;
     private String id;
     private String value;
+
+    public String getApplication() {
+        return application;
+    }
+
+    public void setApplication(String application) {
+        this.application = application;
+    }
 
     public String getId() {
         return id;

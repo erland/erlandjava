@@ -15,7 +15,7 @@ package erland.webapp.common;
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  */
 
 import erland.util.ParameterValueStorageExInterface;
@@ -31,11 +31,13 @@ public class ResourceStorage implements ParameterValueStorageExInterface {
     private WebAppEnvironmentInterface environment;
     private boolean enableCache;
     private Map cache = new HashMap();
+    private String application;
 
-    public ResourceStorage(WebAppEnvironmentInterface environment, String entityName, boolean enableCache) {
+    public ResourceStorage(WebAppEnvironmentInterface environment, String application, String entityName, boolean enableCache) {
         this.entityName = entityName;
         this.environment = environment;
         this.enableCache = enableCache;
+        this.application = application;
     }
     public StorageInterface getParameterAsStorage(String name) {
         if(enableCache) {
@@ -45,6 +47,7 @@ public class ResourceStorage implements ParameterValueStorageExInterface {
             }
         }
         ResourceInterface resource = (ResourceInterface) environment.getEntityFactory().create(entityName);
+        resource.setApplication(application);
         resource.setId(name);
         resource = (ResourceInterface) environment.getEntityStorageFactory().getStorage(entityName).load(resource);
         if(resource!=null) {
@@ -65,6 +68,7 @@ public class ResourceStorage implements ParameterValueStorageExInterface {
             }
         }
         ResourceInterface resource = (ResourceInterface) environment.getEntityFactory().create(entityName);
+        resource.setApplication(application);
         resource.setId(name);
         resource = (ResourceInterface) environment.getEntityStorageFactory().getStorage(entityName).load(resource);
         if(resource!=null) {
@@ -79,6 +83,7 @@ public class ResourceStorage implements ParameterValueStorageExInterface {
 
     public void setParameter(String name, String value) {
         ResourceInterface resource = (ResourceInterface) environment.getEntityFactory().create(entityName);
+        resource.setApplication(application);
         resource.setId(name);
         resource.setValue(value);
         environment.getEntityStorageFactory().getStorage(entityName).store(resource);
@@ -89,6 +94,7 @@ public class ResourceStorage implements ParameterValueStorageExInterface {
 
     public void delParameter(String name) {
         ResourceInterface resource = (ResourceInterface) environment.getEntityFactory().create(entityName);
+        resource.setApplication(application);
         resource.setId(name);
         environment.getEntityStorageFactory().getStorage(entityName).delete(resource);
         if(enableCache) {

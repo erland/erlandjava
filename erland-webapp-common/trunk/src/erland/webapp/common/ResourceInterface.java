@@ -21,6 +21,10 @@ package erland.webapp.common;
 import erland.webapp.common.EntityInterface;
 
 public interface ResourceInterface extends EntityInterface  {
+    String getApplication();
+
+    void setApplication(String application);
+
     String getId();
 
     void setId(String id);
