@@ -25,6 +25,18 @@ INSERT INTO inventoryentryeventtypes VALUES (8,'F%C3%B6dd');
 INSERT INTO inventoryentrytypes VALUES (1,'Fisk');
 
 --
+-- Dumping data for table `purchaseentrycategories`
+--
+
+INSERT INTO purchaseentrycategories VALUES (0,'Okänd');
+INSERT INTO purchaseentrycategories VALUES (1,'Fisk');
+INSERT INTO purchaseentrycategories VALUES (2,'V%C3%A4xt');
+INSERT INTO purchaseentrycategories VALUES (3,'Mat');
+INSERT INTO purchaseentrycategories VALUES (4,'Akvarium');
+INSERT INTO purchaseentrycategories VALUES (5,'Tillbeh%C3%B6r');
+INSERT INTO purchaseentrycategories VALUES (6,'Inredning');
+
+--
 -- Dumping data for table `useraccounts`
 --
 
