@@ -271,11 +271,11 @@ public class BeanMenuItemTag extends TagSupport {
             try {
                 result.put(property.getName(),PropertyUtils.getProperty(bean,property.getName()));
             } catch (IllegalAccessException e) {
-                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                //e.printStackTrace();  //To change body of catch statement use Options | File Templates.
             } catch (InvocationTargetException e) {
-                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                //e.printStackTrace();  //To change body of catch statement use Options | File Templates.
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                //e.printStackTrace();  //To change body of catch statement use Options | File Templates.
             }
         }
         result.put("menuId",menuId);
