@@ -16,22 +16,23 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="last_opened_file_path" value="E:\EGNA\Working\Java" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="3" width="1004" height="728" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="-1" />
-      <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="-1" />
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
+      <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.18506835" order="0" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.100946374" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.3305369" order="-1" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33011273" order="8" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="6" />
-      <window_info id="Aspects" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="-1" />
-      <window_info id="Ant Build" active="true" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.2502629" order="1" />
+      <window_info id="Aspects" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="3" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.2502629" order="1" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="4" />
@@ -59,9 +60,7 @@
   <component name="ProjectViewSettings">
     <navigator currentView="ProjectPane" flattenPackages="false" showMembers="false" showStructure="false" autoscrollToSource="false" splitterProportion="0.5" />
     <view id="ProjectPane">
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src" />
       <expanded_node type="directory" url="file://$PROJECT_DIR$" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland" />
     </view>
     <view id="SourcepathPane" />
     <view id="ClasspathPane" />
@@ -93,14 +92,21 @@
   <component name="editorManager" selected-file="file://$PROJECT_DIR$/build.xml">
     <entry file="file://$PROJECT_DIR$/readme.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="0" selection-start="1100" selection-end="1100" vertical-scroll-proportion="1.4941176" horizontal-scroll-proportion="0.0">
+        <state line="35" column="0" selection-start="0" selection-end="1100" vertical-scroll-proportion="0.8118081" horizontal-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="0" selection-start="1784" selection-end="1784" vertical-scroll-proportion="1.4941176" horizontal-scroll-proportion="0.0">
+        <state line="31" column="0" selection-start="1139" selection-end="1139" vertical-scroll-proportion="0.4704797" horizontal-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/buildutil.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="0" selection-start="787" selection-end="787" vertical-scroll-proportion="0.37453875" horizontal-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -158,14 +164,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/readme.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="0" selection-start="1100" selection-end="1100" vertical-scroll-proportion="1.4941176" horizontal-scroll-proportion="0.0">
+        <state line="35" column="0" selection-start="0" selection-end="1100" vertical-scroll-proportion="0.8118081" horizontal-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="0" selection-start="1784" selection-end="1784" vertical-scroll-proportion="1.4941176" horizontal-scroll-proportion="0.0">
+        <state line="31" column="0" selection-start="1139" selection-end="1139" vertical-scroll-proportion="0.4704797" horizontal-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/buildutil.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="0" selection-start="787" selection-end="787" vertical-scroll-proportion="0.37453875" horizontal-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
