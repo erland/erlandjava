@@ -1,5 +1,6 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean" %>
 <HTML>
   <HEAD>
     <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
@@ -10,7 +11,7 @@
      %>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/stylesheet.css"
                   type="text/css"/>
-    <title><tiles:getAsString name="title"/></title>
+    <title><bean:message key="title"/></title>
   </HEAD>
 <body>
 <table border="0" width="100%" cellspacing="5">
