@@ -3,6 +3,9 @@ package erland.webapp.gallery.loader;
 import erland.webapp.common.*;
 import erland.webapp.gallery.gallery.picture.Picture;
 import erland.webapp.gallery.gallery.picturestorage.PictureStorage;
+import erland.webapp.gallery.gallery.GalleryHelper;
+import erland.webapp.gallery.gallery.Gallery;
+import erland.webapp.gallery.guestaccount.GuestAccountHelper;
 import erland.webapp.usermgmt.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +17,7 @@ import java.net.URL;
 public class LoadImageCommand implements CommandInterface, CommandResponseInterface{
     private WebAppEnvironmentInterface environment;
     private String imageFile;
+    private String username;
 
     public void init(WebAppEnvironmentInterface environment) {
         this.environment = environment;
@@ -21,26 +25,41 @@ public class LoadImageCommand implements CommandInterface, CommandResponseInterf
 
     public String execute(HttpServletRequest request) {
         String imageString = request.getParameter("image");
-        String galleryString = request.getParameter("gallery");
         Integer image = null;
-        Integer gallery = null;
         if(imageString!=null && imageString.length()>0) {
             image = Integer.valueOf(imageString);
         }
-        if(galleryString!=null && galleryString.length()>0) {
-            gallery = Integer.valueOf(galleryString);
-        }
+        Integer gallery = getGalleryId(request);
         if(image!=null && gallery!=null) {
             Picture template = (Picture) environment.getEntityFactory().create("picture");
             template.setGallery(gallery);
             template.setId(image);
             Picture picture = (Picture) environment.getEntityStorageFactory().getStorage("picture").load(template);
             if(picture!=null) {
-                String username = request.getParameter("user");
+                username = request.getParameter("user");
                 if(username==null || username.length()==0) {
                     User user = (User) request.getSession().getAttribute("user");
                     username = user.getUsername();
                 }
+                if(!picture.getOfficial().booleanValue()) {
+                    Gallery templateGallery = (Gallery) environment.getEntityFactory().create("gallery");
+                    templateGallery.setId(gallery);
+                    Gallery entity = (Gallery) environment.getEntityStorageFactory().getStorage("gallery").load(templateGallery);
+                    if(entity==null) {
+                        return null;
+                    }
+
+                    User realUser = (User) request.getSession().getAttribute("user");
+                    if(realUser!=null && (!username.equals(realUser.getUsername()) || !username.equals(entity.getUsername()))) {
+                        return null;
+                    }else if(realUser==null) {
+                        User guestUser = (User) request.getSession().getAttribute("guestuser");
+                        if(guestUser==null || !username.equals(entity.getUsername()) || !GuestAccountHelper.isGuestUser(environment,username,guestUser.getUsername())) {
+                            return null;
+                        }
+                    }
+                }
+
                 QueryFilter filter = new QueryFilter("allforuser");
                 filter.setAttribute("username",username);
                 EntityInterface[] storageEntities = environment.getEntityStorageFactory().getStorage("picturestorage").search(filter);
@@ -56,6 +75,10 @@ public class LoadImageCommand implements CommandInterface, CommandResponseInterf
             }
         }
         return null;
+    }
+
+    protected Integer getGalleryId(HttpServletRequest request) {
+        return GalleryHelper.getGalleryId(environment,request);
     }
 
     public void makeResponse(HttpServletRequest request, HttpServletResponse response) {
@@ -95,5 +118,13 @@ public class LoadImageCommand implements CommandInterface, CommandResponseInterf
             }
             output.write(data,0,length);
         }
+    }
+
+    public WebAppEnvironmentInterface getEnvironment() {
+        return environment;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }
