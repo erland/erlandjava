@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=iso8859-1" %>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
 <HTML>
