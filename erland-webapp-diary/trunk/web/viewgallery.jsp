@@ -1,9 +1,9 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
                                 erland.webapp.diary.gallery.Gallery,
                                 erland.webapp.diary.gallery.ViewGalleryInterface,
-                                erland.webapp.diary.HTMLEncoder,
                                 erland.webapp.diary.gallery.ViewGalleryEntriesInterface,
-                                erland.webapp.diary.gallery.GalleryEntry"%>
+                                erland.webapp.diary.gallery.GalleryEntry,
+                                erland.webapp.common.html.HTMLEncoder"%>
 
 
 <%

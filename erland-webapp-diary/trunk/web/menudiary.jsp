@@ -4,7 +4,6 @@
                                 erland.webapp.diary.diary.DiaryEntryInterface,
                                 java.util.Calendar,
                                 java.util.Date,
-                                erland.webapp.diary.HTMLEncoder,
                                 erland.webapp.diary.diary.ViewEntriesInterface,
                                 erland.webapp.diary.inventory.ViewInventoryEntriesInterface"%>
 <%

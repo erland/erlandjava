@@ -5,7 +5,7 @@
                                 erland.webapp.diary.inventory.ViewInventoryEntryInterface,
                                 erland.webapp.diary.inventory.InventoryEntryEvent,
                                 erland.webapp.diary.DescriptionIdHelper,
-                                erland.webapp.diary.HTMLEncoder"%>
+                                erland.webapp.common.html.HTMLEncoder"%>
 <table class="no-border">
 <%
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

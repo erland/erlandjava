@@ -1,7 +1,6 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
                  erland.webapp.diary.account.ViewUserAccountInterface,
                                 erland.webapp.diary.account.UserAccount,
-                                erland.webapp.diary.HTMLEncoder,
                                 erland.webapp.diary.diary.ViewDiaryInterface,
                                 erland.webapp.diary.diary.Diary"%>
 

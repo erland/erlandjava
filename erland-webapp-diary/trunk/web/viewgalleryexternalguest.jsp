@@ -1,11 +1,11 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
                                 erland.webapp.diary.gallery.Gallery,
                                 erland.webapp.diary.gallery.ViewGalleryInterface,
-                                erland.webapp.diary.HTMLEncoder,
                                 erland.webapp.diary.gallery.ViewGalleryEntriesInterface,
                                 erland.webapp.diary.gallery.GalleryEntry,
                                 erland.webapp.gallery.gallery.picture.ViewPicturesInterface,
-                                erland.webapp.gallery.gallery.picture.Picture"%>
+                                erland.webapp.gallery.gallery.picture.Picture,
+                                erland.webapp.common.html.HTMLEncoder"%>
 
 
 <%

@@ -2,9 +2,9 @@
                                 erland.webapp.diary.diary.DiaryEntryInterface,
                                 java.text.DateFormat,
                                 java.text.SimpleDateFormat,
-                                erland.webapp.diary.HTMLEncoder,
                                 erland.webapp.diary.diary.ViewEntryInterface,
-                                erland.webapp.usermgmt.User"%>
+                                erland.webapp.usermgmt.User,
+                                erland.webapp.common.html.HTMLEncoder"%>
 
 <%
     CommandInterface cmd = (CommandInterface) request.getAttribute("cmd");
