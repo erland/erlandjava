@@ -233,9 +233,9 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
             }
         }
         currentParameters.put("contextpath",request.getContextPath());
-        Enumeration enum = request.getParameterNames();
-        while (enum.hasMoreElements()) {
-            String parameter = (String) enum.nextElement();
+        Enumeration paramEnum = request.getParameterNames();
+        while (paramEnum.hasMoreElements()) {
+            String parameter = (String) paramEnum.nextElement();
             currentParameters.put(parameter,request.getParameter(parameter));
         }
         ActionForward currentForward = mapping.findForward("current-link");
