@@ -200,6 +200,7 @@
 
             <forward name="mainMenu-preferences" path="/do/user/viewuseraccount"/>
             <forward name="mainMenu-appendix" path="/do/user/viewappendixentries?menuName={mainMenu}&amp;menuItemId={menuItemId}"/>
+            <forward name="mainMenu-sourceappendix" path="/do/user/viewsourceappendixentries?menuName={mainMenu}&amp;menuItemId={menuItemId}"/>
             <forward name="mainMenu-purchase" path="/do/user/viewpurchaseentries"/>
             <forward name="mainMenu-users" path="/do/user/viewuseraccounts"/>
             <forward name="mainMenu-logout" path="/do/logout"/>
@@ -333,11 +334,25 @@
             <forward name="success" path="/do/user/viewappendixentries"/>
         </action>
         <action
+            path="/user/menuviewsourceappendixentries"
+            type="erland.webapp.common.act.MenuExpandCollapseAction"
+            name="mainMenuFB">
+
+            <forward name="success" path="/do/user/viewsourceappendixentries"/>
+        </action>
+        <action
             path="/user/viewappendixentries"
             type="erland.webapp.diary.act.appendix.SearchAppendixEntriesAction">
 
             <forward name="failure" path=".user.index"/>
             <forward name="success" path=".user.viewappendixentries"/>
+        </action>
+        <action
+            path="/user/viewsourceappendixentries"
+            type="erland.webapp.diary.act.appendix.SearchSourceAppendixEntriesAction">
+
+            <forward name="failure" path=".user.index"/>
+            <forward name="success" path=".user.viewsourceappendixentries"/>
         </action>
 
         <action
@@ -376,6 +391,44 @@
 
             <forward name="failure" path=".user.index"/>
             <forward name="success" path=".user.editappendixentry"/>
+        </action>
+
+        <action
+            path="/user/newsourceappendixentry"
+            type="erland.webapp.diary.act.appendix.NewAppendixEntryAction"
+            validate="false"
+            name="editAppendixFB">
+
+            <forward name="success" path=".user.editsourceappendixentry"/>
+        </action>
+
+        <action
+            path="/user/editsourceappendixentry"
+            type="erland.webapp.diary.act.appendix.EditSourceAppendixEntryAction"
+            name="editAppendixFB"
+            input=".user.editsourceappendixentry">
+
+            <forward name="failure" path=".user.index"/>
+            <forward name="success" path="/do/user/viewsourceappendixentries"/>
+        </action>
+
+        <action
+            path="/user/removesourceappendixentry"
+            type="erland.webapp.diary.act.appendix.RemoveSourceAppendixEntryAction"
+            name="removeAppendixFB">
+
+            <forward name="failure" path=".user.index"/>
+            <forward name="success" path="/do/user/viewsourceappendixentries"/>
+        </action>
+
+        <action
+            path="/user/viewsourceappendixentry"
+            type="erland.webapp.diary.act.appendix.ViewSourceAppendixEntryAction"
+            validate="false"
+            name="editAppendixFB">
+
+            <forward name="failure" path=".user.index"/>
+            <forward name="success" path=".user.editsourceappendixentry"/>
         </action>
 
         <action
