@@ -1,6 +1,5 @@
 package erland.webapp.usermgmt;
 
-import org.securityfilter.realm.SimpleSecurityRealmBase;
 import org.securityfilter.realm.SecurityRealmInterface;
 
 import java.security.Principal;
@@ -37,7 +36,7 @@ public class SecurityFilterRealm implements SecurityRealmInterface {
         Log.println(this,"Trying to login as "+user.getUsername()+","+user.getPassword());
         if(user.login(application)) {
             Log.println(this,"Successfully login as "+user.getUsername());
-            return new UserPrincipal(user);
+            return user.createPrincial();
         }else {
             Log.println(this,"Fail to login as "+user.getUsername());
             return null;
@@ -46,10 +45,7 @@ public class SecurityFilterRealm implements SecurityRealmInterface {
 
     public boolean isUserInRole(Principal principal, String rolename) {
         if(principal instanceof UserPrincipal) {
-            User user = ((UserPrincipal)principal).getUser();
-            if(user!=null) {
-                return user.hasRole(rolename);
-            }
+            return ((UserPrincipal)principal).hasRole(rolename);
         }
         return false;
     }
