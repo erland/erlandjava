@@ -48,6 +48,8 @@ CREATE TABLE services (
 
 CREATE TABLE useraccounts (
   username varchar(100) NOT NULL default '',
+  title longtext NOT NULL,
+  title_en longtext NOT NULL,
   headertext longtext,
   headertext_en longtext,
   welcometext longtext NOT NULL,
