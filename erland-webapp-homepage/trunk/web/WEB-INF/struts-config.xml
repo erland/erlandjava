@@ -304,6 +304,7 @@
         <set-property property="replaceRoutines"
             value="erland.webapp.common.html.HTMLBasicStringReplace,
                    erland.webapp.common.html.HTMLLinkStringReplace,
-                   erland.webapp.common.html.HTMLBoldLinkStringReplace"/>
+                   erland.webapp.common.html.HTMLBoldLinkStringReplace,
+                   erland.webapp.common.html.HTMLTextStyleStringReplace"/>
     </plug-in>
 </struts-config>
