@@ -34,6 +34,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Iterator;
+import java.util.Date;
 
 public class ImageWriteHelper {
     private static final int THUMBNAIL_WIDTH = 150;
@@ -70,10 +71,10 @@ public class ImageWriteHelper {
 
 
     public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, OutputStream output) {
-        return writeThumbnail(environment,width,useCache,compression,username,imageFile,copyrightText,thumbnailCreator,null,null,null,output);
+        return writeThumbnail(environment,width,useCache,compression,username,imageFile,copyrightText,thumbnailCreator,null,null,null,null,output);
     }
 
-    public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, String cachePrefix, ImageFilterContainerInterface preFilters, ImageFilterContainerInterface postFilters, OutputStream output) {
+    public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, String cachePrefix, ImageFilterContainerInterface preFilters, ImageFilterContainerInterface postFilters, Date cacheDate, OutputStream output) {
         Log.println(getLogInstance(), "Loading thumbnail image: " + imageFile);
         String cacheDir = environment.getConfigurableResources().getParameter("thumbnail.cache");
         int requestedWidth = width!=null?width.intValue():THUMBNAIL_WIDTH;
@@ -105,7 +106,7 @@ public class ImageWriteHelper {
                 if (useCache.booleanValue()) {
                     cachedFile = getFromCache(cacheDir, username, cachePrefix, requestedWidth, imageFile, lastModified);
                 }
-                if (cachedFile != null) {
+                if (cachedFile != null && (cacheDate==null||cacheDate.getTime()<cachedFile.lastModified())) {
                     InputStream inputCache = new FileInputStream(cachedFile);
                     write(inputCache, output);
                     inputCache.close();
