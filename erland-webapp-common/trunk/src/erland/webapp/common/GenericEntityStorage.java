@@ -53,6 +53,7 @@ public class GenericEntityStorage extends EntityStorage {
             String table = getTableName();
             sb.append(" from "+table+" where ");
             PreparedStatement stmt = makeWhereStatement(conn,sb,fields,template,1);
+            Log.println(this,"Created prepared statement: "+stmt);
             if(stmt!=null && noOfFields>0) {
                 ResultSet rs = stmt.executeQuery();
                 if(rs.next()) {
@@ -149,6 +150,7 @@ public class GenericEntityStorage extends EntityStorage {
                     }
                     Log.println(this,"select: "+sb.toString());
                     PreparedStatement stmt = conn.prepareStatement(sb.toString());
+                    Log.println(this,"Created prepared statement: "+stmt);
                     boolean bLastParameter = false;
                     for(int fieldNo=1,queryFieldNo=1;!bLastParameter;queryFieldNo++) {
                         Log.println(this,"Get queryAttr "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".field");
@@ -241,6 +243,7 @@ public class GenericEntityStorage extends EntityStorage {
             if(noOfFields>0) {
                 Log.println(this,"insert:"+sb.toString());
                 PreparedStatement stmt = conn.prepareStatement(sb.toString(),(String[])autoKeys.toArray(new String[0]));
+                Log.println(this,"Created prepared statement: "+stmt);
                 int fieldNo = 1;
                 for(Iterator it=fields.iterator();it.hasNext();) {
                     String field = (String)it.next();
@@ -313,6 +316,7 @@ public class GenericEntityStorage extends EntityStorage {
             }
             sb.append(" where ");
             PreparedStatement stmt = makeWhereStatement(conn,sb,fields,entity,noOfFields+1);
+            Log.println(this,"Created prepared statement: "+stmt);
             if(stmt!=null && noOfFields>0) {
                 int fieldNo=1;
                 for (Iterator it = fields.iterator();it.hasNext();) {
@@ -374,6 +378,7 @@ public class GenericEntityStorage extends EntityStorage {
                 if(sb!=null) {
                     Log.println(this,"update: "+sb.toString());
                     PreparedStatement stmt = conn.prepareStatement(sb.toString());
+                    Log.println(this,"Created prepared statement: "+stmt);
                     if(stmt!=null && noOfFields>0) {
                         int fieldNo=1;
                         for (Iterator it = fields.iterator();it.hasNext();) {
@@ -428,6 +433,7 @@ public class GenericEntityStorage extends EntityStorage {
             sb.append(" from "+table+" where ");
             Set fields = PropertyUtils.describe(entity).keySet();
             PreparedStatement stmt = makeWhereStatement(conn,sb,fields,entity,1);
+            Log.println(this,"Created prepared statement: "+stmt);
             if(stmt!=null) {
                 return stmt.execute();
             }
@@ -461,6 +467,7 @@ public class GenericEntityStorage extends EntityStorage {
                 if(sb!=null) {
                     Log.println(this,"delete: "+sb.toString());
                     PreparedStatement stmt = conn.prepareStatement(sb.toString());
+                    Log.println(this,"Created prepared statement: "+stmt);
                     if(stmt!=null) {
                         boolean bLastParameter = false;
                         for(int queryFieldNo=1,fieldNo=1;!bLastParameter;queryFieldNo++) {
