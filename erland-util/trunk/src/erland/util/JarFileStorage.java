@@ -19,6 +19,7 @@ package erland.util;
  */
 
 import java.io.*;
+import java.net.URL;
 /**
  * An implementation of {@link StorageInterface} that reads data from a
  * file inside a jar file
@@ -46,14 +47,20 @@ public class JarFileStorage implements StorageInterface {
         BufferedReader r=null;
         StringBuffer str=null;
         try {
-            r = new BufferedReader(new InputStreamReader(clsLoader.getResource(file).openStream()));
+            URL url = clsLoader.getResource(file);
+            if(url!=null) {
+                r = new BufferedReader(new InputStreamReader(url.openStream()));
 
-            str = new StringBuffer(100000);
-            String line;
-            line = r.readLine();
-            while(line!=null) {
-                str.append(line);
+                str = new StringBuffer(100000);
+                String line;
                 line = r.readLine();
+                while(line!=null) {
+                    str.append(line);
+                    line = r.readLine();
+                }
+                r.close();
+            }else {
+				throw new IOException("Unable to open: "+file);
             }
         }catch(IOException e) {
             e.printStackTrace();
