@@ -59,10 +59,11 @@ public class NewUserAccountAction extends BaseAction {
         UserAccount templateAccount = (UserAccount) getEnvironment().getEntityFactory().create("gallery-useraccount");
         templateAccount.setUsername(fb.getUsername());
         templateAccount.setWelcomeText(fb.getWelcomeText());
+        templateAccount.setDescription(fb.getDescription());
         getEnvironment().getEntityStorageFactory().getStorage("gallery-useraccount").store(templateAccount);
         AccountPB pb = new AccountPB();
         PropertyUtils.copyProperties(pb, template);
         PropertyUtils.copyProperties(pb, templateAccount);
-	request.getSession().setAttribute("accountPB",pb);
+	    request.getSession().setAttribute("accountPB",pb);
     }
 }
