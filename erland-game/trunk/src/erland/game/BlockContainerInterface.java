@@ -10,82 +10,82 @@ public interface BlockContainerInterface
 	 * Get the X offset which should be used when drawing
 	 * @return The X offset in pixels
 	 */
-	int getOffsetX();
+	public int getOffsetX();
 	/**
 	 * Get the Y offset which should be used when drawing
 	 * @return The Y offset in pixels
 	 */
-	int getOffsetY();
+	public int getOffsetY();
 	/**
 	 * Get the number of visible horizontal blocks
 	 * @return The number of horizontal blocks
 	 */
-	int getSizeX();
+	public int getSizeX();
 	/**
 	 * Get the number of visible vertical blocks
 	 * @return The number of vertical blocks
 	 */
-	int getSizeY();
+	public int getSizeY();
 
 	/**
 	 * Get the size of a single block
 	 * @return The size of a single block in pixels
 	 */
-	int getSquareSize();
+	public int getSquareSize();
 
 	/**
      * Get the drawing position for a specific block coordinate
      * @param x Block x position (Square coordinate)
      * @return x drawing position in pixels
      */
-    int getDrawingPositionX(int x);
+    public int getDrawingPositionX(int x);
 
 	/**
      * Get the drawing position for a specific block coordinate
      * @param y Block y position (Square coordinate)
      * @return y drawing position in pixels
      */
-    int getDrawingPositionY(int y);
+    public int getDrawingPositionY(int y);
 
     /**
      * Get the drawing position for a specific pixel coordinate
      * @param x Object x position (Pixel coordinate)
      * @return x drawing position in pixels
      */
-    int getPixelDrawingPositionX(int x);
+    public int getPixelDrawingPositionX(int x);
 
 	/**
      * Get the drawing position for a specific pixel coordinate
      * @param y Object y position (Pixel coordinate)
      * @return y drawing position in pixels
      */
-    int getPixelDrawingPositionY(int y);
+    public int getPixelDrawingPositionY(int y);
 
 	/**
      * Get the position for a specific block coordinate
      * @param x Block x position (Square coordinate)
      * @return x position in pixels
      */
-    int getPositionX(int x);
+    public int getPositionX(int x);
 
 	/**
      * Get the position for a specific block coordinate
      * @param y Block y position (Square coordinate)
      * @return y position in pixels
      */
-    int getPositionY(int y);
+    public int getPositionY(int y);
 
 	/**
      * Get the drawing size for container
      * @return x drawing size in pixels
      */
-    int getDrawingSizeX();
+    public int getDrawingSizeX();
 
 	/**
      * Get the drawing size for container
      * @return x drawing size in pixels
      */
-    int getDrawingSizeY();
+    public int getDrawingSizeY();
 
     /**
      * Checks if a specific block is within the visible area
@@ -93,7 +93,7 @@ public interface BlockContainerInterface
      * @param posY Y position of the block to check (Square coordinate)
      * @return true/false (Visible/Invisible)
      */
-    boolean getVisible(int posX, int posY);
+    public boolean getVisible(int posX, int posY);
 
     /**
 	 * Get the horizontal scrolling offset
