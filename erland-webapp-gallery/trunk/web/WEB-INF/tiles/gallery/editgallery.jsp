@@ -33,13 +33,15 @@
     </html:select>
     </td></tr>
     <logic:notEmpty name="galleryFB" property="referencedGallery">
-        <tr><td><bean:message key="gallery.gallery.edit.required-categories"/></td><td>
-        <html:select property="categories" size="10" multiple="true">
-            <html:options collection="categoriesPB" property="categoryDisplay" labelProperty="name" />
-        </html:select>
-        </td></tr>
+        <logic:notEqual name="galleryFB" property="referencedGallery" value="0">
+            <tr><td><bean:message key="gallery.gallery.edit.required-categories"/></td><td>
+            <html:select property="categories" size="10" multiple="true">
+                <html:options collection="categoriesPB" property="categoryDisplay" labelProperty="name" />
+            </html:select>
+            </td></tr>
+        </logic:notEqual>
     </logic:notEmpty>
     <tr><td></td><td>
-    <html:submit titleKey="gallery.buttons.save"/>
+    <html:submit titleKey="gallery.buttons.save"><bean:message key="gallery.buttons.save"/></html:submit>
     </td></tr>
 </html:form>
