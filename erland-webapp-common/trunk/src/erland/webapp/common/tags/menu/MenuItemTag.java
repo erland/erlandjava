@@ -9,6 +9,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -44,7 +45,7 @@ import org.apache.commons.beanutils.PropertyUtils;
  * 
  */
 
-public class MenuItemTag extends BodyTagSupport implements MenuItemInterface {
+public class MenuItemTag extends TagSupport implements MenuItemInterface {
     private String page;
     private String titleKey;
     private String id;
@@ -265,7 +266,7 @@ public class MenuItemTag extends BodyTagSupport implements MenuItemInterface {
         if(link==null) {
             return link;
         }
-        if(Pattern.matches("[a-z]*:",link)) {
+        if(Pattern.matches("[a-z]*:.*",link)) {
             return link;
         }else {
             return ((HttpServletRequest) pageContext.getRequest()).getContextPath()+link;
