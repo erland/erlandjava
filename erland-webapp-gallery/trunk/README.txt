@@ -24,6 +24,7 @@ more information.
 A library with Java image filters is also included, see http://www.jhlabs.com/ip/filters.html for
 more information.
 A number of different libraries from http://jakarta.apache.org is also included
+The Export script for IMatch has been contributed by Mats Ekberg
 
 3. PREREQUISITES
 ================
@@ -39,6 +40,7 @@ This binary archive should contain the following files:
 - gallery.war (The web application)
 - database/*.sql (A number of database configuration scripts)
 - docs/* (The javadoc documentation for the web application classes)
+- misc/imatch/* (The IMatch export script)
 
 This source archive should contain the following files:
 - README.txt (this file)
@@ -46,6 +48,7 @@ This source archive should contain the following files:
 - database/*.sql (A number of database configuration scripts)
 - src/* (The web application source code)
 - web/* (The web application source code)
+- misc/imatch/* (The IMatch export script)
 - build.xml (A build file for ant)
 - maven.xml (A build file for maven)
 - project.properties (A configuration file for maven)
