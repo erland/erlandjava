@@ -23,6 +23,7 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
     class Pages {
         private String[] supportPageNames;
         private Map pages = new HashMap();
+        private Map pageTypes = new HashMap();
         private String mainPageName;
         private String contentPageName;
         private boolean forward;
@@ -47,13 +48,20 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
         public String getPage(String page) {
             return (String) pages.get(page);
         }
+        public String getPageType(String page) {
+            return (String) pageTypes.get(page);
+        }
 
-        public void setPage(String page, String value) {
-            Log.println(this,"setPage "+page+"="+value);
+        public void setPage(String page, String value, String type) {
+            Log.println(this,"setPage "+page+" in "+type+"="+value);
             if(value!=null) {
                 pages.put(page,value);
+                if(type!=null) {
+                    pageTypes.put(page,type);
+                }
             }else {
                 pages.remove(page);
+                pageTypes.remove(page);
             }
         }
 
@@ -212,20 +220,30 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
         }
     }
 
-    private void setPage(HttpServletRequest request, String page, String value) {
+    private void setPage(HttpServletRequest request, String page, String value, String type) {
         if(value!=null && value.length()>0) {
-            request.getSession().setAttribute(page,value);
+            if(type==null || type.length()==0 || type.equalsIgnoreCase("session")) {
+                Log.println(this,"Set "+page+"="+value+" in session");
+                request.getSession().setAttribute(page,value);
+            }
+            Log.println(this,"Set "+page+"="+value+" in request");
+            request.setAttribute(page,value);
         }else {
-            request.getSession().removeAttribute(page);
+            if(type==null || type.length()==0 || type.equalsIgnoreCase("session")) {
+                Log.println(this,"Remove "+page+"=from session");
+                request.getSession().removeAttribute(page);
+            }
+            Log.println(this,"Remove "+page+"=from request");
+            request.removeAttribute(page);
         }
     }
     private void setPages(HttpServletRequest request, Pages pages) {
         String[] supportPages = pages.getSupportPageNames();
         for(int i=0;i<supportPages.length;i++) {
-            setPage(request,supportPages[i],pages.getPage(supportPages[i]));
+            setPage(request,supportPages[i],pages.getPage(supportPages[i]),pages.getPageType(supportPages[i]));
         }
-        setPage(request,pages.getMainPageName(),pages.getPage(pages.getMainPageName()));
-        setPage(request,pages.getContentPageName(),pages.getPage(pages.getContentPageName()));
+        setPage(request,pages.getMainPageName(),pages.getPage(pages.getMainPageName()),pages.getPageType(pages.getMainPageName()));
+        setPage(request,pages.getContentPageName(),pages.getPage(pages.getContentPageName()),pages.getPageType(pages.getContentPageName()));
     }
 
 
@@ -245,15 +263,20 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
         }
         return val;
     }
+    private String getPageType(String page) {
+        return getEnvironment().getResources().getParameter(page+".type");
+    }
     private Pages getPages(HttpServletRequest request, String page) {
         Pages p = new Pages("main","content",getSupportPages());
         if(page!=null) {
             boolean bForward = true;
             String content = getEnvironment().getResources().getParameter(page+".forward");
-            Log.println(this,"getPages("+page+".forward)="+content);
+            String contentType = getEnvironment().getResources().getParameter(page+".forward.type");
+            Log.println(this,"getPages("+page+".forward,"+contentType+")="+content);
             if(content==null) {
                 content = getEnvironment().getResources().getParameter(page+".page");
-                Log.println(this,"getPages("+page+".page)="+content);
+                contentType = getEnvironment().getResources().getParameter(page+".page.type");
+                Log.println(this,"getPages("+page+".page,"+contentType+")="+content);
                 if(content!=null) {
                     content = replaceDynamicParameters(request,content);
                 }
@@ -261,25 +284,25 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
             }else {
                 content = replaceDynamicParameters(request,content);
             }
-            Log.println(this,"getPages("+page+")="+content);
+            Log.println(this,"getPages("+page+","+contentType+")="+content);
             if(content!=null) {
                 p.setForward(bForward);
-                p.setPage(p.getContentPageName(),"/"+content);
-                p.setPage(p.getMainPageName(),getPage(request,page,p.getMainPageName()));
+                p.setPage(p.getContentPageName(),"/"+content,contentType);
+                p.setPage(p.getMainPageName(),getPage(request,page,p.getMainPageName()),getPageType(page+"."+p.getMainPageName()));
                 String[] supportPages = p.getSupportPageNames();
                 for(int i=0;i<supportPages.length;i++) {
-                    p.setPage(supportPages[i],getPage(request,page,supportPages[i]));
+                    p.setPage(supportPages[i],getPage(request,page,supportPages[i]),getPageType(supportPages[i]));
                 }
                 return p;
             }
         }else {
             String content = (String) request.getSession().getAttribute(p.getContentPageName());
             if(content!=null) {
-                p.setPage(p.getContentPageName(),content);
-                p.setPage(p.getMainPageName(),(String)request.getSession().getAttribute(p.getMainPageName()));
+                p.setPage(p.getContentPageName(),content,null);
+                p.setPage(p.getMainPageName(),(String)request.getSession().getAttribute(p.getMainPageName()),null);
                 String[] supportPages = p.getSupportPageNames();
                 for(int i=0;i<supportPages.length;i++) {
-                    p.setPage(supportPages[i],(String) request.getSession().getAttribute(supportPages[i]));
+                    p.setPage(supportPages[i],(String) request.getSession().getAttribute(supportPages[i]),null);
                 }
                 return p;
             }
