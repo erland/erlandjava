@@ -35,6 +35,7 @@ public class PictureFB extends BaseFB {
     private String image;
     private String link;
     private Boolean official;
+    private Boolean officialGuest;
     private Date date;
 
     public Integer getGallery() {
@@ -110,11 +111,27 @@ public class PictureFB extends BaseFB {
     }
 
     public String getOfficialDisplay() {
-        return official!=null?official.toString():null;
+        return ServletParameterHelper.asString(official,null);
     }
 
     public void setOfficialDisplay(String officialDisplay) {
-        this.official = Boolean.valueOf(officialDisplay);
+        this.official = ServletParameterHelper.asBoolean(officialDisplay,Boolean.FALSE);
+    }
+
+    public Boolean getOfficialGuest() {
+        return officialGuest;
+    }
+
+    public void setOfficialGuest(Boolean officialGuest) {
+        this.officialGuest = officialGuest;
+    }
+
+    public String getOfficialGuestDisplay() {
+        return ServletParameterHelper.asString(officialGuest,null);
+    }
+
+    public void setOfficialGuestDisplay(String officialGuestDisplay) {
+        this.officialGuest = ServletParameterHelper.asBoolean(officialGuestDisplay,Boolean.FALSE);
     }
 
     public Date getDate() {
@@ -142,6 +159,7 @@ public class PictureFB extends BaseFB {
         image = null;
         link = null;
         official = Boolean.FALSE;
+        officialGuest = Boolean.FALSE;
         date = null;
     }
 }

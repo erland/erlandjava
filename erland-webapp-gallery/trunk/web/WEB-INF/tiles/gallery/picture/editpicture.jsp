@@ -27,7 +27,10 @@
         <html:text property="dateDisplay" size="19"/>
         </td></tr>
         <tr><td><bean:message key="gallery.gallery.picture.edit.official"/></td><td>
-        <html:checkbox property="official" value="true"/>
+        <html:checkbox property="officialDisplay" value="true"/>
+        </td></tr>
+        <tr><td><bean:message key="gallery.gallery.picture.edit.official-guest"/></td><td>
+        <html:checkbox property="officialGuestDisplay" value="true"/>
         </td></tr>
         <tr><td></td><td>
         <html:submit><bean:message key="gallery.buttons.save"/></html:submit>
