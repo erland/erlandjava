@@ -22,7 +22,6 @@
     <orderEntry type="module" module-name="WebCommon" />
     <orderEntry type="library" name="wsdl4j" level="application" />
     <orderEntry type="library" name="wsif" level="application" />
-    <orderEntry type="library" name="Generic" level="application_server_libraries" />
     <orderEntryProperties />
   </component>
   <component name="WebModuleBuildComponent">
