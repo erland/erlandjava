@@ -1,6 +1,7 @@
 package erland.webapp.common.tags;
 
 import erland.webapp.common.html.HTMLEncoder;
+import erland.webapp.common.ServletParameterHelper;
 import erland.util.Log;
 import erland.util.StringUtil;
 
@@ -45,6 +46,15 @@ public class BeanImageTag extends TagSupport {
     private String style;
     private String width;
     private String height;
+    private String parameters;
+
+    public String getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(String parameters) {
+        this.parameters = parameters;
+    }
 
     public String getName() {
         return name;
@@ -115,6 +125,9 @@ public class BeanImageTag extends TagSupport {
             link=(String) bean;
         }
         if(link!=null && link.length()>0) {
+            if(StringUtil.asNull(getParameters())!=null) {
+                link = ServletParameterHelper.replaceParametersInUrl(link,getParameters());
+            }
             try {
                 out.write("<img src=\""+addContextPath(link)+"\" "+(style!=null?"class=\""+style+"\" ":"")+" "+(border!=null?" border=\""+border+"\"":"")+(width!=null?" width=\""+width+"\"":"")+(height!=null?" height=\""+height+"\"":"")+"></img>");
             } catch (IOException e) {
@@ -132,6 +145,7 @@ public class BeanImageTag extends TagSupport {
         property = null;
         width = null;
         height = null;
+        parameters = null;
     }
     private String addContextPath(String link) {
         if(link==null) {

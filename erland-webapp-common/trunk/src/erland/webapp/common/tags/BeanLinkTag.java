@@ -1,6 +1,7 @@
 package erland.webapp.common.tags;
 
 import erland.webapp.common.html.HTMLEncoder;
+import erland.webapp.common.ServletParameterHelper;
 import erland.util.Log;
 import erland.util.StringUtil;
 
@@ -54,6 +55,15 @@ public class BeanLinkTag extends TagSupport {
     private String titleKey;
     private String propertyTitle;
     private String propertyTitleKey;
+    private String parameters;
+
+    public String getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(String parameters) {
+        this.parameters = parameters;
+    }
 
     public String getStyle() {
         return style;
@@ -255,8 +265,12 @@ public class BeanLinkTag extends TagSupport {
             }
         }
         if(link!=null && link.length()>0) {
+            String newLink = link;
+            if(StringUtil.asNull(getParameters())!=null) {
+                newLink = ServletParameterHelper.replaceParametersInUrl(newLink,getParameters());
+            }
             try {
-                out.write("<a href=\""+addContextPath(link)+"\" "+(style!=null?"class=\""+style+"\" ":"")+" "+(target!=null?" target=\""+target+"\"":"")+(onClickMessage!=null?" onClick=\"return confirm('"+onClickMessage+"')\"":"")+(title!=null?" title=\""+title+"\" ":"")+">");
+                out.write("<a href=\""+addContextPath(newLink)+"\" "+(style!=null?"class=\""+style+"\" ":"")+" "+(target!=null?" target=\""+target+"\"":"")+(onClickMessage!=null?" onClick=\"return confirm('"+onClickMessage+"')\"":"")+(title!=null?" title=\""+title+"\" ":"")+">");
                 return EVAL_BODY_INCLUDE;
             } catch (IOException e) {
                 link = null;
@@ -294,6 +308,7 @@ public class BeanLinkTag extends TagSupport {
         titleKey = null;
         propertyTitle = null;
         propertyTitleKey = null;
+        parameters = null;
     }
     private String addContextPath(String link) {
         if(link==null) {
