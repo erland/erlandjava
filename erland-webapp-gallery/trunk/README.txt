@@ -24,7 +24,10 @@ more information.
 A library with Java image filters is also included, see http://www.jhlabs.com/ip/filters.html for
 more information.
 A number of different libraries from http://jakarta.apache.org is also included
-The Export script for IMatch has been contributed by Mats Ekberg
+The Export script for IMatch has been contributed by Mats Ekberg, to use these you will
+need to manually copy the files in misc/imatch to the IMatch script directory. After this
+you can right click on a category, directory or image in IMatch and select to export it to
+Erland Gallery.
 
 3. PREREQUISITES
 ================
