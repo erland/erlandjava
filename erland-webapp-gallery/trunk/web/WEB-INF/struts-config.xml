@@ -275,7 +275,7 @@
 
         <action
             path="/user/viewguestpictures"
-            type="erland.webapp.gallery.act.gallery.picture.SearchPicturesAction"
+            type="erland.webapp.gallery.act.gallery.picture.SearchOfficialGuestPicturesAction"
             name="selectPictureFB"
             validate="false">
 
@@ -319,7 +319,7 @@
 
         <action
             path="/user/viewguestsearchpictures"
-            type="erland.webapp.gallery.act.gallery.picture.AdvancedSearchPicturesAction"
+            type="erland.webapp.gallery.act.gallery.picture.AdvancedSearchOfficialGuestPicturesAction"
             name="searchPictureFB"
             validate="false">
 
