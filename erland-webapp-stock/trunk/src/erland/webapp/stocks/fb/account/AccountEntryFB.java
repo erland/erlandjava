@@ -11,6 +11,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.io.Serializable;
 
+import erland.util.StringUtil;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -37,8 +39,6 @@ public class AccountEntryFB extends ValidatorForm implements Serializable{
     private Double value;
     private Date purchaseDate;
 
-    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
     public String getBroker() {
         return broker;
     }
@@ -64,15 +64,11 @@ public class AccountEntryFB extends ValidatorForm implements Serializable{
     }
 
     public String getNumberDisplay() {
-        return number!=null?String.valueOf(number):"";
+        return StringUtil.asString(number,"");
     }
 
     public void setNumberDisplay(String number) {
-        try {
-            this.number = Double.valueOf(number);
-        } catch (NumberFormatException e) {
-            this.number = null;
-        }
+        this.number = StringUtil.asDouble(number,null);
     }
 
     public Double getValue() {
@@ -84,15 +80,11 @@ public class AccountEntryFB extends ValidatorForm implements Serializable{
     }
 
     public String getValueDisplay() {
-        return value!=null?String.valueOf(value):"";
+        return StringUtil.asString(value,"");
     }
 
     public void setValueDisplay(String value) {
-        try {
-            this.value = Double.valueOf(value);
-        } catch (NumberFormatException e) {
-            this.value = null;
-        }
+        this.value = StringUtil.asDouble(value,null);
     }
 
     public Date getPurchaseDate() {
@@ -104,15 +96,11 @@ public class AccountEntryFB extends ValidatorForm implements Serializable{
     }
 
     public String getPurchaseDateDisplay() {
-        return purchaseDate!=null?dateFormat.format(purchaseDate):"";
+        return StringUtil.asString(purchaseDate,"");
     }
 
     public void setPurchaseDateDisplay(String purchaseDateDisplay) {
-        try {
-            this.purchaseDate = dateFormat.parse(purchaseDateDisplay);
-        } catch (ParseException e) {
-            this.purchaseDate = null;
-        }
+        this.purchaseDate = StringUtil.asDate(purchaseDateDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

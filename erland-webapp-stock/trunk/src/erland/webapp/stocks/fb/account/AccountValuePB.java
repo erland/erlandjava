@@ -6,6 +6,8 @@ import java.util.Date;
 import java.text.*;
 import java.io.Serializable;
 
+import erland.util.StringUtil;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -30,7 +32,6 @@ public class AccountValuePB extends ActionForm implements Serializable{
     private Double value;
     private Double purchaseValue;
 
-    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private static final NumberFormat numberFormat = new DecimalFormat("#.##");
 
     public Date getDate() {
@@ -42,15 +43,11 @@ public class AccountValuePB extends ActionForm implements Serializable{
     }
 
     public String getDateDisplay() {
-        return date!=null?dateFormat.format(date):null;
+        return StringUtil.asString(date,null);
     }
 
     public void setDateDisplay(String dateDisplay) {
-        try {
-            this.date = dateFormat.parse(dateDisplay);
-        } catch (ParseException e) {
-            this.date = null;
-        }
+        this.date = StringUtil.asDate(dateDisplay,null);
     }
 
     public Double getValue() {

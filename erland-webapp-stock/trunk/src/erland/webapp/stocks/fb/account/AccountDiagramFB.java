@@ -38,14 +38,6 @@ public class AccountDiagramFB extends ValidatorForm implements Serializable{
     private String stock;
     private Date startDate;
     private Date endDate;
-/*
-    private Boolean purchaseValues;
-    private Boolean seriesincluded;
-    private Boolean stockNumbers;
-    private Boolean diffValues;
-    */
-
-    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public String getBroker() {
         return broker;
@@ -72,15 +64,11 @@ public class AccountDiagramFB extends ValidatorForm implements Serializable{
     }
 
     public String getStartDateDisplay() {
-        return startDate!=null?dateFormat.format(startDate):null;
+        return StringUtil.asString(startDate,null);
     }
 
     public void setStartDateDisplay(String dateDisplay) {
-        try {
-            this.startDate = dateFormat.parse(dateDisplay);
-        } catch (ParseException e) {
-            this.startDate = null;
-        }
+        this.startDate = StringUtil.asDate(dateDisplay,null);
     }
 
     public Date getEndDate() {
@@ -92,15 +80,11 @@ public class AccountDiagramFB extends ValidatorForm implements Serializable{
     }
 
     public String getEndDateDisplay() {
-        return endDate!=null?dateFormat.format(endDate):null;
+        return StringUtil.asString(endDate,null);
     }
 
     public void setEndDateDisplay(String purchaseDateDisplay) {
-        try {
-            this.endDate = dateFormat.parse(purchaseDateDisplay);
-        } catch (ParseException e) {
-            this.endDate = null;
-        }
+        this.endDate = StringUtil.asDate(purchaseDateDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
