@@ -22,7 +22,7 @@ package erland.webapp.homepage.act.section;
 import javax.servlet.http.HttpServletRequest;
 
 public class LoadOfficialMenuAction extends LoadMenuAction {
-    protected String getQueryFilter(HttpServletRequest request) {
+    protected String getQueryFilter() {
         return "allofficialforuser";
     }
 }

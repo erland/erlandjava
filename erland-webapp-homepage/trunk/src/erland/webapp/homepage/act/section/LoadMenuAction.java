@@ -35,10 +35,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 public class LoadMenuAction extends BaseAction {
-    protected Comparator SORT_BY_NAME = new Comparator() {
+    protected Comparator SORT_BY_ORDERNO = new Comparator() {
         public int compare(Object o1, Object o2) {
             if (o1 instanceof MenuItemPB && o2 instanceof MenuItemPB) {
-                return ((MenuItemPB) o1).getName().compareTo(((MenuItemPB) o2).getName());
+                return ((MenuItemPB) o1).getOrderNo().compareTo(((MenuItemPB) o2).getOrderNo());
             }
             return 0;
         }
@@ -118,6 +118,7 @@ public class LoadMenuAction extends BaseAction {
             }
             pb.setPath(sectionPath);
             pb.setUser(username);
+            pb.setOrderNo(section.getOrderNo());
             if (section.getParent() == null || section.getParent().equals(new Integer(0))) {
                 result.add(pb);
             } else {
@@ -125,7 +126,7 @@ public class LoadMenuAction extends BaseAction {
             }
         }
         MenuItemPB[] resultCategories = (MenuItemPB[]) result.toArray(new MenuItemPB[0]);
-        //Arrays.sort(resultCategories, SORT_BY_NAME);
+        Arrays.sort(resultCategories, SORT_BY_ORDERNO);
         return resultCategories;
     }
 
@@ -139,7 +140,7 @@ public class LoadMenuAction extends BaseAction {
                     List childs = new ArrayList(Arrays.asList(item.getChilds()));
                     childs.add(section);
                     MenuItemPB[] childCategories = (MenuItemPB[]) childs.toArray(new MenuItemPB[0]);
-                    //Arrays.sort(childCategories, SORT_BY_NAME);
+                    Arrays.sort(childCategories, SORT_BY_ORDERNO);
                     item.setChilds(childCategories);
                 }
                 return true;
