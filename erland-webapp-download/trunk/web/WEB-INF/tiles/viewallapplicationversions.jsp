@@ -6,7 +6,7 @@
 <p class="propertypage-title"><bean:message key="download.latest-releases"/></p>
 
 <table class="propertypage-body" align="center">
-    <logic:iterate name="applicationversionsPB" id="item">
+    <logic:iterate name="applicationversionsPB" id="item" length="10" >
         <tr>
         <td valign="top" nowrap><a class="propertypage-button" href="/download/do/viewapplication?name=<bean:write name="item" property="name"/>"><bean:write name="item" property="title"/></a> <bean:write name="item" property="version"/></td>
         <td width="20">&nbsp;</td>
