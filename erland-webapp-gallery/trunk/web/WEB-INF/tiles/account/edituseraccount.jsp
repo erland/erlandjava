@@ -22,6 +22,12 @@
     <tr><td><bean:message key="gallery.account.edit.stylesheet"/></td><td>
     <html:text property="stylesheet" size="60"/>
     </td></tr>
+    <tr><td><bean:message key="gallery.account.edit.skin"/></td><td>
+    <html:select property="skin" size="1">
+        <html:option value="" key="gallery.account.edit.skin.none"/>
+        <html:options collection="skinsPB" property="id" labelProperty="id" />
+    </html:select>
+    </td></tr>
     <tr><td><bean:message key="gallery.account.edit.default-gallery"/></td><td>
     <html:select property="defaultGalleryDisplay" size="1">
         <html:option value="" key="gallery.account.edit.default-gallery.none"/>
