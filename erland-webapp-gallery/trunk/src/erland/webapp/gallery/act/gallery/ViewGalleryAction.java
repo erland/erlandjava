@@ -73,7 +73,7 @@ public class ViewGalleryAction extends BaseAction {
             fb.setCategories(categories);
         }
 
-        GalleryInterface[] galleries = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",gallery.getUsername(),"allforuser");
+        GalleryInterface[] galleries = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",gallery.getUsername(),"allrealforuser");
         GalleryPB[] pbGalleries = new GalleryPB[galleries.length];
         for (int i = 0; i < galleries.length; i++) {
             pbGalleries[i] = new GalleryPB();
