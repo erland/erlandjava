@@ -110,6 +110,10 @@ public class EditApplicationAction extends BaseAction {
 
             // Analyzed choices
             dispatcher.setPrevState(IssueEvent.STATE_ANALYZED);
+            dispatcher.setNewState(IssueEvent.STATE_CORRECTING);
+            dispatcher.setUsername(null);
+            getEnvironment().getEntityStorageFactory().getStorage("issuetracking-applicationdispatcher").store(dispatcher);
+            dispatcher.setPrevState(IssueEvent.STATE_ANALYZED);
             dispatcher.setNewState(IssueEvent.STATE_ANALYZING);
             dispatcher.setUsername(null);
             getEnvironment().getEntityStorageFactory().getStorage("issuetracking-applicationdispatcher").store(dispatcher);
