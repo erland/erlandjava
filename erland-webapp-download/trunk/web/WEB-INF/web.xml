@@ -15,6 +15,7 @@
             <param-name>config</param-name>
             <param-value>/WEB-INF/struts-config.xml</param-value>
         </init-param>
+        <load-on-startup>0</load-on-startup>
     </servlet>
 
     <servlet-mapping>
@@ -23,9 +24,8 @@
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-
 
     <taglib>
         <taglib-uri>http://jakarta.apache.org/struts/tags-bean</taglib-uri>
