@@ -28,7 +28,7 @@ CREATE TABLE `channels` (
   `serviceparameters` longtext NOT NULL,
   `cachedate` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) TYPE=MyISAM;
 
 --
 -- Table structure for table `favorites`
@@ -41,7 +41,7 @@ CREATE TABLE `favorites` (
   `channel` int(11) NOT NULL default '0',
   `orderno` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) TYPE=MyISAM;
 
 --
 -- Table structure for table `programs`
@@ -56,7 +56,7 @@ CREATE TABLE `programs` (
   `stop` datetime NOT NULL default '0000-00-00 00:00:00',
   `channel` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) TYPE=MyISAM;
 
 --
 -- Table structure for table `services`
@@ -73,7 +73,7 @@ CREATE TABLE `services` (
   `transformerdata` longtext,
   `customizedtransformerdata` longtext,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) TYPE=MyISAM;
 
 --
 -- Table structure for table `subscriptions`
@@ -86,7 +86,7 @@ CREATE TABLE `subscriptions` (
   `name` varchar(100) NOT NULL default '',
   `pattern` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) TYPE=MyISAM;
 
 --
 -- Table structure for table `useraccounts`
@@ -103,7 +103,7 @@ CREATE TABLE `useraccounts` (
   `logo` varchar(255) default NULL,
   `mailnotification` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`username`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) TYPE=MyISAM;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
