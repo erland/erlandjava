@@ -10,6 +10,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
+import javax.servlet.ServletRequest;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.StringTokenizer;
@@ -20,6 +21,8 @@ import java.util.regex.Pattern;
 import java.beans.PropertyDescriptor;
 import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import erland.webapp.common.ServletParameterHelper;
 import erland.util.StringUtil;
@@ -56,6 +59,8 @@ public class BeanMenuItemTag extends TagSupport {
     private String styleSelected;
     private String target;
     private String roles;
+    private String hosts;
+    private String ipaddr;
 
     public void setBean(String bean) {
         this.bean = bean;
@@ -71,6 +76,14 @@ public class BeanMenuItemTag extends TagSupport {
 
     public void setRoles(String roles) {
         this.roles = roles;
+    }
+
+    public void setHosts(String hosts) {
+        this.hosts = hosts;
+    }
+
+    public void setIpaddr(String ipaddr) {
+        this.ipaddr = ipaddr;
     }
 
     public void setStyle(String style) {
@@ -211,6 +224,8 @@ public class BeanMenuItemTag extends TagSupport {
         style = null;
         styleSelected = null;
         roles = null;
+        hosts = null;
+
         bean = null;
         childs = null;
     }
@@ -246,32 +261,42 @@ public class BeanMenuItemTag extends TagSupport {
             if (menuObj != null && menuObj.equals(id)) {
                 selected = true;
             }
-            out.write("<tr>");
-            out.write("<td nowrap>");
-            String style = getStyle(selected);
-            if(indent>0) {
-                out.write("<img src=\""+((HttpServletRequest)pageContext.getRequest()).getContextPath()+getIndentImage()+"\" width=\""+(getIndentWidth()*indent)+"\" height=\"1\"></img>");
+            String hosts = null;
+            if(this.hosts!=null && this.hosts.length()>0) {
+                hosts = (String) PropertyUtils.getProperty(item, this.hosts);
             }
-            out.write("<a " + (style != null ? "class=\"" + style + "\" " : "") + "href=\"" + addContextPath(ServletParameterHelper.replaceDynamicParameters((String) page, getParameterMap(item, getMenuId(), (String) id))) + "\""+(target!=null?" target=\""+target+"\"":"")+">");
-            if (title != null) {
-                out.write((String) title);
-            }else if(titleKey != null) {
-                try {
-                    String titleValue = RequestUtils.message(pageContext,null,null,titleKey);
-                    out.write((String) titleValue);
-                } catch (JspException e) {
+            String ipaddr = null;
+            if(this.hosts!=null && this.hosts.length()>0) {
+                ipaddr = (String) PropertyUtils.getProperty(item, this.ipaddr);
+            }
+            if(isHostAllowed(pageContext.getRequest(),ipaddr,hosts)) {
+                out.write("<tr>");
+                out.write("<td nowrap>");
+                String style = getStyle(selected);
+                if(indent>0) {
+                    out.write("<img src=\""+((HttpServletRequest)pageContext.getRequest()).getContextPath()+getIndentImage()+"\" width=\""+(getIndentWidth()*indent)+"\" height=\"1\"></img>");
                 }
-            }
-            out.write("</a>");
-            out.write("</td>");
-            out.write("</tr>");
-            if(this.childs!=null && this.childs.length()>0 && menuObj!=null && menuObj.startsWith((String)id)) {
-                Object childs = PropertyUtils.getProperty(item, this.childs);
-                if (childs != null) {
-                    if(childs instanceof Object[]) {
-                        writeMenu((Object[]) childs, indent + 1, (String) id, menuObj, out);
-                    }else  {
-                        writeMenu( new Object[] {childs}, indent + 1, (String) id, menuObj, out);
+                out.write("<a " + (style != null ? "class=\"" + style + "\" " : "") + "href=\"" + addContextPath(ServletParameterHelper.replaceDynamicParameters((String) page, getParameterMap(item, getMenuId(), (String) id))) + "\""+(target!=null?" target=\""+target+"\"":"")+">");
+                if (title != null) {
+                    out.write((String) title);
+                }else if(titleKey != null) {
+                    try {
+                        String titleValue = RequestUtils.message(pageContext,null,null,titleKey);
+                        out.write((String) titleValue);
+                    } catch (JspException e) {
+                    }
+                }
+                out.write("</a>");
+                out.write("</td>");
+                out.write("</tr>");
+                if(this.childs!=null && this.childs.length()>0 && menuObj!=null && menuObj.startsWith((String)id)) {
+                    Object childs = PropertyUtils.getProperty(item, this.childs);
+                    if (childs != null) {
+                        if(childs instanceof Object[]) {
+                            writeMenu((Object[]) childs, indent + 1, (String) id, menuObj, out);
+                        }else  {
+                            writeMenu( new Object[] {childs}, indent + 1, (String) id, menuObj, out);
+                        }
                     }
                 }
             }
@@ -339,5 +364,32 @@ public class BeanMenuItemTag extends TagSupport {
             return false;
         }
         return true;
+    }
+    private boolean isHostAllowed(ServletRequest request, String ipAddr, String hosts) {
+        String remoteAddr = request.getRemoteAddr();
+        String remoteHost = request.getRemoteHost();
+        if (StringUtil.asNull(ipAddr)!=null && StringUtil.asNull(hosts)!=null) {
+            if(remoteAddr.matches(ipAddr)) {
+                return true;
+            }else {
+                return lookupHostname(remoteHost).matches(hosts);
+            }
+        }else if(StringUtil.asNull(ipAddr)!=null) {
+            return remoteAddr.matches(ipAddr);
+        }else if(StringUtil.asNull(hosts)!=null) {
+            return lookupHostname(remoteHost).matches(hosts);
+        }else {
+            return true;
+        }
+    }
+    private String lookupHostname(String hostname) {
+        if(hostname.matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b")) {
+            try {
+                InetAddress addr = InetAddress.getByName(hostname);
+                hostname = addr.getCanonicalHostName();
+            } catch (UnknownHostException e) {
+            }
+        }
+        return hostname;
     }
 }

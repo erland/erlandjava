@@ -13,6 +13,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.ServletRequest;
 import java.io.IOException;
 import java.util.StringTokenizer;
 import java.util.Map;
@@ -23,6 +24,8 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import org.apache.struts.util.RequestUtils;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -58,6 +61,8 @@ public class MenuItemTag extends TagSupport implements MenuItemInterface {
     private String styleSelected;
     private String target;
     private String roles;
+    private String hosts;
+    private String ipaddr;
 
     public void setStyleSelected(String styleSelected) {
         this.styleSelected = styleSelected;
@@ -65,6 +70,14 @@ public class MenuItemTag extends TagSupport implements MenuItemInterface {
 
     public void setRoles(String roles) {
         this.roles = roles;
+    }
+
+    public void setHosts(String hosts) {
+        this.hosts = hosts;
+    }
+
+    public void setIpaddr(String ipaddr) {
+        this.ipaddr = ipaddr;
     }
 
     public void setStyle(String style) {
@@ -183,7 +196,7 @@ public class MenuItemTag extends TagSupport implements MenuItemInterface {
         }
         String menuObjName = getMenuId();
         String menuObj = (String) pageContext.getAttribute(menuObjName,PageContext.SESSION_SCOPE);
-        if((getParentId().length()==0 || (menuObj!=null && menuObj.startsWith(getParentId()) && (menuObj.equals(getParentId())|| menuObj.charAt(getParentId().length())=='-'))) && (isUserInRole(roles))) {
+        if((getParentId().length()==0 || (menuObj!=null && menuObj.startsWith(getParentId()) && (menuObj.equals(getParentId())|| menuObj.charAt(getParentId().length())=='-'))) && (isUserInRole(roles)) && isHostAllowed(pageContext.getRequest(),ipaddr,hosts)) {
             boolean selected = false;
             if(menuObj!=null && menuObj.equals(getItemId())) {
                 selected = true;
@@ -224,6 +237,7 @@ public class MenuItemTag extends TagSupport implements MenuItemInterface {
         style = null;
         styleSelected = null;
         roles = null;
+        hosts = null;
     }
 
     private Map getParameterMap(String menuId, String menuItemId) {
@@ -275,6 +289,35 @@ public class MenuItemTag extends TagSupport implements MenuItemInterface {
         }
         return true;
     }
+
+    private boolean isHostAllowed(ServletRequest request, String ipAddr, String hosts) {
+        String remoteAddr = request.getRemoteAddr();
+        String remoteHost = request.getRemoteHost();
+        if (StringUtil.asNull(ipAddr)!=null && StringUtil.asNull(hosts)!=null) {
+            if(remoteAddr.matches(ipAddr)) {
+                return true;
+            }else {
+                return lookupHostname(remoteHost).matches(hosts);
+            }
+        }else if(StringUtil.asNull(ipAddr)!=null) {
+            return remoteAddr.matches(ipAddr);
+        }else if(StringUtil.asNull(hosts)!=null) {
+            return lookupHostname(remoteHost).matches(hosts);
+        }else {
+            return true;
+        }
+    }
+    private String lookupHostname(String hostname) {
+        if(hostname.matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b")) {
+            try {
+                InetAddress addr = InetAddress.getByName(hostname);
+                hostname = addr.getCanonicalHostName();
+            } catch (UnknownHostException e) {
+            }
+        }
+        return hostname;
+    }
+
     private String addContextPath(String link) {
         if(link==null) {
             return link;

@@ -93,6 +93,14 @@
             <name>roles</name>
             <required>false</required>
         </attribute>
+        <attribute>
+            <name>hosts</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>ipaddr</name>
+            <required>false</required>
+        </attribute>
     </tag>
     <tag>
         <name>menuitemseparator</name>
@@ -113,6 +121,14 @@
         </attribute>
         <attribute>
             <name>roles</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>hosts</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>ipaddr</name>
             <required>false</required>
         </attribute>
     </tag>
@@ -159,6 +175,14 @@
         </attribute>
         <attribute>
             <name>roles</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>hosts</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>ipaddr</name>
             <required>false</required>
         </attribute>
     </tag>

@@ -8,8 +8,11 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletRequest;
 import java.io.IOException;
 import java.util.StringTokenizer;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -40,6 +43,8 @@ public class MenuItemSeparatorTag extends TagSupport implements MenuItemInterfac
     private String style;
     private String styleSelected;
     private String roles;
+    private String hosts;
+    private String ipaddr;
 
     public void setStyleSelected(String styleSelected) {
         this.styleSelected = styleSelected;
@@ -47,6 +52,14 @@ public class MenuItemSeparatorTag extends TagSupport implements MenuItemInterfac
 
     public void setRoles(String roles) {
         this.roles = roles;
+    }
+
+    public void setHosts(String hosts) {
+        this.hosts = hosts;
+    }
+
+    public void setIpaddr(String ipaddr) {
+        this.ipaddr = ipaddr;
     }
 
     public void setStyle(String style) {
@@ -155,7 +168,7 @@ public class MenuItemSeparatorTag extends TagSupport implements MenuItemInterfac
         }
         String menuObjName = getMenuId();
         String menuObj = (String) pageContext.getAttribute(menuObjName,PageContext.SESSION_SCOPE);
-        if((getParentId().length()==0 || (menuObj!=null && menuObj.startsWith(getParentId()) && (menuObj.equals(getParentId()) || menuObj.charAt(getParentId().length())=='-'))) && (isUserInRole(roles))) {
+        if((getParentId().length()==0 || (menuObj!=null && menuObj.startsWith(getParentId()) && (menuObj.equals(getParentId()) || menuObj.charAt(getParentId().length())=='-'))) && (isUserInRole(roles)) && isHostAllowed(pageContext.getRequest(),ipaddr,hosts)) {
             try {
                 out.write("<tr>");
                 int indent = getIndent();
@@ -195,4 +208,31 @@ public class MenuItemSeparatorTag extends TagSupport implements MenuItemInterfac
         }
         return true;
     }
+    private boolean isHostAllowed(ServletRequest request, String ipAddr, String hosts) {
+         String remoteAddr = request.getRemoteAddr();
+         String remoteHost = request.getRemoteHost();
+         if (StringUtil.asNull(ipAddr)!=null && StringUtil.asNull(hosts)!=null) {
+             if(remoteAddr.matches(ipAddr)) {
+                 return true;
+             }else {
+                 return lookupHostname(remoteHost).matches(hosts);
+             }
+         }else if(StringUtil.asNull(ipAddr)!=null) {
+             return remoteAddr.matches(ipAddr);
+         }else if(StringUtil.asNull(hosts)!=null) {
+             return lookupHostname(remoteHost).matches(hosts);
+         }else {
+             return true;
+         }
+     }
+     private String lookupHostname(String hostname) {
+         if(hostname.matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b")) {
+             try {
+                 InetAddress addr = InetAddress.getByName(hostname);
+                 hostname = addr.getCanonicalHostName();
+             } catch (UnknownHostException e) {
+             }
+         }
+         return hostname;
+     }
 }
