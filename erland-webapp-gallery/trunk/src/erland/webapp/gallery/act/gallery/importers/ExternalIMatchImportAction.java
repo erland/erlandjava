@@ -32,9 +32,10 @@ import erland.webapp.gallery.fb.gallery.importers.ImportFB;
 import erland.webapp.gallery.fb.gallery.importers.ExternalImportFB;
 import erland.webapp.gallery.act.gallery.GalleryHelper;
 import erland.webapp.usermgmt.User;
-import erland.util.Log;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dom4j.io.SAXReader;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -67,18 +68,20 @@ import java.util.*;
  * <br>&lt;/images&gt;
  */
 public class ExternalIMatchImportAction extends BaseAction {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(ExternalIMatchImportAction.class);
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ExternalImportFB fb = (ExternalImportFB) form;
-        Log.println(this,"External import started...");
-        Log.println(this,"clearCategories="+fb.getClearCategories());
-        Log.println(this,"clearPictures="+fb.getClearPictures());
-        Log.println(this,"localLinks="+fb.getLocalLinks());
-        Log.println(this,"filenameAsPictureDescription="+fb.getFilenameAsPictureDescription());
-        Log.println(this,"filenameAsPictureTitle="+fb.getFilenameAsPictureTitle());
-        Log.println(this,"user="+fb.getUser());
-        Log.println(this,"pass="+fb.getPass());
-        Log.println(this,"gallery="+fb.getGallery());
-        Log.println(this,"Parsing xml document...");
+        LOG.debug("External import started...");
+        LOG.debug("clearCategories="+fb.getClearCategories());
+        LOG.debug("clearPictures="+fb.getClearPictures());
+        LOG.debug("localLinks="+fb.getLocalLinks());
+        LOG.debug("filenameAsPictureDescription="+fb.getFilenameAsPictureDescription());
+        LOG.debug("filenameAsPictureTitle="+fb.getFilenameAsPictureTitle());
+        LOG.debug("user="+fb.getUser());
+        LOG.debug("pass="+fb.getPass());
+        LOG.debug("gallery="+fb.getGallery());
+        LOG.debug("Parsing xml document...");
 
         Integer galleryId = null;
         if(!validateUser(fb.getUser(),fb.getPass())) {

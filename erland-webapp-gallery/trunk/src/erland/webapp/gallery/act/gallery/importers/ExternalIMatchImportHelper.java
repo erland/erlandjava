@@ -5,14 +5,14 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.DocumentException;
 import org.dom4j.Node;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.io.Reader;
 import java.util.*;
 import java.text.ParseException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
-import erland.util.Log;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -34,8 +34,9 @@ import erland.util.Log;
  */
 
 public class ExternalIMatchImportHelper extends ImportHelper {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(ExternalIMatchImportHelper.class);
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    private static Object logInstance = new ExternalIMatchImportHelper();
 
     public static boolean importPictures(Integer galleryId, Reader reader, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean clearAssociations) {
         long orderNoStart = getFirstFreeOrderNo(galleryId);
@@ -48,17 +49,17 @@ public class ExternalIMatchImportHelper extends ImportHelper {
 
             if (document != null) {
                 List list = document.selectNodes( "/images/image" );
-                Log.println(logInstance,"Found "+list.size()+" image elements");
+                LOG.debug("Found "+list.size()+" image elements");
                 int i = 1;
                 for (Iterator iter = list.iterator(); iter.hasNext(); ) {
                     Element element = (Element) iter.next();
-                    Log.println(logInstance,"Parsing image "+ i++);
+                    LOG.debug("Parsing image "+ i++);
                     doImport(categories, galleryId, element, localLinks, filenameAsPictureTitle, filenameAsPictureDescription, clearAssociations, orderNoStart++);
                 }
-                Log.println(logInstance,"All image elements imported, removing unused categories and updating visibility flags...");
+                LOG.debug("All image elements imported, removing unused categories and updating visibility flags...");
                 clearUnusedCategories(galleryId);
                 updatePictures(galleryId);
-                Log.println(logInstance,"Visibility flags updated");
+                LOG.debug("Visibility flags updated");
                 return true;
             }
         } catch (DocumentException e) {
@@ -98,11 +99,11 @@ public class ExternalIMatchImportHelper extends ImportHelper {
             if(node!=null) {
                 filename = node.getText();
             }
-            Log.println(logInstance,"filename="+filename,Log.DEBUG);
-            Log.println(logInstance,"date="+date,Log.DEBUG);
-            Log.println(logInstance,"oid="+oid,Log.DEBUG);
-            Log.println(logInstance,"title="+title,Log.DEBUG);
-            Log.println(logInstance,"description="+description,Log.DEBUG);
+            LOG.trace("filename="+filename);
+            LOG.trace("date="+date);
+            LOG.trace("oid="+oid);
+            LOG.trace("title="+title);
+            LOG.trace("description="+description);
             Integer pictureId = createPicture(gallery, filename, date, oid, title, description, localLinks, filenameAsPictureTitle, filenameAsPictureDescription, new Long(orderNoStart));
             if(clearAssociations.booleanValue()) {
                 clearPictureAssociations(gallery,pictureId);
@@ -111,7 +112,7 @@ public class ExternalIMatchImportHelper extends ImportHelper {
             for (Iterator iter = list.iterator(); iter.hasNext(); ) {
                 Element e = (Element) iter.next();
                 String category = e.getText();
-                Log.println(logInstance,"category="+category,Log.DEBUG);
+                LOG.trace("category="+category);
                 Integer categoryId = createCategory(previousCategories, gallery, category);
                 createPictureAssociation(gallery, pictureId, categoryId);
             }

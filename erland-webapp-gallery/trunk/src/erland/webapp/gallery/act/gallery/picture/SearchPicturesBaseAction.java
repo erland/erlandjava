@@ -39,11 +39,12 @@ import erland.webapp.gallery.entity.account.UserAccount;
 import erland.webapp.gallery.fb.gallery.picture.*;
 import erland.webapp.gallery.fb.gallery.GalleryPB;
 import erland.webapp.gallery.fb.skin.SkinFB;
-import erland.util.Log;
 import erland.util.StringUtil;
 import erland.util.ParameterValueStorageInterface;
 import erland.util.ObjectStorageInterface;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
@@ -55,6 +56,8 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 
 public abstract class SearchPicturesBaseAction extends BaseAction {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(SearchPicturesBaseAction.class);
     private final static String GALLERY = SearchPicturesBaseAction.class + "-gallery";
     private final static String GALLERY_ID = SearchPicturesBaseAction.class + "-galleryId";
     private final static String VIRTUAL_GALLERY_ID = SearchPicturesBaseAction.class + "-virtualGalleryId";
@@ -75,7 +78,7 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         setGalleryId(request,galleryId);
         Integer categoryId = fb.getCategory();
         setCategoryId(request,categoryId);
-        Log.println(this,"Search pictures: "+fb.getGallery()+","+fb.getCategory());
+        LOG.debug("Search pictures: "+fb.getGallery()+","+fb.getCategory());
         initRequestParameters(request);
         Collection categories = getCategories(request, form);
         Collection picturesAllowed = getPictures(request, form);

@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import java.io.*;
 import java.util.*;
 
-import erland.util.Log;
 import erland.util.StringUtil;
 import erland.webapp.common.act.BaseTaskPlugin;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;

@@ -29,10 +29,11 @@ import erland.webapp.gallery.entity.gallery.picture.Picture;
 import erland.webapp.gallery.entity.gallery.picturestorage.PictureStorage;
 import erland.webapp.gallery.entity.guestaccount.GuestAccount;
 import erland.webapp.gallery.fb.loader.ImageFB;
-import erland.util.Log;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +41,8 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class LoadImageAction extends BaseAction {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(LoadImageAction.class);
     private final static String GALLERY = LoadImageAction.class+"-gallery";
     private final static String PICTURE = LoadImageAction.class+"-picture";
     private final static String IMAGE_FILE = LoadImageAction.class+"-imageFile";
@@ -80,12 +83,12 @@ public class LoadImageAction extends BaseAction {
                     if(entity!=null) {
                         //OK, authorized guest user logged in
                     }else {
-                        Log.println(this,"User logged in but is not quest");
+                        LOG.debug("User logged in but is not quest");
                         saveErrors(request, Arrays.asList(new String[]{"gallery.loader.invalid-user"}));
                         return;
                     }
                 }else {
-                    Log.println(this,"User logged is not logged in");
+                    LOG.debug("User logged is not logged in");
                     saveErrors(request, Arrays.asList(new String[]{"gallery.loader.invalid-user"}));
                     return;
                 }
