@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN"
+          "http://jakarta.apache.org/commons/dtds/validator_1_0.dtd">
+
+<form-validation>
+    <formset>
+        <form name="accountEntryValueFB">
+            <field property="stock" depends="required">
+                <arg0 key="stock.account.edit.stock"/>
+            </field>
+            <field property="purchaseDateDisplay" depends="required,date">
+                <arg0 key="stock.account.edit.date"/>
+                <var>
+                    <var-name>datePattern</var-name>
+                    <var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+            <field property="valueDisplay" depends="required,double">
+                <arg0 key="stock.account.edit.value"/>
+            </field>
+        </form>
+        <form name="accountEntryNumberFB">
+            <field property="stock" depends="required">
+                <arg0 key="stock.account.edit.stock"/>
+            </field>
+            <field property="purchaseDateDisplay" depends="required,date">
+                <arg0 key="stock.account.edit.date"/>
+                <var>
+                    <var-name>datePattern</var-name>
+                    <var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+            <field property="numberDisplay" depends="required,double">
+                <arg0 key="stock.account.edit.number"/>
+            </field>
+        </form>
+        <form name="accountEntryNumberValueFB">
+            <field property="stock" depends="required">
+                <arg0 key="stock.account.edit.stock"/>
+            </field>
+            <field property="purchaseDateDisplay" depends="required,date">
+                <arg0 key="stock.account.edit.date"/>
+                <var>
+                    <var-name>datePattern</var-name>
+                    <var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+            <field property="numberDisplay" depends="required,double">
+                <arg0 key="stock.account.edit.number"/>
+            </field>
+            <field property="valueDisplay" depends="required,double">
+                <arg0 key="stock.account.edit.value"/>
+            </field>
+        </form>
+        <form name="accountDiagramFB">
+            <field property="startDateDisplay" depends="required,date">
+                <arg0 key="stock.account.diagram.first-date"/>
+                <var>
+                    <var-name>datePattern</var-name>
+                    <var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+            <field property="endDateDisplay" depends="required,date">
+                <arg0 key="stock.account.diagram.last-date"/>
+                <var>
+                    <var-name>datePattern</var-name>
+                    <var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+        </form>
+    </formset>
+</form-validation>

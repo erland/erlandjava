@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE struts-config PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+    "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+    <form-beans>
+        <form-bean name="brokerFB" type="erland.webapp.stocks.fb.stock.SelectFB"/>
+        <form-bean name="brokerStockFB" type="erland.webapp.stocks.fb.stock.SelectFB"/>
+        <form-bean name="accountEntryValueFB" type="erland.webapp.stocks.fb.account.AccountEntryFB"/>
+        <form-bean name="accountEntryNumberFB" type="erland.webapp.stocks.fb.account.AccountEntryFB"/>
+        <form-bean name="accountEntryNumberValueFB" type="erland.webapp.stocks.fb.account.AccountEntryFB"/>
+        <form-bean name="accountSelectEntryFB" type="erland.webapp.stocks.fb.account.AccountEntryFB"/>
+        <form-bean name="diagramStocksFB" type="erland.webapp.stocks.fb.stock.SelectFB"/>
+        <form-bean name="accountDiagramFB" type="erland.webapp.stocks.fb.account.AccountDiagramFB"/>
+        <form-bean name="menuExpandCollapseFB" type="erland.webapp.common.fb.MenuExpandCollapseFB"/>
+    </form-beans>
+
+    <global-forwards>
+        <forward name="index" path="/do/index"/>
+    </global-forwards>
+
+    <action-mappings>
+        <action
+            path="/index"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter=".index">
+        </action>
+        <action
+            path="/logout"
+            type="erland.webapp.common.act.InvalidateSessionAction">
+            <forward name="success" path="/do/index"/>
+        </action>
+        <action
+            path="/expandcollapsemenu"
+            type="erland.webapp.common.act.MenuExpandCollapseAction"
+            name="menuExpandCollapseFB">
+
+            <forward name="success" path=".empty"/>
+        </action>
+        <action
+            path="/viewbrokerstocks"
+            type="erland.webapp.stocks.act.stock.SearchBrokersAndStocksAction"
+            name="brokerStockFB">
+
+            <forward name="success" path=".viewbrokerstocks"/>
+            <forward name="failure" path=".viewbrokerstocks"/>
+        </action>
+        <action
+            path="/stockdiagram"
+            type="erland.webapp.stocks.act.stock.GetStockDiagramAction"
+            name="diagramStocksFB">
+        </action>
+        <action
+            path="/viewaccountdiagram"
+            type="erland.webapp.stocks.act.account.GetAccountValueAction"
+            name="accountDiagramFB"
+            input="/do/viewaccountdiagramwithstocks"
+            validate="true">
+
+            <forward name="success" path="/do/viewaccountdiagramwithstocks"/>
+        </action>
+        <action
+            path="/viewaccountdiagramwithoutdiagram"
+            type="org.apache.struts.actions.ForwardAction"
+            name="accountDiagramFB"
+            parameter="/do/viewaccountdiagramwithstocks"
+            validate="false">
+        </action>
+        <action
+            path="/viewaccountdiagramwithstocks"
+            type="erland.webapp.stocks.act.account.GetAccountStocksAction"
+            name="accountDiagramFB"
+            validate="false">
+
+            <forward name="success" path="/do/viewaccountdiagramwithstocksandbrokers"/>
+        </action>
+        <action
+            path="/viewaccountdiagramwithstocksandbrokers"
+            type="erland.webapp.stocks.act.account.SearchBrokersAction">
+
+            <forward name="success" path=".viewaccountdiagram"/>
+        </action>
+        <action
+            path="/accountdiagram"
+            type="erland.webapp.stocks.act.account.GetAccountDiagramAction"
+            name="accountDiagramFB"
+            validate="false">
+        </action>
+        <action
+            path="/viewaccountpermanententries"
+            type="erland.webapp.stocks.act.account.SearchPermanentAction">
+
+            <forward name="success" path="/do/viewaccountpermanententrieswithbrokers"/>
+        </action>
+        <action
+            path="/viewaccountcontinouslyentries"
+            type="erland.webapp.stocks.act.account.SearchContinouslyAction">
+
+            <forward name="success" path="/do/viewaccountcontinouslyentrieswithbrokers"/>
+        </action>
+        <action
+            path="/viewaccountpurchaseonceentries"
+            type="erland.webapp.stocks.act.account.SearchPurchaseOnceAction">
+
+            <forward name="success" path="/do/viewaccountpurchaseonceentrieswithbrokers"/>
+        </action>
+        <action
+            path="/viewaccountpermanententrieswithbrokers"
+            type="erland.webapp.stocks.act.account.SearchBrokersAction">
+
+            <forward name="success" path=".viewaccountpermanent"/>
+        </action>
+        <action
+            path="/viewaccountcontinouslyentrieswithbrokers"
+            type="erland.webapp.stocks.act.account.SearchBrokersAction">
+
+            <forward name="success" path=".viewaccountcontinously"/>
+        </action>
+        <action
+            path="/viewaccountpurchaseonceentrieswithbrokers"
+            type="erland.webapp.stocks.act.account.SearchBrokersAction">
+
+            <forward name="success" path=".viewaccountpurchaseonce"/>
+        </action>
+        <action
+            path="/newaccountpermanentnumber"
+            type="erland.webapp.stocks.act.stock.SearchBrokerStocksAction"
+            name="brokerFB">
+
+            <forward name="success" path="/do/newaccountpermanentnumbersetup"/>
+        </action>
+        <action
+            path="/newaccountpermanentnumberforvalue"
+            type="erland.webapp.stocks.act.stock.SearchBrokerStocksAction"
+            name="brokerFB">
+
+            <forward name="success" path="/do/newaccountpermanentnumberforvaluesetup"/>
+        </action>
+        <action
+            path="/newaccountcontinouslyforvalue"
+            type="erland.webapp.stocks.act.stock.SearchBrokerStocksAction"
+            name="brokerFB">
+
+            <forward name="success" path="/do/newaccountcontinouslyforvaluesetup"/>
+        </action>
+        <action
+            path="/newaccountpurchaseoncenumber"
+            type="erland.webapp.stocks.act.stock.SearchBrokerStocksAction"
+            name="brokerFB">
+
+            <forward name="success" path="/do/newaccountpurchaseoncenumbersetup"/>
+        </action>
+        <action
+            path="/newaccountpurchaseonceforvalue"
+            type="erland.webapp.stocks.act.stock.SearchBrokerStocksAction"
+            name="brokerFB">
+
+            <forward name="success" path="/do/newaccountpurchaseonceforvaluesetup"/>
+        </action>
+        <action
+            path="/newaccountpurchaseoncenumberforvalue"
+            type="erland.webapp.stocks.act.stock.SearchBrokerStocksAction"
+            name="brokerFB">
+
+            <forward name="success" path="/do/newaccountpurchaseoncenumberforvaluesetup"/>
+        </action>
+        <action
+            path="/newaccountpermanentnumbersetup"
+            type="org.apache.struts.actions.ForwardAction"
+            name="accountEntryNumberFB"
+            parameter=".editaccountpermanentnumber"
+            validate="false">
+        </action>
+        <action
+            path="/newaccountpermanentnumberforvaluesetup"
+            type="org.apache.struts.actions.ForwardAction"
+            name="accountEntryNumberValueFB"
+            parameter=".editaccountpermanentnumberforvalue"
+            validate="false">
+        </action>
+        <action
+            path="/newaccountcontinouslyforvaluesetup"
+            type="org.apache.struts.actions.ForwardAction"
+            name="accountEntryValueFB"
+            parameter=".editaccountcontinouslyforvalue"
+            validate="false">
+        </action>
+        <action
+            path="/newaccountpurchaseoncenumbersetup"
+            type="org.apache.struts.actions.ForwardAction"
+            name="accountEntryNumberFB"
+            parameter=".editaccountpurchaseoncenumber"
+            validate="false">
+        </action>
+        <action
+            path="/newaccountpurchaseonceforvaluesetup"
+            type="org.apache.struts.actions.ForwardAction"
+            name="accountEntryValueFB"
+            parameter=".editaccountpurchaseonceforvalue"
+            validate="false">
+        </action>
+        <action
+            path="/newaccountpurchaseoncenumberforvaluesetup"
+            type="org.apache.struts.actions.ForwardAction"
+            name="accountEntryNumberValueFB"
+            parameter=".editaccountpurchaseoncenumberforvalue"
+            validate="false">
+        </action>
+        <action
+            path="/editaccountpermanentnumber"
+            type="erland.webapp.stocks.act.account.AddPermanentAction"
+            name="accountEntryNumberFB"
+            input=".editaccountpermanentnumber"
+            validate="true" >
+
+            <forward name="success" path="/do/viewaccountpermanententries"/>
+        </action>
+        <action
+            path="/editaccountpermanentnumberforvalue"
+            type="erland.webapp.stocks.act.account.AddPermanentAction"
+            name="accountEntryNumberValueFB"
+            input=".editaccountpermanentnumberforvalue"
+            validate="true" >
+
+            <forward name="success" path="/do/viewaccountpermanententries"/>
+        </action>
+        <action
+            path="/editaccountcontinouslyforvalue"
+            type="erland.webapp.stocks.act.account.AddContinouslyAction"
+            name="accountEntryValueFB"
+            input=".editaccountcontinouslyforvalue"
+            validate="true" >
+
+            <forward name="success" path="/do/viewaccountcontinouslyentries"/>
+        </action>
+        <action
+            path="/editaccountpurchaseoncenumber"
+            type="erland.webapp.stocks.act.account.AddSingleAction"
+            name="accountEntryNumberFB"
+            input=".editaccountpurchaseoncenumber"
+            validate="true" >
+
+            <forward name="success" path="/do/viewaccountpurchaseonceentries"/>
+        </action>
+        <action
+            path="/editaccountpurchaseonceforvalue"
+            type="erland.webapp.stocks.act.account.AddSingleAction"
+            name="accountEntryValueFB"
+            input=".editaccountpurchaseonceforvalue"
+            validate="true" >
+
+            <forward name="success" path="/do/viewaccountpurchaseonceentries"/>
+        </action>
+        <action
+            path="/editaccountpurchaseoncenumberforvalue"
+            type="erland.webapp.stocks.act.account.AddSingleAction"
+            name="accountEntryNumberValueFB"
+            input=".editaccountpurchaseoncenumberforvalue"
+            validate="true" >
+
+            <forward name="success" path="/do/viewaccountpurchaseonceentries"/>
+        </action>
+        <action
+            path="/removeaccountpermanent"
+            type="erland.webapp.stocks.act.account.RemovePermanentAction"
+            name="accountSelectEntryFB">
+
+            <forward name="success" path="/do/viewaccountpermanententries"/>
+        </action>
+        <action
+            path="/removeaccountcontinously"
+            type="erland.webapp.stocks.act.account.RemoveContinouslyAction"
+            name="accountSelectEntryFB">
+
+            <forward name="success" path="/do/viewaccountcontinouslyentries"/>
+        </action>
+        <action
+            path="/removeaccountpurchaseonce"
+            type="erland.webapp.stocks.act.account.RemoveSingleAction"
+            name="accountSelectEntryFB">
+
+            <forward name="success" path="/do/viewaccountpurchaseonceentries"/>
+        </action>
+    </action-mappings>
+
+    <plug-in className="erland.webapp.common.act.WebAppEnvironmentPlugin">
+        <set-property
+            property="applicationName"
+            value="stock"/>
+    </plug-in>
+    <plug-in className="org.apache.struts.tiles.TilesPlugin">
+        <set-property property="definitions-config"
+            value="/WEB-INF/tiles-defs.xml"/>
+    </plug-in>
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property
+            property="pathnames"
+            value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    </plug-in>
+    <plug-in className="erland.webapp.common.act.HtmlEncoderPlugin">
+        <set-property property="replaceRoutines"
+            value="erland.webapp.common.html.HTMLBasicStringReplace,
+                   erland.webapp.common.html.HTMLLinkStringReplace,
+                   erland.webapp.common.html.HTMLBoldLinkStringReplace"/>
+    </plug-in>
+</struts-config>
