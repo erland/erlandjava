@@ -73,11 +73,22 @@ public class SearchIssuesAction extends BaseAction {
         ActionForward viewForward = mapping.findForward("view-issue-link");
         ActionForward updateForward = mapping.findForward("update-issue-link");
 
+        String nativeLanguage = getEnvironment().getConfigurableResources().getParameter("nativelanguage");
+        boolean useEnglish = true;
+        if(nativeLanguage!=null && nativeLanguage.equals(getLocale(request).getLanguage())) {
+            useEnglish = false;
+        }
+
         Map parameters = new HashMap();
         parameters.put("application",fb.getApplication());
         for (int i = 0; i < entities.length; i++) {
             pb[i] = new IssuePB();
             PropertyUtils.copyProperties(pb[i], entities[i]);
+            if(useEnglish) {
+                pb[i].setApplicationTitle(((ListIssue)entities[i]).getApplicationTitleEnglish());
+            }else {
+                pb[i].setApplicationTitle(((ListIssue)entities[i]).getApplicationTitleNative());
+            }
             pb[i].setStateTextKey("issuetracking.state."+((ListIssue)entities[i]).getState());
             parameters.put("issue",pb[i].getId());
             if(viewForward != null) {
