@@ -172,4 +172,13 @@
         <put name="menu" value="/WEB-INF/tiles/skin/menu.jsp"/>
     </definition>
     <definition name=".skin.empty" extends=".mainSkinLayoutEmpty"/>
+
+    <definition name=".ws.getgalleries" path="/WEB-INF/ws/getgalleries.jsp">
+    </definition>
+    <definition name=".ws.getcategories" path="/WEB-INF/ws/getcategories.jsp">
+    </definition>
+    <definition name=".ws.getpicturesforgallery" path="/WEB-INF/ws/getpicturesforgallery.jsp">
+    </definition>
+    <definition name=".ws.getpicturesforcategory" path="/WEB-INF/ws/getpicturesforcategory.jsp">
+    </definition>
 </tiles-definitions>

@@ -7,6 +7,7 @@
     <form-beans>
         <form-bean name="mainMenuFB" type="erland.webapp.common.fb.MenuExpandCollapseFB"/>
         <form-bean name="menuFB" type="erland.webapp.gallery.fb.gallery.SelectGalleryFB"/>
+        <form-bean name="selectGalleryFB" type="erland.webapp.gallery.fb.gallery.SelectGalleryFB"/>
         <form-bean name="selectUserFB" type="erland.webapp.gallery.fb.account.SelectUserFB"/>
         <form-bean name="newUserAccountFB" type="erland.webapp.gallery.fb.account.AccountFB"/>
         <form-bean name="userAccountFB" type="erland.webapp.gallery.fb.account.AccountFB"/>
@@ -1060,6 +1061,50 @@
             <forward name="skin-search" path="/WEB-INF/tiles/skin/default/search.jsp"/>
             <forward name="skin-viewpicture" path="/WEB-INF/tiles/skin/default/viewpicture.jsp"/>
             <forward name="skin-viewpictures" path="/WEB-INF/tiles/skin/default/viewpictures.jsp"/>
+        </action>
+
+        <action
+            path="/ws/getcategories"
+            type="erland.webapp.gallery.act.gallery.category.SearchOfficialAllCategoriesAction"
+            name="selectCategoryFB">
+
+            <forward name="success" path=".ws.getcategories"/>
+        </action>
+
+        <action
+            path="/ws/getgalleries"
+            type="erland.webapp.gallery.act.gallery.SearchOfficialGalleriesAction"
+            name="selectGalleryFB">
+
+            <forward name="success" path=".ws.getgalleries"/>
+        </action>
+
+        <action
+            path="/ws/getpicturesforgallery"
+            type="erland.webapp.gallery.act.gallery.picture.SearchOfficialPicturesAction"
+            name="selectPictureFB">
+
+            <forward name="picture-link" path="http:[hostname,//{hostname}][port,:{port}]{contextpath}/do/guest/loadimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
+            <forward name="picture-image" path="http:[hostname,//{hostname}][port,:{port}]{contextpath}/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
+            <forward name="success" path=".ws.getpicturesforgallery"/>
+        </action>
+
+        <action
+            path="/ws/getpicturesforcategory"
+            type="erland.webapp.gallery.act.gallery.picture.SearchOfficialPicturesAction"
+            name="selectPictureFB">
+
+            <forward name="picture-link" path="http:[hostname,//{hostname}][port,:{port}]{contextpath}/do/guest/loadimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
+            <forward name="picture-image" path="http:[hostname,//{hostname}][port,:{port}]{contextpath}/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
+            <forward name="success" path=".ws.getpicturesforcategory"/>
+        </action>
+
+        <action
+            path="/ws/importpictures"
+            type="erland.webapp.gallery.act.gallery.importers.ExternalIMatchImportAction"
+            name="externalImportFB"
+            validate="false">
+
         </action>
 
         <action
