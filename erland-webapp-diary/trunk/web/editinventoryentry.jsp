@@ -5,7 +5,9 @@
                                 java.text.SimpleDateFormat,
                                 erland.webapp.diary.DescriptionIdHelper,
                                 erland.webapp.diary.DescriptionId,
-                                java.util.Date"%>
+                                java.util.Date,
+                                erland.webapp.diary.gallery.ViewGalleriesInterface,
+                                erland.webapp.diary.gallery.Gallery"%>
 
 <%
     CommandInterface cmd = (CommandInterface) request.getAttribute("cmd");
@@ -43,12 +45,36 @@
             <tr><td>Beskrivning</td><td>
             <textarea name="description" cols="80" rows="15" wrap="virtual"><%=entry!=null?entry.getDescription():""%></textarea>
             </td></tr>
-            <tr><td>Bild</td><td>
+            <tr><td>Liten Bild (300 pixel bred)</td><td>
             <input type="text" name="image" value="<%=entry!=null?entry.getImage():""%>">
+            </td></tr>
+            <tr><td>Stor bild</td><td>
+            <input type="text" name="largeimage" value="<%=entry!=null?entry.getLargeImage():""%>">
             </td></tr>
             <tr><td>Länk</td><td>
             <input type="text" name="link" value="<%=entry!=null?entry.getLink():""%>">
             </td></tr>
+            <%
+            CommandInterface cmdGalleries = (CommandInterface) request.getAttribute("galleriescmd");
+            if(cmdGalleries instanceof ViewGalleriesInterface) {
+                %>
+                <tr><td>Bildarkiv</td><td>
+                <select name="gallery" size="1">
+                <option value="" <%=entry==null||entry.getGallery()==null||entry.getGallery().intValue()==0?"selected":""%>>Inget</option>
+                <%
+                Gallery[] galleries = ((ViewGalleriesInterface)cmdGalleries).getGalleries();
+                for (int i = 0; i < galleries.length; i++) {
+                    Gallery gallery = galleries[i];
+                    %>
+                    <option value="<%=gallery.getId()%>" <%=(entry!=null && gallery.getId().equals(entry.getGallery()))?"selected":""%>><%=gallery.getTitle()%></option>
+                    <%
+                }
+                %>
+                </select>
+                </td></tr>
+                <%
+            }
+            %>
             <%
                 if(entry==null) {
                     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

@@ -41,14 +41,14 @@ public class EditUserAccountCommand implements CommandInterface, ViewUserAccount
             if(defaultDiaryString!=null && defaultDiaryString.length()>0) {
                 defaultDiary=Integer.valueOf(defaultDiaryString);
             }
-            account = (UserAccount)environment.getEntityFactory().create("useraccount");
+            account = (UserAccount)environment.getEntityFactory().create("diaryuseraccount");
             account.setUsername(username);
             account.setWelcomeText(welcomeText);
             account.setDescription(description);
             account.setLogo(logo);
             account.setOfficial(official);
             account.setDefaultDiary(defaultDiary);
-            environment.getEntityStorageFactory().getStorage("useraccount").store(account);
+            environment.getEntityStorageFactory().getStorage("diaryuseraccount").store(account);
         }
         return null;
     }

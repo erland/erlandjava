@@ -9,7 +9,9 @@ public class InventoryEntry extends BaseEntity {
     private String name;
     private String description;
     private String image;
+    private String largeImage;
     private String link;
+    private Integer gallery;
 
     public Integer getId() {
         return id;
@@ -64,5 +66,21 @@ public class InventoryEntry extends BaseEntity {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public Integer getGallery() {
+        return gallery;
+    }
+
+    public void setGallery(Integer gallery) {
+        this.gallery = gallery;
+    }
+
+    public String getLargeImage() {
+        return largeImage;
+    }
+
+    public void setLargeImage(String largeImage) {
+        this.largeImage = largeImage;
     }
 }

@@ -25,19 +25,25 @@ public class EditInventoryEntryCommand implements CommandInterface, ViewInventor
             String name = request.getParameter("name");
             String description = request.getParameter("description");
             String image = request.getParameter("image");
+            String largeImage = request.getParameter("largeimage");
             String link = request.getParameter("link");
             String type = request.getParameter("type");
             String size = request.getParameter("size");
+            String gallery = request.getParameter("gallery");
             User user = (User) request.getSession().getAttribute("user");
             String username = user.getUsername();
             entry = (InventoryEntry)environment.getEntityFactory().create("inventoryentry");
             if(id!=null && id.length()>0) {
                 entry.setId(Integer.valueOf(id));
             }
+            if(gallery!=null && gallery.length()>0) {
+                entry.setGallery(Integer.valueOf(gallery));
+            }
             entry.setType(Integer.valueOf(type));
             entry.setName(name);
             entry.setDescription(description);
             entry.setImage(image);
+            entry.setLargeImage(largeImage);
             entry.setLink(link);
             entry.setUsername(username);
             environment.getEntityStorageFactory().getStorage("inventoryentry").store(entry);

@@ -17,11 +17,11 @@ public class ViewGalleryCommand implements CommandInterface, ViewGalleryInterfac
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("id");
         if(id!=null && id.length()>0) {
-            Gallery template = (Gallery) environment.getEntityFactory().create("gallery");
+            Gallery template = (Gallery) environment.getEntityFactory().create("diarygallery");
             User user = (User) request.getSession().getAttribute("user");
             String username = user.getUsername();
             template.setId(Integer.valueOf(id));
-            gallery = (Gallery) environment.getEntityStorageFactory().getStorage("gallery").load(template);
+            gallery = (Gallery) environment.getEntityStorageFactory().getStorage("diarygallery").load(template);
             if(gallery!=null && !gallery.getUsername().equals(username)) {
                 gallery=null;
             }

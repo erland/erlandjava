@@ -17,13 +17,13 @@ public class DiaryServlet extends UserMgmtServlet {
                 "<logitem1>erland.webapp.usermgmt.UserMgmtServlet</logitem1>"+
                 "<logitem2>erland.webapp.usermgmt.LoginCommand</logitem2>"+
                 "<logitem3>erland.webapp.usermgmt.User</logitem3>"+
-                "<logitem4>erland.webapp.diary.DiaryEntryStorage</logitem4>"+
+                "<logitem4>erland.webapp.diary.DiaryEntryStorageDisabled</logitem4>"+
                 "<logitem5>erland.webapp.diary.DiaryServlet</logitem5>"+
                 "<logitem6>erland.webapp.usermgmt.UserMgmtServlet</logitem6>"+
-                "<logitem7>erland.webapp.common.GenericEntityStorage</logitem7>"+
-                "<logitem8>erland.webapp.diary.HTMLBasicStringReplace</logitem8>"+
-                "<logitem9>erland.webapp.diary.HTMLLinkStringReplace</logitem9>"+
-                "<logitem10>erland.webapp.diary.inventory.EditInventoryEntryEventCommand</logitem10>"+
+                "<logitem7>erland.webapp.common.GenericEntityStorageDisabled</logitem7>"+
+                "<logitem8>erland.webapp.diary.HTMLBasicStringReplaceDisabled</logitem8>"+
+                "<logitem9>erland.webapp.diary.HTMLLinkStringReplaceDisabled</logitem9>"+
+                "<logitem10>erland.webapp.diary.inventory.EditInventoryEntryEventCommandDisabled</logitem10>"+
                 "</log>"),null,"log"));
         System.out.println(getEnvironment().getResources().getParameter("pages.default"));
         HTMLEncoder.addReplaceRoutine(new HTMLBasicStringReplace());

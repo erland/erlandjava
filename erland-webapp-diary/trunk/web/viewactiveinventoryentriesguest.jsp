@@ -31,7 +31,7 @@
                     InventoryEntryEvent[] events = ((ViewInventoryEntriesInterface)cmd).getEvents(entry);
                     if(events.length>0) {
                         %>
-                        <td><%=events[events.length-1].getSize()%> cm</td>
+                        <td><%=events[0].getSize()%> cm</td>
                         <td><%=DescriptionIdHelper.getInstance().getDescription("inventoryentryeventtype",events[events.length-1].getDescription())%></td>
                         <td><%=dateFormat.format(events[events.length-1].getDate())%></td>
                         <%

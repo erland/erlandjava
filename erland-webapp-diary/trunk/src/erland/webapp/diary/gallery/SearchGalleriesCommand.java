@@ -24,7 +24,7 @@ public class SearchGalleriesCommand implements CommandInterface, ViewGalleriesIn
         }
         QueryFilter filter = new QueryFilter(getQueryFilter());
         filter.setAttribute("username",username);
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diarygallery").search(filter);
         galleries = new Gallery[entities.length];
         for (int i = 0; i < entities.length; i++) {
             galleries[i]= (Gallery) entities[i];

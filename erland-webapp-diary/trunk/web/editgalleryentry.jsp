@@ -28,7 +28,7 @@
             <tr><td>Beskrivning</td><td>
             <textarea name="description" cols="80" rows="15" wrap="virtual"><%=entry!=null?entry.getDescription():""%></textarea>
             </td></tr>
-            <tr><td>Liten bild</td><td>
+            <tr><td>Liten bild (150 pixel bred)</td><td>
             <input type="text" name="image" value="<%=entry!=null?entry.getImage():""%>">
             </td></tr>
             <tr><td>Stor bild</td><td>

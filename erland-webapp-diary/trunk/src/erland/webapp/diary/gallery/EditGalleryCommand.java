@@ -19,7 +19,8 @@ public class EditGalleryCommand implements CommandInterface, ViewGalleryInterfac
         String title = request.getParameter("title");
         String description = request.getParameter("description");
         String officialString = request.getParameter("official");
-        gallery = (Gallery) environment.getEntityFactory().create("gallery");
+        String galleryString = request.getParameter("gallery");
+        gallery = (Gallery) environment.getEntityFactory().create("diarygallery");
         User user = (User) request.getSession().getAttribute("user");
         String username = user.getUsername();
         Boolean official = Boolean.FALSE;
@@ -29,11 +30,14 @@ public class EditGalleryCommand implements CommandInterface, ViewGalleryInterfac
         if(id!=null && id.length()>0) {
             gallery.setId(Integer.valueOf(id));
         }
+        if(galleryString!=null && galleryString.length()>0) {
+            gallery.setGallery(Integer.valueOf(galleryString));
+        }
         gallery.setUsername(username);
         gallery.setTitle(title);
         gallery.setDescription(description);
         gallery.setOfficial(official);
-        environment.getEntityStorageFactory().getStorage("gallery").store(gallery);
+        environment.getEntityStorageFactory().getStorage("diarygallery").store(gallery);
         return null;
     }
 

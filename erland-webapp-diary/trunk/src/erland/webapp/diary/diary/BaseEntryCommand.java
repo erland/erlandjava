@@ -27,9 +27,9 @@ public abstract class BaseEntryCommand implements CommandInterface {
 
         Integer result = null;
         if(diary==null || diary.length()==0) {
-            UserAccount template = (UserAccount) environment.getEntityFactory().create("useraccount");
+            UserAccount template = (UserAccount) environment.getEntityFactory().create("diaryuseraccount");
             template.setUsername(username);
-            UserAccount account = (UserAccount) environment.getEntityStorageFactory().getStorage("useraccount").load(template);
+            UserAccount account = (UserAccount) environment.getEntityStorageFactory().getStorage("diaryuseraccount").load(template);
             if(account!=null) {
                 result = account.getDefaultDiary();
             }

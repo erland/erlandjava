@@ -7,6 +7,7 @@ public class Gallery extends BaseEntity {
     private String username;
     private String title;
     private String description;
+    private Integer gallery;
     private Boolean official;
 
     public Integer getId() {
@@ -47,5 +48,13 @@ public class Gallery extends BaseEntity {
 
     public void setOfficial(Boolean official) {
         this.official = official;
+    }
+
+    public Integer getGallery() {
+        return gallery;
+    }
+
+    public void setGallery(Integer gallery) {
+        this.gallery = gallery;
     }
 }

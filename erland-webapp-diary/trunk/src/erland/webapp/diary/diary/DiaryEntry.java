@@ -4,7 +4,7 @@ import erland.webapp.common.BaseEntity;
 
 import java.util.Date;
 
-public class DiaryEntry extends BaseEntity {
+public class DiaryEntry extends BaseEntity implements DiaryEntryInterface {
     private Integer diary;
     private Date date;
     private String title;

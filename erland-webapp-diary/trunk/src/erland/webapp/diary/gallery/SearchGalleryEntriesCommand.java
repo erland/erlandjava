@@ -21,15 +21,21 @@ public class SearchGalleryEntriesCommand implements CommandInterface, ViewGaller
         String galleryString = request.getParameter("gallery");
         if(galleryString!=null && galleryString.length()>0) {
             galleryId = Integer.valueOf(galleryString);
-            QueryFilter filter = new QueryFilter("allforgallery");
-            filter.setAttribute("gallery",galleryId);
-            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("galleryentry").search(filter);
-            entries = new GalleryEntry[entities.length];
-            for (int i = 0; i < entities.length; i++) {
-                entries[i] = (GalleryEntry) entities[i];
+            Gallery gallery = getGallery();
+            if(gallery.getGallery()!=null && gallery.getGallery().intValue()!=0) {
+                request.setAttribute("externalgallery",gallery.getGallery());
+                return "external";
+            }else {
+                QueryFilter filter = new QueryFilter("allforgallery");
+                filter.setAttribute("gallery",galleryId);
+                EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("diarygalleryentry").search(filter);
+                entries = new GalleryEntry[entities.length];
+                for (int i = 0; i < entities.length; i++) {
+                    entries[i] = (GalleryEntry) entities[i];
+                }
             }
         }
-        return null;
+        return "internal";
     }
 
     public GalleryEntry[] getEntries() {
@@ -38,9 +44,9 @@ public class SearchGalleryEntriesCommand implements CommandInterface, ViewGaller
 
     public Gallery getGallery() {
         if(galleryId!=null && gallery==null) {
-            Gallery template = (Gallery) environment.getEntityFactory().create("gallery");
+            Gallery template = (Gallery) environment.getEntityFactory().create("diarygallery");
             template.setId(galleryId);
-            gallery = (Gallery) environment.getEntityStorageFactory().getStorage("gallery").load(template);
+            gallery = (Gallery) environment.getEntityStorageFactory().getStorage("diarygallery").load(template);
         }
         return gallery;
     }

@@ -31,9 +31,9 @@ public class ViewUserAccountCommand implements CommandInterface, ViewUserAccount
                 }
             }
         }
-        UserAccount template = (UserAccount)environment.getEntityFactory().create("useraccount");
+        UserAccount template = (UserAccount)environment.getEntityFactory().create("diaryuseraccount");
         template.setUsername(username);
-        account = (UserAccount) environment.getEntityStorageFactory().getStorage("useraccount").load(template);
+        account = (UserAccount) environment.getEntityStorageFactory().getStorage("diaryuseraccount").load(template);
         return null;
     }
 
