@@ -59,14 +59,15 @@ public class QuickSetupAction extends BaseAction {
             // Make sure hidden categories are set to hidden
             categoryFilter = new QueryFilter("allforgalleryandcategorylist");
             categoryFilter.setAttribute("gallery", gallery.getId());
-            categoryFilter.setAttribute("categories", Arrays.asList(fb.getHiddenCategories()));
-            category = (Category) getEnvironment().getEntityFactory().create("gallery-category");
-            category.setOfficialAlways(Boolean.FALSE);
-            category.setOfficialNever(Boolean.FALSE);
-            category.setOfficialVisible(Boolean.FALSE);
-            category.setOfficial(Boolean.FALSE);
-            getEnvironment().getEntityStorageFactory().getStorage("gallery-category").update(categoryFilter,category);
-
+            if(fb.getHiddenCategories()!=null && fb.getHiddenCategories().length>0) {
+                categoryFilter.setAttribute("categories", Arrays.asList(fb.getHiddenCategories()));
+                category = (Category) getEnvironment().getEntityFactory().create("gallery-category");
+                category.setOfficialAlways(Boolean.FALSE);
+                category.setOfficialNever(Boolean.FALSE);
+                category.setOfficialVisible(Boolean.FALSE);
+                category.setOfficial(Boolean.FALSE);
+                getEnvironment().getEntityStorageFactory().getStorage("gallery-category").update(categoryFilter,category);
+            }
             // Reset publish categories and setup top category
             gallery.setTopCategory(fb.getTopCategory());
             gallery.setOfficialCategory(null);
