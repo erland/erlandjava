@@ -25,9 +25,13 @@ import erland.webapp.common.html.HTMLLinkStringReplace;
 import erland.util.Log;
 import erland.util.ParameterStorageString;
 import erland.util.StringStorage;
+import erland.webapp.common.DescriptionTagHelper;
 
 
 public class GalleryServlet extends UserMgmtServlet {
+    protected String getApplicationName() {
+        return "gallery";
+    }
     public void initEnd() {
         Log.setLogConfig(new ParameterStorageString(new StringStorage(
                 "<log>"+
