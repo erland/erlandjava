@@ -15,27 +15,16 @@
         </erland-common:beanlink>
         </td>
         </tr>
-        </logic:present>
     </logic:notEmpty>
 </table>
 
 <table width="600" class="no-border">
     <tr>
-    <td align="left"><erland-common:beanlink style="bold-link" name="picturesPB" property="prevLink">&lt; <bean:message key="gallery.gallery.picture.previous"/></erland-common:beanlink></td>
-    <td></td>
-    <td align="right"><erland-common:beanlink style="bold-link" name="picturesPB" property="nextLink"><bean:message key="gallery.gallery.picture.next"/> &gt;</erland-common:beanlink></td>
+    <td width="50%" align="left"><erland-common:beanlink style="bold-link" name="picturesPB" property="prevLink">&lt; <bean:message key="gallery.gallery.picture.previous"/></erland-common:beanlink></td>
+    <td width="50%" align="right"><erland-common:beanlink style="bold-link" name="picturesPB" property="nextLink"><bean:message key="gallery.gallery.picture.next"/> &gt;</erland-common:beanlink></td>
     </tr>
-
-
-    <logic:iterate name="picturesPB" property="pictures" id="picture" indexId="picNo" >
-        <bean:define id="modPicNo" value="<%=String.valueOf(picNo.intValue()%3)%>" type="String"/>
-        <logic:equal name="modPicNo" value="0">
-            <logic:notEqual name="picNo" value="0">
-                </tr>
-            </logic:notEqual>
-            <tr>
-        </logic:equal>
-        <td align="center">
+    <tr><td width="100%" colspan="2">
+    <erland-common:tablegrid name="picturesPB" property="pictures" id="picture" valign="bottom" align="center" cols="3" tableStyle="no-border" width="100%">
         <erland-common:beanlink style="bold-link" name="picture" property="updateLink"><bean:message key="gallery.gallery.picture.modify"/></erland-common:beanlink>
         <erland-common:beanlink style="bold-link" name="picture" property="removeLink" onClickMessageKey="gallery.gallery.picture.remove.are-you-sure"><bean:message key="gallery.gallery.picture.remove"/><br></erland-common:beanlink>
         <logic:notEmpty name="picture" property="resolutionLink">
@@ -50,7 +39,6 @@
         <erland-common:beanlink style="bold-link" name="picture" property="link" target="_blank" propertyTitle="description">
             <erland-common:beanimage name="picture" property="image" border="0"/><br><div align="center"><bean:write name="picture" property="title"/></div>
         </erland-common:beanlink>
-        </td>
-    </logic:iterate>
-    </tr>
+    </erland-common:tablegrid>
+    </td></tr>
 </table>
