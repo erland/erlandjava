@@ -58,6 +58,14 @@ public class XMLNode {
         //Log.println(this,"new XMLNode name="+name+" value="+value+" "+getClass().getName()+"@"+Integer.toHexString(hashCode()));
 	}
 
+    /**
+     * Set the name of this node
+     * @param name The name of the node
+     */
+    public void setName(String name)
+    {
+        this.name = name;
+    }
 	/**
 	 * Get the name of this node
 	 * @return The name of the node
@@ -177,6 +185,16 @@ public class XMLNode {
 		childs.remove(node);
 	}
 
+    /**
+     * Delete all child nodes.
+     * If the child nodes has child nodes themself these will also be deleted.
+     * @see #delChild(String)
+     * @see #delChild(XMLNode)
+     */
+    public void delChilds() {
+        childs.clear();
+    }
+
 	/**
 	 * Delete the first child node matching the name
 	 * If the child node has child nodes itself these will also be deleted.
@@ -187,7 +205,7 @@ public class XMLNode {
 		Iterator it = childs.iterator();
 		while(it.hasNext()) {
 			XMLNode node = (XMLNode)(it.next());
-			if(node.getName().equalsIgnoreCase(name)) {
+			if(node.getName()!=null && node.getName().equalsIgnoreCase(name)) {
 				it.remove();
 				return;
 			}
@@ -265,44 +283,54 @@ public class XMLNode {
         }
         if(value!=null&&value.length()>0) {
             //Log.println(this,"XMLNode.toString() "+this.getName()+" "+getClass().getName()+"@"+Integer.toHexString(hashCode())+" value");
-            sb.append("<");
-            sb.append(getName());
-            attributesToString(sb,attributes);
-            sb.append(">");
-            sb.append(value);
-            sb.append("</");
-            sb.append(getName());
-            sb.append(">");
-            if(lineFeeds) {
-                sb.append("\n");
-            }
-        }else {
-            //Log.println(this,"XMLNode.toString() "+this.getName()+" "+getClass().getName()+"@"+Integer.toHexString(hashCode())+" childs");
-            sb.append("<");
-            sb.append(getName());
-            attributesToString(sb,attributes);
-            Iterator it = getChilds();
-            if(it.hasNext()) {
+            if(getName()!=null) {
+                sb.append("<");
+                sb.append(getName());
+                attributesToString(sb,attributes);
                 sb.append(">");
-                if(lineFeeds) {
-                    sb.append("\n");
-                }
-                while(it.hasNext()) {
-                    ((XMLNode)it.next()).toString(sb,lineFeeds,level + 2,false);
-                }
-                for(int i=0;lineFeeds&&i<level;i++) {
-                    sb.append("  ");
-                }
+                sb.append(value);
                 sb.append("</");
                 sb.append(getName());
                 sb.append(">");
                 if(lineFeeds) {
                     sb.append("\n");
                 }
+            }
+        }else {
+            //Log.println(this,"XMLNode.toString() "+this.getName()+" "+getClass().getName()+"@"+Integer.toHexString(hashCode())+" childs");
+            if(getName()!=null) {
+                sb.append("<");
+                sb.append(getName());
+                attributesToString(sb,attributes);
+            }
+            Iterator it = getChilds();
+            if(it.hasNext()) {
+                if(getName()!=null) {
+                    sb.append(">");
+                    if(lineFeeds) {
+                        sb.append("\n");
+                    }
+                }
+                while(it.hasNext()) {
+                    ((XMLNode)it.next()).toString(sb,lineFeeds,level + 2,false);
+                }
+                if(getName()!=null) {
+                    for(int i=0;lineFeeds&&i<level;i++) {
+                        sb.append("  ");
+                    }
+                    sb.append("</");
+                    sb.append(getName());
+                    sb.append(">");
+                    if(lineFeeds) {
+                        sb.append("\n");
+                    }
+                }
             }else {
-                sb.append("/>");
-                if(lineFeeds) {
-                    sb.append("\n");
+                if(getName()!=null) {
+                    sb.append("/>");
+                    if(lineFeeds) {
+                        sb.append("\n");
+                    }
                 }
             }
         }
