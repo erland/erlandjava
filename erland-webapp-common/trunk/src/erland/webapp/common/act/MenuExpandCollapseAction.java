@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import erland.webapp.common.fb.MenuExpandCollapseFB;
+import erland.webapp.common.ServletParameterHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,46 +33,69 @@ import java.util.Arrays;
 public class MenuExpandCollapseAction extends BaseAction {
     protected void preProcess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         MenuExpandCollapseFB fb = (MenuExpandCollapseFB) form;
-        if(fb.getMenuName()==null) {
+        if(getConfigurableParameter("menuName",fb.getMenuName(),mapping.getParameter(),request)==null) {
             saveErrors(request,Arrays.asList(new String[] {"errors.invalid-parameter","menuName"}));
         }
-        if(fb.getMenuItemId()==null) {
-            saveErrors(request,Arrays.asList(new String[] {"errors.invalid-parameter","menuId"}));
+        if(getConfigurableParameter("menuItemId",fb.getMenuItemId(),mapping.getParameter(),request)==null) {
+            saveErrors(request,Arrays.asList(new String[] {"errors.invalid-parameter","menuItemId"}));
         }
+    }
+
+    protected String getConfigurableParameter(String name, String value, String parameterString, HttpServletRequest request) {
+        if(parameterString!=null) {
+            String parameterName =ServletParameterHelper.getParameter(parameterString,name+"Parameter");
+            if(parameterName!=null&&parameterName.length()>0) {
+                value = request.getParameter(parameterName);
+            }
+            if(value==null) {
+                value = ServletParameterHelper.getParameter(parameterString,name+"Prefix");
+            }else {
+                String prefix = ServletParameterHelper.getParameter(parameterString,name+"Prefix");
+                value = (prefix!=null?prefix:"")+value;
+            }
+            if(value==null) {
+                value = ServletParameterHelper.getParameter(parameterString,name);
+            }
+        }
+        return value;
     }
 
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MenuExpandCollapseFB fb = (MenuExpandCollapseFB) form;
-        String menuObj = (String) request.getSession().getAttribute(fb.getMenuName());
-        if(menuObj!=null && menuObj.startsWith(fb.getMenuItemId())) {
-            String id = fb.getMenuItemId();
+        String menuName = getConfigurableParameter("menuName",fb.getMenuName(),mapping.getParameter(),request);
+        String menuItemId = getConfigurableParameter("menuItemId",fb.getMenuItemId(),mapping.getParameter(),request);
+        String menuObj = (String) request.getSession().getAttribute(menuName);
+        if(menuObj!=null && menuObj.startsWith(menuItemId)) {
+            String id = menuItemId;
             int pos = id.lastIndexOf("-");
             if(pos>0) {
                 id = id.substring(0,pos);
             }else {
                 id = "";
             }
-            request.getSession().setAttribute(fb.getMenuName(),id);
+            request.getSession().setAttribute(menuName,id);
         }else {
-            request.getSession().setAttribute(fb.getMenuName(),fb.getMenuItemId());
+            request.getSession().setAttribute(menuName,menuItemId);
         }
     }
 
     protected ActionForward findSuccess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         MenuExpandCollapseFB fb = (MenuExpandCollapseFB) form;
-        String id=fb.getMenuItemId();
-        ActionForward forward = mapping.findForward(fb.getMenuName()+"-"+id);
+        String menuName = getConfigurableParameter("menuName",fb.getMenuName(),mapping.getParameter(),request);
+        String menuItemId = getConfigurableParameter("menuItemId",fb.getMenuItemId(),mapping.getParameter(),request);
+        String id=menuItemId;
+        ActionForward forward = mapping.findForward(menuName+"-"+id);
         while(forward==null && id.length()>0) {
             int pos = id.lastIndexOf("-");
             if(pos>0) {
                 id = id.substring(0,pos);
-                forward = mapping.findForward(fb.getMenuName()+"-"+id);
+                forward = mapping.findForward(menuName+"-"+id);
             }else {
                 id="";
             }
         }
         if(forward==null) {
-            forward = mapping.findForward(fb.getMenuName());
+            forward = mapping.findForward(menuName);
         }
         if(forward==null) {
             forward = mapping.findForward(FORWARD_SUCCESS);
