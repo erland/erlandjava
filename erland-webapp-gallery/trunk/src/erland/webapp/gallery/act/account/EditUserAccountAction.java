@@ -19,11 +19,22 @@ package erland.webapp.gallery.act.account;
  *
  */
 
+import erland.webapp.common.act.BaseAction;
 import erland.webapp.gallery.entity.account.UserAccount;
-import erland.webapp.usermgmt.User;
+import erland.webapp.gallery.fb.account.AccountFB;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionMapping;
 
-public interface ViewUserAccountsInterface {
-    UserAccount[] getAccounts();
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-    User getUser(UserAccount account);
+public class EditUserAccountAction extends BaseAction {
+
+    protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AccountFB fb = (AccountFB) form;
+        UserAccount account = (UserAccount) getEnvironment().getEntityFactory().create("gallery-useraccount");
+        PropertyUtils.copyProperties(account, fb);
+        getEnvironment().getEntityStorageFactory().getStorage("gallery-useraccount").store(account);
+    }
 }

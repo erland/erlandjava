@@ -1,6 +1,4 @@
-package erland.webapp.gallery.act.gallery.picture;
-
-import erland.webapp.gallery.entity.gallery.picture.Picture;
+package erland.webapp.gallery.act.gallery.category;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -21,6 +19,12 @@ import erland.webapp.gallery.entity.gallery.picture.Picture;
  *
  */
 
-public interface ViewPictureInterface {
-    Picture getPicture();
+public class SearchAllCategoriesAction extends SearchCategoriesAction {
+    protected String getNoParentFilter() {
+        return "allforgalleryorderedbyname";
+    }
+
+    protected String getParentFilter() {
+        return "allforgalleryorderedbyname";
+    }
 }

@@ -1,6 +1,4 @@
-package erland.webapp.gallery.act.gallery.picture;
-
-import erland.webapp.gallery.entity.gallery.picture.Picture;
+package erland.webapp.gallery.act.account;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -21,6 +19,20 @@ import erland.webapp.gallery.entity.gallery.picture.Picture;
  *
  */
 
-public interface ViewPictureInterface {
-    Picture getPicture();
+import erland.webapp.common.act.BaseAction;
+import erland.webapp.gallery.entity.account.UserAccount;
+import erland.webapp.gallery.fb.account.AccountFB;
+import erland.webapp.gallery.fb.account.SelectUserFB;
+import erland.webapp.gallery.fb.gallery.SelectGalleryFB;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+
+public class ViewOfficialDefaultGalleryAction extends ViewDefaultGalleryAction {
+    protected String getUsername(HttpServletRequest request, SelectUserFB fb) {
+        return fb.getUser();
+    }
 }

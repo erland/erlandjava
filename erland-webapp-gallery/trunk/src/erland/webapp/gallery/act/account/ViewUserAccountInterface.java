@@ -1,4 +1,5 @@
-package erland.webapp.gallery.account;
+package erland.webapp.gallery.act.account;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -18,11 +19,14 @@ package erland.webapp.gallery.account;
  *
  */
 
+import erland.webapp.gallery.entity.account.UserAccount;
+import erland.webapp.gallery.entity.gallery.GalleryInterface;
 import erland.webapp.usermgmt.User;
-import erland.webapp.gallery.gallery.GalleryInterface;
 
 public interface ViewUserAccountInterface {
     UserAccount getAccount();
+
     User getUser();
+
     GalleryInterface[] getGalleries();
 }

@@ -1,4 +1,5 @@
-package erland.webapp.gallery.gallery.picture;
+package erland.webapp.gallery.act.gallery.picture;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -20,5 +21,6 @@ package erland.webapp.gallery.gallery.picture;
 
 public interface ViewPicturePageInterface {
     public Integer getPreviousPage();
+
     public Integer getNextPage();
 }
