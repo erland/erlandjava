@@ -31,6 +31,7 @@ import erland.webapp.diary.fb.inventory.DescriptionIdPB;
 import erland.webapp.diary.fb.inventory.InventoryEntryAndEventFB;
 import erland.webapp.diary.fb.gallery.GalleryPB;
 import erland.webapp.diary.fb.container.ContainerPB;
+import erland.webapp.diary.fb.species.SpeciesPB;
 import erland.webapp.diary.entity.inventory.DescriptionId;
 import erland.webapp.diary.entity.gallery.Gallery;
 import erland.webapp.diary.logic.inventory.DescriptionIdHelper;
@@ -48,7 +49,6 @@ import java.util.Date;
 public class NewInventoryEntryAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InventoryEntryAndEventFB fb = (InventoryEntryAndEventFB) form;
-        fb.setEvents(null);
         fb.setDescription(null);
         fb.setGallery(null);
         fb.setId(null);
@@ -104,5 +104,16 @@ public class NewInventoryEntryAction extends BaseAction {
             PropertyUtils.copyProperties(pbContainers[i],entities[i]);
         }
         request.getSession().setAttribute("containersPB",pbContainers);
+
+        filter = new QueryFilter("allforuser");
+        filter.setAttribute("username", request.getRemoteUser());
+        entities = getEnvironment().getEntityStorageFactory().getStorage("diary-species").search(filter);
+        SpeciesPB[] pbSpecies= new SpeciesPB[entities.length];
+        for (int i = 0; i < entities.length; i++) {
+            pbSpecies[i] = new SpeciesPB();
+            PropertyUtils.copyProperties(pbSpecies[i],entities[i]);
+        }
+        request.getSession().setAttribute("speciesPB",pbSpecies);
+
     }
 }
