@@ -25,7 +25,9 @@ import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.common.image.JPEGMetadataHandler;
 import erland.webapp.common.image.MetadataHandlerInterface;
+import erland.webapp.common.image.FileMetadataHandler;
 import erland.webapp.gallery.act.gallery.GalleryHelper;
+import erland.webapp.gallery.act.gallery.picture.SearchPicturesBaseAction;
 import erland.webapp.gallery.act.skin.SkinHelper;
 import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.entity.gallery.picture.Picture;
@@ -39,6 +41,7 @@ import erland.webapp.gallery.fb.gallery.picture.ResolutionPB;
 import erland.webapp.gallery.fb.gallery.picture.PicturePB;
 import erland.webapp.gallery.fb.skin.SkinFB;
 import erland.util.StringUtil;
+import erland.util.ObjectStorageInterface;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
@@ -49,6 +52,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.reflect.InvocationTargetException;
 
 public class LoadMetadataAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -80,7 +84,8 @@ public class LoadMetadataAction extends BaseAction {
                 break;
             }
         }
-        MetadataHandlerInterface handler = new JPEGMetadataHandler(!fb.getShowAll().booleanValue());
+        boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
+        MetadataHandlerInterface handler = new JPEGMetadataHandler(!fb.getShowAll().booleanValue(),request.getLocale().getLanguage());
         handler.load(imageFile);
         String[] names = handler.getNames();
         MetadataPB[] metadata = new MetadataPB[names.length];
@@ -116,6 +121,12 @@ public class LoadMetadataAction extends BaseAction {
         Map pictureParameters = new HashMap();
         PicturePB picturePB = new PicturePB();
         PropertyUtils.copyProperties(picturePB, picture);
+        if(useEnglish && StringUtil.asNull(picture.getTitleEnglish())!=null) {
+            picturePB.setTitle(picture.getTitleEnglish());
+        }
+        if(useEnglish && StringUtil.asNull(picture.getDescriptionEnglish())!=null) {
+            picturePB.setDescription(picture.getDescriptionEnglish());
+        }
         pictureParameters.put("gallery",fb.getGallery());
         pictureParameters.put("picture",picture.getId());
         if(fb.getWidth()!=null) {
@@ -129,11 +140,14 @@ public class LoadMetadataAction extends BaseAction {
             picturePB.setImage(imageFile);
         }
         picturePB.setGallery(fb.getGallery());
-        if(gallery.getShowPictureTitle()!=null && !gallery.getShowPictureTitle().booleanValue()) {
-            picturePB.setTitle(null);
-        }
         if(picturePB.getTitle()!=null && gallery.getUseShortPictureNames()!=null && gallery.getUseShortPictureNames().booleanValue()) {
             picturePB.setTitle(picture.getShortTitle());
+        }
+        if(StringUtil.asNull(gallery.getPictureTitle())!=null) {
+            picturePB.setTitle(getPictureInfo(gallery.getPictureTitle(),picture,picturePB,new JPEGMetadataHandler(false),new FileMetadataHandler(false)));
+        }
+        if(gallery.getShowPictureTitle()!=null && !gallery.getShowPictureTitle().booleanValue()) {
+            picturePB.setTitle(null);
         }
         if(picturePB.getTitle()!=null && gallery.getCutLongPictureTitles()!=null && gallery.getCutLongPictureTitles().booleanValue()) {
             if (picturePB.getTitle() != null && picturePB.getTitle().length() > 30) {
@@ -142,11 +156,6 @@ public class LoadMetadataAction extends BaseAction {
         }
         request.setAttribute("picturePB",picturePB);
 
-        if(gallery!=null&&gallery.getStylesheet()!=null&&gallery.getStylesheet().length()>0) {
-            request.setAttribute("stylesheetPB",gallery.getStylesheet());
-        }else {
-            request.removeAttribute("stylesheetPB");
-        }
         String skin = gallery.getSkin();
         if(StringUtil.asNull(fb.getSkin())!=null) {
             skin = fb.getSkin();
@@ -164,9 +173,22 @@ public class LoadMetadataAction extends BaseAction {
                 request.getSession().setAttribute("skinPB",pbSkin);
             }
         }
+        SkinFB pbSkin = (SkinFB) request.getSession().getAttribute("skinPB");
+        if(pbSkin==null || StringUtil.asNull(pbSkin.getStylesheet())==null) {
+            if(gallery!=null&&gallery.getStylesheet()!=null&&gallery.getStylesheet().length()>0) {
+                request.getSession().setAttribute("stylesheetPB",gallery.getStylesheet());
+            }else {
+                request.getSession().removeAttribute("stylesheetPB");
+            }
+        }else {
+            request.getSession().setAttribute("stylesheetPB",pbSkin.getStylesheet());
+        }
     }
 
     protected String getImageFileName(Picture picture) {
         return picture.getLink().substring(1, picture.getLink().length() - 1);
+    }
+    private String getPictureInfo(String parameter, Picture picture, PicturePB pb,JPEGMetadataHandler jpegHandler, FileMetadataHandler fileHandler) {
+        return ServletParameterHelper.replaceDynamicParameters(parameter, new PictureParameterStorage(picture.getFile(),picture,pb,jpegHandler,fileHandler));
     }
 }
