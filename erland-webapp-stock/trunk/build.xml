@@ -38,24 +38,16 @@
     <target name="Make archive">
         <antcall target="Clean All"/>
         <antcall target="Build Application"/>
-        <zip file="${dist}/${ant.project.name}.zip">
-            <fileset file="readme.txt"/>
-            <fileset dir="." >
-                <include name="database/*"/>
-            </fileset>
-            <fileset file="${dist}/${ant.project.name}.war"/>
-        </zip>
+        <ant dir="${basedir}" antfile="${buildutil}" target="makedeliverableweb">
+            <property name="currentproject" value="${ant.project.name}"/>
+        </ant>
     </target>
     <target name="Make archive (Debug)">
         <antcall target="Clean All"/>
         <antcall target="Build Application (Debug)"/>
-        <zip file="${dist}/${ant.project.name}.zip">
-            <fileset file="readme.txt"/>
-            <fileset dir="database">
-                <include name="*"/>
-            </fileset>
-            <fileset file="${dist}/${ant.project.name}.war"/>
-        </zip>
+        <ant dir="${basedir}" antfile="${buildutil}" target="makedeliverableweb">
+            <property name="currentproject" value="${ant.project.name}"/>
+        </ant>
     </target>
 
     <target name="Build Application">
