@@ -476,6 +476,17 @@ public class StringUtil {
         return dateValue;
     }
 
+    public static Date asDate(String value, Date defaultValue, DateFormat format) {
+        Date dateValue = defaultValue;
+        if(value!=null) {
+            try {
+                dateValue = format.parse(value);
+            } catch (ParseException e) {
+            }
+        }
+        return dateValue;
+    }
+
     public static String asString(Integer value, String defaultValue) {
         return value!=null?value.toString():defaultValue;
     }
@@ -496,5 +507,8 @@ public class StringUtil {
     }
     public static String asString(Date value, String defaultValue, Locale locale) {
         return value!=null?DateFormat.getDateInstance(DateFormat.SHORT,locale).format(value):defaultValue;
+    }
+    public static String asString(Date value, String defaultValue, DateFormat format) {
+        return value!=null?format.format(value):defaultValue;
     }
 }
