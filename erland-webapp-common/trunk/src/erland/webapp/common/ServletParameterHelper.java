@@ -1,9 +1,11 @@
 package erland.webapp.common;
 
-import erland.util.*;
-
 import java.util.Map;
 import java.util.StringTokenizer;
+
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
+import erland.util.*;
 
 /*
  * Copyright (C) 2003-2004 Erland Isaksson (erland_i@hotmail.com)
@@ -25,10 +27,13 @@ import java.util.StringTokenizer;
  */
 
 public class ServletParameterHelper {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(ServletParameterHelper.class);
     public static String replaceDynamicParameters(String address, Map parameters) {
         return replaceDynamicParameters(address,new ObjectStorageMap(parameters));
     }
     public static String replaceDynamicParameters(String address, ObjectStorageInterface parameters) {
+        LOG.debug("Got: "+address);
         StringBuffer sb = new StringBuffer(address);
         int startPos = sb.indexOf("[");
 
@@ -109,7 +114,9 @@ public class ServletParameterHelper {
                 startPos = -1;
             }
         }
-        return internalReplaceDynamicParameters(sb.toString(),parameters, 0);
+        String result = internalReplaceDynamicParameters(sb.toString(),parameters, 0);
+        LOG.debug("Return: "+result);
+        return result;
     }
 
     private static String internalReplaceDynamicParameters(String address, ObjectStorageInterface parameters, int index) {
@@ -147,6 +154,8 @@ public class ServletParameterHelper {
         return replaceParametersInUrl(url,replaceParameterString,'&');
     }
     public static String replaceParametersInUrl(String url, String replaceParameterString, char parameterDelimiter) {
+        LOG.debug("Got: "+url);
+        String result = null;
         int pos = url.indexOf('?');
         if(pos>=0) {
             String parameterString = "";
@@ -154,15 +163,18 @@ public class ServletParameterHelper {
                 parameterString = url.substring(pos+1);
                 url = url.substring(0,pos+1);
             }
-            return url+replaceParameters(parameterString,replaceParameterString,parameterDelimiter);
+            result = url+replaceParameters(parameterString,replaceParameterString,parameterDelimiter);
         }else {
-            return url+"?"+replaceParameterString;
+            result = url+"?"+replaceParameterString;
         }
+        LOG.debug("Return: "+result);
+        return result;
     }
     public static String replaceParameters(String parameterString, String replaceParameterString) {
         return replaceParameters(parameterString,replaceParameterString,'&');
     }
     public static String replaceParameters(String parameterString, String replaceParameterString,char parameterDelimiter) {
+        LOG.debug("Got: "+parameterString);
         StringTokenizer tokenString = new StringTokenizer(replaceParameterString,""+parameterDelimiter);
         while(tokenString.hasMoreElements()) {
             String parameterValue = (String) tokenString.nextElement();
@@ -179,6 +191,7 @@ public class ServletParameterHelper {
                 }
             }
         }
+        LOG.debug("Return: "+parameterString);
         return parameterString;
     }
     public static String replaceParameter(String parameterString,String parameter,String value) {
