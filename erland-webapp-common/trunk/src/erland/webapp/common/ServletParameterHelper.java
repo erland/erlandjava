@@ -1,17 +1,9 @@
 package erland.webapp.common;
 
-import erland.util.ParameterValueStorageInterface;
-import erland.util.ObjectStorageMap;
-import erland.util.ObjectStorageInterface;
-import erland.util.StringUtil;
+import erland.util.*;
 
 import java.util.Map;
-import java.util.Date;
-import java.util.Locale;
 import java.util.StringTokenizer;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
 
 /*
  * Copyright (C) 2003-2004 Erland Isaksson (erland_i@hotmail.com)
@@ -152,6 +144,9 @@ public class ServletParameterHelper {
     }
 
     public static String replaceParametersInUrl(String url, String replaceParameterString) {
+        return replaceParametersInUrl(url,replaceParameterString,'&');
+    }
+    public static String replaceParametersInUrl(String url, String replaceParameterString, char parameterDelimiter) {
         int pos = url.indexOf('?');
         if(pos>=0) {
             String parameterString = "";
@@ -159,13 +154,16 @@ public class ServletParameterHelper {
                 parameterString = url.substring(pos+1);
                 url = url.substring(0,pos+1);
             }
-            return url+replaceParameters(parameterString,replaceParameterString);
+            return url+replaceParameters(parameterString,replaceParameterString,parameterDelimiter);
         }else {
             return url+"?"+replaceParameterString;
         }
     }
     public static String replaceParameters(String parameterString, String replaceParameterString) {
-        StringTokenizer tokenString = new StringTokenizer(replaceParameterString,"&");
+        return replaceParameters(parameterString,replaceParameterString,'&');
+    }
+    public static String replaceParameters(String parameterString, String replaceParameterString,char parameterDelimiter) {
+        StringTokenizer tokenString = new StringTokenizer(replaceParameterString,""+parameterDelimiter);
         while(tokenString.hasMoreElements()) {
             String parameterValue = (String) tokenString.nextElement();
             int pos = parameterValue.indexOf('=');
@@ -175,129 +173,40 @@ public class ServletParameterHelper {
                     value = parameterValue.substring(pos+1);
                 }
                 if(StringUtil.asNull(value)!=null) {
-                    parameterString = replaceParameter(parameterString,parameterValue.substring(0,pos),value);
+                    parameterString = replaceParameter(parameterString,parameterValue.substring(0,pos),value,parameterDelimiter);
                 }else {
-                    parameterString = removeParameter(parameterString,parameterValue.substring(0,pos));
+                    parameterString = removeParameter(parameterString,parameterValue.substring(0,pos),parameterDelimiter);
                 }
             }
         }
         return parameterString;
     }
     public static String replaceParameter(String parameterString,String parameter,String value) {
-        StringBuffer sb = new StringBuffer(parameterString);
-        int startPos = 0;
-        if(parameterString.startsWith(parameter+"=")) {
-            int pos = parameterString.indexOf('&');
-            if(pos<0) {
-                sb.setLength(0);
-                if(StringUtil.asNull(value)!=null) {
-                    sb.append(parameter);
-                    sb.append("=");
-                    sb.append(value);
-                }
-            }else {
-                if(StringUtil.asNull(value)!=null) {
-                    sb.replace(0,pos,parameter+"="+value);
-                }else {
-                    sb.replace(0,pos,"");
-                }
-            }
-            startPos = parameter.length()+1+value.length();
-        }else {
-            int pos = parameterString.indexOf("&"+parameter+"=");
-            if(pos>=0) {
-                int endPos = parameterString.indexOf("&",pos+1);
-                if(endPos<0) {
-                    endPos = sb.length();
-                }
-                if(StringUtil.asNull(value)!=null) {
-                    sb.replace(pos+1,endPos,parameter+"="+value);
-                    startPos = pos+1+parameter.length()+1+value.length();
-                }else {
-                    sb.replace(pos+1,endPos,"");
-                    startPos = pos+1;
-                }
-            }else {
-                if(StringUtil.asNull(value)!=null) {
-                    sb.append("&");
-                    sb.append(parameter);
-                    sb.append("=");
-                    sb.append(value);
-                }
-                startPos = sb.length();
-            }
-        }
-        int pos = sb.indexOf("&"+parameter+"=",startPos);
-        while(pos>=0) {
-            int endPos = sb.indexOf("&",pos+1);
-            if(endPos<0) {
-                endPos = sb.length();
-            }
-            sb.replace(pos,endPos,"");
-            pos = sb.indexOf("&"+parameter+"=",pos);
-        }
-        return sb.toString();
+        return replaceParameter(parameterString,parameter,value,'&');
+    }
+    public static String replaceParameter(String parameterString,String parameter,String value,char parameterDelimiter) {
+        StorageInterface storage = new StringStorage(parameterString);
+        ParameterValueStorageInterface parameters = new ParameterStorageParameterString(storage,null,parameterDelimiter);
+        parameters.setParameter(parameter,value);
+        return storage.load();
     }
 
     public static String removeParameter(String parameterString, String parameter) {
-        StringBuffer sb = new StringBuffer(parameterString);
-        int startPos = 0;
-        if(parameterString.startsWith(parameter+"=")) {
-            int pos = parameterString.indexOf('&');
-            if(pos<0) {
-                sb.setLength(0);
-            }else {
-                sb.replace(0,pos,"");
-            }
-            startPos = 0;
-        }else {
-            int pos = parameterString.indexOf("&"+parameter+"=");
-            if(pos>=0) {
-                int endPos = parameterString.indexOf("&",pos+1);
-                if(endPos<0) {
-                    endPos = sb.length();
-                }
-                sb.replace(pos+1,endPos,"");
-                startPos = pos+1;
-            }else {
-                startPos = sb.length();
-            }
-        }
-        int pos = sb.indexOf("&"+parameter+"=",startPos);
-        while(pos>=0) {
-            int endPos = sb.indexOf("&",pos+1);
-            if(endPos<0) {
-                endPos = sb.length();
-            }
-            sb.replace(pos,endPos,"");
-            pos = sb.indexOf("&"+parameter+"=",pos);
-        }
-        while(sb.charAt(sb.length()-1)=='&') {
-            sb.setLength(sb.length()-1);
-        }
-        return sb.toString();
+        return removeParameter(parameterString,parameter,'&');
+    }
+    public static String removeParameter(String parameterString, String parameter,char parameterDelimiter) {
+        StorageInterface storage = new StringStorage(parameterString);
+        ParameterValueStorageInterface parameters = new ParameterStorageParameterString(storage,null,parameterDelimiter);
+        parameters.delParameter(parameter);
+        return storage.load();
     }
 
     public static String getParameter(String parameterString, String parameter) {
-        if(parameterString.startsWith(parameter+"=")) {
-            int startPos = (parameter+"=").length();
-            int pos = parameterString.indexOf('&');
-            if(pos<0) {
-                return parameterString.substring(startPos);
-            }
-            return parameterString.substring(startPos,pos);
-        }else {
-            int pos = parameterString.indexOf("&"+parameter+"=");
-            if(pos>=0) {
-                int startPos = pos + ("&"+parameter+"=").length();
-                int endPos = parameterString.indexOf("&",pos+1);
-                if(endPos<0) {
-                    return parameterString.substring(startPos);
-                }
-                return parameterString.substring(startPos,endPos);
-            }else {
-                return null;
-            }
-        }
+        return getParameter(parameterString,parameter,'&');
+    }
+    public static String getParameter(String parameterString, String parameter,char parameterDelimiter) {
+        StorageInterface storage = new StringStorage(parameterString);
+        ParameterValueStorageInterface parameters = new ParameterStorageParameterString(storage,null,parameterDelimiter);
+        return parameters.getParameter(parameter);
     }
 }
