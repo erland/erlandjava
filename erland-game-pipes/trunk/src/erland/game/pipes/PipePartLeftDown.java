@@ -1,6 +1,5 @@
 package erland.game.pipes;
 import java.awt.*;
-import erland.util.*;
 import erland.game.*;
 
 /**
@@ -14,12 +13,12 @@ class PipePartLeftDown extends PipePart
 	protected Image waterImage;
 	/**
 	 * Creates new pipe part
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 */
-	public PipePartLeftDown(ImageHandlerInterface images)
+	public PipePartLeftDown(GameEnvironmentInterface environment)
 	{
-		baseImage = images.getImage("leftDownPipe.gif");
-		waterImage = images.getImage("leftDownPipeWater.gif");
+		baseImage = environment.getImageHandler().getImage("leftDownPipe.gif");
+		waterImage = environment.getImageHandler().getImage("leftDownPipeWater.gif");
 
 	}	
 	public void init(BlockContainerInterface cont, int x, int y)

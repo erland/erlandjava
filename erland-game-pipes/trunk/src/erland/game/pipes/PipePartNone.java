@@ -1,6 +1,5 @@
 package erland.game.pipes;
 import java.awt.*;
-import erland.util.*;
 import erland.game.*;
 
 /**
@@ -12,20 +11,20 @@ class PipePartNone extends PipePart
 	protected Image baseImage;
 	/**
 	 * Creates new pipe part
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 */
-	public PipePartNone(ImageHandlerInterface images)
+	public PipePartNone(GameEnvironmentInterface environment)
 	{
-		baseImage = images.getImage("noPipe.gif");
+		baseImage = environment.getImageHandler().getImage("noPipe.gif");
 	}
 	/**
 	 * Creates new pipe part with the specified background image
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 * @param image Image to have as the background
 	 */
-	public PipePartNone(ImageHandlerInterface images, String image)
+	public PipePartNone(GameEnvironmentInterface environment, String image)
 	{
-		baseImage = images.getImage(image);
+		baseImage = environment.getImageHandler().getImage(image);
 	}
 	public void init(BlockContainerInterface cont, int x, int y)
 	{

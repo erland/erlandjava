@@ -1,6 +1,5 @@
 package erland.game.pipes;
 import java.awt.*;
-import erland.util.*;
 import erland.game.*;
 
 /**
@@ -14,12 +13,12 @@ class PipePartCrossSplit extends PipePart
 	protected Image waterImage;
 	/**
 	 * Creates new pipe part
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 */
-	public PipePartCrossSplit(ImageHandlerInterface images)
+	public PipePartCrossSplit(GameEnvironmentInterface environment)
 	{
-		baseImage = images.getImage("crossSplitPipe.gif");
-		waterImage = images.getImage("crossSplitPipeWater.gif");
+		baseImage = environment.getImageHandler().getImage("crossSplitPipe.gif");
+		waterImage = environment.getImageHandler().getImage("crossSplitPipeWater.gif");
 
 	}	
 	public void init(BlockContainerInterface cont, int x, int y)

@@ -1,6 +1,5 @@
 package erland.game.pipes;
 import erland.game.*;
-import erland.util.*;
 /**
  * Represents a block like following:
  * XXX
@@ -9,8 +8,8 @@ import erland.util.*;
  */
 class PipeBlockPoolBig extends PipeBlock
 {
-	/** Image handler object */
-	protected ImageHandlerInterface images;
+    /** Game environment object */
+    GameEnvironmentInterface environment;
 	/** Indicates if the pool should be water filled from the start */
 	protected boolean waterFilled;
 	/** Indicates which side of the pool that is opened */
@@ -18,11 +17,11 @@ class PipeBlockPoolBig extends PipeBlock
 	
 	/**
 	 * Creates a new pipe block
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 */
-	public PipeBlockPoolBig(ImageHandlerInterface images, boolean waterFilled, int openDirection) 
+	public PipeBlockPoolBig(GameEnvironmentInterface environment, boolean waterFilled, int openDirection)
 	{
-		this.images = images;
+		this.environment = environment;
 		this.waterFilled = waterFilled;
 		this.openDirection = openDirection;
 	}
@@ -30,31 +29,31 @@ class PipeBlockPoolBig extends PipeBlock
 	{
 		
 		PipePart[][] parts = new PipePart[size][size];
-		parts[0][0] = new PipePartSimple(images,"","bigPoolLeftUp.gif",waterFilled,false,!waterFilled,false,!waterFilled);
+		parts[0][0] = new PipePartSimple(environment,"","bigPoolLeftUp.gif",waterFilled,false,!waterFilled,false,!waterFilled);
 		if(openDirection==Direction.UP) {
-			parts[1][0] = new PipePartSimple(images,"","bigPoolUp.gif",waterFilled,!waterFilled,!waterFilled,true,!waterFilled);
+			parts[1][0] = new PipePartSimple(environment,"","bigPoolUp.gif",waterFilled,!waterFilled,!waterFilled,true,!waterFilled);
 		}else {
-			parts[1][0] = new PipePartSimple(images,"","bigPoolUpClose.gif",waterFilled,!waterFilled,!waterFilled,false,!waterFilled);
+			parts[1][0] = new PipePartSimple(environment,"","bigPoolUpClose.gif",waterFilled,!waterFilled,!waterFilled,false,!waterFilled);
 		}
-		parts[2][0] = new PipePartSimple(images,"","bigPoolRightUp.gif",waterFilled,!waterFilled,false,false,!waterFilled);
+		parts[2][0] = new PipePartSimple(environment,"","bigPoolRightUp.gif",waterFilled,!waterFilled,false,false,!waterFilled);
 		if(openDirection==Direction.LEFT) {
-			parts[0][1] = new PipePartSimple(images,"","bigPoolLeft.gif",waterFilled,true,!waterFilled,!waterFilled,!waterFilled);
+			parts[0][1] = new PipePartSimple(environment,"","bigPoolLeft.gif",waterFilled,true,!waterFilled,!waterFilled,!waterFilled);
 		}else {
-			parts[0][1] = new PipePartSimple(images,"","bigPoolLeftClose.gif",waterFilled,false,!waterFilled,!waterFilled,!waterFilled);
+			parts[0][1] = new PipePartSimple(environment,"","bigPoolLeftClose.gif",waterFilled,false,!waterFilled,!waterFilled,!waterFilled);
 		}
-		parts[1][1] = new PipePartSimple(images,"","",waterFilled,!waterFilled,!waterFilled,!waterFilled,!waterFilled);
+		parts[1][1] = new PipePartSimple(environment,"","",waterFilled,!waterFilled,!waterFilled,!waterFilled,!waterFilled);
 		if(openDirection==Direction.RIGHT) {
-			parts[2][1] = new PipePartSimple(images,"","bigPoolRight.gif",waterFilled,!waterFilled,true,!waterFilled,!waterFilled);
+			parts[2][1] = new PipePartSimple(environment,"","bigPoolRight.gif",waterFilled,!waterFilled,true,!waterFilled,!waterFilled);
 		}else {
-			parts[2][1] = new PipePartSimple(images,"","bigPoolRightClose.gif",waterFilled,!waterFilled,false,!waterFilled,!waterFilled);
+			parts[2][1] = new PipePartSimple(environment,"","bigPoolRightClose.gif",waterFilled,!waterFilled,false,!waterFilled,!waterFilled);
 		}
-		parts[0][2] = new PipePartSimple(images,"","bigPoolLeftDown.gif",waterFilled,false,!waterFilled,!waterFilled,false);
+		parts[0][2] = new PipePartSimple(environment,"","bigPoolLeftDown.gif",waterFilled,false,!waterFilled,!waterFilled,false);
 		if(openDirection==Direction.DOWN) {
-			parts[1][2] = new PipePartSimple(images,"","bigPoolDown.gif",waterFilled,!waterFilled,!waterFilled,!waterFilled,true);
+			parts[1][2] = new PipePartSimple(environment,"","bigPoolDown.gif",waterFilled,!waterFilled,!waterFilled,!waterFilled,true);
 		}else {
-			parts[1][2] = new PipePartSimple(images,"","bigPoolDownClose.gif",waterFilled,!waterFilled,!waterFilled,!waterFilled,false);
+			parts[1][2] = new PipePartSimple(environment,"","bigPoolDownClose.gif",waterFilled,!waterFilled,!waterFilled,!waterFilled,false);
 		}
-		parts[2][2] = new PipePartSimple(images,"","bigPoolRightDown.gif",waterFilled,!waterFilled,false,!waterFilled,false);
+		parts[2][2] = new PipePartSimple(environment,"","bigPoolRightDown.gif",waterFilled,!waterFilled,false,!waterFilled,false);
 		super.init(cont,parts,x,y);
 		if(waterFilled) {
 			initWater(0,0,Direction.RIGHT);

@@ -25,17 +25,17 @@ class PipePartSimple extends PipePart
 	
 	/**
 	 * Creates new pipe part
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 */
-	public PipePartSimple(ImageHandlerInterface images, String baseBitmap, String waterBitmap, boolean waterFilled, boolean openLeft, boolean openRight, boolean openUp, boolean openDown)
+	public PipePartSimple(GameEnvironmentInterface environment, String baseBitmap, String waterBitmap, boolean waterFilled, boolean openLeft, boolean openRight, boolean openUp, boolean openDown)
 	{
 		if(baseBitmap!=null && baseBitmap.length()>0) {
-			baseImage = images.getImage(baseBitmap);
+			baseImage = environment.getImageHandler().getImage(baseBitmap);
 		}else {
 			baseImage = null;
 		}
 		if(waterBitmap!=null && waterBitmap.length()>0) {
-			waterImage = images.getImage(waterBitmap);
+			waterImage = environment.getImageHandler().getImage(waterBitmap);
 			if(baseImage==null) {
 				baseImage = waterImage;
 			}

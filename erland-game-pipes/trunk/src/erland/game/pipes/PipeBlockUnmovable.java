@@ -1,6 +1,5 @@
 package erland.game.pipes;
 import erland.game.*;
-import erland.util.*;
 /**
  * Represents a block like following which can't be moved:
  * OOO
@@ -9,16 +8,16 @@ import erland.util.*;
  */
 class PipeBlockUnmovable extends PipeBlock
 {
-	/** Image handler object */
-	ImageHandlerInterface images;
-	
+    /** Game environment object */
+    GameEnvironmentInterface environment;
+
 	/**
 	 * Creates a new pipe block
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 */
-	public PipeBlockUnmovable(ImageHandlerInterface images) 
+	public PipeBlockUnmovable(GameEnvironmentInterface environment)
 	{
-		this.images = images;
+		this.environment = environment;
 	}
 	public void init(BlockContainerInterface cont, int x, int y)
 	{
@@ -27,7 +26,7 @@ class PipeBlockUnmovable extends PipeBlock
 		for (int i=0; i<size; i++) {
 			parts[i] = new PipePart[size];
 			for (int j=0; j<size; j++) {
-				parts[i][j] = new PipePartNone(images,"stone.gif");
+				parts[i][j] = new PipePartNone(environment,"stone.gif");
 		    }
 	    }
 	    

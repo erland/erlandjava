@@ -1,6 +1,5 @@
 package erland.game.pipes;
 import java.awt.*;
-import erland.util.*;
 import erland.game.*;
 
 /**
@@ -18,12 +17,12 @@ class PipePartWell extends PipePart
 	protected boolean waterFilled;
 	/**
 	 * Creates new pipe part
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 */
-	public PipePartWell(ImageHandlerInterface images, boolean waterFilled)
+	public PipePartWell(GameEnvironmentInterface environment, boolean waterFilled)
 	{
-		baseImage = images.getImage("wellPipe.gif");
-		waterImage = images.getImage("wellPipeWater.gif");
+		baseImage = environment.getImageHandler().getImage("wellPipe.gif");
+		waterImage = environment.getImageHandler().getImage("wellPipeWater.gif");
 		this.waterFilled = waterFilled;
 	}	
 	public void init(BlockContainerInterface cont, int x, int y)

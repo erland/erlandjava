@@ -1,6 +1,5 @@
 package erland.game.pipes;
 import erland.game.*;
-import erland.util.*;
 /**
  * Represents a block with a well like following:
  * O?O
@@ -9,19 +8,19 @@ import erland.util.*;
  */
 class PipeBlockStart extends PipeBlock
 {
-	/** Image handler object */
-	ImageHandlerInterface images;
+    /** Game environment object */
+    GameEnvironmentInterface environment;
 	/** Indicates which sides of the block that are open for water */
 	int openDirection;
 		
 	/**
 	 * Creates a new pipe block
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 * @param openDirection Indicates which sides of the block that are open for water
 	 */
-	public PipeBlockStart(ImageHandlerInterface images, int openDirection) 
+	public PipeBlockStart(GameEnvironmentInterface environment, int openDirection)
 	{
-		this.images = images;
+		this.environment = environment;
 		this.openDirection = openDirection;
 	}
 	public void init(BlockContainerInterface cont, int x, int y)
@@ -31,27 +30,27 @@ class PipeBlockStart extends PipeBlock
 		for (int i=0; i<size; i++) {
 			parts[i] = new PipePart[size];
 			for (int j=0; j<size; j++) {
-				parts[i][j] = new PipePartNone(images);
+				parts[i][j] = new PipePartNone(environment);
 		    }
 	    }
 	    
-		parts[1][1] = new PipePartWell(images,true);
+		parts[1][1] = new PipePartWell(environment,true);
 		int waterStart=0;
 		switch(openDirection) {
 			case Direction.LEFT:
-				parts[0][1] = new PipePartLeftRight(images);
+				parts[0][1] = new PipePartLeftRight(environment);
 				waterStart=Direction.RIGHT;
 				break;
 			case Direction.RIGHT:
-				parts[2][1] = new PipePartLeftRight(images);
+				parts[2][1] = new PipePartLeftRight(environment);
 				waterStart=Direction.LEFT;
 				break;
 			case Direction.UP:
-				parts[1][0] = new PipePartUpDown(images);
+				parts[1][0] = new PipePartUpDown(environment);
 				waterStart=Direction.DOWN;
 				break;
 			case Direction.DOWN:
-				parts[1][2] = new PipePartUpDown(images);
+				parts[1][2] = new PipePartUpDown(environment);
 				waterStart=Direction.UP;
 				break;
 			default:

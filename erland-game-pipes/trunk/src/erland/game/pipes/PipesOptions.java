@@ -2,36 +2,25 @@ package erland.game.pipes;
 import java.awt.*;
 import java.awt.event.*;
 import erland.game.*;
-import erland.util.*;
+import erland.game.component.EButton;
+
 
 /**
  * This is the class that implements the options screen
  */
 class PipesOptions
-	implements ActionListener
+	implements GamePanelInterface, ActionListener
 {
 	/** Horisontal drawing offset, nothing should be drawn to the left of this position */
 	protected int offsetX;
 	/** Vertical drawing offset, nothing should be drawn above this position */
 	protected int offsetY;
-	/** Parameter storage which is used to save game data and highscores */
-	protected ParameterValueStorageInterface cookies;
-	/** Counter that contains the time since last FPS calculation in cheatmode */
-	protected long frameTime=0;
-	/** Counter that contains the number of frames drawn since the last FPS calculation in cheatmode */
-	protected int fpsShow=0;
-	/** The last calculated FPS in cheatmode */
-	protected long fps=0;
-	/** Container object which all Buttons should be added to */
-	protected Container container;
 	/** Array with all the buttons */
-	protected Button buttons[];
+	protected EButton buttons[];
 	/** Blocks allowed */
 	protected PipeBlock blocksAllowed[];
 	/** Blocks not allowed */
 	protected PipeBlock blocksNotAllowed[];
-	/** Image handler object */
-	protected ImageHandlerInterface images;
 	/** Block container interface object for allowed blocks */
 	protected BlockContainerInterface contAllowed;
 	/** Block container interface object for allowed blocks */
@@ -50,87 +39,101 @@ class PipesOptions
 	protected boolean bExit;
 	/** Text fields for number of start blocks and number of empty blocks */
 	protected TextField textFields[];
-	/** Combobox for type of game */
-	
-protected int selPosX, selPosY;
+
+    protected int selPosX, selPosY;
+    private GameEnvironmentInterface environment;
+    private MouseListener mouseListener;
 	/**
 	 * Creates a new instance of the main game class
-	 * @param container Container object which all Button's should be added to
-	 * @param cookies Parameter storage object which should be used to access stored game data and highscores
 	 * @param offsetX Horisontal drawing offset, nothing should be drawn to the left of this position
 	 * @param offsetY Vertical drawing offset, nothing should be drawn above this position
 	 */
-	public PipesOptions(java.awt.Container container, ParameterValueStorageInterface cookies, ImageHandlerInterface images, int offsetX, int offsetY)
+	public PipesOptions(int offsetX, int offsetY)
 	{
-		this.container = container;
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
-		this.cookies = cookies;
-		this.images = images;
+	}
+
+    public void init(GameEnvironmentInterface environ) {
+        this.environment = environ;
 		this.contAllowed = new BlockContainerData(offsetX+1, offsetY+20,3,10,blockSize);
 		this.contNotAllowed = new BlockContainerData(offsetX+1+6*blockSize, offsetY+20,3,10,blockSize);
-		levelFactoryAllowed = new LevelFactory(cookies,contAllowed,images,LevelFactory.GameType.UntilWaterStopped);
-		levelFactoryNotAllowed = new LevelFactory(cookies,contNotAllowed,images,LevelFactory.GameType.UntilWaterStopped);
+		levelFactoryAllowed = new LevelFactory(environment,contAllowed,LevelFactory.GameType.UntilWaterStopped);
+		levelFactoryNotAllowed = new LevelFactory(environment,contNotAllowed,LevelFactory.GameType.UntilWaterStopped);
 
-		buttons = new Button[4];
-		buttons[0] = new Button("Save");
-		buttons[0].setBounds(contNotAllowed.getDrawingPositionX(0)+contNotAllowed.getSizeX()*blockSize+10,offsetY + 20,73,25);
-		buttons[1] = new Button("Exit");
-		buttons[1].setBounds(contNotAllowed.getDrawingPositionX(0)+contNotAllowed.getSizeX()*blockSize+10,offsetY + 50,73,25);
-		buttons[2] = new Button("-->");
-		buttons[2].setBounds(offsetX + contAllowed.getSizeX()*blockSize+10,offsetY + 50,73,25);
-		buttons[3] = new Button("<--");
-		buttons[3].setBounds(offsetX + contAllowed.getSizeX()*blockSize+10,offsetY + 80,73,25);
+        int rightColumnX = contNotAllowed.getDrawingPositionX(0)+contNotAllowed.getSizeX()*blockSize+10;
+		buttons = new EButton[4];
+		buttons[0] = EButton.create("Save");
+		buttons[0].getComponent().setBounds(rightColumnX,offsetY + 20,73,25);
+		buttons[1] = EButton.create("Exit");
+		buttons[1].getComponent().setBounds(rightColumnX,offsetY + 50,73,25);
+		buttons[2] = EButton.create("-->");
+		buttons[2].getComponent().setBounds(offsetX + contAllowed.getSizeX()*blockSize+10,offsetY + 50,73,25);
+		buttons[3] = EButton.create("<--");
+		buttons[3].getComponent().setBounds(offsetX + contAllowed.getSizeX()*blockSize+10,offsetY + 80,73,25);
 		if(buttons!=null) {
 			for(int i=0;i<buttons.length;i++) {
 				buttons[i].addActionListener(this);
-				container.add(buttons[i]);
+				environment.getScreenHandler().add(buttons[i].getComponent());
 			}
 		}
 		textFields = new TextField[5];
 		textFields[0] = new TextField(String.valueOf(levelFactoryAllowed.getNumberOfEmptyBlocks()),2);
-		textFields[0].setBounds(150,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+3,30,18);
+		textFields[0].setBounds(rightColumnX + 150,100+3,40,18);
 		textFields[0].setBackground(Color.white);
 		textFields[1] = new TextField(String.valueOf(levelFactoryAllowed.getNumberOfStartBlocks()),2);
-		textFields[1].setBounds(150,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+28,30,18);
+		textFields[1].setBounds(rightColumnX + 150,100+28,40,18);
 		textFields[1].setBackground(Color.white);
 		textFields[2] = new TextField(String.valueOf(levelFactoryAllowed.getTimeUntilWater()),2);
-		textFields[2].setBounds(150,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+53,30,18);
+		textFields[2].setBounds(rightColumnX + 150,100+53,40,18);
 		textFields[2].setBackground(Color.white);
 		textFields[3] = new TextField(String.valueOf(levelFactoryAllowed.getWaterSpeed()),2);
-		textFields[3].setBounds(150,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+78,30,18);
+		textFields[3].setBounds(rightColumnX + 150,100+78,40,18);
 		textFields[3].setBackground(Color.white);
 		textFields[4] = new TextField(String.valueOf(levelFactoryAllowed.getLeftToFill()),2);
-		textFields[4].setBounds(150,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+103,30,18);
+		textFields[4].setBounds(rightColumnX + 150,100+103,40,18);
 		textFields[4].setBackground(Color.white);
 		for (int i=0; i<textFields.length; i++) {
-	    	container.add(textFields[i]);
+	    	environment.getScreenHandler().add(textFields[i]);
 	    }
-	
+
 		selectedBlock = null;
 		blocksAllowed = levelFactoryAllowed.getAllowedBlocks();
 		blocksNotAllowed = levelFactoryNotAllowed.getNotAllowedBlocks();
 		bExit = false;
-	}
-	
+        mouseListener = new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if((e.getModifiers() & e.BUTTON1_MASK)!=0) {
+				    handleLeftMouseClicked(environment.getScreenHandler().getScreenX(e.getX()),environment.getScreenHandler().getScreenY(e.getY()));
+			    }
+            }
+        };
+        environment.getScreenHandler().getContainer().setBackground(Color.black);
+        environment.getScreenHandler().getContainer().requestFocus();
+        environment.getScreenHandler().getContainer().addMouseListener(mouseListener);
+    }
 
 	/**
 	 * Exits the game
 	 */
-	protected void exit()
+	protected void exitOptions()
 	{
-		if(buttons!=null) {
-			for(int i=0;i<buttons.length;i++) {
-				container.remove(buttons[i]);
-			}
-		}
-		if(textFields!=null) {
-			for(int i=0;i<textFields.length;i++) {
-				container.remove(textFields[i]);
-			}
-		}
 		bExit = true;
 	}
+
+    public void exit() {
+        if(buttons!=null) {
+            for(int i=0;i<buttons.length;i++) {
+                environment.getScreenHandler().remove(buttons[i].getComponent());
+            }
+        }
+        if(textFields!=null) {
+            for(int i=0;i<textFields.length;i++) {
+                environment.getScreenHandler().remove(textFields[i]);
+            }
+        }
+        environment.getScreenHandler().getContainer().removeMouseListener(mouseListener);
+    }
 
 	/**
 	 * Checks if the Exit button has been pressed
@@ -142,18 +145,13 @@ protected int selPosX, selPosY;
 	}
 	/**
 	 * Draw all the game graphics
-	 * @param g Graphics object to draw on
 	 */
-	public void draw(Graphics g)
+	public void draw()
 	{
+        Graphics g = environment.getScreenHandler().getCurrentGraphics();
+        g.clearRect(0,0,environment.getScreenHandler().getWidth(),environment.getScreenHandler().getHeight());
 		int gameSizeX = (contAllowed.getSizeX() + contNotAllowed.getSizeX() +3)*blockSize+2;
 		int gameSizeY = contAllowed.getSizeY()*blockSize+2;
-		if((++fpsShow)>25) {
-			fpsShow=0;
-			long cur = System.currentTimeMillis();
-			fps = 25000/(cur-frameTime);
-			frameTime = cur;
-		}
 		g.setColor(Color.white);
 		g.drawString("Allowed:",contAllowed.getDrawingPositionX(0),contAllowed.getDrawingPositionY(0)-3);
 		g.drawString("Not allowed:",contNotAllowed.getDrawingPositionX(0),contNotAllowed.getDrawingPositionY(0)-3);
@@ -188,15 +186,16 @@ protected int selPosX, selPosY;
 		}
 
 		g.setColor(Color.white);
-		g.drawString("Number of empty blocks:",offsetX,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+15);
-		g.drawString("Number of start blocks:",offsetX,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+40);
-		g.drawString("Initial time until water:",offsetX,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+65);
-		g.drawString("Initial water speed:",offsetX,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+90);
-		g.drawString("Initial blocks to fill:",offsetX,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+115);
-		int rightColumnX = offsetX+gameSizeX+20;
-		int rightColumnY = offsetY+20;
+        int rightColumnX = contNotAllowed.getDrawingPositionX(0)+contNotAllowed.getSizeX()*blockSize+10;
+		g.drawString("Number of empty blocks:",rightColumnX,100+15);
+		g.drawString("Number of start blocks:",rightColumnX,100+40);
+		g.drawString("Initial time until water:",rightColumnX,100+65);
+		g.drawString("Initial water speed:",rightColumnX,100+90);
+		g.drawString("Initial blocks to fill:",rightColumnX,100+115);
+		rightColumnX = offsetX+gameSizeX+20;
 		g.setColor(Color.red);
 		g.drawString("by Erland Isaksson",rightColumnX,offsetY+gameSizeY);
+        environment.getScreenHandler().paintComponents(g);
 	}
 
 
@@ -241,33 +240,6 @@ protected int selPosX, selPosY;
 			}
 	    }
 	}
-	/**
-	 * Called when the left mouse button has been pressed down
-	 * @param x X position of the mouse pointer
-	 * @param y Y position of the mouse pointer
-	 */
-	public void handleLeftMousePressed(int x, int y)
-	{
-		
-	}
-	/**
-	 * Called when the left mouse button has been released
-	 * @param x X position of the mouse pointer
-	 * @param y Y position of the mouse pointer
-	 */
-	public void handleLeftMouseReleased(int x, int y)
-	{
-	}
-
-	/**
-	 * Called when the mouse has been dragged with the left 
-	 * mouse button has been pressed down
-	 * @param x X position of the mouse pointer
-	 * @param y Y position of the mouse pointer
-	 */
-	public void handleLeftMouseDragged(int x, int y)
-	{
-	}
 
 	/**
 	 * Called when a button has been clicked, checks which
@@ -277,13 +249,13 @@ protected int selPosX, selPosY;
 	{
 		if(buttons!=null) {
 			for(int i=0;i<buttons.length;i++) {
-				if(e.getSource()==buttons[i]) {
+				if(e.getSource()==buttons[i].getComponent()) {
 					switch(i) {
 						case 0:
 							saveOptions();
 							break;
 						case 1:
-							exit();
+							exitOptions();
 							break;
 						case 2:
 							removeSelected();
@@ -447,4 +419,12 @@ protected int selPosX, selPosY;
 	    	return blocks;
 	    }
 	}
+
+    public void setCheatmode(boolean enable) {
+        // Do nothing
+    }
+
+    public void update() {
+        // Do nothing
+    }
 }

@@ -19,6 +19,10 @@ abstract class PipeBlock
 	protected int oldX;
 	/** Previous Y position of pipe block (Block coordinate) */
 	protected int oldY;
+    /** Old previous X position of pipe block (Block coordinate) */
+    protected int prevOldX;
+    /** Old previous Y position of pipe block (Block coordinate) */
+    protected int prevOldY;
 	/** Block container which the block resides in */
 	protected BlockContainerInterface cont;
 	/** List with pipe parts in the block which have moving water */
@@ -37,10 +41,8 @@ abstract class PipeBlock
 	protected int movingProgress;
 	/** Indicates if the pipe block has at least one part which contains water */
 	protected boolean hasWater;
-	/** Indicates if the block needs to be redrawn */
-	protected boolean redraw;
 	/** Indicates if the block has been drawn since redraw flag was last set*/
-	protected boolean redrawDone;
+	protected int redrawsLeft;
 	
 	/**
 	 * Initialize pipe block
@@ -57,6 +59,8 @@ abstract class PipeBlock
 		this.y = y;
 		this.oldX = x;
 		this.oldY = y;
+        this.prevOldX = x;
+        this.prevOldY = y;
 		this.partsWithMovingWater = new LinkedList();
 		this.addPartsWithMovingWater = new LinkedList();
 		this.delPartsWithMovingWater = new LinkedList();
@@ -66,8 +70,7 @@ abstract class PipeBlock
 		    }
 	    }
 	    hasWater=false;
-	    redrawDone = false;
-	    redraw=true;
+	    redrawsLeft = 2;
 	}
 
 	/**
@@ -217,13 +220,18 @@ abstract class PipeBlock
 	 */
 	public void draw(Graphics g)
 	{
-		redrawDone=true;
-		g.clearRect(cont.getDrawingPositionX(oldX),cont.getDrawingPositionY(oldY),cont.getSquareSize(),cont.getSquareSize());
+		g.clearRect(cont.getDrawingPositionX(prevOldX),cont.getDrawingPositionY(prevOldY),cont.getSquareSize(),cont.getSquareSize());
+        if(oldX!=prevOldX || oldY!=prevOldY) {
+            g.clearRect(cont.getDrawingPositionX(oldX),cont.getDrawingPositionY(oldY),cont.getSquareSize(),cont.getSquareSize());
+        }
 		for (int x=0; x<parts.length; x++) {
 			for (int y=0; y<parts[0].length; y++) {
 				parts[x][y].draw(g);
 		    }
 	    }
+        if(redrawsLeft>0) {
+            redrawsLeft--;
+        }
 	}
 	
 	/**
@@ -265,7 +273,6 @@ abstract class PipeBlock
 	 */
 	public void updateBlock()
 	{
-		setRedraw(false);
 		ListIterator it = addPartsWithMovingWater.listIterator();
 		while(it.hasNext()) {
 			PipePart part = (PipePart)(it.next());
@@ -283,6 +290,8 @@ abstract class PipeBlock
 		}
 		delPartsWithMovingWater.clear();
 
+        prevOldX = oldX;
+        prevOldY = oldY;
 		oldX = x;
 		oldY = y;
 		if(moving) {
@@ -529,7 +538,7 @@ abstract class PipeBlock
 	 */
 	public boolean needRedraw()
 	{
-		return redraw;
+		return redrawsLeft>0;
 	}
 	
 	/**
@@ -538,14 +547,8 @@ abstract class PipeBlock
 	 */
 	public void setRedraw(boolean redraw)
 	{
-		if(this.redraw && redrawDone) {
-			this.redraw = redraw;
-		}else if(!this.redraw) {
-			this.redraw = redraw;
-		}
-		if(this.redraw) {
-			redrawDone=false;
-		}
+        if(redraw) {
+            redrawsLeft=2;
+        }
 	}
-
 }

@@ -1,6 +1,5 @@
 package erland.game.pipes;
 import erland.game.*;
-import erland.util.*;
 import java.util.*;
 
 /**
@@ -8,17 +7,14 @@ import java.util.*;
  */
 class LevelFactory
 {
-	/** Image handler object */
-	ImageHandlerInterface images;
 	/** Block container object */
 	BlockContainerInterface cont;
-	/** Parameter storage object */
-	ParameterValueStorageInterface cookies;
 	/** Number of different block types */
 	static final int MAX_BLOCK_TYPES = 25;
 	/** Indicates which type of game this level factory creates levels for, see {@link GameType} */
 	int gameType;
-	
+    private GameEnvironmentInterface environment;
+
 	/**
 	 * Specifies the different types of games that exist
 	 */
@@ -30,13 +26,12 @@ class LevelFactory
 	/**
 	 * Creates a new level factory
 	 * @param cont Block container which the blocks should be placed in
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 */
-	public LevelFactory(ParameterValueStorageInterface cookies, BlockContainerInterface cont, ImageHandlerInterface images, int gameType)
+	public LevelFactory(GameEnvironmentInterface environment, BlockContainerInterface cont, int gameType)
 	{
+        this.environment = environment;
 		this.cont = cont;
-		this.images = images;
-		this.cookies = cookies;
 		this.gameType = gameType;
 	}
 	
@@ -113,19 +108,19 @@ class LevelFactory
 		PipeBlock block = null;
 		switch(type) {
 			case Direction.LEFT:
-				block = insertBlock(blocks,new PipeBlockPoolBig(images,true,Direction.LEFT),cont.getSizeX()/2+1,0,cont.getSizeX()-1,cont.getSizeY()-1,true,Direction.LEFT);
+				block = insertBlock(blocks,new PipeBlockPoolBig(environment,true,Direction.LEFT),cont.getSizeX()/2+1,0,cont.getSizeX()-1,cont.getSizeY()-1,true,Direction.LEFT);
 				break;
 			case Direction.RIGHT:
-				block = insertBlock(blocks,new PipeBlockPoolBig(images,true,Direction.RIGHT),0,0,cont.getSizeX()/2-2,cont.getSizeY()-1,true,Direction.RIGHT);
+				block = insertBlock(blocks,new PipeBlockPoolBig(environment,true,Direction.RIGHT),0,0,cont.getSizeX()/2-2,cont.getSizeY()-1,true,Direction.RIGHT);
 				break;
 			case Direction.UP:
-				block = insertBlock(blocks,new PipeBlockPoolBig(images,true,Direction.UP),0,cont.getSizeY()/2+1,cont.getSizeX()-1,cont.getSizeY()-1,true,Direction.UP);
+				block = insertBlock(blocks,new PipeBlockPoolBig(environment,true,Direction.UP),0,cont.getSizeY()/2+1,cont.getSizeX()-1,cont.getSizeY()-1,true,Direction.UP);
 				break;
 			case Direction.DOWN:
-				block = insertBlock(blocks,new PipeBlockPoolBig(images,true,Direction.DOWN),0,0,cont.getSizeX()-1,cont.getSizeY()/2-2,true,Direction.DOWN);
+				block = insertBlock(blocks,new PipeBlockPoolBig(environment,true,Direction.DOWN),0,0,cont.getSizeX()-1,cont.getSizeY()/2-2,true,Direction.DOWN);
 				break;
 			default:
-				block = insertBlock(blocks,new PipeBlockPoolBig(images,true,Direction.RIGHT),0,0,cont.getSizeX()/2-2,cont.getSizeY()-1,true,Direction.LEFT);
+				block = insertBlock(blocks,new PipeBlockPoolBig(environment,true,Direction.RIGHT),0,0,cont.getSizeX()/2-2,cont.getSizeY()-1,true,Direction.LEFT);
 				break;
 		}
 		return block;
@@ -134,7 +129,7 @@ class LevelFactory
 	/**
 	 * Get a random type of pool block at any position
 	 * @param blocks Array with blocks in which the start block should be inserted
-	 * @param start The start block which water might run from, if null the pool block 
+	 * @param startBlock The start block which water might run from, if null the pool block
 	 * might be inserted anywhere on the game area
 	 */
 	protected PipeBlock getRandomPoolBlock(PipeBlock blocks[], PipeBlock startBlock)
@@ -168,19 +163,19 @@ class LevelFactory
 
 		switch(type) {
 			case Direction.LEFT:
-				block = insertBlock(blocks,new PipeBlockPoolBig(images,false,Direction.LEFT),cont.getSizeX()/2+1,0,cont.getSizeX()-1,cont.getSizeY()-1,true,Direction.LEFT);
+				block = insertBlock(blocks,new PipeBlockPoolBig(environment,false,Direction.LEFT),cont.getSizeX()/2+1,0,cont.getSizeX()-1,cont.getSizeY()-1,true,Direction.LEFT);
 				break;
 			case Direction.RIGHT:
-				block = insertBlock(blocks,new PipeBlockPoolBig(images,false,Direction.RIGHT),0,0,cont.getSizeX()/2-2,cont.getSizeY()-1,true,Direction.RIGHT);
+				block = insertBlock(blocks,new PipeBlockPoolBig(environment,false,Direction.RIGHT),0,0,cont.getSizeX()/2-2,cont.getSizeY()-1,true,Direction.RIGHT);
 				break;
 			case Direction.UP:
-				block = insertBlock(blocks,new PipeBlockPoolBig(images,false,Direction.UP),0,cont.getSizeY()/2+1,cont.getSizeX()-1,cont.getSizeY()-1,true,Direction.UP);
+				block = insertBlock(blocks,new PipeBlockPoolBig(environment,false,Direction.UP),0,cont.getSizeY()/2+1,cont.getSizeX()-1,cont.getSizeY()-1,true,Direction.UP);
 				break;
 			case Direction.DOWN:
-				block = insertBlock(blocks,new PipeBlockPoolBig(images,false,Direction.DOWN),0,0,cont.getSizeX()-1,cont.getSizeY()/2-2,true,Direction.DOWN);
+				block = insertBlock(blocks,new PipeBlockPoolBig(environment,false,Direction.DOWN),0,0,cont.getSizeX()-1,cont.getSizeY()/2-2,true,Direction.DOWN);
 				break;
 			default:
-				block = insertBlock(blocks,new PipeBlockPoolBig(images,false,Direction.RIGHT),0,0,cont.getSizeX()/2-2,cont.getSizeY()-1,true,Direction.RIGHT);
+				block = insertBlock(blocks,new PipeBlockPoolBig(environment,false,Direction.RIGHT),0,0,cont.getSizeX()/2-2,cont.getSizeY()-1,true,Direction.RIGHT);
 		}
 		return block;
 	}
@@ -344,8 +339,7 @@ class LevelFactory
 	protected PipeBlock getRandomBlock()
 	{
 		int blockType = (int)(Math.random()*MAX_BLOCK_TYPES);
-		PipeBlock block = null;
-		
+
 		if(!isAllowed(blockType)) {
 			return null;
 		}		
@@ -363,82 +357,82 @@ class LevelFactory
 		PipeBlock block=null;
 		switch(blockType) {
 			case 0:
-				block = new PipeBlockCross(images);
+				block = new PipeBlockCross(environment);
 				break;
 			case 1:
-				block = new PipeBlockUpDown(images);
+				block = new PipeBlockUpDown(environment);
 				break;
 			case 2:
-				block = new PipeBlockLeftRight(images);
+				block = new PipeBlockLeftRight(environment);
 				break;
 			case 3:
-				block = new PipeBlockLeftDown(images);
+				block = new PipeBlockLeftDown(environment);
 				break;
 			case 4:
-				block = new PipeBlockLeftUp(images);
+				block = new PipeBlockLeftUp(environment);
 				break;
 			case 5:
-				block = new PipeBlockRightDown(images);
+				block = new PipeBlockRightDown(environment);
 				break;
 			case 6:
-				block = new PipeBlockRightUp(images);
+				block = new PipeBlockRightUp(environment);
 				break;
 			case 7:
-				block = new PipeBlockCrossSplit(images);
+				block = new PipeBlockCrossSplit(environment);
 				break;
 			case 8:
-				block = new PipeBlockPool(images, Direction.LEFT);
+				block = new PipeBlockPool(environment, Direction.LEFT);
 				break;
 			case 9:
-				block = new PipeBlockPool(images, Direction.RIGHT);
+				block = new PipeBlockPool(environment, Direction.RIGHT);
 				break;
 			case 10:
-				block = new PipeBlockPool(images, Direction.UP);
+				block = new PipeBlockPool(environment, Direction.UP);
 				break;
 			case 11:
-				block = new PipeBlockPool(images, Direction.DOWN);
+				block = new PipeBlockPool(environment, Direction.DOWN);
 				break;
 			case 12:
-				block = new PipeBlockPoolBig(images,true,Direction.LEFT);
+				block = new PipeBlockPoolBig(environment,true,Direction.LEFT);
 				break;
 			case 13:
-				block = new PipeBlockPoolBig(images,true,Direction.RIGHT);
+				block = new PipeBlockPoolBig(environment,true,Direction.RIGHT);
 				break;
 			case 14:
-				block = new PipeBlockPoolBig(images,true,Direction.UP);
+				block = new PipeBlockPoolBig(environment,true,Direction.UP);
 				break;
 			case 15:
-				block = new PipeBlockPoolBig(images,true,Direction.DOWN);
+				block = new PipeBlockPoolBig(environment,true,Direction.DOWN);
 				break;
 			case 16:
-				block = new PipeBlockPoolBig(images,false,Direction.LEFT);
+				block = new PipeBlockPoolBig(environment,false,Direction.LEFT);
 				break;
 			case 17:
-				block = new PipeBlockPoolBig(images,false,Direction.RIGHT);
+				block = new PipeBlockPoolBig(environment,false,Direction.RIGHT);
 				break;
 			case 18:
-				block = new PipeBlockPoolBig(images,false,Direction.UP);
+				block = new PipeBlockPoolBig(environment,false,Direction.UP);
 				break;
 			case 19:
-				block = new PipeBlockPoolBig(images,false,Direction.DOWN);
+				block = new PipeBlockPoolBig(environment,false,Direction.DOWN);
 				break;
 			case 20:
-				block = new PipeBlockStart(images,Direction.LEFT);
+				block = new PipeBlockStart(environment,Direction.LEFT);
 				break;
 			case 21:
-				block = new PipeBlockStart(images,Direction.RIGHT);
+				block = new PipeBlockStart(environment,Direction.RIGHT);
 				break;
 			case 22:
-				block = new PipeBlockStart(images,Direction.UP);
+				block = new PipeBlockStart(environment,Direction.UP);
 				break;
 			case 23:
-				block = new PipeBlockStart(images,Direction.DOWN);
+				block = new PipeBlockStart(environment,Direction.DOWN);
 				break;
 			case 24:
-				block = new PipeBlockUnmovable(images);
+				block = new PipeBlockUnmovable(environment);
 				break;
 			default:
-				block = new PipeBlockCross(images);
+				block = new PipeBlockCross(environment);
 				break;
 		}
 		return block;
@@ -469,8 +463,8 @@ class LevelFactory
 	protected boolean isAllowed(int blockType)
 	{
 		String allowed=null;
-		if(cookies!=null) {
-			allowed = cookies.getParameter("block" + blockType + "allowed");
+		if(environment.getStorage()!=null) {
+			allowed = environment.getStorage().getParameter("block" + blockType + "allowed");
 		}
 		if(allowed!=null) {
 			if(blockType<=6 && allowed.equalsIgnoreCase("false")) {
@@ -630,17 +624,17 @@ class LevelFactory
 	 */
 	public void saveAllowedBlocks(PipeBlock blocks[])
 	{
-		if(cookies==null) {
+		if(environment.getStorage()==null) {
 			return;
 		}
 		for(int i=0;i<MAX_BLOCK_TYPES;i++) {
-			cookies.delParameter("block" + i + "allowed");
+			environment.getStorage().delParameter("block" + i + "allowed");
 		}
 		
 		for (int i=0; i<blocks.length; i++) {
 			int blockType = getBlockType(blocks[i]);
 			if(blockType>6) {
-				cookies.setParameter("block" + blockType + "allowed","true");
+				environment.getStorage().setParameter("block" + blockType + "allowed","true");
 			}
 	    }
 	    for (int i=0; i<=6; i++) {
@@ -652,7 +646,7 @@ class LevelFactory
 	    		}
 	    	}
 	    	if(!bFound) {
-	    		cookies.setParameter("block" + i + "allowed","false");
+	    		environment.getStorage().setParameter("block" + i + "allowed","false");
 	    	}
 	    }
 	}
@@ -664,8 +658,8 @@ class LevelFactory
 	public int getNumberOfEmptyBlocks()
 	{
 		String str=null;
-		if(cookies!=null) {
-			str = cookies.getParameter("emptyblocks");
+		if(environment.getStorage()!=null) {
+			str = environment.getStorage().getParameter("emptyblocks");
 		}
 		int emptyBlocks = 20;
 		if(str!=null && str.length()>0) {
@@ -685,8 +679,8 @@ class LevelFactory
 	public int getNumberOfStartBlocks()
 	{
 		String str=null;
-		if(cookies!=null) {
-			str = cookies.getParameter("startblocks");
+		if(environment.getStorage()!=null) {
+			str = environment.getStorage().getParameter("startblocks");
 		}
 		int startBlocks = 1;
 		if(str!=null && str.length()>0) {
@@ -706,8 +700,8 @@ class LevelFactory
 	public int getTimeUntilWater()
 	{
 		String str=null;
-		if(cookies!=null) {
-			str = cookies.getParameter("timeuntilwater");
+		if(environment.getStorage()!=null) {
+			str = environment.getStorage().getParameter("timeuntilwater");
 		}
 		int timeUntilWater = 1000;
 		if(str!=null && str.length()>0) {
@@ -727,8 +721,8 @@ class LevelFactory
 	public int getWaterSpeed()
 	{
 		String str=null;
-		if(cookies!=null) {
-			str = cookies.getParameter("waterspeed");
+		if(environment.getStorage()!=null) {
+			str = environment.getStorage().getParameter("waterspeed");
 		}
 		int waterSpeed = 45;
 		if(str!=null && str.length()>0) {
@@ -749,8 +743,8 @@ class LevelFactory
 	public int getLeftToFill()
 	{
 		String str=null;
-		if(cookies!=null) {
-			str = cookies.getParameter("blockstofill");
+		if(environment.getStorage()!=null) {
+			str = environment.getStorage().getParameter("blockstofill");
 		}
 		int leftToFill = 16;
 		if(str!=null && str.length()>0) {
@@ -768,16 +762,16 @@ class LevelFactory
 	 */
 	public void saveNumberOfEmptyBlocks(int number)
 	{
-		if(cookies==null) {
+		if(environment.getStorage()==null) {
 			return;
 		}
 		if(number==20) {
-			cookies.delParameter("emptyblocks");
+			environment.getStorage().delParameter("emptyblocks");
 		}else {
 			if(number<1) {
 				number=1;
 			}
-			cookies.setParameter("emptyblocks",String.valueOf(number));
+			environment.getStorage().setParameter("emptyblocks",String.valueOf(number));
 		}
 	}
 
@@ -787,16 +781,16 @@ class LevelFactory
 	 */
 	public void saveNumberOfStartBlocks(int number)
 	{
-		if(cookies==null) {
+		if(environment.getStorage()==null) {
 			return;
 		}
 		if(number==1) {
-			cookies.delParameter("startblocks");
+			environment.getStorage().delParameter("startblocks");
 		}else {
 			if(number<1) {
 				number=1;
 			}
-			cookies.setParameter("startblocks",String.valueOf(number));
+			environment.getStorage().setParameter("startblocks",String.valueOf(number));
 		}
 	}
 	
@@ -806,16 +800,16 @@ class LevelFactory
 	 */
 	public void saveTimeUntilWater(int number)
 	{
-		if(cookies==null) {
+		if(environment.getStorage()==null) {
 			return;
 		}
 		if(number==1000) {
-			cookies.delParameter("timeuntilwater");
+			environment.getStorage().delParameter("timeuntilwater");
 		}else {
 			if(number<0) {
 				number=0;
 			}
-			cookies.setParameter("timeuntilwater",String.valueOf(number));
+			environment.getStorage().setParameter("timeuntilwater",String.valueOf(number));
 		}
 	}
 
@@ -826,11 +820,11 @@ class LevelFactory
 	 */
 	public void saveWaterSpeed(int number)
 	{
-		if(cookies==null) {
+		if(environment.getStorage()==null) {
 			return;
 		}
 		if(number==45) {
-			cookies.delParameter("waterspeed");
+			environment.getStorage().delParameter("waterspeed");
 		}else {
 			if(number<0) {
 				number=0;
@@ -838,7 +832,7 @@ class LevelFactory
 				number=50;
 			}
 
-			cookies.setParameter("waterspeed",String.valueOf(number));
+			environment.getStorage().setParameter("waterspeed",String.valueOf(number));
 		}
 	}
 
@@ -848,11 +842,11 @@ class LevelFactory
 	 */
 	public void saveLeftToFill(int number)
 	{
-		if(cookies==null) {
+		if(environment.getStorage()==null) {
 			return;
 		}
 		if(number==16) {
-			cookies.delParameter("blockstofill");
+			environment.getStorage().delParameter("blockstofill");
 		}else {
 			if(number<1) {
 				number=1;
@@ -860,7 +854,7 @@ class LevelFactory
 				number=1000;
 			}
 
-			cookies.setParameter("blockstofill",String.valueOf(number));
+			environment.getStorage().setParameter("blockstofill",String.valueOf(number));
 		}
 	}
 	/**

@@ -20,12 +20,12 @@ class PipePartPool extends PipePart
 
 	/**
 	 * Creates new pipe part
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 */
-	public PipePartPool(ImageHandlerInterface images)
+	public PipePartPool(GameEnvironmentInterface environment)
 	{
-		baseImage = images.getImage("poolPipe.gif");
-		waterImage = images.getImage("poolPipeWater.gif");
+		baseImage = environment.getImageHandler().getImage("poolPipe.gif");
+		waterImage = environment.getImageHandler().getImage("poolPipeWater.gif");
 	}	
 	public void init(BlockContainerInterface cont, int x, int y)
 	{

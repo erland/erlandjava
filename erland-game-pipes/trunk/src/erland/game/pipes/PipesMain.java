@@ -1,6 +1,7 @@
 package erland.game.pipes;
-import erland.util.*;
 import erland.game.*;
+import erland.game.component.EButton;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -9,7 +10,7 @@ import java.util.*;
  * Main game class that controls the game logic and and screen redrawing
  */
 class PipesMain 
-	implements ActionListener, PipeBlockContainerInterface
+	implements GamePanelInterface, ActionListener, PipeBlockContainerInterface
 {
 	/** Horisontal drawing offset, nothing should be drawn to the left of this position */
 	protected int offsetX;
@@ -23,40 +24,26 @@ class PipesMain
 	protected final int BLINK_SPEED=20;
 	/** Indicates if the game is currently running or if it is waiting for the user to press space */
 	protected boolean bStarted;
-	/** Last highscore saved to disk */
-	protected int savedHighScore;
-	/** Current highscore, may not be saved to disk */
-	protected int highScore;
 	/** Current score in the ongoing game */
 	protected int score;
 	/** Current level in the ongoing game */
 	protected int level;
 	/** Number of lifes left in the ongoing game */
 	protected int lifes;
-	/** Parameter storage which is used to save game data and highscores */
-	protected ParameterValueStorageInterface cookies;
 	/** Indicates if cheatmode is active or not */
-	protected boolean cheatMode;
-	/** Counter that contains the time since last FPS calculation in cheatmode */
-	protected long frameTime=0;
-	/** Counter that contains the number of frames drawn since the last FPS calculation in cheatmode */
-	protected int fpsShow=0;
+	protected boolean bCheatMode;
 	/** The last calculated FPS in cheatmode */
-	protected long fps=0;
-	/** Container object which all Buttons should be added to */
-	protected Container container;
+	protected FpsCounter fps;
 	/** Number of levels in the game */
 	protected static final int MAX_LEVEL=10;
 	/** Array with all the buttons */
-	protected Button buttons[];
+	protected EButton buttons[];
 	/** List with all blocks that contains moving water */
 	protected LinkedList blocksWithMovingWater;
 	/** List with all blocks that shall be added to {@link #blocksWithMovingWater} */
 	protected LinkedList addBlocksWithMovingWater;
 	/** Blocks in the current level */
 	protected PipeBlock blocks[];
-	/** Image handler object */
-	protected ImageHandlerInterface images;
 	/** Block container interface object for main game area */
 	protected BlockContainerInterface cont;
 	/** Maximum water speed */
@@ -88,53 +75,88 @@ class PipesMain
 	/** Description countdown */
 	protected int descriptionCounter;
 	/** Indicates if the blocks has been drawn at least once */
-	protected boolean drawnOnce;
-	
-	/**
+	protected int drawOnce;
+    private GameEnvironmentInterface environment;
+    private MouseListener mouseListener;
+    private MouseMotionListener mouseMotionListener;
+    private KeyListener keyListener;
+    private boolean bLoading;
+
+    /**
 	 * Creates a new instance of the main game class
-	 * @param container Container object which all Button's should be added to
-	 * @param cookies Parameter storage object which should be used to access stored game data and highscores
 	 * @param offsetX Horisontal drawing offset, nothing should be drawn to the left of this position
 	 * @param offsetY Vertical drawing offset, nothing should be drawn above this position
 	 */
-	public PipesMain(java.awt.Container container, ParameterValueStorageInterface cookies, ImageHandlerInterface images, int offsetX, int offsetY, int gameType)
+	public PipesMain(int offsetX, int offsetY, int gameType)
 	{
-		this.container = container;
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
-		this.cookies = cookies;
-		this.images = images;
+        this.gameType = gameType;
+	}
+
+    public void init(GameEnvironmentInterface environ) {
+        this.environment = environ;
 		this.cont = new BlockContainerData(offsetX+1, offsetY+1,sizeX,sizeY,blockSize);
-		this.gameType = gameType;
-		cheatMode = false;
+		bCheatMode = false;
 		blocksWithMovingWater = new LinkedList();
 		addBlocksWithMovingWater = new LinkedList();
-		levelFactory = new LevelFactory(cookies,cont,images,gameType);
+		levelFactory = new LevelFactory(environment,cont,gameType);
 
-		buttons = new Button[1];
-		buttons[0] = new Button("Exit");
-		buttons[0].setBounds(offsetX + sizeX*blockSize+80,offsetY + sizeY*blockSize-50,73,25);
+		buttons = new EButton[1];
+		buttons[0] = EButton.create("Exit");
+		buttons[0].getComponent().setBounds(offsetX + sizeX*blockSize+80,offsetY + sizeY*blockSize-50,73,25);
 		if(buttons!=null) {
 			for(int i=0;i<buttons.length;i++) {
 				buttons[i].addActionListener(this);
-				container.add(buttons[i]);
+				environment.getScreenHandler().add(buttons[i].getComponent());
 			}
 		}
 
 		init();
+        // We just want to preload the images so lets just initialize the first level
 		newLevel();
+        initLevel();
+        blocks=null;
 		level=0;
-		try {
-			if(cookies!=null) {
-				highScore=Integer.valueOf(cookies.getParameter("highscore")).intValue();
-			}
-		}catch(NumberFormatException e) {
-			highScore=0;
-		}
-		savedHighScore=highScore;
-		bExit = false;
-	}
-	
+        environment.getHighScore().load();
+        bExit = false;
+        mouseListener = new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if((e.getModifiers() & e.BUTTON1_MASK)!=0) {
+				    handleLeftMousePressed(environment.getScreenHandler().getScreenX(e.getX()),environment.getScreenHandler().getScreenY(e.getY()));
+			    }
+            }
+
+            public void mouseReleased(MouseEvent e) {
+                if((e.getModifiers() & e.BUTTON1_MASK)!=0) {
+			    	handleLeftMouseReleased(environment.getScreenHandler().getScreenX(e.getX()),environment.getScreenHandler().getScreenY(e.getY()));
+			    }
+            }
+        };
+        environment.getScreenHandler().getContainer().addMouseListener(mouseListener);
+        mouseMotionListener = new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                if((e.getModifiers() & e.BUTTON1_MASK)!=0) {
+				    handleLeftMouseDragged(environment.getScreenHandler().getScreenX(e.getX()),environment.getScreenHandler().getScreenY(e.getY()));
+			    }
+            }
+        };
+        environment.getScreenHandler().getContainer().addMouseMotionListener(mouseMotionListener);
+        keyListener = new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode()==e.VK_SPACE) {
+					hitSpace();
+				}
+            }
+        };
+        environment.getScreenHandler().getContainer().addKeyListener(keyListener);
+        environment.getScreenHandler().getContainer().setBackground(Color.black);
+        environment.getScreenHandler().getContainer().requestFocus();
+        fps = new FpsCounter(60);
+        drawOnce=2;
+        bLoading = false;
+    }
+
 	/**
 	 * Initialize a new game
 	 */
@@ -170,16 +192,22 @@ class PipesMain
 	/**
 	 * Exits the game
 	 */
-	protected void exit()
+	protected void exitGame()
 	{
-		if(buttons!=null) {
-			for(int i=0;i<buttons.length;i++) {
-				container.remove(buttons[i]);
-			}
-		}
 		bExit = true;
 	}
-	
+
+    public void exit() {
+        if(buttons!=null) {
+            for(int i=0;i<buttons.length;i++) {
+                environment.getScreenHandler().remove(buttons[i].getComponent());
+            }
+        }
+        environment.getScreenHandler().getContainer().removeMouseListener(mouseListener);
+        environment.getScreenHandler().getContainer().removeMouseMotionListener(mouseMotionListener);
+        environment.getScreenHandler().getContainer().removeKeyListener(keyListener);
+    }
+
 	/**
 	 * Checks if the Exit button has been pressed
 	 * @return true/false (Pressed/Not pressed)
@@ -213,7 +241,7 @@ class PipesMain
 	 */
 	protected void initLevel()
 	{
-		drawnOnce=false;
+        bLoading = true;
 		blocks = levelFactory.getLevel(level);
 		for (int i=0; i<blocks.length; i++) {
 			blocks[i].updateBlock();
@@ -230,34 +258,34 @@ class PipesMain
 		if(speed>50) {
 			speed=50;
 		}
+        drawOnce=2;
+        bLoading = false;
 	}
 	
 	/**
 	 * Draw all the game graphics
-	 * @param g Graphics object to draw on
 	 */
-	public void draw(Graphics g)
+	public void draw()
 	{
+        Graphics g = environment.getScreenHandler().getCurrentGraphics();
 		int gameSizeX = sizeX*blockSize+2;
 		int gameSizeY = sizeX*blockSize+2;
-		if((++fpsShow)>25) {
-			fpsShow=0;
-			long cur = System.currentTimeMillis();
-			fps = 25000/(cur-frameTime);
-			frameTime = cur;
-		}
+        g.clearRect(offsetX+gameSizeX,0,environment.getScreenHandler().getWidth()-(offsetX+gameSizeX),environment.getScreenHandler().getHeight());
+        fps.update();
 		g.setColor(Color.blue);
 		g.drawRect(offsetX, offsetY, gameSizeX-1,gameSizeY-1);
-		if(!drawnOnce) {
-			g.clearRect(offsetX+1,offsetY+1,gameSizeX-3,gameSizeY-3);
+		if(drawOnce>0) {
+			g.clearRect(offsetX+1,offsetY+1,gameSizeX-2,gameSizeY-2);
 		}
 		if(blocks!=null) {
 			for (int i=0; i<blocks.length; i++) {
-				if(blocks[i].needRedraw() || !drawnOnce) {
+				if(blocks[i].needRedraw() || drawOnce>0) {
 					blocks[i].draw(g);
 				}
 		    }
-		    drawnOnce = true;
+            if(drawOnce>0) {
+                drawOnce--;
+            }
 		}else {
 			drawGameDescription(g,gameType);
 		}
@@ -271,13 +299,13 @@ class PipesMain
 
 		int rightColumnX = offsetX+gameSizeX+20;
 		int rightColumnY = offsetY+20;
-		if(!cheatMode && score>highScore) {
-			highScore=score;
+		if(!bCheatMode) {
+			environment.getHighScore().update(score);
 		}
 		g.setColor(Color.white);
 		g.drawString("HIGHSCORE:",rightColumnX, rightColumnY);
 		rightColumnY+=20;
-		g.drawString(String.valueOf(highScore),rightColumnX, rightColumnY);
+		g.drawString(String.valueOf(environment.getHighScore().get()),rightColumnX, rightColumnY);
 		rightColumnY+=20;
 		g.drawString("SCORE:", rightColumnX, rightColumnY);
 		rightColumnY+=20;
@@ -295,8 +323,9 @@ class PipesMain
 			g.drawString("Time until water: "+String.valueOf(timeUntilWater),rightColumnX, rightColumnY);
 		}
 		rightColumnY+=20;
-		if(cheatMode) {
-			g.drawString("*** Cheatmode *** FPS=" + fps,rightColumnX,rightColumnY);
+		if(bCheatMode) {
+			g.drawString("*** Cheatmode *** FPS=",rightColumnX,rightColumnY);
+            fps.draw(g,g.getColor(),rightColumnX+150,rightColumnY);
 			rightColumnY+=20;
 		}
 		rightColumnY+=20;
@@ -306,13 +335,9 @@ class PipesMain
 			}
 			if(descriptionCounter==0) {
 				blocks=null;
+                drawOnce=2;
 			}
-			if(highScore>savedHighScore) {
-				if(cookies!=null) {
-					cookies.setParameter("highscore",Integer.toString(highScore));
-				}
-				savedHighScore=highScore;
-			}
+            environment.getHighScore().save();
 			if(blinkCounter<BLINK_SPEED) {
 				blinkCounter++;
 				if(level==(MAX_LEVEL+1)) {
@@ -338,10 +363,17 @@ class PipesMain
 			if(blinkCounter<BLINK_SPEED) {
 				blinkCounter++;
 				if(level>=1) {
-					g.drawString("**** LEVEL " + level + " ****",rightColumnX, rightColumnY);
-					rightColumnY+=20;
-					g.drawString("Press space to start", rightColumnX, rightColumnY);
-					rightColumnY+=20;
+                    if(bLoading) {
+                        g.drawString("Loading level data...",rightColumnX, rightColumnY);
+                        rightColumnY+=20;
+                        g.drawString("Please wait",rightColumnX, rightColumnY);
+                        rightColumnY+=20;
+                    }else {
+                        g.drawString("**** LEVEL " + level + " ****",rightColumnX, rightColumnY);
+                        rightColumnY+=20;
+                        g.drawString("Press space to start", rightColumnX, rightColumnY);
+                        rightColumnY+=20;
+                    }
 				}else {
 					g.drawString("Press space for a new game",rightColumnX, rightColumnY);
 					rightColumnY+=20;
@@ -355,6 +387,7 @@ class PipesMain
 		}
 		g.setColor(Color.red);
 		g.drawString("by Erland Isaksson",rightColumnX,offsetY+gameSizeY);
+        environment.getScreenHandler().paintComponents(g);
 	}
 
 	/**
@@ -413,7 +446,6 @@ class PipesMain
 				}
 
 				if(blocksWithMovingWater.size()<=0) {
-					boolean bFinished = false;
 					if(gameType==LevelFactory.GameType.UntilWaterStopped) {
 						if(leftToFill==0) {
 							if(!newLevel()) {
@@ -568,9 +600,9 @@ class PipesMain
 	 * Activate or deactivate cheatmode
 	 * @param cheat true/false (Activate/Deactivate)
 	 */
-	public void setCheatMode(boolean cheat)
+	public void setCheatmode(boolean cheat)
 	{
-		cheatMode=cheat;
+		bCheatMode=cheat;
 	}
 
 	/**
@@ -581,8 +613,8 @@ class PipesMain
 	{
 		if(buttons!=null) {
 			for(int i=0;i<buttons.length;i++) {
-				if(e.getSource()==buttons[i]) {
-					exit();
+				if(e.getSource()==buttons[i].getComponent()) {
+					exitGame();
 				}
 			}
 		}

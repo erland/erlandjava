@@ -1,6 +1,5 @@
 package erland.game.pipes;
 import erland.game.*;
-import erland.util.*;
 /**
  * Represents a block like following:
  * OOO
@@ -9,16 +8,16 @@ import erland.util.*;
  */
 class PipeBlockRightDown extends PipeBlock
 {
-	/** Image handler object */
-	ImageHandlerInterface images;
-	
+    /** Game environment object */
+    GameEnvironmentInterface environment;
+
 	/**
 	 * Creates a new pipe block
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 */
-	public PipeBlockRightDown(ImageHandlerInterface images) 
+	public PipeBlockRightDown(GameEnvironmentInterface environment)
 	{
-		this.images = images;
+		this.environment = environment;
 	}
 	public void init(BlockContainerInterface cont, int x, int y)
 	{
@@ -27,13 +26,13 @@ class PipeBlockRightDown extends PipeBlock
 		for (int i=0; i<size; i++) {
 			parts[i] = new PipePart[size];
 			for (int j=0; j<size; j++) {
-				parts[i][j] = new PipePartNone(images);
+				parts[i][j] = new PipePartNone(environment);
 		    }
 	    }
 	    
-		parts[2][1] = new PipePartLeftRight(images);
-		parts[1][1] = new PipePartRightDown(images);
-		parts[1][2] = new PipePartUpDown(images);
+		parts[2][1] = new PipePartLeftRight(environment);
+		parts[1][1] = new PipePartRightDown(environment);
+		parts[1][2] = new PipePartUpDown(environment);
 		
 		super.init(cont,parts,x,y);
 	}

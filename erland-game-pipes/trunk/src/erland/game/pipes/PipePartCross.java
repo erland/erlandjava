@@ -32,14 +32,14 @@ class PipePartCross extends PipePart
 
 	/**
 	 * Creates a new pipe part
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 */
-	public PipePartCross(ImageHandlerInterface images)
+	public PipePartCross(GameEnvironmentInterface environment)
 	{
-		baseImage=images.getImage("crossPipe.gif");
-		waterImageUpDown = images.getImage("crossUpDownPipeWater.gif");
-		waterImageLeftRight = images.getImage("crossLeftRightPipeWater.gif");
-		waterImageCrossAll = images.getImage("crossAllPipeWater.gif");
+		baseImage=environment.getImageHandler().getImage("crossPipe.gif");
+		waterImageUpDown = environment.getImageHandler().getImage("crossUpDownPipeWater.gif");
+		waterImageLeftRight = environment.getImageHandler().getImage("crossLeftRightPipeWater.gif");
+		waterImageCrossAll = environment.getImageHandler().getImage("crossAllPipeWater.gif");
 	}	
 	public void init(BlockContainerInterface cont, int x, int y)
 	{
