@@ -72,7 +72,7 @@
             name="menuFB">
 
             <forward name="channel" path="/do/user/menuviewchannel?channel={idDisplay}&amp;menuItemId={menuItemId}"/>
-            <forward name="success" path="/do/user/searchprograms"/>
+            <forward name="success" path="/do/user/searchsubscribedprograms"/>
         </action>
         <action
             path="/guest/loadmenu"
@@ -80,7 +80,7 @@
             name="menuFB">
 
             <forward name="channel" path="/do/guest/menuviewchannel?user={user}&amp;channel={idDisplay}&amp;menuItemId={menuItemId}"/>
-            <forward name="success" path="/do/guest/searchprograms"/>
+            <forward name="success" path="/do/guest/searchsubscribedprograms"/>
         </action>
         <action
             path="/guest/menu"
