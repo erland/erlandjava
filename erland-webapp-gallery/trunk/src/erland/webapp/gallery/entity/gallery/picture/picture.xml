@@ -47,11 +47,21 @@
                 <column>officialguest</column>
                 <type>Boolean</type>
             </field>
+            <field id="orderNo">
+                <column>orderno</column>
+                <type>Long</type>
+            </field>
         </fields>
         <queries>
             <query id="allforgallery">
                 <querystring>gallery=?</querystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -62,6 +72,12 @@
             <query id="allforgalleryandpicturelist">
                 <querystring>gallery=? and id in ({2})</querystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -76,6 +92,12 @@
             <query id="allforgallerywithlimit">
                 <querystring>gallery=?</querystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -94,6 +116,12 @@
             <query id="allforgalleryandpicturelistwithlimit">
                 <querystring>gallery=? and id in ({2})</querystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -116,6 +144,12 @@
             <query id="allforgallerybetweendates">
                 <querystring>gallery=? and date between ? and ?</querystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -134,6 +168,12 @@
             <query id="allforgallerybetweendateswithlimit">
                 <querystring>gallery=? and date between ? and ?</querystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -160,6 +200,12 @@
             <query id="allforgallerybetweendatesandpicturelist">
                 <querystring>gallery=? and date between ? and ? and id in ({4})</querystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -182,6 +228,12 @@
             <query id="allforgallerybetweendatesandpicturelistwithlimit">
                 <querystring>gallery=? and date between ? and ?</querystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -212,6 +264,12 @@
             <query id="allforgalleryandcategorylistwithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2})</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -234,6 +292,12 @@
             <query id="allforgalleryandcategorylist">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2})</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -248,6 +312,12 @@
             <query id="allforgalleryandcategorylistandpicturelist">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2}) and pictures.id in ({3})</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -266,6 +336,12 @@
             <query id="allforgalleryandcategorylistandpicturelistwithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2}) and pictures.id in ({3})</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -292,6 +368,12 @@
             <query id="allforgalleryandcategorylist">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2}) and pictures.id in ({3})</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -310,6 +392,12 @@
             <query id="allforgalleryandcategorylistbetweendateswithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4})</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -340,6 +428,12 @@
             <query id="allforgalleryandcategorylistbetweendates">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4})</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -362,6 +456,12 @@
             <query id="allforgalleryandcategorylistbetweendatesandpicturelistwithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5})</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -396,6 +496,12 @@
             <query id="allforgalleryandcategorylistbetweendatesandpicturelist">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5})</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -422,6 +528,12 @@
             <query id="allforgalleryandcategorylistallrequiredbetweendateswithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) group by pictures.id having count(pictures.id)=?</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -456,6 +568,12 @@
             <query id="allforgalleryandcategorylistallrequiredbetweendates">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) group by pictures.id having count(pictures.id)=?</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -482,6 +600,12 @@
             <query id="allforgalleryandcategorylistallrequired">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2}) group by pictures.id having count(pictures.id)=?</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -500,6 +624,12 @@
             <query id="allforgalleryandcategorylistallrequiredbetweendatesandpicturelistwithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5}) group by pictures.id having count(pictures.id)=?</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -538,6 +668,12 @@
             <query id="allforgalleryandcategorylistallrequiredbetweendatesandpicturelist">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5}) group by pictures.id having count(pictures.id)=?</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -568,6 +704,12 @@
             <query id="allofficialforgalleryandcategorylistwithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2})</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -590,6 +732,12 @@
             <query id="allofficialforgalleryandcategorylist">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2})</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -604,6 +752,12 @@
             <query id="allofficialforgalleryandcategorylistandpicturelistwithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2}) and pictures.id in ({3})</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -630,6 +784,12 @@
             <query id="allofficialforgalleryandcategorylistandpicturelist">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2}) and pictures.id in ({3})</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -648,6 +808,12 @@
             <query id="allofficialforgalleryandcategorylistbetweendateswithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4})</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -678,6 +844,12 @@
             <query id="allofficialforgalleryandcategorylistbetweendates">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4})</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -700,6 +872,12 @@
             <query id="allofficialforgalleryandcategorylistbetweendatesandpicturelistwithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5})</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -734,6 +912,12 @@
             <query id="allofficialforgalleryandcategorylistbetweendatesandpicturelist">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5})</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -760,6 +944,12 @@
             <query id="allofficialforgalleryandcategorylistallrequiredbetweendateswithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) group by pictures.id having count(pictures.id)=?</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -794,6 +984,12 @@
             <query id="allofficialforgalleryandcategorylistallrequiredbetweendates">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) group by pictures.id having count(pictures.id)=?</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -820,6 +1016,12 @@
             <query id="allofficialforgalleryandcategorylistallrequiredbetweendatesandpicturelistwithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5}) group by pictures.id having count(pictures.id)=?</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -858,6 +1060,12 @@
             <query id="allofficialforgalleryandcategorylistallrequiredbetweendatesandpicturelist">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.official=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5}) group by pictures.id having count(pictures.id)=?</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -888,6 +1096,12 @@
             <query id="allofficialforgallery">
                 <querystring>gallery=? and official=1</querystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -898,6 +1112,12 @@
             <query id="allofficialforgalleryandpicturelist">
                 <querystring>gallery=? and official=1 and id in ({2})</querystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -912,6 +1132,12 @@
             <query id="allofficialforgallerybetweendates">
                 <querystring>gallery=? and pictures.date between ? and ? and official=1</querystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -930,6 +1156,12 @@
             <query id="allofficialforgallerybetweendatesandpicturelist">
                 <querystring>gallery=? and pictures.date between ? and ? and official=1 and id in ({4})</querystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -952,6 +1184,12 @@
             <query id="allofficialforgalleryandpicturelistwithlimit">
                 <querystring>gallery=? and official=1 and id in ({2})</querystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -974,6 +1212,12 @@
             <query id="allofficialforgallerybetweendateswithlimit">
                 <querystring>gallery=? and official=1 and date between ? and ?</querystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1000,6 +1244,12 @@
             <query id="allofficialforgallerybetweendatesandpicturelistwithlimit">
                 <querystring>gallery=? and official=1 and date between ? and ? and id in ({4})</querystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1030,6 +1280,12 @@
             <query id="allofficialguestforgalleryandcategorylistwithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.officialguest=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2})</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1052,6 +1308,12 @@
             <query id="allofficialguestforgalleryandcategorylist">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.officialguest=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2})</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1066,6 +1328,12 @@
             <query id="allofficialguestforgalleryandcategorylistandpicturelistwithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.officialguest=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2}) and pictures.id in ({3})</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1092,6 +1360,12 @@
             <query id="allofficialguestforgalleryandcategorylistandpicturelist">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.officialguest=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2}) and pictures.id in ({3})</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1110,6 +1384,12 @@
             <query id="allofficialguestforgalleryandcategorylistbetweendateswithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.officialguest=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4})</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1140,6 +1420,12 @@
             <query id="allofficialguestforgalleryandcategorylistbetweendates">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.officialguest=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4})</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1162,6 +1448,12 @@
             <query id="allofficialguestforgalleryandcategorylistbetweendatesandpicturelistwithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.officialguest=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5})</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1196,6 +1488,12 @@
             <query id="allofficialguestforgalleryandcategorylistbetweendatesandpicturelist">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.officialguest=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5})</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1222,6 +1520,12 @@
             <query id="allofficialguestforgalleryandcategorylistallrequiredbetweendateswithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.officialguest=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) group by pictures.id having count(pictures.id)=?</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1256,6 +1560,12 @@
             <query id="allofficialguestforgalleryandcategorylistallrequiredbetweendates">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.officialguest=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) group by pictures.id having count(pictures.id)=?</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1282,6 +1592,12 @@
             <query id="allofficialguestforgalleryandcategorylistallrequiredbetweendatesandpicturelistwithlimit">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.officialguest=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5}) group by pictures.id having count(pictures.id)=?</completequerystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1320,6 +1636,12 @@
             <query id="allofficialguestforgalleryandcategorylistallrequiredbetweendatesandpicturelist">
                 <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.officialguest=1 and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and date between ? and ? and picturecategories.category in ({4}) and pictures.id in ({5}) group by pictures.id having count(pictures.id)=?</completequerystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1350,6 +1672,12 @@
             <query id="allofficialguestforgallery">
                 <querystring>gallery=? and officialguest=1</querystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1360,6 +1688,12 @@
             <query id="allofficialguestforgalleryandpicturelist">
                 <querystring>gallery=? and officialguest=1 and id in ({2})</querystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1374,6 +1708,12 @@
             <query id="allofficialguestforgallerybetweendates">
                 <querystring>gallery=? and pictures.date between ? and ? and officialguest=1</querystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1392,6 +1732,12 @@
             <query id="allofficialguestforgallerybetweendatesandpicturelist">
                 <querystring>gallery=? and pictures.date between ? and ? and officialguest=1 and id in ({4})</querystring>
                 <orderstring>order by date desc,id desc</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1414,6 +1760,12 @@
             <query id="allofficialguestforgalleryandpicturelistwithlimit">
                 <querystring>gallery=? and officialguest=1 and id in ({2})</querystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1436,6 +1788,12 @@
             <query id="allofficialguestforgallerybetweendateswithlimit">
                 <querystring>gallery=? and officialguest=1 and date between ? and ?</querystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1462,6 +1820,12 @@
             <query id="allofficialguestforgallerybetweendatesandpicturelistwithlimit">
                 <querystring>gallery=? and officialguest=1 and date between ? and ? and id in ({4})</querystring>
                 <orderstring>order by date desc,id desc limit ?,?</orderstring>
+                <orderstrings>
+                    <orderstring id="bydatedesc">order by date desc,id desc limit ?,?</orderstring>
+                    <orderstring id="bydateasc">order by date asc,id asc limit ?,?</orderstring>
+                    <orderstring id="byordernodesc">order by orderno desc,id desc limit ?,?</orderstring>
+                    <orderstring id="byordernoasc">order by orderno asc,id asc limit ?,?</orderstring>
+                </orderstrings>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1491,7 +1855,6 @@
             </query>
             <query id="calculateofficialforgallery">
                 <completequerystring>select pictures.* from pictures,picturecategories,categories where pictures.gallery=? and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and picturecategories.gallery=categories.gallery and picturecategories.category=categories.id group by pictures.id having (max(categories.officialnever)=0 and min(categories.official)=1) or max(categories.officialalways)=1</completequerystring>
-                <orderstring>order by date desc,id desc</orderstring>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
@@ -1501,7 +1864,6 @@
             </query>
             <query id="calculateofficialguestforgallery">
                 <completequerystring>select pictures.* from pictures,picturecategories,categories where pictures.gallery=? and pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and picturecategories.gallery=categories.gallery and picturecategories.category=categories.id group by pictures.id having max(categories.officialnever)=0 or max(categories.officialalways)=1</completequerystring>
-                <orderstring>order by date desc,id desc</orderstring>
                 <fields>
                     <field id="1">
                         <field>gallery</field>
