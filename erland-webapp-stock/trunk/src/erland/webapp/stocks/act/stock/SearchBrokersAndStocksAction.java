@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
 import erland.webapp.stocks.bl.service.BrokerManagerInterface;
-import erland.webapp.stocks.bl.logic.broker.BrokersStockEntry;
+import erland.webapp.stocks.bl.entity.BrokerStockEntry;
+import erland.webapp.stocks.bl.entity.BrokerStockEntry;
 import erland.webapp.stocks.fb.stock.StockPB;
 import erland.webapp.stocks.fb.stock.BrokerPB;
 import erland.webapp.stocks.fb.stock.SelectFB;
@@ -42,7 +43,7 @@ public class SearchBrokersAndStocksAction extends Action {
         BrokerPB[] brokersFB = new BrokerPB[brokerIds.length];
         for (int i = 0; i < brokerIds.length; i++) {
             String brokerId = brokerIds[i];
-            BrokersStockEntry[] stocks = brokers.getStocks(brokerId);
+            BrokerStockEntry[] stocks = brokers.getStocks(brokerId);
             StockPB[] stocksFB = new StockPB[stocks.length];
             for (int j = 0; j < stocksFB.length; j++) {
                 stocksFB[j] = new StockPB();

@@ -19,12 +19,13 @@ package erland.webapp.stocks.bl.logic.broker;
  */
 
 import erland.webapp.common.WebAppEnvironmentInterface;
+import erland.webapp.stocks.bl.entity.BrokerStockEntry;
 
 import java.util.Iterator;
 
 public interface BrokerConnectionInterface {
     public void init(WebAppEnvironmentInterface environment);
     public String getName();
-    public BrokersStockEntry[] getAvailableStocks();
+    public BrokerStockEntry[] getAvailableStocks();
     public String getStock(String stock);
 }

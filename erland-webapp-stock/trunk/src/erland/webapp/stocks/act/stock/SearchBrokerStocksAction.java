@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
 import erland.webapp.stocks.bl.service.BrokerManagerInterface;
-import erland.webapp.stocks.bl.logic.broker.BrokersStockEntry;
+import erland.webapp.stocks.bl.entity.BrokerStockEntry;
 import erland.webapp.stocks.fb.stock.StockPB;
 import erland.webapp.stocks.fb.stock.BrokerPB;
 import erland.webapp.stocks.fb.stock.SelectFB;
@@ -40,7 +40,7 @@ public class SearchBrokerStocksAction extends Action {
         SelectFB fb = (SelectFB) actionForm;
         if(StringUtil.asNull(fb.getBroker())!=null) {
             BrokerManagerInterface brokers = (BrokerManagerInterface) WebAppEnvironmentPlugin.getEnvironment().getServiceFactory().create("stock-brokermanager");
-            BrokersStockEntry[] stocks = brokers.getStocks(fb.getBroker());
+            BrokerStockEntry[] stocks = brokers.getStocks(fb.getBroker());
             BrokerPB brokerPB = new BrokerPB();
             StockPB[] stocksFB = new StockPB[stocks.length];
             for (int j = 0; j < stocksFB.length; j++) {

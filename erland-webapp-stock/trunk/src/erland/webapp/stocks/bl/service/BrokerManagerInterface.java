@@ -18,7 +18,7 @@ package erland.webapp.stocks.bl.service;
  *
  */
 
-import erland.webapp.stocks.bl.logic.broker.BrokersStockEntry;
+import erland.webapp.stocks.bl.entity.BrokerStockEntry;
 import erland.webapp.common.ServiceInterface;
 
 
@@ -27,7 +27,7 @@ public interface BrokerManagerInterface extends ServiceInterface{
 
     String getBrokerName(String brokerCode);
 
-    BrokersStockEntry[] getStocks(String brokerCode);
+    BrokerStockEntry[] getStocks(String brokerCode);
 
     String getStockName(String brokerCode, String stockCode);
 }
