@@ -56,7 +56,7 @@ public class LoadMovieThumbnailAction extends LoadThumbnailAction {
                     }
                 }
             }
-            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, fb.getUseCache(), fb.getCompression(), getUsername(request), imageFile, getCopyrightText(getUsername(request)), thumbnailCreator, response.getOutputStream())) {
+            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, fb.getUseCache(), fb.getCompression(), getUsername(request), imageFile, getCopyright(getGallery(request),getUsername(request)), thumbnailCreator, response.getOutputStream())) {
                 return findFailure(mapping, form, request, response);
             }
         } catch (IOException e) {
