@@ -11,89 +11,89 @@ interface ActionInterface
 	 * just bounce when you miss it with the bat
 	 * and it hits the bottom of the game area
 	 */
-	void SafetyWall();
+	void safetyWall();
 	
 	/**
 	 * Add a new ball at the current position of
 	 * the bat
 	 */
-	void NewBall();
+	void newBall();
 	
 	/**
 	 * Add this monster to the list of monsters currently active
 	 */
-	void NewMonster(Monster m);
+	void newMonster(Monster m);
 	
 	/**
 	 * Add this feature to the list of features currently active
 	 */
-	void NewFeature(Feature f);
+	void newFeature(Feature f);
 	
 	/**
 	 * Remove this ball from the list of active balls
 	 */
-	void RemoveBall(Ball b);
+	void removeBall(Ball b);
 	
 	/**
 	 * Remove this monster from the list of active monsters
 	 */
-	void RemoveMonster(Monster m);
+	void removeMonster(Monster m);
 	
 	/**
 	 * Remove this feature from the list of active features
 	 */
-	void RemoveFeature(Feature f);
+	void removeFeature(Feature f);
 	
 	/**
 	 * Lock the bat for a while so the user won't be able
 	 * to move it
 	 */
-	void LockBat();
+	void lockBat();
 	
 	/**
 	 * Increase the speed of the balls one step
 	 */
-	void IncreaseBallSpeed();
+	void increaseBallSpeed();
 	
 	/**
 	 * Decrease the speed of the balls one step
 	 */
-	void DecreaseBallSpeed();
+	void decreaseBallSpeed();
 	
 	/**
 	 * Increase the speed of the bat one step
 	 */
-	void IncreaseBatSpeed();
+	void increaseBatSpeed();
 	
 	/**
 	 * Decrease the speed of the bat one step
 	 */
-	void DecreaseBatSpeed();
+	void decreaseBatSpeed();
 	
 	/**
 	 * Increase the life counter with an extra life
 	 */
-	void ExtraLife();
+	void extraLife();
 	
 	/**
 	 * Add a second bat
 	 */
-	void DoubleBat();
+	void doubleBat();
 	
 	/**
 	 * Increase the missile counter with one
 	 */
-	void NewMissile();
+	void newMissile();
 	
 	/**
 	 * Make the bat large
 	 */
-	void LargeBat();
+	void largeBat();
 	
 	/**
 	 * Make the bat small
 	 */
-	void SmallBat();
+	void smallBat();
 	
 	/**
 	 * Create an explosion at the specified position
@@ -103,5 +103,5 @@ interface ActionInterface
 	 * @param sizeX The width of the explosion
 	 * @param sizeY the height of the explosion
 	 */
-	void Explode(int x, int y, int sizeX, int sizeY);
+	void explode(int x, int y, int sizeX, int sizeY);
 }

@@ -41,7 +41,7 @@ class Missile
 
 	/**
 	 * Initialize object
-	 * @param images Image handler
+	 * @param environment Game environment handler
 	 * @param cont Block container which the missile resides in
 	 * @param x X position of the missile
 	 * @param y Y position of the missile
@@ -49,7 +49,7 @@ class Missile
 	 * @param missileSizeY Height of the missile
 	 * @param speed Speed of the missile
 	 */
-	public void init(ImageHandlerInterface images, BlockContainerInterface cont, int x, int y, int missileSizeX, int missileSizeY, int speed)
+	public void init(GameEnvironmentInterface environment, BlockContainerInterface cont, int x, int y, int missileSizeX, int missileSizeY, int speed)
 	{
 		this.cont = cont;
 		this.offsetX = cont.getOffsetX();
@@ -60,7 +60,7 @@ class Missile
 		this.missileSizeY = missileSizeY;
 		this.speed = speed;
 		active = true;
-		img = images.getImage("missile.gif");
+		img = environment.getImageHandler().getImage("missile.gif");
 	}
 	
 	/**

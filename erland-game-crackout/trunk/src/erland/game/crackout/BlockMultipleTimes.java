@@ -1,6 +1,5 @@
 package erland.game.crackout;
 import erland.game.*;
-import erland.util.*;
 import java.awt.*;
 
 /**
@@ -29,13 +28,13 @@ class BlockMultipleTimes extends BlockSimple
     	throws CloneNotSupportedException
     {
     	BlockMultipleTimes obj = new BlockMultipleTimes();
-		obj.init(images, cont, sizeX, sizeY, posX, posY, color,hitCount);
+		obj.init(environment, cont, sizeX, sizeY, posX, posY, color,hitCount);
 		return obj;
     }
 
 	/**
 	 * Initialize block
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 * @param cont Reference to block container object
 	 * @param sizeX Width of block (Number of squares)
 	 * @param sizeY Height of block (Number of squares)
@@ -44,9 +43,9 @@ class BlockMultipleTimes extends BlockSimple
 	 * @param color Color of the block
 	 * @param hitCount Number of times the block must be hit
 	 */
-	public void init(ImageHandlerInterface images, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color, int hitCount)
+	public void init(GameEnvironmentInterface environment, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color, int hitCount)
 	{
-		init(images,cont, sizeX, sizeY, posX, posY,color);
+		init(environment,cont, sizeX, sizeY, posX, posY,color);
 		this.hitCount= hitCount;
 		description = "Simple block, needs " + String.valueOf(hitCount) + " hits";
 	}

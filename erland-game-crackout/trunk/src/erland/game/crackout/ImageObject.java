@@ -32,7 +32,7 @@ class ImageObject
 	/**
 	 * Creates a new instance
 	 * @param img Image to draw
-	 * @paran offsetX Horisontal drawing offset
+	 * @param offsetX Horisontal drawing offset
 	 * @param offsetY Vertical drawing offset
 	 * @param x X position
 	 * @param y Y position

@@ -1,7 +1,6 @@
 package erland.game.crackout;
 
 import erland.game.*;
-import erland.util.*;
 import java.awt.*;
 
 /**
@@ -26,13 +25,13 @@ class BlockFeature extends BlockSimple
     	throws CloneNotSupportedException
     {
     	BlockFeature obj = new BlockFeature();
-		obj.init(images, cont, sizeX, sizeY, posX, posY, color, feature);
+		obj.init(environment, cont, sizeX, sizeY, posX, posY, color, feature);
 		return obj;
     }
 
 	/**
 	 * Initialize block
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 * @param cont Reference to block container object
 	 * @param sizeX Width of block (Number of squares)
 	 * @param sizeY Height of block (Number of squares)
@@ -41,64 +40,64 @@ class BlockFeature extends BlockSimple
 	 * @param color Color of the block
 	 * @param featureType Type of feature that should be dropped when the block is hit, see {@link Feature.FeatureType}
 	 */
-	public void init(ImageHandlerInterface images, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color, int featureType)
+	public void init(GameEnvironmentInterface environment, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color, int featureType)
 	{
-		init(images, cont, sizeX, sizeY, posX, posY,color);
+		init(environment, cont, sizeX, sizeY, posX, posY,color);
 		feature = featureType;
 		description = "Feature block: ";
 		img = null;
 		switch(feature) {
 			case Feature.FeatureType.decreaseBallSpeed:
 				description += "Decrease ball speed";
-				img = images.getImage("feature_decballspeed.gif");
+				img = environment.getImageHandler().getImage("feature_decballspeed.gif");
 				break;			
 			case Feature.FeatureType.decreaseBatSpeed:
 				description += "Decrease bat speed";
-				img = images.getImage("feature_decbatspeed.gif");
+				img = environment.getImageHandler().getImage("feature_decbatspeed.gif");
 				break;			
 			case Feature.FeatureType.doubleBat:
 				description += "Double bat";
-				img = images.getImage("feature_doublebat.gif");
+				img = environment.getImageHandler().getImage("feature_doublebat.gif");
 				break;			
 			case Feature.FeatureType.extraLife:
 				description += "Extra life";
-				img = images.getImage("feature_extralife.gif");
+				img = environment.getImageHandler().getImage("feature_extralife.gif");
 				break;			
 			case Feature.FeatureType.increaseBallSpeed:
 				description += "Increase ball speed";
-				img = images.getImage("feature_incballspeed.gif");
+				img = environment.getImageHandler().getImage("feature_incballspeed.gif");
 				break;			
 			case Feature.FeatureType.increaseBatSpeed:
 				description += "Increase bat speed";
-				img = images.getImage("feature_incbatspeed.gif");
+				img = environment.getImageHandler().getImage("feature_incbatspeed.gif");
 				break;			
 			case Feature.FeatureType.lockBat:
 				description += "Lock bat";
-				img = images.getImage("feature_lockbat.gif");
+				img = environment.getImageHandler().getImage("feature_lockbat.gif");
 				break;			
 			case Feature.FeatureType.newBall:
 				description += "New ball";
-				img = images.getImage("feature_newball.gif");
+				img = environment.getImageHandler().getImage("feature_newball.gif");
 				break;			
 			case Feature.FeatureType.safetyWall:
 				description += "Safety wall";
-				img = images.getImage("feature_safetywall.gif");
+				img = environment.getImageHandler().getImage("feature_safetywall.gif");
 				break;			
 			case Feature.FeatureType.missile:
 				description += "Missile";
-				img = images.getImage("feature_missile.gif");
+				img = environment.getImageHandler().getImage("feature_missile.gif");
 				break;			
 			case Feature.FeatureType.largeBat:
 				description += "Large bat";
-				img = images.getImage("feature_largebat.gif");
+				img = environment.getImageHandler().getImage("feature_largebat.gif");
 				break;			
 			case Feature.FeatureType.smallBat:
 				description += "Small bat";
-				img = images.getImage("feature_smallbat.gif");
+				img = environment.getImageHandler().getImage("feature_smallbat.gif");
 				break;			
 			case Feature.FeatureType.bomb:
 				description += "Bomb";
-				img = images.getImage("feature_bomb.gif");
+				img = environment.getImageHandler().getImage("feature_bomb.gif");
 				break;
 			default:
 				break;
@@ -114,7 +113,7 @@ class BlockFeature extends BlockSimple
 			hsb[2]=(float)dieCount/255;
 			Color c=Color.getHSBColor(hsb[0],hsb[1],hsb[2]);
 			Color.RGBtoHSB(c.getRed(),c.getBlue(),c.getGreen(),hsb);
-			hsb[2]=(float)hsb[2]*2/3;
+			hsb[2]=hsb[2]*2/3;
 			int offsetX = cont.getOffsetX();
 			int offsetY = cont.getOffsetY();
 			int squareSize = cont.getSquareSize();
@@ -137,8 +136,8 @@ class BlockFeature extends BlockSimple
 		int squareSize = cont.getSquareSize();
 		int boardSizeX = cont.getSizeX();
 		int boardSizeY = cont.getSizeY();
-		f.init(images, cont,squareSize*posX+squareSize*sizeX/2-squareSize/2,squareSize*posY,feature);
-		a.NewFeature(f);
+		f.init(environment, cont,squareSize*posX+squareSize*sizeX/2-squareSize/2,squareSize*posY,feature);
+		a.newFeature(f);
 	}
 	
 	/**

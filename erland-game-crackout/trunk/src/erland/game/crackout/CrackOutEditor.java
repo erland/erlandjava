@@ -1,6 +1,7 @@
 package erland.game.crackout;
-import erland.util.*;
 import erland.game.*;
+import erland.game.component.EButton;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -8,7 +9,7 @@ import java.awt.event.*;
  * Main object for the level editor
  */
 class CrackOutEditor
-	implements ActionListener
+	implements GamePanelInterface, ActionListener
 {
 	/** Horisontal drawing offset */
 	protected int offsetX;
@@ -34,10 +35,6 @@ class CrackOutEditor
 	protected boolean bExit;
 	/** The position in {@link #selectBlocks} array of the currently selected block */
 	protected int selectedBlock = 0;
-	/** Image handler object */
-	protected ImageHandlerInterface images;
-	/** Reference to parameter storage where highscores and leveldata is stored */
-	protected ParameterValueStorageInterface cookies;
 	/** Level factory for the main level editor area */
 	protected LevelFactory levelFactory;
 	/** Level factory for the select block area */
@@ -48,7 +45,7 @@ class CrackOutEditor
 	 * Array with all the buttons
 	 * @see #buttons
 	 */
-	protected Button realButtons[];
+	protected EButton realButtons[];
 	/** The description of the currently selected block */
 	protected String msg;
 	/** Block container for the main level area */
@@ -57,40 +54,62 @@ class CrackOutEditor
 	protected BlockContainerData selectCont;
 	/** Block container for the preview area */
 	protected BlockContainerData previewCont;
-	/** Container object that the buttons should be added to */
-	protected Container container;
-	
+    protected GameEnvironmentInterface environment;
+    protected MouseListener mouseListener;
 	/**
 	 * Creates a new level editor
-	 * @param container Container object which the buttons can be added to
-	 * @param images Image handler object
-	 * @param cookies Reference to parameter storage object
 	 * @param offsetX Horisontal drawing offset
 	 * @param offsetY Vertical drawing offset
 	 * @param squareSize The size of the squares that all blocks are build of
 	 */
-	public CrackOutEditor(Container container, ImageHandlerInterface images, ParameterValueStorageInterface cookies, int offsetX, int offsetY, int squareSize)
+	public CrackOutEditor(int offsetX, int offsetY, int squareSize)
 	{
-		this.container = container;
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
 		this.squareSize = squareSize;
-		this.images = images;
-		this.cookies = cookies;
+	}
+
+    public void init(GameEnvironmentInterface environ) {
+        this.environment = environ;
 		this.mainCont = new BlockContainerData(offsetX+1, offsetY+1, sizeX, sizeY, squareSize);
 		this.selectCont = new BlockContainerData(offsetX+sizeX*squareSize+20, offsetY+150, 4, 10, squareSize);
 		this.previewCont = new BlockContainerData(offsetX+squareSize*sizeX+20+60,offsetY+90,1,1,squareSize);
 
-		levelFactory = new LevelFactory(images,cookies, mainCont);
-		levelFactorySelect = new LevelFactory(images,cookies, selectCont);
+		levelFactory = new LevelFactory(environment, mainCont);
+		levelFactorySelect = new LevelFactory(environment, selectCont);
 		init();
 		level=0;
 		color=0;
 		increaseLevel();
 		bExit = false;
-	}
-	
-	/**
+
+        mouseListener = new MouseAdapter()  {
+            public void mousePressed(MouseEvent e)
+            {
+                handleMousePressed(environment.getScreenHandler().getScreenX(e.getX()),
+                        environment.getScreenHandler().getScreenY(e.getY()));
+            }
+            public void mouseReleased(MouseEvent e)
+            {
+                handleMouseReleased(environment.getScreenHandler().getScreenX(e.getX()),
+                        environment.getScreenHandler().getScreenY(e.getY()));
+            }
+            public void mouseClicked(MouseEvent e)
+            {
+                handleMouseClicked(environment.getScreenHandler().getScreenX(e.getX()),
+                        environment.getScreenHandler().getScreenY(e.getY()));
+            }
+        };
+        environment.getScreenHandler().getContainer().requestFocus();
+        environment.getScreenHandler().getContainer().addMouseListener(mouseListener);
+        environment.getScreenHandler().getContainer().setBackground(Color.black);
+    }
+
+    public void update() {
+        // Do nothing
+    }
+
+    /**
 	 * Initialize object
 	 */
 	protected void init()
@@ -100,51 +119,47 @@ class CrackOutEditor
 		int rightColumnX = sizeX*squareSize+20;
 		int rightColumnY = 0;
 		rightColumnX+=60;
-		buttons[0] = new ImageObject(images.getImage("button_arrowup.gif"),offsetX,offsetY,rightColumnX,rightColumnY,14,14,true,Color.lightGray);
+		buttons[0] = new ImageObject(environment.getImageHandler().getImage("button_arrowup.gif"),offsetX,offsetY,rightColumnX,rightColumnY,14,14,true,Color.lightGray);
 		rightColumnY+=17;
-		buttons[1] = new ImageObject(images.getImage("button_arrowdown.gif"),offsetX,offsetY,rightColumnX,rightColumnY,14,14,true,Color.lightGray);
+		buttons[1] = new ImageObject(environment.getImageHandler().getImage("button_arrowdown.gif"),offsetX,offsetY,rightColumnX,rightColumnY,14,14,true,Color.lightGray);
 		rightColumnY+=22;
-		buttons[2] = new ImageObject(images.getImage("button_arrowup.gif"),offsetX,offsetY,rightColumnX,rightColumnY,14,14,true,Color.lightGray);
+		buttons[2] = new ImageObject(environment.getImageHandler().getImage("button_arrowup.gif"),offsetX,offsetY,rightColumnX,rightColumnY,14,14,true,Color.lightGray);
 		rightColumnY+=17;
-		buttons[3] = new ImageObject(images.getImage("button_arrowdown.gif"),offsetX,offsetY,rightColumnX,rightColumnY,14,14,true,Color.lightGray);
+		buttons[3] = new ImageObject(environment.getImageHandler().getImage("button_arrowdown.gif"),offsetX,offsetY,rightColumnX,rightColumnY,14,14,true,Color.lightGray);
 
-		realButtons = new Button[7];
+		realButtons = new EButton[7];
 		rightColumnX = sizeX*squareSize+160;
 		rightColumnY = offsetX+140;
-		realButtons[0] = new Button("Clear This");
-		realButtons[0].setBounds(offsetX + rightColumnX,offsetY + rightColumnY,73,25);
+		realButtons[0] = EButton.create("Clear This");
+		realButtons[0].getComponent().setBounds(offsetX + rightColumnX,offsetY + rightColumnY,73,25);
 		//buttons[4] = new ImageObject(images.getImage(images.BUTTON_CLEARTHIS),offsetX, offsetY,rightColumnX,rightColumnY,73,25);
 		rightColumnY+=30;
-		realButtons[1] = new Button("Delete");
-		realButtons[1].setBounds(offsetX + rightColumnX,offsetY + rightColumnY,73,25);
+		realButtons[1] = EButton.create("Delete");
+		realButtons[1].getComponent().setBounds(offsetX + rightColumnX,offsetY + rightColumnY,73,25);
 		//buttons[5] = new ImageObject(images.getImage(images.BUTTON_DELETE),offsetX, offsetY,rightColumnX,rightColumnY,73,25);
 		rightColumnY+=30;
-		realButtons[2] = new Button("New");
-		realButtons[2].setBounds(offsetX + rightColumnX,offsetY + rightColumnY,73,25);
+		realButtons[2] = EButton.create("New");
+		realButtons[2].getComponent().setBounds(offsetX + rightColumnX,offsetY + rightColumnY,73,25);
 		//buttons[6] = new ImageObject(images.getImage(images.BUTTON_NEW),offsetX, offsetY,rightColumnX,rightColumnY,73,25);
 		rightColumnX = sizeX*squareSize+240;
 		rightColumnY = offsetX+140;
-		realButtons[3] = new Button("Get Default");
-		realButtons[3].setBounds(offsetX + rightColumnX,offsetY + rightColumnY,73,25);
+		realButtons[3] = EButton.create("Get Default");
+		realButtons[3].getComponent().setBounds(offsetX + rightColumnX,offsetY + rightColumnY,73,25);
 		//buttons[7] = new ImageObject(images.getImage(images.BUTTON_GETDEFAULT),offsetX, offsetY,rightColumnX,rightColumnY,73,25);
 		rightColumnY+=30;
-		realButtons[4] = new Button("Save This");
-		realButtons[4].setBounds(offsetX + rightColumnX,offsetY + rightColumnY,73,25);
+		realButtons[4] = EButton.create("Save This");
+		realButtons[4].getComponent().setBounds(offsetX + rightColumnX,offsetY + rightColumnY,73,25);
 		//buttons[8] = new ImageObject(images.getImage(images.BUTTON_SAVETHIS),offsetX, offsetY,rightColumnX,rightColumnY,73,25);
 		rightColumnY+=30;
-		realButtons[5] = new Button("Save All");
-		realButtons[5].setBounds(offsetX + rightColumnX,offsetY + rightColumnY,73,25);
+		realButtons[5] = EButton.create("Save All");
+		realButtons[5].getComponent().setBounds(offsetX + rightColumnX,offsetY + rightColumnY,73,25);
 		//buttons[9] = new ImageObject(images.getImage(images.BUTTON_SAVEALL),offsetX, offsetY,rightColumnX,rightColumnY,73,25);
 		rightColumnY+=30;
-		realButtons[6] = new Button("Exit");
-		realButtons[6].setBounds(offsetX + rightColumnX,offsetY + rightColumnY,73,25);
+		realButtons[6] = EButton.create("Exit");
+		realButtons[6].getComponent().setBounds(offsetX + rightColumnX,offsetY + rightColumnY,73,25);
 		//buttons[10] = new ImageObject(images.getImage(images.BUTTON_EXIT),offsetX, offsetY,rightColumnX,rightColumnY,73,25);
 		rightColumnY+=30;
-		for(int i=0;i<realButtons.length;i++) {
-			realButtons[i].addActionListener(this);
-			container.add(realButtons[i]);
-		}
-				
+
 		selectBlocks = levelFactorySelect.getFullBlockList();
 		for(int i=0;i<selectBlocks.length;i++) {
 			selectBlocks[i].setColor(getColor(color));
@@ -158,6 +173,10 @@ class CrackOutEditor
 		}catch(CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
+        for(int i=0;i<realButtons.length;i++) {
+            realButtons[i].addActionListener(this);
+            environment.getScreenHandler().add(realButtons[i].getComponent());
+        }
 	}
 
 	/**
@@ -244,10 +263,11 @@ class CrackOutEditor
 	}
 	/**
 	 * Draw all the level editor grapics
-	 * @param g Graphics object to draw on
-	 */	 
-	public void draw(Graphics g)
+	 */
+	public void draw()
 	{
+        Graphics g = environment.getScreenHandler().getCurrentGraphics();
+        g.clearRect(0,0,environment.getScreenHandler().getWidth(),environment.getScreenHandler().getHeight());
 		g.setColor(Color.blue);
 		g.fillRect(offsetX, offsetY, 1,sizeY*squareSize);
 		g.fillRect(offsetX, offsetY, sizeX*squareSize,1);
@@ -300,6 +320,7 @@ class CrackOutEditor
 		}
 		g.setColor(Color.red);
 		g.drawString("by Erland Isaksson",rightColumnX,offsetY+sizeY*squareSize);
+        environment.getScreenHandler().paintComponents(g);
 	}
 	
 	/**
@@ -496,11 +517,15 @@ class CrackOutEditor
 	 */
 	protected void exitEditor()
 	{
-		for(int i=0;i<realButtons.length;i++) {
-			container.remove(realButtons[i]);
-		}
 		bExit=true;
 	}
+
+    public void exit() {
+        for(int i=0;i<realButtons.length;i++) {
+            environment.getScreenHandler().remove(realButtons[i].getComponent());
+        }
+        environment.getScreenHandler().getContainer().removeMouseListener(mouseListener);
+    }
 	/**
 	 * Checks if the Exit button has been pressed
 	 * @return true/false (Exit pressed/Exit not pressed)
@@ -509,15 +534,18 @@ class CrackOutEditor
 	{
 		return bExit;
 	}
-	
-	/**
+
+    public void setCheatmode(boolean enable) {
+    }
+
+    /**
 	 * Performs the correct action if any of the normal buttons was pressed
 	 * @param e ActionEvent with information about which button that was pressed
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
 		for(int i=0;i<realButtons.length;i++) {
-			if(e.getSource()==realButtons[i]) {
+			if(e.getSource()==realButtons[i].getComponent()) {
 				switch(i) {
 					case 0:
 						clearLevel();

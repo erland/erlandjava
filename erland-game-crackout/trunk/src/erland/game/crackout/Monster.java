@@ -1,5 +1,7 @@
 package erland.game.crackout;
 import erland.util.*;
+import erland.game.GameEnvironmentInterface;
+
 import java.awt.*;
 /**
  * Implements a monster that will bounce around the game area
@@ -56,7 +58,7 @@ class Monster
 	
 	/**
 	 * Initialize object
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 * @param offsetX Horisontal drawing offset
 	 * @param offsetY Vertical drawing offset
 	 * @param limitX Maximum x position for any part of the monster
@@ -66,7 +68,7 @@ class Monster
 	 * @param direction Initial moving direction of the monster
 	 * @param monsterType Type of monster, see {@link MonsterType}
 	 */ 
-	public void init(ImageHandlerInterface images, int offsetX, int offsetY, int limitX, int limitY, int posX, int posY, double direction, int monsterType)
+	public void init(GameEnvironmentInterface environment, int offsetX, int offsetY, int limitX, int limitY, int posX, int posY, double direction, int monsterType)
 	{
 		x = posX;
 		y = posY;
@@ -82,13 +84,13 @@ class Monster
 		active=true;
 		switch(monsterType) {
 			case MonsterType.bounceBlock:
-				img = images.getImage("monster_bounceblock.gif");
+				img = environment.getImageHandler().getImage("monster_bounceblock.gif");
 				break;
 			case MonsterType.bounceOnceBlock:
-				img = images.getImage("monster_bounceonceblock.gif");
+				img = environment.getImageHandler().getImage("monster_bounceonceblock.gif");
 				break;
 			default:
-				img = images.getImage("monster_bounceblock.gif");
+				img = environment.getImageHandler().getImage("monster_bounceblock.gif");
 				break;
 		}
 	}
@@ -114,7 +116,7 @@ class Monster
 	 */
 	protected void handleCollisionExplosive(ActionInterface a)
 	{
-		a.RemoveMonster(this);
+		a.removeMonster(this);
 		active = false;
 	}
 	public void handleCollision(ActionInterface a)
@@ -124,7 +126,7 @@ class Monster
 				break;
 			case MonsterType.bounceOnceBlock:
 				active=false;
-				a.RemoveMonster(this);
+				a.removeMonster(this);
 				break;
 			default:
 				break;

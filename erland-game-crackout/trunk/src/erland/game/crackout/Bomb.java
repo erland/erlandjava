@@ -140,7 +140,7 @@ class Bomb
 		return bCollision;
 	}
 	/**
-	 * Explode the bomb and takes care of any hits on blocks or monster
+	 * explode the bomb and takes care of any hits on blocks or monster
 	 * @param a Reference to an object that implements all collision actions
 	 * @param blocks An array of all blocks that should be checked if they are hit
 	 * @param monsters A list of all monster that should be checked if they are hit

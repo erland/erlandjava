@@ -68,7 +68,7 @@ class Feature
 		static final int largeBat=11;
 		/** Change to a small bat for a while */
 		static final int smallBat=12;
-		/** Explode bomb */
+		/** explode bomb */
 		static final int bomb=13;
 	}
 
@@ -83,13 +83,13 @@ class Feature
 	
 	/**
 	 * Initialize object
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 * @param cont Block container which the feature resides in
 	 * @param posX Initial x position of the feature
 	 * @param posY Initial y position of the feature
 	 * @param featureType Type of feature, see {@link FeatureType}
 	 */
-	public void init(ImageHandlerInterface images, BlockContainerInterface cont, int posX, int posY, int featureType)
+	public void init(GameEnvironmentInterface environment, BlockContainerInterface cont, int posX, int posY, int featureType)
 	{
 		this.cont = cont;
 		x = posX;
@@ -102,47 +102,47 @@ class Feature
 		this.limitX = cont.getSquareSize()*cont.getSizeX();
 		this.limitY = cont.getSquareSize()*cont.getSizeY();
 		this.featureType = featureType;
-		imgBackground = images.getImage("feature.gif");
+		imgBackground = environment.getImageHandler().getImage("feature.gif");
 		img = null;
 		switch(featureType) {
 			case Feature.FeatureType.safetyWall:
-				img = images.getImage("feature_safetywall.gif");
+				img = environment.getImageHandler().getImage("feature_safetywall.gif");
 				break;
 			case Feature.FeatureType.newBall:
-				img = images.getImage("feature_newball.gif");
+				img = environment.getImageHandler().getImage("feature_newball.gif");
 				break;
 			case Feature.FeatureType.lockBat:
-				img = images.getImage("feature_lockbat.gif");
+				img = environment.getImageHandler().getImage("feature_lockbat.gif");
 				break;
 			case Feature.FeatureType.increaseBatSpeed:
-				img = images.getImage("feature_incbatspeed.gif");
+				img = environment.getImageHandler().getImage("feature_incbatspeed.gif");
 				break;
 			case Feature.FeatureType.increaseBallSpeed:
-				img = images.getImage("feature_incballspeed.gif");
+				img = environment.getImageHandler().getImage("feature_incballspeed.gif");
 				break;
 			case Feature.FeatureType.extraLife:
-				img = images.getImage("feature_extralife.gif");
+				img = environment.getImageHandler().getImage("feature_extralife.gif");
 				break;
 			case Feature.FeatureType.doubleBat:
-				img = images.getImage("feature_doublebat.gif");
+				img = environment.getImageHandler().getImage("feature_doublebat.gif");
 				break;
 			case Feature.FeatureType.decreaseBatSpeed:
-				img = images.getImage("feature_decbatspeed.gif");
+				img = environment.getImageHandler().getImage("feature_decbatspeed.gif");
 				break;
 			case Feature.FeatureType.decreaseBallSpeed:
-				img = images.getImage("feature_decballspeed.gif");
+				img = environment.getImageHandler().getImage("feature_decballspeed.gif");
 				break;
 			case Feature.FeatureType.missile:
-				img = images.getImage("feature_missile.gif");
+				img = environment.getImageHandler().getImage("feature_missile.gif");
 				break;
 			case Feature.FeatureType.largeBat:
-				img = images.getImage("feature_largebat.gif");
+				img = environment.getImageHandler().getImage("feature_largebat.gif");
 				break;
 			case Feature.FeatureType.smallBat:
-				img = images.getImage("feature_smallbat.gif");
+				img = environment.getImageHandler().getImage("feature_smallbat.gif");
 				break;
 			case Feature.FeatureType.bomb:
-				img = images.getImage("feature_bomb.gif");
+				img = environment.getImageHandler().getImage("feature_bomb.gif");
 				break;
 			default:
 				break;
@@ -192,48 +192,48 @@ class Feature
 						active=false;
 						switch(featureType) {
 							case FeatureType.lockBat:
-								a.LockBat();
+								a.lockBat();
 								break;
 							case FeatureType.newBall:
-								a.NewBall();
+								a.newBall();
 								break;
 							case FeatureType.increaseBallSpeed:
-								a.IncreaseBallSpeed();
+								a.increaseBallSpeed();
 								break;
 							case FeatureType.decreaseBallSpeed:
-								a.DecreaseBallSpeed();
+								a.decreaseBallSpeed();
 								break;
 							case FeatureType.increaseBatSpeed:
-								a.IncreaseBatSpeed();
+								a.increaseBatSpeed();
 								break;
 							case FeatureType.decreaseBatSpeed:
-								a.DecreaseBatSpeed();
+								a.decreaseBatSpeed();
 								break;
 							case FeatureType.doubleBat:
-								a.DoubleBat();
+								a.doubleBat();
 								break;
 							case FeatureType.extraLife:
-								a.ExtraLife();
+								a.extraLife();
 								break;
 							case FeatureType.safetyWall:
-								a.SafetyWall();
+								a.safetyWall();
 								break;
 							case FeatureType.missile:
-								a.NewMissile();
+								a.newMissile();
 								break;
 							case FeatureType.largeBat:
-								a.LargeBat();
+								a.largeBat();
 								break;
 							case FeatureType.smallBat:
-								a.SmallBat();
+								a.smallBat();
 								break;
 							case FeatureType.bomb:
-								a.Explode((int)x+sizeX/2,(int)y+sizeY/2,cont.getSquareSize()*3,cont.getSquareSize()*3);
+								a.explode((int)x+sizeX/2,(int)y+sizeY/2,cont.getSquareSize()*3,cont.getSquareSize()*3);
 								break;
 							default:
 								break;
 						}
-						a.RemoveFeature(this);
+						a.removeFeature(this);
 					}
 				}
 			}

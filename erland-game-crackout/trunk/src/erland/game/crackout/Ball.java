@@ -2,7 +2,7 @@ package erland.game.crackout;
 
 import java.awt.*;
 import java.util.*;
-import erland.util.*;
+import erland.game.GameEnvironmentInterface;
 
 /**
  * Represents a ball
@@ -34,7 +34,7 @@ class Ball
 			
 	/**
 	 * Initialize the ball
-	 * @param images Reference to image handler object
+	 * @param environment Reference to game environment object
 	 * @param offsetX Horisontal drawing offset
 	 * @param offsetY Vertical drawing offset
 	 * @param sizeX Width of the game area
@@ -45,7 +45,7 @@ class Ball
 	 * @param speed Speed of the ball 
 	 * @param direction Moving direction of the ball
 	 */
-	public void init(ImageHandlerInterface images, int offsetX, int offsetY, int sizeX, int sizeY, int x, int y, int ballSize, int speed, double direction)
+	public void init(GameEnvironmentInterface environment, int offsetX, int offsetY, int sizeX, int sizeY, int x, int y, int ballSize, int speed, double direction)
 	{
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
@@ -56,7 +56,7 @@ class Ball
 		this.speed = speed;
 		this.direction = direction;
 		this.ballSize = ballSize;
-		this.img = images.getImage("ball.gif");
+		this.img = environment.getImageHandler().getImage("ball.gif");
 	}
 	
 	/**
@@ -121,7 +121,7 @@ class Ball
 			if(safe) {
 				bottomCollision(0);
 			}else {
-				a.RemoveBall(this);
+				a.removeBall(this);
 			}
 			y=sizeY-ballSize;
 		}

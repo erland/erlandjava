@@ -1,14 +1,15 @@
 package erland.game.crackout;
-import erland.util.*;
 import erland.game.*;
+import erland.game.component.EButton;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 /**
  * This is the main game object that handles most of the game logic
  */
-class CrackOutMain 
-	implements ActionInterface, ActionListener
+class CrackOutMain
+	implements GamePanelInterface, ActionInterface, ActionListener
 {
 	/** Horisontal drawing offset */
 	protected int offsetX;
@@ -18,8 +19,10 @@ class CrackOutMain
 	protected int squareSize;
 	/** Array of all drawn bats (Can be 1 or 2) */
 	protected Bat bats[];
-	/** List of all active balls */
-	protected LinkedList balls;
+    /** List of all active balls */
+    protected LinkedList balls;
+    /** List of balls that should bw added to currently active */
+    protected LinkedList newBalls;
 	/** List of all balls that should be removed from {@link #balls} */
 	protected LinkedList removeBalls;
 	/** Width of the main game area (Number of squares) */
@@ -28,18 +31,22 @@ class CrackOutMain
 	protected final int sizeY=20;
 	/** Array with all the blocks in the current level */
 	protected Block blocks[];
-	/** List of all currently active features */
-	protected LinkedList features;
-	/** List of all currently active monsters */
-	protected LinkedList monsters;
+    /** List of all currently active features */
+    protected LinkedList features;
+    /** List of all currently active monsters */
+    protected LinkedList monsters;
+    /** List of features that should be added to currently active */
+    protected LinkedList newFeatures;
+    /** List of monsters that should be added to currently active */
+    protected LinkedList newMonsters;
 	/** List of all features that should be removed from {@link #features} */
 	protected LinkedList removeFeatures;
 	/** List of all monsters that should be removed from {@link #monsters} */
 	protected LinkedList removeMonsters;
-	/** List of all currently active missiles */
-	protected LinkedList missiles;
-	/** List of all currently active bombs */
-	protected LinkedList bombs;
+    /** List of all currently active missiles */
+    protected LinkedList missiles;
+    /** List of all currently active bombs */
+    protected LinkedList bombs;
 	/** Number of missiles that is left and can be launched */
 	protected int missileCount;
 	/** Indicates if the bat is moving left */
@@ -54,10 +61,6 @@ class CrackOutMain
 	protected final int BLINK_SPEED=20;
 	/** Indicates if the game is running or waiting for the user */
 	protected boolean bStarted;
-	/** Last highscore saved to disk */
-	protected int savedHighScore;
-	/** Current highscore */
-	protected int highScore;
 	/** Current score */
 	protected int score;
 	/** Current level */
@@ -78,10 +81,6 @@ class CrackOutMain
 	protected int batSizeCountDown;
 	/** Counter that handles the blinking of the safety wall when it is about to disappear */
 	protected int safetyWallBlink;
-	/** Reference to image handler object */
-	protected ImageHandlerInterface images;
-	/** Reference to parameter storage object */
-	protected ParameterValueStorageInterface cookies;
 	/** Level factory object which contains all level data */
 	protected LevelFactory levelFactory;
 	/** Block container for the main game area */
@@ -89,66 +88,114 @@ class CrackOutMain
 	/** Indicates that the Exit button has been pressed */
 	protected boolean bExit;
 	/** The Exit button */
-	protected Button exitButton;
+	protected EButton exitButton;
 	/** Indicates if cheatmode is active or not */
-	protected boolean cheatMode;
+	protected boolean bCheatMode;
 	/** Counter used to calculate framerate when cheatmode is active */
 	protected long frameTime=0;
 	/** Counter used to indicate how many frames that shall be used to calculate a new framerate in cheatmode */
-	protected int fpsShow=0;
-	/** Last framerate calculated when cheatmode is active */
-	protected long fps=0;
-	/** Container object which the Exit button belongs to */
-	protected Container container;
-	
+	protected FpsCounter fps;
+    /** Game environment */
+    private GameEnvironmentInterface environment;
+    private KeyListener keyListener;
+
+    /**
+     * Takes care of all keyboard events
+     */
+    class Keyboard extends KeyAdapter {
+        /**
+         * Called when a key is pressed down
+         * @param e KeyEvent event
+         */
+        public void keyPressed(KeyEvent e) {
+            if(e.getKeyCode()==e.VK_LEFT) {
+                moveLeft();
+            }else if(e.getKeyCode()==e.VK_RIGHT) {
+                moveRight();
+            }else if(e.getKeyCode()==e.VK_SPACE) {
+                hitSpace();
+            }else if(bCheatMode && e.getKeyCode()==e.VK_F1) {
+                increaseStartLevel();
+            }else if(bCheatMode && e.getKeyCode()==e.VK_F2) {
+                safetyWall();
+            }else if(bCheatMode && e.getKeyCode()==e.VK_F3) {
+                increaseBallSpeed();
+            }else if(bCheatMode && e.getKeyCode()==e.VK_F4) {
+                decreaseBallSpeed();
+            }else if(bCheatMode && e.getKeyCode()==e.VK_F5) {
+                increaseBatSpeed();
+            }else if(bCheatMode && e.getKeyCode()==e.VK_F6) {
+                decreaseBatSpeed();
+            }else if(bCheatMode && e.getKeyCode()==e.VK_F7) {
+                newBall();
+            }else if(bCheatMode && e.getKeyCode()==e.VK_F8) {
+                doubleBat();
+            }else if(bCheatMode && e.getKeyCode()==e.VK_F9) {
+                largeBat();
+            }else if(bCheatMode && e.getKeyCode()==e.VK_F10) {
+                smallBat();
+            }
+        }
+        /**
+         * Called when a key is released
+         * @param e KeyEvent event
+         */
+        public void keyReleased(KeyEvent e) {
+            if(e.getKeyCode()==e.VK_LEFT) {
+                stopMoveLeft();
+            }else if(e.getKeyCode()==e.VK_RIGHT) {
+                stopMoveRight();
+            }
+        }
+    }
+
 	/**
 	 * Creates a new instance of the main game object
-	 * @param container Container which the buttons should be added to
-	 * @param images Image handler object
-	 * @param cookies Reference to parameter storage object
 	 * @param offsetX Horisontal drawing offset
 	 * @param offsetY Vertical drawing offset
 	 * @param squareSize The size of the square which all the blocks conists of
 	 */
-	public CrackOutMain(java.awt.Container container, ImageHandlerInterface images, ParameterValueStorageInterface cookies, int offsetX, int offsetY, int squareSize)
+	public CrackOutMain(int offsetX, int offsetY, int squareSize)
 	{
-		this.container = container;
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
 		this.squareSize = squareSize;
+	}
+
+    public void init(GameEnvironmentInterface environment) {
+        this.environment = environment;
 		features = new LinkedList();
 		monsters = new LinkedList();
-		removeFeatures = new LinkedList();
-		removeMonsters = new LinkedList();
+        removeFeatures = new LinkedList();
+        newFeatures = new LinkedList();
+        removeMonsters = new LinkedList();
+        newMonsters = new LinkedList();
 		balls = new LinkedList();
-		removeBalls = new LinkedList();
-		missiles = new LinkedList();
-		bombs = new LinkedList();
+        removeBalls = new LinkedList();
+        newBalls = new LinkedList();
+        missiles = new LinkedList();
+        bombs = new LinkedList();
 		bats = new Bat[2];
-		this.images = images;
-		this.cookies = cookies;
 		bExit = false;
-		cheatMode = false;
+		bCheatMode = false;
 		cont = new BlockContainerData(offsetX+1, offsetY+1,sizeX, sizeY, squareSize);
 		//exitButton = new ImageObject(images.getImage(images.BUTTON_EXIT),offsetX, offsetY, 360,260,75,35);
-		exitButton = new Button("Exit");
-		exitButton.setBounds(offsetX + 360,offsetY + 260,75,25);
+		exitButton = EButton.create("Exit");
+		exitButton.getComponent().setBounds(offsetX + 360,offsetY + 260,75,25);
 		exitButton.addActionListener(this);
-		container.add(exitButton);
-		levelFactory = new LevelFactory(images,cookies,cont);
+		levelFactory = new LevelFactory(environment,cont);
 		init();
 		newLevel();
 		level=0;
-		try {
-			if(cookies!=null) {
-				highScore=Integer.valueOf(cookies.getParameter("highscore")).intValue();
-			}
-		}catch(NumberFormatException e) {
-			highScore=0;
-		}
-		savedHighScore=highScore;
-	}
-	
+        environment.getHighScore().load();
+        environment.getScreenHandler().add(exitButton.getComponent());
+        keyListener = new Keyboard();
+        environment.getScreenHandler().getContainer().requestFocus();
+        environment.getScreenHandler().getContainer().addKeyListener(keyListener);
+        environment.getScreenHandler().getContainer().setBackground(Color.black);
+        fps = new FpsCounter(60);
+    }
+
 	/**
 	 * Initialize a new game
 	 */
@@ -187,7 +234,7 @@ class CrackOutMain
 			bombs.clear();
 			bats[1]=null;
 			Ball b = new Ball();
-			b.init(images,offsetX+1,offsetY+1,sizeX*squareSize,sizeY*squareSize,squareSize*sizeX/2-ballSize/2,squareSize*sizeY-squareSize*2-ballSize-1,ballSize,ballSpeed,2*Math.PI*25/32);
+			b.init(environment,offsetX+1,offsetY+1,sizeX*squareSize,sizeY*squareSize,squareSize*sizeX/2-ballSize/2,squareSize*sizeY-squareSize*2-ballSize-1,ballSize,ballSpeed,2*Math.PI*25/32);
 			balls.add(b);
 			moveLeft = false;
 			moveRight = false;
@@ -214,6 +261,9 @@ class CrackOutMain
 		removeMonsters.clear();
 		removeFeatures.clear();
 		removeBalls.clear();
+        newMonsters.clear();
+        newFeatures.clear();
+        newBalls.clear();
 		missiles.clear();
 		bombs.clear();
 		balls.clear();
@@ -228,7 +278,7 @@ class CrackOutMain
 			bats[1] = null;
 			bats[0].init(offsetX+1, offsetY+1, 0,squareSize*sizeX,(squareSize*sizeX)/2-squareSize*2,(squareSize*sizeY)-squareSize*2, squareSize*4, squareSize,batSpeed);
 			Ball b = new Ball();
-			b.init(images,offsetX+1,offsetY+1,sizeX*squareSize,sizeY*squareSize,squareSize*sizeX/2-ballSize/2,squareSize*sizeY-squareSize*2-ballSize-1,ballSize,ballSpeed,2*Math.PI*25/32);
+			b.init(environment,offsetX+1,offsetY+1,sizeX*squareSize,sizeY*squareSize,squareSize*sizeX/2-ballSize/2,squareSize*sizeY-squareSize*2-ballSize-1,ballSize,ballSpeed,2*Math.PI*25/32);
 			balls.add(b);
 			moveLeft = false;
 			moveRight = false;
@@ -242,15 +292,12 @@ class CrackOutMain
 	
 	/**
 	 * Draw all the game graphics
-	 * @param g Graphics object to draw on
 	 */
-	public void draw(Graphics g)
+	public void draw()
 	{
-		if((++fpsShow)%25==0) {
-			long cur = System.currentTimeMillis();
-			fps = 25000/(cur-frameTime);
-			frameTime = cur;
-		}
+        fps.update();
+        Graphics g = environment.getScreenHandler().getCurrentGraphics();
+        g.clearRect(0,0,environment.getScreenHandler().getWidth(),environment.getScreenHandler().getHeight());
 		g.setColor(Color.blue);
 		g.fillRect(offsetX, offsetY, 1,sizeY*squareSize);
 		g.fillRect(offsetX, offsetY, sizeX*squareSize,1);
@@ -309,13 +356,13 @@ class CrackOutMain
 		}
 		int rightColumnX = offsetX+sizeX*squareSize+20;
 		int rightColumnY = offsetY+20;
-		if(!cheatMode && score>highScore) {
-			highScore=score;
+		if(!bCheatMode) {
+			environment.getHighScore().update(score);
 		}
 		g.setColor(Color.white);
 		g.drawString("HIGHSCORE:",rightColumnX, rightColumnY);
 		rightColumnY+=20;
-		g.drawString(String.valueOf(highScore),rightColumnX, rightColumnY);
+		g.drawString(String.valueOf(environment.getHighScore().get()),rightColumnX, rightColumnY);
 		rightColumnY+=20;
 		g.drawString("SCORE:", rightColumnX, rightColumnY);
 		rightColumnY+=20;
@@ -329,18 +376,14 @@ class CrackOutMain
 			g.drawString("Missiles: "+String.valueOf(missileCount),rightColumnX,rightColumnY);
 		}
 		rightColumnY+=20;
-		if(cheatMode) {
-			g.drawString("*** Cheatmode *** FPS=" + fps,rightColumnX,rightColumnY);
+		if(bCheatMode) {
+			g.drawString("*** Cheatmode *** FPS=" ,rightColumnX,rightColumnY);
+            fps.draw(g,Color.white,rightColumnX+150,rightColumnY);
 		}
 		rightColumnY+=20;
 		if(bEnd) {
-			if(highScore>savedHighScore) {
-				if(cookies!=null) {
-					cookies.setParameter("highscore",Integer.toString(highScore));
-				}
-				savedHighScore=highScore;
-			}
-			if(blinkCounter<BLINK_SPEED) {
+            environment.getHighScore().save();
+            if(blinkCounter<BLINK_SPEED) {
 				blinkCounter++;
 				if(level==(levelFactory.getLastLevel()+1)) {
 					g.drawString("CONGRATUALTIONS", rightColumnX, rightColumnY);
@@ -378,11 +421,12 @@ class CrackOutMain
 				blinkCounter = 0;
 			}
 		}
-		if(cookies!=null) {
+		if(environment.getStorage()!=null) {
 			//exitButton.draw(g);
 		}
 		g.setColor(Color.red);
 		g.drawString("by Erland Isaksson",rightColumnX,offsetY+sizeY*squareSize);
+        environment.getScreenHandler().paintComponents(g);
 	}
 	
 	/**
@@ -491,7 +535,22 @@ class CrackOutMain
 			}
 
 		}
-		ListIterator it=removeMonsters.listIterator();
+        ListIterator it=newMonsters.listIterator();
+        while(it.hasNext()) {
+            Monster m= (Monster) (it.next());
+            monsters.add(m);
+        }
+        it=newFeatures.listIterator();
+        while(it.hasNext()) {
+            Feature f= (Feature) (it.next());
+            features.add(f);
+        }
+        it=newBalls.listIterator();
+        while(it.hasNext()) {
+            Ball b= (Ball) (it.next());
+            balls.add(b);
+        }
+		it=removeMonsters.listIterator();
 		while(it.hasNext()) {
 			Monster m=(Monster)(it.next());
 			monsters.remove(m);
@@ -509,6 +568,9 @@ class CrackOutMain
 		removeMonsters.clear();
 		removeFeatures.clear();
 		removeBalls.clear();
+        newMonsters.clear();
+        newFeatures.clear();
+        newBalls.clear();
 		it=missiles.listIterator();
 		while(it.hasNext()) {
 			Missile m=(Missile)(it.next());
@@ -524,7 +586,7 @@ class CrackOutMain
 			}
 		}
 	}
-	
+
 	/**
 	 * Start moving the bat left
 	 */
@@ -589,7 +651,7 @@ class CrackOutMain
 				}else {
 					y=bats[0].top()-10;
 				}
-				m.init(images,cont,bats[0].left()+(bats[0].right()-bats[0].left())/2-5,y,10,20,8);
+				m.init(environment,cont,bats[0].left()+(bats[0].right()-bats[0].left())/2-5,y,10,20,8);
 				missiles.add(m);
 				missileCount--;
 			}
@@ -621,7 +683,7 @@ class CrackOutMain
 		}
 	}
 	
-	public void NewBall()
+	public void newBall()
 	{
 		Ball b = new Ball();
 		Bat bat;
@@ -630,33 +692,33 @@ class CrackOutMain
 		}else {
 			bat = bats[0];
 		}
-		b.init(images,offsetX+1,offsetY+1,sizeX*squareSize,sizeY*squareSize,bat.left()+(bat.right()-bat.left())/2-ballSize/2,bat.top()-ballSize-1,ballSize,ballSpeed,2*Math.PI*25/32);
-		balls.add(b);
+		b.init(environment,offsetX+1,offsetY+1,sizeX*squareSize,sizeY*squareSize,bat.left()+(bat.right()-bat.left())/2-ballSize/2,bat.top()-ballSize-1,ballSize,ballSpeed,2*Math.PI*25/32);
+		newBalls.add(b);
 	}
-	public void NewMonster(Monster m)
+	public void newMonster(Monster m)
 	{
-		monsters.add(m);
+		newMonsters.add(m);
 	}
-	public void NewFeature(Feature f)
+	public void newFeature(Feature f)
 	{
-		features.add(f);
+		newFeatures.add(f);
 	}
-	public void LockBat()
+	public void lockBat()
 	{
 		lockedBat=50;
 	}
-	public void RemoveMonster(Monster m)
+	public void removeMonster(Monster m)
 	{
 		removeMonsters.add(m);
 	}
-	public void RemoveFeature(Feature f)
+	public void removeFeature(Feature f)
 	{
 		removeFeatures.add(f);
 	}
-	public void RemoveBall(Ball b) {
+	public void removeBall(Ball b) {
 		removeBalls.add(b);
 	}
-	public void IncreaseBallSpeed()
+	public void increaseBallSpeed()
 	{
 		ListIterator it = balls.listIterator();
 		while(it.hasNext()) {
@@ -664,7 +726,7 @@ class CrackOutMain
 			b.setSpeed(b.getSpeed()+2);
 		}
 	}
-	public void DecreaseBallSpeed()
+	public void decreaseBallSpeed()
 	{
 		ListIterator it = balls.listIterator();
 		while(it.hasNext()) {
@@ -672,25 +734,25 @@ class CrackOutMain
 			b.setSpeed(b.getSpeed()-2);
 		}
 	}
-	public void IncreaseBatSpeed()
+	public void increaseBatSpeed()
 	{
 		bats[0].setSpeed(bats[0].getSpeed()+2);
 		if(bats[1]!=null) {
 			bats[1].setSpeed(bats[0].getSpeed()+2);
 		}
 	}
-	public void DecreaseBatSpeed()
+	public void decreaseBatSpeed()
 	{
 		bats[0].setSpeed(bats[0].getSpeed()-2);
 		if(bats[1]!=null) {
 			bats[1].setSpeed(bats[0].getSpeed()-2);
 		}
 	}
-	public void ExtraLife()
+	public void extraLife()
 	{
 		lifes++;
 	}
-	public void DoubleBat()
+	public void doubleBat()
 	{
 		doubleBatCountDown=512;
 		if(bats[1]==null) {
@@ -699,16 +761,16 @@ class CrackOutMain
 		int offset = (bats[0].right()-bats[0].left())/4;
 		bats[1].init(offsetX+1, offsetY+1, offset,squareSize*sizeX-offset,bats[0].left()+offset,(squareSize*sizeY)-squareSize*6, bats[0].getSizeX()/2, squareSize,bats[0].getSpeed());
 	}
-	public void SafetyWall()
+	public void safetyWall()
 	{	
 		safetyWallBlink=0;
 		safetyWallCountDown=512;
 	}
-	public void NewMissile()
+	public void newMissile()
 	{
 		missileCount++;
 	}
-	public void LargeBat()
+	public void largeBat()
 	{
 		batSizeCountDown=512;
 		if(bats[0].getSizeX()<=(squareSize*4)) {
@@ -720,7 +782,7 @@ class CrackOutMain
 			}
 		}
 	}
-	public void SmallBat()
+	public void smallBat()
 	{
 		batSizeCountDown=512;
 		if(bats[0].getSizeX()>=(squareSize*4)) {
@@ -733,7 +795,7 @@ class CrackOutMain
 		}
 	}
 
-	public void Explode(int x, int y, int sizeX, int sizeY)
+	public void explode(int x, int y, int sizeX, int sizeY)
 	{
 		Bomb b = new Bomb();
 		b.init(cont,x,y,sizeX,sizeY);
@@ -742,31 +804,6 @@ class CrackOutMain
 		bombs.add(b);
 	}
 
-	/**
-	 * Handle mouseClicked event. Does nothing at the moment since the mouse is not used
-	 * @param x x coordinate of the mouse pointer
-	 * @param y y coordinate of the mouse pointer
-	 */
-	public void handleMouseClicked(int x, int y) 
-	{
-	}
-	/**
-	 * Handle mousePressed event. Does nothing at the moment since the mouse is not used
-	 * @param x x coordinate of the mouse pointer
-	 * @param y y coordinate of the mouse pointer
-	 */
-	public void handleMousePressed(int x, int y)
-	{
-	}
-	/**
-	 * Handle mouseReleased event. Does nothing at the moment since the mouse is not used
-	 * @param x x coordinate of the mouse pointer
-	 * @param y y coordinate of the mouse pointer
-	 */
-	public void handleMouseReleased(int x, int y)
-	{
-	}
-	
 	/**
 	 * Check if the Exit button has been pressed
 	 * @return true/false (Exit pressed/Exit not pressed)
@@ -780,9 +817,9 @@ class CrackOutMain
 	 * Activate or deactivate cheatmode
 	 * @param cheat true neas cheatmode, false means normal mode
 	 */
-	public void setCheatMode(boolean cheat)
+	public void setCheatmode(boolean cheat)
 	{
-		cheatMode=cheat;
+		bCheatMode=cheat;
 	}
 	
 	/**
@@ -791,9 +828,12 @@ class CrackOutMain
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		if(e.getSource()==exitButton) {
+		if(e.getSource()==exitButton.getComponent()) {
 			bExit=true;
-			container.remove(exitButton);
 		}
 	}
+    public void exit() {
+        environment.getScreenHandler().remove(exitButton.getComponent());
+        environment.getScreenHandler().getContainer().removeKeyListener(keyListener);
+    }
 }

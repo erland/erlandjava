@@ -1,6 +1,5 @@
 package erland.game.crackout;
 import erland.game.*;
-import erland.util.*;
 import java.awt.*;
 
 /**
@@ -25,13 +24,13 @@ class BlockMonster extends BlockSimple
     	throws CloneNotSupportedException
     {
     	BlockMonster obj = new BlockMonster();
-		obj.init(images, cont, sizeX, sizeY, posX, posY, color,monster);
+		obj.init(environment, cont, sizeX, sizeY, posX, posY, color,monster);
 		return obj;
     }
 
 	/**
 	 * Initialize block
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 * @param cont Reference to block container object
 	 * @param sizeX Width of block (Number of squares)
 	 * @param sizeY Height of block (Number of squares)
@@ -40,19 +39,19 @@ class BlockMonster extends BlockSimple
 	 * @param color Color of the block
 	 * @param monsterType Type of monster that should be created when the block is hit
 	 */
-	public void init(ImageHandlerInterface images, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color, int monsterType)
+	public void init(GameEnvironmentInterface environment, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color, int monsterType)
 	{
-		init(images, cont, sizeX, sizeY, posX, posY,color);
+		init(environment, cont, sizeX, sizeY, posX, posY,color);
 		monster = monsterType;
 		description = "Monster block: ";
 		switch(monster) {
 			case Monster.MonsterType.bounceBlock:
 				description+="Bounce";
-				img = images.getImage("monster_bounceblock.gif");
+				img = environment.getImageHandler().getImage("monster_bounceblock.gif");
 				break;
 			case Monster.MonsterType.bounceOnceBlock:
 				description+="Bounce once";
-				img = images.getImage("monster_bounceonceblock.gif");
+				img = environment.getImageHandler().getImage("monster_bounceonceblock.gif");
 				break;
 			default:
 				break;
@@ -91,8 +90,8 @@ class BlockMonster extends BlockSimple
 		int squareSize = cont.getSquareSize();
 		int boardSizeX = cont.getSizeX();
 		int boardSizeY = cont.getSizeY();
-		m.init(images,offsetX,offsetY,squareSize*boardSizeX,squareSize*boardSizeY,squareSize*posX+squareSize*sizeX/2-squareSize/2,squareSize*posY,2*Math.PI*Math.random(),monster);
-		a.NewMonster(m);
+		m.init(environment,offsetX,offsetY,squareSize*boardSizeX,squareSize*boardSizeY,squareSize*posX+squareSize*sizeX/2-squareSize/2,squareSize*posY,2*Math.PI*Math.random(),monster);
+		a.newMonster(m);
 	}
 
 	/**

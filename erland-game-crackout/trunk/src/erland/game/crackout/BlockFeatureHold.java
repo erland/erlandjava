@@ -1,7 +1,6 @@
 package erland.game.crackout;
 
 import erland.game.*;
-import erland.util.*;
 import java.awt.*;
 
 /**
@@ -41,13 +40,13 @@ class BlockFeatureHold extends BlockFeature
     	throws CloneNotSupportedException
     {
     	BlockFeatureHold obj = new BlockFeatureHold();
-		obj.init(images, cont, sizeX, sizeY, posX, posY, color, feature);
+		obj.init(environment, cont, sizeX, sizeY, posX, posY, color, feature);
 		return obj;
     }
 
 	/**
 	 * Initialize block
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 * @param cont Reference to block container object
 	 * @param sizeX Width of block (Number of squares)
 	 * @param sizeY Height of block (Number of squares)
@@ -56,9 +55,9 @@ class BlockFeatureHold extends BlockFeature
 	 * @param color Color of the block
 	 * @param featureType Type of feature that should be dropped when the block is hit, see {@link Feature.FeatureType}
 	 */
-	public void init(ImageHandlerInterface images, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color, int featureType)
+	public void init(GameEnvironmentInterface environment, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color, int featureType)
 	{
-		super.init(images,cont,sizeX, sizeY,posX,posY,color,featureType);
+		super.init(environment,cont,sizeX, sizeY,posX,posY,color,featureType);
 		hitCount=2;
 		featureDieCount=0;
 		description += ", needs 2 hits, second hit generates feature";
@@ -117,43 +116,43 @@ class BlockFeatureHold extends BlockFeature
 			if(featureDieCount>0) {
 				switch(feature) {
 					case Feature.FeatureType.lockBat:
-						a.LockBat();
+						a.lockBat();
 						break;
 					case Feature.FeatureType.newBall:
-						a.NewBall();
+						a.newBall();
 						break;
 					case Feature.FeatureType.increaseBallSpeed:
-						a.IncreaseBallSpeed();
+						a.increaseBallSpeed();
 						break;
 					case Feature.FeatureType.decreaseBallSpeed:
-						a.DecreaseBallSpeed();
+						a.decreaseBallSpeed();
 						break;
 					case Feature.FeatureType.increaseBatSpeed:
-						a.IncreaseBatSpeed();
+						a.increaseBatSpeed();
 						break;
 					case Feature.FeatureType.decreaseBatSpeed:
-						a.DecreaseBatSpeed();
+						a.decreaseBatSpeed();
 						break;
 					case Feature.FeatureType.doubleBat:
-						a.DoubleBat();
+						a.doubleBat();
 						break;
 					case Feature.FeatureType.extraLife:
-						a.ExtraLife();
+						a.extraLife();
 						break;
 					case Feature.FeatureType.safetyWall:
-						a.SafetyWall();
+						a.safetyWall();
 						break;
 					case Feature.FeatureType.missile:
-						a.NewMissile();
+						a.newMissile();
 						break;
 					case Feature.FeatureType.largeBat:
-						a.LargeBat();
+						a.largeBat();
 						break;
 					case Feature.FeatureType.smallBat:
-						a.SmallBat();
+						a.smallBat();
 						break;
 					case Feature.FeatureType.bomb:
-						a.Explode(posX*cont.getSquareSize()+cont.getSquareSize()*sizeX/2,posY*cont.getSquareSize()+cont.getSquareSize()*sizeY/2,cont.getSquareSize()*3,cont.getSquareSize()*3);
+						a.explode(posX*cont.getSquareSize()+cont.getSquareSize()*sizeX/2,posY*cont.getSquareSize()+cont.getSquareSize()*sizeY/2,cont.getSquareSize()*3,cont.getSquareSize()*3);
 						break;
 					default:
 						break;

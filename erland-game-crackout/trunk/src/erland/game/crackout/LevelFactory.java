@@ -18,18 +18,16 @@ class LevelFactory
 	/** List of all user made levels */
 	protected LinkedList levels;
 	
-	/** Image handler object */
-	protected ImageHandlerInterface images;
 	/** Width of blocks (Square coordinate) */
 	protected int sizeX;
 	/** Height of blocks (Square coordinate) */
 	protected int sizeY;
-	/** Parameter storage which contains user made levels */
-	protected ParameterValueStorageInterface cookies;
 	/** The last level number */
 	protected int maxLevel;
 	/** Block container which the blocks should reside in */
 	protected BlockContainerInterface cont;
+    /** Game environment */
+    private GameEnvironmentInterface environment;
 
 	/**
 	 * Get a array with all different blocks available
@@ -102,24 +100,22 @@ class LevelFactory
 		x*=Level.squareSizeX;
 		y*=Level.squareSizeY;
 
-		Block block = Level.newBlock(images, cont, x,y,c,type);
+		Block block = Level.newBlock(environment, cont, x,y,c,type);
 		if(block!=null) {
 			blocks.add(block);
 		}
 	}
 	/**
 	 * Creates a new level factory
-	 * @param images Image handler object
-	 * @param cookies Parameter storage object which should be used when accessing user made level data
+	 * @param environment Game environment
 	 * @param cont Block container which the blocks should reside in
 	 */
-	public LevelFactory(ImageHandlerInterface images, ParameterValueStorageInterface cookies, BlockContainerInterface cont)
+	public LevelFactory(GameEnvironmentInterface environment, BlockContainerInterface cont)
 	{
-		this.images = images;
+        this.environment = environment;
 		this.cont = cont;
 		this.sizeX = cont.getSizeX();
 		this.sizeY = cont.getSizeY();
-		this.cookies = cookies;
 		this.levels = new LinkedList();
 		loadAll();
 	}
@@ -372,8 +368,8 @@ class LevelFactory
 	 */
 	protected boolean loadAll()
 	{
-		if(cookies!=null) {
-			String maxlevelstr = cookies.getParameter("maxlevel");
+		if(environment.getStorage()!=null) {
+			String maxlevelstr = environment.getStorage().getParameter("maxlevel");
 			levels.clear();
 			
 			if(maxlevelstr.length()>0) {
@@ -397,10 +393,10 @@ class LevelFactory
 	 */
 	protected boolean loadLevel(int level)
 	{
-		if(cookies!=null) {
-			String leveldata = cookies.getParameter("level"+String.valueOf(level));
+		if(environment.getStorage()!=null) {
+			String leveldata = environment.getStorage().getParameter("level"+String.valueOf(level));
 			if(leveldata.length()>0) {
-				Level lev = new Level(images, cont);
+				Level lev = new Level(environment, cont);
 				if(lev.load(level,leveldata)) {
 					ListIterator it = levels.listIterator();
 					while(it.hasNext()) {
@@ -432,7 +428,7 @@ class LevelFactory
 				l.setId(l.getId()+1);
 			}
 		}
-		Level lev = new Level(images, cont);
+		Level lev = new Level(environment, cont);
 		lev.setId(level+1);
 		levels.add(lev);
 		maxLevel++;
@@ -483,15 +479,15 @@ class LevelFactory
 	 */
 	public boolean saveLevel(int level) 
 	{
-		if(cookies!=null) {
+		if(environment.getStorage()!=null) {
 			ListIterator it = levels.listIterator();
 			while(it.hasNext()) {
 				Level l = (Level)(it.next());
 				if(l.getId()==level) {
-					cookies.setParameter("level"+String.valueOf(l.getId()),l.getDataAsString());
+					environment.getStorage().setParameter("level"+String.valueOf(l.getId()),l.getDataAsString());
 				}
 			}
-			cookies.setParameter("maxlevel",String.valueOf(maxLevel));
+			environment.getStorage().setParameter("maxlevel",String.valueOf(maxLevel));
 			return true;
 		}
 		return false;
@@ -516,7 +512,7 @@ class LevelFactory
 		}
 
 		if(lev==null) {
-			lev = new Level(images, cont);
+			lev = new Level(environment, cont);
 			levels.add(lev);
 		}
 		lev.setId(level);
@@ -530,16 +526,16 @@ class LevelFactory
 	 */
 	public boolean saveAll()
 	{
-		if(cookies!=null) {
+		if(environment.getStorage()!=null) {
 			for(int i=0;i<maxLevel;i++) {
-				cookies.delParameter("level"+String.valueOf(i+1));
+				environment.getStorage().delParameter("level"+String.valueOf(i+1));
 			}
 			ListIterator it = levels.listIterator();
 			while(it.hasNext()) {
 				Level l = (Level)(it.next());
-				cookies.setParameter("level"+String.valueOf(l.getId()),l.getDataAsString());
+				environment.getStorage().setParameter("level"+String.valueOf(l.getId()),l.getDataAsString());
 			}
-			cookies.setParameter("maxlevel",String.valueOf(maxLevel));
+			environment.getStorage().setParameter("maxlevel",String.valueOf(maxLevel));
 			return true;
 		}else {
 			return false;

@@ -53,21 +53,19 @@ class Level
 	protected Block blocks[];
 	/** The level number of this level */
 	protected int id;
-	/** Image handler object */
-	protected ImageHandlerInterface images;
 	/** Block container which the blocks resides in */
 	protected BlockContainerInterface cont;
-	
+    protected GameEnvironmentInterface environment;
 	/**
 	 * Creates a new Level object
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 * @param cont Block container which the blocks should reside in
 	 */
-	public Level(ImageHandlerInterface images, BlockContainerInterface cont)
+	public Level(GameEnvironmentInterface environment, BlockContainerInterface cont)
 	{
 		blocks = new Block[0];
 		id=0;
-		this.images = images;
+		this.environment= environment;
 		this.cont = cont;
 	}
 	
@@ -176,7 +174,7 @@ class Level
 				break;
 			}
 			if(bSuccess) {
-				Block block = newBlock(images, cont,x,y,getBlockColor(color),type);
+				Block block = newBlock(environment, cont,x,y,getBlockColor(color),type);
 				blocklist.add(block);
 			}
 			prev = next+1;
@@ -360,7 +358,7 @@ class Level
 	
 	/**
 	 * Creates a new block and returns it
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 * @param cont Block container which the block should reside in
 	 * @param x X position of the block (Square coordinate)
 	 * @param y Y position of the block (Square coordinate)
@@ -368,137 +366,137 @@ class Level
 	 * @param type Type of block to create, see {@link BlockType}
 	 * @return The newly created block
 	 */
-	public static Block newBlock(ImageHandlerInterface images, BlockContainerInterface cont, int x, int y, Color c, int type)
+	public static Block newBlock(GameEnvironmentInterface environment, BlockContainerInterface cont, int x, int y, Color c, int type)
 	{
 		Block block = null;
 		switch(type) {
 			case BlockType.fLockBat:
 				block = new BlockFeature();
-				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.lockBat);
+				((BlockFeature)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.lockBat);
 				break;
 			case BlockType.fNewBall:
 				block = new BlockFeature();
-				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.newBall);
+				((BlockFeature)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.newBall);
 				break;
 			case BlockType.fIncreaseBallSpeed:
 				block = new BlockFeature();
-				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.increaseBallSpeed);
+				((BlockFeature)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.increaseBallSpeed);
 				break;
 			case BlockType.fDecreaseBallSpeed:
 				block = new BlockFeature();
-				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.decreaseBallSpeed);
+				((BlockFeature)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.decreaseBallSpeed);
 				break;
 			case BlockType.fIncreaseBatSpeed:
 				block = new BlockFeature();
-				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.increaseBatSpeed);
+				((BlockFeature)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.increaseBatSpeed);
 				break;
 			case BlockType.fDecreaseBatSpeed:
 				block = new BlockFeature();
-				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.decreaseBatSpeed);
+				((BlockFeature)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.decreaseBatSpeed);
 				break;
 			case BlockType.fDoubleBat:
 				block = new BlockFeature();
-				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.doubleBat);
+				((BlockFeature)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.doubleBat);
 				break;
 			case BlockType.fExtraLife:
 				block = new BlockFeature();
-				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.extraLife);
+				((BlockFeature)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.extraLife);
 				break;
 			case BlockType.fSafetyWall:
 				block = new BlockFeature();
-				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.safetyWall);
+				((BlockFeature)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.safetyWall);
 				break;
 			case BlockType.fMissile:
 				block = new BlockFeature();
-				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.missile);
+				((BlockFeature)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.missile);
 				break;
 			case BlockType.fLargeBat:
 				block = new BlockFeature();
-				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.largeBat);
+				((BlockFeature)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.largeBat);
 				break;
 			case BlockType.fSmallBat:
 				block = new BlockFeature();
-				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.smallBat);
+				((BlockFeature)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.smallBat);
 				break;
 			case BlockType.fBomb:
 				block = new BlockFeature();
-				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.bomb);
+				((BlockFeature)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.bomb);
 				break;
 			case BlockType.fLockBatHold:
 				block = new BlockFeatureHold();
-				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.lockBat);
+				((BlockFeatureHold)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.lockBat);
 				break;
 			case BlockType.fNewBallHold:
 				block = new BlockFeatureHold();
-				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.newBall);
+				((BlockFeatureHold)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.newBall);
 				break;
 			case BlockType.fIncreaseBallSpeedHold:
 				block = new BlockFeatureHold();
-				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.increaseBallSpeed);
+				((BlockFeatureHold)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.increaseBallSpeed);
 				break;
 			case BlockType.fDecreaseBallSpeedHold:
 				block = new BlockFeatureHold();
-				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.decreaseBallSpeed);
+				((BlockFeatureHold)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.decreaseBallSpeed);
 				break;
 			case BlockType.fIncreaseBatSpeedHold:
 				block = new BlockFeatureHold();
-				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.increaseBatSpeed);
+				((BlockFeatureHold)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.increaseBatSpeed);
 				break;
 			case BlockType.fDecreaseBatSpeedHold:
 				block = new BlockFeatureHold();
-				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.decreaseBatSpeed);
+				((BlockFeatureHold)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.decreaseBatSpeed);
 				break;
 			case BlockType.fDoubleBatHold:
 				block = new BlockFeatureHold();
-				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.doubleBat);
+				((BlockFeatureHold)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.doubleBat);
 				break;
 			case BlockType.fExtraLifeHold:
 				block = new BlockFeatureHold();
-				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.extraLife);
+				((BlockFeatureHold)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.extraLife);
 				break;
 			case BlockType.fSafetyWallHold:
 				block = new BlockFeatureHold();
-				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.safetyWall);
+				((BlockFeatureHold)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.safetyWall);
 				break;
 			case BlockType.fMissileHold:
 				block = new BlockFeatureHold();
-				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.missile);
+				((BlockFeatureHold)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.missile);
 				break;
 			case BlockType.fLargeBatHold:
 				block = new BlockFeatureHold();
-				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.largeBat);
+				((BlockFeatureHold)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.largeBat);
 				break;
 			case BlockType.fSmallBatHold:
 				block = new BlockFeatureHold();
-				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.smallBat);
+				((BlockFeatureHold)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.smallBat);
 				break;
 			case BlockType.fBombHold:
 				block = new BlockFeatureHold();
-				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.bomb);
+				((BlockFeatureHold)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.bomb);
 				break;
 			case BlockType.mBounceBlock:
 				block = new BlockMonster();
-				((BlockMonster)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Monster.MonsterType.bounceBlock);
+				((BlockMonster)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Monster.MonsterType.bounceBlock);
 				break;
 			case BlockType.mBounceOnceBlock:
 				block = new BlockMonster();
-				((BlockMonster)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Monster.MonsterType.bounceOnceBlock);
+				((BlockMonster)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,Monster.MonsterType.bounceOnceBlock);
 				break;
 			case BlockType.bPlain:
 				block = new BlockSimple();
-				((BlockSimple)block).init(images,cont,squareSizeX, squareSizeY,x,y,c);
+				((BlockSimple)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c);
 				break;
 			case BlockType.bMultiple:
 				block = new BlockMultipleTimes();
-				((BlockMultipleTimes)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,2);
+				((BlockMultipleTimes)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c,2);
 				break;
 			case BlockType.bStatic:
 				block = new BlockStatic();
-				((BlockStatic)block).init(images,cont,squareSizeX, squareSizeY,x,y);
+				((BlockStatic)block).init(environment,cont,squareSizeX, squareSizeY,x,y);
 				break;
 			default:
 				block = new BlockSimple();
-				((BlockSimple)block).init(images,cont,squareSizeX, squareSizeY,x,y,c);
+				((BlockSimple)block).init(environment,cont,squareSizeX, squareSizeY,x,y,c);
 				break;
 		}
 		return block;

@@ -1,6 +1,5 @@
 package erland.game.crackout;
 import erland.game.*;
-import erland.util.*;
 import java.awt.*;
 
 /**
@@ -27,12 +26,12 @@ class BlockSimple extends Block
     	throws CloneNotSupportedException
     {
     	BlockSimple obj = new BlockSimple();
-		obj.init(images, cont, sizeX, sizeY, posX, posY, color);
+		obj.init(environment, cont, sizeX, sizeY, posX, posY, color);
 		return obj;
     }
 	/**
 	 * Initialize block
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 * @param cont Reference to block container object
 	 * @param sizeX Width of block (Number of squares)
 	 * @param sizeY Height of block (Number of squares)
@@ -40,9 +39,9 @@ class BlockSimple extends Block
 	 * @param posY Y position of block (Square coordinates)
 	 * @param color Color of the block
 	 */
-	public void init(ImageHandlerInterface images, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color)
+	public void init(GameEnvironmentInterface environment, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color)
 	{
-		init(images, cont , sizeX, sizeY, posX, posY);
+		init(environment, cont , sizeX, sizeY, posX, posY);
 		this.color = color;
 	}
 	public int getScore()

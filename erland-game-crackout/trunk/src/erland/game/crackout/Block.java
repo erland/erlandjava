@@ -1,6 +1,5 @@
 package erland.game.crackout;
 import erland.game.*;
-import erland.util.*;
 import java.awt.*;
 
 /**
@@ -22,8 +21,8 @@ abstract class Block
 	protected boolean active;
 	/** Textual description of the block */
 	protected String description;
-	/** Image handler object */
-	protected ImageHandlerInterface images;
+	/** Game environment object */
+	protected GameEnvironmentInterface environment;
 	/** Reference to block container object */
 	protected BlockContainerInterface cont;
 	
@@ -35,27 +34,27 @@ abstract class Block
 
 	/**
 	 * Initialize block
-	 * @param images Image handler object
+	 * @param environment Game environment object
 	 * @param cont Reference to block container object
 	 * @param sizeX Width of block (Number of squares)
 	 * @param sizeY Height of block (Number of squares)
 	 * @param posX X position of block (Square coordinates)
 	 * @param posY Y position of block (Square coordinates)
 	 */
-	public void init(ImageHandlerInterface images, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY)
+	public void init(GameEnvironmentInterface environment, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY)
 	{
+        this.environment = environment;
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.posX = posX;
 		this.posY = posY;
-		this.images = images;
 		this.cont = cont;
 		active = true;
 	} 
 	
 	/**
 	 * Set the block container this block resides in
-	 * @cont Reference to block container object
+	 * @param cont Reference to block container object
 	 */
 	public void setContainer(BlockContainerInterface cont)
 	{

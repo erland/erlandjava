@@ -20,7 +20,7 @@ class BlockStatic extends Block
     	throws CloneNotSupportedException
     {
     	BlockStatic obj = new BlockStatic();
-		obj.init(images, cont, sizeX, sizeY, posX, posY);
+		obj.init(environment, cont, sizeX, sizeY, posX, posY);
 		return obj;
     }
 
