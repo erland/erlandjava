@@ -80,7 +80,7 @@
                             cal.set(Calendar.DAY_OF_MONTH,day);
                                 %><a href="portal?<%=queryAttributes%><%=request.getParameter("month")!=null?"&month="+request.getParameter("month"):""%>&date=<%=dateFormat.format(cal.getTime())%>" title="<%=titleStrings[day]%>"><%
                         }
-                            %><img src="<%=request.getContextPath()%>/<%=day%><%=titleStrings[day]!=null?"s":""%>.gif" border="0" onmouseover="doChangeText(<%=day%>)" onmouseout="doChangeText(0)"></img><%
+                            %><img src="<%=request.getContextPath()%>/images/<%=day%><%=titleStrings[day]!=null?"s":""%>.gif" border="0" onmouseover="doChangeText(<%=day%>)" onmouseout="doChangeText(0)"></img><%
                         if(titleStrings[day]!=null) {
                                 %></a><%
                         }
