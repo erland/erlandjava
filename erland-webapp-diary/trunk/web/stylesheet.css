@@ -518,6 +518,77 @@ color:#000000;
 text-decoration:none;
 }
 
+.speciespage-header {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.speciespage-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.speciespage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.speciespage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.speciespage-list-field {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.speciespage-main-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.speciespage-entry-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.speciespage-entry-title {
+font-family:arial;
+font-size:14px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.speciespage-entry-description {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
 .purchasepage-body {
 font-family:arial;
 font-size:12px;
