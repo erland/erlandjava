@@ -3,8 +3,8 @@
 <%
     String username = request.getParameter("user");
     WebAppEnvironmentInterface env = (WebAppEnvironmentInterface)request.getAttribute("environment");
-    User template = (User)env.getEntityFactory().create("user");
+    User template = (User)env.getEntityFactory().create("usermgmt-userinfo");
     template.setUsername(username);
-    User user = (User)env.getEntityStorageFactory().getStorage("user").load(template);
+    User user = (User)env.getEntityStorageFactory().getStorage("usermgmt-userinfo").load(template);
 %>
 <div class="bold">Välkommen till <font class="title"><%=user.getFirstName()%> <%=user.getLastName()%>'s</font> akvariedagbok</div>

@@ -29,7 +29,7 @@
             <tr><td>Typ</td><td>
             <select name="type">
             <%
-                DescriptionId[] typeList = DescriptionIdHelper.getInstance().getDescriptionIdList("inventoryentrytype");
+                DescriptionId[] typeList = DescriptionIdHelper.getInstance().getDescriptionIdList("diary-inventoryentrytype");
                 for (int i = 0; i < typeList.length; i++) {
                     DescriptionId descriptionId = typeList[i];
                     %>
@@ -88,7 +88,7 @@
                     <tr><td>Händelse</td><td>
                     <select name="eventdescription">
                     <%
-                        typeList = DescriptionIdHelper.getInstance().getDescriptionIdList("inventoryentryeventtype");
+                        typeList = DescriptionIdHelper.getInstance().getDescriptionIdList("diary-inventoryentryeventtype");
                         for (int i = 0; i < typeList.length; i++) {
                             DescriptionId descriptionId = typeList[i];
                             %>

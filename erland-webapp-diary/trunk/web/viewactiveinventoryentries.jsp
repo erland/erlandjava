@@ -32,7 +32,7 @@
                     if(events.length>0) {
                         %>
                         <td nowrap><p class="normal"><%=events[0].getSize()%> cm</p></td>
-                        <td nowrap><p class="normal"><%=DescriptionIdHelper.getInstance().getDescription("inventoryentryeventtype",events[events.length-1].getDescription())%></p></td>
+                        <td nowrap><p class="normal"><%=DescriptionIdHelper.getInstance().getDescription("diary-inventoryentryeventtype",events[events.length-1].getDescription())%></p></td>
                         <td nowrap><p class="normal"><%=dateFormat.format(events[events.length-1].getDate())%></p></td>
                         <td nowrap><a href="portal?do=newinventoryentry&id=<%=entry.getId()%>" class="bold-link">Uppdatera</a></td>
                         </tr>

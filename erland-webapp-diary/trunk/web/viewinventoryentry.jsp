@@ -31,7 +31,7 @@
                 <p class="title">
                 <%=entry.getName()%>
                 <%=events.length>0?events[0].getSize().toString()+" cm":""%>
-                <%=events.length>0?DescriptionIdHelper.getInstance().getDescription("inventoryentryeventtype",events[events.length-1].getDescription()):""%>
+                <%=events.length>0?DescriptionIdHelper.getInstance().getDescription("diary-inventoryentryeventtype",events[events.length-1].getDescription()):""%>
                 <%=events.length>0?dateFormat.format(events[events.length-1].getDate()):""%>
                 </p>
                 </td>
@@ -63,7 +63,7 @@
             <%
             for (int i = 0; i < events.length; i++) {
                 %>
-                <tr><td nowrap><p class="normal"><%=dateFormat.format(events[i].getDate())%> <%=DescriptionIdHelper.getInstance().getDescription("inventoryentryeventtype",events[i].getDescription())%> <%=events[i].isSizeRelevant()?events[i].getSize().toString()+" cm":""%></p></td><tr>
+                <tr><td nowrap><p class="normal"><%=dateFormat.format(events[i].getDate())%> <%=DescriptionIdHelper.getInstance().getDescription("diary-inventoryentryeventtype",events[i].getDescription())%> <%=events[i].isSizeRelevant()?events[i].getSize().toString()+" cm":""%></p></td><tr>
                 <%
             }
             if(entry.getGallery()!=null && entry.getGallery().intValue()!=0) {
