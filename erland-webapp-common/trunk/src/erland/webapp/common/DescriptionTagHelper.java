@@ -57,6 +57,17 @@ public class DescriptionTagHelper {
         }
         return null;
     }
+
+    public String getDescriptionEnglish(String entity, String tag) {
+        DescriptionTag[] tagList = getDescriptionTagList(entity);
+        for (int i = 0; i < tagList.length; i++) {
+            DescriptionTag descriptionTag = tagList[i];
+            if(descriptionTag.getTag().equals(tag)) {
+                return descriptionTag.getDescriptionEnglish();
+            }
+        }
+        return null;
+    }
     public void setDescription(String entity, String tag, String description) {
         DescriptionTag template = (DescriptionTag) environment.getEntityFactory().create(entity);
         template.setType(entity);
