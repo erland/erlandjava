@@ -13,7 +13,7 @@
   
   <!-- The version of the project under development, e.g.
        1.1, 1.2, 2.0-SNAPSHOT -->
-  <currentVersion>SNAPSHOT</currentVersion>
+  <currentVersion>1.0</currentVersion>
   
   <!-- the year the project started -->
   <inceptionYear>2003</inceptionYear>
@@ -25,7 +25,7 @@
   <shortDescription>
     A tetris clone game which also contains a networked multiplayer version
   </shortDescription>
-  <url>http://erland.homeip.net/games/applications/test</url>
+  <url>http://erland.homeip.net/games/applications</url>
   <!-- any mailing lists for the project -->
   <mailingLists/>
   
@@ -44,7 +44,7 @@
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-util</artifactId>
-      <version>SNAPSHOT</version>
+      <version>1.0</version>
       <type>jar</type>
 	  <properties>
         <jnlp.jar>true</jnlp.jar>
@@ -56,7 +56,7 @@
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-game</artifactId>
-      <version>SNAPSHOT</version>
+      <version>1.0</version>
       <type>jar</type>
 	  <properties>
         <jnlp.jar>true</jnlp.jar>
@@ -68,7 +68,7 @@
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-network</artifactId>
-      <version>SNAPSHOT</version>
+      <version>1.0</version>
       <type>jar</type>
 	  <properties>
         <jnlp.jar>true</jnlp.jar>
