@@ -56,6 +56,22 @@
     <link offline="true" href="file://${java.home.jdk.docs.local}" packagelistLoc="${java.home.jdk.docs.local}"/>
 	</javadoc>
   </target>
+  <target name="docpublic">
+    <mkdir dir="${docs}"/>
+	<javadoc sourcepath="${src}"
+		packagenames="erland.${ant.project.name}"
+		destdir="${docs}"
+		public="true"
+		author="true"
+		version="true"
+		use="true"
+		windowtitle="${ant.project.name} API"
+		doctitle="${ant.project.name}"
+		classpath="${java.home.netscapejavascript}"
+		bottom="Copyright &#169; 2000 Erland Isaksson. All Rights Reserved.">
+    <link offline="true" href="file://${java.home.jdk.docs.local}" packagelistLoc="${java.home.jdk.docs.local}"/>
+	</javadoc>
+  </target>
 
   <target name="clean">
     <!-- Delete the ${build} and ${dist} directory trees -->
