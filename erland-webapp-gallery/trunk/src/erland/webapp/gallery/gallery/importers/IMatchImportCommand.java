@@ -99,9 +99,11 @@ public class IMatchImportCommand implements CommandInterface {
         }
     }
     private void doImport(Integer gallery, String line, Boolean localLinks,Boolean filenameAsPictureTitle,Boolean filenameAsPictureDescription, Boolean cutLongPictureTitles) {
-        StringTokenizer tokenizer = new StringTokenizer(line,"\t");
-        if(tokenizer.countTokens()==4) {
+        StringTokenizer tokenizer = new StringTokenizer(line,"\t",true);
+        if(tokenizer.countTokens()>=8) {
             String picture = tokenizer.nextToken();
+            //Discard delimiter
+            tokenizer.nextToken();
             String dateString = tokenizer.nextToken();
             Date date = null;
             try {
@@ -109,13 +111,47 @@ public class IMatchImportCommand implements CommandInterface {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            //Discard delimiter
+            tokenizer.nextToken();
             String oidString = tokenizer.nextToken();
             Integer oid = null;
             if(oidString!=null&&oidString.length()>0) {
                 oid = Integer.valueOf(oidString);
             }
-            Integer pictureId = createPicture(gallery,picture.substring(1,picture.length()-1),date,oid,localLinks,filenameAsPictureTitle,filenameAsPictureDescription,cutLongPictureTitles);
-            String categories = tokenizer.nextToken();
+            String categories="\"\"";
+            String title = null;
+            String description = null;
+            try {
+                //Discard delimiter
+                tokenizer.nextToken();
+                categories = tokenizer.nextToken();
+                if(categories.equalsIgnoreCase("\t")) {
+                    categories="\"\"";
+                }else {
+                    //Discard delimiter
+                    tokenizer.nextToken();
+                }
+                title = tokenizer.nextToken();
+                if(title.equalsIgnoreCase("\t")) {
+                    title=null;
+                }else {
+                    //Discard delimiter
+                    tokenizer.nextToken();
+                }
+                if(title!=null && title.length()>0) {
+                    title = title.substring(1,title.length()-1);
+                }
+                description = tokenizer.nextToken();
+                if(description.equalsIgnoreCase("\t")) {
+                    description=null;
+                }
+                if(description!=null && description.length()>0) {
+                    description = description.substring(1,description.length()-1);
+                }
+            } catch (NoSuchElementException e) {
+                // Do nothing
+            }
+            Integer pictureId = createPicture(gallery,picture.substring(1,picture.length()-1),date,oid,title,description,localLinks,filenameAsPictureTitle,filenameAsPictureDescription,cutLongPictureTitles);
             for(StringTokenizer it = new StringTokenizer(categories.substring(1,categories.length()-1),",");it.hasMoreTokens();) {
                 String category = it.nextToken();
                 Integer categoryId = createCategory(gallery,category);
@@ -123,7 +159,7 @@ public class IMatchImportCommand implements CommandInterface {
             }
         }
     }
-    private Integer createPicture(Integer gallery, String picture, Date modificationDate, Integer id, Boolean localLinks,Boolean filenameAsPictureTitle,Boolean filenameAsPictureDescription, Boolean cutLongPictureTitles) {
+    private Integer createPicture(Integer gallery, String picture, Date modificationDate, Integer id, String title, String description, Boolean localLinks,Boolean filenameAsPictureTitle,Boolean filenameAsPictureDescription, Boolean cutLongPictureTitles) {
         QueryFilter filter = new QueryFilter("ingallerywithname");
         filter.setAttribute("gallery",gallery);
         filter.setAttribute("link","{"+picture+"}");
@@ -132,22 +168,19 @@ public class IMatchImportCommand implements CommandInterface {
             return ((Picture)entities[0]).getId();
         }else {
             Picture entity = (Picture) environment.getEntityFactory().create("picture");
-            if(filenameAsPictureTitle.booleanValue()) {
-                if(cutLongPictureTitles.booleanValue()) {
-                    String title = null;
-                    if(picture.length()>30) {
-                        title = "..."+picture.substring(picture.length()-27);
-                    }else {
-                        title = picture;
-                    }
-                    entity.setTitle(title);
-                }else {
-                    entity.setTitle(picture);
+            if((title==null || title.length()==0) && filenameAsPictureTitle.booleanValue()) {
+                title = picture;
+            }
+            if(cutLongPictureTitles.booleanValue()) {
+                if(title.length()>30) {
+                    title = "..."+title.substring(title.length()-27);
                 }
             }
-            if(filenameAsPictureDescription!=null) {
-                entity.setDescription(picture);
+            entity.setTitle(title);
+            if((description==null || description.length()==0) && filenameAsPictureDescription!=null) {
+                description = picture;
             }
+            entity.setDescription(description);
             if(localLinks.booleanValue()) {
                 entity.setLink(picture);
                 entity.setImage(picture);
@@ -255,9 +288,11 @@ public class IMatchImportCommand implements CommandInterface {
         for (int i = 0; i < entities.length; i++) {
             pictures.add(((Picture) entities[i]).getId());
         }
-        QueryFilter pictureFilter = new QueryFilter("allforgalleryandpicturelist");
-        pictureFilter.setAttribute("gallery", gallery);
-        pictureFilter.setAttribute("pictures", pictures);
-        environment.getEntityStorageFactory().getStorage("picture").update(pictureFilter, entity);
+        if(pictures.size()>0) {
+            QueryFilter pictureFilter = new QueryFilter("allforgalleryandpicturelist");
+            pictureFilter.setAttribute("gallery", gallery);
+            pictureFilter.setAttribute("pictures", pictures);
+            environment.getEntityStorageFactory().getStorage("picture").update(pictureFilter, entity);
+        }
     }
 }
