@@ -22,6 +22,8 @@ CREATE TABLE sections (
   service int(11) default NULL,
   serviceparameters longtext,
   official tinyint(4) default NULL,
+  hosts varchar(255) default NULL,
+  ipaddr varchar(255) default NULL,
   PRIMARY KEY  (username,id)
 ) TYPE=MyISAM;
 
