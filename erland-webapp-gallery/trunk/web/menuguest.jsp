@@ -22,7 +22,7 @@
         <tr>
         <td class="left-margin"></td>
         <td>
-        <a href="portal?do=loginasguest<%=user!=null?"&user="+user:""%>" class="bold-link">Logga in</a>
+        <a href="portal?do=loginasguest<%=user!=null?"&user="+user:""%>" class="bold-link">Logga in som gäst</a>
         </td>
         </tr>
         <%
@@ -32,7 +32,7 @@
         <tr>
         <td class="left-margin"></td>
         <td>
-        <a href="portal?do=logoutguest<%=user!=null?"&user="+user:""%>" class="bold-link">Logga ut</a>
+        <a href="portal?do=logoutguest<%=user!=null?"&user="+user:""%>" class="bold-link">Logga ut som gäst</a>
         </td>
         </tr>
         <%
