@@ -106,7 +106,11 @@ it already
 
 8. THIRD PARTY LIBRARIES
 ========================
-No extra third party libraries should be required besides the ones delivered with the appliacation.
+You will need to download the xalan library from http://xml.apache.org/xalan-j/index.html if
+you want to use the XSL transformation features. There might be possible to use other similar
+XSL transformation libraries also.
+It is not delivered in the webapplication since it must be installed on the webserver itself.
+On tomcat you have to copy it to the common/endorsed directory below the tomcat installation.
 
 9. DEPLOY AND RUN
 =================
