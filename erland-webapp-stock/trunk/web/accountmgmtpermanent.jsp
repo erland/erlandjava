@@ -35,9 +35,10 @@
             <td><%=environment.getBrokers().getStockName(entry.getBroker(),entry.getStock())%></td>
             <td><%=dateFormat.format(entry.getDate())%></td>
             <td><%=entry.getNumber()!=0?""+entry.getNumber():""%></td>
-            <td><%=entry.getValue()!=0?""+entry.getValue():""%></td>
+            <td><%=entry.getValue()>0?""+entry.getValue():""%></td>
             <td>
             <a class="bold-link" href="portal?do=stockaccountremovepermanent&broker=<%=entry.getBroker()%>&stock=<%=entry.getStock()%>&purchasedate=<%=dateFormat.format(entry.getDate())%>" onClick="return confirm('Är du säker på att du vill ta bort denna ?')">Ta bort</a>
+            </td>
             </tr>
 <%      } %>
         </table>
