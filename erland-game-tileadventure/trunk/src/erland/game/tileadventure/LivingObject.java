@@ -1,6 +1,7 @@
 package erland.game.tileadventure;
 
-import erland.util.Log;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.awt.*;
 
@@ -24,6 +25,8 @@ import java.awt.*;
  */
 
 public class LivingObject extends MovableObject {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(LivingObject.class);
     private boolean bJumping;
     private final static int JUMPING_PROGRESS_PER_LEVEL_MAX=15;
     private float jumpingProgress;
@@ -52,16 +55,16 @@ public class LivingObject extends MovableObject {
             if(!bJumping && !isDropping()) {
                 if(action==Action.JUMP && !getActionMap().isFree(this,getPosX(),getPosY(),getPosZ()-1)) {
                     Action a = getActionMap().startActionOnObject(this,action);
-                    Log.println(this,"Starting JUMP trying");
+                    LOG.debug("Starting JUMP trying");
                     if(a!=null && a!=Action.NONE) {
-                        Log.println(this,"Starting JUMP success");
+                        LOG.debug("Starting JUMP success");
                         bJumping = true;
                         jumpingProgress = 0;
                         lastJumpingProgress =0;
                         jumpingAction = a;
                         jumpingEnd = Math.sqrt(JUMPING_HEIGHT);
                         jumpingSpeed = (float)jumpingEnd/(JUMPING_HEIGHT*(JUMPING_PROGRESS_PER_LEVEL_MAX-1));
-                        Log.println(this,"jumpingSpeed="+jumpingSpeed);
+                        LOG.debug("jumpingSpeed="+jumpingSpeed);
                         return true;
                     }
                 }else {
@@ -79,11 +82,11 @@ public class LivingObject extends MovableObject {
         if(!bJumping) {
             bUpdated = super.update();
         }else {
-            Log.println(this,getMovingProgressZ()+","+lastJumpingProgress);
+            LOG.debug(getMovingProgressZ()+","+lastJumpingProgress);
             jumpingProgress+=jumpingSpeed;
             if(jumpingProgress>=jumpingEnd) {
                 getActionMap().endActionOnObject(this,jumpingAction);
-                Log.println(this,"Jumping finished "+getPosZ());
+                LOG.debug("Jumping finished "+getPosZ());
                 bJumping = false;
                 bUpdated = true;
             }else if(lastJumpingProgress!=(int)getJumpingProgress()) {
@@ -91,9 +94,9 @@ public class LivingObject extends MovableObject {
                 lastJumpingProgress=(int)getJumpingProgress();
                 Action a = getActionMap().startActionOnObject(this,jumpingAction);
                 if(a==jumpingAction) {
-                    Log.println(this,"Jumping, next block "+getPosZ()+" allowed");
+                    LOG.debug("Jumping, next block "+getPosZ()+" allowed");
                 }else {
-                    Log.println(this,"Jumping, next block not allowed");
+                    LOG.debug("Jumping, next block not allowed");
                     bJumping=false;
                 }
                 bUpdated = true;

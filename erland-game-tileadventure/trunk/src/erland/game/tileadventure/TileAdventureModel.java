@@ -21,17 +21,21 @@ package erland.game.tileadventure;
 import erland.game.GameEnvironmentInterface;
 import erland.game.tileadventure.isodiamond.IsoDiamondDrawMap;
 import erland.game.tileadventure.rect.RectDrawMap;
-import erland.util.Log;
 
 import java.util.Vector;
 import java.util.Map;
 import java.util.List;
 import java.util.HashMap;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Implementation of the main game model that handles all the logic in the game
  */
 public class TileAdventureModel implements GameObjectMapActionInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(TileAdventureModel.class);
     /** Block container for the game area */
     protected IrregularBlockContainerInterface cont;
     /** Game environment object */
@@ -245,7 +249,7 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
                     }
                 }
             }else if(action.isMove()) {
-                Log.println(this,"Try changing room "+newX+","+newY+","+newZ);
+                LOG.debug("Try changing room "+newX+","+newY+","+newZ);
                 MapObjectContainerInterface currentRoomMap = obj.getObjectMap();
                 RoomObject currentRoom = (RoomObject) roomByBlockMap.get(currentRoomMap);
                 if(isFreeInNextRoom(currentRoom,newX,newY,newZ) && isAllowedToChangeRoom(obj)) {
@@ -288,11 +292,11 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
                     }
                 }
             }else if(action.isMove()) {
-                Log.println(this,"Try changing room "+newX+","+newY+","+newZ);
+                LOG.debug("Try changing room "+newX+","+newY+","+newZ);
                 MapObjectContainerInterface currentRoomMap = obj.getObjectMap();
                 RoomObject currentRoom = (RoomObject) roomByBlockMap.get(currentRoomMap);
                 if(isFreeInNextRoom(currentRoom,newX,newY,newZ) && isAllowedToChangeRoom(obj)) {
-                    Log.println(this,"Start changing room "+newX+","+newY+","+newZ);
+                    LOG.debug("Start changing room "+newX+","+newY+","+newZ);
                     movingMap.setObject(obj,newX,newY,newZ);
                     return action;
                 }
@@ -329,7 +333,7 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
                     obj.setPos(newX,newY,newZ);
                 }
             }else {
-                Log.println(this,"Ending changing room "+newX+","+newY+","+newZ);
+                LOG.debug("Ending changing room "+newX+","+newY+","+newZ);
                 MapObjectContainerInterface currentRoomMap = obj.getObjectMap();
                 RoomObject currentRoom = (RoomObject) roomByBlockMap.get(currentRoomMap);
                 if(isFreeInNextRoom(currentRoom,newX,newY,newZ) && isAllowedToChangeRoom(obj)) {
@@ -354,23 +358,23 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
                     obj.setObjectMap(room.getBlocks());
                     obj.setPos(newX,newY,newZ);
                     //objectList.add(obj);
-                    Log.println(this,"Changed room "+newX+","+newY+","+newZ);
+                    LOG.debug("Changed room "+newX+","+newY+","+newZ);
                 }
             }
         }else if(action==Action.JUMP) {
             if(isInsideMap(blockMap,obj.getPosX(),obj.getPosY(),obj.getPosZ()+1)) {
-                Log.println(this,"isInsideMap "+obj.getPosZ());
+                LOG.debug("isInsideMap "+obj.getPosZ());
                 if(movingMap.getObject(obj.getPosX(),obj.getPosY(),obj.getPosZ()+1)==obj) {
-                    Log.println(this,"getObject "+obj.getPosZ());
+                    LOG.debug("getObject "+obj.getPosZ());
                     movingMap.removeObject(obj,obj.getPosX(),obj.getPosY(),obj.getPosZ()+1);
                     obj.setPos(obj.getPosX(),obj.getPosY(),obj.getPosZ()+1);
                 }
             }
         }else if(action==Action.DROP) {
             if(isInsideMap(blockMap,obj.getPosX(),obj.getPosY(),obj.getPosZ()-1)) {
-                Log.println(this,"isInsideMap "+obj.getPosZ());
+                LOG.debug("isInsideMap "+obj.getPosZ());
                 if(movingMap.getObject(obj.getPosX(),obj.getPosY(),obj.getPosZ()-1)==obj) {
-                    Log.println(this,"getObject "+obj.getPosZ());
+                    LOG.debug("getObject "+obj.getPosZ());
                     movingMap.removeObject(obj,obj.getPosX(),obj.getPosY(),obj.getPosZ()-1);
                     obj.setPos(obj.getPosX(),obj.getPosY(),obj.getPosZ()-1);
                 }

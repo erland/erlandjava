@@ -1,6 +1,8 @@
 package erland.game.tileadventure;
 
-import erland.util.Log;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -22,6 +24,8 @@ import erland.util.Log;
  */
 
 public class MovableObject extends AnimatedObject implements GameObjectUpdateInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(MovableObject.class);
     private boolean bMoving;
     private Action movingAction;
     private int movingProgress = 0;
@@ -99,7 +103,7 @@ public class MovableObject extends AnimatedObject implements GameObjectUpdateInt
         }
         if(bDropping) {
             droppingProgress+=droppingSpeed;
-            Log.println(this,getMovingProgressZ()+","+droppingProgress+","+droppingHeight);
+            LOG.debug(getMovingProgressZ()+","+droppingProgress+","+droppingHeight);
             if(getMovingProgressZ()<=-1) {
                 getActionMap().endActionOnObject(this,Action.DROP);
                 droppingHeight++;
@@ -113,7 +117,7 @@ public class MovableObject extends AnimatedObject implements GameObjectUpdateInt
         if(!bDropping) {
             Action a = getActionMap().startActionOnObject(this,Action.DROP);
             if(a==Action.DROP) {
-                Log.println(this,"dropping from "+getPosZ());
+                LOG.debug("dropping from "+getPosZ());
                 bDropping = true;
                 droppingSpeed = 1f/DROPPING_PROGRESS_MAX;
                 bUpdated = true;
