@@ -37,13 +37,6 @@
 
 	</postGoal>
 
-	<postGoal name="war:webapp">
-		<!-- copy validator-rules.xml to WEB-INF, war plugin does not do that automatically -->
-		<copy 
-			file="${maven.repo.local}/struts/xmls/validator-rules-1.1.xml"
-			tofile="${maven.war.webapp.dir}/WEB-INF/validator-rules.xml" 
-		/>
-	</postGoal>
 
     <goal name="all:build">
         <attainGoal name="jar:install"/>
