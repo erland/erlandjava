@@ -13,37 +13,37 @@
                   type="text/css"/>
     <title><tiles:getAsString name="title"/></title>
   </HEAD>
-<body>
-<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
+<body class="layout">
+<table class="layout-main" border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
 <tiles:useAttribute name="header" ignore="true" />
 <logic:notEmpty name="header">
-<tr>
-  <td colspan="2"><tiles:insert attribute="header" /></td>
+<tr class="layout-header">
+  <td class="layout-header" colspan="2"><tiles:insert attribute="header" /></td>
 </tr>
 </logic:notEmpty>
-<tr><td colspan="2" height="3" valign="top" bgcolor="#397AC0"></td></tr>
-<tr>
-<td height="5" valign="top" bgcolor="#E5F4FF"></td>
-<td height="5" valign="top"></td>
+<tr class="layout-header-separator-line"><td class="layout-header-separator-line" colspan="2" height="3" valign="top" bgcolor="#397AC0"></td></tr>
+<tr class="layout-header-separator">
+<td class="layout-header-separator" height="5" valign="top" bgcolor="#E5F4FF"></td>
+<td class="layout-header-separator" height="5" valign="top"></td>
 </tr>
-<tr>
+<tr class="layout-body">
 <tiles:useAttribute name="menu" ignore="true" />
 <logic:notEmpty name="menu">
-  <td height="100%" width="300" valign="top" bgcolor="#E5F4FF">
+  <td class="layout-body-menu" height="100%" width="300" valign="top" bgcolor="#E5F4FF">
     <tiles:insert attribute='menu' />
   </td>
 </logic:notEmpty>
 <tiles:useAttribute name="body" ignore="true" />
 <logic:notEmpty name="body">
-  <td height="100%" valign="top"  align="left">
+  <td class="layout-body-content" height="100%" valign="top"  align="left">
     <tiles:insert attribute='body' />
   </td>
 </logic:notEmpty>
 </tr>
 <tiles:useAttribute name="footer" ignore="true" />
 <logic:notEmpty name="footer">
-<tr>
-  <td colspan="2">
+<tr class="layout-footer">
+  <td class="layout-footer" colspan="2">
     <tiles:insert attribute="footer" />
   </td>
 </tr>

@@ -6,7 +6,7 @@
 
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/user/editinventoryentryandevent" method="POST">
-    <table>
+    <table class="propertypage-body">
     <html:hidden property="typeDisplay"/>
     <tr><td><bean:message key="diary.inventory.edit.name"/></td><td>
     <html:text property="name"/>

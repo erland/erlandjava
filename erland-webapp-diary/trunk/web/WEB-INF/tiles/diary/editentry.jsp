@@ -6,7 +6,7 @@
 
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/user/editdiaryentry" method="POST">
-    <table>
+    <table class="propertypage-body">
     <html:hidden property="diary"/>
     <html:hidden property="dateDisplay"/>
     <tr><td><bean:message key="diary.diary.entry.edit.date"/></td><td>

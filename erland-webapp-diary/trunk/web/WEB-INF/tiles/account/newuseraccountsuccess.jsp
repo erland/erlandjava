@@ -4,7 +4,7 @@
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
 <bean:message key="diary.account.new.new-user-created"/>
-<table>
+<table class="propertypage-body">
     <tr>
     <td><bean:message key="diary.account.new.username"/></td>
     <td><bean:write name="accountPB" property="username"/></td>
@@ -20,7 +20,7 @@
 </table>
 <bean:message key="diary.account.new.login-message"/>
 <form name="loginForm" action="j_security_check" method="POST">
-    <table class="no-border">
+    <table class="propertypage-body">
     <tr><td><bean:message key="diary.login.username"/></td><td>
     <input type="text" name="j_username" value="<bean:write name="accountPB" property="username"/>">
     </td></tr>

@@ -8,7 +8,7 @@
 <tiles:insert page="/WEB-INF/tiles/common/calendar.jsp"/>
 </logic:notEmpty>
 <br>
-<erland-common:menu id="mainMenu" menuStyle="no-border" style="bold-link" styleSelected="bold-link-selected" indentWidth="10" indentImage="/images/transparent.gif" >
+<erland-common:menu id="mainMenu" menuStyle="menu" style="menuitem" styleSelected="menuitem-selected" indentWidth="10" indentImage="/images/transparent.gif" >
     <erland-common:menuitem id="containers" titleKey="diary.menu.containers" page="/do/guest/menu?user={user}&menuName={menuId}&menuItemId={menuItemId}" >
         <erland-common:beanmenuitem bean="menuContainersPB" id="idDisplay" title="name" page="path" childs="childs" />
     </erland-common:menuitem>

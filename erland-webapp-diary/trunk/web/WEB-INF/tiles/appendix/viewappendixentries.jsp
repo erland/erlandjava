@@ -3,7 +3,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
-<table border="0">
+<table class="propertypage-body">
     <logic:iterate name="appendixEntriesPB" id="entry">
         <tr>
         <td colspan="2"><bean:write name="entry" property="name"/></td>
@@ -12,8 +12,8 @@
         <td colspan="2"><bean:write name="entry" property="description"/></td>
         </tr>
         <tr>
-        <td><a href="<html:rewrite page="/do/user/viewappendixentry"/>?id=<bean:write name="entry" property="id"/>" class="bold-link"><bean:message key="diary.appendix.button.edit"/></a></td>
-        <td><a href="<html:rewrite page="/do/user/removeappendixentry"/>?id=<bean:write name="entry" property="id"/>" class="bold-link" onClick="return confirm('<bean:message key="diary.appendix.button.delete.are-you-sure"/>')"><bean:message key="diary.appendix.button.delete"/></a></td>
+        <td><a href="<html:rewrite page="/do/user/viewappendixentry"/>?id=<bean:write name="entry" property="id"/>" class="propertypage-button"><bean:message key="diary.appendix.button.edit"/></a></td>
+        <td><a href="<html:rewrite page="/do/user/removeappendixentry"/>?id=<bean:write name="entry" property="id"/>" class="propertypage-button" onClick="return confirm('<bean:message key="diary.appendix.button.delete.are-you-sure"/>')"><bean:message key="diary.appendix.button.delete"/></a></td>
         <tr>
     </logic:iterate>
 </table>

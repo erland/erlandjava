@@ -6,7 +6,7 @@
 
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/user/editinventoryentryevent" method="POST">
-    <table>
+    <table class="propertypage-body">
     <html:hidden property="id"/>
     <logic:notEmpty name="editInventoryEntryEventFB" property="eventId">
         <html:hidden property="eventId"/>

@@ -6,7 +6,7 @@
 
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/user/editgalleryentry" method="POST">
-    <table>
+    <table class="propertypage-body">
     <html:hidden property="gallery"/>
     <logic:notEmpty name="editGalleryEntryFB" property="id">
         <html:hidden property="id"/>
