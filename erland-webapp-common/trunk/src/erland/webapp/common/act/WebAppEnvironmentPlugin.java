@@ -133,4 +133,21 @@ public class WebAppEnvironmentPlugin implements PlugIn, WebAppEnvironmentInterfa
     public void setConfigurableResourcesCache(Boolean configurableResourcesCache) {
         this.configurableResourcesCache = configurableResourcesCache;
     }
+    public void setXmlParser(String xmlParser) {
+        try {
+            Class parser = getClass().getClassLoader().loadClass(xmlParser);
+            if(parser != null) {
+                Object obj = parser.newInstance();
+                if(obj instanceof XMLParserInterface) {
+                    XMLParser.setInstance((XMLParserInterface)obj);
+                }
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (InstantiationException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
 }
