@@ -51,7 +51,7 @@
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-util</artifactId>
-      <version>1.5.1</version>
+      <version>1.6</version>
       <type>jar</type>
       <properties>
 	      <war.bundle>true</war.bundle>
@@ -62,7 +62,7 @@
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-webapp-common</artifactId>
-      <version>1.20</version>
+      <version>1.21</version>
       <type>jar</type>
       <properties>
 	      <war.bundle>true</war.bundle>
