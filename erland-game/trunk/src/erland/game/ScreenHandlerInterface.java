@@ -1,11 +1,11 @@
 package erland.game;
 
-import javax.swing.*;
 import java.awt.*;
 
 
 /**
  * Interface that represents the main screen object
+ * @author Erland Isaksson
  */
 public interface ScreenHandlerInterface {
     /**
@@ -24,12 +24,12 @@ public interface ScreenHandlerInterface {
      * Adds a component
      * @param c The component to add to the screen
      */
-    public void add(JComponent c);
+    public void add(Component c);
     /**
      * Removes a component
      * @param c The component to remove from the screen
      */
-    public void remove(JComponent c);
+    public void remove(Component c);
     /**
      * Get the width of the screen
      * @return Width of the screen in pixels
@@ -50,14 +50,29 @@ public interface ScreenHandlerInterface {
      */
     public void paintComponents(Graphics g);
     /**
-     * Get the Frame object representing the screen
-     * @return The Frame object of the screen
+     * Get the Container object representing the screen
+     * @return The Container object of the screen
      */
-    public Frame getFrame();
+    public Container getContainer();
     /**
      * Set the mouse cursor
      * @param cursor The cursor to use, null means no cursor at all
      */
     public void setCursor(Cursor cursor);
+    /**
+     * Get the corresponding x coordinate on the screen, this removes the offset because of
+     * for example title bar and borders when in windowed mode
+     */
+    public int getScreenX(int x);
+
+    /**
+     * Get the corresponding y coordinate on the screen, this removes the offset because of
+     * for example title bar and borders when in windowed mode
+     */
+    public int getScreenY(int y);
+    /**
+     * Indicates if the screen has been closed
+     */
+    public boolean isExit();
 }
 

@@ -1,79 +1,118 @@
 package erland.game;
 
-import erland.game.GamePanel;
+import erland.game.GamePanelInterface;
 import erland.game.BlockContainerInterface;
-import erland.game.ScreenHandlerInterface;
-import erland.util.ImageHandlerInterface;
-import erland.util.ImageCreatorInterface;
+import erland.game.component.EButton;
+import erland.game.component.EPanel;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
-import java.util.Vector;
 
-public abstract class MapEditor implements GamePanel {
-    protected boolean bQuit;
-    protected MouseListener mouseListener;
-    protected BlockContainerInterface cont;
-    protected BlockContainerInterface contSelect;
-    protected MapEditorBlockInterface selectBlocks[][];
-    protected MapEditorBlockInterface mapBlocks[][];
-    protected MapEditorBlockInterface selectedBlock;
-    protected JPanel buttonPanel;
-    protected ActionListener actionListener;
-    protected MouseMotionListener mouseMotionListener;
-    protected GameEnvironmentInterface environment;
+/**
+ * Abstract class that implement basic behaviour in a map editor
+ * @author Erland Isaksson
+ */
+public abstract class MapEditor implements GamePanelInterface {
+    /** Indicates the the map editor should be closed */
+    private boolean bQuit;
+    /** MouseListener object */
+    private MouseListener mouseListener;
+    /** Block container for blocks in the map */
+    private BlockContainerInterface cont;
+    /** Block container for blocks in the block selection area */
+    private BlockContainerInterface contSelect;
+    /** Matrix with all selection blocks */
+    private MapEditorBlockInterface selectBlocks[][];
+    /** Matrix with all blocks in the map */
+    private MapEditorBlockInterface mapBlocks[][];
+    /** Currently selected block in the block selection area */
+    private MapEditorBlockInterface selectedBlock;
+    /** EPanel containing all the main buttons */
+    private EPanel buttonPanel;
+    /** MouseMotion listener */
+    private MouseMotionListener mouseMotionListener;
+    /** Game environment object */
+    private GameEnvironmentInterface environment;
 
     public boolean isExit() {
         return bQuit;
     }
 
     public void exit() {
-        environment.getScreenHandler().getFrame().removeMouseListener(mouseListener);
-        environment.getScreenHandler().getFrame().removeMouseMotionListener(mouseMotionListener);
+        environment.getScreenHandler().getContainer().removeMouseListener(mouseListener);
+        environment.getScreenHandler().getContainer().removeMouseMotionListener(mouseMotionListener);
         if(buttonPanel!=null) {
-            environment.getScreenHandler().remove(buttonPanel);
+            environment.getScreenHandler().remove(buttonPanel.getComponent());
         }
     }
 
+    /**
+     * Get block container for the map area
+     * @param offsetX X pixel offset from upper left corner
+     * @param offsetY Y pixel offset from upper left corner
+     * @return The block container
+     */
     protected abstract BlockContainerInterface getMapContainer(int offsetX, int offsetY);
 
+    /**
+     * Get block container for the block selection area
+     * @param offsetX X pixel offset from upper left corner
+     * @param offsetY Y pixel offset from upper left corner
+     * @return The block container
+     */
     protected abstract BlockContainerInterface getSelectContainer(int offsetX, int offsetY);
 
+    /**
+     * Get matrix with all blocks in the block selection area
+     * @return Matrix with the blocks
+     */
     protected abstract MapEditorBlockInterface[][] getSelectBlocks();
 
+    /**
+     * Get matrix with all blocks in the map
+     * @return Matrix with the blocks
+     */
     protected abstract MapEditorBlockInterface[][] getMapBlocks();
 
 
+    /**
+     * Prepare a new block so it can be inserted in the map
+     * @param oldBlock Old block at the same position
+     * @param newBlock New block that should be inserted
+     * @return Prepared block that should be inserted, may be same as newBlock
+     * but may also be a completely new block based on newBlock and oldBlock
+     */
     protected MapEditorBlockInterface prepareNewBlock(MapEditorBlockInterface oldBlock,MapEditorBlockInterface newBlock)
     {
         return newBlock;
     }
-    public void init(GameEnvironmentInterface environment) {
+
+    public void init(GameEnvironmentInterface environ) {
         bQuit = false;
-        this.environment = environment;
+        this.environment = environ;
 
         mouseListener = new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (e.getButton() == 1) {
-                    leftMousePressed(e);
+                    leftMousePressed(environment.getScreenHandler().getScreenX(e.getX()),environment.getScreenHandler().getScreenY(e.getY()));
                 }
             }
         };
         mouseMotionListener = new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
                 if ((e.getModifiers() & e.BUTTON1_MASK)!=0) {
-                    leftMouseDragged(e);
+                    leftMouseDragged(environment.getScreenHandler().getScreenX(e.getX()),environment.getScreenHandler().getScreenY(e.getY()));
                 }
             }
         };
-        environment.getScreenHandler().getFrame().addMouseListener(mouseListener);
-        environment.getScreenHandler().getFrame().addMouseMotionListener(mouseMotionListener);
+        environment.getScreenHandler().getContainer().addMouseListener(mouseListener);
+        environment.getScreenHandler().getContainer().addMouseMotionListener(mouseMotionListener);
         buttonPanel = initButtonPanel();
         if(buttonPanel!=null) {
             initDefaultButtons(buttonPanel);
             initButtons(buttonPanel);
-            environment.getScreenHandler().add(buttonPanel);
+            environment.getScreenHandler().add(buttonPanel.getComponent());
         }
 
         contSelect = getSelectContainer(0,0);
@@ -81,47 +120,71 @@ public abstract class MapEditor implements GamePanel {
         initFinish();
         updateBlocks();
 
-        environment.getScreenHandler().getFrame().setBackground(Color.black);
+        environment.getScreenHandler().getContainer().setBackground(Color.black);
     }
 
-    public void leftMouseDragged(MouseEvent e)
+    /**
+     * Called when a block on the map is clicked, this method will either insert the
+     * selected block in the clicked map position or remove the current block at the
+     * map position
+     * @param posX X position of the block in the map that was clicked
+     * @param posY Y position of the block in the map that was clicked
+     */
+    protected void clickedMapBlock(int posX, int posY)
     {
-        Rectangle rc = new Rectangle(cont.getOffsetX(),cont.getOffsetY(),cont.getDrawingSizeX(),cont.getDrawingSizeY());
-        if(rc.contains(e.getX(),e.getY())) {
-            int posX = (int)(e.getX()-rc.getMinX()+cont.getScrollingOffsetX())/cont.getSquareSize();
-            int posY = (int)(e.getY()-rc.getMinY()+cont.getScrollingOffsetY())/cont.getSquareSize();
-            if(selectedBlock!=null) {
-                if(posX>=0 && posX<mapBlocks.length && posY>=0 && posY<mapBlocks[posX].length) {
-                    mapBlocks[posX][posY] = prepareNewBlock(mapBlocks[posX][posY],cloneBlock(selectedBlock,cont,posX,posY));
-                }
-            }else {
-                if(isEmptyAllowed()) {
-                    if(posX>=0 && posX<mapBlocks.length && posY>=0 && posY<mapBlocks[posX].length) {
-                        mapBlocks[posX][posY] = null;
-                    }
-                }
+        if(selectedBlock!=null) {
+            mapBlocks[posX][posY] = prepareNewBlock(mapBlocks[posX][posY],cloneBlock(selectedBlock,cont,posX,posY));
+        }else {
+            if(isEmptyAllowed()) {
+                mapBlocks[posX][posY] = null;
             }
         }
     }
-    public void leftMousePressed(MouseEvent e)
+
+    /**
+     * Called when a block in the selection area is clicked, this method will make
+     * the clicked block the currently selected block or if there were no block
+     * at the clicked make no block selected
+     * @param posX X position of the block in the selection area that was clicked
+     * @param posY Y position of the block in the selection area that was clicked
+     */
+    protected void clickedSelectBlock(int posX,int posY)
+    {
+        if(selectBlocks[posX][posY]!=null) {
+            selectedBlock = selectBlocks[posX][posY];
+        }else {
+            selectedBlock = null;
+        }
+    }
+    protected void leftMouseDragged(int x, int y)
+    {
+        Rectangle rc = new Rectangle(cont.getOffsetX(),cont.getOffsetY(),cont.getDrawingSizeX(),cont.getDrawingSizeY());
+        if(rc.contains(x,y)) {
+            int posX = (int)(x-rc.getMinX()+cont.getScrollingOffsetX())/cont.getSquareSize();
+            int posY = (int)(y-rc.getMinY()+cont.getScrollingOffsetY())/cont.getSquareSize();
+            if(posX>=0 && posX<mapBlocks.length && posY>=0 && posY<mapBlocks[posX].length) {
+                clickedMapBlock(posX,posY);
+            }
+        }
+    }
+    protected void leftMousePressed(int x, int y)
     {
         Rectangle rc = new Rectangle(cont.getOffsetX(),cont.getOffsetY(),cont.getDrawingSizeX(),cont.getDrawingSizeY());
         Rectangle rcSelect = new Rectangle(contSelect.getOffsetX(),contSelect.getOffsetY(),contSelect.getDrawingSizeX(),contSelect.getDrawingSizeY());
-        if(rc.contains(e.getX(),e.getY())) {
-            leftMouseDragged(e);
-        }else if(rcSelect.contains(e.getX(),e.getY())) {
-            int posX = (int)(e.getX()-rcSelect.getMinX()+contSelect.getScrollingOffsetX())/contSelect.getSquareSize();
-            int posY = (int)(e.getY()-rcSelect.getMinY()+contSelect.getScrollingOffsetY())/contSelect.getSquareSize();
-            if(selectBlocks[posX][posY]!=null) {
-                if(posX>=0 && posX<selectBlocks.length && posY>=0 && posY<selectBlocks[posX].length) {
-                    selectedBlock = selectBlocks[posX][posY];
-                }
-            }else {
-                selectedBlock = null;
+        if(rc.contains(x,y)) {
+            leftMouseDragged(x,y);
+        }else if(rcSelect.contains(x,y)) {
+            int posX = (int)(x-rcSelect.getMinX()+contSelect.getScrollingOffsetX())/contSelect.getSquareSize();
+            int posY = (int)(y-rcSelect.getMinY()+contSelect.getScrollingOffsetY())/contSelect.getSquareSize();
+            if(posX>=0 && posX<selectBlocks.length && posY>=0 && posY<selectBlocks[posX].length) {
+                clickedSelectBlock(posX,posY);
             }
         }
     }
 
+    /**
+     * Update all blocks
+     */
     protected void updateBlocks()
     {
         selectBlocks = getSelectBlocks();
@@ -130,43 +193,92 @@ public abstract class MapEditor implements GamePanel {
     public void update() {
     }
 
+    /**
+     * Draw the specified block
+     * @param g Graphics object to draw on
+     * @param block Block to draw
+     */
     protected abstract void drawBlock(Graphics g, MapEditorBlockInterface block);
 
+    /**
+     * Clone specified block
+     * @param block Block to clone
+     * @param cont Block container to put new block in
+     * @param x X position to put new block at
+     * @param y Y position to put new block at
+     * @return Newly cloned block
+     */
     protected abstract MapEditorBlockInterface cloneBlock(MapEditorBlockInterface block,BlockContainerInterface cont, int x, int y);
 
+    /**
+     * Checks if it is allowed to have positions in the map without any block
+     * @return true/false (Empty positions allowed/No empty positions allowed)
+     */
     protected abstract boolean isEmptyAllowed();
 
-    protected void initButtons(JPanel panel)
+    /**
+     * Create and initialize all buttons
+     * @param panel EPanel to put buttons on
+     */
+    protected void initButtons(EPanel panel)
     {
     }
+    /**
+     * Called once when the initialization of the map editor is finished
+     */
     protected void initFinish()
     {
     }
 
+    /**
+     * Called when the standard save button is pressed, the current blocks in
+     * the map area should be saved to the map
+     * @param blocks The blocks in the map area
+     */
     protected void saveButton(MapEditorBlockInterface[][] blocks)
     {
     }
+    /**
+     * Called when the standard load button is pressed, a new map should be
+     * loaded
+     */
     protected void loadButton()
     {
     }
+    /**
+     * Called when the standard exit button is pressed, the map editor should
+     * exit
+     */
     protected void exitButton()
     {
         bQuit = true;
     }
-    final static int BUTTON_EXIT=1;
-    final static int BUTTON_SAVE=2;
-    final static int BUTTON_LOAD=3;
+    /** Standard Exit button, used in {@link #getDefaultButtons} */
+    protected final static int BUTTON_EXIT=1;
+    /** Standard Save button, used in {@link #getDefaultButtons} */
+    protected final static int BUTTON_SAVE=2;
+    /** Standard Load button, used in {@link #getDefaultButtons} */
+    protected final static int BUTTON_LOAD=3;
+    /**
+     * Called to get which default buttons that should be available, the return value
+     * is a bitmask composed by {@link #BUTTON_EXIT}, {@link #BUTTON_LOAD}, {@link #BUTTON_SAVE}
+     * @return Bitmask that indicates which default buttons that should be used
+     */
     protected int getDefaultButtons()
     {
         return BUTTON_EXIT|BUTTON_SAVE|BUTTON_LOAD;
     }
 
-    protected void initDefaultButtons(JPanel panel)
+    /**
+     * Create and initialize default butons
+     * @param panel EPanel which the buttons should be added to
+     */
+    protected void initDefaultButtons(EPanel panel)
     {
         int defaultbuttons = getDefaultButtons();
         if((defaultbuttons & BUTTON_EXIT)!=0) {
-            JButton b = new JButton("Exit");
-            panel.add(b);
+            EButton b = EButton.create("Exit");
+            panel.getContainer().add(b.getComponent());
             b.addActionListener(new  ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     exitButton();
@@ -174,8 +286,8 @@ public abstract class MapEditor implements GamePanel {
             });
         }
         if((defaultbuttons & BUTTON_SAVE)!=0) {
-            JButton b = new JButton("Save");
-            panel.add(b);
+            EButton b = EButton.create("Save");
+            panel.getContainer().add(b.getComponent());
             b.addActionListener(new  ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     saveButton(mapBlocks);
@@ -183,8 +295,8 @@ public abstract class MapEditor implements GamePanel {
             });
         }
         if((defaultbuttons & BUTTON_LOAD)!=0) {
-            JButton b = new JButton("Load");
-            panel.add(b);
+            EButton b = EButton.create("Load");
+            panel.getContainer().add(b.getComponent());
             b.addActionListener(new  ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     loadButton();
@@ -192,14 +304,27 @@ public abstract class MapEditor implements GamePanel {
             });
         }
     }
-    protected JPanel initButtonPanel()
+    /**
+     * Create and initialize button panel
+     * @return The newly created EPanel for the buttons
+     */
+    protected EPanel initButtonPanel()
     {
-        JPanel panel = new JPanel();
-        panel.setSize(environment.getScreenHandler().getWidth()/5, environment.getScreenHandler().getHeight());
-        panel.setLocation(environment.getScreenHandler().getWidth()*4/5,0);
+        EPanel panel = EPanel.create();
+        panel.getContainer().setSize(environment.getScreenHandler().getWidth()/5, environment.getScreenHandler().getHeight());
+        panel.getContainer().setLocation(environment.getScreenHandler().getWidth()*4/5,0);
 
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.getContainer().setLayout(new BoxLayout(panel.getContainer(), BoxLayout.Y_AXIS));
         return panel;
+    }
+
+    /**
+     * Called everything normal has been drawed, can be used to do extra drawing on top of
+     * the other graphics
+     * @param g The Graphics object to draw on
+     */
+    protected void drawFinish(Graphics g)
+    {
     }
 
     public void draw() {
@@ -230,7 +355,15 @@ public abstract class MapEditor implements GamePanel {
             g.setColor(Color.white);
             g.drawRect(contSelect.getDrawingPositionX(selectedBlock.getPosX()),contSelect.getDrawingPositionY(selectedBlock.getPosY()),contSelect.getSquareSize(),contSelect.getSquareSize());
         }
+        drawFinish(g);
 
         environment.getScreenHandler().paintComponents(g);
+    }
+
+    public void setCheatmode(boolean enable) {
+    }
+
+    public GameEnvironmentInterface getEnvironment() {
+        return environment;
     }
 }
