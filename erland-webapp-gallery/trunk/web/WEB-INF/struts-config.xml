@@ -1084,6 +1084,8 @@
             type="erland.webapp.gallery.act.gallery.picture.SearchOfficialPicturesAction"
             name="selectPictureFB">
 
+            <forward name="page-link" path="http:[hostname,//{hostname}][port,:{port}]{contextpath}/do/guest/menuviewgallery?user={user}&amp;gallery={gallery}&amp;menuItemId={gallery}[category,&amp;category={category}]"/>
+            <forward name="current-link" path="http:[hostname,//{hostname}][port,:{port}]{contextpath}/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
             <forward name="picture-link" path="http:[hostname,//{hostname}][port,:{port}]{contextpath}/do/guest/loadimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
             <forward name="picture-image" path="http:[hostname,//{hostname}][port,:{port}]{contextpath}/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
             <forward name="success" path=".ws.getpicturesforgallery"/>
@@ -1094,6 +1096,8 @@
             type="erland.webapp.gallery.act.gallery.picture.SearchOfficialPicturesAction"
             name="selectPictureFB">
 
+            <forward name="page-link" path="http:[hostname,//{hostname}][port,:{port}]{contextpath}/do/guest/menuviewgallery?user={user}&amp;gallery={gallery}&amp;menuItemId={gallery}[category,&amp;category={category}]"/>
+            <forward name="current-link" path="http:[hostname,//{hostname}][port,:{port}]{contextpath}/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
             <forward name="picture-link" path="http:[hostname,//{hostname}][port,:{port}]{contextpath}/do/guest/loadimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
             <forward name="picture-image" path="http:[hostname,//{hostname}][port,:{port}]{contextpath}/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
             <forward name="success" path=".ws.getpicturesforcategory"/>
