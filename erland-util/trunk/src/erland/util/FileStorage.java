@@ -1,7 +1,6 @@
 package erland.util;
 
 import java.io.*;
-import java.util.*;
 
 /**
  * Save a string to a file
@@ -12,9 +11,10 @@ public class FileStorage implements StorageInterface
 	/**
 	 * The filename of the file where the string is stored
 	 */
-	protected String file;
+	private String file;
 
     /**
+     * Creates a new FileStorage object
      * @param file The name of the file which the string should
      *             be accessed frin
      */
@@ -42,7 +42,7 @@ public class FileStorage implements StorageInterface
 				line = r.readLine();
 			}
 		}catch(IOException e) {
-			e.printStackTrace();
+
 		}
         if(Log.isEnabled(this)) {
             Log.println(this,"Load from: "+file);
