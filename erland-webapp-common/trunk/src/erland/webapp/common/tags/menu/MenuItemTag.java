@@ -238,6 +238,7 @@ public class MenuItemTag extends TagSupport implements MenuItemInterface {
         styleSelected = null;
         roles = null;
         hosts = null;
+        ipaddr = null;
     }
 
     private Map getParameterMap(String menuId, String menuItemId) {

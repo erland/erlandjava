@@ -225,7 +225,7 @@ public class BeanMenuItemTag extends TagSupport {
         styleSelected = null;
         roles = null;
         hosts = null;
-
+        ipaddr = null;
         bean = null;
         childs = null;
     }
