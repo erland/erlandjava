@@ -42,11 +42,24 @@
                 <column>transformerdata</column>
                 <type>String</type>
             </field>
+            <field id="customizedTransformerData">
+                <column>customizedtransformerdata</column>
+                <type>String</type>
+            </field>
         </fields>
         <queries>
             <query id="all">
                 <orderstring>order by id asc</orderstring>
                 <querystring/>
+            </query>
+            <query id="allforname">
+                <querystring>name=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>name</field>
+                        <type>String</type>
+                    </field>
+                </fields>
             </query>
         </queries>
     </data>

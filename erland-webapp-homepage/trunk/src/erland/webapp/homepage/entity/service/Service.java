@@ -30,6 +30,7 @@ public class Service extends BaseEntity {
     private String customizedServiceData;
     private String transformerClass;
     private String transformerData;
+    private String customizedTransformerData;
 
     public Integer getId() {
         return id;
@@ -93,5 +94,13 @@ public class Service extends BaseEntity {
 
     public void setTransformerData(String transformerData) {
         this.transformerData = transformerData;
+    }
+
+    public String getCustomizedTransformerData() {
+        return customizedTransformerData;
+    }
+
+    public void setCustomizedTransformerData(String customizedTransformerData) {
+        this.customizedTransformerData = customizedTransformerData;
     }
 }

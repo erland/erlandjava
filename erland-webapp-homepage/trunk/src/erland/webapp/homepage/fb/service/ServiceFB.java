@@ -34,6 +34,7 @@ public class ServiceFB extends BaseFB {
     private String customizedServiceData;
     private String transformerClass;
     private String transformerData;
+    private String customizedTransformerData;
 
     public Integer getId() {
         return StringUtil.asInteger(idDisplay,null);
@@ -107,6 +108,14 @@ public class ServiceFB extends BaseFB {
         this.transformerData = transformerData;
     }
 
+    public String getCustomizedTransformerData() {
+        return customizedTransformerData;
+    }
+
+    public void setCustomizedTransformerData(String customizedTransformerData) {
+        this.customizedTransformerData = customizedTransformerData;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         idDisplay = null;
@@ -114,7 +123,9 @@ public class ServiceFB extends BaseFB {
         nameEnglish = null;
         serviceClass = null;
         serviceData = null;
+        customizedServiceData = null;
         transformerClass = null;
         transformerData = null;
+        customizedTransformerData = null;
     }
 }
