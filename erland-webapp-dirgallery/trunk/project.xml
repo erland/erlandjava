@@ -13,7 +13,7 @@
   
   <!-- The version of the project under development, e.g.
        1.1, 1.2, 2.0-SNAPSHOT -->
-  <currentVersion>1.1</currentVersion>
+  <currentVersion>1.1.1</currentVersion>
   
   <!-- the year the project started -->
   <inceptionYear>2003</inceptionYear>
@@ -198,6 +198,21 @@
       <properties>
 	      <war.bundle>true</war.bundle>
       </properties>
+    </dependency>
+
+	<dependency>
+      <url>http://jakarta.apache.org/tomcat</url>
+      <groupId>tomcat</groupId>
+      <artifactId>jasper-compiler</artifactId>
+      <version>4.0.4</version>
+      <type>jar</type>
+    </dependency>
+	<dependency>
+      <url>http://jakarta.apache.org/tomcat</url>
+      <groupId>tomcat</groupId>
+      <artifactId>jasper-runtime</artifactId>
+      <version>4.0.4</version>
+      <type>jar</type>
     </dependency>
   </dependencies>
   
