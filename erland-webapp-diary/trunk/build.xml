@@ -25,12 +25,12 @@
             </fileset>
             <fileset file="resources.xml"/>
             <fileset dir="web">
-                <include name="*.jsp"/>
-                <include name="*.html"/>
-                <include name="*.css"/>
-            </fileset>
-            <fileset dir="images">
-                <include name="*.gif"/>
+                <include name="**/*.xml"/>
+                <include name="**/*.jsp"/>
+                <include name="**/*.html"/>
+                <include name="**/*.css"/>
+                <include name="**/*.gif"/>
+                <include name="**/*.jpg"/>
             </fileset>
         </copy>
     </target>
