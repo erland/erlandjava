@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<resources>
+    <entities>
+        <entity id="common-resource" reference="resource:erland/webapp/common/resource.xml"/>
+        <entity id="common-metadatafielddescription" reference="descriptiontag:erland/webapp/common/descriptiontag.xml"/>
+        <entity id="usermgmt-user" reference="user:erland/webapp/usermgmt/user.xml"/>
+        <entity id="usermgmt-userapplicationrole" reference="userapplicationrole:erland/webapp/usermgmt/userapplicationrole.xml"/>
+        <entity id="usermgmt-userinfo" reference="userinfo:erland/webapp/usermgmt/userinfo.xml"/>
+        <entity id="tvguide-useraccount" reference="useraccount:erland/webapp/tvguide/entity/account/useraccount.xml"/>
+        <entity id="tvguide-channel" reference="channel:erland/webapp/tvguide/entity/channel/channel.xml"/>
+        <entity id="tvguide-favorite" reference="favorite:erland/webapp/tvguide/entity/favorite/favorite.xml"/>
+        <entity id="tvguide-service" reference="service:erland/webapp/tvguide/entity/service/service.xml"/>
+        <entity id="tvguide-program" reference="program:erland/webapp/tvguide/entity/program/program.xml"/>
+        <entity id="tvguide-subscription" reference="subscription:erland/webapp/tvguide/entity/subscription/subscription.xml"/>
+    </entities>
+</resources>
