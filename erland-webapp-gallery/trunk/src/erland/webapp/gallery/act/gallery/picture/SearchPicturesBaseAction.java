@@ -27,9 +27,11 @@ import erland.webapp.gallery.act.gallery.GalleryHelper;
 import erland.webapp.gallery.entity.gallery.category.Category;
 import erland.webapp.gallery.entity.gallery.picturestorage.PictureStorage;
 import erland.webapp.gallery.entity.gallery.GalleryInterface;
+import erland.webapp.gallery.entity.gallery.picture.Resolution;
 import erland.webapp.gallery.fb.gallery.picture.PictureCollectionPB;
 import erland.webapp.gallery.fb.gallery.picture.PicturePB;
 import erland.webapp.gallery.fb.gallery.picture.SelectPictureFB;
+import erland.webapp.gallery.fb.gallery.picture.ResolutionPB;
 import erland.webapp.gallery.fb.gallery.GalleryPB;
 import erland.util.Log;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -119,6 +121,23 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         filter.setAttribute("username", username);
         EntityInterface[] storageEntities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picturestorage").search(filter);
 
+        EntityInterface[] resolutionEntities = getEnvironment().getEntityStorageFactory().getStorage("gallery-resolution").search(new QueryFilter("all"));
+        ResolutionPB[] resolutionsPB = null;
+        Integer defaultResolution = null;
+        if(resolutionEntities.length>0) {
+            for (int i = 0; i < resolutionEntities.length; i++) {
+                if(((Resolution)resolutionEntities[i]).getId().equalsIgnoreCase(gallery.getDefaultResolution())) {
+                    defaultResolution=resolutionsPB[i].getWidth();
+                    break;
+                }
+            }
+            resolutionsPB = new ResolutionPB[resolutionEntities.length];
+            for (int i = 0; i < resolutionsPB.length; i++) {
+                resolutionsPB[i] = new ResolutionPB();
+                PropertyUtils.copyProperties(resolutionsPB[i],resolutionEntities[i]);
+            }
+        }
+
         Map pictureParameters = new HashMap();
         PicturePB[] picturesPB = new PicturePB[entities.length];
         for (int i = 0; i < entities.length; i++) {
@@ -126,17 +145,14 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
             PropertyUtils.copyProperties(picturesPB[i], entities[i]);
             pictureParameters.put("gallery",picturesPB[i].getGallery());
             pictureParameters.put("picture",picturesPB[i].getId());
+            if(defaultResolution!=null) {
+                pictureParameters.put("width",defaultResolution.toString());
+            }
             if (picturesPB[i].getImage().startsWith("{")) {
                 String path = mapping.findForward("picture-image").getPath();
                 picturesPB[i].setImage(ServletParameterHelper.replaceDynamicParameters(path,pictureParameters));
             } else {
                 picturesPB[i].setImage(getImagePath(storageEntities, picturesPB[i].getImage()));
-            }
-            if (picturesPB[i].getLink().startsWith("{")) {
-                String path = mapping.findForward("picture-link").getPath();
-                picturesPB[i].setLink(ServletParameterHelper.replaceDynamicParameters(path,pictureParameters));
-            } else {
-                picturesPB[i].setLink(getImagePath(storageEntities, picturesPB[i].getLink()));
             }
             if (gallery.getUsername().equals(request.getRemoteUser())) {
                 ActionForward forward = mapping.findForward("picture-update-link");
@@ -149,6 +165,27 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
                     String path = forward.getPath();
                     picturesPB[i].setRemoveLink(ServletParameterHelper.replaceDynamicParameters(path,pictureParameters));
                 }
+            }else {
+                ActionForward forward = mapping.findForward("picture-resolution-link");
+                if(forward!=null) {
+                    picturesPB[i].setResolutionLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),pictureParameters));
+                    picturesPB[i].setResolutions(resolutionsPB);
+                }
+            }
+            if (picturesPB[i].getLink().startsWith("{")) {
+                String path = null;
+                if(defaultResolution!=null) {
+                    ActionForward forward = mapping.findForward("picture-resolution-link-complete");
+                    if(forward!=null) {
+                        path = forward.getPath();
+                    }
+                }
+                if(path==null) {
+                    path = mapping.findForward("picture-link").getPath();
+                }
+                picturesPB[i].setLink(ServletParameterHelper.replaceDynamicParameters(path,pictureParameters));
+            } else {
+                picturesPB[i].setLink(getImagePath(storageEntities, picturesPB[i].getLink()));
             }
             picturesPB[i].setGallery(virtualGalleryId);
         }
