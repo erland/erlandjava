@@ -30,6 +30,7 @@ public class UserAccount extends BaseEntity {
     private Integer defaultGallery;
     private String copyrightText;
     private String stylesheet;
+    private String skin;
 
     public String getUsername() {
         return username;
@@ -93,5 +94,13 @@ public class UserAccount extends BaseEntity {
 
     public void setStylesheet(String stylesheet) {
         this.stylesheet = stylesheet;
+    }
+
+    public String getSkin() {
+        return skin;
+    }
+
+    public void setSkin(String skin) {
+        this.skin = skin;
     }
 }

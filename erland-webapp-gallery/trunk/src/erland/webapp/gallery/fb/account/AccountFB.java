@@ -38,6 +38,7 @@ public class AccountFB extends BaseFB {
     private Boolean official;
     private Integer defaultGallery;
     private String stylesheet;
+    private String skin;
 
     public String getUsername() {
         return username;
@@ -151,6 +152,14 @@ public class AccountFB extends BaseFB {
         this.stylesheet = stylesheet;
     }
 
+    public String getSkin() {
+        return skin;
+    }
+
+    public void setSkin(String skin) {
+        this.skin = skin;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         username = null;
@@ -165,5 +174,6 @@ public class AccountFB extends BaseFB {
         official = null;
         defaultGallery = null;
         stylesheet = null;
+        skin = null;
     }
 }

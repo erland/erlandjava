@@ -41,6 +41,10 @@
                 <column>stylesheet</column>
                 <type>String</type>
             </field>
+            <field id="skin">
+                <column>skin</column>
+                <type>String</type>
+            </field>
         </fields>
         <queries>
             <query id="all">

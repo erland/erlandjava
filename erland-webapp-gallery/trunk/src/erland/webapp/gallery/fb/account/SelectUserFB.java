@@ -27,6 +27,7 @@ import erland.webapp.common.fb.BaseFB;
 
 public class SelectUserFB extends BaseFB {
     private String user;
+    private String skin;
 
     public String getUser() {
         return user;
@@ -36,8 +37,17 @@ public class SelectUserFB extends BaseFB {
         this.user = user;
     }
 
+    public String getSkin() {
+        return skin;
+    }
+
+    public void setSkin(String skin) {
+        this.skin = skin;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         user=null;
+        skin = null;
     }
 }
