@@ -2,19 +2,70 @@ package erland.util;
 
 import java.util.*;
 
+/**
+ * Makes it easy to parse and work with XML documents
+ * Note that this is not a fully compliant XML parser, just a simple parser
+ * that only supports ordinary XML nodes. It is currently not possilble to
+ * access attributes defined in the XML nodes.
+ * An object of this class represents a node and all its child nodes
+ * @author Erland Isaksson
+ */
 public class XMLNode {
-	String procInstr;
-	String name;
-	String value;
-	String attributes;
-	XMLNode parent;
-	LinkedList childs;
-	String tmpName;
-	String tmpValue;
-	String tmpProcInstr;
-	String tmpAttr;
-	int pos =0;
+	/**
+	 * XML processing instruction related to this XML node
+	 */
+	protected String procInstr;
+
+	/**
+	 * The name of this XML node
+	 */
+	protected String name;
+
+	/**
+	 * The value of this XML node, will be empty if child nodes exists
+	 */
+	protected String value;
+
+	/**
+	 * The attributes of this XML node
+	 */
+	protected String attributes;
+
+	/**
+	 * The parent XML node, null if this it the top of the XML tree
+	 */
+	protected XMLNode parent;
+
+	/**
+	 * A list of all child nodes
+	 */
+	protected LinkedList childs;
+
+	/**
+	 * Current child node accessed
+	 */
+	protected int pos =0;
+
+	/**
+	 * Temporary storage for node name during parsing
+	 */
+	protected String tmpName;
+	/**
+	 * Temporary storage for node value during parsing
+	 */
+	protected String tmpValue;
+	/**
+	 * Temporary storage for XML processing instruction during parsing
+	 */
+	protected String tmpProcInstr;
+	/**
+	 * Temporary storage for node attributes during parsing
+	 */
+	protected String tmpAttr;
 	
+	/**
+	 * Creates a new empty XML node
+	 */
 	public XMLNode() 
 	{
 		this.name = null;
@@ -25,6 +76,15 @@ public class XMLNode {
 		childs = new LinkedList();
 		this.parent = null;
 	}
+
+	/**
+	 * Creates a new empty XML node
+	 * @param name The name of the node
+	 * @param value The value of the node, set to null if childs is going to be added
+	 * @param attibutes The value of the attribute strings for the node, set to null if no attributes exist
+	 * @param procInstr The value of the XML processing instruction for the node, set to null if no processing instruction exist
+	 * @param parent The parent node, set to null if this is the top of the XML tree
+	 */
 	public XMLNode(String name, String value, String attributes, String procInstr, XMLNode parent) 
 	{
 		this.name = name;
@@ -39,19 +99,38 @@ public class XMLNode {
 		}
 	}
 
+	/**
+	 * Get the name of this node
+	 * @return The name of the node
+	 */
 	public String getName()
 	{
 		return this.name;
 	}
+
+	/**
+	 * Get the value of this node
+	 * @return The value of the node, will be null or and empty string if child nodes exist
+	 */
 	public String getValue()
 	{
 		return this.value;
 	}
+
+	/**
+	 * Set the value of this node
+	 * @param value The value of the node
+	 */
 	public void setValue(String value)
 	{
 		this.value = value;
 	}
 	
+	/**
+	 * Get the first child node
+	 * @return The first child node, null if no childs exist
+	 * @see #getNextChild()
+	 */
 	public XMLNode getFirstChild()
 	{
 		try {
@@ -64,6 +143,11 @@ public class XMLNode {
 		return null;
 	}
 	
+	/**
+	 * Get the next child node
+	 * @return The next child node, null if no more childs exist
+	 * @see #getFirstChild()
+	 */
 	public XMLNode getNextChild()
 	{
 		try {
@@ -78,15 +162,35 @@ public class XMLNode {
 		}
 		return null;
 	}
+
+	/**
+	 * Add a child node
+	 * @param name The name of the child node
+	 * @param value The value of the child node
+	 * @return The created child node
+	 */
 	public XMLNode addChild(String name, String value) {
 		XMLNode tmp = new XMLNode(name,value,null,null,this);
 		childs.add(tmp);
 		return tmp;
 	}
+
+	/**
+	 * Delete a child node.
+	 * If the child node has child nodes itself these will also be deleted.
+	 * @param node The child node which should be deleted
+	 * @see #delChild(String)
+	 */
 	public void delChild(XMLNode node) {
 		childs.remove(node);
 	}
 	
+	/**
+	 * Delete the first child node matching the name
+	 * If the child node has child nodes itself these will also be deleted.
+	 * @param name The name of the child node which should be deleted
+	 * @see #delChild(XMLNode)
+	 */
 	public void delChild(String name) {
 		ListIterator it = childs.listIterator();
 		while(it.hasNext()) {
@@ -98,12 +202,26 @@ public class XMLNode {
 		}
 	}
 
+	/**
+	 * Initiate the object with new XML data from a String
+	 * @param data The XML data string
+	 * @return <pre>true - XML string parsed successfully</pre>
+	 *         <pre>false - XML string parsing failed</pre>
+	 */
 	public boolean parse(String data)
 	{
 		return parse(data,null);
 	}
 	
-	boolean parse(String data, XMLNode parent)
+
+	/**
+	 * Initiate the object with new XML data from a String
+	 * @param data The XML data string
+	 * @param parent The parent XML node
+	 * @return <pre>true - XML string parsed successfully</pre>
+	 *         <pre>false - XML string parsing failed</pre>
+	 */
+	public boolean parse(String data, XMLNode parent)
 	{
 		//System.out.println("parse:" + this.hashCode()+ ":"+ data);
 		int pos =0;
@@ -152,7 +270,15 @@ public class XMLNode {
 		return false;
 	}
 
-	int parseNextSibling(String value, int pos)
+	/**
+	 * Initiate the object with new XML data from a String
+	 * @param value The XML data string
+	 * @param pos The position in the string where parsing should start
+	 * @return The position in the string where the next node starts, or -1 if
+	 *         the parsing failed. If the position is equal to the string length
+	 *         no more nodes exist
+	 */
+	protected int parseNextSibling(String value, int pos)
 	{
 		//System.out.println("parseNextSibling: "+pos + ":"+ value);
 		//System.out.println("parseNextSibling2: "+value.substring(pos));
@@ -213,7 +339,15 @@ public class XMLNode {
 		} 
 	}
 	
-	int skipSpaces(String data, int pos)
+	/**
+	 * Calculate the position of the first real character after the specified position, skipping
+	 * space and tab characters.
+	 * @param data The text string
+	 * @param pos The start position in the string
+	 * @return The position of the next real character, 
+	 *         equal to string length if no more real character exist
+	 */
+	protected int skipSpaces(String data, int pos)
 	{
 		char ch;
 		try {
@@ -227,6 +361,11 @@ public class XMLNode {
 		}
 		return pos;
 	}
+	
+	/**
+	 * Get a string representation of the XML node and all its child nodes
+	 * @return A string representatino of the XML node and its child nodes
+	 */
 	public String toString()
 	{
 		String str = "";//"[" + this.hashCode()+"]{";

@@ -3,17 +3,32 @@ package erland.util;
 import netscape.javascript.*;
 import java.applet.Applet;
 
+/**
+ * Makes it possible to read, write and delete cookies 
+ * from an applet
+ * @author Erland Isaksson
+ */
 public class CookieHandler
 	implements ParameterValueStorageInterface
 {
-	Applet applet;
+	/**
+	 * The applet object which will be used to access the cookies
+	 */
+	protected Applet applet;
 	
+	/**
+	 * @param applet The applet object which should be used to access the cookies
+	 */
 	public CookieHandler(Applet applet)
 	{
 		this.applet = applet;
 	}
 	
-	public String getCookie() {
+	/**
+	 * Reads all available cookies
+	 * @return The complete cookie string
+	 */
+	protected String getCookie() {
 		/*
 		** get all cookies for a document
 		*/
@@ -30,7 +45,13 @@ public class CookieHandler
 		return "?";
 	}
 
-	public String getCookie(String name) {
+	/**
+	 * Read a cookie
+	 * @param name The name of the cookie
+	 * @return The value of the cookie, if the cookie does
+	 *         not exist it will return an empty string
+	 */
+	protected String getCookie(String name) {
 		/*
 		** get a specific cookie by its name, parse the cookie.
 		**    not used in this Applet but can be useful
@@ -54,7 +75,12 @@ public class CookieHandler
 		return "";
 	}
 
-	public void setCookie(String name,String value)
+	/**
+	 * Write a cookie
+	 * @param name The name of the cookie
+	 * @param value The value to write
+	 */
+	protected void setCookie(String name,String value)
 	{
 
 		/*  
@@ -78,7 +104,11 @@ public class CookieHandler
 		}
 	}
 	
-	public void deleteCookie(String name)
+	/**
+	 * Delete a cookie
+	 * @param name The name of the cookie
+	 */	 
+	protected void deleteCookie(String name)
 	{
 
 		/*
