@@ -24,9 +24,11 @@ import erland.webapp.common.QueryFilter;
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.diary.entity.purchase.PurchaseEntry;
+import erland.webapp.diary.entity.purchase.PurchasePriceGroupEntry;
 import erland.webapp.diary.fb.account.SelectUserFB;
 import erland.webapp.diary.fb.purchase.PurchaseEntryPB;
 import erland.webapp.diary.fb.purchase.PurchasePriceGroupEntryPB;
+import erland.util.KeyValue;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
@@ -36,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class ViewPurchaseStatsAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -53,6 +56,33 @@ public class ViewPurchaseStatsAction extends BaseAction {
             PropertyUtils.copyProperties(pb[i],entities[i]);
         }
         request.setAttribute("purchaseStoresEntriesPB",pb);
+
+        filter = new QueryFilter("allyearsforuser");
+        filter.setAttribute("username", username);
+        entities = getEnvironment().getEntityStorageFactory().getStorage("diary-purchasepricegroupentry").search(filter);
+        pb = new PurchasePriceGroupEntryPB[entities.length];
+        Integer[] years = new Integer[entities.length];
+        for (int i = 0; i < entities.length; i++) {
+            pb[i] = new PurchasePriceGroupEntryPB();
+            PropertyUtils.copyProperties(pb[i],entities[i]);
+            years[i] = Integer.valueOf(((PurchasePriceGroupEntry)entities[i]).getGroup());
+        }
+        request.setAttribute("purchaseYearsEntriesPB",pb);
+
+        filter = new QueryFilter("allcategoriesforyearforuser");
+        filter.setAttribute("username", username);
+        KeyValue[] pbYear = new KeyValue[years.length];
+        for (int currentYear = 0; currentYear < years.length; currentYear++) {
+            filter.setAttribute("year", years[currentYear]);
+            entities = getEnvironment().getEntityStorageFactory().getStorage("diary-purchasepricegroupentry").search(filter);
+            pb = new PurchasePriceGroupEntryPB[entities.length];
+            for (int i = 0; i < entities.length; i++) {
+                pb[i] = new PurchasePriceGroupEntryPB();
+                PropertyUtils.copyProperties(pb[i],entities[i]);
+            }
+            pbYear[currentYear] = new KeyValue(years[currentYear],pb);
+        }
+        request.setAttribute("purchaseYearsCategoriesEntriesPB",pbYear);
 
         filter = new QueryFilter("allmonthsforuser");
         filter.setAttribute("username", username);
