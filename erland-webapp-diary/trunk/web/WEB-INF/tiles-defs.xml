@@ -106,11 +106,32 @@
     <definition name=".user.viewinventoryentry" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/inventory/viewinventoryentry.jsp"/>
     </definition>
+    <definition name=".user.viewinventoryentryspecies" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/inventory/viewinventoryentryspecies.jsp"/>
+    </definition>
     <definition name=".guest.viewinventoryentries" extends=".guest.index">
         <put name="body" value="/WEB-INF/tiles/inventory/viewinventoryentries.jsp"/>
     </definition>
     <definition name=".guest.viewinventoryentry" extends=".guest.index">
         <put name="body" value="/WEB-INF/tiles/inventory/viewinventoryentry.jsp"/>
+    </definition>
+    <definition name=".guest.viewinventoryentryspecies" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/inventory/viewinventoryentryspecies.jsp"/>
+    </definition>
+    <definition name=".user.editspeciesentry" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/species/editspeciesentry.jsp"/>
+    </definition>
+    <definition name=".user.viewspecies" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/species/viewspecies.jsp"/>
+    </definition>
+    <definition name=".user.viewspeciesentry" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/species/viewspeciesentry.jsp"/>
+    </definition>
+    <definition name=".guest.viewspecies" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/species/viewspecies.jsp"/>
+    </definition>
+    <definition name=".guest.viewspeciesentry" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/species/viewspeciesentry.jsp"/>
     </definition>
     <definition name=".guest.viewdiaryentry" extends=".guest.index">
         <put name="body" value="/WEB-INF/tiles/diary/viewentry.jsp"/>
@@ -133,8 +154,14 @@
     <definition name=".user.viewcontainer" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/container/viewcontainer.jsp"/>
     </definition>
+    <definition name=".user.viewcontainerspecies" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/container/viewcontainerspecies.jsp"/>
+    </definition>
     <definition name=".guest.viewcontainer" extends=".guest.index">
         <put name="body" value="/WEB-INF/tiles/container/viewcontainer.jsp"/>
+    </definition>
+    <definition name=".guest.viewcontainerspecies" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/container/viewcontainerspecies.jsp"/>
     </definition>
     <definition name=".user.editgalleryentry" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/gallery/editgalleryentry.jsp"/>
