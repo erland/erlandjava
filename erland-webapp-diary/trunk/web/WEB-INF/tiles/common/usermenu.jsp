@@ -20,6 +20,8 @@
 <erland-common:menu id="mainMenu" menuStyle="no-border" style="bold-link" styleSelected="bold-link-selected" indentWidth="10" indentImage="/images/transparent.gif" >
     <erland-common:menuitem id="purchase" titleKey="diary.menu.purchase" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" >
         <erland-common:menuitem id="new" titleKey="diary.menu.purchase.new" page="/do/user/newpurchaseentry" />
+        <erland-common:menuitem id="all" titleKey="diary.menu.purchase.all" page="/do/user/viewpurchaseentries" />
+        <erland-common:menuitem id="stats" titleKey="diary.menu.purchase.stats" page="/do/user/viewpurchasestats" />
     </erland-common:menuitem>
     <erland-common:menuitem id="inventory" titleKey="diary.menu.inventory" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" >
         <erland-common:menuitem id="new" titleKey="diary.menu.inventory.new" page="/do/user/newinventoryentry" />
@@ -28,11 +30,11 @@
     </erland-common:menuitem>
     <erland-common:menuitem id="galleries" titleKey="diary.menu.galleries" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" >
         <erland-common:menuitem id="new" titleKey="diary.menu.galleries.new" page="/do/user/newgallery" />
-        <erland-common:beanmenuitem bean="menuGalleriesPB" id="idDisplay" titleKey="name" page="path" childs="childs" />
+        <erland-common:beanmenuitem bean="menuGalleriesPB" id="idDisplay" title="name" page="path" childs="childs" />
     </erland-common:menuitem>
     <erland-common:menuitem id="diaries" titleKey="diary.menu.diaries" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" >
         <erland-common:menuitem id="new" titleKey="diary.menu.diaries.new" page="/do/user/newdiary" />
-        <erland-common:beanmenuitem bean="menuDiariesPB" id="idDisplay" titleKey="name" page="path" childs="childs" />
+        <erland-common:beanmenuitem bean="menuDiariesPB" id="idDisplay" title="name" page="path" childs="childs" />
     </erland-common:menuitem>
     <erland-common:menuitem id="preferences" titleKey="diary.menu.preferences" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" />
     <erland-common:menuitem id="users" titleKey="diary.menu.users" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" roles="manager" />
