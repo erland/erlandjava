@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Vector;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.text.NumberFormat;
 import java.text.DecimalFormat;
 
@@ -32,7 +33,6 @@ public class DateValueDiagram {
     private Date minDate;
     private Date maxDate;
     private Vector plots;
-    private final int LABEL_WIDTH=50;
     private final int LABEL_MARK_SIZE = 4;
     private final int LABEL_BORDER = 5;
     public class PlotData {
@@ -177,25 +177,38 @@ public class DateValueDiagram {
         int top = 0;
         int bottom = img.getHeight(null)-labelHeight-LABEL_BORDER;
         int height = bottom-top;
-        int left = LABEL_WIDTH;
         int right = img.getWidth(null)-getMaxPlotLabelWidth(g,height)-LABEL_BORDER;
-        int width = right-left;
-
-        double dx=(double)width/(maxDate.getTime()-minDate.getTime());
         double dy=(double)height/maxValue;
         double firstX = minDate.getTime();
 
 
         double verticalLabelInterval = getValueLabelInterval(height,25,maxValue);
         Log.println(this,"verticalLabelInterval="+verticalLabelInterval);
-        DateInterval horizontalLabelInterval = getDateLabelInterval(width,60,minDate,maxDate);
-        Log.println(this,"horizontalLabelInterval="+horizontalLabelInterval);
         int noOfVerticalLabels = (int)Math.floor(maxValue/verticalLabelInterval);
         Log.println(this,"noOfVerticalLabels="+noOfVerticalLabels);
 
         x=0;
-
+        // Calculate max label width
+        int maxLabelWidth=0;
         NumberFormat numberFormat = new DecimalFormat("0.##");
+        for(int i=0;i<noOfVerticalLabels;i++) {
+            y=(i+1)*verticalLabelInterval*dy;
+            Log.println(this,"verticalLabel="+y);
+            String label = numberFormat.format(y/dy);
+            Rectangle2D rc = g.getFontMetrics().getStringBounds(label,g);
+            int labelWidth = (int) rc.getWidth();
+            if(labelWidth>maxLabelWidth) {
+                maxLabelWidth = labelWidth;
+            }
+        }
+
+        int left = maxLabelWidth+LABEL_MARK_SIZE+LABEL_BORDER;
+        int width = right-left;
+        double dx=(double)width/(maxDate.getTime()-minDate.getTime());
+        DateInterval horizontalLabelInterval = getDateLabelInterval(width,60,minDate,maxDate);
+        Log.println(this,"horizontalLabelInterval="+horizontalLabelInterval);
+
+        // Draw vertical labels
         for(int i=0;i<noOfVerticalLabels;i++) {
             y=(i+1)*verticalLabelInterval*dy;
             Log.println(this,"verticalLabel="+y);
@@ -203,12 +216,19 @@ public class DateValueDiagram {
             g.drawLine(left-LABEL_MARK_SIZE,bottom-(int)y,right,bottom-(int)y);
             g.setColor(Color.black);
             String label = numberFormat.format(y/dy);
-            int labelWidth = g.getFontMetrics().stringWidth(label);
-            g.drawString(label,left-labelWidth-LABEL_MARK_SIZE-LABEL_BORDER+(int)x,bottom-(int)y+4);
+            Rectangle2D rc = g.getFontMetrics().getStringBounds(label,g);
+            int labelWidth = (int) rc.getWidth();
+            int labelY = bottom-(int)y+4;
+            if(labelY<rc.getHeight()-5) {
+                labelY=(int) rc.getHeight()-5;
+            }
+            g.drawString(label,left-labelWidth-LABEL_MARK_SIZE-LABEL_BORDER+(int)x,labelY);
         }
+
         g.setColor(Color.lightGray);
         g.drawLine(left,top,left,bottom);
 
+        // Draw horizontal labels
         y=img.getHeight(null);
         Date currentDate = horizontalLabelInterval.next(minDate);
         while(currentDate.getTime()<=maxDate.getTime()) {
