@@ -114,7 +114,7 @@ public class Picture extends BaseEntity implements EntityReadUpdateInterface {
 
     public void preReadUpdate() {
         if (id != null) {
-            id = id.replaceAll("[@]", "/");
+            id = id.replaceAll("[@:]", "/");
             id = directory + id;
         }
     }
@@ -136,7 +136,7 @@ public class Picture extends BaseEntity implements EntityReadUpdateInterface {
                 setName(id);
                 setFileName(id);
             }
-            id = id.replaceAll("[/\\\\]", "@");
+            id = id.replaceAll("[/\\\\]", ":");
 /*
             int pos = id.lastIndexOf("/");
             int pos2 = id.lastIndexOf("\\");
