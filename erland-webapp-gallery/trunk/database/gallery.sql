@@ -12,6 +12,7 @@ CREATE TABLE categories (
   gallery int(11) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
   name varchar(100) NOT NULL default '',
+  name_en varchar(100) NOT NULL default '',
   official tinyint(1) NOT NULL default '0',
   officialvisible tinyint(1) NOT NULL default '0',
   officialalways tinyint(1) NOT NULL default '0',
@@ -52,7 +53,9 @@ CREATE TABLE galleries (
   id int(11) NOT NULL auto_increment,
   username varchar(100) NOT NULL default '',
   title varchar(100) NOT NULL default '',
-  description longtext NOT NULL,
+  title_en varchar(100) NOT NULL default '',
+  description longtext NOT NULL default '',
+  description_en longtext NOT NULL default '',
   topcategory int(11) NOT NULL default '0',
   referencedgallery int(11) NOT NULL default '0',
   official tinyint(1) NOT NULL default '0',
@@ -76,8 +79,13 @@ CREATE TABLE galleries (
   useshortpicturenames tinyint(1) NOT NULL default '0',
   showpicturetitle tinyint(1) NOT NULL default '1',
   showresolutionlinks tinyint(1) NOT NULL default '1',
-  showpicturedescription tinyint(1) NOT NULL default '0',
   thumbnailheight int(11) default NULL,
+  thumbnailpicturetitle longtext default NULL,
+  picturetitle longtext default NULL,
+  thumbnailrow1 longtext default NULL,
+  thumbnailrow2 longtext default NULL,
+  thumbnailrow3 longtext default NULL,
+  copyright longtext default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -124,8 +132,11 @@ CREATE TABLE pictures (
   id int(11) NOT NULL auto_increment,
   gallery int(11) NOT NULL default '0',
   title varchar(255) NOT NULL default '',
+  title_en varchar(255) NOT NULL default '',
   date date NOT NULL default '0000-00-00',
-  description longtext NOT NULL,
+  description longtext NOT NULL default '',
+  description_en longtext NOT NULL default '',
+  file varchar(255) NOT NULL default '',
   image varchar(255) NOT NULL default '',
   official tinyint(1) NOT NULL default '0',
   link varchar(255) NOT NULL default '',
@@ -170,6 +181,7 @@ CREATE TABLE skins (
   search varchar(255) default NULL,
   viewpicture varchar(255) default NULL,
   viewpictures varchar(255) default NULL,
+  stylesheet varchar(255) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -179,11 +191,13 @@ CREATE TABLE skins (
 
 CREATE TABLE useraccounts (
   username varchar(100) NOT NULL default '',
-  welcometext longtext NOT NULL,
-  description longtext NOT NULL,
+  welcometext longtext NOT NULL default '',
+  welcometext_en longtext NOT NULL default '',
+  description longtext NOT NULL default '',
+  description_en longtext NOT NULL default '',
   logo varchar(100) NOT NULL default '',
   defaultgallery int(11) NOT NULL default '0',
-  copyright varchar(100) NOT NULL default '',
+  copyright longtext NOT NULL default '',
   official tinyint(1) NOT NULL default '0',
   stylesheet varchar(255) default NULL,
   skin varchar(100) default NULL,
