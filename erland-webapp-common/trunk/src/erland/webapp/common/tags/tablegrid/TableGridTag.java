@@ -42,7 +42,9 @@ public class TableGridTag extends TagSupport {
     private String colsProperty;
     private String tableStyle;
     private String rowIterations;
+    private String columnIterations;
     private String cellStyle;
+    private String rowStyle;
     private String width;
     private String height;
     private String cellWidth;
@@ -57,9 +59,11 @@ public class TableGridTag extends TagSupport {
     private Object[] iterateObject;
     private int index;
     private int rowIndex;
+    private int columnIndex;
     private int noOfRows;
     private int noOfCols;
     private int noOfRowIterations;
+    private int noOfColumnIterations;
 
 
     public String getRows() {
@@ -118,12 +122,28 @@ public class TableGridTag extends TagSupport {
         this.rowIterations = rowIterations;
     }
 
+    public String getColumnIterations() {
+        return columnIterations;
+    }
+
+    public void setColumnIterations(String columnIterations) {
+        this.columnIterations = columnIterations;
+    }
+
     public String getCellStyle() {
         return cellStyle;
     }
 
     public void setCellStyle(String cellStyle) {
         this.cellStyle = cellStyle;
+    }
+
+    public String getRowStyle() {
+        return rowStyle;
+    }
+
+    public void setRowStyle(String rowStyle) {
+        this.rowStyle = rowStyle;
     }
 
     public String getWidth() {
@@ -210,6 +230,10 @@ public class TableGridTag extends TagSupport {
         return rowIndex;
     }
 
+    public int getColumnIndex() {
+        return columnIndex;
+    }
+
     public int doStartTag() throws JspException {
         try {
             JspWriter out = pageContext.getOut();
@@ -286,8 +310,10 @@ public class TableGridTag extends TagSupport {
                 noOfCols=colsValue.intValue();
             }
             noOfRowIterations=ServletParameterHelper.asInteger(rowIterations,new Integer(1)).intValue();
+            noOfColumnIterations=ServletParameterHelper.asInteger(columnIterations,new Integer(1)).intValue();
             if(iterateObject.length>0) {
                 index = 0;
+                columnIndex = 0;
                 rowIndex = 0;
                 if(iterateObject[index]!=null) {
                     pageContext.setAttribute(id,iterateObject[index]);
@@ -301,8 +327,8 @@ public class TableGridTag extends TagSupport {
                     }
                 }
                 out.write("<table"+(tableStyle!=null?" class=\""+tableStyle+"\"":"")+(width!=null?" width=\""+width+"\"":"")+(height!=null?" height=\""+height+"\"":"")+">");
-                out.write("<tr>");
-                if(noOfRowIterations<=1) {
+                out.write("<tr"+(rowStyle!=null?" class=\""+rowStyle+"\"":"")+">");
+                if(noOfRowIterations<=1 && noOfColumnIterations<=1) {
                     out.write("<td"+(cellStyle!=null?" class=\""+cellStyle+"\"":"")+(align!=null?" align=\""+align+"\"":"")+(valign!=null?" valign=\""+valign+"\"":"")+(cellWidth!=null?" width=\""+cellWidth+"\"":"")+(cellHeight!=null?" height=\""+cellHeight+"\"":"")+">");
                 }
                 return EVAL_BODY_INCLUDE;
@@ -319,37 +345,56 @@ public class TableGridTag extends TagSupport {
             if(Log.isEnabled(this,Log.DEBUG)) {
                 Log.println(this,"doAfterBody start: "+StringUtil.objectToString(this,null,TagSupport.class,true));
             }
-            if(noOfRowIterations<=1) {
+            if(noOfRowIterations<=1 && noOfColumnIterations<=1) {
                 out.write("</td>");
             }
             index++;
             if(index%noOfCols==0) {
-                out.write("</tr>");
-                rowIndex++;
-                if(rowIndex<noOfRowIterations) {
-                    do {
-                        index--;
-                    }while(index%noOfCols>0);
+                columnIndex++;
+                if(columnIndex<noOfColumnIterations) {
+                    index--;
                 }else {
-                    rowIndex=0;
+                    columnIndex=0;
+                    out.write("</tr>");
+                    rowIndex++;
+                    if(rowIndex<noOfRowIterations) {
+                        do {
+                            index--;
+                        }while(index%noOfCols>0);
+                    }else {
+                        rowIndex=0;
+                    }
                 }
             }else if(index>=iterateObject.length) {
-                out.write("</tr>");
-                rowIndex++;
-                if(rowIndex<noOfRowIterations) {
-                    do {
-                        index--;
-                    }while(index%noOfCols>0);
+                columnIndex++;
+                if(columnIndex<noOfColumnIterations) {
+                    index--;
                 }else {
-                    rowIndex=0;
+                    columnIndex=0;
+                    out.write("</tr>");
+                    rowIndex++;
+                    if(rowIndex<noOfRowIterations) {
+                        do {
+                            index--;
+                        }while(index%noOfCols>0);
+                    }else {
+                        rowIndex=0;
+                    }
+                }
+            }else {
+                columnIndex++;
+                if(columnIndex<noOfColumnIterations) {
+                    index--;
+                }else {
+                    columnIndex=0;
                 }
             }
 
             if(index<iterateObject.length && index<(noOfCols*noOfRows)) {
-                if(index%noOfCols==0) {
-                    out.write("<tr>");
+                if(columnIndex==0 && index%noOfCols==0) {
+                    out.write("<tr"+(rowStyle!=null?" class=\""+rowStyle+"\"":"")+">");
                 }
-                if(noOfRowIterations<=1) {
+                if(noOfRowIterations<=1 && noOfColumnIterations<=1) {
                     out.write("<td"+(cellStyle!=null?" class=\""+cellStyle+"\"":"")+(align!=null?" align=\""+align+"\"":"")+(valign!=null?" valign=\""+valign+"\"":"")+(cellWidth!=null?" width=\""+cellWidth+"\"":"")+(cellHeight!=null?" height=\""+cellHeight+"\"":"")+">");
                 }
                 if(iterateObject[index]!=null) {
@@ -395,6 +440,8 @@ public class TableGridTag extends TagSupport {
         colsProperty = null;
         tableStyle = null;
         rowIterations = null;
+        columnIterations = null;
+        rowStyle = null;
         cellStyle = null;
         width = null;
         height = null;
@@ -410,8 +457,10 @@ public class TableGridTag extends TagSupport {
         iterateObject = null;
         index = 0;
         rowIndex = 0;
+        columnIndex = 0;
         noOfRows = 0;
         noOfCols = 0;
         noOfRowIterations = 0;
+        noOfColumnIterations = 0;
     }
 }
