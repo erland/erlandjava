@@ -1,6 +1,9 @@
 package erland.webapp.gallery.fb.gallery;
 
 import org.apache.struts.validator.ValidatorForm;
+import org.apache.struts.action.ActionMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -23,15 +26,11 @@ import org.apache.struts.validator.ValidatorForm;
 
 public class GalleryFB extends ValidatorForm {
     private Integer id;
-    private String idDisplay;
     private String title;
     private String description;
     private Boolean official;
-    private String officialDisplay;
     private Integer topCategory;
-    private String topCategoryDisplay;
     private Integer referencedGallery;
-    private String referencedGalleryDisplay;
     private String[] categories;
 
     public Integer getId() {
@@ -43,11 +42,15 @@ public class GalleryFB extends ValidatorForm {
     }
 
     public String getIdDisplay() {
-        return idDisplay;
+        return id!=null?id.toString():null;
     }
 
     public void setIdDisplay(String idDisplay) {
-        this.idDisplay = idDisplay;
+        try {
+            this.id = Integer.valueOf(idDisplay);
+        } catch (NumberFormatException e) {
+            this.id = null;
+        }
     }
 
     public String getTitle() {
@@ -75,11 +78,11 @@ public class GalleryFB extends ValidatorForm {
     }
 
     public String getOfficialDisplay() {
-        return officialDisplay;
+        return official!=null?official.toString():null;
     }
 
     public void setOfficialDisplay(String officialDisplay) {
-        this.officialDisplay = officialDisplay;
+        this.official = Boolean.valueOf(officialDisplay);
     }
 
     public Integer getTopCategory() {
@@ -91,11 +94,15 @@ public class GalleryFB extends ValidatorForm {
     }
 
     public String getTopCategoryDisplay() {
-        return topCategoryDisplay;
+        return topCategory!=null?topCategory.toString():null;
     }
 
     public void setTopCategoryDisplay(String topCategoryDisplay) {
-        this.topCategoryDisplay = topCategoryDisplay;
+        try {
+            this.topCategory = Integer.valueOf(topCategoryDisplay);
+        } catch (NumberFormatException e) {
+            this.topCategory = null;
+        }
     }
 
     public Integer getReferencedGallery() {
@@ -107,11 +114,15 @@ public class GalleryFB extends ValidatorForm {
     }
 
     public String getReferencedGalleryDisplay() {
-        return referencedGalleryDisplay;
+        return referencedGallery!=null?referencedGallery.toString():null;
     }
 
     public void setReferencedGalleryDisplay(String referencedGalleryDisplay) {
-        this.referencedGalleryDisplay = referencedGalleryDisplay;
+        try {
+            this.referencedGallery = Integer.valueOf(referencedGalleryDisplay);
+        } catch (NumberFormatException e) {
+            this.referencedGallery = null;
+        }
     }
 
     public String[] getCategories() {
@@ -120,5 +131,16 @@ public class GalleryFB extends ValidatorForm {
 
     public void setCategories(String[] categories) {
         this.categories = categories;
+    }
+
+    public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
+        super.reset(actionMapping, httpServletRequest);
+        id = null;
+        categories = null;
+        description = null;
+        official = Boolean.FALSE;
+        referencedGallery = null;
+        title = null;
+        topCategory = null;
     }
 }

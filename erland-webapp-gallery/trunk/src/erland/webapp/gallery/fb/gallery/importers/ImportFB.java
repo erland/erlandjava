@@ -1,6 +1,9 @@
 package erland.webapp.gallery.fb.gallery.importers;
 
 import org.apache.struts.validator.ValidatorForm;
+import org.apache.struts.action.ActionMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -23,20 +26,13 @@ import org.apache.struts.validator.ValidatorForm;
 
 public class ImportFB extends ValidatorForm {
     private Integer gallery;
-    private String galleryDisplay;
     private String file;
     private Boolean clearCategories;
-    private String clearCategoriesDisplay;
     private Boolean clearPictures;
-    private String clearPicturesDisplay;
     private Boolean localLinks;
-    private String localLinksDisplay;
     private Boolean filenameAsPictureTitle;
-    private String filenameAsPictureTitleDisplay;
     private Boolean filenameAsPictureDescription;
-    private String filenameAsPictureDescriptionDisplay;
     private Boolean cutLongPictureTitles;
-    private String cutLongPictureTitlesDisplay;
 
     public Integer getGallery() {
         return gallery;
@@ -47,11 +43,15 @@ public class ImportFB extends ValidatorForm {
     }
 
     public String getGalleryDisplay() {
-        return galleryDisplay;
+        return gallery!=null?gallery.toString():null;
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        this.galleryDisplay = galleryDisplay;
+        try {
+            this.gallery = Integer.valueOf(galleryDisplay);
+        } catch (NumberFormatException e) {
+            this.gallery = null;
+        }
     }
 
     public String getFile() {
@@ -71,11 +71,11 @@ public class ImportFB extends ValidatorForm {
     }
 
     public String getClearCategoriesDisplay() {
-        return clearCategoriesDisplay;
+        return clearCategories!=null?clearCategories.toString():null;
     }
 
     public void setClearCategoriesDisplay(String clearCategoriesDisplay) {
-        this.clearCategoriesDisplay = clearCategoriesDisplay;
+        this.clearCategories = Boolean.valueOf(clearCategoriesDisplay);
     }
 
     public Boolean getClearPictures() {
@@ -87,11 +87,11 @@ public class ImportFB extends ValidatorForm {
     }
 
     public String getClearPicturesDisplay() {
-        return clearPicturesDisplay;
+        return clearPictures!=null?clearPictures.toString():null;
     }
 
     public void setClearPicturesDisplay(String clearPicturesDisplay) {
-        this.clearPicturesDisplay = clearPicturesDisplay;
+        this.clearPictures = Boolean.valueOf(clearPicturesDisplay);
     }
 
     public Boolean getLocalLinks() {
@@ -103,11 +103,11 @@ public class ImportFB extends ValidatorForm {
     }
 
     public String getLocalLinksDisplay() {
-        return localLinksDisplay;
+        return localLinks!=null?localLinks.toString():null;
     }
 
     public void setLocalLinksDisplay(String localLinksDisplay) {
-        this.localLinksDisplay = localLinksDisplay;
+        this.localLinks = Boolean.valueOf(localLinksDisplay);
     }
 
     public Boolean getFilenameAsPictureTitle() {
@@ -119,11 +119,11 @@ public class ImportFB extends ValidatorForm {
     }
 
     public String getFilenameAsPictureTitleDisplay() {
-        return filenameAsPictureTitleDisplay;
+        return filenameAsPictureTitle!=null?filenameAsPictureTitle.toString():null;
     }
 
     public void setFilenameAsPictureTitleDisplay(String filenameAsPictureTitleDisplay) {
-        this.filenameAsPictureTitleDisplay = filenameAsPictureTitleDisplay;
+        this.filenameAsPictureTitle = Boolean.valueOf(filenameAsPictureTitleDisplay);
     }
 
     public Boolean getFilenameAsPictureDescription() {
@@ -135,11 +135,11 @@ public class ImportFB extends ValidatorForm {
     }
 
     public String getFilenameAsPictureDescriptionDisplay() {
-        return filenameAsPictureDescriptionDisplay;
+        return filenameAsPictureDescription!=null?filenameAsPictureDescription.toString():null;
     }
 
     public void setFilenameAsPictureDescriptionDisplay(String filenameAsPictureDescriptionDisplay) {
-        this.filenameAsPictureDescriptionDisplay = filenameAsPictureDescriptionDisplay;
+        this.filenameAsPictureDescription = Boolean.valueOf(filenameAsPictureDescriptionDisplay);
     }
 
     public Boolean getCutLongPictureTitles() {
@@ -151,10 +151,23 @@ public class ImportFB extends ValidatorForm {
     }
 
     public String getCutLongPictureTitlesDisplay() {
-        return cutLongPictureTitlesDisplay;
+        return cutLongPictureTitles!=null?cutLongPictureTitles.toString():null;
     }
 
     public void setCutLongPictureTitlesDisplay(String cutLongPictureTitlesDisplay) {
-        this.cutLongPictureTitlesDisplay = cutLongPictureTitlesDisplay;
+        this.cutLongPictureTitles = Boolean.valueOf(cutLongPictureTitlesDisplay);
+    }
+
+    public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
+        super.reset(actionMapping, httpServletRequest);
+        gallery = null;
+        file = null;
+        clearCategories = Boolean.FALSE;
+        clearPictures = Boolean.FALSE;
+        localLinks = Boolean.FALSE;
+        filenameAsPictureTitle = Boolean.FALSE;
+        filenameAsPictureDescription = Boolean.FALSE;
+        cutLongPictureTitles = Boolean.FALSE;
+
     }
 }

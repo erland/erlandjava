@@ -1,6 +1,9 @@
 package erland.webapp.gallery.fb.gallery.category;
 
 import org.apache.struts.validator.ValidatorForm;
+import org.apache.struts.action.ActionMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -23,17 +26,11 @@ import org.apache.struts.validator.ValidatorForm;
 
 public class CategoryFB extends ValidatorForm {
     private Boolean official;
-    private String officialDisplay;
     private Boolean forcedOfficial;
-    private String forcedOfficialDisplay;
     private Boolean officialAlways;
-    private String officialAlwaysDisplay;
-    private Boolean visible;
-    private String visibleDisplay;
+    private Boolean officialVisible;
     private Integer category;
-    private String categoryDisplay;
     private Integer gallery;
-    private String galleryDisplay;
     private String name;
 
     public Boolean getOfficial() {
@@ -45,11 +42,11 @@ public class CategoryFB extends ValidatorForm {
     }
 
     public String getOfficialDisplay() {
-        return officialDisplay;
+        return official!=null?official.toString():null;
     }
 
     public void setOfficialDisplay(String officialDisplay) {
-        this.officialDisplay = officialDisplay;
+        this.official = Boolean.valueOf(officialDisplay);
     }
 
     public Boolean getOfficialAlways() {
@@ -61,11 +58,11 @@ public class CategoryFB extends ValidatorForm {
     }
 
     public String getOfficialAlwaysDisplay() {
-        return officialAlwaysDisplay;
+        return officialAlways!=null?officialAlways.toString():null;
     }
 
     public void setOfficialAlwaysDisplay(String officialAlwaysDisplay) {
-        this.officialAlwaysDisplay = officialAlwaysDisplay;
+        this.officialAlways = Boolean.valueOf(officialAlwaysDisplay);
     }
 
     public Boolean getForcedOfficial() {
@@ -77,27 +74,27 @@ public class CategoryFB extends ValidatorForm {
     }
 
     public String getForcedOfficialDisplay() {
-        return forcedOfficialDisplay;
+        return forcedOfficial!=null?forcedOfficial.toString():null;
     }
 
     public void setForcedOfficialDisplay(String forcedOfficialDisplay) {
-        this.forcedOfficialDisplay = forcedOfficialDisplay;
+        this.forcedOfficial = Boolean.valueOf(forcedOfficialDisplay);
     }
 
-    public Boolean getVisible() {
-        return visible;
+    public Boolean getOfficialVisible() {
+        return officialVisible;
     }
 
-    public void setVisible(Boolean visible) {
-        this.visible = visible;
+    public void setOfficialVisible(Boolean officialVisible) {
+        this.officialVisible = officialVisible;
     }
 
-    public String getVisibleDisplay() {
-        return visibleDisplay;
+    public String getOfficialVisibleDisplay() {
+        return officialVisible!=null?officialVisible.toString():null;
     }
 
-    public void setVisibleDisplay(String visibleDisplay) {
-        this.visibleDisplay = visibleDisplay;
+    public void setOfficialVisibleDisplay(String officialVisibleDisplay) {
+        this.officialVisible = Boolean.valueOf(officialVisibleDisplay);
     }
 
     public Integer getCategory() {
@@ -109,11 +106,15 @@ public class CategoryFB extends ValidatorForm {
     }
 
     public String getCategoryDisplay() {
-        return categoryDisplay;
+        return category!=null?category.toString():null;
     }
 
     public void setCategoryDisplay(String categoryDisplay) {
-        this.categoryDisplay = categoryDisplay;
+        try {
+            this.category = Integer.valueOf(categoryDisplay);
+        } catch (NumberFormatException e) {
+            this.category = null;
+        }
     }
 
     public Integer getGallery() {
@@ -125,11 +126,15 @@ public class CategoryFB extends ValidatorForm {
     }
 
     public String getGalleryDisplay() {
-        return galleryDisplay;
+        return gallery!=null?gallery.toString():null;
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        this.galleryDisplay = galleryDisplay;
+        try {
+            this.gallery = Integer.valueOf(galleryDisplay);
+        } catch (NumberFormatException e) {
+            this.gallery = null;
+        }
     }
 
     public String getName() {
@@ -138,5 +143,16 @@ public class CategoryFB extends ValidatorForm {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
+        super.reset(actionMapping, httpServletRequest);
+        official = Boolean.FALSE;
+        forcedOfficial = Boolean.FALSE;
+        officialAlways = Boolean.FALSE;
+        officialVisible = Boolean.FALSE;
+        category = null;
+        gallery = null;
+        name = null;
     }
 }

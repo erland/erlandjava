@@ -1,6 +1,9 @@
 package erland.webapp.gallery.fb.loader;
 
 import org.apache.struts.validator.ValidatorForm;
+import org.apache.struts.action.ActionMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -23,9 +26,7 @@ import org.apache.struts.validator.ValidatorForm;
 
 public class ImageFB extends ValidatorForm {
     private Integer image;
-    private String imageDisplay;
     private Integer gallery;
-    private String galleryDisplay;
 
     public Integer getImage() {
         return image;
@@ -36,11 +37,15 @@ public class ImageFB extends ValidatorForm {
     }
 
     public String getImageDisplay() {
-        return imageDisplay;
+        return image!=null?image.toString():null;
     }
 
     public void setImageDisplay(String imageDisplay) {
-        this.imageDisplay = imageDisplay;
+        try {
+            this.image = Integer.valueOf(imageDisplay);
+        } catch (NumberFormatException e) {
+            this.image = null;
+        }
     }
 
     public Integer getGallery() {
@@ -52,10 +57,20 @@ public class ImageFB extends ValidatorForm {
     }
 
     public String getGalleryDisplay() {
-        return galleryDisplay;
+        return gallery!=null?gallery.toString():null;
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        this.galleryDisplay = galleryDisplay;
+        try {
+            this.gallery = Integer.valueOf(galleryDisplay);
+        } catch (NumberFormatException e) {
+            this.gallery = null;
+        }
+    }
+
+    public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
+        super.reset(actionMapping, httpServletRequest);
+        gallery = null;
+        image = null;
     }
 }

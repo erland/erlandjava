@@ -1,8 +1,13 @@
 package erland.webapp.gallery.fb.gallery.picture;
 
 import org.apache.struts.validator.ValidatorForm;
+import org.apache.struts.action.ActionMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.text.ParseException;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -25,18 +30,15 @@ import java.util.Date;
 
 public class PictureFB extends ValidatorForm {
     private Integer gallery;
-    private String galleryDisplay;
     private Integer id;
-    private String idDisplay;
     private String title;
     private String description;
     private String image;
     private String link;
     private Boolean official;
-    private String officialDisplay;
     private Date date;
-    private String dateDisplay;
 
+    private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     public Integer getGallery() {
         return gallery;
     }
@@ -46,11 +48,15 @@ public class PictureFB extends ValidatorForm {
     }
 
     public String getGalleryDisplay() {
-        return galleryDisplay;
+        return gallery!=null?gallery.toString():null;
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        this.galleryDisplay = galleryDisplay;
+        try {
+            this.gallery = Integer.valueOf(galleryDisplay);
+        } catch (NumberFormatException e) {
+            this.gallery = null;
+        }
     }
 
     public Integer getId() {
@@ -62,11 +68,15 @@ public class PictureFB extends ValidatorForm {
     }
 
     public String getIdDisplay() {
-        return idDisplay;
+        return id!=null?id.toString():null;
     }
 
     public void setIdDisplay(String idDisplay) {
-        this.idDisplay = idDisplay;
+        try {
+            this.id = Integer.valueOf(idDisplay);
+        } catch (NumberFormatException e) {
+            this.id = null;
+        }
     }
 
     public String getTitle() {
@@ -110,11 +120,11 @@ public class PictureFB extends ValidatorForm {
     }
 
     public String getOfficialDisplay() {
-        return officialDisplay;
+        return official!=null?official.toString():null;
     }
 
     public void setOfficialDisplay(String officialDisplay) {
-        this.officialDisplay = officialDisplay;
+        this.official = Boolean.valueOf(officialDisplay);
     }
 
     public Date getDate() {
@@ -126,10 +136,26 @@ public class PictureFB extends ValidatorForm {
     }
 
     public String getDateDisplay() {
-        return dateDisplay;
+        return date!=null?dateFormat.format(date):null;
     }
 
     public void setDateDisplay(String dateDisplay) {
-        this.dateDisplay = dateDisplay;
+        try {
+            this.date = dateFormat.parse(dateDisplay);
+        } catch (ParseException e) {
+            this.date = null;
+        }
+    }
+
+    public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
+        super.reset(actionMapping, httpServletRequest);
+        gallery = null;
+        id = null;
+        title = null;
+        description = null;
+        image = null;
+        link = null;
+        official = Boolean.FALSE;
+        date = null;
     }
 }
