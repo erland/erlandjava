@@ -66,7 +66,7 @@
     <option name="PUT_FOCUS_INTO_COMMENT" value="false" />
     <option name="SHOW_CHECKIN_OPTIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated with changes due to struts and maven adaption" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added setParameterAsStorage method" />
     <option name="SAVE_LAST_COMMIT_MESSAGE" value="true" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -336,38 +336,38 @@
     <option name="HIDE_WARNINGS" value="false" />
   </component>
   <component name="FileEditorManager" split-orientation="vertical" split-proportion="0.5">
-    <first-group selected-file="file://$PROJECT_DIR$/README.txt">
-      <entry file="file://$PROJECT_DIR$/src/erland/webapp/common/act/BaseAction.java" pinned="false">
+    <first-group selected-file="file://$PROJECT_DIR$/src/erland/webapp/common/ServletParameterHelper.java">
+      <entry file="file://E:/EGNA/Working/Java/Common/util/src/erland/util/ParameterValueStorageExInterface.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="398" column="29" selection-start="12665" selection-end="12665" vertical-scroll-proportion="0.032882012">
+          <state line="43" column="16" selection-start="1944" selection-end="1944" vertical-scroll-proportion="0.7369439">
             <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/LICENSE.txt" pinned="false">
+      <entry file="file://$PROJECT_DIR$/src/erland/webapp/common/ResourceStorage.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="3" column="34" selection-start="160" selection-end="160" vertical-scroll-proportion="0.09864604">
+          <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
             <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/README.txt" pinned="false">
+      <entry file="file://$PROJECT_DIR$/src/erland/webapp/common/ServletParameterHelper.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="59" column="16" selection-start="2216" selection-end="2216" vertical-scroll-proportion="0.11218569">
-            <folding />
-          </state>
-        </provider>
-      </entry>
-      <entry file="file://$PROJECT_DIR$/maven.xml" pinned="false">
-        <provider selected="true" editor-type-id="text-editor">
-          <state line="4" column="17" selection-start="125" selection-end="125" vertical-scroll-proportion="0.032882012">
+          <state line="227" column="0" selection-start="9525" selection-end="9525" vertical-scroll-proportion="0.8220503">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://$PROJECT_DIR$/project.xml" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="132" column="0" selection-start="3651" selection-end="3651" vertical-scroll-proportion="0.7763158">
+          <state line="15" column="26" selection-start="456" selection-end="456" vertical-scroll-proportion="0.03195489">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://E:/EGNA/Working/Java/Common/util/src/erland/util/SAXXMLParser.java" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="107" column="54" selection-start="4362" selection-end="4362" vertical-scroll-proportion="0.63829786">
             <folding />
           </state>
         </provider>
@@ -404,16 +404,18 @@
     <option name="ADD_LABEL_ON_UNIT_TEST_FAILED" value="true" />
   </component>
   <component name="PackagesPane">
+    <expanded_node url="erland" module="WebCommon" type="package" />
+    <expanded_node url="erland.webapp.common" module="WebCommon" type="package" />
+    <expanded_node url="erland.webapp" module="WebCommon" type="package" />
     <expanded_node url="" module="WebCommon" type="module" />
   </component>
   <component name="ProjectPane">
-    <expanded_node url="file://$PROJECT_DIR$/src/erland" module="WebCommon" type="directory" />
     <expanded_node url="" module="WebCommon" type="module" />
     <expanded_node url="file://$PROJECT_DIR$/src" module="WebCommon" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp/common" module="WebCommon" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp/common/tags" module="WebCommon" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$" module="WebCommon" type="directory" />
     <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp" module="WebCommon" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$" module="WebCommon" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp/common" module="WebCommon" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src/erland" module="WebCommon" type="directory" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" splitterProportion="0.5">
@@ -528,7 +530,7 @@
     </export>
     <general />
     <databases savePasswords="false" encodePasswords="true" />
-    <queries save="false" />
+    <queries projectClassLoader="false" save="false" />
     <results primaryKeyCols="true" saveTableConfig="false">
       <rowLimit enabled="true" value="1000" />
       <resizeColumns toHeader="true" toContent="true" />
@@ -579,13 +581,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="10" y="3" width="1004" height="728" extended-state="0" />
-    <editor active="false" />
+    <frame x="0" y="0" width="1004" height="728" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="SQL" active="false" anchor="bottom" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.33" order="8" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.3539916" order="0" x="35" y="79" width="397" height="600" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.34243697" order="0" x="35" y="79" width="397" height="600" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.02" order="8" />
@@ -684,50 +686,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/common/tags/menu/BeanMenuItemTag.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="197" column="0" selection-start="6583" selection-end="6583" vertical-scroll-proportion="0.37453875">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/common/tags/erland-common.tld">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="102" column="0" selection-start="3475" selection-end="3475" vertical-scroll-proportion="0.57195574">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/common/tags/menu/MenuItemTag.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="97" column="0" selection-start="3142" selection-end="3142" vertical-scroll-proportion="0.33199194">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/common/tags/menu/MenuItemSeparatorTag.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="174" column="0" selection-start="5964" selection-end="5964" vertical-scroll-proportion="0.5221239">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/common/tags/menu/MenuItemInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="17" selection-start="849" selection-end="849" vertical-scroll-proportion="1.2226027">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/common/act/InvalidateSessionAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="0" selection-start="1119" selection-end="1119" vertical-scroll-proportion="1.2412698">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/erland/webapp/common/act/WebAppEnvironmentPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="152" column="1" selection-start="5676" selection-end="5676" vertical-scroll-proportion="1.5396825">
@@ -758,39 +716,124 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/erland/webapp/common/act/BaseAction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="398" column="29" selection-start="12665" selection-end="12665" vertical-scroll-proportion="0.032882012">
+        <state line="398" column="29" selection-start="12967" selection-end="12967" vertical-scroll-proportion="0.03362832">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LICENSE.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="34" selection-start="160" selection-end="160" vertical-scroll-proportion="0.09864604">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="16" selection-start="2216" selection-end="2216" vertical-scroll-proportion="0.11218569">
+        <state line="3" column="34" selection-start="160" selection-end="160" vertical-scroll-proportion="0.09586466">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/maven.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="17" selection-start="125" selection-end="125" vertical-scroll-proportion="0.032882012">
+        <state line="4" column="17" selection-start="125" selection-end="125" vertical-scroll-proportion="0.036750484">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="59" column="16" selection-start="2216" selection-end="2216" vertical-scroll-proportion="0.20502901">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Common/util/src/erland/util/XMLNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="18" selection-start="2322" selection-end="2322" vertical-scroll-proportion="-0.15315315">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Common/util/src/erland/util/SimpleXMLParserHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Common/util/src/erland/util/SAXXMLParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="107" column="54" selection-start="4362" selection-end="4362" vertical-scroll-proportion="0.63829786">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/project.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="132" column="0" selection-start="3651" selection-end="3651" vertical-scroll-proportion="0.7763158">
+        <state line="15" column="26" selection-start="456" selection-end="456" vertical-scroll-proportion="0.03195489">
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/erland/webapp/common/ResourceStorage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Common/util/src/erland/util/ParameterValueStorageExInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="16" selection-start="1944" selection-end="1944" vertical-scroll-proportion="0.7369439">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/erland/webapp/common/ServletParameterHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="227" column="0" selection-start="9525" selection-end="9525" vertical-scroll-proportion="0.8220503">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="ideajad">
+    <property name="annotate" value="false" />
+    <property name="annotateFully" value="false" />
+    <property name="braces" value="false" />
+    <property name="clear" value="false" />
+    <property name="confirmNavigationTriggeredDecompile" value="true" />
+    <property name="dead" value="true" />
+    <property name="defaultInitializers" value="false" />
+    <property name="dissassemblerOnly" value="false" />
+    <property name="fieldsFirst" value="true" />
+    <property name="fileExtension" value="java" />
+    <property name="fullyQualifiedNames" value="false" />
+    <property name="indentation" value="4" />
+    <property name="intRadix" value="10" />
+    <property name="lineNumbersAsComments" value="true" />
+    <property name="longRadix" value="10" />
+    <property name="maxStringLength" value="64" />
+    <property name="nocast" value="false" />
+    <property name="noclass" value="false" />
+    <property name="nocode" value="false" />
+    <property name="noconv" value="false" />
+    <property name="noctor" value="false" />
+    <property name="nodos" value="false" />
+    <property name="nofd" value="false" />
+    <property name="noinner" value="false" />
+    <property name="nolvt" value="false" />
+    <property name="nonlb" value="false" />
+    <property name="outputDirectory" value="" />
+    <property name="packFields" value="3" />
+    <property name="packImports" value="7" />
+    <property name="prefixNumericalClasses" value="_cls" />
+    <property name="prefixNumericalFields" value="_fld" />
+    <property name="prefixNumericalLocals" value="_lcl" />
+    <property name="prefixNumericalMethods" value="_mth" />
+    <property name="prefixNumericalParameters" value="_prm" />
+    <property name="prefixUnusedExceptions" value="_ex" />
+    <property name="readonly" value="false" />
+    <property name="safe" value="false" />
+    <property name="sort" value="false" />
+    <property name="spaceAfterKeyword" value="false" />
+    <property name="splitStringsAtNewline" value="false" />
+    <property name="useTabs" value="false" />
   </component>
 </project>
 

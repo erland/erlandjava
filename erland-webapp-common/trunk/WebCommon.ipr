@@ -78,9 +78,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/WebCommon.iml" filepath="$PROJECT_DIR$/WebCommon.iml" />
+      <module fileurl="file://E:/EGNA/Working/Java/Common/util/util.iml" filepath="E:/EGNA/Working/Java/Common/util/util.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" assert-keyword="false" />
+  <component name="ProjectRootManager" version="2" assert-keyword="false" project-jdk-name="java version &quot;1.4.2_03&quot;" />
   <component name="UI designer component loader factory" />
   <component name="WebManager">
     <option enabled="false" />
