@@ -63,7 +63,7 @@ public class SearchPicturesAction extends BaseAction {
             if (gallery.getTypeOfFiles().equals(Gallery.PICTUREFILES)) {
                 filter.setAttribute("extensions", ".jpg,.jpeg");
             } else if (gallery.getTypeOfFiles().equals(Gallery.MOVIEFILES)) {
-                filter.setAttribute("extensions", ".mpg,.mpeg");
+                filter.setAttribute("extensions", ".mpg,.mpeg,.avi,.mov");
             }
             filter.setAttribute("tree", gallery.getIncludeSubDirectories());
             EntityInterface[] entities = new EntityInterface[0];
