@@ -59,7 +59,7 @@
 
         <action
             path="/guest/selectgallery"
-            type="erland.webapp.common.act.MenuExpandCollapseAction"
+            type="erland.webapp.common.act.MenuExpandAction"
             name="mainMenuFB"
             validate="false"
             parameter="menuName=mainMenu&amp;menuItemIdParameter=gallery">
@@ -68,7 +68,7 @@
         </action>
         <action
             path="/user/selectgallery"
-            type="erland.webapp.common.act.MenuExpandCollapseAction"
+            type="erland.webapp.common.act.MenuExpandAction"
             name="mainMenuFB"
             validate="false"
             parameter="menuName=mainMenu&amp;menuItemIdPrefix=galleries-&amp;menuItemIdParameter=gallery">
@@ -123,7 +123,7 @@
         </action>
         <action
             path="/guest/menu"
-            type="erland.webapp.common.act.MenuExpandCollapseAction"
+            type="erland.webapp.common.act.MenuExpandAction"
             name="mainMenuFB"
             validate="false">
 
@@ -131,7 +131,7 @@
         </action>
         <action
             path="/user/menu"
-            type="erland.webapp.common.act.MenuExpandCollapseAction"
+            type="erland.webapp.common.act.MenuExpandAction"
             name="mainMenuFB"
             validate="false"
             parameter="menuName=mainMenu&amp;menuItemIdParameter=id">
