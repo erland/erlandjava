@@ -7,7 +7,7 @@ public class RoburXMLEncoder {
     static String encodeStockData(BufferedReader data) {
         StringBuffer out = new StringBuffer(2000);
 
-        out.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        out.append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
 
         try {
             out.append("<stock name=\""+data.readLine()+"\">");
