@@ -134,9 +134,11 @@ public class EditCategoryAction extends BaseAction {
         for (int i = 0; i < entities.length; i++) {
             pictures.add(((Picture) entities[i]).getId());
         }
-        QueryFilter pictureFilter = new QueryFilter("allforgalleryandpicturelist");
-        pictureFilter.setAttribute("gallery", gallery);
-        pictureFilter.setAttribute("pictures", pictures);
-        getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").update(pictureFilter, picture);
+		if (pictures.size() > 0) {
+			QueryFilter pictureFilter = new QueryFilter("allforgalleryandpicturelist");
+			pictureFilter.setAttribute("gallery", gallery);
+			pictureFilter.setAttribute("pictures", pictures);
+			getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").update(pictureFilter, picture);
+		}
     }
 }
