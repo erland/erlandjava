@@ -41,6 +41,7 @@ public class SearchApplicationsAction extends Action {
         QueryFilter filter = new QueryFilter("all");
         filter.setAttribute("directory",WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("basedirectory"));
         filter.setAttribute("directoriesonly",Boolean.TRUE);
+        filter.setAttribute("language",httpServletRequest.getLocale().getLanguage());
         EntityInterface[] entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-application").search(filter);
         if(entities!=null) {
             Collection applications = new ArrayList();

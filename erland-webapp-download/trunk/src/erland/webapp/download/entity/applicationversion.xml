@@ -23,6 +23,11 @@
                 <attribute>directory</attribute>
                 <type>String</type>
             </field>
+            <field id="language">
+                <attribute>language</attribute>
+                <type>String</type>
+                <frominput>true</frominput>
+            </field>
         </fields>
     </data>
 </entity>

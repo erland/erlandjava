@@ -36,13 +36,14 @@ import java.util.*;
  */
 
 public class SearchAllApplicationVersionsAction extends SearchApplicationVersionsAction {
-    protected QueryFilter getFilter(ActionForm actionForm) {
+    protected QueryFilter getFilter(HttpServletRequest request, ActionForm actionForm) {
         ApplicationIdFB fb = (ApplicationIdFB) actionForm;
         QueryFilter filter = new QueryFilter("all");
         String mainDir = WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("basedirectory");
         filter.setAttribute("directory",mainDir);
         filter.setAttribute("extensions", ".zip,.exe");
         filter.setAttribute("tree",Boolean.TRUE);
+        filter.setAttribute("language",request.getLocale().getLanguage());
         return filter;
     }
 }

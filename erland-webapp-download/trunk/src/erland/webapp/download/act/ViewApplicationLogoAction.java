@@ -46,6 +46,7 @@ public class ViewApplicationLogoAction extends Action {
 
         entity.setDirectory(WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("basedirectory"));
         entity.setId(fb.getName());
+        entity.setLanguage(httpServletRequest.getLocale().getLanguage());
 
         entity = (Application) WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-application").load(entity);
         if(entity!=null) {
