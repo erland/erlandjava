@@ -57,6 +57,7 @@ public class ImageWriteHelper {
                     input = new BufferedInputStream(new URL(file).openConnection().getInputStream());
                 }
                 write(input, output);
+                input.close();
                 return true;
             } else {
 
