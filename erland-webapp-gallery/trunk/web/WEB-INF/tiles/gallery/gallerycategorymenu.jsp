@@ -9,9 +9,10 @@
     <a href="<html:rewrite page="/do/user/removegallery"/>?id=<bean:write name="galleryPB" property="id"/>" class="picturepage-button" onClick="return confirm('<bean:message key="gallery.gallery.delete.are-you-sure"/>')"><bean:message key="gallery.gallery.delete"/></a>&nbsp;-&nbsp;
     <a href="<html:rewrite page="/do/user/viewgalleryfilters"/>?gallery=<bean:write name="galleryPB" property="id"/>" class="picturepage-button"><bean:message key="gallery.gallery.view-filters"/></a>&nbsp;-&nbsp;
     <a href="<html:rewrite page="/do/user/clearcachegallery"/>?id=<bean:write name="galleryPB" property="id"/>" class="picturepage-button"><bean:message key="gallery.gallery.clear-cache"/></a>
-    <logic:notEqual name="galleryPB" property="virtual" value="true">
+    <logic:notEqual name="galleryPB" property="virtualDisplay" value="true">
         &nbsp;-&nbsp;<a href="<html:rewrite page="/do/user/newpicture"/>?gallery=<bean:write name="galleryPB" property="id"/>" class="picturepage-button"><bean:message key="gallery.gallery.add-picture"/></a>
         &nbsp;-&nbsp;<a href="<html:rewrite page="/do/user/newimportpictures"/>?gallery=<bean:write name="galleryPB" property="id"/>" class="picturepage-button"><bean:message key="gallery.gallery.import-pictures"/></a>
+        &nbsp;-&nbsp;<a href="<html:rewrite page="/do/user/quicksetup"/>?galleryDisplay=<bean:write name="galleryPB" property="id"/>" class="picturepage-button"><bean:message key="gallery.gallery.quicksetup"/></a>
     </logic:notEqual>
     <logic:notEmpty name="selectPictureFB">
         <logic:notEmpty name="selectPictureFB" property="category">
