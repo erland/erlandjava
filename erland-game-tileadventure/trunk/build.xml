@@ -1,0 +1,108 @@
+<project name="TileAdventure" default="Build Application" basedir=".">
+    <!-- set global properties for this build -->
+	<property environment="env"/>
+    <property file="${env.ERLAND_ANT_BUILD_PROPERTIES}"/>
+
+	<target name="init" unless="buildutil">
+	    <get dest="buildutil.xml" usetimestamp="true" ignoreerrors="false" src="http://erland.homeip.net/~ant/buildutil.xml"/>
+	    <property name="buildutil" value="${basedir}/buildutil.xml"/>
+	    <get dest="build.properties" usetimestamp="true" ignoreerrors="false" src="http://erland.homeip.net/~ant/build.properties"/>
+		<property file="build.properties"/>
+	</target>
+
+    <target name="buildlibraries" unless="nolibraries" >
+        <!-- Make sure to build other project this depend on -->
+        <ant dir="../common/util"/>
+        <ant dir="../common/game"/>
+        <ant dir="../common/network"/>
+    </target>
+    <target name="copylibraries">
+        <!-- Copy required libraries to distribution dir -->
+        <copy todir="${dist}">
+            <fileset dir="../common/util/${dist}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="../common/game/${dist}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="../common/network/${dist}">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+    <target name="Make archive" depends="init">
+        <antcall target="Clean All"/>
+        <antcall target="Build Application"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="makedeliverable">
+            <property name="currentproject" value="${ant.project.name}"/>
+        </ant>
+    </target>
+    <target name="Make archive (Debug)" depends="init">
+        <antcall target="Clean All"/>
+        <antcall target="Build Application (Debug)"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="makedeliverable">
+            <property name="currentproject" value="${ant.project.name}"/>
+        </ant>
+    </target>
+
+    <target name="Build Applet" depends="init">
+        <property name="compilemsapplet" value="true"/>
+        <property name="nojarsign" value="true"/>
+        <antcall target="Build Application"/>
+    </target>
+    <target name="Build Applet (Debug)" depends="init">
+        <property name="debug" value="true"/>
+        <property name="nojarsign" value="true"/>
+        <antcall target="Build Applet"/>
+    </target>
+    <target name="Build Application" depends="init">
+        <antcall target="buildlibraries"/>
+        <property name="img" value="images"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="dist">
+            <property name="currentproject" value="${ant.project.name}"/>
+            <property name="currentpackage" value="erland.game.tileadventure"/>
+            <property name="projectclasspath" value="../common/util/${dist}/util.jar;../common/game/${dist}/game.jar;../common/network/${dist}/network.jar"/>
+        </ant>
+        <antcall target="copylibraries"/>
+    </target>
+    <target name="Build Application (Debug)" depends="init">
+        <property name="debug" value="true"/>
+        <antcall target="Build Application"/>
+    </target>
+
+    <target name="Build Application (Debug) without Libraries" depends="init">
+        <property name="debug" value="true"/>
+        <property name="nolibraries" value="true"/>
+        <antcall target="Build Application"/>
+    </target>
+
+    <target name="Documentation" depends="init">
+        <ant dir="../common/util" target="Documentation"/>
+        <ant dir="../common/game" target="Documentation"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="doc">
+            <property name="currentproject" value="${ant.project.name}"/>
+            <property name="currentpackage" value="erland.game.tileadventure"/>
+            <property name="projectclasspath" value="../common/util/${dist}/util.jar;../common/game/${dist}/game.jar"/>
+        </ant>
+    </target>
+    <target name="Public Documentation" depends="init">
+        <ant dir="../common/util" target="Public Documentation"/>
+        <ant dir="../common/game" target="Public Documentation"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="docpublic">
+            <property name="currentproject" value="${ant.project.name}"/>
+            <property name="currentpackage" value="erland.game.tileadventure"/>
+            <property name="projectclasspath" value="../common/util/${dist}/util.jar;../common/game/${dist}/game.jar"/>
+        </ant>
+    </target>
+
+    <target name="Clean All" depends="init,Clean This">
+        <ant dir="../common/util" target="Clean This"/>
+        <ant dir="../common/game" target="Clean This"/>
+        <ant dir="../common/network" target="Clean This"/>
+    </target>
+    <target name="Clean This" depends="init">
+        <ant dir="${basedir}" antfile="${buildutil}" target="clean"/>
+    </target>
+</project>
