@@ -233,6 +233,10 @@
             <name>style</name>
             <required>false</required>
         </attribute>
+        <attribute>
+            <name>width</name>
+            <required>false</required>
+        </attribute>
     </tag>
     <tag>
         <name>beancalendar</name>
