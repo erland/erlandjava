@@ -34,5 +34,8 @@
     <definition name=".viewapplicationversions" extends=".index">
         <put name="body" value="/WEB-INF/tiles/viewapplicationversions.jsp"/>
     </definition>
+    <definition name=".viewallapplicationversions" extends=".index">
+        <put name="body" value="/WEB-INF/tiles/viewallapplicationversions.jsp"/>
+    </definition>
 
 </tiles-definitions>
