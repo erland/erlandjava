@@ -1,0 +1,56 @@
+<entity id="issueevent">
+    <class>erland.webapp.issuetracking.entity.issue.IssueEvent</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/issuetracking</datasource>
+        <table>issueevents</table>
+        <fields>
+            <field id="issueId">
+                <column>issueid</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+            <field id="eventId">
+                <column>eventid</column>
+                <type>Integer</type>
+                <identity>true</identity>
+                <auto>true</auto>
+            </field>
+            <field id="prevState">
+                <column>prevstate</column>
+                <type>Integer</type>
+            </field>
+            <field id="state">
+                <column>state</column>
+                <type>Integer</type>
+            </field>
+            <field id="date">
+                <column>date</column>
+                <type>Date</type>
+            </field>
+            <field id="username">
+                <column>username</column>
+                <type>String</type>
+            </field>
+            <field id="description">
+                <column>description</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allforissue">
+                <querystring>issueid=?</querystring>
+                <orderstring>order by date asc,eventid asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>issue</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>

@@ -1,0 +1,56 @@
+<entity id="applicationdispatcher">
+    <class>erland.webapp.issuetracking.entity.application.ApplicationDispatcher</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/issuetracking</datasource>
+        <table>applicationdispatchers</table>
+        <fields>
+            <field id="application">
+                <column>application</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="prevState">
+                <column>prevstate</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+            <field id="newState">
+                <column>newstate</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+            <field id="username">
+                <column>username</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allforapplication">
+                <querystring>application=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>application</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforprevstate">
+                <querystring>application=? and prevstate=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>application</field>
+                        <type>String</type>
+                    </field>
+                    <field id="2">
+                        <field>state</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
