@@ -32,6 +32,8 @@ public class PicturePB extends ValidatorForm {
     private String link;
     private String updateLink;
     private String removeLink;
+    private String resolutionLink;
+    private ResolutionPB[] resolutions;
 
     public Integer getGallery() {
         return gallery;
@@ -119,5 +121,21 @@ public class PicturePB extends ValidatorForm {
 
     public void setRemoveLink(String removeLink) {
         this.removeLink = removeLink;
+    }
+
+    public String getResolutionLink() {
+        return resolutionLink;
+    }
+
+    public void setResolutionLink(String resolutionLink) {
+        this.resolutionLink = resolutionLink;
+    }
+
+    public ResolutionPB[] getResolutions() {
+        return resolutions;
+    }
+
+    public void setResolutions(ResolutionPB[] resolutions) {
+        this.resolutions = resolutions;
     }
 }
