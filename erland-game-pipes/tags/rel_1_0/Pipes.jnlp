@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+"
+  codebase="http://erland.homeip.net/games/applications/"
+>
+<information>
+  <title>Pipes</title>
+  <vendor>Erland Isaksson</vendor>
+  <homepage href="http://hem.bredband.net/erlisa" />
+  <description>Erland's homepage</description>
+</information>
+<offline-allowed/>
+<resources>
+  <j2se version="1.4+" />
+  <jar href="Pipes.jar"/>
+  <jar href="util.jar"/>
+  <jar href="game.jar"/>
+</resources>
+<security>
+  <all-permissions/>
+</security>
+<application-desc main-class="erland.game.pipes.Pipes" >
+</application-desc>
+</jnlp>
