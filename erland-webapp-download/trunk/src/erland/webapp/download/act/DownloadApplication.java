@@ -4,20 +4,13 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
-import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import erland.webapp.download.fb.ApplicationFB;
-import erland.webapp.download.fb.ApplicationIdFB;
-import erland.webapp.download.fb.ApplicationVersionFB;
 import erland.webapp.download.fb.ApplicationFileFB;
-import erland.webapp.download.entity.Application;
 import erland.webapp.download.entity.ApplicationVersion;
-import erland.webapp.common.EntityInterface;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
-import erland.webapp.common.image.ImageWriteHelper;
 
 import java.io.*;
 
