@@ -247,7 +247,9 @@
             <forward name="show-selected-metadata-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]&amp;showSelected=true"/>
             <forward name="hide-all-metadata-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]"/>
             <forward name="picture-image" path="/do/user/loadimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]"/>
-            <forward name="picture-resolution-image" path="/do/user/loadresolutionimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]&amp;useCache=false"/>
+            <forward name="picture-resolution-image" path="/do/user/loadresolutionimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]"/>
+            <forward name="picture-image-small" path="/url/user/loadresolutionimage/gallery/{gallery}/width/400/image/{picture}"/>
+            <forward name="picture-image-large" path="/url/user/loadimage/gallery/{gallery}[width,/width/{width}]/image/{picture}"/>
             <forward name="success" path=".user.viewimage"/>
             <forward name="failure" path="/images/imagena.gif"/>
         </action>
@@ -262,7 +264,9 @@
             <forward name="show-selected-metadata-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]&amp;showSelected=true"/>
             <forward name="hide-all-metadata-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]"/>
             <forward name="picture-image" path="/do/guest/loadimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]"/>
-            <forward name="picture-resolution-image" path="/do/guest/loadresolutionimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]&amp;useCache=false"/>
+            <forward name="picture-resolution-image" path="/do/guest/loadresolutionimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]"/>
+            <forward name="picture-image-small" path="/url/guest/loadresolutionimage/gallery/{gallery}/width/400/image/{picture}"/>
+            <forward name="picture-image-large" path="/url/guest/loadimage/gallery/{gallery}[width,/width/{width}]/image/{picture}"/>
             <forward name="success" path=".guest.viewimage"/>
             <forward name="failure" path="/images/imagena.gif"/>
         </action>
@@ -303,17 +307,17 @@
             name="imageFB"
             validate="false"
             scope="request">
-            <forward name="forward-to-thumbnail" path="/do/user/loadresolutionimage?useCache=false"/>
+            <forward name="forward-to-thumbnail" path="/do/user/loadresolutionimage"/>
             <forward name="failure" path="/images/imagena.gif"/>
         </action>
 
         <action
             path="/guest/loadimage"
-            type="erland.webapp.dirgallery.act.loader.LoadMovieAction"
+            type="erland.webapp.dirgallery.act.loader.LoadImageAction"
             name="imageFB"
             validate="false"
             scope="request">
-            <forward name="forward-to-thumbnail" path="/do/guest/loadresolutionimage?useCache=false"/>
+            <forward name="forward-to-thumbnail" path="/do/guest/loadresolutionimage"/>
             <forward name="failure" path="/images/imagena.gif"/>
         </action>
 
