@@ -13,7 +13,7 @@
   
   <!-- The version of the project under development, e.g.
        1.1, 1.2, 2.0-SNAPSHOT -->
-  <currentVersion>SNAPSHOT</currentVersion>
+  <currentVersion>1.0.1</currentVersion>
   
   <organization>
         <name>Erland Isaksson</name>
@@ -28,7 +28,7 @@
   </description>
   <!-- a short description of what the project does -->
   <shortDescription>
-    A tetris clone game which also contains a networked multiplayer version
+    A tetris clone
   </shortDescription>
   <url>http://erland.homeip.net/games/applications</url>
   <!-- any mailing lists for the project -->
@@ -49,7 +49,7 @@
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-util</artifactId>
-      <version>SNAPSHOT</version>
+      <version>1.3.1</version>
       <type>jar</type>
 	  <properties>
         <jnlp.jar>true</jnlp.jar>
@@ -62,7 +62,7 @@
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-game</artifactId>
-      <version>SNAPSHOT</version>
+      <version>1.1.1</version>
       <type>jar</type>
 	  <properties>
         <jnlp.jar>true</jnlp.jar>
@@ -75,13 +75,25 @@
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-network</artifactId>
-      <version>SNAPSHOT</version>
+      <version>1.0.1</version>
       <type>jar</type>
 	  <properties>
         <jnlp.jar>true</jnlp.jar>
         <dist.bin.bundle>true</dist.bin.bundle>
         <jar.manifest.classpath>true</jar.manifest.classpath>
       </properties>
+    </dependency>
+    <dependency>
+        <url>http://jakarta.apache.org/commons/logging</url>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.0.4</version>
+        <type>jar</type>
+        <properties>
+            <jnlp.jar>true</jnlp.jar>
+            <dist.bin.bundle>true</dist.bin.bundle>
+            <jar.manifest.classpath>true</jar.manifest.classpath>
+        </properties>
     </dependency>
   </dependencies>
 

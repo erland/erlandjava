@@ -37,7 +37,6 @@ public class Tetris extends GamePanelHandlerForApplication implements GamePanelH
     private boolean bMultiplayer;
 
     public static void main(String[] args) {
-        Log.setLog("tetrislog.xml");
         Tetris game;
         if(args.length>1) {
             game = new Tetris(args[1],args[0]);
