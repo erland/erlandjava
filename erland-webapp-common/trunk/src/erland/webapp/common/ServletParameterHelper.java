@@ -1,5 +1,9 @@
 package erland.webapp.common;
 
+import erland.util.ParameterValueStorageInterface;
+import erland.util.ObjectStorageMap;
+import erland.util.ObjectStorageInterface;
+
 import java.util.Map;
 import java.util.Date;
 import java.util.Locale;
@@ -8,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
 /*
- * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
+ * Copyright (C) 2003-2004 Erland Isaksson (erland_i@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,16 +34,31 @@ public class ServletParameterHelper {
     private final static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public static String replaceDynamicParameters(String address, Map parameters) {
+        return replaceDynamicParameters(address,new ObjectStorageMap(parameters));
+    }
+    public static String replaceDynamicParameters(String address, ObjectStorageInterface parameters) {
         StringBuffer sb = new StringBuffer(address);
         int startPos = sb.indexOf("[");
+
         while(startPos>=0) {
-            int endPos = sb.indexOf("]",startPos+1);
-            if(endPos>=0) {
+            boolean bExists = true;
+            boolean bIgnore = false;
+            int endPos;
+            if(sb.charAt(startPos+1)=='!') {
+                bExists = false;
+            }
+            if(sb.charAt(startPos+1)=='[') {
+                bIgnore = true;
+                endPos = sb.indexOf("]]",startPos+2);
+            }else {
+                endPos = sb.indexOf("]",startPos+1);
+            }
+            if(!bIgnore && endPos>=0) {
                 int attributeEndPos = sb.indexOf(",",startPos+1);
                 if(attributeEndPos>=0 && attributeEndPos<endPos) {
-                    String visibleAttribute = sb.substring(startPos+1,attributeEndPos);
+                    String visibleAttribute = sb.substring(startPos+1+(bExists?0:1),attributeEndPos);
                     Object visibleValue = parameters.get(visibleAttribute);
-                    if(visibleValue!=null) {
+                    if(bExists && visibleValue!=null) {
                         if((visibleValue instanceof Object[] && ((Object[])visibleValue).length>0) ||
                             visibleValue.toString().length()>0) {
 
@@ -61,11 +80,33 @@ public class ServletParameterHelper {
                                 endPos = startPos;
                             }
                         }
+                    }else if(!bExists && visibleValue==null) {
+                        String realString = sb.substring(attributeEndPos+1,endPos);
+                        String resultString = "";
+                        if(visibleValue instanceof Object[]) {
+                            Object[] visibleValues = (Object[]) visibleValue;
+                            for (int i = 0; i < visibleValues.length; i++) {
+                                resultString += internalReplaceDynamicParameters(realString,parameters,i);
+                            }
+                        }else {
+                            resultString = internalReplaceDynamicParameters(realString,parameters,0);
+                        }
+                        if(resultString!=null) {
+                            sb.replace(startPos,endPos+1,resultString);
+                            endPos = startPos+resultString.length();
+                        }else {
+                            sb.replace(startPos,endPos+1,"");
+                            endPos = startPos;
+                        }
                     }else {
                         sb.replace(startPos,endPos+1,"");
                         endPos = startPos;
                     }
                 }
+                startPos = sb.indexOf("[",endPos);
+            }else if(bIgnore && endPos>=0) {
+                sb.replace(startPos,endPos+2,sb.substring(startPos+1,endPos+1));
+                endPos-=2;
                 startPos = sb.indexOf("[",endPos);
             }else {
                 startPos = -1;
@@ -74,7 +115,7 @@ public class ServletParameterHelper {
         return internalReplaceDynamicParameters(sb.toString(),parameters, 0);
     }
 
-    private static String internalReplaceDynamicParameters(String address, Map parameters, int index) {
+    private static String internalReplaceDynamicParameters(String address, ObjectStorageInterface parameters, int index) {
         StringBuffer sb = new StringBuffer(address);
         int startPos = sb.indexOf("{");
         while(startPos>=0) {
