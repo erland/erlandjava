@@ -24,10 +24,15 @@ import erland.util.*;
 import java.awt.*;
 import java.util.Vector;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Implementation of the block that is used to build the track in the race mode.
  */
 public class LevelGameIcon extends Level {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(LevelGameIcon.class);
     /**
      * Creates a block
      * @param blockCloneManager Object used for cloning the blocks
@@ -72,7 +77,7 @@ public class LevelGameIcon extends Level {
                 blocks[x][y] = prepareNewBlock(blocks[x][y],b);
             }
 
-            //Log.println(this,"Block: "+x+","+y);
+            //LOG.debug("Block: "+x+","+y);
             // Extract friction information
             boolean bQuit = false;
             i=0;
@@ -103,7 +108,7 @@ public class LevelGameIcon extends Level {
                         FrictionBlock frictionBlock = new FrictionBlock(cont.getSquareSize()/4);
                         frictionBlock.setFriction(friction);
                         frictionBlock.setOffset(cont.getPositionX(x),cont.getPositionY(y));
-                        //Log.println(this,"Friction: "+cont.getPositionX(x)+","+cont.getPositionY(y)+","+blockText.getPosX()+","+blockText.getPosY());
+                        //LOG.debug("Friction: "+cont.getPositionX(x)+","+cont.getPositionY(y)+","+blockText.getPosX()+","+blockText.getPosY());
                         frictionBlock.setPos(blockText.getPosX(),blockText.getPosY());
                         frictionBlocks.addElement(frictionBlock);
                     }

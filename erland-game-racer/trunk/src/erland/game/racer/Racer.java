@@ -44,7 +44,6 @@ public class Racer extends GamePanelHandlerForApplication implements GamePanelHa
      */
     public static void main(String args[])
     {
-        Log.setLog("racerlog.xml");
         Racer game;
         if(args.length>1) {
             game = new Racer(args[0],args[1]);

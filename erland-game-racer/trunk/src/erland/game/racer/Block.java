@@ -25,11 +25,16 @@ import erland.util.ParameterValueStorageExInterface;
 
 import java.awt.*;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Abstract class for all blocks
  * @author Erland Isaksson
  */
 public abstract class Block implements MapEditorBlockInterface, Cloneable {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(Block.class);
     /** The block container which the block exist in */
     private BlockContainerInterface cont;
     /** The x position of the block */
@@ -74,9 +79,9 @@ public abstract class Block implements MapEditorBlockInterface, Cloneable {
      */
     public void setFrictionObjects(FrictionBlock[] frictionObjects)
     {
-        //Log.println(this,"setFrictionObjects: "+posX+","+posY+","+frictionObjects);
+        //LOG.debug("setFrictionObjects: "+posX+","+posY+","+frictionObjects);
         for(int i=0;i<frictionObjects.length;i++) {
-            //Log.println(this,"setFrictionObjects2: "+frictionObjects[i].getBounds().getX()+","+frictionObjects[i].getBounds().getY());
+            //LOG.debug("setFrictionObjects2: "+frictionObjects[i].getBounds().getX()+","+frictionObjects[i].getBounds().getY());
         }
         this.frictionObjects = frictionObjects;
     }
@@ -108,7 +113,7 @@ public abstract class Block implements MapEditorBlockInterface, Cloneable {
             for(int i=0;i<frictionObjects.length;i++) {
                 frictionObjects[i].setOffset(cont.getPositionX(x),cont.getPositionY(y));
                 if(x>=2 && x<=4 && y>=2 && y<=4) {
-                    //Log.println(this,"setPos("+x+","+y+") friction offset "+cont.getPositionX(x)+","+cont.getPositionY(y)+","+frictionObjects[i].getBounds().getX()+","+frictionObjects[i].getBounds().getY()+","+frictionObjects[i]);
+                    //LOG.debug("setPos("+x+","+y+") friction offset "+cont.getPositionX(x)+","+cont.getPositionY(y)+","+frictionObjects[i].getBounds().getX()+","+frictionObjects[i].getBounds().getY()+","+frictionObjects[i]);
                 }
             }
         }
@@ -148,13 +153,13 @@ public abstract class Block implements MapEditorBlockInterface, Cloneable {
 		Block b=(Block)super.clone();
         if(frictionObjects!=null) {
             if(posX>=2 && posX<=4 && posY>=2 & posY<=4) {
-                //Log.println(this,"Friction clone: "+this.posX+","+this.posY);
+                //LOG.debug("Friction clone: "+this.posX+","+this.posY);
             }
             b.frictionObjects = new FrictionBlock[frictionObjects.length];
             for(int i=0;i<frictionObjects.length;i++) {
                 b.frictionObjects[i] = (FrictionBlock)(frictionObjects[i].clone());
                 if(posX>=2 && posX<=4 && posY>=2 & posY<=4) {
-                    //Log.println(this,"Friction clone2: "+frictionObjects[i].getBounds().getX()+","+frictionObjects[i].getBounds().getX()+","+b.frictionObjects[i].getBounds().getX()+","+b.frictionObjects[i].getBounds().getX());
+                    //LOG.debug("Friction clone2: "+frictionObjects[i].getBounds().getX()+","+frictionObjects[i].getBounds().getX()+","+b.frictionObjects[i].getBounds().getX()+","+b.frictionObjects[i].getBounds().getX());
                 }
             }
         }

@@ -20,11 +20,15 @@ package erland.game.racer;
 
 import erland.game.MapEditorBlockInterface;
 import erland.util.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Implements a block that consists of other sub blocks
  */
 public class LevelGroup extends Level {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(LevelGroup.class);
     /** The level manager that loads the sub blocks */
     protected LevelManager blockManager;
     /**
@@ -88,7 +92,7 @@ public class LevelGroup extends Level {
                                             this.blocks[x][y].init(environment);
                                             this.blocks[x][y].setContainer(cont);
                                             this.blocks[x][y].setPos(x,y);
-                                            //Log.println(this,"block at: "+x+","+y+","+((BlockBitmap)blocks[x1][y1]).subImage+","+((BlockBitmap)this.blocks[x][y]).subImage);
+                                            //LOG.debug("block at: "+x+","+y+","+((BlockBitmap)blocks[x1][y1]).subImage+","+((BlockBitmap)this.blocks[x][y]).subImage);
                                         } catch (CloneNotSupportedException e) {
                                         }
                                     }

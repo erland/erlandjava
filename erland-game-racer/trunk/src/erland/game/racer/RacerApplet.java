@@ -51,7 +51,6 @@ public class RacerApplet extends Applet implements GamePanelHandlerApplicationIn
 
 
     public void init() {
-        Log.setLogConfig(new ParameterStorageString(new StringStorage("<log></log>"),null));
     }
 
     public void start()

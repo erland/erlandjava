@@ -27,10 +27,15 @@ import java.util.Vector;
 import java.util.ListIterator;
 import java.util.Enumeration;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Level manager, handles loading and saving of the different levels
  */
 public class LevelManager {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(LevelManager.class);
     /** All currently loaded levels */
     private Vector levels;
     /** The game environment */
@@ -105,11 +110,11 @@ public class LevelManager {
         LevelInterface l = findLevel(level);
         if(l == null) {
             StorageInterface groupStorage = environment.getStorage().getParameterAsStorage(storageprefix);
-            Log.println(this,"getLevel("+level+") = "+String.valueOf(groupStorage!=null));
+            LOG.debug("getLevel("+level+") = "+String.valueOf(groupStorage!=null));
             if(groupStorage != null ) {
                 ParameterStorageGroup allLevels = new ParameterStorageGroup(groupStorage,null,storageprefix+"data",levelprefix);
                 StorageInterface levelStorage = allLevels.getParameterAsStorage(levelprefix+level);
-                Log.println(this,"getLevel("+(levelprefix+level)+") = "+String.valueOf(levelStorage!=null));
+                LOG.debug("getLevel("+(levelprefix+level)+") = "+String.valueOf(levelStorage!=null));
                 if(levelStorage != null ) {
                     ParameterStorageString oneLevel = new ParameterStorageString(levelStorage,null,levelprefix+"data");
                     l = levelFactory.createLevel();
