@@ -49,41 +49,43 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 
 public abstract class SearchPicturesBaseAction extends BaseAction {
-
-    private Integer galleryId;
-    private Integer virtualGalleryId;
-    private Integer categoryId;
+    private final static String GALLERY_ID = SearchPicturesBaseAction.class + "-galleryId";
+    private final static String VIRTUAL_GALLERY_ID = SearchPicturesBaseAction.class + "-virtualGalleryId";
+    private final static String CATEGORY_ID = SearchPicturesBaseAction.class + "-categoryId";
 
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SelectPictureFB fb = (SelectPictureFB) form;
-        virtualGalleryId = fb.getGallery();
+        Integer virtualGalleryId = fb.getGallery();
+        setVirtualGalleryId(request,virtualGalleryId);
         GalleryInterface gallery = GalleryHelper.getGallery(getEnvironment(), virtualGalleryId);
         if(gallery==null) {
             saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.gallery-not-found"}));
             return;
         }
-        galleryId = GalleryHelper.getGalleryId(gallery);
-        categoryId = fb.getCategory();
+        Integer galleryId = GalleryHelper.getGalleryId(gallery);
+        setGalleryId(request,galleryId);
+        Integer categoryId = fb.getCategory();
+        setCategoryId(request,categoryId);
         Log.println(this,"Search pictures: "+fb.getGallery()+","+fb.getCategory());
         initRequestParameters(request);
-        Collection categories = getCategories(form);
-        Collection picturesAllowed = getPictures(form);
+        Collection categories = getCategories(request, form);
+        Collection picturesAllowed = getPictures(request, form);
         QueryFilter filter;
         if (fb.getStart() != null && fb.getMax() != null) {
             if (picturesAllowed != null) {
                 if (categories != null) {
-                    filter = new QueryFilter(getCategoryTreeFilter() + "andpicturelist" + "withlimit");
+                    filter = new QueryFilter(getCategoryTreeFilter(request) + "andpicturelist" + "withlimit");
                     filter.setAttribute("categories", categories);
                 } else {
-                    filter = new QueryFilter(getAllFilter() + "andpicturelist" + "withlimit");
+                    filter = new QueryFilter(getAllFilter(request) + "andpicturelist" + "withlimit");
                 }
                 filter.setAttribute("pictures", picturesAllowed);
             } else {
                 if (categories != null) {
-                    filter = new QueryFilter(getCategoryTreeFilter() + "withlimit");
+                    filter = new QueryFilter(getCategoryTreeFilter(request) + "withlimit");
                     filter.setAttribute("categories", categories);
                 } else {
-                    filter = new QueryFilter(getAllFilter() + "withlimit");
+                    filter = new QueryFilter(getAllFilter(request) + "withlimit");
                 }
             }
             filter.setAttribute("start", fb.getStart());
@@ -91,23 +93,23 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         } else {
             if (picturesAllowed != null) {
                 if (categories != null) {
-                    filter = new QueryFilter(getCategoryTreeFilter() + "andpicturelist");
+                    filter = new QueryFilter(getCategoryTreeFilter(request) + "andpicturelist");
                    filter.setAttribute("categories", categories);
                 } else {
-                    filter = new QueryFilter(getAllFilter() + "andpicturelist");
+                    filter = new QueryFilter(getAllFilter(request) + "andpicturelist");
                 }
                 filter.setAttribute("pictures", picturesAllowed);
             } else {
                 if (categories != null) {
-                    filter = new QueryFilter(getCategoryTreeFilter());
+                    filter = new QueryFilter(getCategoryTreeFilter(request));
                     filter.setAttribute("categories", categories);
                 } else {
-                    filter = new QueryFilter(getAllFilter());
+                    filter = new QueryFilter(getAllFilter(request));
                 }
             }
         }
         filter.setAttribute("gallery", galleryId);
-        setFilterAttributes(form, filter);
+        setFilterAttributes(request,form, filter);
         EntityInterface[] entities = new EntityInterface[0];
         if (picturesAllowed == null || (picturesAllowed != null && picturesAllowed.size() > 0)) {
             entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").search(filter);
@@ -121,20 +123,31 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         filter.setAttribute("username", username);
         EntityInterface[] storageEntities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picturestorage").search(filter);
 
-        EntityInterface[] resolutionEntities = getEnvironment().getEntityStorageFactory().getStorage("gallery-resolution").search(new QueryFilter("all"));
+        if(gallery.getMaxWidth()!=null && gallery.getMaxWidth().intValue()>0) {
+            filter = new QueryFilter("all-smaller-than");
+            filter.setAttribute("width",gallery.getMaxWidth());
+        }else {
+            filter = new QueryFilter("all");
+        }
+        EntityInterface[] resolutionEntities = getEnvironment().getEntityStorageFactory().getStorage("gallery-resolution").search(filter);
         ResolutionPB[] resolutionsPB = null;
         Integer defaultResolution = null;
         if(resolutionEntities.length>0) {
             for (int i = 0; i < resolutionEntities.length; i++) {
                 if(((Resolution)resolutionEntities[i]).getId().equalsIgnoreCase(gallery.getDefaultResolution())) {
-                    defaultResolution=resolutionsPB[i].getWidth();
+                    defaultResolution=((Resolution)resolutionEntities[i]).getWidth();
                     break;
                 }
             }
             resolutionsPB = new ResolutionPB[resolutionEntities.length];
             for (int i = 0; i < resolutionsPB.length; i++) {
                 resolutionsPB[i] = new ResolutionPB();
-                PropertyUtils.copyProperties(resolutionsPB[i],resolutionEntities[i]);
+                try {
+                    PropertyUtils.copyProperties(resolutionsPB[i],resolutionEntities[i]);
+                } catch (IllegalAccessException e) {
+                } catch (InvocationTargetException e) {
+                } catch (NoSuchMethodException e) {
+                }
             }
         }
 
@@ -143,7 +156,7 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         for (int i = 0; i < entities.length; i++) {
             picturesPB[i] = new PicturePB();
             PropertyUtils.copyProperties(picturesPB[i], entities[i]);
-            pictureParameters.put("gallery",picturesPB[i].getGallery());
+            pictureParameters.put("gallery",virtualGalleryId);
             pictureParameters.put("picture",picturesPB[i].getId());
             if(defaultResolution!=null) {
                 pictureParameters.put("width",defaultResolution.toString());
@@ -221,13 +234,13 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
     protected void initRequestParameters(HttpServletRequest request) {
     }
 
-    protected abstract Collection getCategories(ActionForm form);
+    protected abstract Collection getCategories(HttpServletRequest request, ActionForm form);
 
-    protected abstract Collection getPictures(ActionForm form);
+    protected abstract Collection getPictures(HttpServletRequest request, ActionForm form);
 
-    protected abstract String getAllFilter();
+    protected abstract String getAllFilter(HttpServletRequest request);
 
-    protected abstract String getCategoryTreeFilter();
+    protected abstract String getCategoryTreeFilter(HttpServletRequest request);
 
     private Integer getPreviousPage(Integer start, Integer max) {
         if (max != null && start != null) {
@@ -264,7 +277,7 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         return originalImagePath;
     }
 
-    protected void setFilterAttributes(ActionForm form, QueryFilter filter) {
+    protected void setFilterAttributes(HttpServletRequest request, ActionForm form, QueryFilter filter) {
         //Nothing, may be overridden in sub classes
     }
 
@@ -280,14 +293,23 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         return categories;
     }
 
-    protected Integer getGalleryId() {
-        return galleryId;
+    protected Integer getGalleryId(HttpServletRequest request) {
+        return (Integer) request.getAttribute(GALLERY_ID);
     }
-    protected Integer getVirtualGalleryId() {
-        return virtualGalleryId;
+    protected void setGalleryId(HttpServletRequest request, Integer galleryId) {
+        request.setAttribute(GALLERY_ID,galleryId);
     }
-    protected Integer getCategoryId() {
-        return categoryId;
+    protected Integer getVirtualGalleryId(HttpServletRequest request) {
+        return (Integer) request.getAttribute(VIRTUAL_GALLERY_ID);
+    }
+    protected void setVirtualGalleryId(HttpServletRequest request, Integer virtualGalleryId) {
+        request.setAttribute(VIRTUAL_GALLERY_ID,virtualGalleryId);
+    }
+    protected Integer getCategoryId(HttpServletRequest request) {
+        return (Integer) request.getAttribute(CATEGORY_ID);
+    }
+    protected void setCategoryId(HttpServletRequest request, Integer categoryId) {
+        request.setAttribute(CATEGORY_ID,categoryId);
     }
     private void addParameters(Map map, SelectPictureFB fb) {
         PropertyDescriptor[] properties = PropertyUtils.getPropertyDescriptors(fb);
@@ -296,11 +318,8 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
             try {
                 map.put(property.getName(),PropertyUtils.getProperty(fb,property.getName()));
             } catch (IllegalAccessException e) {
-                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
             } catch (InvocationTargetException e) {
-                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
             }
         }
     }
