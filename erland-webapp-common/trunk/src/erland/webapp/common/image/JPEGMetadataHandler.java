@@ -26,6 +26,8 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.Tag;
 import erland.webapp.common.DescriptionTagHelper;
+import erland.webapp.common.act.WebAppEnvironmentPlugin;
+import erland.util.StringUtil;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -41,13 +43,32 @@ public class JPEGMetadataHandler implements MetadataHandlerInterface {
     private Metadata metaData;
     private Map metaDataMap = new HashMap();
     private boolean onlySelected;
+    private String language;
+    private boolean bInitialized;
+    private String filename;
 
     public JPEGMetadataHandler(boolean onlySelected) {
         this.onlySelected = onlySelected;
+        this.language = null;
+        this.bInitialized = false;
+        this.filename = null;
+    }
+
+    public JPEGMetadataHandler(boolean onlySelected, String language) {
+        this.onlySelected = onlySelected;
+        this.language = language;
+        this.bInitialized = false;
+        this.filename = null;
+    }
+
+    public String getFilename() {
+        return filename;
     }
 
     public boolean load(String filename) {
         metaData = null;
+        this.filename = filename;
+        this.bInitialized = false;
         try {
             BufferedInputStream input = null;
             try {
@@ -89,11 +110,20 @@ public class JPEGMetadataHandler implements MetadataHandlerInterface {
     }
 
     public String getValue(String name) {
+        if(!bInitialized) {
+            getNames();
+        }
         return (String) metaDataMap.get(name);
     }
 
     public String getDescription(String name) {
-        String description = DescriptionTagHelper.getInstance().getDescription("common-metadatafielddescription", name);
+        String description = null;
+        if(language!=null && !language.equals(WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("nativelanguage"))) {
+            description = DescriptionTagHelper.getInstance().getDescriptionEnglish("common-metadatafielddescription", name);
+        }
+        if(StringUtil.asNull(description)==null) {
+            description = DescriptionTagHelper.getInstance().getDescription("common-metadatafielddescription", name);
+        }
         if (!onlySelected) {
             return name;
         }

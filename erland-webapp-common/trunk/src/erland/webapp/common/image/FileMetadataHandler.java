@@ -20,6 +20,8 @@ package erland.webapp.common.image;
  */
 
 import erland.webapp.common.DescriptionTagHelper;
+import erland.webapp.common.act.WebAppEnvironmentPlugin;
+import erland.util.StringUtil;
 
 import java.io.*;
 import java.net.URL;
@@ -33,14 +35,28 @@ import java.text.DateFormat;
 public class FileMetadataHandler implements MetadataHandlerInterface {
     private Map metaDataMap = new HashMap();
     private boolean onlySelected;
+    private String language;
+    private String filename;
 
     public FileMetadataHandler(boolean onlySelected) {
         this.onlySelected = onlySelected;
+        this.language = null;
+        this.filename = null;
+    }
+    public FileMetadataHandler(boolean onlySelected, String language) {
+        this.onlySelected = onlySelected;
+        this.language = language;
+        this.filename = null;
+    }
+
+    public String getFilename() {
+        return filename;
     }
 
     public boolean load(String filename) {
         final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         BufferedInputStream input = null;
+        this.filename = filename;
         try {
             try {
                 File file = new File(filename);
@@ -75,7 +91,13 @@ public class FileMetadataHandler implements MetadataHandlerInterface {
     }
 
     public String getDescription(String name) {
-        String description = DescriptionTagHelper.getInstance().getDescription("common-metadatafielddescription", name);
+        String description = null;
+        if(language!=null && !language.equals(WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("nativelanguage"))) {
+            description = DescriptionTagHelper.getInstance().getDescriptionEnglish("common-metadatafielddescription", name);
+        }
+        if(StringUtil.asNull(description)==null) {
+            description = DescriptionTagHelper.getInstance().getDescription("common-metadatafielddescription", name);
+        }
         if (!onlySelected) {
             return name;
         }
