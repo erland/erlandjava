@@ -223,7 +223,7 @@ public class XMLNode {
 	 */
 	public boolean parse(String data, XMLNode parent)
 	{
-		//System.out.println("parse:" + this.hashCode()+ ":"+ data);
+		Log.println(this,"parse:" + this.hashCode()+ ":"+ data);
 		int pos =0;
 		while(pos!=-1) {
 			int oldpos = pos;
@@ -233,7 +233,7 @@ public class XMLNode {
 				tmp = new XMLNode(tmpName, null,tmpAttr,tmpProcInstr,parent);
 				if(parent!=null) {
 					parent.childs.add(tmp);
-					System.out.println("parse(store):" + this.hashCode()+ ":name="+ tmpName);
+					Log.println(this,"parse(store):" + this.hashCode()+ ":name="+ tmpName);
 				}else {
 					this.name = tmpName;
 					if(tmpProcInstr!=null && tmpProcInstr.length()>0) {
@@ -242,7 +242,7 @@ public class XMLNode {
 						this.procInstr = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 					}
 					this.attributes = tmpAttr;
-					System.out.println("parse(store):" + this.hashCode()+ ":name="+ tmpName);
+					Log.println(this,"parse(store):" + this.hashCode()+ ":name="+ tmpName);
 				}
 				
 				if(parent!=null) {
@@ -263,7 +263,7 @@ public class XMLNode {
 					return true;
 				}
 				this.value = data.substring(oldpos);
-				System.out.println("parse(store):" + this.hashCode()+ ":"+ this.value);
+				Log.println(this,"parse(store):" + this.hashCode()+ ":"+ this.value);
 				return true;
 			}
 		}
@@ -280,23 +280,21 @@ public class XMLNode {
 	 */
 	protected int parseNextSibling(String value, int pos)
 	{
-		//System.out.println("parseNextSibling: "+pos + ":"+ value);
-		//System.out.println("parseNextSibling2: "+value.substring(pos));
+		Log.println(this,"parseNextSibling: "+pos + ":"+ value);
+		Log.println(this,"parseNextSibling2: "+value.substring(pos));
 		int startpos = pos;
 		tmpProcInstr = "";
 		tmpAttr="";
 		try {
-			//System.out.println("parseNextSibling2: "+pos + ":"+ value);
 			boolean processingInstruction=false;
 			do {
-				System.out.println("parseNext: "+ value.substring(pos));
+				Log.println(this,"parseNext: "+ value.substring(pos));
 				pos=skipSpaces(value,pos);
-				//System.out.println("parseNextSibling3: "+pos + ":"+ value);
 				if(value.charAt(pos)!='<') {
 					return -1;
 				}
 				startpos = pos;
-				System.out.println("parseNext: " + value.substring(pos,pos+2));
+				Log.println(this,"parseNext: " + value.substring(pos,pos+2));
 				if(value.substring(pos,pos+2).equals("<?")) {
 					processingInstruction=true;
 					String endtag = "?>";
@@ -305,13 +303,13 @@ public class XMLNode {
 						return -1;
 					}
 					tmpProcInstr += value.substring(pos,endpos+endtag.length());
-					System.out.println("parseNext: " + tmpProcInstr);
+					Log.println(this,"parseNext: " + tmpProcInstr);
 					pos = endpos+endtag.length();
 				}else {
 					processingInstruction=false;
 				}
 			}while(processingInstruction);
-			System.out.println("parseNext: "+value.substring(pos));
+			Log.println(this,"parseNext: "+value.substring(pos));
 			while(value.charAt(pos)!=' ' && value.charAt(pos)!='>') {
 				pos++;
 			}
@@ -321,18 +319,15 @@ public class XMLNode {
 				pos++;
 			}
 			tmpAttr = value.substring(attrStartPos,pos);
-			//System.out.println("parseNextSibling5: "+name);
 			
 			String endtag = "</"+tmpName+">";
 			int endpos = value.indexOf(endtag,pos);
-			//System.out.println("parseNextSibling6: "+endpos);
 			
 			if(endpos==-1) {
 				name=null;
 				return -1;
 			}
 			tmpValue = value.substring(pos+1,endpos);
-			//System.out.println("parseNextSibling7: "+this.value);
 			return endpos + endtag.length();
 		}catch (IndexOutOfBoundsException e) {
 			return -1;

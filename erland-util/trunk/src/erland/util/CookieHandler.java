@@ -66,7 +66,7 @@ public class CookieHandler
 				if (end == -1) {
 					end = myCookie.length();
 				}
-				System.out.println("get: " + myCookie.substring(offset,end));
+				Log.println(this,"get: " + myCookie.substring(offset,end));
 				if(!myCookie.substring(offset,end).equals(" ")) {
 					return myCookie.substring(offset,end);
 				}else {
@@ -74,7 +74,7 @@ public class CookieHandler
 				}
 			}
 			else 
-				System.out.println("Did not find cookie: "+name);
+				Log.println(this,"Did not find cookie: "+name);
 		}
 		return "";
 	}
@@ -96,13 +96,13 @@ public class CookieHandler
 		String expires = "; expires=" + c.getTime().toString();
 		
 		String s1 = name +"="+value + expires; 
-		System.out.println(s1);
+		Log.println(this,s1);
 		try {
 			JSObject myBrowser = JSObject.getWindow(applet);
 			JSObject myDocument =  (JSObject) myBrowser.getMember("document");
 			
 			myDocument.setMember("cookie", s1);
-			System.out.println("set:" + s1);
+			Log.println(this,"set:" + s1);
 		}catch(JSException e) {
 			e.printStackTrace();
 		}
@@ -126,7 +126,7 @@ public class CookieHandler
 		try {
 			JSObject myBrowser = JSObject.getWindow(applet);
 			JSObject myDocument =  (JSObject) myBrowser.getMember("document");
-			System.out.println("del: " + s1);
+			Log.println(this,"del: " + s1);
 			myDocument.setMember("cookie", s1);	
 		}catch(JSException e) {
 			e.printStackTrace();
