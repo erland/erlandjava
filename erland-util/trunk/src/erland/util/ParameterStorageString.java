@@ -94,6 +94,7 @@ public class ParameterStorageString
             this.primaryData = getData(primaryStorage);
             if(primaryData!=null) {
                 if(bLogging) LOG.debug("PrimaryData = "+primaryData.getClass().getName()+"@"+Integer.toHexString(primaryData.hashCode()));
+                if(bLogging) LOG.trace("PrimaryData = "+primaryData.toString(true));
             }else {
                 if(bLogging) LOG.debug("PrimaryData = null");
             }
@@ -103,6 +104,7 @@ public class ParameterStorageString
             this.secondaryData = getData(secondaryStorage);
             if(secondaryData!=null) {
                 if(bLogging) LOG.debug("SecondaryData = "+secondaryData.getClass().getName()+"@"+Integer.toHexString(secondaryData.hashCode()));
+                if(bLogging) LOG.trace("SecondaryData = "+secondaryData.toString(true));
             }else {
                 if(bLogging) LOG.debug("SecondaryData = null");
             }
@@ -189,6 +191,7 @@ public class ParameterStorageString
         if(value==null || value.length()==0) {
             value = getParameterInData(secondaryData,name);
         }
+        LOG.debug("getParameter "+name+" -> "+value);
         if(value==null) {
             return "";
         }else {

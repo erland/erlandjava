@@ -100,6 +100,7 @@ public class ParameterStorageParameterString
             this.primaryData = getData(primaryStorage);
             if(primaryData!=null) {
                 if(bLogging) LOG.debug("PrimaryData = "+primaryData.getClass().getName()+"@"+Integer.toHexString(primaryData.hashCode()));
+                if(bLogging) LOG.debug("PrimaryData = "+primaryData);
             }else {
                 if(bLogging) LOG.debug("PrimaryData = null");
             }
@@ -109,6 +110,7 @@ public class ParameterStorageParameterString
             this.secondaryData = getData(secondaryStorage);
             if(secondaryData!=null) {
                 if(bLogging) LOG.debug("SecondaryData = "+secondaryData.getClass().getName()+"@"+Integer.toHexString(secondaryData.hashCode()));
+                if(bLogging) LOG.debug("SecondaryData = "+secondaryData);
             }else {
                 if(bLogging) LOG.debug("SecondaryData = null");
             }
@@ -116,21 +118,25 @@ public class ParameterStorageParameterString
         this.parameterDelimiter = parameterDelimiter;
         if(primaryStorageParameters!=null) {
             primaryParameters = new HashSet();
+            if(bLogging) LOG.debug("Disallow all primary parameters");
             StringTokenizer tokens = new StringTokenizer(primaryStorageParameters,""+parameterDelimiter);
             while(tokens.hasMoreElements()) {
                 String token = (String) tokens.nextElement();
                 if(StringUtil.asNull(token)!=null) {
                     primaryParameters.add(token);
+                    if(bLogging) LOG.debug("Allow primary parameter: "+token);
                 }
             }
         }
         if(secondaryStorageParameters!=null) {
             secondaryParameters = new HashSet();
+            if(bLogging) LOG.debug("Disallow all secondary parameters");
             StringTokenizer tokens = new StringTokenizer(secondaryStorageParameters,""+parameterDelimiter);
             while(tokens.hasMoreElements()) {
                 String token = (String) tokens.nextElement();
                 if(StringUtil.asNull(token)!=null) {
                     secondaryParameters.add(token);
+                    if(bLogging) LOG.debug("Allow secondary parameter: "+token);
                 }
             }
         }
@@ -195,11 +201,13 @@ public class ParameterStorageParameterString
 
 	public String getParameter(String name)
 	{
+        if(bLogging) LOG.trace("Primary parameters allowed: "+primaryParameters);
         String value = null;
         if(primaryParameters==null || primaryParameters.contains(name)) {
             value = getParameterInData(primaryData, name);
         }
         if(value==null || value.length()==0) {
+            if(bLogging) LOG.trace("Secondary parameters allowed: "+secondaryParameters);
             if(secondaryParameters==null || secondaryParameters.contains(name)) {
                 value = getParameterInData(secondaryData,name);
             }
@@ -452,6 +460,7 @@ public class ParameterStorageParameterString
     }
 
     public StorageInterface getParameterAsStorage(String name) {
+        if(bLogging) LOG.trace("Primary parameters allowed: "+primaryParameters);
         String value = null;
         if(primaryParameters==null || primaryParameters.contains(name)) {
             value = getParameterInData(primaryData, name);
@@ -460,6 +469,7 @@ public class ParameterStorageParameterString
         if(value!=null && value.length()>0) {
             storage = getParameterAsStorageInData(primaryData,name);
         }else {
+            if(bLogging) LOG.trace("Secondary parameters allowed: "+secondaryParameters);
             if(secondaryParameters==null || secondaryParameters.contains(name)) {
                 storage = getParameterAsStorageInData(secondaryData,name);
             }

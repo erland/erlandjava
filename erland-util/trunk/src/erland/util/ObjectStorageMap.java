@@ -1,5 +1,7 @@
 package erland.util;
 
+import org.apache.commons.logging.*;
+
 import java.util.Map;
 
 /*
@@ -22,17 +24,24 @@ import java.util.Map;
  */
 
 public class ObjectStorageMap implements ObjectStorageInterface {
+    /** Logging instance */
+    private static org.apache.commons.logging.Log LOG = LogFactory.getLog(ObjectStorageMap.class);
+    private static boolean bLogging = LOG.isDebugEnabled();
     private Map parameters;
     public ObjectStorageMap(Map parameters) {
         this.parameters = parameters;
     }
     public Object get(String name) {
-        return parameters.get(name);
+        Object value = parameters.get(name);
+        if(bLogging) LOG.debug("get: "+name+"="+value);
+        return value;
     }
     public void set(String name, Object value) {
         parameters.put(name,value);
+        if(bLogging) LOG.debug("set: "+name+"="+value);
     }
     public void delete(String name) {
         parameters.remove(name);
+        if(bLogging) LOG.debug("remove: "+name);
     }
 }
