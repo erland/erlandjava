@@ -24,6 +24,7 @@ public class ContainerPB extends ContainerFB {
     private String deleteLink;
     private String galleryLink;
     private String inventoryLink;
+    private String linkSource;
 
     public String getUpdateLink() {
         return updateLink;
@@ -55,5 +56,13 @@ public class ContainerPB extends ContainerFB {
 
     public void setInventoryLink(String inventoryLink) {
         this.inventoryLink = inventoryLink;
+    }
+
+    public String getLinkSource() {
+        return linkSource;
+    }
+
+    public void setLinkSource(String linkSource) {
+        this.linkSource = linkSource;
     }
 }

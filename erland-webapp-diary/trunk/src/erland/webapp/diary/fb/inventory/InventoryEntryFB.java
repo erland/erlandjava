@@ -36,6 +36,7 @@ public class InventoryEntryFB extends BaseFB {
     private String image;
     private String largeImage;
     private String link;
+    private String linkSource;
     private Integer gallery;
     private String galleryLink;
     private String updateLink;
@@ -151,6 +152,14 @@ public class InventoryEntryFB extends BaseFB {
         this.link = link;
     }
 
+    public String getLinkSource() {
+        return linkSource;
+    }
+
+    public void setLinkSource(String linkSource) {
+        this.linkSource = linkSource;
+    }
+
     public Integer getGallery() {
         return gallery;
     }
@@ -251,6 +260,7 @@ public class InventoryEntryFB extends BaseFB {
         image = null;
         largeImage = null;
         link = null;
+        linkSource = null;
         gallery = null;
         events = null;
         galleryLink = null;
