@@ -48,6 +48,11 @@ public class ViewDefaultGalleryAction extends BaseAction {
             saveErrors(request, Arrays.asList(new String[]{"gallery.account.no-defaultgallery"}));
         }
         setGallery(request,gallery);
+        if(account.getStylesheet()!=null && account.getStylesheet().length()>0) {
+            request.getSession().setAttribute("stylesheetPB",account.getStylesheet());
+        }else {
+            request.getSession().removeAttribute("stylesheetPB");
+        }
     }
 
     protected String getUsername(HttpServletRequest request, SelectUserFB fb) {

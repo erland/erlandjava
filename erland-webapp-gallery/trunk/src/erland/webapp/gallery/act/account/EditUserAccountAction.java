@@ -36,5 +36,10 @@ public class EditUserAccountAction extends BaseAction {
         UserAccount account = (UserAccount) getEnvironment().getEntityFactory().create("gallery-useraccount");
         PropertyUtils.copyProperties(account, fb);
         getEnvironment().getEntityStorageFactory().getStorage("gallery-useraccount").store(account);
+        if(account.getStylesheet()!=null&&account.getStylesheet().length()>0) {
+            request.getSession().setAttribute("stylesheetPB",account.getStylesheet());
+        }else {
+            request.getSession().removeAttribute("stylesheetPB");
+        }
     }
 }
