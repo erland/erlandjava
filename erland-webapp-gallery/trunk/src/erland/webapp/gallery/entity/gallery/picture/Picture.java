@@ -33,6 +33,7 @@ public class Picture extends BaseEntity {
     private Boolean official;
     private Boolean officialGuest;
     private Date date;
+    private Long orderNo;
 
     public Integer getGallery() {
         return gallery;
@@ -104,5 +105,32 @@ public class Picture extends BaseEntity {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Long getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(Long orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public String getShortTitle() {
+        String title = this.title;
+        if(title!=null) {
+            int pos = title.lastIndexOf("/");
+            int pos2 = title.lastIndexOf("\\");
+            if(pos2>pos) {
+                pos = pos2;
+            }
+            if(pos>=0) {
+                title = title.substring(pos+1);
+            }
+            pos = title.lastIndexOf(".");
+            if(pos>=0) {
+                title = title.substring(0,pos);
+            }
+        }
+        return title;
     }
 }
