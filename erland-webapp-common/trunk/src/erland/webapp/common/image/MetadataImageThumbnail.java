@@ -72,7 +72,7 @@ public class MetadataImageThumbnail extends ImageThumbnail {
         try {
             metadata = JpegMetadataReader.readMetadata(url.openStream());
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Error when reading metadata from "+(url!=null?url.getFile():"null"),e);
             return null;
         }
 
@@ -83,7 +83,7 @@ public class MetadataImageThumbnail extends ImageThumbnail {
                 return ImageIO.read(new ByteArrayInputStream(thumbnailData));
             }
         } catch (MetadataException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error("Error when reading metadata thumbnail from "+(url!=null?url.getFile():"null"),e);
         }
         return null;
     }

@@ -3,6 +3,8 @@ package erland.webapp.common.act;
 import org.apache.struts.action.PlugIn;
 import org.apache.struts.action.ActionServlet;
 import org.apache.struts.config.ModuleConfig;
+import org.apache.commons.logging.*;
+import org.apache.commons.logging.Log;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,6 +32,8 @@ import erland.util.*;
  */
 
 public class WebAppEnvironmentPlugin implements PlugIn, WebAppEnvironmentInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(WebAppEnvironmentPlugin.class);
 
     private static WebAppEnvironmentInterface environment;
     private ParameterValueStorageExInterface resources=null;
@@ -143,11 +147,11 @@ public class WebAppEnvironmentPlugin implements PlugIn, WebAppEnvironmentInterfa
                 }
             }
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error("Unable to create XML parser: "+xmlParser,e);
         } catch (InstantiationException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error("Unable to create XML parser: "+xmlParser,e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error("Unable to create XML parser: "+xmlParser,e);
         }
     }
 }

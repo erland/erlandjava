@@ -115,7 +115,7 @@ public class MenuTag extends TagSupport implements MenuItemInterface {
                 pageContext.getOut().write("<table>");
             }
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Unable to write html",e);
         }
         return EVAL_BODY_INCLUDE;
     }
@@ -124,7 +124,7 @@ public class MenuTag extends TagSupport implements MenuItemInterface {
         try {
             pageContext.getOut().write("</table>");
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Unable to write html",e);
         }
         return EVAL_PAGE;
     }

@@ -39,7 +39,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class JPEGMetadataHandler implements MetadataHandlerInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(JPEGMetadataHandler.class);
     private Metadata metaData;
     private Map metaDataMap = new HashMap();
     private boolean onlySelected;
@@ -80,9 +85,9 @@ public class JPEGMetadataHandler implements MetadataHandlerInterface {
                 metaData = JpegMetadataReader.readMetadata(input);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Unable to load image "+filename,e);
         } catch (JpegProcessingException e) {
-            e.printStackTrace();
+            LOG.error("Unable to load metadata for image "+filename,e);
         }
         return metaData != null;
     }
@@ -98,7 +103,7 @@ public class JPEGMetadataHandler implements MetadataHandlerInterface {
                             metaDataMap.put(tag.getDirectoryName() + " " + tag.getTagName(), tag.getDescription());
                         }
                     } catch (MetadataException e) {
-                        e.printStackTrace();
+                        LOG.error("Error when reading metadata",e);
                     }
                 }
 

@@ -1,4 +1,8 @@
 package erland.webapp.common;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -19,6 +23,8 @@ package erland.webapp.common;
  */
 
 public class ServiceFactory implements ServiceFactoryInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(ServiceFactory.class);
     private WebAppEnvironmentInterface environment;
     public ServiceFactory(WebAppEnvironmentInterface environment) {
         this.environment = environment;
@@ -31,13 +37,13 @@ public class ServiceFactory implements ServiceFactoryInterface {
                 service.init(environment);
                 return service;
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                LOG.error("Unable to create service "+serviceName,e);
             } catch (InstantiationException e) {
-                e.printStackTrace();
+                LOG.error("Unable to create service "+serviceName,e);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                LOG.error("Unable to create service "+serviceName,e);
             } catch (ClassCastException e) {
-                e.printStackTrace();
+                LOG.error("Service "+serviceName+" does not implement ServiceInterface",e);
             }
         }
         return null;

@@ -20,8 +20,12 @@ package erland.webapp.common;
 
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.EntityInterface;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 
 public class EntityFactory implements EntityFactoryInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(EntityFactory.class);
     private WebAppEnvironmentInterface environment;
     public EntityFactory(WebAppEnvironmentInterface environment) {
         this.environment = environment;
@@ -34,13 +38,13 @@ public class EntityFactory implements EntityFactoryInterface {
                 entity.init(environment);
                 return entity;
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                LOG.error("Unable to create entity instance",e);
             } catch (InstantiationException e) {
-                e.printStackTrace();
+                LOG.error("Unable to create entity instance",e);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                LOG.error("Unable to create entity instance",e);
             } catch (ClassCastException e) {
-                e.printStackTrace();
+                LOG.error("Entity does not implement EntityInterface",e);
             }
         }
         return null;

@@ -32,7 +32,12 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class FileMetadataHandler implements MetadataHandlerInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(FileMetadataHandler.class);
     private Map metaDataMap = new HashMap();
     private boolean onlySelected;
     private String language;
@@ -70,7 +75,7 @@ public class FileMetadataHandler implements MetadataHandlerInterface {
                 addField("File Date/Time",dateFormat.format(new Date(urlConnection.getLastModified())));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Unable to open metadata for file: "+filename);
         }
         return input != null;
     }

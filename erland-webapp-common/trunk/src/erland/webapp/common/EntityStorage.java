@@ -52,7 +52,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
             pool = (DataSource) env.lookup(resource);
             LOG.debug("Got pool: "+pool);
           } catch (NamingException e) {
-              e.printStackTrace();
+              LOG.error("Unable to get database pool",e);
             return null;
           }
         }
@@ -70,7 +70,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
             conn = getPool(environment).getConnection();
             return select(conn,template);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Error when executing SQL",e);
             return null;
         } finally {
             if(LOG.isDebugEnabled()) LOG.debug("load: "+template+" ("+(System.currentTimeMillis()-startTime)+" ms)");
@@ -78,7 +78,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                    LOG.debug("Error when disconnecting from database",e);
                 }
             }
         }
@@ -95,14 +95,14 @@ public abstract class EntityStorage implements EntityStorageInterface {
                 return insert(conn,entity);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Error when executing SQL statement",e);
         } finally {
             if(LOG.isDebugEnabled()) LOG.debug("store: "+entity+" ("+(System.currentTimeMillis()-startTime)+" ms)");
             if(conn!=null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                    LOG.debug("Error when disconnecting from database",e);
                 }
             }
         }
@@ -116,14 +116,14 @@ public abstract class EntityStorage implements EntityStorageInterface {
             conn = getPool(environment).getConnection();
             return delete(conn,entity);
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when exeuting SQL statment",e);
         } finally {
             if(LOG.isDebugEnabled()) LOG.debug("delete: "+entity+" ("+(System.currentTimeMillis()-startTime)+" ms)");
             if(conn!=null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                    LOG.debug("Error when disconnecting from database",e);
                 }
             }
         }
@@ -137,14 +137,14 @@ public abstract class EntityStorage implements EntityStorageInterface {
             conn = getPool(environment).getConnection();
             return delete(conn,filter);
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when executing SQL statement",e);
         } finally {
             if(LOG.isDebugEnabled()) LOG.debug("delete: "+filter+" ("+(System.currentTimeMillis()-startTime)+" ms)");
             if(conn!=null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                    LOG.debug("Error when disconnecting from database",e);
                 }
             }
         }
@@ -158,14 +158,14 @@ public abstract class EntityStorage implements EntityStorageInterface {
             conn = getPool(environment).getConnection();
             return select(conn,filter);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Error when executing SQL statement",e);
         } finally {
             if(LOG.isDebugEnabled()) LOG.debug("search: "+filter+" ("+(System.currentTimeMillis()-startTime)+" ms)");
             if(conn!=null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                    LOG.debug("Error when disconnecting from database",e);
                 }
             }
         }
@@ -179,14 +179,14 @@ public abstract class EntityStorage implements EntityStorageInterface {
             conn = getPool(environment).getConnection();
             return update(conn,filter,entity);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Error when executing SQL statement",e);
         } finally {
             if(LOG.isDebugEnabled()) LOG.debug("update: "+filter+" "+entity+" ("+(System.currentTimeMillis()-startTime)+" ms)");
             if(conn!=null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                    LOG.debug("Error when disconnecting from database",e);
                 }
             }
         }

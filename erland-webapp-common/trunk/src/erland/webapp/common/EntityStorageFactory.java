@@ -24,7 +24,12 @@ import erland.webapp.common.EntityInterface;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class EntityStorageFactory implements EntityStorageFactoryInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(EntityStorageFactory.class);
     private WebAppEnvironmentInterface environment;
     private Map storages = new HashMap();
     public EntityStorageFactory(WebAppEnvironmentInterface environment) {
@@ -47,13 +52,13 @@ public class EntityStorageFactory implements EntityStorageFactoryInterface {
                 }
                 return storage;
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                LOG.error("Unable to get entity storage for "+entityName,e);
             } catch (InstantiationException e) {
-                e.printStackTrace();
+                LOG.error("Unable to get entity storage for "+entityName,e);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                LOG.error("Unable to get entity storage for "+entityName,e);
             } catch (ClassCastException e) {
-                e.printStackTrace();
+                LOG.error("Entity storage for "+entityName+" does not implement EntityStorageInteface",e);
             }
         }
         return null;

@@ -264,11 +264,11 @@ public class TableGridTag extends TagSupport {
                 try {
                     beanProperty = (Object) PropertyUtils.getProperty(bean,property);
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    LOG.error("Unable to get property "+property,e);
                 } catch (InvocationTargetException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    LOG.error("Unable to get property "+property,e);
                 } catch (NoSuchMethodException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    LOG.error("Unable to get property "+property,e);
                 }
                 if(beanProperty!=null) {
                     bean = beanProperty;
@@ -285,11 +285,11 @@ public class TableGridTag extends TagSupport {
                             rows = rowsValue.toString();
                         }
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        LOG.error("Unable to get property "+rowsProperty,e);
                     } catch (InvocationTargetException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        LOG.error("Unable to get property "+rowsProperty,e);
                     } catch (NoSuchMethodException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        LOG.error("Unable to get property "+rowsProperty,e);
                     }
                 }
                 if(rowsColsBean!=null && cols==null && colsProperty!=null) {
@@ -299,11 +299,11 @@ public class TableGridTag extends TagSupport {
                             cols = colsValue.toString();
                         }
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        LOG.error("Unable to get property "+colsProperty,e);
                     } catch (InvocationTargetException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        LOG.error("Unable to get property "+colsProperty,e);
                     } catch (NoSuchMethodException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        LOG.error("Unable to get property "+colsProperty,e);
                     }
                 }
             }
@@ -318,11 +318,11 @@ public class TableGridTag extends TagSupport {
                             rowIterations = rowIterationsValue.toString();
                         }
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        LOG.error("Unable to get property "+rowIterationsProperty,e);
                     } catch (InvocationTargetException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        LOG.error("Unable to get property "+´rowIterationsProperty,e);
                     } catch (NoSuchMethodException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        LOG.error("Unable to get property "+rowIterationsProperty,e);
                     }
                 }
                 if(rowsColsBean!=null && columnIterations==null && columnIterationsProperty!=null) {
@@ -332,11 +332,11 @@ public class TableGridTag extends TagSupport {
                             columnIterations = columnIterationsValue.toString();
                         }
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        LOG.error("Unable to get property "+columnIterationsProperty,e);
                     } catch (InvocationTargetException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        LOG.error("Unable to get property "+columnIterationsProperty,e);
                     } catch (NoSuchMethodException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        LOG.error("Unable to get property "+columnIterationsProperty,e);
                     }
                 }
             }
@@ -385,7 +385,7 @@ public class TableGridTag extends TagSupport {
                 return EVAL_BODY_INCLUDE;
             }
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error("Unable to write html",e);
         }
         return SKIP_BODY;
     }
@@ -465,7 +465,7 @@ public class TableGridTag extends TagSupport {
                 return EVAL_BODY_AGAIN;
             }
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error("Unable to write html",e);
         }
         return SKIP_BODY;
     }
@@ -477,7 +477,7 @@ public class TableGridTag extends TagSupport {
                 out.write("</table>");
             }
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error("Unable to write html",e);
         }
         return EVAL_PAGE;
     }

@@ -194,11 +194,11 @@ public class BeanLinkTag extends TagSupport {
             try {
                 link = (String) PropertyUtils.getProperty(bean,property);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.error("Unable to get property "+property,e);
             } catch (InvocationTargetException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.error("Unable to get property "+property,e);
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.error("Unable to get property "+property,e);
             }
         }else {
             link=(String) bean;
@@ -209,21 +209,21 @@ public class BeanLinkTag extends TagSupport {
                 try {
                     selected = PropertyUtils.getProperty(beanSelected,propertySelected);
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    LOG.error("Unable to get property "+property,e);
                 } catch (InvocationTargetException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    LOG.error("Unable to get property "+property,e);
                 } catch (NoSuchMethodException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    LOG.error("Unable to get property "+property,e);
                 }
             }else {
                 try {
                     selected = PropertyUtils.getProperty(beanSelected,property);
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    LOG.error("Unable to get property "+property,e);
                 } catch (InvocationTargetException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    LOG.error("Unable to get property "+property,e);
                 } catch (NoSuchMethodException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    LOG.error("Unable to get property "+property,e);
                 }
             }
         }
@@ -246,11 +246,11 @@ public class BeanLinkTag extends TagSupport {
                     title = String.valueOf(value);
                 }
             } catch (IllegalAccessException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.error("Unable to get property "+propertyTitle,e);
             } catch (InvocationTargetException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.error("Unable to get property "+propertyTitle,e);
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.error("Unable to get property "+propertyTitle,e);
             }
         }
         if(bean!=null && title==null && propertyTitleKey!=null) {
@@ -260,11 +260,11 @@ public class BeanLinkTag extends TagSupport {
                     title = RequestUtils.message(pageContext,null,null,String.valueOf(key));
                 }
             } catch (IllegalAccessException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.error("Unable to get property "+propertyTitleKey,e);
             } catch (InvocationTargetException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.error("Unable to get property "+propertyTitleKey,e);
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.error("Unable to get property "+propertyTitleKey,e);
             }
         }
         if(link!=null && link.length()>0) {
@@ -277,7 +277,7 @@ public class BeanLinkTag extends TagSupport {
                 return EVAL_BODY_INCLUDE;
             } catch (IOException e) {
                 link = null;
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.error("Unable to write html",e);
             }
         }
         return SKIP_BODY;
@@ -289,7 +289,7 @@ public class BeanLinkTag extends TagSupport {
                 pageContext.getOut().write("</a>");
             }
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Unable to write html",e);
         }
         return EVAL_PAGE;
     }

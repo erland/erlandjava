@@ -207,7 +207,7 @@ public class MenuItemTag extends TagSupport implements MenuItemInterface {
                 out.write("</td>");
                 out.write("</tr>");
             } catch (IOException e) {
-                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                LOG.error("Unable to write html",e);
             }
             if(menuObj!=null && menuObj.startsWith(getItemId())) {
                 return EVAL_BODY_INCLUDE;

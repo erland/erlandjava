@@ -1,4 +1,8 @@
 package erland.webapp.common;
+
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -19,6 +23,8 @@ package erland.webapp.common;
  */
 
 public class CommandFactory implements CommandFactoryInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(CommandFactory.class);
     private WebAppEnvironmentInterface environment;
     public CommandFactory(WebAppEnvironmentInterface environment) {
         this.environment = environment;
@@ -35,13 +41,13 @@ public class CommandFactory implements CommandFactoryInterface {
                 command.init(environment);
                 return command;
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                LOG.error("Unable to create command instance",e);
             } catch (InstantiationException e) {
-                e.printStackTrace();
+                LOG.error("Unable to create command instance",e);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                LOG.error("Unable to create command instance",e);
             } catch (ClassCastException e) {
-                e.printStackTrace();
+                LOG.error("Command instance does not implement CommandInterface",e);
             }
         }
         return null;

@@ -103,7 +103,7 @@ public class HelpLinkTag extends TagSupport {
                 return EVAL_BODY_INCLUDE;
             } catch (IOException e) {
                 link = null;
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.error("Unable to write html",e);
             }
         }
         return SKIP_BODY;
@@ -115,7 +115,7 @@ public class HelpLinkTag extends TagSupport {
                 pageContext.getOut().write("</a>");
             }
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Unable to write html",e);
         }
         return EVAL_PAGE;
     }

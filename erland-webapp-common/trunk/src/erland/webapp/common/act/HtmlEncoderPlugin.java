@@ -3,6 +3,8 @@ package erland.webapp.common.act;
 import org.apache.struts.action.PlugIn;
 import org.apache.struts.action.ActionServlet;
 import org.apache.struts.config.ModuleConfig;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.ServletException;
 import java.io.InputStream;
@@ -36,6 +38,8 @@ import erland.webapp.common.html.*;
  */
 
 public class HtmlEncoderPlugin implements PlugIn {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(HtmlEncoderPlugin.class);
     private Class[] replaceRoutines = null;
     public void destroy() {
         //Do nothing
@@ -51,9 +55,9 @@ public class HtmlEncoderPlugin implements PlugIn {
                         HTMLEncoder.addReplaceRoutine((StringReplaceInterface)obj);
                     }
                 } catch (InstantiationException e) {
-                    e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                    LOG.error("Unable to create replace routine "+routine);
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                    LOG.error("Unable to create replace routine "+routine);
                 }
             }
         }

@@ -137,7 +137,7 @@ public class TableGridRowTag extends TagSupport {
                 return EVAL_BODY_INCLUDE;
             }
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error("Unable to write html",e);
         }
         rowNo=-1;
         return SKIP_BODY;
@@ -150,7 +150,7 @@ public class TableGridRowTag extends TagSupport {
                 out.write("</td>");
             }
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error("Unable to write html",e);
         }
         return EVAL_PAGE;
     }

@@ -118,11 +118,11 @@ public class BeanImageTag extends TagSupport {
             try {
                 link = (String) PropertyUtils.getProperty(bean,property);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.error("Unable to get property "+property,e);
             } catch (InvocationTargetException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.error("Unable to get property "+property,e);
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.error("Unable to get property "+property,e);
             }
         }else {
             link=(String) bean;
@@ -134,7 +134,7 @@ public class BeanImageTag extends TagSupport {
             try {
                 out.write("<img src=\""+addContextPath(link)+"\" "+(style!=null?"class=\""+style+"\" ":"")+" "+(border!=null?" border=\""+border+"\"":"")+(width!=null?" width=\""+width+"\"":"")+(height!=null?" height=\""+height+"\"":"")+"></img>");
             } catch (IOException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.error("Unable to write html",e);
             }
         }
         return SKIP_BODY;

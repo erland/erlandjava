@@ -219,7 +219,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
             try {
                 source.start();
             } catch (IOException e) {
-                System.err.println(e);
+                LOG.error("Error while starting JMF source",e);
             }
 
             // Start the processing loop if we are dealing with a
@@ -235,7 +235,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
             try {
                 source.stop();
             } catch (IOException e) {
-                System.err.println(e);
+                LOG.error("Error while stopping JMF source",e);
             }
 
             // Start the processing loop if we are dealing with a
@@ -292,7 +292,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
             try {
                 stream.read(readBuffer);
             } catch (IOException e) {
-                System.err.println(e);
+                LOG.error("Error while reading JMF stream",e);
                 sendEvent(new DataSinkErrorEvent(this, e.getMessage()));
                 return;
             }
@@ -321,7 +321,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
             try {
                 stream.read(readBuffer);
             } catch (IOException e) {
-                System.err.println(e);
+                LOG.error("Error while reading JMF stream",e);
                 return true;
             }
 
@@ -331,7 +331,6 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
             if (readBuffer.isEOM()) {
                 // Check to see if we are done with all the streams.
                 if (checkDone(stream)) {
-                    System.err.println("All done!");
                     close();
                 }
                 return true;
@@ -359,17 +358,16 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
 
 
         void printDataInfo(Buffer buffer) {
-            //System.err.println("Read from stream: " + stream);
             if (buffer.getFormat() instanceof AudioFormat)
-                System.err.println("Read audio data:");
+                LOG.debug("Read audio data:");
             else
-                System.err.println("Read video data:");
-            System.err.println("  Time stamp: " + buffer.getTimeStamp());
-            System.err.println("  Sequence #: " + buffer.getSequenceNumber());
-            System.err.println("  Data length: " + buffer.getLength());
+                LOG.debug("Read video data:");
+            LOG.debug("  Time stamp: " + buffer.getTimeStamp());
+            LOG.debug("  Sequence #: " + buffer.getSequenceNumber());
+            LOG.debug("  Data length: " + buffer.getLength());
 
             if (buffer.isEOM())
-                System.err.println("  Got EOM!");
+                LOG.debug("  Got EOM!");
         }
 
         public Object[] getControls() {
@@ -442,7 +440,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
                     return createThumbnail(ds, (int) (noOfFrames / (noOfColumns * noOfRows)), noOfColumns, noOfRows, width, height);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.error("Error when creating movie thumbnail for "+(movie!=null?movie.getFile():"null"),e);
             }
             return null;
         }
@@ -476,10 +474,10 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
         try {
             p = Manager.createProcessor(ds);
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when creating JMF processor",e);
             return false;
         } catch (NoProcessorException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when creating JMF processor",e);
             return false;
         }
 
@@ -487,7 +485,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
 
         p.configure();
         if (!waitForState(Processor.Configured)) {
-            System.err.println("Failed to configure the processor.");
+            LOG.error("Failed to configure the processor");
             return false;
         }
 
@@ -505,7 +503,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
 
         p.realize();
         if (!waitForState(Processor.Realized)) {
-            System.err.println("Failed to realize the processor.");
+            LOG.error("Failed to realize the JMF processor");
             return false;
         }
 
@@ -517,7 +515,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
         try {
             handler.setSource(ods);
         } catch (IncompatibleSourceException e) {
-            System.err.println("Cannot handle the output DataSource from the processor: " + ods);
+            LOG.error("Cannot handle the output DataSource from the processor: " + ods,e);
             return false;
         }
 
@@ -527,7 +525,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
         // Prefetch the processor.
         p.prefetch();
         if (!waitForState(Processor.Prefetched)) {
-            System.err.println("Failed to prefetch the processor.");
+            LOG.error("Failed to prefetch the processor");
             return false;
         }
 
@@ -538,7 +536,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
                 waitEndSync.wait();
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOG.error("JMF processor interupted",e);
             return false;
         }
         return true;

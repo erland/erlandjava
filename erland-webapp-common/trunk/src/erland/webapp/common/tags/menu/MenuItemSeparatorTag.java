@@ -168,7 +168,7 @@ public class MenuItemSeparatorTag extends TagSupport implements MenuItemInterfac
                 out.write("</td>");
                 out.write("</tr>");
             } catch (IOException e) {
-                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                LOG.error("Unable to write html",e);
             }
         }
         return SKIP_BODY;

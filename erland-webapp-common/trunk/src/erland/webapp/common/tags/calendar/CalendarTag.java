@@ -246,13 +246,13 @@ public class CalendarTag extends TagSupport {
 
             out.write("</table>");
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error("Unable to write html",e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error("Error while creating html",e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error("Error while creating html",e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error("Error while creating html",e);
         }
         return SKIP_BODY;
     }

@@ -77,13 +77,13 @@ public class GenericEntityStorage extends EntityStorage {
                 }
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running select of "+template,e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running select of "+template,e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running select of "+template,e);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running select of "+template,e);
         }
         return null;
     }
@@ -223,13 +223,13 @@ public class GenericEntityStorage extends EntityStorage {
                 }
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running select of "+filter,e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running select of "+filter,e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running select of "+filter,e);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running select of "+filter,e);
         }
         return new EntityInterface[0];
     }
@@ -306,13 +306,13 @@ public class GenericEntityStorage extends EntityStorage {
                 }
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running insert of "+entity,e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running insert of "+entity,e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running insert of "+entity,e);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running insert of "+entity,e);
         }
         return false;
     }
@@ -371,13 +371,13 @@ public class GenericEntityStorage extends EntityStorage {
                 }
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running update of "+entity,e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running update of "+entity,e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running update of "+entity,e);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running update of "+entity,e);
         }
         return false;
     }
@@ -461,13 +461,13 @@ public class GenericEntityStorage extends EntityStorage {
 
             }
         }catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running update of "+filter+" with "+entity,e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running update of "+filter+" with "+entity,e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running update of "+filter+" with "+entity,e);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running update of "+filter+" with "+entity,e);
         }
         return false;
     }
@@ -487,11 +487,11 @@ public class GenericEntityStorage extends EntityStorage {
                 }
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running delete of "+entity,e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running delete of "+entity,e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running delete of "+entity,e);
         }
         return false;
     }
@@ -548,13 +548,13 @@ public class GenericEntityStorage extends EntityStorage {
                 }
             }
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running delete of "+filter,e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running delete of "+filter,e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running delete of "+filter,e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when running delete of "+filter,e);
         }
         return false;
     }
@@ -594,13 +594,13 @@ public class GenericEntityStorage extends EntityStorage {
             }
             return stmt;
         } catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when creating where statement for "+template,e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when creating where statement for "+template,e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when creating where statement for "+template,e);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when creating where statement for "+template,e);
         }
         return null;
     }

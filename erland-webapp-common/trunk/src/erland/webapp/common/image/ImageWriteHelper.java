@@ -68,7 +68,7 @@ public class ImageWriteHelper {
 
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Unable to write image "+file,e);
         }
         return false;
     }
@@ -178,7 +178,7 @@ public class ImageWriteHelper {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Unable to create thumbnail for image: "+imageFile,e);
         }
         return false;
     }
@@ -231,13 +231,13 @@ public class ImageWriteHelper {
     }
 
     private static void setInCache(String cacheDir,String username, String cachePrefix, int width, String originalFile, BufferedImage image, float compression) {
+        String cacheFileName = getCacheFileName(username, cachePrefix, width, originalFile);
         try {
-            String cacheFileName = getCacheFileName(username, cachePrefix, width, originalFile);
             ImageOutputStream output = ImageIO.createImageOutputStream(new File(cacheDir + "/" + cacheFileName));
             writeImageToOutput(image, compression, output);
             output.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Unable to write cache image: "+cacheFileName,e);
         }
     }
     private static ImageWriteHelper getLogInstance() {

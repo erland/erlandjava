@@ -3,6 +3,8 @@ package erland.webapp.common.act;
 import org.apache.struts.action.PlugIn;
 import org.apache.struts.action.ActionServlet;
 import org.apache.struts.config.ModuleConfig;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 
 import javax.servlet.ServletException;
 import java.util.Map;
@@ -33,6 +35,8 @@ import erland.util.StringUtil;
  */
 
 public class BaseTaskPlugin implements PlugIn {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(BaseTaskPlugin.class);
     private Map tasks = new HashMap();
     private Integer priority = null;
 
@@ -78,7 +82,7 @@ public class BaseTaskPlugin implements PlugIn {
             try {
                 thread.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.debug("Interrupted wait on task finish of task "+id,e);
             }
         }
         return true;

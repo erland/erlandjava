@@ -108,11 +108,11 @@ public class DescriptionIdHelper {
                 try {
                     PropertyUtils.copyProperties(pbList[i],idList[i]);
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    LOG.error("Unable to copy properties",e);
                 } catch (InvocationTargetException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    LOG.error("Unable to copy properties",e);
                 } catch (NoSuchMethodException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    LOG.error("Unable to copy properties",e);
                 }
                 if(useEnglish && StringUtil.asNull(idList[i].getDescriptionEnglish())!=null) {
                     pbList[i].setDescription(idList[i].getDescriptionEnglish());

@@ -190,13 +190,13 @@ public class BeanMenuItemTag extends TagSupport {
                     writeMenu(new Object[] {o}, getIndent(), getParentId(), menuObj, out);
                 }
             } catch (IOException e) {
-                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                LOG.error("Unable to write html",e);
             } catch (InvocationTargetException e) {
-                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                LOG.error("Error while creating html",e);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                LOG.error("Error while creating html",e);
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                LOG.error("Error while creating html",e);
             }
         }
         return SKIP_BODY;
@@ -315,11 +315,11 @@ public class BeanMenuItemTag extends TagSupport {
             try {
                 result.put(property.getName(),PropertyUtils.getProperty(bean,property.getName()));
             } catch (IllegalAccessException e) {
-                //e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                LOG.error("Unable to get property "+property.getName(),e);
             } catch (InvocationTargetException e) {
-                //e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                LOG.error("Unable to get property "+property.getName(),e);
             } catch (NoSuchMethodException e) {
-                //e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                LOG.error("Unable to get property "+property.getName(),e);
             }
         }
         result.put("menuId",menuId);

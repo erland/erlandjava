@@ -157,11 +157,11 @@ public class FileEntityStorage implements EntityStorageInterface {
                 entity = null;
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            LOG.error("Error when loading entity",e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            LOG.error("Error when loading entity",e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            LOG.error("Error when loading entity",e);
         }
         return entity;
     }
@@ -256,11 +256,11 @@ public class FileEntityStorage implements EntityStorageInterface {
                 }
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when searching for entity",e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when searching for entity",e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Error when searching for entity",e);
         }
         return entities;
     }
