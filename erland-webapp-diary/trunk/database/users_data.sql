@@ -16,5 +16,5 @@ INSERT INTO userapplicationroles VALUES ('test','user','gallery');
 -- Dumping data for table 'users'
 --
 
-INSERT INTO users VALUES ('test','Test','Testorsson','test');
+INSERT INTO users VALUES ('test','Test','Testorsson','test',null);
 
