@@ -42,6 +42,7 @@ public class BeanImageTag extends TagSupport {
     private String border;
     private String style;
     private String width;
+    private String height;
 
     public String getName() {
         return name;
@@ -83,6 +84,14 @@ public class BeanImageTag extends TagSupport {
         this.width = width;
     }
 
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
     public int doStartTag() throws JspException {
         JspWriter out = pageContext.getOut();
         Object bean = pageContext.findAttribute(name);
@@ -102,7 +111,7 @@ public class BeanImageTag extends TagSupport {
         }
         if(link!=null) {
             try {
-                out.write("<img src=\""+addContextPath(link)+"\" "+(style!=null?"class=\""+style+"\" ":"")+" "+(border!=null?" border=\""+border+"\"":"")+(width!=null?" width=\""+width+"\"":"")+"></img>");
+                out.write("<img src=\""+addContextPath(link)+"\" "+(style!=null?"class=\""+style+"\" ":"")+" "+(border!=null?" border=\""+border+"\"":"")+(width!=null?" width=\""+width+"\"":"")+(height!=null?" height=\""+height+"\"":"")+"></img>");
             } catch (IOException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -117,6 +126,7 @@ public class BeanImageTag extends TagSupport {
         name = null;
         property = null;
         width = null;
+        height = null;
     }
     private String addContextPath(String link) {
         if(link==null) {
