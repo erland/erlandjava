@@ -242,7 +242,7 @@ public class RacerServer extends GameServer implements GameEnvironmentInterface 
 
     public ParameterValueStorageExInterface getStorage() {
         if(storage==null) {
-            JarFileStorage jarfile = new JarFileStorage("racer.xml");
+            JarFileStorage jarfile = new JarFileStorage("Racer.xml");
             FileStorage file = new FileStorage("racer.xml");
             storage = new ParameterStorageString(file,jarfile,"racer");
         }
