@@ -132,4 +132,8 @@ public class User implements EntityInterface {
     public boolean hasRole(String role) {
         return roles!=null?roles.contains(role):false;
     }
+
+    public UserPrincipal createPrincial() {
+        return new UserPrincipal(username,(String[])roles.toArray(new String[0]));
+    }
 }
