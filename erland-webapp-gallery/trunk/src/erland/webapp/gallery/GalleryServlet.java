@@ -47,6 +47,9 @@ public class GalleryServlet extends UserMgmtServlet {
                 "<logitem7>erland.webapp.gallery.HTMLBasicStringReplaceDisabled</logitem7>"+
                 "<logitem8>erland.webapp.gallery.HTMLLinkStringReplaceDisabled</logitem8>"+
                 "<logitem9>erland.webapp.gallery.gallery.picture.SearchPicturesCommandDisabled</logitem9>"+
+                "<logitem10>erland.webapp.common.image.ImageWriteHelperDisabled</logitem10>"+
+                "<logitem11>erland.webapp.gallery.loader.LoadThumbnailCommandDisabled</logitem11>"+
+                "<logitem12>erland.webapp.gallery.loader.LoadImageCommandDisabled</logitem12>"+
                 "</log>"),null,"log"));
         HTMLEncoder.addReplaceRoutine(new HTMLBasicStringReplace());
         HTMLEncoder.addReplaceRoutine(new HTMLLinkStringReplace());
