@@ -27,6 +27,8 @@ public class LoadThumbnailCommand extends LoadImageCommand implements CommandInt
     private static final int THUMBNAIL_WIDTH=150;
     private static final int COPYRIGHT_WIDTH=640;
     private static final int COPYRIGHT_HEIGHT=480;
+    private static final float COMPRESSION=0.9f;
+    private static final float SMALL_THUMBNAIL_COMPRESSION=0.5f;
     private String cacheDir;
     private UserAccount account;
     private final int COPYRIGHT_OFFSET = 5;
@@ -55,6 +57,16 @@ public class LoadThumbnailCommand extends LoadImageCommand implements CommandInt
         if(username==null || username.length()==0) {
             User user = (User) request.getSession().getAttribute("user");
             username = user.getUsername();
+        }
+        float requestedCompression = requestedWidth<=THUMBNAIL_WIDTH?SMALL_THUMBNAIL_COMPRESSION:COMPRESSION;
+        String compressionString = request.getParameter("compression");
+        if(compressionString!=null && compressionString.length()>0) {
+            requestedCompression = Float.valueOf(compressionString).floatValue();
+        }
+        if(requestedCompression>1.0f) {
+            requestedCompression = 1.0f;
+        }else if(requestedCompression<0.0f) {
+            requestedCompression = 0.0f;
         }
         BufferedImage thumbnail = null;
         try {
@@ -109,7 +121,7 @@ public class LoadThumbnailCommand extends LoadImageCommand implements CommandInt
                         ImageWriter writer = (ImageWriter) it.next();
                         ImageWriteParam param = writer.getDefaultWriteParam();
                         param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-                        param.setCompressionQuality(1.0f);
+                        param.setCompressionQuality(requestedCompression);
 
                         writer.setOutput(ImageIO.createImageOutputStream(response.getOutputStream()));
                         writer.write(null,new IIOImage(thumbnail,null,null),param);
