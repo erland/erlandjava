@@ -30,6 +30,7 @@ import erland.webapp.diary.fb.inventory.InventoryEntryEventFB;
 import erland.webapp.diary.fb.inventory.DescriptionIdPB;
 import erland.webapp.diary.fb.inventory.InventoryEntryAndEventFB;
 import erland.webapp.diary.fb.gallery.GalleryPB;
+import erland.webapp.diary.fb.container.ContainerPB;
 import erland.webapp.diary.entity.inventory.DescriptionId;
 import erland.webapp.diary.entity.gallery.Gallery;
 import erland.webapp.diary.logic.inventory.DescriptionIdHelper;
@@ -76,6 +77,14 @@ public class NewInventoryEntryAction extends BaseAction {
         }
         request.getSession().setAttribute("inventoryEntryEventTypesPB",typesPB);
 
+        types = DescriptionIdHelper.getDescriptionIdList("diary-inventoryentrysex");
+        typesPB = new DescriptionIdPB[types.length];
+        for (int i = 0; i < types.length; i++) {
+            typesPB[i] = new DescriptionIdPB();
+            PropertyUtils.copyProperties(typesPB[i],types[i]);
+        }
+        request.getSession().setAttribute("inventoryEntrySexesPB",typesPB);
+
         QueryFilter filter = new QueryFilter("allforuser");
         filter.setAttribute("username", request.getRemoteUser());
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("diary-gallery").search(filter);
@@ -85,5 +94,15 @@ public class NewInventoryEntryAction extends BaseAction {
             PropertyUtils.copyProperties(pb[i],entities[i]);
         }
         request.getSession().setAttribute("galleriesPB",pb);
+
+        filter = new QueryFilter("allforuser");
+        filter.setAttribute("username", request.getRemoteUser());
+        entities = getEnvironment().getEntityStorageFactory().getStorage("diary-container").search(filter);
+        ContainerPB[] pbContainers= new ContainerPB[entities.length];
+        for (int i = 0; i < entities.length; i++) {
+            pbContainers[i] = new ContainerPB();
+            PropertyUtils.copyProperties(pbContainers[i],entities[i]);
+        }
+        request.getSession().setAttribute("containersPB",pbContainers);
     }
 }

@@ -28,6 +28,7 @@ import erland.webapp.diary.entity.inventory.InventoryEntryEvent;
 import erland.webapp.diary.fb.inventory.*;
 import erland.webapp.diary.logic.inventory.DescriptionIdHelper;
 import erland.webapp.diary.entity.inventory.DescriptionId;
+import erland.webapp.diary.entity.container.Container;
 import erland.webapp.diary.logic.inventory.DescriptionIdHelper;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -54,6 +55,7 @@ public class ViewInventoryEntryInfoAction extends BaseAction {
         InventoryEntryFB pb = new InventoryEntryFB();
         PropertyUtils.copyProperties(pb,entry);
         pb.setTypeDescription(DescriptionIdHelper.getDescription("diary-inventoryentrytype",entry.getType()));
+        pb.setSexDescription(DescriptionIdHelper.getDescription("diary-inventoryentrysex",entry.getSex()));
         Map parameters = new HashMap();
         parameters.put("user",username);
         parameters.put("gallery",entry.getGallery());
@@ -99,10 +101,25 @@ public class ViewInventoryEntryInfoAction extends BaseAction {
         pb.setEvents(pbEvents);
         if(pbEvents.length>0) {
             parameters.put("size",pbEvents[pbEvents.length-1].getSize());
+            parameters.put("container",pbEvents[pbEvents.length-1].getContainer());
+            if(pbEvents[pbEvents.length-1].getContainer()!=null && pbEvents[pbEvents.length-1].getContainer().intValue()!=0) {
+                Container templateContainer = (Container) getEnvironment().getEntityFactory().create("diary-container");
+                templateContainer.setId(pbEvents[pbEvents.length-1].getContainer());
+                templateContainer.setUsername(username);
+                Container container = (Container) getEnvironment().getEntityStorageFactory().getStorage("diary-container").load(templateContainer);
+                if(container!=null) {
+                    pb.setCurrentContainerDescription(container.getName());
+                }
+            }
+            pb.setCurrentSizeText(pbEvents[pbEvents.length-1].getSize()+ " cm");
         }
         forward = mapping.findForward("new-event-link");
         if(forward!=null) {
             pb.setNewEventLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+        }
+        forward = mapping.findForward("view-container-link");
+        if(forward!=null) {
+            pb.setContainerLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
         }
 
         request.setAttribute("inventoryEntryPB",pb);

@@ -55,6 +55,10 @@ public class SearchInventoryEntriesAction extends BaseAction {
         if(fb.getDate()==null) {
             fb.setDate(new Date());
         }
+        Integer container = null;
+        if(fb.getContainer()!=null && fb.getContainer().intValue()!=0) {
+            container = fb.getContainer();
+        }
         filter.setAttribute("username", username);
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("diary-inventoryentry").search(filter);
 
@@ -63,6 +67,7 @@ public class SearchInventoryEntriesAction extends BaseAction {
         ActionForward forwardNewEvent = null;
         ActionForward forwardUpdateEvent = null;
         ActionForward forwardDeleteEvent = null;
+        ActionForward forwardContainer = null;
         ActionForward forwardGallery = mapping.findForward("view-gallery-link");
         ActionForward forwardView = mapping.findForward("view-entry-link");
         forwardUpdate = mapping.findForward("update-entry-link");
@@ -70,20 +75,23 @@ public class SearchInventoryEntriesAction extends BaseAction {
         forwardNewEvent = mapping.findForward("new-event-link");
         forwardUpdateEvent = mapping.findForward("update-event-link");
         forwardDeleteEvent = mapping.findForward("delete-event-link");
+        forwardContainer = mapping.findForward("view-container-link");
         Map parameters = new HashMap();
         parameters.put("user",username);
         List result = new ArrayList();
         for (int i = 0; i < entities.length; i++) {
-            InventoryEntryEventFB[] events = getEvents(((InventoryEntry) entities[i]).getId(),fb.getDate(),forwardUpdateEvent,forwardDeleteEvent);
+            InventoryEntryEventFB[] events = getEvents(((InventoryEntry) entities[i]).getId(),fb.getDate(),container,forwardUpdateEvent,forwardDeleteEvent);
             if(events.length>0 || getAllEvents()) {
                 InventoryEntryFB entry = new InventoryEntryFB();
                 PropertyUtils.copyProperties(entry,entities[i]);
                 entry.setEvents(events);
                 entry.setTypeDescription(DescriptionIdHelper.getDescription("diary-inventoryentrytype",entry.getType()));
+                entry.setSexDescription(DescriptionIdHelper.getDescription("diary-inventoryentrysex",entry.getSex()));
                 parameters.put("id",entry.getId());
                 parameters.put("gallery",entry.getGallery());
                 if(events.length>0) {
                     parameters.put("size",events[events.length-1].getSize());
+                    parameters.put("container",events[events.length-1].getContainer());
                 }
                 if(forwardUpdate!=null) {
                     entry.setUpdateLink(ServletParameterHelper.replaceDynamicParameters(forwardUpdate.getPath(),parameters));
@@ -93,6 +101,9 @@ public class SearchInventoryEntriesAction extends BaseAction {
                 }
                 if(forwardNewEvent!=null) {
                     entry.setNewEventLink(ServletParameterHelper.replaceDynamicParameters(forwardNewEvent.getPath(),parameters));
+                }
+                if(forwardContainer!=null) {
+                    entry.setContainerLink(ServletParameterHelper.replaceDynamicParameters(forwardContainer.getPath(),parameters));
                 }
                 if(forwardGallery!=null) {
                     entry.setGalleryLink(ServletParameterHelper.replaceDynamicParameters(forwardGallery.getPath(),parameters));
@@ -106,35 +117,41 @@ public class SearchInventoryEntriesAction extends BaseAction {
         request.getSession().setAttribute("inventoryEntriesPB",result.toArray(new InventoryEntryFB[0]));
     }
 
-    public InventoryEntryEventFB[] getEvents(Integer id, Date date, ActionForward forwardUpdateEvent, ActionForward forwardDeleteEvent) {
+    public InventoryEntryEventFB[] getEvents(Integer id, Date date, Integer container, ActionForward forwardUpdateEvent, ActionForward forwardDeleteEvent) {
         QueryFilter filter = new QueryFilter("allforid");
         filter.setAttribute("id", id);
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("diary-inventoryentryevent").search(filter);
         List events = new ArrayList();
         Map parameters = new HashMap();
         parameters.put("id",id);
+        Integer firstBeforeDate = null;
         for (int i = 0; i < entities.length; i++) {
             if (getAllEvents() || date==null || !((InventoryEntryEvent)entities[i]).getDate().after(date)) {
+                if(firstBeforeDate==null) {
+                    firstBeforeDate = new Integer(i);
+                }
                 if(getAllEvents() || ((InventoryEntryEvent)entities[i]).isActive()) {
-                    InventoryEntryEventFB event = new InventoryEntryEventFB();
-                    try {
-                        PropertyUtils.copyProperties(event,entities[i]);
-                        if(((InventoryEntryEvent)entities[i]).isSizeRelevant()) {
-                            event.setSizeText(event.getSize()+ "cm");
+                    if(container==null || container.equals(((InventoryEntryEvent)entities[firstBeforeDate.intValue()]).getContainer())) {
+                        InventoryEntryEventFB event = new InventoryEntryEventFB();
+                        try {
+                            PropertyUtils.copyProperties(event,entities[i]);
+                            if(((InventoryEntryEvent)entities[i]).isSizeRelevant()) {
+                                event.setSizeText(event.getSize()+ "cm");
+                            }
+                            event.setDescriptionText(DescriptionIdHelper.getDescription("diary-inventoryentryeventtype",event.getDescription()));
+                            parameters.put("eventId",event.getEventId());
+                            if(forwardUpdateEvent!=null) {
+                                event.setUpdateLink(ServletParameterHelper.replaceDynamicParameters(forwardUpdateEvent.getPath(),parameters));
+                            }
+                            if(forwardDeleteEvent!=null) {
+                                event.setDeleteLink(ServletParameterHelper.replaceDynamicParameters(forwardDeleteEvent.getPath(),parameters));
+                            }
+                        } catch (IllegalAccessException e) {
+                        } catch (InvocationTargetException e) {
+                        } catch (NoSuchMethodException e) {
                         }
-                        event.setDescriptionText(DescriptionIdHelper.getDescription("diary-inventoryentryeventtype",event.getDescription()));
-                        parameters.put("eventId",event.getEventId());
-                        if(forwardUpdateEvent!=null) {
-                            event.setUpdateLink(ServletParameterHelper.replaceDynamicParameters(forwardUpdateEvent.getPath(),parameters));
-                        }
-                        if(forwardDeleteEvent!=null) {
-                            event.setDeleteLink(ServletParameterHelper.replaceDynamicParameters(forwardDeleteEvent.getPath(),parameters));
-                        }
-                    } catch (IllegalAccessException e) {
-                    } catch (InvocationTargetException e) {
-                    } catch (NoSuchMethodException e) {
+                        events.add(event);
                     }
-                    events.add(event);
                 }else {
                     break;
                 }
