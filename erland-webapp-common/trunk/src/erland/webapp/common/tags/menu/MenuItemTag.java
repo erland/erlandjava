@@ -82,7 +82,6 @@ public class MenuItemTag extends BodyTagSupport implements MenuItemInterface {
             }else {
                 itemId = id;
             }
-            System.out.println(""+id+".getItemId()="+itemId);
         }
         return itemId;
     }
@@ -96,7 +95,6 @@ public class MenuItemTag extends BodyTagSupport implements MenuItemInterface {
             }else {
                 parentId = "";
             }
-            System.out.println(""+id+".getParentId()="+parentId);
         }
         return parentId;
     }
