@@ -41,6 +41,7 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
 import org.apache.commons.beanutils.PropertyUtils;
+import erland.webapp.gallery.fb.gallery.picture.ResolutionPB;
 
 import java.util.Arrays;
 
@@ -55,6 +56,14 @@ public class NewGalleryAction extends BaseAction {
             pbGalleries[i] = new GalleryPB();
             PropertyUtils.copyProperties(pbGalleries[i], galleries[i]);
         }
-        request.setAttribute("galleriesPB", pbGalleries);
+        request.getSession().setAttribute("galleriesPB", pbGalleries);
+
+        EntityInterface[] resolutions = getEnvironment().getEntityStorageFactory().getStorage("gallery-resolution").search(new QueryFilter("all"));
+        ResolutionPB[] pbResolutions = new ResolutionPB[resolutions.length];
+        for (int i = 0; i < pbResolutions.length; i++) {
+            pbResolutions[i] = new ResolutionPB();
+            PropertyUtils.copyProperties(pbResolutions[i], resolutions[i]);
+        }
+        request.getSession().setAttribute("resolutionsPB", pbResolutions);
     }
 }
