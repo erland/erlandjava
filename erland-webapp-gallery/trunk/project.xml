@@ -13,7 +13,7 @@
   
   <!-- The version of the project under development, e.g.
        1.1, 1.2, 2.0-SNAPSHOT -->
-  <currentVersion>1.11</currentVersion>
+  <currentVersion>1.12</currentVersion>
   
   <!-- the year the project started -->
   <inceptionYear>2003</inceptionYear>
@@ -210,6 +210,16 @@
       <groupId>jhlabs</groupId>
       <artifactId>imaging</artifactId>
       <version>1.0</version>
+      <type>jar</type>
+      <properties>
+	      <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+	<dependency>
+      <url>http://www.dom4j.org</url>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <version>1.4</version>
       <type>jar</type>
       <properties>
 	      <war.bundle>true</war.bundle>
