@@ -28,5 +28,5 @@ INSERT INTO resources VALUES ('gallery','resources.welcometext','Login to update
 INSERT INTO resources VALUES ('gallery','resources.welcometext_sv','Logga in för att uppdatera ditt bildarkiv eller klicka [boldlinksamewindow=här,http://erland.homeip.net/gallery/do/guest/home?user=erland] för att titta i mitt bildarkiv. Du kan också titta på någon annans bildarkiv genom att klicka på länkarna nedan.\r\nDu kan också registrera ditt eget bildarkiv [boldlinksamewindow=här,/gallery/do/guest/registeruser]\r\n\r\n');
 INSERT INTO resources VALUES ('gallery','resources.importfile','D:\\imatch.txt');
 INSERT INTO resources VALUES ('gallery','resources.nativelanguage','sv');
-INSERT INTO resources VALUES ('gallery','resources.helppath','http://inspiron/help/do/guest/home?application=gallery[context,&chapter={context}]');
+INSERT INTO resources VALUES ('gallery','resources.helppath','http://erland.homeip.net/help/do/guest/home?application=gallery[context,&chapter={context}]');
 

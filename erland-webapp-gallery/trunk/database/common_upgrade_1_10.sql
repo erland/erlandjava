@@ -1,1 +1,1 @@
-INSERT INTO resources VALUES ('gallery','resources.helppath','http://inspiron/help/do/guest/home?application=gallery[context,&chapter={context}]');
+INSERT INTO resources VALUES ('gallery','resources.helppath','http://erland.homeip.net/help/do/guest/home?application=gallery[context,&chapter={context}]');
