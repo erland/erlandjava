@@ -32,6 +32,7 @@
     A web application for a issue tracking system
   </shortDescription>
 
+  <siteDirectory>\\xp2500\erland/public_html/java/erland-webapp-issuetracking</siteDirectory>
   <!-- any mailing lists for the project -->
   <mailingLists/>
   
