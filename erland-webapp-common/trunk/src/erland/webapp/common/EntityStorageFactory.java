@@ -35,12 +35,15 @@ public class EntityStorageFactory implements EntityStorageFactoryInterface {
         String clsName = environment.getResources().getParameter("entities."+entityName+".storage.class");
         if (clsName != null && clsName.length()>0) {
             try {
-                EntityStorageInterface storage = (EntityStorageInterface) storages.get(entityName);
-                if(storage==null) {
-                    storage = (EntityStorageInterface)Class.forName(clsName).newInstance();
-                    storage.init(environment);
-                    storage.setEntityName(entityName);
-                    storages.put(entityName,storage);
+                EntityStorageInterface storage = null;
+                synchronized (storages) {
+                    storage = (EntityStorageInterface) storages.get(entityName);
+                    if(storage==null) {
+                        storage = (EntityStorageInterface)Class.forName(clsName).newInstance();
+                        storage.init(environment);
+                        storage.setEntityName(entityName);
+                        storages.put(entityName,storage);
+                    }
                 }
                 return storage;
             } catch (ClassNotFoundException e) {

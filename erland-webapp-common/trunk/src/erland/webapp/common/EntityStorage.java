@@ -36,7 +36,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
     private DataSource pool;
     private String entityName;
 
-    private DataSource getPool(WebAppEnvironmentInterface environment)
+    private synchronized DataSource getPool(WebAppEnvironmentInterface environment)
     {
         if(pool==null) {
           try {
