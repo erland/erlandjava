@@ -2,7 +2,8 @@
                                 erland.webapp.gallery.account.UserAccount,
                                 erland.webapp.gallery.account.ViewUserAccountCommand,
                                 erland.webapp.gallery.account.ViewUserAccountInterface,
-                                erland.webapp.gallery.gallery.Gallery"%>
+                                erland.webapp.gallery.gallery.Gallery,
+                                erland.webapp.gallery.gallery.GalleryInterface"%>
 
 <%
     CommandInterface cmd = (CommandInterface) request.getAttribute("cmd");
@@ -24,13 +25,16 @@
             <tr><td>Logo</td><td>
             <input type="text" name="logo" value="<%=account!=null?account.getLogo():""%>">
             </td></tr>
+            <tr><td>Copyright text</td><td>
+            <input type="text" name="copyright" value="<%=account!=null?account.getCopyrightText():""%>">
+            </td></tr>
             <tr><td>Default gallery</td><td>
             <select name="defaultgallery" size="1">
             <option value="" <%=account.getDefaultGallery()==null||account.getDefaultGallery().intValue()==0?"selected":""%>>Ingen</option>
             <%
-            Gallery[] galleries = ((ViewUserAccountInterface)cmd).getGalleries();
+            GalleryInterface[] galleries = ((ViewUserAccountInterface)cmd).getGalleries();
             for (int i = 0; i < galleries.length; i++) {
-                Gallery gallery = galleries[i];
+                GalleryInterface gallery = galleries[i];
                 %>
                 <option value=<%=gallery.getId()%> <%=gallery.getId().equals(account.getDefaultGallery())?"selected":""%>><%=gallery.getTitle()%></option>
                 <%
