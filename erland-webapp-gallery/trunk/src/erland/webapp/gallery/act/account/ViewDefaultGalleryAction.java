@@ -45,11 +45,6 @@ public class ViewDefaultGalleryAction extends BaseAction {
         template.setUsername(username);
         UserAccount account = (UserAccount) getEnvironment().getEntityStorageFactory().getStorage("gallery-useraccount").load(template);
 
-        if(account.getStylesheet()!=null && account.getStylesheet().length()>0) {
-            request.getSession().setAttribute("stylesheetPB",account.getStylesheet());
-        }else {
-            request.getSession().removeAttribute("stylesheetPB");
-        }
         String skin = account.getSkin();
         if(StringUtil.asNull(fb.getSkin())!=null) {
             skin = fb.getSkin();
@@ -58,6 +53,16 @@ public class ViewDefaultGalleryAction extends BaseAction {
         if(mapping.getParameter()!=null && mapping.getParameter().equals("useskin") && (previous==null || previous.getId()==null || !previous.getId().equals(skin))) {
             SkinFB pbSkin = SkinHelper.loadSkin(mapping,skin);
             request.getSession().setAttribute("skinPB",pbSkin);
+        }
+        SkinFB pbSkin = (SkinFB) request.getSession().getAttribute("skinPB");
+        if(pbSkin==null || StringUtil.asNull(pbSkin.getStylesheet())==null) {
+            if(account.getStylesheet()!=null && account.getStylesheet().length()>0) {
+                request.getSession().setAttribute("stylesheetPB",account.getStylesheet());
+            }else {
+                request.getSession().removeAttribute("stylesheetPB");
+            }
+        }else {
+            request.getSession().setAttribute("stylesheetPB",pbSkin.getStylesheet());
         }
 
         Integer gallery = null;
