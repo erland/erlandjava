@@ -261,6 +261,8 @@
             <forward name="picture-link" path="/do/guest/loadimage?gallery={gallery}&amp;image={picture}"/>
             <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}"/>
             <forward name="previous-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}&amp;max={max}"/>
+            <forward name="picture-resolution-link" path="/do/guest/loadresolutionimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-resolution-link-complete" path="/do/guest/loadresolutionimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
             <forward name="next-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}&amp;max={max}"/>
             <forward name="search-link" path="/do/guest/newsearch?user={user}&amp;gallery={gallery}&amp;max={max}"/>
         </action>
@@ -289,6 +291,8 @@
             <forward name="picture-link" path="/do/guest/loadimage?gallery={gallery}&amp;image={picture}"/>
             <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}"/>
             <forward name="previous-link" path="/do/guest/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}&amp;max={max}"/>
+            <forward name="picture-resolution-link" path="/do/guest/loadresolutionimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-resolution-link-complete" path="/do/guest/loadresolutionimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
             <forward name="next-link" path="/do/guest/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}&amp;max={max}"/>
             <forward name="search-link" path="/do/guest/newsearch?user={user}&amp;gallery={gallery}&amp;max={max}"/>
         </action>
@@ -314,6 +318,24 @@
         <action
             path="/user/loadimage"
             type="erland.webapp.gallery.act.loader.LoadImageAction"
+            name="imageFB"
+            validate="false"
+            scope="request">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/guest/loadresolutionimage"
+            type="erland.webapp.gallery.act.loader.LoadThumbnailAction"
+            name="imageFB"
+            validate="false"
+            scope="request">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/user/loadresolutionimage"
+            type="erland.webapp.gallery.act.loader.LoadThumbnailAction"
             name="imageFB"
             validate="false"
             scope="request">
