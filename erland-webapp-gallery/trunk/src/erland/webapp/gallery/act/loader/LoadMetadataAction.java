@@ -122,7 +122,24 @@ public class LoadMetadataAction extends BaseAction {
             picturePB.setImage(imageFile);
         }
         picturePB.setGallery(fb.getGallery());
+        if(gallery.getShowPictureTitle()!=null && !gallery.getShowPictureTitle().booleanValue()) {
+            picturePB.setTitle(null);
+        }
+        if(picturePB.getTitle()!=null && gallery.getUseShortPictureNames()!=null && gallery.getUseShortPictureNames().booleanValue()) {
+            picturePB.setTitle(picture.getShortTitle());
+        }
+        if(picturePB.getTitle()!=null && gallery.getCutLongPictureTitles()!=null && gallery.getCutLongPictureTitles().booleanValue()) {
+            if (picturePB.getTitle() != null && picturePB.getTitle().length() > 30) {
+                picturePB.setTitle("..." + picturePB.getTitle().substring(picturePB.getTitle().length() - 27));
+            }
+        }
         request.setAttribute("picturePB",picturePB);
+
+        if(gallery!=null&&gallery.getStylesheet()!=null&&gallery.getStylesheet().length()>0) {
+            request.setAttribute("stylesheetPB",gallery.getStylesheet());
+        }else {
+            request.removeAttribute("stylesheetPB");
+        }
     }
 
     protected String getImageFileName(Picture picture) {
