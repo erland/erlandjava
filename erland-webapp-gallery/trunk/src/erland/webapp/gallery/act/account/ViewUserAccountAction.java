@@ -50,7 +50,7 @@ public class ViewUserAccountAction extends BaseAction {
             pb[i] = new GalleryPB();
             PropertyUtils.copyProperties(pb[i], entities[i]);
         }
-        request.setAttribute("galleriesPB", pb);
+        request.getSession().setAttribute("galleriesPB", pb);
     }
 
     protected String getUsername(HttpServletRequest request, AccountFB fb) {
