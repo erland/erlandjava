@@ -14,8 +14,15 @@ if(cmd instanceof ViewGalleriesInterface) {
         GalleryInterface gallery = galleries[i];
         %>
         <tr>
-        <td class="sub-menu"></td>
-        <td>
+        <%
+        String indentGalleries = request.getParameter("indentgalleries");
+        if(indentGalleries!=null && indentGalleries.equalsIgnoreCase("true")) {
+            %>
+            <td class="sub-menu"></td>
+            <%
+        }
+        %>
+        <td colspan="8">
         <a href="portal?do=<%=command%>&gallery=<%=gallery.getId()%><%=user!=null?"&user="+user:""%>&start=0&max=9" class="bold-link"><%=gallery.getTitle()%></a>
         </td>
         </tr>
@@ -26,7 +33,13 @@ if(cmd instanceof ViewGalleriesInterface) {
             if(categories.length>0 && categories[0].getGallery().equals(gallery.getId())) {
                 %>
                 <tr>
-                <td class="left-margin"></td>
+                <%
+                if(indentGalleries!=null && indentGalleries.equalsIgnoreCase("true")) {
+                    %>
+                    <td class="sub-menu"></td>
+                    <%
+                }
+                %>
                 <td colspan="8">
                 <jsp:include page="menucategories.jsp">
                     <jsp:param name="indent" value="0"/>
