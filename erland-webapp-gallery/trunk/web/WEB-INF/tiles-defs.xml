@@ -80,6 +80,9 @@
     <definition name=".user.editcategory" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/gallery/category/editcategory.jsp"/>
     </definition>
+    <definition name=".user.editpicture" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/picture/editpicture.jsp"/>
+    </definition>
     <definition name=".user.importpictures" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/gallery/importers/importgallery.jsp"/>
     </definition>
