@@ -14,11 +14,14 @@
         <entity id="diary-inventoryentryevent" reference="inventoryentryevent:erland/webapp/diary/entity/inventory/inventoryentryevent.xml"/>
         <entity id="diary-inventoryentryeventtype" reference="inventoryentryeventtype:erland/webapp/diary/entity/inventory/inventoryentryeventtype.xml"/>
         <entity id="diary-inventoryentrytype" reference="inventoryentrytype:erland/webapp/diary/entity/inventory/inventoryentrytype.xml"/>
+        <entity id="diary-inventoryentrysex" reference="inventoryentrysex:erland/webapp/diary/entity/inventory/inventoryentrysex.xml"/>
+        <entity id="diary-inventorysummary" reference="inventorysummary:erland/webapp/diary/entity/inventory/inventorysummary.xml"/>
         <entity id="diary-diary" reference="diary:erland/webapp/diary/entity/diary/diary.xml"/>
         <entity id="diary-diaryentry" reference="diaryentry:erland/webapp/diary/entity/diary/diaryentry.xml"/>
         <entity id="diary-gallery" reference="gallery:erland/webapp/diary/entity/gallery/gallery.xml"/>
         <entity id="diary-galleryentry" reference="galleryentry:erland/webapp/diary/entity/gallery/galleryentry.xml"/>
         <entity id="diary-useraccount" reference="useraccount:erland/webapp/diary/entity/account/useraccount.xml"/>
+        <entity id="diary-container" reference="container:erland/webapp/diary/entity/container/container.xml"/>
         <entity id="gallery-useraccount" reference="useraccount:erland/webapp/gallery/entity/account/useraccount.xml"/>
         <entity id="gallery-guestaccount" reference="guestaccount:erland/webapp/gallery/entity/guestaccount/guestaccount.xml"/>
         <entity id="gallery-gallery" reference="gallery:erland/webapp/gallery/entity/gallery/gallery.xml"/>
