@@ -54,6 +54,7 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
         if (fb != null) {
             username = fb.getUser();
         }
+        boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
         String prefix = StringUtil.asEmpty(mapping.getParameter());
         QueryFilter filter = new QueryFilter(getQueryFilter(request));
         filter.setAttribute("username", username);
@@ -69,6 +70,9 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
             }
             pb[i].setId(entity.getId());
             pb[i].setName(entity.getTitle());
+            if(useEnglish && StringUtil.asNull(entity.getTitleEnglish())!=null) {
+                pb[i].setName(entity.getTitleEnglish());
+            }
             pb[i].setUser(username);
             pb[i].setGallery(entity.getId());
             ActionForward galleryForward = mapping.findForward("gallery");
@@ -81,7 +85,7 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
                 categoryPath = categoryForward.getPath();
             }
             Category[] categories = CategoryHelper.searchCategories(getEnvironment(),gallery,entity.getId(),entity.getTopCategory(),getCategoriesFilter(request),getNoTopCategoriesFilter(request));
-            MenuItemPB[] categoriesPB = makeCategoryTree(entity.getId(),username, categories,categoryPath,entity.getTopCategory());
+            MenuItemPB[] categoriesPB = makeCategoryTree(entity.getId(),username, categories,categoryPath,entity.getTopCategory(),useEnglish);
             pb[i].setChilds(categoriesPB);
             if(fb!=null && entity.getId().equals(fb.getGallery())) {
                 request.getSession().setAttribute(prefix+"menuCategoriesPB",categoriesPB);
@@ -116,6 +120,9 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
                     }
                     pbGalleries[j].setId(entity.getId());
                     pbGalleries[j].setName(entity.getTitle());
+                    if(useEnglish && StringUtil.asNull(entity.getTitleEnglish())!=null) {
+                        pbGalleries[i].setName(entity.getTitleEnglish());
+                    }
                     pbGalleries[j].setUser(((GuestAccount)userEntities[i]).getUsername());
                     pbGalleries[j].setGallery(entity.getId());
                     ActionForward galleryForward = mapping.findForward("guestusergallery");
@@ -128,7 +135,7 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
                         categoryPath = categoryForward.getPath();
                     }
                     Category[] categories = CategoryHelper.searchCategories(getEnvironment(),gallery,entity.getId(),entity.getTopCategory(),getCategoriesFilter(request),getNoTopCategoriesFilter(request));
-                    MenuItemPB[] categoriesPB = makeCategoryTree(entity.getId(),((GuestAccount)userEntities[i]).getUsername(), categories,categoryPath,entity.getTopCategory());
+                    MenuItemPB[] categoriesPB = makeCategoryTree(entity.getId(),((GuestAccount)userEntities[i]).getUsername(), categories,categoryPath,entity.getTopCategory(),useEnglish);
                     pbGalleries[j].setChilds(categoriesPB);
                 }
                 pbGuest[i].setChilds(pbGalleries);
@@ -137,13 +144,16 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
         }
     }
 
-    private MenuItemPB[] makeCategoryTree(Integer galleryId, String username, Category[] categories, String categoryPath, Integer topCategory) {
+    private MenuItemPB[] makeCategoryTree(Integer galleryId, String username, Category[] categories, String categoryPath, Integer topCategory, boolean useEnglish) {
         List result = new ArrayList();
         for (int i = 0; i < categories.length; i++) {
             Category category = categories[i];
             CategoryMenuItemPB pb = new CategoryMenuItemPB();
             pb.setId(category.getCategory());
             pb.setName(category.getName());
+            if(useEnglish && StringUtil.asNull(category.getNameEnglish())!=null) {
+                pb.setName(category.getNameEnglish());
+            }
             pb.setPath(categoryPath);
             pb.setUser(username);
             pb.setGallery(galleryId);

@@ -26,6 +26,7 @@ import erland.webapp.common.act.WebAppEnvironmentPlugin;
 import erland.webapp.gallery.entity.account.UserAccount;
 import erland.webapp.gallery.fb.account.AccountPB;
 import erland.webapp.usermgmt.User;
+import erland.util.StringUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -45,6 +46,7 @@ public class SearchUserAccountsAction extends BaseAction {
         }
 
         AccountPB[] accountsPB = new AccountPB[accounts.length];
+        boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
         try {
             for (int i = 0; i < accounts.length; i++) {
                 UserAccount account = accounts[i];
@@ -52,6 +54,12 @@ public class SearchUserAccountsAction extends BaseAction {
                 accountsPB[i] = new AccountPB();
                 PropertyUtils.copyProperties(accountsPB[i], account);
                 PropertyUtils.copyProperties(accountsPB[i], user);
+                if(useEnglish && StringUtil.asNull(account.getWelcomeTextEnglish())!=null) {
+                    accountsPB[i].setWelcomeText(account.getWelcomeTextEnglish());
+                }
+                if(useEnglish && StringUtil.asNull(account.getDescriptionEnglish())!=null) {
+                    accountsPB[i].setDescription(account.getDescriptionEnglish());
+                }
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.

@@ -50,6 +50,7 @@ public class EditCategoryAction extends BaseAction {
             return;
         }
         entity.setName(fb.getName());
+        entity.setNameEnglish(fb.getNameEnglish());
         getEnvironment().getEntityStorageFactory().getStorage("gallery-category").store(entity);
 
         Boolean official = Boolean.FALSE;
