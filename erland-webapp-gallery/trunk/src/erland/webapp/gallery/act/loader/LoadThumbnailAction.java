@@ -21,18 +21,20 @@ package erland.webapp.gallery.act.loader;
 
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.EntityInterface;
-import erland.webapp.common.image.ImageThumbnail;
-import erland.webapp.common.image.ImageWriteHelper;
-import erland.webapp.common.image.ImageFilterContainerInterface;
+import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.common.image.*;
 import erland.webapp.gallery.entity.account.UserAccount;
 import erland.webapp.gallery.entity.gallery.picture.Picture;
 import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.entity.gallery.filter.GalleryFilter;
 import erland.webapp.gallery.entity.gallery.filter.Filter;
 import erland.webapp.gallery.fb.loader.ThumbnailImageFB;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +42,8 @@ import java.io.IOException;
 import java.awt.image.ImageFilter;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
+import java.lang.reflect.InvocationTargetException;
 
 
 public class LoadThumbnailAction extends LoadImageAction {
@@ -74,7 +78,7 @@ public class LoadThumbnailAction extends LoadImageAction {
         }
         try {
             response.setContentType("image/jpeg");
-            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, height,fb.getUseCache(), compression , getUsername(request), getImageFile(request), getCopyrightText(getUsername(request)), new ImageThumbnail(antialias), gallery.getId().toString(),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_PREFILTER),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_POSTFILTER),gallery.getCacheDate(),response.getOutputStream())) {
+            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, height,fb.getUseCache(), compression , getUsername(request), getImageFile(request), getCopyrightText(getUsername(request),getGallery(request),getPicture(request)), new ImageThumbnail(antialias), gallery.getId().toString(),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_PREFILTER),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_POSTFILTER),gallery.getCacheDate(),response.getOutputStream())) {
                 return findFailure(mapping,form,request,response);
             }
         } catch (IOException e) {
@@ -90,12 +94,22 @@ public class LoadThumbnailAction extends LoadImageAction {
         return account;
     }
 
-    protected String getCopyrightText(String username) {
-        UserAccount account = getUserAccount(username);
-        if (account != null) {
-            return account.getCopyrightText();
+    protected String getCopyrightText(String username, Gallery gallery, Picture picture) {
+        String copyright = gallery.getCopyrightText();
+        if(StringUtil.asNull(gallery.getCopyrightText())==null) {
+            UserAccount account = getUserAccount(username);
+            if (account != null) {
+                copyright = account.getCopyrightText();
+            }
+        }
+        if(StringUtil.asNull(copyright)!=null) {
+            return getPictureInfo(copyright,picture);
         }
         return null;
+    }
+
+    private String getPictureInfo(String parameter, Picture picture) {
+        return ServletParameterHelper.replaceDynamicParameters(parameter, new PictureParameterStorage(picture.getFile(),picture,null,new JPEGMetadataHandler(false),null));
     }
 
     private class FilterContainer implements ImageFilterContainerInterface {
@@ -129,6 +143,7 @@ public class LoadThumbnailAction extends LoadImageAction {
                             Class cls = Class.forName(filter.getCls());
                             Object obj = cls.newInstance();
                             if(obj instanceof ImageFilter) {
+                                setAttributes((ImageFilter)obj,StringUtil.asNull(entity.getParameters())!=null?entity.getParameters():filter.getParameters());
                                 filterList.add(obj);
                             }
                         } catch (ClassNotFoundException e) {
@@ -145,6 +160,26 @@ public class LoadThumbnailAction extends LoadImageAction {
                 }
             }
             return filters;
+        }
+        private void setAttributes(ImageFilter filter, String attributeString) {
+            if(attributeString!=null) {
+                StringTokenizer attributes = new StringTokenizer(attributeString,",",true);
+                while(attributes.hasMoreElements()) {
+                    String attribute = (String) attributes.nextElement();
+                    int pos = attribute.indexOf("=");
+                    if(pos>0) {
+                        String name = attribute.substring(0,pos);
+                        String value = attribute.substring(pos+1);
+                        try {
+                            BeanUtils.setProperty(filter,name,value);
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
         }
     }
 }
