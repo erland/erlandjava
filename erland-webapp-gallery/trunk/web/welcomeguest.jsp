@@ -7,4 +7,5 @@
     template.setUsername(username);
     User user = (User)env.getEntityStorageFactory().getStorage("user").load(template);
 %>
-<h3>Welcome to the gallery page of <%=user.getFirstName()%> <%=user.getLastName()%></h3>
+<p class="title">Welcome to the photo gallery by<br>
+<font class="big-title"><%=user.getFirstName()%> <%=user.getLastName()%></font></p>

@@ -1,1 +1,1 @@
-<h3>Welcome to my gallery page</h3>
+<p class="title">Welcome to my gallery page</p>
