@@ -16,11 +16,9 @@
         </copy>
         <copy todir="${dist}">
             <fileset dir="${java.home.struts}">
-                <include name="*.tld"/>
                 <include name="*.jar"/>
             </fileset>
             <fileset dir="${java.home.request-taglib}">
-                <include name="*.tld"/>
                 <include name="*.jar"/>
             </fileset>
             <fileset dir="../common/${dist}">
