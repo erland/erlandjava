@@ -19,6 +19,7 @@ COMPILER := "Ant"
 LABEL := "Root"
 FILTER := ""
 
+#[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\BlockMonster.java" #[EndFile]
 #[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\BlockBoulder.java" #[EndFile]
 #[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\BlockEarth.java" #[EndFile]
 #[BeginFile]SOURCE := "src\\erland\\game\\boulderdash\\BlockDiamond.java" #[EndFile]
