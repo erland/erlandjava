@@ -35,7 +35,7 @@ class PipeBlockStart extends PipeBlock
 		    }
 	    }
 	    
-		parts[1][1] = new PipePartWell(images);
+		parts[1][1] = new PipePartWell(images,true);
 		int waterStart=0;
 		switch(openDirection) {
 			case Direction.LEFT:
@@ -60,5 +60,30 @@ class PipeBlockStart extends PipeBlock
 		
 		super.init(cont,parts,x,y);
 		initWater(1,1,waterStart);
+	}
+	protected boolean addFilledPart(int x, int y)
+	{
+		if(parts[x][y] instanceof PipePartWell) {
+			return false;
+		}else {
+			return super.addFilledPart(x,y);
+		}
+	}
+	protected int getScore(int x, int y)
+	{
+		if(parts[x][y] instanceof PipePartWell) {
+			return 0;
+		}else {
+			return super.getScore(x,y);
+		}
+	}
+	
+	/**
+	 * Check which direction the well is open against
+	 * @return The direction which the well is open against
+	 */
+	public int getOpenDirection()
+	{
+		return openDirection;
 	}
 }

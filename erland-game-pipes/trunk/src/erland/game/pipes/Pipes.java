@@ -182,14 +182,23 @@ public class Pipes extends Applet
 		public void actionPerformed(ActionEvent e) {
 			if(main==null && options==null) {
 				if(e.getSource()==buttons[0]) {
-					buttons[0].setVisible(false);
-					buttons[1].setVisible(false);
-					main = new PipesMain(c,cookies,images,10,10);
+					for (int i=0; i<buttons.length; i++) {
+						buttons[i].setVisible(false);
+				    }
+					main = new PipesMain(c,cookies,images,10,10,LevelFactory.GameType.UntilWaterStopped);
 					requestFocus();
 					options = null;
 				}else if(e.getSource()==buttons[1]) {
-					buttons[0].setVisible(false);
-					buttons[1].setVisible(false);
+					for (int i=0; i<buttons.length; i++) {
+						buttons[i].setVisible(false);
+				    }
+					main = new PipesMain(c,cookies,images,10,10,LevelFactory.GameType.UntilPoolsFilled);
+					requestFocus();
+					options = null;
+				}else if(cookies!=null && e.getSource()==buttons[2]) {
+					for (int i=0; i<buttons.length; i++) {
+						buttons[i].setVisible(false);
+				    }
 					options = new PipesOptions(c,cookies,images,10,10);
 					requestFocus();
 					main = null;
@@ -202,6 +211,7 @@ public class Pipes extends Applet
 	 * Initializes a new game
 	 */
 	public void init() {
+		//Log.setLog("<log><logitem1>erland.game.pipes.PipeBlock</logitem1><logitem2>erland.util.ParameterStorageString</logitem2></log>");
 		this.setLayout(null);
 		bCheatMode=false;
 		cheatCounter=0;
@@ -221,9 +231,13 @@ public class Pipes extends Applet
 			this.cookies = new ParameterStorage("pipes.xml","pipes");
 		}
 
-		buttons = new Button[2];
-		buttons[0] = new Button("Game");
-		buttons[1] = new Button("Options");
+		int nButtons=3;
+		if(cookies==null) {
+			nButtons=2;
+		}
+		buttons = new Button[nButtons];
+		buttons[0] = new Button("Game 1");
+		buttons[1] = new Button("Game 2");
 		buttons[0].setBounds(100,100,73,25);
 		buttons[1].setBounds(100,140,73,25);
 		this.add(buttons[0]);
@@ -231,16 +245,14 @@ public class Pipes extends Applet
 		actionHandler= new ActionHandler(this);
 		buttons[0].addActionListener(actionHandler);
 		buttons[1].addActionListener(actionHandler);
-
-		if(cookies==null) {
-			buttons[0].setVisible(false);
-			buttons[1].setVisible(false);
-			main = new PipesMain(this,cookies,images, 10,10);
-			options = null;
-		}else {
-			main = null;
-			options = null;
+		if(cookies!=null) {
+			buttons[2] = new Button("Options");
+			buttons[2].setBounds(100,180,73,25);
+			this.add(buttons[2]);
+			buttons[2].addActionListener(actionHandler);
 		}
+		main = null;
+		options = null;
 	}
 
 	/**
@@ -299,15 +311,16 @@ public class Pipes extends Applet
 		final int frameDelay=20;
 		int setSleepTime=0;
 		while(animator != null) {
-			animator.setPriority(Thread.MAX_PRIORITY);
+			//animator.setPriority(Thread.MAX_PRIORITY);
 			try {
 				time+=frameDelay;
 				animator.sleep(Math.max(0,time-System.currentTimeMillis()));
 				if(main!=null) {
 					main.update();
 					if(main.isExit()) {
-						buttons[0].setVisible(true);
-						buttons[1].setVisible(true);
+						for (int i=0; i<buttons.length; i++) {
+							buttons[i].setVisible(true);
+					    }
 						this.requestFocus();
 						cheatCounter=0;
 						bCheatMode=false;
@@ -315,8 +328,9 @@ public class Pipes extends Applet
 					}
 				}else if(options!=null) {
 					if(options.isExit()) {
-						buttons[0].setVisible(true);
-						buttons[1].setVisible(true);
+						for (int i=0; i<buttons.length; i++) {
+							buttons[i].setVisible(true);
+					    }
 						this.requestFocus();
 						cheatCounter=0;
 						bCheatMode=false;

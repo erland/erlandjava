@@ -46,9 +46,17 @@ abstract class PipePart
 	    this.cont = cont;
 	    this.x = x;
 	    this.y = y;
-	    //System.out.println(toString() + ":init: " + x + ", " + y);
+	    Log.println(this,toString() + ":init: " + x + ", " + y);
 	}
 
+	/**
+	 * Indicates if this block is as full with water as possible
+	 * @return true/false (Full/Possible to add more water)
+	 */
+	public boolean isWaterFilled()
+	{
+		return (waterInPart && waterProgress==cont.getSquareSize());
+	}
 	/**
 	 * Indicates if a specific side of the pipe part is open and can receive/spill water
 	 * @param direction Side to check, see {@link Direction}
@@ -65,7 +73,7 @@ abstract class PipePart
 	 */
 	public void draw(Graphics g)
 	{
-		if(waterInPart) {
+		if(hasWater(Direction.LEFT) || hasWater(Direction.UP)|| hasWater(Direction.RIGHT) || hasWater(Direction.DOWN)) {
 			drawBackground(g);
 			g.setColor(Color.blue);
 			drawWater(g);
@@ -83,8 +91,9 @@ abstract class PipePart
 	 */
 	public boolean initWater(int direction)
 	{
-		//System.out.println(toString() + ":part.initWater : " + x + ", " + y);
-		if(isOpen(direction)) {
+		Log.println(this,toString() + ":part.initWater : " + x + ", " + y + ", " + direction);
+		if(isOpen(direction) && !hasWater(direction)) {
+			Log.println(this,toString() + ":part.initWater2 : " + x + ", " + y + ", " + direction);
 			waterEntry=direction;
 			waterInPart=true;
 			return true;
@@ -112,7 +121,7 @@ abstract class PipePart
 	 */
 	public int getXPosition()
 	{
-		//System.out.println(toString() + ":getXPosition : "+ x );
+		Log.println(this,toString() + ":getXPosition : "+ x );
 		return x;
 	}
 	/**
@@ -121,7 +130,7 @@ abstract class PipePart
 	 */
 	public int getYPosition()
 	{
-		//System.out.println(toString() + ":getYPosition : "+ y );
+		Log.println(this,toString() + ":getYPosition : "+ y );
 		return y;
 	}
 
@@ -147,12 +156,15 @@ abstract class PipePart
 	 */
 	public boolean moveWater()
 	{
+		Log.println(this,toString() + ": moveWater" + x + ", "+ y);
 		if(waterInPart && waterProgress<cont.getSquareSize()) {
 			waterProgress++;
-			//System.out.println(toString() + ": " + waterProgress);
+			Log.println(this,toString() + ": " + waterProgress);
 			if(waterProgress>=cont.getSquareSize()) {
 				return false;
 			}
+		}else if(waterInPart) {
+			return false;
 		}
 		return true;
 	}

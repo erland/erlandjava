@@ -50,6 +50,7 @@ class PipesOptions
 	protected boolean bExit;
 	/** Text fields for number of start blocks and number of empty blocks */
 	protected TextField textFields[];
+	/** Combobox for type of game */
 	
 protected int selPosX, selPosY;
 	/**
@@ -66,10 +67,10 @@ protected int selPosX, selPosY;
 		this.offsetY = offsetY;
 		this.cookies = cookies;
 		this.images = images;
-		this.contAllowed = new BlockContainerData(offsetX+1, offsetY+20,2,10,blockSize);
-		this.contNotAllowed = new BlockContainerData(offsetX+1+5*blockSize, offsetY+20,2,10,blockSize);
-		levelFactoryAllowed = new LevelFactory(cookies,contAllowed,images);
-		levelFactoryNotAllowed = new LevelFactory(cookies,contNotAllowed,images);
+		this.contAllowed = new BlockContainerData(offsetX+1, offsetY+20,3,10,blockSize);
+		this.contNotAllowed = new BlockContainerData(offsetX+1+6*blockSize, offsetY+20,3,10,blockSize);
+		levelFactoryAllowed = new LevelFactory(cookies,contAllowed,images,LevelFactory.GameType.UntilWaterStopped);
+		levelFactoryNotAllowed = new LevelFactory(cookies,contNotAllowed,images,LevelFactory.GameType.UntilWaterStopped);
 
 		buttons = new Button[4];
 		buttons[0] = new Button("Save");
@@ -86,13 +87,22 @@ protected int selPosX, selPosY;
 				container.add(buttons[i]);
 			}
 		}
-		textFields = new TextField[2];
+		textFields = new TextField[5];
 		textFields[0] = new TextField(String.valueOf(levelFactoryAllowed.getNumberOfEmptyBlocks()),2);
 		textFields[0].setBounds(150,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+3,30,18);
 		textFields[0].setBackground(Color.white);
 		textFields[1] = new TextField(String.valueOf(levelFactoryAllowed.getNumberOfStartBlocks()),2);
 		textFields[1].setBounds(150,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+28,30,18);
 		textFields[1].setBackground(Color.white);
+		textFields[2] = new TextField(String.valueOf(levelFactoryAllowed.getTimeUntilWater()),2);
+		textFields[2].setBounds(150,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+53,30,18);
+		textFields[2].setBackground(Color.white);
+		textFields[3] = new TextField(String.valueOf(levelFactoryAllowed.getWaterSpeed()),2);
+		textFields[3].setBounds(150,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+78,30,18);
+		textFields[3].setBackground(Color.white);
+		textFields[4] = new TextField(String.valueOf(levelFactoryAllowed.getLeftToFill()),2);
+		textFields[4].setBounds(150,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+103,30,18);
+		textFields[4].setBackground(Color.white);
 		for (int i=0; i<textFields.length; i++) {
 	    	container.add(textFields[i]);
 	    }
@@ -136,7 +146,7 @@ protected int selPosX, selPosY;
 	 */
 	public void draw(Graphics g)
 	{
-		int gameSizeX = 8*blockSize+2;
+		int gameSizeX = (contAllowed.getSizeX() + contNotAllowed.getSizeX() +3)*blockSize+2;
 		int gameSizeY = contAllowed.getSizeY()*blockSize+2;
 		if((++fpsShow)>25) {
 			fpsShow=0;
@@ -180,6 +190,9 @@ protected int selPosX, selPosY;
 		g.setColor(Color.white);
 		g.drawString("Number of empty blocks:",offsetX,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+15);
 		g.drawString("Number of start blocks:",offsetX,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+40);
+		g.drawString("Initial time until water:",offsetX,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+65);
+		g.drawString("Initial water speed:",offsetX,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+90);
+		g.drawString("Initial blocks to fill:",offsetX,contAllowed.getDrawingPositionY(contAllowed.getSizeY())+115);
 		int rightColumnX = offsetX+gameSizeX+20;
 		int rightColumnY = offsetY+20;
 		g.setColor(Color.red);
@@ -309,6 +322,36 @@ protected int selPosX, selPosY;
 			if(str!=null) {
 				val = Integer.valueOf(str).intValue();
 				levelFactoryAllowed.saveNumberOfStartBlocks(val);
+			}
+			
+	    }
+	    catch (Exception ex) {
+	    }
+		try {
+			String str = textFields[2].getText();
+			if(str!=null) {
+				val = Integer.valueOf(str).intValue();
+				levelFactoryAllowed.saveTimeUntilWater(val);
+			}
+			
+	    }
+	    catch (Exception ex) {
+	    }
+		try {
+			String str = textFields[3].getText();
+			if(str!=null) {
+				val = Integer.valueOf(str).intValue();
+				levelFactoryAllowed.saveWaterSpeed(val);
+			}
+			
+	    }
+	    catch (Exception ex) {
+	    }
+		try {
+			String str = textFields[4].getText();
+			if(str!=null) {
+				val = Integer.valueOf(str).intValue();
+				levelFactoryAllowed.saveLeftToFill(val);
 			}
 			
 	    }

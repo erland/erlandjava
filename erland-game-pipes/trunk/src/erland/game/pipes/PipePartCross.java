@@ -100,10 +100,10 @@ class PipePartCross extends PipePart
 	}
 	public boolean initWater(int direction)
 	{
-		//System.out.println(toString() + ":initWater : " + direction);
-		if(isOpen(direction)) {
+		Log.println(this,toString() + ":initWater : " + direction);
+		if(isOpen(direction) && !hasWater(direction)) {
 			if(direction==Direction.LEFT || direction==Direction.RIGHT) {
-				//System.out.println(toString() + ":initWater2: " + direction);
+				Log.println(this,toString() + ":initWater2: " + direction);
 				waterEntryLeftRight = direction;
 				waterInPartLeftRight = true;
 				waterInPart = true;
@@ -117,11 +117,12 @@ class PipePartCross extends PipePart
 			return false;
 		}
 	}
+
 	public boolean hasWater(int direction)
 	{
-		//System.out.println(toString() + ":hasWater : " + direction);
+		Log.println(this,toString() + ":hasWater : " + direction);
 		if(direction==Direction.LEFT || direction==Direction.RIGHT) {
-			//System.out.println(toString() + ":hasWater : " + direction + ", " + waterInPartLeftRight);
+			Log.println(this,toString() + ":hasWater : " + direction + ", " + waterInPartLeftRight);
 			return waterInPartLeftRight;
 		}else {
 			return waterInPartUpDown;
@@ -145,7 +146,7 @@ class PipePartCross extends PipePart
 	}
 	public boolean moveWater()
 	{
-		//System.out.println(toString() + ":moveWater : " + waterInPartLeftRight + ", " + waterInPartUpDown);
+		Log.println(this,toString() + ":moveWater : " + waterInPartLeftRight + ", " + waterInPartUpDown);
 		if(waterInPartLeftRight && waterProgressLeftRight<cont.getSquareSize()) {
 			waterProgressLeftRight++;
 			if(waterProgressLeftRight>=cont.getSquareSize()) {
@@ -159,5 +160,9 @@ class PipePartCross extends PipePart
 			}
 		}
 		return true;
+	}
+	public boolean isWaterFilled()
+	{
+		return (waterInPartLeftRight && waterProgressLeftRight==cont.getSquareSize() && waterInPartUpDown && waterProgressUpDown==cont.getSquareSize());
 	}
 }

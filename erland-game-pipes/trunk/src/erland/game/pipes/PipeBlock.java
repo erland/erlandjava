@@ -33,8 +33,6 @@ abstract class PipeBlock
 	protected int movingProgress;
 	/** Indicates if the pipe block has at least one part which contains water */
 	protected boolean hasWater;
-	/** The pipe part which water was moved in last */
-	protected PipePart lastMovedWater;
 	
 	/**
 	 * Initialize pipe block
@@ -58,7 +56,6 @@ abstract class PipeBlock
 		    }
 	    }
 	    hasWater=false;
-	    lastMovedWater=null;
 	}
 
 	/**
@@ -87,7 +84,7 @@ abstract class PipeBlock
 	 **/
 	public void moveUp(PipeBlockContainerInterface c)
 	{
-		if(!moving && !hasWater && c.isFreePos(x,y-1)) {
+		if(!moving && isMovable() && c.isFreePos(x,y-1)) {
 			moving=true;
 			movingDirection=Direction.UP;
 			movingProgress=0;
@@ -100,7 +97,7 @@ abstract class PipeBlock
 	 **/
 	public void moveDown(PipeBlockContainerInterface c)
 	{
-		if(!moving && !hasWater && c.isFreePos(x,y+1)) {
+		if(!moving && isMovable() && c.isFreePos(x,y+1)) {
 			moving=true;
 			movingDirection=Direction.DOWN;
 			movingProgress=0;
@@ -113,7 +110,7 @@ abstract class PipeBlock
 	 **/
 	public void moveLeft(PipeBlockContainerInterface c)
 	{
-		if(!moving && !hasWater && c.isFreePos(x-1,y)) {
+		if(!moving && isMovable() && c.isFreePos(x-1,y)) {
 			moving=true;
 			movingDirection=Direction.LEFT;
 			movingProgress=0;
@@ -126,7 +123,7 @@ abstract class PipeBlock
 	 **/
 	public void moveRight(PipeBlockContainerInterface c)
 	{
-		if(!moving && !hasWater && c.isFreePos(x+1,y)) {
+		if(!moving && isMovable() && c.isFreePos(x+1,y)) {
 			moving=true;
 			movingDirection=Direction.RIGHT;
 			movingProgress=0;
@@ -207,15 +204,10 @@ abstract class PipeBlock
 	 */
 	public boolean initWater(int x, int y, int direction)
 	{
-		//System.out.println(toString() + ":initWater : " + String.valueOf(x) + ", " + String.valueOf(y) + ", " + direction);
-		if(parts[x][y].isOpen(direction)) {
-			if(!parts[x][y].hasWater(direction)) {
-				if(parts[x][y].initWater(direction)) {
-					hasWater=true;
-					addPartsWithMovingWater.add(parts[x][y]);
-					return true;
-				}
-			}
+		if(parts[x][y].initWater(direction)) {
+			hasWater=true;
+			addPartsWithMovingWater.add(parts[x][y]);
+			return true;
 		}
 		return false;
 	}
@@ -244,14 +236,14 @@ abstract class PipeBlock
 		ListIterator it = addPartsWithMovingWater.listIterator();
 		while(it.hasNext()) {
 			PipePart part = (PipePart)(it.next());
-			//System.out.println("add: " + part.toString());
+			Log.println(this,"addBlock: " + part.toString());
 			partsWithMovingWater.add(part);
 		}
 		addPartsWithMovingWater.clear();
 		it = delPartsWithMovingWater.listIterator();
 		while(it.hasNext()) {
 			PipePart part = (PipePart)(it.next());
-			//System.out.println("remove: " + part.toString());
+			Log.println(this,"delBlock: " + part.toString());
 			partsWithMovingWater.remove(part);
 		}
 		delPartsWithMovingWater.clear();
@@ -287,25 +279,13 @@ abstract class PipeBlock
 	public void moveWater(PipeBlockContainerInterface container)
 	{
 		ListIterator it = partsWithMovingWater.listIterator();
-		boolean bMoved = false;
-		if(partsWithMovingWater.size()>1 && lastMovedWater!=null) {
-			while(it.hasNext() && !bMoved) {
-				PipePart part = (PipePart)(it.next());
-				if(part==lastMovedWater) {
-					bMoved = true;
-					if(!it.hasNext()) {
-						it=partsWithMovingWater.listIterator();
-					}
-				}
-			}
-		}
-		if(!bMoved) {
-			it = partsWithMovingWater.listIterator();
-		}
 		if(it.hasNext()) {
 			PipePart part = (PipePart)(it.next());
-			moveWaterInPart(container, part);
-			lastMovedWater = part;
+			moveWaterInPart(container,part);
+			if(partsWithMovingWater.contains(part)) {
+				partsWithMovingWater.remove(part);
+				partsWithMovingWater.add(part);
+			}
 		}
 	}
 
@@ -320,6 +300,18 @@ abstract class PipeBlock
 	{
 		return 10;
 	}
+	
+	/**
+	 * Checks if a filled part at the specified position should be added to the number of
+	 * filled parts
+	 * @param x X Position of the part
+	 * @param y Y Position of the part
+	 * @return true/false (Should be added/Should not be added)
+	 */
+	protected boolean addFilledPart(int x, int y)
+	{
+		return true;
+	}
 	/**
 	 * Move water in a single part in the block
 	 * @param container Interface to block container which the pipe block with the part resides in
@@ -330,64 +322,50 @@ abstract class PipeBlock
 		if(!part.moveWater()) {
 			delPartsWithMovingWater.add(part);
 			container.addScore(getScore(part.getXPosition(),part.getYPosition()));
-			container.addFilledPart();
+			if(addFilledPart(part.getXPosition(),part.getYPosition())) {
+				container.addFilledPart();
+			}
 			if(part.leakWater(Direction.LEFT)) {
 				if(part.getXPosition()>0) {
-					//System.out.println(toString() + ":initWater Left");
-					if(initWater(part.getXPosition()-1,part.getYPosition(),Direction.RIGHT)) {
-						//container.addScore(getScore(part.getXPosition(),part.getYPosition()));
-					}
+					Log.println(this,toString() + ":initWater Left");
+					initWater(part.getXPosition()-1,part.getYPosition(),Direction.RIGHT);
 				}else {
 					if(x>0) {
-						//System.out.println(toString() + ":addWater Left:" + x + "," + y + ": " + part.getXPosition() + ", " + part.getYPosition());
-						if(container.addWater(this.x-1,this.y,parts.length-1,part.getYPosition(),Direction.RIGHT)) {
-							//container.addScore(getScore(part.getXPosition(),part.getYPosition()));
-						}
+						Log.println(this,toString() + ":addWater Left:" + x + "," + y + ": " + part.getXPosition() + ", " + part.getYPosition());
+						container.addWater(this.x-1,this.y,parts.length-1,part.getYPosition(),Direction.RIGHT);
 					}
 				}
 			}
 			if(part.leakWater(Direction.RIGHT)) {
 				if(part.getXPosition()<(parts.length-1)) {
-					//System.out.println(toString() + ":initWater Right");
-					if(initWater(part.getXPosition()+1,part.getYPosition(),Direction.LEFT)) {
-						//container.addScore(getScore(part.getXPosition(),part.getYPosition()));
-					}
+					Log.println(this,toString() + ":initWater Right");
+					initWater(part.getXPosition()+1,part.getYPosition(),Direction.LEFT);
 				}else {
 					if(x<(cont.getSizeX()-1)) {
-						//System.out.println(toString() + ":addWater Right:" + x + "," + y + ": " + part.getXPosition() + ", " + part.getYPosition());
-						if(container.addWater(this.x+1,this.y,0,part.getYPosition(),Direction.LEFT)) {
-							//container.addScore(getScore(part.getXPosition(),part.getYPosition()));
-						}
+						Log.println(this,toString() + ":addWater Right:" + x + "," + y + ": " + part.getXPosition() + ", " + part.getYPosition());
+						container.addWater(this.x+1,this.y,0,part.getYPosition(),Direction.LEFT);
 					}
 				}
 			}
 			if(part.leakWater(Direction.UP)) {
 				if(part.getYPosition()>0) {
-					//System.out.println(toString() + ":initWater Up");
-					if(initWater(part.getXPosition(),part.getYPosition()-1,Direction.DOWN)) {
-						//container.addScore(getScore(part.getXPosition(),part.getYPosition()));
-					}
+					Log.println(this,toString() + ":initWater Up");
+					initWater(part.getXPosition(),part.getYPosition()-1,Direction.DOWN);
 				}else {
 					if(y>0) {
-						//System.out.println(toString() + ":addWater Up:" + x + "," + y + ": " + part.getXPosition() + ", " + part.getYPosition());
-						if(container.addWater(this.x,this.y-1,part.getXPosition(),parts[0].length-1,Direction.DOWN)) {
-							//container.addScore(getScore(part.getXPosition(),part.getYPosition()));
-						}
+						Log.println(this,toString() + ":addWater Up:" + x + "," + y + ": " + part.getXPosition() + ", " + part.getYPosition());
+						container.addWater(this.x,this.y-1,part.getXPosition(),parts[0].length-1,Direction.DOWN);
 					}
 				}
 			}
 			if(part.leakWater(Direction.DOWN)) {
 				if(part.getYPosition()<(parts[0].length-1)) {
-					//System.out.println(toString() + ":initWater Down");
-					if(initWater(part.getXPosition(),part.getYPosition()+1,Direction.UP)) {
-						//container.addScore(getScore(part.getXPosition(),part.getYPosition()));
-					}
+					Log.println(this,toString() + ":initWater Down");
+					initWater(part.getXPosition(),part.getYPosition()+1,Direction.UP);
 				}else {
 					if(y<(cont.getSizeY()-1)) {
-						//System.out.println(toString() + ":addWater Down:" + x + "," + y + ": " + part.getXPosition() + ", " + part.getYPosition());
-						if(container.addWater(this.x,this.y+1,part.getXPosition(),0,Direction.UP)) {
-							//container.addScore(getScore(part.getXPosition(),part.getYPosition()));
-						}
+						Log.println(this,toString() + ":addWater Down:" + x + "," + y + ": " + part.getXPosition() + ", " + part.getYPosition());
+						container.addWater(this.x,this.y+1,part.getXPosition(),0,Direction.UP);
 					}
 				}
 			}
@@ -446,6 +424,32 @@ abstract class PipeBlock
     	return getSquareSize()*y +dy;
     }
 
+	/**
+	 * Indicates if this block is full with water
+	 * @return true/false (Full/Not full)
+	 */
+	public boolean isWaterFilled()
+	{
+		boolean filled=true;
+		for (int x=0; x<size; x++) {
+			for (int y=0; y<size; y++) {
+				if(!parts[x][y].isWaterFilled()) {
+					filled = false;
+				}
+			}
+	    }
+	    return filled;
+	}
+
+	/** 
+	 * Checks if it is possible to move this block
+	 * @return true/false (Movable/Not movable)
+	 */
+	protected boolean isMovable()
+	{
+		return !hasWater;
+	}
+	
 	/**
 	 * Initialize pipe block
 	 * @param cont Block container which the block resides in

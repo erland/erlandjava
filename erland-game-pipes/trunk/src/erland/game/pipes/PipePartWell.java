@@ -14,14 +14,17 @@ class PipePartWell extends PipePart
 	protected Image baseImage;
 	/** Water foreground image */
 	protected Image waterImage;
+	/** Indicates if the well is filled with water from the beginning */
+	protected boolean waterFilled;
 	/**
 	 * Creates new pipe part
 	 * @param images Image handler object
 	 */
-	public PipePartWell(ImageHandlerInterface images)
+	public PipePartWell(ImageHandlerInterface images, boolean waterFilled)
 	{
 		baseImage = images.getImage("wellPipe.gif");
 		waterImage = images.getImage("wellPipeWater.gif");
+		this.waterFilled = waterFilled;
 	}	
 	public void init(BlockContainerInterface cont, int x, int y)
 	{
@@ -54,5 +57,20 @@ class PipePartWell extends PipePart
 	protected void drawBackground(Graphics g)
 	{
 		g.drawImage(baseImage,cont.getDrawingPositionX(x), cont.getDrawingPositionY(y),null);
+	}
+
+	public boolean initWater(int direction)
+	{
+		if(!waterFilled) {
+			return super.initWater(direction);
+		}else {
+			if(waterInPart==false) {
+				waterProgress = cont.getSquareSize();
+				waterEntry=direction;
+				waterInPart=true;
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -15,6 +15,8 @@ class PipePartPool extends PipePart
 	protected Image waterImage;
 	/** Indicates number of levels in the pool that has been filled with water */
 	int levelsFilled;
+	/** Indicates number of levels in the poll that must be filled with water */
+	final static int HEIGHT=5;
 
 	/**
 	 * Creates new pipe part
@@ -54,7 +56,7 @@ class PipePartPool extends PipePart
 	public boolean leakWater(int direction)
 	{
 		if(isOpen(direction)) {
-			if(levelsFilled>4) {
+			if(levelsFilled>=HEIGHT) {
 				return true;
 			}
 		}
@@ -65,11 +67,11 @@ class PipePartPool extends PipePart
 	{
 		if(waterInPart && waterProgress<cont.getSquareSize()) {
 			waterProgress++;
-			//System.out.println(toString() + ": " + waterProgress);
+			Log.println(this,toString() + ": " + waterProgress);
 			if(waterProgress>=cont.getSquareSize()) {
 				levelsFilled++;
 				waterProgress=0;
-				if(levelsFilled>4) {
+				if(levelsFilled>=HEIGHT) {
 					return false;
 				}
 			}
@@ -84,5 +86,10 @@ class PipePartPool extends PipePart
 	protected int getLevelsFilled()
 	{
 		return levelsFilled;
+	}
+
+	public boolean isWaterFilled()
+	{
+		return (levelsFilled>=HEIGHT);
 	}
 }

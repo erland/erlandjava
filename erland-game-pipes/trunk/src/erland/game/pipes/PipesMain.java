@@ -83,8 +83,10 @@ class PipesMain
 	protected int leftToFill;
 	/** Indicates if the Exit button has been pressed */
 	protected boolean bExit;
-	/** The last block which water was moved in */
-	protected PipeBlock lastMovedWater;
+	/** Indicates which type of game that is running, see {@link LevelFactory.GameType} */
+	protected int gameType;
+	/** Description countdown */
+	protected int descriptionCounter;
 	
 	/**
 	 * Creates a new instance of the main game class
@@ -93,7 +95,7 @@ class PipesMain
 	 * @param offsetX Horisontal drawing offset, nothing should be drawn to the left of this position
 	 * @param offsetY Vertical drawing offset, nothing should be drawn above this position
 	 */
-	public PipesMain(java.awt.Container container, ParameterValueStorageInterface cookies, ImageHandlerInterface images, int offsetX, int offsetY)
+	public PipesMain(java.awt.Container container, ParameterValueStorageInterface cookies, ImageHandlerInterface images, int offsetX, int offsetY, int gameType)
 	{
 		this.container = container;
 		this.offsetX = offsetX;
@@ -101,10 +103,11 @@ class PipesMain
 		this.cookies = cookies;
 		this.images = images;
 		this.cont = new BlockContainerData(offsetX+1, offsetY+1,sizeX,sizeY,blockSize);
+		this.gameType = gameType;
 		cheatMode = false;
 		blocksWithMovingWater = new LinkedList();
 		addBlocksWithMovingWater = new LinkedList();
-		levelFactory = new LevelFactory(cookies,cont,images);
+		levelFactory = new LevelFactory(cookies,cont,images,gameType);
 
 		buttons = new Button[1];
 		buttons[0] = new Button("Exit");
@@ -147,7 +150,6 @@ class PipesMain
 		speedCounter = 0;
 		selectedBlock = null;
 		movingBlock = null;
-		lastMovedWater=null;
 	}
 	/**
 	 * Does whatever neccesary when you have died, for example decreases the life counter
@@ -156,6 +158,7 @@ class PipesMain
 	{
 		lifes--;
 		if(lifes<=0) {
+			descriptionCounter=500;
 			bEnd=true;
 			bStarted=false;
 		}else {
@@ -215,9 +218,15 @@ class PipesMain
 				addBlocksWithMovingWater.add(blocks[i]);
 			}
 	    }
-		leftToFill = 10+level*6;
-		timeUntilWater = 1000-level*75;
-		speed = 45+level/2;
+		leftToFill = levelFactory.getLeftToFill()+(level-1)*6;
+		timeUntilWater = levelFactory.getTimeUntilWater()-(level-1)*75;
+		if(timeUntilWater<0) {
+			timeUntilWater=0;
+		}
+		speed = levelFactory.getWaterSpeed()+level/2;
+		if(speed>50) {
+			speed=50;
+		}
 	}
 	
 	/**
@@ -241,6 +250,8 @@ class PipesMain
 			for (int i=0; i<blocks.length; i++) {
 				blocks[i].draw(g);
 		    }
+		}else {
+			drawGameDescription(g,gameType);
 		}
 		
 		if(selectedBlock!=null) {
@@ -268,7 +279,9 @@ class PipesMain
 		rightColumnY+=20;
 		g.drawString("Life: "+String.valueOf(lifes),rightColumnX, rightColumnY);
 		rightColumnY+=20;
-		g.drawString("Left to fill: "+String.valueOf(leftToFill),rightColumnX, rightColumnY);
+		if(gameType == LevelFactory.GameType.UntilWaterStopped) {
+			g.drawString("Left to fill: "+String.valueOf(leftToFill),rightColumnX, rightColumnY);
+		}
 		rightColumnY+=20;
 		if(timeUntilWater>0) {
 			g.drawString("Time until water: "+String.valueOf(timeUntilWater),rightColumnX, rightColumnY);
@@ -280,6 +293,12 @@ class PipesMain
 		}
 		rightColumnY+=20;
 		if(bEnd) {
+			if(descriptionCounter>0) {
+				descriptionCounter--;
+			}
+			if(descriptionCounter==0) {
+				blocks=null;
+			}
 			if(highScore>savedHighScore) {
 				if(cookies!=null) {
 					cookies.setParameter("highscore",Integer.toString(highScore));
@@ -352,36 +371,12 @@ class PipesMain
 					speedCounter=0;
 					// Move water
 					ListIterator it = blocksWithMovingWater.listIterator();
-					boolean bMoved = false;
-					if(blocksWithMovingWater.size()>1 && lastMovedWater!=null) {
-						while(it.hasNext() && !bMoved) {
-							PipeBlock block = (PipeBlock)(it.next());
-							if(block==lastMovedWater) {
-								bMoved = true;
-								if(!it.hasNext()) {
-									it = blocksWithMovingWater.listIterator();
-								}
-							}
-						}
-					}
-					bMoved = false;
-					while(it.hasNext() && !bMoved) {
+					if(it.hasNext()) {
 						PipeBlock block = (PipeBlock)(it.next());
-						if(block.hasMovingWater()) {
-							block.moveWater(this);
-							lastMovedWater = block;
-							bMoved = true;
-						}
-					}
-					if(!bMoved) {
-						it = blocksWithMovingWater.listIterator();
-						while(it.hasNext() && !bMoved) {
-							PipeBlock block = (PipeBlock)(it.next());
-							if(block.hasMovingWater()) {
-								block.moveWater(this);
-								lastMovedWater = block;
-								bMoved = true;
-							}
+						block.moveWater(this);
+						if(blocksWithMovingWater.contains(block)) {
+							blocksWithMovingWater.remove(block);
+							blocksWithMovingWater.add(block);
 						}
 					}
 				}
@@ -411,10 +406,23 @@ class PipesMain
 
 				if(blocksWithMovingWater.size()<=0) {
 					boolean bFinished = false;
-					if(leftToFill==0) {
-						if(!newLevel()) {
-							bEnd=true;
-							bStarted=false;
+					if(gameType==LevelFactory.GameType.UntilWaterStopped) {
+						if(leftToFill==0) {
+							if(!newLevel()) {
+								bEnd=true;
+								bStarted=false;
+							}
+						}else {
+							handleDeath();
+						}
+					}else if(gameType==LevelFactory.GameType.UntilPoolsFilled) {
+						if(levelFactory.isPoolsFilled(blocks)) {
+							if(!newLevel()) {
+								bEnd=true;
+								bStarted=false;
+							}
+						}else {
+							handleDeath();
 						}
 					}else {
 						handleDeath();
@@ -602,6 +610,56 @@ class PipesMain
 	{
 		if(leftToFill>0) {
 			leftToFill--;
+		}
+	}
+	/**
+	 * Prints the description of the specified gameType
+	 * @param g The Graphics object to draw on
+	 * @param gameType The type of game that should be described
+	 */
+	protected void drawGameDescription(Graphics g, int gameType)
+	{
+		int colX = cont.getDrawingPositionX(0)+10;
+		int colY = cont.getDrawingPositionY(0)+10;
+		g.setColor(Color.white);
+		g.drawString("**********************************",colX,colY);
+		colY+=20;
+		g.drawString("************* Pipes *************",colX,colY);
+		colY+=20;
+		g.drawString("**********************************",colX,colY);
+		colY+=20;
+		if(gameType==LevelFactory.GameType.UntilWaterStopped) {
+			g.drawString("Build as long pipe as possible from",colX,colY);
+			colY+=20;
+			g.drawString("the start pool (the big blue circle).",colX,colY);
+			colY+=20;
+			g.drawString("The level will be completed when the",colX,colY);
+			colY+=20;
+			g.drawString("\"Left to fill\" counter has reached",colX,colY);
+			colY+=20;
+			g.drawString("zero and the water has nowhere to go.",colX,colY);
+			colY+=20;
+			g.drawString("You will get higher score if you build",colX,colY);
+			colY+=20;
+			g.drawString("a long pipe",colX,colY);
+			colY+=20;
+		}else if(gameType==LevelFactory.GameType.UntilPoolsFilled) {
+			g.drawString("Build as long pipe as possible from",colX,colY);
+			colY+=20;
+			g.drawString("the start pool (the big blue circle)",colX,colY);
+			colY+=20;
+			g.drawString("and connect it finally to the end pool",colX,colY);
+			colY+=20;
+			g.drawString("(the big black circle). The level will be",colX,colY);
+			colY+=20;
+			g.drawString("completed when the end pool is filled with",colX,colY);
+			colY+=20;
+			g.drawString("water.",colX,colY);
+			colY+=20;
+			g.drawString("You will get higher score if you build",colX,colY);
+			colY+=20;
+			g.drawString("a long pipe",colX,colY);
+			colY+=20;
 		}
 	}
 }

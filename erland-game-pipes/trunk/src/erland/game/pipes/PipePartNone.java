@@ -18,6 +18,15 @@ class PipePartNone extends PipePart
 	{
 		baseImage = images.getImage("noPipe.gif");
 	}
+	/**
+	 * Creates new pipe part with the specified background image
+	 * @param images Image handler object
+	 * @param image Image to have as the background
+	 */
+	public PipePartNone(ImageHandlerInterface images, String image)
+	{
+		baseImage = images.getImage(image);
+	}
 	public void init(BlockContainerInterface cont, int x, int y)
 	{
 		super.init(cont,
@@ -42,6 +51,10 @@ class PipePartNone extends PipePart
 	protected void drawBackground(Graphics g)
 	{
 		g.drawImage(baseImage,cont.getDrawingPositionX(x), cont.getDrawingPositionY(y),null);
+	}
+	public boolean isWaterFilled()
+	{
+		return true;
 	}
 }
  
