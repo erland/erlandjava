@@ -1,4 +1,4 @@
-ALTER TABLE sections
+ALTER TABLE services
   ADD customizedtransformerdata longtext;
 
 ALTER TABLE useraccounts
