@@ -243,6 +243,7 @@
         <entity id="gallery-gallery" reference="gallery:erland/webapp/gallery/entity/gallery/gallery.xml"/>
         <entity id="gallery-gallerycategoryassociation" reference="gallerycategoryassociation:erland/webapp/gallery/entity/gallery/gallerycategoryassociation.xml"/>
         <entity id="gallery-picture" reference="picture:erland/webapp/gallery/entity/gallery/picture/picture.xml"/>
+        <entity id="gallery-resolution" reference="resolution:erland/webapp/gallery/entity/gallery/picture/resolution.xml"/>
         <entity id="gallery-picturestorage" reference="picturestorage:erland/webapp/gallery/entity/gallery/picturestorage/picturestorage.xml"/>
         <entity id="gallery-category" reference="category:erland/webapp/gallery/entity/gallery/category/category.xml"/>
         <entity id="gallery-categorypictureassociation" reference="categorypictureassociation:erland/webapp/gallery/entity/gallery/category/categorypictureassociation.xml"/>
