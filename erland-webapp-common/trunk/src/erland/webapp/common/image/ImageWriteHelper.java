@@ -122,6 +122,7 @@ public class ImageWriteHelper {
                     thumbnail = thumbnailCreator.create(url, requestedWidth, requestedHeight, preFilters);
                     ImageFilter[] filters = postFilters!=null?postFilters.getFilters():null;
                     if(filters!=null && filters.length>0) {
+                        Log.println(getLogInstance(),"Applying filters",Log.DEBUG);
                         ImageProducer prod = thumbnail.getSource();
                         for (int i = 0; i < filters.length; i++) {
                             ImageFilter postFilter = filters[i];
@@ -132,12 +133,14 @@ public class ImageWriteHelper {
                         Graphics g = thumbnail.createGraphics();
                         g.drawImage(img, 0, 0, null);
                         g.dispose();
+                        Log.println(getLogInstance(),"Filters applied",Log.DEBUG);
                     }
                     Graphics2D g2= thumbnail.createGraphics();
                     int finalWidth = thumbnail.getWidth();
                     int finalHeight = thumbnail.getHeight();
                     if (finalWidth >= COPYRIGHT_WIDTH || finalHeight>= COPYRIGHT_HEIGHT) {
                         if (copyrightText != null && copyrightText.length() > 0) {
+                            Log.println(getLogInstance(),"Drawing copyright",Log.DEBUG);
                             FontMetrics metrics = g2.getFontMetrics();
                             Rectangle2D rc = metrics.getStringBounds(copyrightText, g2);
                             g2.setColor(new Color(1f, 1f, 1f, 0.4f));
@@ -145,12 +148,16 @@ public class ImageWriteHelper {
                             g2.setColor(Color.black);
                             g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                             g2.drawString(copyrightText, finalWidth - (int) rc.getWidth() - COPYRIGHT_OFFSET * 2, finalHeight - COPYRIGHT_OFFSET * 2 - metrics.getDescent());
+                            Log.println(getLogInstance(),"Copyright drawed",Log.DEBUG);
                         }
                     }
 
                     if (thumbnail != null) {
+                        Log.println(getLogInstance(),"Create thumbnail jpeg",Log.DEBUG);
                         ImageOutputStream imageOutput = ImageIO.createImageOutputStream(output);
+                        Log.println(getLogInstance(),"Write thumbnail to response",Log.DEBUG);
                         writeImageToOutput(thumbnail, requestedCompression, imageOutput);
+                        Log.println(getLogInstance(),"Thumbnail written to response",Log.DEBUG);
                         imageOutput.close();
 
                         if (useCache.booleanValue()) {
