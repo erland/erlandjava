@@ -18,6 +18,14 @@
                 <column>application</column>
                 <type>String</type>
             </field>
+            <field id="applicationTitleEnglish">
+                <column>applicationtitleenglish</column>
+                <type>String</type>
+            </field>
+            <field id="applicationTitleNative">
+                <column>applicationtitlenative</column>
+                <type>String</type>
+            </field>
             <field id="version">
                 <column>version</column>
                 <type>String</type>
@@ -49,7 +57,7 @@
         </fields>
         <queries>
             <query id="all">
-                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) where issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
+                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid,applications.titlenative applicationtitlenative,applications.titleenglish applicationtitleenglish from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name where issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
                 <fields>
                     <field id="1">
                         <field>type</field>
@@ -58,7 +66,7 @@
                 </fields>
             </query>
             <query id="allforapplication">
-                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.name=? where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
+                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid,applications.titlenative applicationtitlenative,applications.titleenglish applicationtitleenglish from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.name=? where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
                 <fields>
                     <field id="1">
                         <field>type</field>
@@ -71,7 +79,7 @@
                 </fields>
             </query>
             <query id="allforapplicationforstates">
-                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.name=? where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.state in ({3}) and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
+                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid,applications.titlenative applicationtitlenative,applications.titleenglish applicationtitleenglish from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.name=? where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.state in ({3}) and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
                 <fields>
                     <field id="1">
                         <field>type</field>
@@ -88,7 +96,7 @@
                 </fields>
             </query>
             <query id="allforstates">
-                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) where issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.state in ({2}) and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
+                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid,applications.titlenative applicationtitlenative,applications.titleenglish applicationtitleenglish from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name where issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.state in ({2}) and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
                 <fields>
                     <field id="1">
                         <field>state</field>
@@ -101,7 +109,7 @@
                 </fields>
             </query>
             <query id="allofficial">
-                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.official=1 where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
+                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid,applications.titlenative applicationtitlenative,applications.titleenglish applicationtitleenglish from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.official=1 where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
                 <fields>
                     <field id="1">
                         <field>type</field>
@@ -110,7 +118,7 @@
                 </fields>
             </query>
             <query id="allofficialforapplication">
-                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.name=? and applications.official=1 where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
+                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid,applications.titlenative applicationtitlenative,applications.titleenglish applicationtitleenglish from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.name=? and applications.official=1 where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
                 <fields>
                     <field id="1">
                         <field>type</field>
@@ -123,7 +131,7 @@
                 </fields>
             </query>
             <query id="allofficialforapplicationforstates">
-                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.name=? and applications.official=1 where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.state in ({3}) and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
+                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid,applications.titlenative applicationtitlenative,applications.titleenglish applicationtitleenglish from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.name=? and applications.official=1 where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.state in ({3}) and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
                 <fields>
                     <field id="1">
                         <field>type</field>
@@ -140,7 +148,7 @@
                 </fields>
             </query>
             <query id="allofficialforstates">
-                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.official=1 where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.state in ({2}) and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
+                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid,applications.titlenative applicationtitlenative,applications.titleenglish applicationtitleenglish from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.official=1 where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.state in ({2}) and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
                 <fields>
                     <field id="1">
                         <field>type</field>
@@ -155,7 +163,7 @@
 
 
             <query id="allforuser">
-                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) where issues.id is not null group by issueevents.issueid,issueevents.eventid having assignedto=? and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
+                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid,applications.titlenative applicationtitlenative,applications.titleenglish applicationtitleenglish from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name where issues.id is not null group by issueevents.issueid,issueevents.eventid having assignedto=? and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
                 <fields>
                     <field id="1">
                         <field>type</field>
@@ -168,7 +176,7 @@
                 </fields>
             </query>
             <query id="allforapplicationforuser">
-                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.name=? where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having assignedto=? and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
+                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid,applications.titlenative applicationtitlenative,applications.titleenglish applicationtitleenglish from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.name=? where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having assignedto=? and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
                 <fields>
                     <field id="1">
                         <field>type</field>
@@ -185,7 +193,7 @@
                 </fields>
             </query>
             <query id="allforapplicationforstatesforuser">
-                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.name=? where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.state in ({3}) and assignedto=? and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
+                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid,applications.titlenative applicationtitlenative,applications.titleenglish applicationtitleenglish from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.name=? where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.state in ({3}) and assignedto=? and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
                 <fields>
                     <field id="1">
                         <field>type</field>
@@ -206,7 +214,7 @@
                 </fields>
             </query>
             <query id="allforstatesforuser">
-                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) where issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.state in ({2}) and assignedto=? and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
+                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid,applications.titlenative applicationtitlenative,applications.titleenglish applicationtitleenglish from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name where issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.state in ({2}) and assignedto=? and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
                 <fields>
                     <field id="1">
                         <field>type</field>
@@ -223,7 +231,7 @@
                 </fields>
             </query>
             <query id="allofficialforuser">
-                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.official=1 where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having assignedto=? and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
+                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid,applications.titlenative applicationtitlenative,applications.titleenglish applicationtitleenglish from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.official=1 where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having assignedto=? and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
                 <fields>
                     <field id="1">
                         <field>type</field>
@@ -236,7 +244,7 @@
                 </fields>
             </query>
             <query id="allofficialforapplicationforuser">
-                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.name=? where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having assignedto=? and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
+                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid,applications.titlenative applicationtitlenative,applications.titleenglish applicationtitleenglish from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.name=? where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having assignedto=? and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
                 <fields>
                     <field id="1">
                         <field>type</field>
@@ -253,7 +261,7 @@
                 </fields>
             </query>
             <query id="allofficialforapplicationforstatesforuser">
-                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.name=? where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.state in ({3}) and assignedto=? and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
+                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid,applications.titlenative applicationtitlenative,applications.titleenglish applicationtitleenglish from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.name=? where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.state in ({3}) and assignedto=? and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
                 <fields>
                     <field id="1">
                         <field>type</field>
@@ -274,7 +282,7 @@
                 </fields>
             </query>
             <query id="allofficialforstatesforuser">
-                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.official=1 where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.state in ({2}) and assignedto=? and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
+                <completequerystring>select issues.*,issueevents.username assignedto,issueevents.state state,issueevents.eventid,applications.titlenative applicationtitlenative,applications.titleenglish applicationtitleenglish from issueevents left join issueevents lastissueevents on issueevents.issueid=lastissueevents.issueid left join issues on issueevents.issueid=issues.id and issues.type in ({1}) left join applications on issues.application=applications.name and applications.official=1 where applications.name is not null and issues.id is not null group by issueevents.issueid,issueevents.eventid having issueevents.state in ({2}) and assignedto=? and issueevents.eventid=max(lastissueevents.eventid)</completequerystring>
                 <fields>
                     <field id="1">
                         <field>type</field>

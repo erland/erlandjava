@@ -24,6 +24,8 @@ import erland.webapp.common.BaseEntity;
 public class ListIssue extends Issue {
     private Integer state;
     private String assignedTo;
+    private String applicationTitleNative;
+    private String applicationTitleEnglish;
 
     public Integer getState() {
         return state;
@@ -39,5 +41,21 @@ public class ListIssue extends Issue {
 
     public void setAssignedTo(String assignedTo) {
         this.assignedTo = assignedTo;
+    }
+
+    public String getApplicationTitleNative() {
+        return applicationTitleNative;
+    }
+
+    public void setApplicationTitleNative(String applicationTitleNative) {
+        this.applicationTitleNative = applicationTitleNative;
+    }
+
+    public String getApplicationTitleEnglish() {
+        return applicationTitleEnglish;
+    }
+
+    public void setApplicationTitleEnglish(String applicationTitleEnglish) {
+        this.applicationTitleEnglish = applicationTitleEnglish;
     }
 }
