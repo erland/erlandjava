@@ -26,6 +26,7 @@
         <form-bean name="metadataImageFB" type="erland.webapp.gallery.fb.loader.MetadataImageFB"/>
         <form-bean name="metadataResolutionImageFB" type="erland.webapp.gallery.fb.loader.MetadataImageFB"/>
         <form-bean name="importFB" type="erland.webapp.gallery.fb.gallery.importers.ImportFB"/>
+        <form-bean name="externalImportFB" type="erland.webapp.gallery.fb.gallery.importers.ExternalImportFB"/>
     </form-beans>
 
     <global-forwards>
@@ -318,6 +319,13 @@
             validate="true">
 
             <forward name="success" path="/do/user/home"/>
+        </action>
+        <action
+            path="/guest/externalimportpictures"
+            type="erland.webapp.gallery.act.gallery.importers.ExternalIMatchImportAction"
+            name="externalImportFB"
+            validate="false">
+
         </action>
         <action
             path="/user/viewpicturescheckmenu"
