@@ -8,6 +8,7 @@
         <form-bean name="menuFB" type="erland.webapp.homepage.fb.account.SelectUserFB"/>
         <form-bean name="mainMenuFB" type="erland.webapp.common.fb.MenuExpandCollapseFB"/>
         <form-bean name="selectUserFB" type="erland.webapp.homepage.fb.account.SelectUserFB"/>
+        <form-bean name="selectServiceFB" type="erland.webapp.homepage.fb.service.SelectServiceFB"/>
         <form-bean name="newUserAccountFB" type="erland.webapp.homepage.fb.account.AccountFB"/>
         <form-bean name="userAccountFB" type="erland.webapp.homepage.fb.account.AccountFB"/>
         <form-bean name="editSectionFB" type="erland.webapp.homepage.fb.section.SectionFB"/>
@@ -70,7 +71,7 @@
         </action>
         <action
             path="/guest/loadmenusection"
-            type="erland.webapp.homepage.act.section.LoadMenuAction"
+            type="erland.webapp.homepage.act.section.LoadOfficialMenuAction"
             name="menuFB">
 
             <forward name="section" path="/do/guest/menuviewsection?user={user}&amp;section={idDisplay}&amp;menuItemId={menuItemId}"/>
@@ -87,7 +88,7 @@
         </action>
         <action
             path="/guest/loadmenu"
-            type="erland.webapp.homepage.act.section.LoadMenuAction"
+            type="erland.webapp.homepage.act.section.LoadOfficialMenuAction"
             name="menuFB">
 
             <forward name="section" path="/do/guest/menuviewsection?user={user}&amp;section={idDisplay}&amp;menuItemId={menuItemId}"/>
@@ -250,6 +251,27 @@
             type="erland.webapp.homepage.act.service.RemoveServiceAction"
             name="removeServiceFB">
             <forward name="success" path="/do/user/viewservices"/>
+        </action>
+        <action
+            path="/user/viewserviceinfo"
+            type="erland.webapp.homepage.act.service.ViewServiceInfoAction"
+            name="selectServiceFB">
+
+            <forward name="success" path=".user.viewservice"/>
+        </action>
+        <action
+            path="/guest/viewserviceinfo"
+            type="erland.webapp.homepage.act.service.ViewServiceInfoAction"
+            name="selectServiceFB">
+
+            <forward name="success" path=".guest.viewservice"/>
+        </action>
+        <action
+            path="/guest/viewserviceinfofull"
+            type="erland.webapp.homepage.act.service.ViewServiceInfoAction"
+            name="selectServiceFB">
+
+            <forward name="success" path=".guest.viewservicefull"/>
         </action>
 
         <action
