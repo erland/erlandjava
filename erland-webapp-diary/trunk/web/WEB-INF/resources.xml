@@ -7,6 +7,7 @@
         <entity id="usermgmt-userapplicationrole" reference="userapplicationrole:erland/webapp/usermgmt/userapplicationrole.xml"/>
         <entity id="usermgmt-userinfo" reference="userinfo:erland/webapp/usermgmt/userinfo.xml"/>
         <entity id="diary-appendixentry" reference="appendixentry:erland/webapp/diary/entity/appendix/appendixentry.xml"/>
+        <entity id="diary-sourceappendixentry" reference="sourceappendixentry:erland/webapp/diary/entity/appendix/sourceappendixentry.xml"/>
         <entity id="diary-purchaseentry" reference="purchaseentry:erland/webapp/diary/entity/purchase/purchaseentry.xml"/>
         <entity id="diary-purchasepricegroupentry" reference="purchasepricegroupentry:erland/webapp/diary/entity/purchase/purchasepricegroupentry.xml"/>
         <entity id="diary-purchaseentrycategory" reference="purchaseentrycategory:erland/webapp/diary/entity/purchase/purchaseentrycategory.xml"/>
