@@ -41,6 +41,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
 import org.apache.commons.beanutils.PropertyUtils;
 import erland.webapp.gallery.fb.gallery.picture.ResolutionPB;
+import erland.webapp.gallery.fb.skin.SkinFB;
 
 import java.util.Arrays;
 
@@ -61,6 +62,7 @@ public class NewGalleryAction extends BaseAction {
         fb.setUseShortPictureNames(Boolean.TRUE);
         fb.setShowPictureTitle(Boolean.TRUE);
         fb.setShowResolutionLinks(Boolean.TRUE);
+        fb.setSkin(null);
 
         Gallery[] galleries = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",request.getRemoteUser(),"allrealforuser");
         GalleryPB[] pbGalleries = new GalleryPB[galleries.length];
@@ -77,5 +79,13 @@ public class NewGalleryAction extends BaseAction {
             PropertyUtils.copyProperties(pbResolutions[i], resolutions[i]);
         }
         request.getSession().setAttribute("resolutionsPB", pbResolutions);
+
+        EntityInterface[] skins = getEnvironment().getEntityStorageFactory().getStorage("gallery-skin").search(new QueryFilter("all"));
+        SkinFB[] pbSkins = new SkinFB[skins.length];
+        for (int i = 0; i < pbSkins.length; i++) {
+            pbSkins[i] = new SkinFB();
+            PropertyUtils.copyProperties(pbSkins[i], skins[i]);
+        }
+        request.getSession().setAttribute("skinsPB",pbSkins);
     }
 }

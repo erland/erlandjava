@@ -32,6 +32,7 @@ import erland.webapp.gallery.fb.gallery.GalleryFB;
 import erland.webapp.gallery.fb.gallery.GalleryPB;
 import erland.webapp.gallery.fb.gallery.picture.ResolutionPB;
 import erland.webapp.gallery.fb.gallery.category.CategoryPB;
+import erland.webapp.gallery.fb.skin.SkinFB;
 import erland.webapp.usermgmt.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -95,5 +96,13 @@ public class ViewGalleryAction extends BaseAction {
             PropertyUtils.copyProperties(pbResolutions[i], resolutions[i]);
         }
         request.getSession().setAttribute("resolutionsPB", pbResolutions);
+
+        EntityInterface[] skins = getEnvironment().getEntityStorageFactory().getStorage("gallery-skin").search(new QueryFilter("all"));
+        SkinFB[] pbSkins = new SkinFB[skins.length];
+        for (int i = 0; i < pbSkins.length; i++) {
+            pbSkins[i] = new SkinFB();
+            PropertyUtils.copyProperties(pbSkins[i], skins[i]);
+        }
+        request.getSession().setAttribute("skinsPB",pbSkins);
     }
 }

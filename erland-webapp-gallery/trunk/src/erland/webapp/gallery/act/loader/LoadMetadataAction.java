@@ -26,6 +26,7 @@ import erland.webapp.common.act.BaseAction;
 import erland.webapp.common.image.JPEGMetadataHandler;
 import erland.webapp.common.image.MetadataHandlerInterface;
 import erland.webapp.gallery.act.gallery.GalleryHelper;
+import erland.webapp.gallery.act.skin.SkinHelper;
 import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.entity.gallery.picture.Picture;
 import erland.webapp.gallery.entity.gallery.picture.Resolution;
@@ -35,6 +36,8 @@ import erland.webapp.gallery.fb.loader.MetadataPB;
 import erland.webapp.gallery.fb.loader.MetadataCollectionPB;
 import erland.webapp.gallery.fb.gallery.picture.ResolutionPB;
 import erland.webapp.gallery.fb.gallery.picture.PicturePB;
+import erland.webapp.gallery.fb.skin.SkinFB;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
@@ -139,6 +142,15 @@ public class LoadMetadataAction extends BaseAction {
             request.setAttribute("stylesheetPB",gallery.getStylesheet());
         }else {
             request.removeAttribute("stylesheetPB");
+        }
+        String skin = gallery.getSkin();
+        if(StringUtil.asNull(fb.getSkin())!=null) {
+            skin = fb.getSkin();
+        }
+        SkinFB previous = (SkinFB) request.getSession().getAttribute("skinPB");
+        if(mapping.getParameter()!=null && mapping.getParameter().equals("useskin") && (previous==null || !previous.getId().equals(skin))) {
+            SkinFB pbSkin = SkinHelper.loadSkin(mapping,skin);
+            request.getSession().setAttribute("skinPB",pbSkin);
         }
     }
 
