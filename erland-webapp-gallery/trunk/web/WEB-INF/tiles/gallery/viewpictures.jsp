@@ -27,12 +27,9 @@
     <erland-common:tablegrid name="picturesPB" property="pictures" id="picture" valign="bottom" align="center" cols="3" tableStyle="no-border" width="100%">
         <erland-common:beanlink style="bold-link" name="picture" property="updateLink"><bean:message key="gallery.gallery.picture.modify"/></erland-common:beanlink>
         <erland-common:beanlink style="bold-link" name="picture" property="removeLink" onClickMessageKey="gallery.gallery.picture.remove.are-you-sure"><bean:message key="gallery.gallery.picture.remove"/><br></erland-common:beanlink>
-        <logic:notEmpty name="picture" property="resolutionLink">
-            <bean:define id="resolutionLink" name="picture" property="resolutionLink" type="String"/>
-            <logic:iterate name="picture" property="resolutions" id="resolution">
-                <bean:define id="resolutionWidth" name="resolution" property="widthDisplay" type="String"/>
-                <bean:define id="resolutionDescription" name="resolution" property="description" type="String"/>
-                <a class="bold-link" href="<html:rewrite page="<%=resolutionLink%>"/>&width=<%=resolutionWidth%>" target="_blank" title="<%=resolutionDescription%>"><bean:write name="resolution" property="id"/></a>
+        <logic:notEmpty name="picture" property="resolutionLinks">
+            <logic:iterate name="picture" property="resolutionLinks" id="resolution">
+                <erland-common:beanlink style="bold-link" name="resolution" property="link" target="_blank" propertyTitle="description"><bean:write name="resolution" property="name"/></erland-common:beanlink>
             </logic:iterate>
             <br>
         </logic:notEmpty>
