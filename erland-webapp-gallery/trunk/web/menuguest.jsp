@@ -1,5 +1,4 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
-                                erland.webapp.gallery.HTMLEncoder,
                                 erland.webapp.gallery.gallery.ViewGalleriesInterface"%>
 <table class="no-border">
     <%

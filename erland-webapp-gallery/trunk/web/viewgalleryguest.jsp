@@ -1,8 +1,8 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
                                 erland.webapp.gallery.gallery.ViewGalleryInterface,
                                 erland.webapp.gallery.gallery.Gallery,
-                                erland.webapp.gallery.HTMLEncoder,
-                                erland.webapp.gallery.gallery.GalleryInterface"%>
+                                erland.webapp.gallery.gallery.GalleryInterface,
+                                erland.webapp.common.html.HTMLEncoder"%>
 
 
 <%
