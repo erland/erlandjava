@@ -2,15 +2,15 @@ package erland.util;
 
 /**
  * Timer class that calls your object at regular intervals
+ * @author Erland Isaksson
  */
 public class Timer implements Runnable
 {
     /** Reference to object to call at each interval */
-    protected TimerListenerInterface listener;
+    private TimerListenerInterface listener;
     /** Number of milliseconds between two ping calls */
-    protected long delay;
-    /** Indicates that the timer should be stopped */
-    protected boolean bQuit = false;
+    private long delay;
+    /** Timer thread that does the callback calls */
     private Thread t;
 
     /**
@@ -23,8 +23,6 @@ public class Timer implements Runnable
     {
         this.delay = delay;
         this.listener = listener;
-        t = new Thread(this);
-        t.setPriority(Thread.MAX_PRIORITY);
     }
 
     /**
@@ -32,14 +30,14 @@ public class Timer implements Runnable
      */
     public boolean isRunning()
     {
-        return t.isAlive() && !bQuit;
+        return t!=null && t.isAlive();
     }
     /**
      * Stops the timer
      */
     public void stop()
     {
-        bQuit = true;
+        t=null;
     }
 
     /**
@@ -47,28 +45,40 @@ public class Timer implements Runnable
      */
     public void start()
     {
-        bQuit = false;
-        t.start();
+        if(t==null) {
+            t = new Thread(this);
+            t.setPriority(Thread.MAX_PRIORITY);
+            t.start();
+        }
     }
     /**
      * Sets the delay between timer ticks
      * @param delay Number of milliseconds between each timer tick
      */
-    public void setDelay(int delay)
+    public void setDelay(long delay)
     {
         this.delay = delay;
+    }
+    /**
+     * Gets the current delay between timer tics
+     * @return Number of milliseconds between each timer tick
+     */
+    public long getDelay() {
+        return delay;
     }
     /**
      * Main loop
      */
     public void run()
     {
-        while(!bQuit) {
+        Log.println(this,"Timer started");
+        while(t==Thread.currentThread()) {
             try{
                 Thread.sleep(delay);
             }catch(InterruptedException ie){}
 
             listener.tick();
         }
+        Log.println(this,"Timer stopped");
     }
 }
