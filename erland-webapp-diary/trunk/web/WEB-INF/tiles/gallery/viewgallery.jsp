@@ -26,7 +26,7 @@
         <erland-common:beanlink style="bold-link" name="picture" property="updateLink"><bean:message key="diary.gallery.picture.modify"/></erland-common:beanlink>
         <erland-common:beanlink style="bold-link" name="picture" property="removeLink" onClickMessageKey="diary.gallery.picture.remove.are-you-sure"><bean:message key="diary.gallery.picture.remove"/><br></erland-common:beanlink>
         <erland-common:beanlink style="bold-link" name="picture" property="link" target="_blank" propertyTitle="description">
-            <erland-common:beanimage name="picture" property="image" border="0" width="150"/><br><div align="center"><bean:write name="picture" property="title"/></div>
+            <erland-common:beanimage name="picture" property="image" border="0" height="113"/><br><div align="center"><bean:write name="picture" property="title"/></div>
         </erland-common:beanlink>
         </td>
     </logic:iterate>
