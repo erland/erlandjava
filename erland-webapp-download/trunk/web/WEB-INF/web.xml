@@ -43,6 +43,10 @@
         <taglib-uri>http://jakarta.apache.org/struts/tags-tiles</taglib-uri>
         <taglib-location>lib/struts-tiles.tld</taglib-location>
     </taglib>
+    <taglib>
+        <taglib-uri>http://erland.homeip.net/tags/erland-common</taglib-uri>
+        <taglib-location>lib/erland-common.tld</taglib-location>
+    </taglib>
 
     <resource-ref>
         <res-ref-name>jdbc/common</res-ref-name>
