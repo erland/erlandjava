@@ -8,8 +8,8 @@
 <html:form action="/user/editgallery" method="POST">
     <logic:notEmpty name="galleryFB" property="id">
         <html:hidden property="id"/>
-    </logic:notEmpty> 
-    <table>
+    </logic:notEmpty>
+    <table class="propertypage-body">
     <tr><td><bean:message key="gallery.gallery.edit.title"/></td><td>
     <html:text property="title"/> 
     </td></tr>
@@ -39,11 +39,46 @@
     <tr><td><bean:message key="gallery.gallery.edit.thumbnail-compression"/></td><td>
     <html:text property="thumbnailCompressionDisplay"/>
     </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.showresolutionlinks"/></td><td>
+    <html:checkbox property="showResolutionLinksDisplay" value="true"/>
+    </td></tr>
     <tr><td><bean:message key="gallery.gallery.edit.default-resolution"/></td><td>
     <html:select property="defaultResolution" size="1">
         <html:option value="" key="gallery.gallery.edit.default-resolution.none"/>
         <html:options collection="resolutionsPB" property="id" labelProperty="id" />
     </html:select>
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.stylesheet"/></td><td>
+    <html:text property="stylesheet"/>
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.sort-order"/></td><td>
+    <html:select property="sortOrder" size="1">
+        <html:option value="bydatedesc" key="gallery.gallery.edit.sort-order.bydatedesc"/>
+        <html:option value="bydateasc" key="gallery.gallery.edit.sort-order.bydateasc"/>
+        <html:option value="byordernodesc" key="gallery.gallery.edit.sort-order.byordernodesc"/>
+        <html:option value="byordernoasc" key="gallery.gallery.edit.sort-order.byordernoasc"/>
+    </html:select>
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.thumbnailwidth"/></td><td>
+    <html:text property="thumbnailWidthDisplay"/>
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.noofrows"/></td><td>
+    <html:text property="noOfRowsDisplay"/>
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.noofcols"/></td><td>
+    <html:text property="noOfColsDisplay"/>
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.allow-search"/></td><td>
+    <html:checkbox property="allowSearchDisplay" value="true"/>
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.cutlongpicturetitles"/></td><td>
+    <html:checkbox property="cutLongPictureTitlesDisplay" value="true"/>
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.useshortpicturenames"/></td><td>
+    <html:checkbox property="useShortPictureNamesDisplay" value="true"/>
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.showpicturetitle"/></td><td>
+    <html:checkbox property="showPictureTitleDisplay" value="true"/>
     </td></tr>
     <tr><td><bean:message key="gallery.gallery.edit.official"/></td><td>
     <html:checkbox property="official" value="true"/>
