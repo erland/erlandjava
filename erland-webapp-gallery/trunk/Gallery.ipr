@@ -76,6 +76,29 @@
     <option name="IS_EMACS_ERRORS_MODE" value="true" />
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
+  <component name="PEExternalization">
+    <option name="IGNORE_METHOD_NAMES" value="" />
+    <option name="IGNORE_METHOD_NAMES_ENABLED" value="false" />
+    <option name="IGNORE_CLASS_CONSTRUCTORS">
+      <value>
+        <option class="Exception" includeInheritors="true" />
+      </value>
+    </option>
+    <option name="IGNORE_CLASS_CONSTRUCTOR_NAMES_ENABLED" value="true" />
+    <option name="IGNORE_CLASS_METHODS_ENABLED" value="true" />
+    <option name="IGNORE_STRINGS_CONTAINS_ONLY_ENABLED" value="true" />
+    <option name="IGNORE_STRINGS_CONTAINS_ONLY_WHITESPACES" value="true" />
+    <option name="IGNORE_STRINGS_CONTAINS_ONLY_PUNCTUATIONS" value="true" />
+    <option name="IGNORE_STRINGS_CONTAINS_ONLY_SPECIFIED_ENABLED" value="true" />
+    <option name="IGNORE_STRINGS_CONTAINS_ONLY_SPECIFIED" value="" />
+    <option name="IGNORE_CLASS_METHODS">
+      <value>
+        <option class="Exception" includeInheritors="false" />
+        <option class="java.util.ResourceBundle" includeInheritors="true" />
+      </value>
+    </option>
+    <option name="IGNORE_CONSTANTS_DECLARATIONS" value="true" />
+  </component>
   <component name="Palette2">
     <group name="Swing">
       <item class="com.intellij.uiDesigner.HSpacer" tooltip-text="Horizontal Spacer" icon="/com/intellij/uiDesigner/icons/hspacer.png" removable="false">
@@ -204,8 +227,8 @@
     <root url="file://$PROJECT_DIR$/web" name="gallery" validate="false" />
   </component>
   <component name="copyright">
-    <option name="body" value="/*&#10; * Copyright (c) $today.year Your Corporation. All Rights Reserved.&#10; */" />
-    <option name="location" value="1" />
+    <option name="body" value="/*&#10; * Copyright (C) 2003-2004 Erland Isaksson (erland_i@hotmail.com)&#10; *&#10; * This program is free software; you can redistribute it and/or&#10; * modify it under the terms of the GNU General Public License&#10; * as published by the Free Software Foundation; either version 2&#10; * of the License, or (at your option) any later version.&#10; *&#10; * This program is distributed in the hope that it will be useful,&#10; * but WITHOUT ANY WARRANTY; without even the implied warranty of&#10; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#10; * GNU General Public License for more details.&#10; *&#10; * You should have received a copy of the GNU General Public License&#10; * along with this program; if not, write to the Free Software&#10; * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.&#10; * &#10; */" />
+    <option name="location" value="2" />
     <option name="remove" value="true" />
     <option name="replace" value="2" />
   </component>
