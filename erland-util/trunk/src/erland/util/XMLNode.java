@@ -18,6 +18,9 @@ package erland.util;
  *
  */
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.util.*;
 
 /**
@@ -26,6 +29,8 @@ import java.util.*;
  * @author Erland Isaksson
  */
 public class XMLNode {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(XMLNode.class);
 	/** The name of this XML node */
 	private String name;
 
@@ -55,7 +60,7 @@ public class XMLNode {
 		childs = new LinkedList();
 		this.attributes = attributes;
         this.childNode = false;
-        //Log.println(this,"new XMLNode name="+name+" value="+value+" "+getClass().getName()+"@"+Integer.toHexString(hashCode()));
+        //LOG.debug("new XMLNode name="+name+" value="+value+" "+getClass().getName()+"@"+Integer.toHexString(hashCode()));
 	}
 
     /**
@@ -103,7 +108,7 @@ public class XMLNode {
         this.value = null;
 		childs = null;
 		childs = new LinkedList();
-        //Log.println(this,"setValue name="+name+" parent="+parent+" value="+value);
+        //LOG.debug("setValue name="+name+" parent="+parent+" value="+value);
         this.value = value;
 	}
 
@@ -150,7 +155,7 @@ public class XMLNode {
     public void addChild(XMLNode node) {
         node.childNode = true;
         childs.add(node);
-        //Log.println(this,"addChild "+getClass().getName()+"@"+Integer.toHexString(hashCode())+" -> "+node.getClass().getName()+"@"+Integer.toHexString(node.hashCode()));
+        //LOG.debug("addChild "+getClass().getName()+"@"+Integer.toHexString(hashCode())+" -> "+node.getClass().getName()+"@"+Integer.toHexString(node.hashCode()));
     }
 
     /**
@@ -164,7 +169,7 @@ public class XMLNode {
             childs.set(i,newNode);
         }
         newNode.childNode = true;
-        //Log.println(this,"replaceChild "+getClass().getName()+"@"+Integer.toHexString(hashCode())+" -> "+newNode.getClass().getName()+"@"+Integer.toHexString(node.hashCode()));
+        //LOG.debug("replaceChild "+getClass().getName()+"@"+Integer.toHexString(hashCode())+" -> "+newNode.getClass().getName()+"@"+Integer.toHexString(node.hashCode()));
     }
 
     /**
@@ -270,7 +275,7 @@ public class XMLNode {
      * @param level The indentation level
      */
     private void toString(StringBuffer sb, boolean lineFeeds, int level, boolean printPreprocessor) {
-        //Log.println(this,"XMLNode.toString() "+this.getName()+" "+getClass().getName()+"@"+Integer.toHexString(hashCode()));
+        //LOG.debug("XMLNode.toString() "+this.getName()+" "+getClass().getName()+"@"+Integer.toHexString(hashCode()));
         if(printPreprocessor) {
             for(int i=0;lineFeeds&&i<level;i++) {
                 sb.append("  ");
@@ -282,7 +287,7 @@ public class XMLNode {
             sb.append("  ");
         }
         if(value!=null&&value.length()>0) {
-            //Log.println(this,"XMLNode.toString() "+this.getName()+" "+getClass().getName()+"@"+Integer.toHexString(hashCode())+" value");
+            //LOG.debug("XMLNode.toString() "+this.getName()+" "+getClass().getName()+"@"+Integer.toHexString(hashCode())+" value");
             if(getName()!=null) {
                 sb.append("<");
                 sb.append(getName());
@@ -297,7 +302,7 @@ public class XMLNode {
                 }
             }
         }else {
-            //Log.println(this,"XMLNode.toString() "+this.getName()+" "+getClass().getName()+"@"+Integer.toHexString(hashCode())+" childs");
+            //LOG.debug("XMLNode.toString() "+this.getName()+" "+getClass().getName()+"@"+Integer.toHexString(hashCode())+" childs");
             if(getName()!=null) {
                 sb.append("<");
                 sb.append(getName());

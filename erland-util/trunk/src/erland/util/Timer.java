@@ -1,4 +1,8 @@
 package erland.util;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -24,6 +28,8 @@ package erland.util;
  */
 public class Timer implements Runnable
 {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(Timer.class);
     /** Reference to object to call at each interval */
     private TimerListenerInterface listener;
     /** Number of milliseconds between two ping calls */
@@ -89,7 +95,7 @@ public class Timer implements Runnable
      */
     public void run()
     {
-        Log.println(this,"Timer started");
+        LOG.debug("Timer started");
         while(t==Thread.currentThread()) {
             try{
                 Thread.sleep(delay);
@@ -97,6 +103,6 @@ public class Timer implements Runnable
 
             listener.tick();
         }
-        Log.println(this,"Timer stopped");
+        LOG.debug("Timer stopped");
     }
 }

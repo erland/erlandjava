@@ -18,6 +18,9 @@ package erland.util;
  *
  */
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.applet.*;
 import java.awt.*;
 import java.util.*;
@@ -29,6 +32,8 @@ import java.util.*;
 public class ImageHandlerForApplet
 	implements ImageHandlerInterface
 {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(ImageHandlerForApplet.class);
 	/** Applet object that should be used for the image loading */
 	private Applet applet;
 	/** Directory where all images are stored */
@@ -88,7 +93,7 @@ public class ImageHandlerForApplet
 			image = applet.getImage(applet.getCodeBase(),file);
 			images.add(new ImageData(imagename,image));
 			MediaTracker mt = new MediaTracker(applet);
-            Log.println(this,"getImage "+file);
+            LOG.debug("getImage "+file);
 			mt.addImage(image,1);
 			try {
 				mt.waitForAll();

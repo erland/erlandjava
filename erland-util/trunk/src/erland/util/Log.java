@@ -18,6 +18,8 @@ package erland.util;
  *
  */
 
+import org.apache.commons.logging.LogFactory;
+
 import java.util.Hashtable;
 import java.util.Calendar;
 import java.text.DateFormat;
@@ -26,8 +28,9 @@ import java.text.SimpleDateFormat;
 /**
  * Logging class which makes it possible to activate/deactivate logging
  * @author Erland Isaksson
+ * @deprecated You should use commons-logging classes instead
  */
-public abstract class Log 
+public abstract class Log
 {
     /** Constant for DEBUG logging level */
     public static int DEBUG = 10;
@@ -50,6 +53,13 @@ public abstract class Log
     private static boolean bClassname = false;
     /** Indicates that row numbers should be logged */
     private static boolean bRowNumber = false;
+    /** Indicates that class instances should be logged */
+    private static boolean bClassinstance = false;
+    /** Indicates that thread id should be logged */
+    private static boolean bThreadId = false;
+    /** Indicates that common-loggings should be used for logging
+     * instead of this package */
+    private static boolean bCommonsLogging = false;
     /** Calendar object used if timestamps should be shown */
     private static Calendar cal = Calendar.getInstance();
     /** Date format to use when logging timestamps */
@@ -85,31 +95,42 @@ public abstract class Log
      */
     public static boolean isEnabled(final Object obj, final int level)
     {
-        if(enabled) {
-			boolean bLog = false;
-            if(allEnabled) {
-                bLog = true;
-            }else if(configTable==null) {
-				bLog = false;
-			}else {
-                Integer logLevel = (Integer)configTable.get(obj.getClass().getName().intern());
-				if(logLevel!=null && (logLevel.intValue()==0 || logLevel.intValue()>=level)) {
-					bLog=true;
-				}else {
-                    logLevel = (Integer)configTable.get(obj.getClass().getSuperclass().getName().intern());
+        if(!bCommonsLogging) {
+            if(enabled) {
+                boolean bLog = false;
+                if(allEnabled) {
+                    bLog = true;
+                }else if(configTable==null) {
+                    bLog = false;
+                }else {
+                    Integer logLevel = (Integer)configTable.get(obj.getClass().getName().intern());
                     if(logLevel!=null && (logLevel.intValue()==0 || logLevel.intValue()>=level)) {
                         bLog=true;
+                    }else {
+                        logLevel = (Integer)configTable.get(obj.getClass().getSuperclass().getName().intern());
+                        if(logLevel!=null && (logLevel.intValue()==0 || logLevel.intValue()>=level)) {
+                            bLog=true;
+                        }
                     }
-				}
-				/*getPackage() is not part of the classes when running IE5.5 and an applet
-				else if(configTable.containsKey(obj.getClass().getPackage().getName().intern())) {
-					bLog=true;
-				}*/
+                    /*getPackage() is not part of the classes when running IE5.5 and an applet
+                    else if(configTable.containsKey(obj.getClass().getPackage().getName().intern())) {
+                        bLog=true;
+                    }*/
 
-			}
-            return bLog;
+                }
+                return bLog;
+            }else {
+                return false;
+            }
         }else {
-            return false;
+            org.apache.commons.logging.Log log = LogFactory.getLog(obj.getClass());
+            if(level<INFORMATION) {
+                return log.isInfoEnabled();
+            }else if(level==INFORMATION) {
+                return log.isDebugEnabled();
+            }else {
+                return log.isTraceEnabled();
+            }
         }
     }
 
@@ -174,26 +195,40 @@ public abstract class Log
         if(timestampFormat!=null && timestampFormat.length()>0) {
             dateFormat = new SimpleDateFormat(timestampFormat);
         }
-        String item = config.getParameter("logitem"+i);
-        String itemlevelstr = config.getParameter("logitemlevel"+i++);
-        while(item!=null && item.length()>0) {
-            int itemlevel = 0;
-            if(itemlevelstr!=null) {
-                try {
-                    itemlevel = Integer.valueOf(itemlevelstr).intValue();
-                } catch (NumberFormatException e) {
+        String classinstance = config.getParameter("classinstance");
+        if(classinstance!=null && classinstance.equals("true")) {
+            bClassinstance = true;
+        }
+        String threadid = config.getParameter("threadid");
+        if(threadid!=null && threadid.equals("true")) {
+            bThreadId = true;
+        }
+        String commonsLogging = config.getParameter("commons-logging");
+        if(commonsLogging!=null && commonsLogging.equals("true")) {
+            bCommonsLogging = true;
+        }
+        if(!bCommonsLogging) {
+            String item = config.getParameter("logitem"+i);
+            String itemlevelstr = config.getParameter("logitemlevel"+i++);
+            while(item!=null && item.length()>0) {
+                int itemlevel = 0;
+                if(itemlevelstr!=null) {
+                    try {
+                        itemlevel = Integer.valueOf(itemlevelstr).intValue();
+                    } catch (NumberFormatException e) {
+                    }
                 }
+                System.out.println("Logging enabled on: " + item + " ,level="+itemlevel);
+                configTable.put(item.intern(),new Integer(itemlevel));
+                item = config.getParameter("logitem"+i);
+                itemlevelstr = config.getParameter("logitemlevel"+i++);
             }
-            System.out.println("Logging enabled on: " + item + " ,level="+itemlevel);
-            configTable.put(item.intern(),new Integer(itemlevel));
-            item = config.getParameter("logitem"+i);
-            itemlevelstr = config.getParameter("logitemlevel"+i++);
+            if(configTable.size()==0) {
+                configTable=null;
+            }
+            enabled=true;
+            allEnabled=false;
         }
-        if(configTable.size()==0) {
-            configTable=null;
-        }
-        enabled=true;
-        allEnabled=false;
     }
 
 	/**
@@ -217,30 +252,46 @@ public abstract class Log
      * @param level The log level of this log string
 	 */
 	public synchronized static void println(final Object obj, final String logString, final int level) {
-        if(isEnabled(obj,level)) {
-            if(bTimestamp) {
-                cal.setTimeInMillis(System.currentTimeMillis());
-                System.out.print(dateFormat.format(cal.getTime())+" ");
-            }
-            if(bClassname) {
-                System.out.print(obj.getClass().getName()+" ");
-            }
-            if(bRowNumber) {
-                StackTraceElement[] stack = new Throwable().getStackTrace();
-                if(stack.length>0) {
-                    int pos = -1;
-                    for(int i=0;i<stack.length;i++) {
-                        if(!stack[i].getClassName().equals(Log.class.getName())) {
-                            pos = i;
-                            break;
+        if(!bCommonsLogging) {
+            if(isEnabled(obj,level)) {
+                if(bTimestamp) {
+                    cal.setTimeInMillis(System.currentTimeMillis());
+                    System.out.print(dateFormat.format(cal.getTime())+" ");
+                }
+                if(bThreadId) {
+                    System.out.println(Thread.currentThread().getName());
+                }
+                if(bClassinstance) {
+                    System.out.print(obj.getClass().getName()+"@"+Integer.toHexString(obj.hashCode()));
+                }else if(bClassname) {
+                    System.out.print(obj.getClass().getName()+" ");
+                }
+                if(bRowNumber) {
+                    StackTraceElement[] stack = new Throwable().getStackTrace();
+                    if(stack.length>0) {
+                        int pos = -1;
+                        for(int i=0;i<stack.length;i++) {
+                            if(!stack[i].getClassName().equals(Log.class.getName())) {
+                                pos = i;
+                                break;
+                            }
+                        }
+                        if(pos>=0) {
+                            System.out.print("("+stack[pos].getClassName()+":"+stack[pos].getLineNumber()+") ");
                         }
                     }
-                    if(pos>=0) {
-                        System.out.print("("+stack[pos].getClassName()+":"+stack[pos].getLineNumber()+") ");
-                    }
                 }
+                System.out.println(logString);
             }
-            System.out.println(logString);
+        }else {
+            org.apache.commons.logging.Log log = LogFactory.getLog(obj.getClass());
+            if(level<INFORMATION) {
+                log.info(logString);
+            }else if(level==INFORMATION) {
+                log.debug(logString);
+            }else {
+                log.trace(logString);
+            }
         }
 	}
 

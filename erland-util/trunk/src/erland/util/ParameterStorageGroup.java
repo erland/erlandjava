@@ -18,6 +18,9 @@ package erland.util;
  *
  */
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.util.Iterator;
 
 /**
@@ -27,6 +30,8 @@ import java.util.Iterator;
 public class ParameterStorageGroup
 	extends ParameterStorageString
 {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(ParameterStorageGroup.class);
     /** Prefix for all group attributes */
     private String groupPrefix;
 
@@ -44,14 +49,14 @@ public class ParameterStorageGroup
 
 	protected String getSpecialParameterInData(XMLNode data, String name)
 	{
-        Log.println(this,"getSpecialParameter("+name+")");
+        LOG.debug("getSpecialParameter("+name+")");
 		XMLNode node = findGroupNode(data,name);
 		if(node!=null) {
-            Log.println(this,"getSpecialParameter...");
+            LOG.debug("getSpecialParameter...");
 			Iterator it = node.getChilds();
 			while(it.hasNext()) {
                 XMLNode nodeval =(XMLNode)it.next();
-                //Log.println(this,"getSpecialParameter..."+nodeval.getName()+" "+nodeval.getValue());
+                //LOG.debug("getSpecialParameter..."+nodeval.getName()+" "+nodeval.getValue());
 				if(nodeval.getName().equalsIgnoreCase("data")) {
 					return nodeval.getValue();
 				}
@@ -62,13 +67,13 @@ public class ParameterStorageGroup
 
     protected StorageInterface getSpecialParameterAsStorageInData(XMLNode data,String name)
 	{
-        Log.println(this,"getSpecialParameterAsStorage("+name+")");
+        LOG.debug("getSpecialParameterAsStorage("+name+")");
 		XMLNode node = findGroupNode(data,name);
 		if(node!=null) {
 			Iterator it = node.getChilds();
 			while(it.hasNext()) {
                 XMLNode nodeval = (XMLNode)it.next();
-                Log.println(this,"getSpecialParameterAsStorage..."+nodeval.getName()+" "+nodeval.getValue());
+                LOG.debug("getSpecialParameterAsStorage..."+nodeval.getName()+" "+nodeval.getValue());
 				if(nodeval.getName().equalsIgnoreCase("data")) {
                     return getNodeAsStorage(nodeval,name);
 				}
@@ -143,15 +148,15 @@ public class ParameterStorageGroup
 		Iterator it = data.getChilds();
 		while(it.hasNext()) {
             XMLNode node = (XMLNode)it.next();
-            Log.println(this,"findGroupNode node.getName()="+node.getName());
+            LOG.debug("findGroupNode node.getName()="+node.getName());
 			if(node.getName().equalsIgnoreCase(groupPrefix)) {
 				Iterator it2 = node.getChilds();
 				boolean bFound = false;
 				while(it2.hasNext()) {
                     XMLNode groupnamenode = (XMLNode)it2.next();
-                    Log.println(this,"groupnamenode.getName()="+groupnamenode.getName());
+                    LOG.debug("groupnamenode.getName()="+groupnamenode.getName());
 					if(groupnamenode.getName().equalsIgnoreCase("name")) {
-                        Log.println(this,"grounamenode.getValue()="+groupnamenode.getValue());
+                        LOG.debug("grounamenode.getValue()="+groupnamenode.getValue());
 						if(groupnamenode.getValue().equalsIgnoreCase(name)) {
 							bFound = true;
 						}

@@ -18,6 +18,9 @@ package erland.util;
  *
  */
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.io.*;
 
 /**
@@ -26,6 +29,8 @@ import java.io.*;
  */
 public class FileStorage implements StorageInterface
 {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(FileStorage.class);
 	/**
 	 * The filename of the file where the string is stored
 	 */
@@ -62,9 +67,9 @@ public class FileStorage implements StorageInterface
 		}catch(IOException e) {
 
 		}
-        if(Log.isEnabled(this)) {
-            Log.println(this,"Load from: "+file);
-            Log.println(this,str!=null?str.toString():"");
+        if(LOG.isDebugEnabled()) {
+            LOG.debug("Load from: "+file);
+            LOG.debug(str!=null?str.toString():"");
         }
 
         if(str!=null) {
@@ -81,8 +86,8 @@ public class FileStorage implements StorageInterface
 	 */
 	public void save(String data)
 	{
-        Log.println(this,"Save to: "+file);
-        Log.println(this,data);
+        LOG.debug("Save to: "+file);
+        LOG.debug(data);
         try {
             BufferedWriter w = new BufferedWriter(new FileWriter(file));
             w.write(data);

@@ -18,6 +18,9 @@ package erland.util;
  *
  */
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.io.*;
 import java.net.URL;
 /**
@@ -26,6 +29,8 @@ import java.net.URL;
  * @author Erland Isaksson
  */
 public class JarFileStorage implements StorageInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(JarFileStorage.class);
     /** The filename of the file where the string is stored */
     private String file;
 
@@ -63,9 +68,9 @@ public class JarFileStorage implements StorageInterface {
             e.printStackTrace();
 
         }
-        if(Log.isEnabled(this)) {
-            Log.println(this,"Load from: "+file);
-            Log.println(this,str!=null?str.toString():"");
+        if(LOG.isDebugEnabled()) {
+            LOG.debug("Load from: "+file);
+            LOG.debug(str!=null?str.toString():"");
         }
 
         if(str!=null) {

@@ -18,6 +18,9 @@ package erland.util;
  *
  */
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.io.*;
 
 /**
@@ -26,6 +29,8 @@ import java.io.*;
  */
 public class StreamStorage implements StorageInterface
 {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(StreamStorage.class);
 	/** The InputStream to read the string from	 */
 	private InputStream input;
     /** The OutputStream to write the string to */
@@ -64,9 +69,9 @@ public class StreamStorage implements StorageInterface
             }catch(IOException e) {
 
             }
-            if(Log.isEnabled(this)) {
-                Log.println(this,"Load data from stream:");
-                Log.println(this,str!=null?str.toString():"");
+            if(LOG.isDebugEnabled()) {
+                LOG.debug("Load data from stream:");
+                LOG.debug(str!=null?str.toString():"");
             }
 
             if(str!=null) {
@@ -84,8 +89,8 @@ public class StreamStorage implements StorageInterface
 	public void save(String data)
 	{
         if(output!=null) {
-            Log.println(this,"Save data to stream:");
-            Log.println(this,data);
+            LOG.debug("Save data to stream:");
+            LOG.debug(data);
             try {
                 BufferedWriter w = new BufferedWriter(new OutputStreamWriter(output));
                 w.write(data);

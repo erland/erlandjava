@@ -18,6 +18,9 @@ package erland.util;
  *
  */
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.util.Iterator;
 
 
@@ -28,6 +31,8 @@ import java.util.Iterator;
 public class ParameterStorageString
 	implements ParameterValueStorageExInterface
 {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(ParameterStorageString.class);
 	/**
 	 * The section in the file where the parameters are stored
 	 */
@@ -81,25 +86,25 @@ public class ParameterStorageString
 	 */
 	protected void init(StorageInterface primaryStorage, StorageInterface secondaryStorage, String documentName)
 	{
-        bLogging = Log.isEnabled(this);
+        bLogging = LOG.isDebugEnabled();
 		this.documentName = documentName;
         this.primaryStorage = primaryStorage;
         if(primaryStorage!=null) {
-            if(bLogging) Log.println(this,"PrimaryStorage = "+primaryStorage);
+            if(bLogging) LOG.debug("PrimaryStorage = "+primaryStorage);
             this.primaryData = getData(primaryStorage);
             if(primaryData!=null) {
-                if(bLogging) Log.println(this,"PrimaryData = "+primaryData.getClass().getName()+"@"+Integer.toHexString(primaryData.hashCode()));
+                if(bLogging) LOG.debug("PrimaryData = "+primaryData.getClass().getName()+"@"+Integer.toHexString(primaryData.hashCode()));
             }else {
-                if(bLogging) Log.println(this,"PrimaryData = null");
+                if(bLogging) LOG.debug("PrimaryData = null");
             }
         }
         if(secondaryStorage!=null && secondaryStorage!=primaryStorage) {
-            if(bLogging) Log.println(this,"SecondaryStorage = "+secondaryStorage);
+            if(bLogging) LOG.debug("SecondaryStorage = "+secondaryStorage);
             this.secondaryData = getData(secondaryStorage);
             if(secondaryData!=null) {
-                if(bLogging) Log.println(this,"SecondaryData = "+secondaryData.getClass().getName()+"@"+Integer.toHexString(secondaryData.hashCode()));
+                if(bLogging) LOG.debug("SecondaryData = "+secondaryData.getClass().getName()+"@"+Integer.toHexString(secondaryData.hashCode()));
             }else {
-                if(bLogging) Log.println(this,"SecondaryData = null");
+                if(bLogging) LOG.debug("SecondaryData = null");
             }
         }
 	}
@@ -125,10 +130,10 @@ public class ParameterStorageString
                         data.setName(null);
                     }
                 }else {
-                    if(bLogging) Log.println(this,"getData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode()));
-                    //Log.println(this,"*******************");
-                    //Log.println(this,data);
-                    //Log.println(this,"*******************");
+                    if(bLogging) LOG.debug("getData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode()));
+                    //LOG.debug("*******************");
+                    //LOG.debug(data);
+                    //LOG.debug("*******************");
                 }
             }
         }
@@ -199,18 +204,18 @@ public class ParameterStorageString
      */
     private String getParameterInData(XMLNode data, String name) {
         if(data!=null) {
-            if(bLogging) Log.println(this,"getParameterInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name);
+            if(bLogging) LOG.debug("getParameterInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name);
             String mainname = data.getName();
             if(documentName==null || (mainname != null && mainname.equalsIgnoreCase(documentName))) {
                 if(isSpecialHandled(name)) {
-                    if(bLogging) Log.println(this,"getSpecialParameterInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name);
+                    if(bLogging) LOG.debug("getSpecialParameterInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name);
                     return getSpecialParameterInData(data,name);
                 }else {
                     Iterator it = data.getChilds();
                     while(it.hasNext()) {
                         XMLNode node = (XMLNode)it.next();
                         if(node.getName().equalsIgnoreCase(name)) {
-                            //Log.println(this,"get: " +name + " = "+ node.getValue());
+                            //LOG.debug("get: " +name + " = "+ node.getValue());
                             return node.getValue();
                         }
 
@@ -263,11 +268,11 @@ public class ParameterStorageString
         if(data==null) {
             data = new XMLNode(documentName,null);
         }
-        if(bLogging) Log.println(this,"setParameterInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name);
+        if(bLogging) LOG.debug("setParameterInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name);
         String mainname = data.getName();
         if(documentName==null|| (mainname!=null && mainname.equalsIgnoreCase(documentName))) {
             if(isSpecialHandled(name)) {
-                if(bLogging) Log.println(this,"setSpecialParameterInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name+"="+value+" "+this.getClass());
+                if(bLogging) LOG.debug("setSpecialParameterInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name+"="+value+" "+this.getClass());
                 setSpecialParameterInData(data,name,value);
             }else {
                 Iterator it = data.getChilds();
@@ -322,13 +327,13 @@ public class ParameterStorageString
      */
     protected void setValue(XMLNode node, String value) {
         if(XMLParser.getInstance().parse(value,parser)) {
-            if(bLogging) Log.println(this,"ParameterStorageString::setValue2 name="+node.getName()+"="+value);
+            if(bLogging) LOG.debug("ParameterStorageString::setValue2 name="+node.getName()+"="+value);
             node.setValue(null);
             node.delChilds();
             node.addChild(parser.getData());
         }else if(XMLParser.getInstance().parse("<data>"+value+"</data>",parser) &&
                 parser.getData()!=null && parser.getData().getChilds().hasNext()) {
-            if(bLogging) Log.println(this,"ParameterStorageString::setValue4 name="+node.getName()+"="+value);
+            if(bLogging) LOG.debug("ParameterStorageString::setValue4 name="+node.getName()+"="+value);
             node.setValue(null);
             node.delChilds();
             Iterator childs = parser.getData().getChilds();
@@ -336,9 +341,9 @@ public class ParameterStorageString
                 XMLNode child = (XMLNode) childs.next();
                 node.addChild(child);
             }
-            if(bLogging) Log.println(this,"ParameterStorageString::setValue5 name="+node.getName()+"="+node.getValue());
+            if(bLogging) LOG.debug("ParameterStorageString::setValue5 name="+node.getName()+"="+node.getValue());
         }else{
-            if(bLogging) Log.println(this,"ParameterStorageString::setValue3 name="+node.getName()+"="+value);
+            if(bLogging) LOG.debug("ParameterStorageString::setValue3 name="+node.getName()+"="+value);
             node.delChilds();
             node.setValue(value);
         }
@@ -367,11 +372,11 @@ public class ParameterStorageString
      */
     private void delParameterInData(XMLNode data,String name) {
         if(data!=null) {
-            if(bLogging) Log.println(this,"delParameterInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name);
+            if(bLogging) LOG.debug("delParameterInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name);
             String mainname = data.getName();
             if(documentName==null || (mainname!=null && mainname.equalsIgnoreCase(documentName))) {
                 if(isSpecialHandled(name)) {
-                    if(bLogging) Log.println(this,"delSpecialParameterInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name);
+                    if(bLogging) LOG.debug("delSpecialParameterInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name);
                     delSpecialParameterInData(data,name);
                     return;
                 }else {
@@ -415,9 +420,9 @@ public class ParameterStorageString
             storage = getParameterAsStorageInData(secondaryData,name);
         }
         if(storage!=null) {
-            if(bLogging) Log.println(this,"getParameterAsStorage "+name+" -> "+storage.getClass().getName()+"@"+Integer.toHexString(storage.hashCode()));
+            if(bLogging) LOG.debug("getParameterAsStorage "+name+" -> "+storage.getClass().getName()+"@"+Integer.toHexString(storage.hashCode()));
         }else {
-            if(bLogging) Log.println(this,"getParameterAsStorage "+name+" -> null");
+            if(bLogging) LOG.debug("getParameterAsStorage "+name+" -> null");
         }
         return storage;
     }
@@ -430,11 +435,11 @@ public class ParameterStorageString
      */
     private StorageInterface getParameterAsStorageInData(XMLNode data, String name) {
         if(data!=null) {
-            if(bLogging) Log.println(this,"getParameterAsStorageInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name);
+            if(bLogging) LOG.debug("getParameterAsStorageInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name);
 			String mainname = data.getName();
 			if(documentName==null || (mainname != null && mainname.equalsIgnoreCase(documentName))) {
 				if(isSpecialHandled(name)) {
-                    if(bLogging) Log.println(this,"getSpecialParameterAsStorageInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name);
+                    if(bLogging) LOG.debug("getSpecialParameterAsStorageInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name);
 					return getSpecialParameterAsStorageInData(data,name);
 				}else {
 					Iterator it = data.getChilds();
@@ -460,7 +465,7 @@ public class ParameterStorageString
      */
     protected StorageInterface getNodeAsStorage(XMLNode node, String name)
     {
-        //Log.println(this,"get: " +name + " = "+ node.getValue());
+        //LOG.debug("get: " +name + " = "+ node.getValue());
         Iterator it2 = node.getChilds();
         if(it2.hasNext()) {
             return new XMLStorage((XMLNode)it2.next());
@@ -499,11 +504,11 @@ public class ParameterStorageString
         if(data==null) {
             data = new XMLNode(documentName,null);
         }
-        if(bLogging) Log.println(this,"setParameterAsStorageInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name);
+        if(bLogging) LOG.debug("setParameterAsStorageInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name);
         String mainname = data.getName();
         if(documentName==null|| (mainname!=null && mainname.equalsIgnoreCase(documentName))) {
             if(isSpecialHandled(name)) {
-                if(bLogging) Log.println(this,"setSpecialParameterAsStorageInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name+"="+value+" "+this.getClass());
+                if(bLogging) LOG.debug("setSpecialParameterAsStorageInData "+data.getClass().getName()+"@"+Integer.toHexString(data.hashCode())+","+name+"="+value+" "+this.getClass());
                 setSpecialParameterAsStorageInData(data,name,value);
             }else {
                 Iterator it = data.getChilds();

@@ -18,6 +18,9 @@ package erland.util;
  *
  */
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.util.Iterator;
 
 /**
@@ -27,6 +30,8 @@ import java.util.Iterator;
 public class ParameterStorageGroupWithId
 	extends ParameterStorageStringEx
 {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(ParameterStorageGroupWithId.class);
     /** Prefix for all group attributes */
     private String groupPrefix;
 
@@ -44,10 +49,10 @@ public class ParameterStorageGroupWithId
 
 	protected String getSpecialParameterInData(XMLNode data, String name)
 	{
-        Log.println(this,"getSpecialParameter("+name+")");
+        LOG.debug("getSpecialParameter("+name+")");
 		XMLNode node = findGroupNode(data,name);
 		if(node!=null) {
-            Log.println(this,"getSpecialParameter...");
+            LOG.debug("getSpecialParameter...");
             return node.getValue();
 		}
 		return "";
@@ -55,7 +60,7 @@ public class ParameterStorageGroupWithId
 
     protected StorageInterface getSpecialParameterAsStorageInData(XMLNode data,String name)
 	{
-        Log.println(this,"getSpecialParameterAsStorage("+name+")");
+        LOG.debug("getSpecialParameterAsStorage("+name+")");
 		XMLNode node = findGroupNode(data,name);
 		if(node!=null) {
             return new XMLStorage(node);
@@ -117,7 +122,7 @@ public class ParameterStorageGroupWithId
 		Iterator it = data.getChilds();
 		while(it.hasNext()) {
             XMLNode node = (XMLNode)it.next();
-            Log.println(this,"findGroupNode node.getName()="+node.getName());
+            LOG.debug("findGroupNode node.getName()="+node.getName());
 			if(node.getName().equalsIgnoreCase(groupPrefix)) {
                 if(node.getAttributeValue("id")!=null && node.getAttributeValue("id").equalsIgnoreCase(name)) {
 					return node;

@@ -21,6 +21,9 @@ package erland.util;
 import netscape.javascript.*;
 import java.applet.Applet;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Makes it possible to read, write and delete cookies 
  * from an applet
@@ -29,6 +32,8 @@ import java.applet.Applet;
 public class CookieHandler
 	implements ParameterValueStorageInterface
 {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(CookieHandler.class);
 	/**
 	 * The applet object which will be used to access the cookies
 	 */
@@ -84,7 +89,7 @@ public class CookieHandler
 				if (end == -1) {
 					end = myCookie.length();
 				}
-				Log.println(this,"get: " + myCookie.substring(offset,end));
+				LOG.debug("get: " + myCookie.substring(offset,end));
 				if(!myCookie.substring(offset,end).equals(" ")) {
 					return myCookie.substring(offset,end);
 				}else {
@@ -92,7 +97,7 @@ public class CookieHandler
 				}
 			}
 			else 
-				Log.println(this,"Did not find cookie: "+name);
+				LOG.debug("Did not find cookie: "+name);
 		}
 		return "";
 	}
@@ -140,13 +145,13 @@ public class CookieHandler
 		String expires = "; expires=" + c.getTime().toString();
 		
 		String s1 = name +"="+value + expires; 
-		Log.println(this,s1);
+		LOG.debug(s1);
 		try {
 			JSObject myBrowser = JSObject.getWindow(applet);
 			JSObject myDocument =  (JSObject) myBrowser.getMember("document");
 			
 			myDocument.setMember("cookie", s1);
-			Log.println(this,"set:" + s1);
+			LOG.debug("set:" + s1);
 		}catch(JSException e) {
 			e.printStackTrace();
 		}
@@ -170,7 +175,7 @@ public class CookieHandler
 		try {
 			JSObject myBrowser = JSObject.getWindow(applet);
 			JSObject myDocument =  (JSObject) myBrowser.getMember("document");
-			Log.println(this,"del: " + s1);
+			LOG.debug("del: " + s1);
 			myDocument.setMember("cookie", s1);	
 		}catch(JSException e) {
 			e.printStackTrace();

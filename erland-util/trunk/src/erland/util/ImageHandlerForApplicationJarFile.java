@@ -18,6 +18,9 @@ package erland.util;
  *
  */
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -31,6 +34,8 @@ import java.net.URL;
 public class ImageHandlerForApplicationJarFile
     implements ImageHandlerInterface
 {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(ImageHandlerForApplicationJarFile.class);
     /** Component object that should be used for the image loading */
     private Component component;
     /** Directory where all images are stored */
@@ -74,7 +79,7 @@ public class ImageHandlerForApplicationJarFile
 
     public Image getImage(String imagename)
     {
-        Log.println(this,"getImage \""+imagename+"\"");
+        LOG.debug("getImage \""+imagename+"\"");
         Image image = null;
         ListIterator it = images.listIterator();
         while(it.hasNext()) {
