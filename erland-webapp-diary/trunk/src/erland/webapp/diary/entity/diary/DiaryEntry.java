@@ -20,11 +20,10 @@ package erland.webapp.diary.entity.diary;
  */
 
 import erland.webapp.common.BaseEntity;
-import erland.webapp.diary.diary.DiaryEntryInterface;
 
 import java.util.Date;
 
-public class DiaryEntry extends BaseEntity implements DiaryEntryInterface {
+public class DiaryEntry extends BaseEntity {
     private Integer diary;
     private Date date;
     private String title;

@@ -23,7 +23,6 @@ import erland.webapp.common.EntityInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.act.BaseAction;
-import erland.webapp.diary.diary.DiaryEntryInterface;
 import erland.webapp.diary.entity.diary.Diary;
 import erland.webapp.diary.entity.diary.DiaryEntry;
 import erland.webapp.diary.fb.diary.*;

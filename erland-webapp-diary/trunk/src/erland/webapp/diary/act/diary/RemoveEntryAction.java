@@ -19,9 +19,9 @@ package erland.webapp.diary.act.diary;
  *
  */
 
-import erland.webapp.diary.diary.DiaryEntryInterface;
 import erland.webapp.diary.fb.diary.DiaryFB;
 import erland.webapp.diary.fb.diary.DiaryEntryFB;
+import erland.webapp.diary.entity.diary.DiaryEntry;
 import erland.webapp.common.act.BaseAction;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -36,7 +36,7 @@ import java.util.Date;
 public class RemoveEntryAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DiaryEntryFB fb = (DiaryEntryFB) form;
-        DiaryEntryInterface entry = (DiaryEntryInterface) getEnvironment().getEntityFactory().create("diary-diaryentry");
+        DiaryEntry entry = (DiaryEntry) getEnvironment().getEntityFactory().create("diary-diaryentry");
         entry.setDiary(fb.getDiary());
         entry.setDate(fb.getDate());
         getEnvironment().getEntityStorageFactory().getStorage("diary-diaryentry").delete(entry);

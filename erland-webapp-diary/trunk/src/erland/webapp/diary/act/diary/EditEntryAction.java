@@ -19,7 +19,6 @@ package erland.webapp.diary.act.diary;
  *
  */
 
-import erland.webapp.diary.diary.DiaryEntryInterface;
 import erland.webapp.diary.entity.diary.DiaryEntry;
 import erland.webapp.diary.fb.diary.DiaryEntryFB;
 import erland.webapp.common.act.BaseAction;

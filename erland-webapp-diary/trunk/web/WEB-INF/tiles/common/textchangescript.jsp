@@ -1,7 +1,3 @@
-<%@ page session="true" import="java.util.Calendar,
-                                erland.webapp.diary.diary.DiaryEntryInterface,
-                                erland.webapp.diary.act.diary.SearchEntriesAction"%>
-
 <script type="text/javascript">
 
 <!--

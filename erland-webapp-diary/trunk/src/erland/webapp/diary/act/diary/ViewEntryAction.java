@@ -19,7 +19,6 @@ package erland.webapp.diary.act.diary;
  *
  */
 
-import erland.webapp.diary.diary.DiaryEntryInterface;
 import erland.webapp.diary.fb.diary.DiaryEntryFB;
 import erland.webapp.diary.fb.diary.SelectDiaryEntryFB;
 import erland.webapp.diary.entity.diary.DiaryEntry;
@@ -39,7 +38,7 @@ import java.lang.reflect.InvocationTargetException;
 public class ViewEntryAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DiaryEntryFB fb = (DiaryEntryFB) form;
-        DiaryEntryInterface template = (DiaryEntryInterface) getEnvironment().getEntityFactory().create("diary-diaryentry");
+        DiaryEntry template = (DiaryEntry) getEnvironment().getEntityFactory().create("diary-diaryentry");
         template.setDiary(fb.getDiary());
         template.setDate(fb.getDate());
         DiaryEntry entry = (DiaryEntry) getEnvironment().getEntityStorageFactory().getStorage("diary-diaryentry").load(template);
