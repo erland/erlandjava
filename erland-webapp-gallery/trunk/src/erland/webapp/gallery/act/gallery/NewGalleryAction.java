@@ -62,6 +62,8 @@ public class NewGalleryAction extends BaseAction {
         fb.setUseShortPictureNames(Boolean.TRUE);
         fb.setShowPictureTitle(Boolean.TRUE);
         fb.setShowResolutionLinks(Boolean.TRUE);
+        fb.setForcePictureUpdate(Boolean.FALSE);
+        fb.setShowPictureDescription(Boolean.FALSE);
         fb.setSkin(null);
 
         Gallery[] galleries = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",request.getRemoteUser(),"allrealforuser");
