@@ -1,1 +1,1 @@
-<p class="title">Välkommen till min bildarkiv sida</p>
+<div class="bold">Välkommen till min bildarkivs sida</div>

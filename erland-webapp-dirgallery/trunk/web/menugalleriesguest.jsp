@@ -7,6 +7,7 @@
         %>
         <table class="no-border">
         <jsp:include page="menugalleriescommon.jsp">
+            <jsp:param name="indentgalleries" value="false"/>
             <jsp:param name="searchcmd" value="searchgalleryentriesguest"/>
         </jsp:include>
         </table>

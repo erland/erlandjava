@@ -13,6 +13,7 @@
         </td>
         </tr>
         <jsp:include page="menugalleriescommon.jsp">
+            <jsp:param name="indentgalleries" value="true"/>
             <jsp:param name="searchcmd" value="searchgalleryentries"/>
         </jsp:include>
         </table>

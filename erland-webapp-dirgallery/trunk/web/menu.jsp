@@ -6,7 +6,7 @@
 <table class="no-border">
 <tr>
 <td class="left-margin"></td>
-<td colspan="3">
+<td>
 <a href="portal?do=searchgalleries" class="bold-link">Bildarkiv</a>
 </td>
 </tr>
@@ -16,14 +16,14 @@
         %>
         <tr>
         <td class="left-margin"></td>
-        <td colspan="3"><jsp:include page="menugalleries.jsp"/></td>
+        <td><jsp:include page="menugalleries.jsp"/></td>
         </tr>
         <%
     }
 %>
 <tr>
 <td class="left-margin"></td>
-<td colspan="3">
+<td>
 <a href="portal?do=viewuseraccount" class="bold-link">Inställningar</a>
 </td>
 </tr>
@@ -32,13 +32,13 @@ if(user.hasRole("manager")) {
     %>
     <tr>
     <td class="left-margin"></td>
-    <td colspan="3">
+    <td>
     <a href="portal?do=searchuseraccounts" class="bold-link">Användare</a>
     </td>
     </tr>
     <tr>
     <td class="left-margin"></td>
-    <td colspan="3">
+    <td>
     <a href="portal?do=registernewuseraccount" class="bold-link">Ny användare</a>
     </td>
     </tr>
