@@ -4,7 +4,7 @@
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
 <logic:notEmpty name="applicationPB" property="logo" >
-    <img src="/download/do/viewapplicationlogo?name=<bean:write name="applicationPB" property="name"/>"></img>
+    <img src="<%=request.getContextPath()%>/do/viewapplicationlogo?name=<bean:write name="applicationPB" property="name"/>"></img>
 </logic:notEmpty>
 <logic:empty name="applicationPB" property="logo">
     <p class="propertypage-title"><bean:write name="applicationPB" property="title"/></p>
@@ -21,7 +21,7 @@
         <td width="20">&nbsp;</td>
         <td valign="top">
         <logic:iterate name="item" property="files" id="file">
-        <a class="propertypage-button" href="/download/do/downloadapplication?name=<bean:write name="item" property="name"/>&filename=<bean:write name="file" property="filename"/>"><bean:write name="file" property="filename"/></a>&nbsp;&nbsp;&nbsp;
+        <a class="propertypage-button" href="<bean:write name="file" property="url"/>"><bean:write name="file" property="filename"/></a>&nbsp;&nbsp;&nbsp;
         </logic:iterate>
         <br>
         <erland-common:expandhtml><bean:write name="item" property="description"/></erland-common:expandhtml>

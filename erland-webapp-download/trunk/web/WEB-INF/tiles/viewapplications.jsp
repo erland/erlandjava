@@ -5,9 +5,9 @@
 <table class="propertypage-body" align="center">
     <logic:iterate name="applicationsPB" id="item">
         <tr><td>
-        <a class="propertypage-button" href="/download/do/viewapplication?name=<bean:write name="item" property="name"/>">
+        <a class="propertypage-button" href="<%=request.getContextPath()%>/do/viewapplication?name=<bean:write name="item" property="name"/>">
             <logic:notEmpty name="item" property="logo" >
-                <img src="/download/do/viewapplicationlogo?name=<bean:write name="item" property="name"/>" border="0"></img>
+                <img src="<%=request.getContextPath()%>/do/viewapplicationlogo?name=<bean:write name="item" property="name"/>" border="0"></img>
             </logic:notEmpty>
             <logic:empty name="item" property="logo">
                 <p class="propertypage-link"><bean:write name="item" property="title"/></p>

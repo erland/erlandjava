@@ -6,7 +6,7 @@
 <table class="menu" align="left" valign="top">
     <logic:iterate name="applicationsPB" id="item">
     	<tr><td nowrap>
-        <a class="menuitem" href="/download/do/viewapplication?name=<bean:write name="item" property="name"/>">
+        <a class="menuitem" href="<%=request.getContextPath()%>/do/viewapplication?name=<bean:write name="item" property="name"/>">
             <bean:write name="item" property="title"/>
         </a>
     	</td></tr>
