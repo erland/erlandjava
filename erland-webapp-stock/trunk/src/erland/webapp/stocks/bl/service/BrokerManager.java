@@ -19,7 +19,8 @@ package erland.webapp.stocks.bl.service;
  */
 
 import erland.webapp.stocks.bl.logic.broker.BrokerConnectionInterface;
-import erland.webapp.stocks.bl.logic.broker.BrokersStockEntry;
+import erland.webapp.stocks.bl.entity.BrokerStockEntry;
+import erland.webapp.stocks.bl.entity.BrokerStockEntry;
 import erland.webapp.common.WebAppEnvironmentInterface;
 
 import java.util.Vector;
@@ -34,7 +35,8 @@ public class BrokerManager implements BrokerManagerInterface {
     public String[] getBrokers() {
         Vector availableBrokers = new Vector();
         availableBrokers.addElement("robur");
-        availableBrokers.addElement("sb");
+        availableBrokers.addElement("sb_aktie");
+        availableBrokers.addElement("sb_obligation");
         return (String[]) availableBrokers.toArray(new String[0]);
     }
     public String getBrokerName(String brokerCode) {
@@ -45,18 +47,18 @@ public class BrokerManager implements BrokerManagerInterface {
         }
         return "";
     }
-    public BrokersStockEntry[] getStocks(String brokerCode) {
+    public BrokerStockEntry[] getStocks(String brokerCode) {
         BrokerConnectionFactoryInterface factory = (BrokerConnectionFactoryInterface) environment.getServiceFactory().create("stock-brokerconnectionfactory");
         BrokerConnectionInterface brokerCls = factory.create(brokerCode);
         if(brokerCls!=null) {
             return brokerCls.getAvailableStocks();
         }
-        return new BrokersStockEntry[0];
+        return new BrokerStockEntry[0];
     }
     public String getStockName(String brokerCode, String stockCode) {
-        BrokersStockEntry[] stocks = getStocks(brokerCode);
+        BrokerStockEntry[] stocks = getStocks(brokerCode);
         for (int i = 0; i < stocks.length; i++) {
-            BrokersStockEntry stock = stocks[i];
+            BrokerStockEntry stock = stocks[i];
             if(stock.getCode().equals(stockCode)) {
                 return stock.getName();
             }
