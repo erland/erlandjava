@@ -1,11 +1,11 @@
--- MySQL dump 9.08
+-- MySQL dump 9.09
 --
 -- Host: localhost    Database: users
 ---------------------------------------------------------
--- Server version	4.0.13-max-nt
+-- Server version	4.0.15-max-debug
 
 --
--- Table structure for table 'userapplicationroles'
+-- Table structure for table `userapplicationroles`
 --
 
 CREATE TABLE userapplicationroles (
@@ -16,13 +16,14 @@ CREATE TABLE userapplicationroles (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'users'
+-- Table structure for table `users`
 --
 
 CREATE TABLE users (
   username varchar(100) NOT NULL default '',
   firstname varchar(100) NOT NULL default '',
   lastname varchar(100) NOT NULL default '',
-  password varchar(100) NOT NULL default ''
+  password varchar(100) NOT NULL default '',
+  mail varchar(100) default NULL
 ) TYPE=MyISAM;
 
