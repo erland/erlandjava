@@ -29,25 +29,14 @@ import javax.servlet.http.HttpServletRequest;
 public class InventoryEntryFB extends BaseFB {
     private Integer id;
     private Integer type;
-    private String typeDescription;
     private Integer sex;
-    private String sexDescription;
+    private String speciesDisplay;
     private String name;
     private String description;
     private String image;
     private String largeImage;
     private String link;
-    private String linkSource;
     private Integer gallery;
-    private String galleryLink;
-    private String updateLink;
-    private String deleteLink;
-    private String viewLink;
-    private String newEventLink;
-    private String containerLink;
-    private String currentContainerDescription;
-    private String currentSizeText;
-    private InventoryEntryEventFB[] events;
 
     public Integer getId() {
         return id;
@@ -63,6 +52,22 @@ public class InventoryEntryFB extends BaseFB {
 
     public void setIdDisplay(String idDisplay) {
         this.id = StringUtil.asInteger(idDisplay,null);
+    }
+
+    public Integer getSpecies() {
+        return StringUtil.asInteger(speciesDisplay,null);
+    }
+
+    public void setSpecies(Integer species) {
+        this.speciesDisplay = StringUtil.asString(species,null);
+    }
+
+    public String getSpeciesDisplay() {
+        return speciesDisplay;
+    }
+
+    public void setSpeciesDisplay(String speciesDisplay) {
+        this.speciesDisplay = speciesDisplay;
     }
 
     public Integer getType() {
@@ -81,14 +86,6 @@ public class InventoryEntryFB extends BaseFB {
         this.type = StringUtil.asInteger(typeDisplay,null);
     }
 
-    public String getTypeDescription() {
-        return typeDescription;
-    }
-
-    public void setTypeDescription(String typeDescription) {
-        this.typeDescription = typeDescription;
-    }
-
     public Integer getSex() {
         return sex;
     }
@@ -103,14 +100,6 @@ public class InventoryEntryFB extends BaseFB {
 
     public void setSexDisplay(String sexDisplay) {
         this.sex = StringUtil.asInteger(sexDisplay,null);
-    }
-
-    public String getSexDescription() {
-        return sexDescription;
-    }
-
-    public void setSexDescription(String sexDescription) {
-        this.sexDescription = sexDescription;
     }
 
     public String getName() {
@@ -153,14 +142,6 @@ public class InventoryEntryFB extends BaseFB {
         this.link = link;
     }
 
-    public String getLinkSource() {
-        return linkSource;
-    }
-
-    public void setLinkSource(String linkSource) {
-        this.linkSource = linkSource;
-    }
-
     public Integer getGallery() {
         return gallery;
     }
@@ -177,100 +158,17 @@ public class InventoryEntryFB extends BaseFB {
         this.gallery = StringUtil.asInteger(galleryDisplay,null);
     }
 
-    public String getGalleryLink() {
-        return galleryLink;
-    }
-
-    public void setGalleryLink(String galleryLink) {
-        this.galleryLink = galleryLink;
-    }
-
-    public String getUpdateLink() {
-        return updateLink;
-    }
-
-    public void setUpdateLink(String updateLink) {
-        this.updateLink = updateLink;
-    }
-
-    public String getDeleteLink() {
-        return deleteLink;
-    }
-
-    public void setDeleteLink(String deleteLink) {
-        this.deleteLink = deleteLink;
-    }
-
-    public String getViewLink() {
-        return viewLink;
-    }
-
-    public void setViewLink(String viewLink) {
-        this.viewLink = viewLink;
-    }
-
-    public String getNewEventLink() {
-        return newEventLink;
-    }
-
-    public void setNewEventLink(String newEventLink) {
-        this.newEventLink = newEventLink;
-    }
-
-    public String getContainerLink() {
-        return containerLink;
-    }
-
-    public void setContainerLink(String containerLink) {
-        this.containerLink = containerLink;
-    }
-
-    public InventoryEntryEventFB[] getEvents() {
-        return events;
-    }
-
-    public void setEvents(InventoryEntryEventFB[] events) {
-        this.events = events;
-    }
-
-    public String getCurrentContainerDescription() {
-        return currentContainerDescription;
-    }
-
-    public void setCurrentContainerDescription(String currentContainerDescription) {
-        this.currentContainerDescription = currentContainerDescription;
-    }
-
-    public String getCurrentSizeText() {
-        return currentSizeText;
-    }
-
-    public void setCurrentSizeText(String currentSizeText) {
-        this.currentSizeText = currentSizeText;
-    }
-
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         id = null;
         type = null;
-        typeDescription = null;
         sex = null;
-        sexDescription = null;
         name = null;
         description = null;
         image = null;
         largeImage = null;
         link = null;
-        linkSource = null;
         gallery = null;
-        events = null;
-        galleryLink = null;
-        updateLink = null;
-        deleteLink = null;
-        viewLink = null;
-        newEventLink = null;
-        containerLink = null;
-        currentContainerDescription = null;
-        currentSizeText = null;
+        speciesDisplay = null;
     }
 }
