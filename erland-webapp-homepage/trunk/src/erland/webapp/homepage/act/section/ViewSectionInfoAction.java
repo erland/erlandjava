@@ -96,6 +96,7 @@ public class ViewSectionInfoAction extends BaseAction {
             Service service = (Service) getEnvironment().getEntityStorageFactory().getStorage("homepage-service").load(templateService);
             if(service!=null) {
                 try {
+                    LOG.debug("Loading service: "+service.getServiceClass());
                     Class serviceCls = Class.forName(service.getServiceClass());
                     Object serviceInstance = serviceCls.newInstance();
                     if(serviceInstance instanceof ServiceInterface) {
@@ -104,15 +105,26 @@ public class ViewSectionInfoAction extends BaseAction {
                         parameterValues.put("user",username);
                         String sectionParameterString = ServletParameterHelper.replaceDynamicParameters(StringUtil.asEmpty(section.getServiceParameters()),parameterValues);
                         String serviceParameterString = ServletParameterHelper.replaceDynamicParameters(StringUtil.asEmpty(service.getServiceData()),parameterValues);
-                        ParameterValueStorageExInterface serviceParameters = new ParameterStorageParameterString(new StringStorage(sectionParameterString),new StringStorage(serviceParameterString),',',service.getCustomizedServiceData(),null);
+                        ParameterValueStorageExInterface serviceParameters = new ParameterStorageParameterString(new StringStorage(sectionParameterString),new StringStorage(serviceParameterString),',',StringUtil.asEmpty(service.getCustomizedServiceData()),null);
+                        LOG.debug("Executing service: "+serviceInstance);
                         String result = (((ServiceInterface)serviceInstance).execute(serviceParameters));
-                        LOG.debug(result);
+                        LOG.trace(result);
                         if(StringUtil.asNull(service.getTransformerClass())!=null) {
+                            LOG.debug("Loading transformer: "+service.getTransformerClass());
                             Class transformerCls = Class.forName(service.getTransformerClass());
                             Object transformerInstance = transformerCls.newInstance();
                             if(transformerInstance instanceof TransformerInterface) {
-                                ParameterValueStorageExInterface transformerParameters = new ParameterStorageParameterString(new StringStorage(service.getTransformerData()),null,',');
+                                sectionParameterString = StringUtil.asEmpty(sectionParameterString);
+                                if(request.getRemoteUser()!=null) {
+                                    sectionParameterString+=",usertype=user";
+                                }else {
+                                    sectionParameterString+=",usertype=guest";
+                                    sectionParameterString+=",user="+username;
+                                }
+                                ParameterValueStorageExInterface transformerParameters = new ParameterStorageParameterString(new StringStorage(sectionParameterString),new StringStorage(service.getTransformerData()),',',StringUtil.asEmpty(service.getCustomizedTransformerData()),null);
+                                LOG.debug("Transforming with: "+transformerInstance);
                                 result = ((TransformerInterface)transformerInstance).transform(result,transformerParameters);
+                                LOG.trace("After transform: "+result);
                             }
                         }
                         pb.setServiceResult(result);
