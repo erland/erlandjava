@@ -22,7 +22,16 @@ import erland.webapp.common.fb.BaseFB;
  */
 
 public class ApplicationIdFB extends BaseFB {
+    private String language;
     private String name;
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
     public String getName() {
         return name;
