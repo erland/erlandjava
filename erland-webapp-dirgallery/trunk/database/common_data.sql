@@ -25,4 +25,5 @@ INSERT INTO descriptiontags VALUES ('common-metadatafielddescription','Exif+Date
 
 INSERT INTO resources VALUES ('dirgallery','resources.thumbnail.cache','D%3A%5Cusers%5Cerland%5Cthumbnails2');
 INSERT INTO resources VALUES ('dirgallery','resources.welcometext','Logga in för att uppdatera dina bildarkiv eller klicka [boldlink=här,http://erland.homeip.net/dirgallery/portal?do=home&user=erland] för att titta på mina bildarkiv. Du kan också titta på någon annans bildarkiv genom att klicka på länkarna nedan.\r\nOm du vill ha ett eget bildarkiv kan du höra av dig till [boldlink=mig,mailto:erland.i@telia.com] eller också gå vidare till [boldlink=stora bildarkivet,http://erland.homeip.net/gallery] där du kan registrera dig själv.\r\n\r\nVill du se fler bilder än vad som finns här kan du gå till [boldlink=stora bildarkivet,http://erland.homeip.net/gallery]\r\n\r\n');
+INSERT INTO resources VALUES ('dirgallery','resources.basedirectory','D%3A%5Cusers');
 
