@@ -13,28 +13,28 @@
                   type="text/css"/>
     <title><tiles:getAsString name="title"/></title>
   </HEAD>
-<body>
+<body class="layoutnomenu">
 <center>
-<table border="0" cellspacing="0" cellpadding="0" width="500" height="100%">
+<table class="layoutnomenu-main" border="0" cellspacing="0" cellpadding="0" width="500" height="100%">
 <tiles:useAttribute name="header" ignore="true" />
 <logic:notEmpty name="header">
-<tr>
-  <td width="100%" colspan="2"><tiles:insert attribute="header" /></td>
+<tr class="layoutnomenu-header">
+  <td class="layoutnomenu-header" width="100%" colspan="2"><tiles:insert attribute="header" /></td>
 </tr>
 </logic:notEmpty>
-<tr><td width="100%" colspan="2" height="5" valign="top"></td></tr>
+<tr class="layoutnomenu-header-separator"><td class="layoutnomenu-header-separator" width="100%" colspan="2" height="5" valign="top"></td></tr>
 <tiles:useAttribute name="body" ignore="true" />
 <logic:notEmpty name="body">
-<tr>
-  <td valign="top" height="100%" align="left">
+<tr class="layoutnomenu-body">
+  <td class="layoutnomenu-body-content" valign="top" height="100%" align="left">
     <tiles:insert attribute='body' />
   </td>
 </tr>
 </logic:notEmpty>
 <tiles:useAttribute name="footer" ignore="true" />
 <logic:notEmpty name="footer">
-<tr>
-  <td colspan="2">
+<tr class="layoutnomenu-footer">
+  <td class="layoutnomenu-footer" colspan="2">
     <tiles:insert attribute="footer" />
   </td>
 </tr>

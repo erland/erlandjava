@@ -5,7 +5,7 @@
 
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/user/edituseraccount" method="POST">
-    <table>
+    <table class="propertypage-body">
     <html:hidden property="username"/>
     <tr><td><bean:message key="dirgallery.account.edit.description"/></td><td>
     <html:textarea property="description" cols="80" rows="5"/>

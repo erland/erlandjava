@@ -13,13 +13,13 @@
                   type="text/css"/>
     <title><tiles:getAsString name="title"/></title>
   </HEAD>
-<body>
+<body class="layoutempty">
 <center>
-<table border="0" valign="top" cellspacing="5">
+<table class="layoutempty-main" border="0" valign="top" cellspacing="5">
 <tiles:useAttribute name="body" ignore="true" />
  <logic:notEmpty name="body">
-<tr>
-  <td valign="top"  align="left">
+<tr class="layoutempty-body-content">
+  <td class="layoutempty-body-content" valign="top"  align="left">
     <tiles:insert attribute='body' />
   </td>
 </tr>

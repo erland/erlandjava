@@ -4,7 +4,7 @@
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
 <logic:present name="accountPB">
-    <table class="no-border">
+    <table class="welcomepage-body">
     <tr><td><erland-common:expandhtml><bean:write name="accountPB" property="welcomeText"/></erland-common:expandhtml></td></tr>
     </table>
 </logic:present>

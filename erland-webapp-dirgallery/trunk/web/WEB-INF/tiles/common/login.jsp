@@ -5,12 +5,12 @@
 
 <%@ page session="true" %>
 
-<p class="normal">
+<p class="loginpage-description">
 <erland-common:expandhtml><erland-common:cfgresource name="welcometext"/></erland-common:expandhtml>
 <center>
 <tiles:insert page="/WEB-INF/tiles/common/viewuseraccounts.jsp"/>
 <form name="loginForm" action="j_security_check" method="POST">
-<table class="no-border">
+<table class="loginpage-body">
 <tr><td><bean:message key="dirgallery.login.username"/></td><td>
 <input type="text" name="j_username" value="">
 </td></tr>

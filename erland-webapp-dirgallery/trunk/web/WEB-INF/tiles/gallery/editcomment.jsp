@@ -6,7 +6,7 @@
 
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/user/editimagecomment" method="POST">
-    <table>
+    <table class="propertypage-body">
     <html:hidden property="id"/>
     <html:hidden property="gallery"/>
     <tr><td><bean:message key="dirgallery.gallery.comment.edit.comment"/></td><td>
