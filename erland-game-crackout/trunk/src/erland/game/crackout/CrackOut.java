@@ -357,6 +357,7 @@ public class CrackOut extends Applet
 		/*You can change the string value to show your desired label*/
 		/*for the frame */
 		myFrame = new Frame ("CrackOut");
+		myFrame.setBackground(Color.black);
 		
 		/*Create a instance. */
 		CrackOut myApp = new CrackOut();         /*Add the current application to the Frame */
