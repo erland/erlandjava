@@ -26,14 +26,30 @@ import java.util.Iterator;
 
 public class QueryFilter implements FilterInterface {
     private String queryName;
+    private String orderName;
     private Map map = new HashMap();
 
     public QueryFilter(String queryName) {
         this.queryName = queryName;
+        this.orderName = null;
     }
+    public QueryFilter(String queryName, String orderName) {
+        this.queryName = queryName;
+        this.orderName = orderName;
+    }
+
     public String getQueryName() {
         return queryName;
     }
+
+    public String getOrderName() {
+        return orderName;
+    }
+
+    public void setOrderName(String orderName) {
+        this.orderName = orderName;
+    }
+
     public Object getAttribute(String attr) {
         return map.get(attr);
     }
