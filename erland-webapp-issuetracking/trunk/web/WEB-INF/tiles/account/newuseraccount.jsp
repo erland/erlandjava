@@ -5,7 +5,7 @@
 
 <p class="bold"><bean:message key="issuetracking.account.new.title"/></p>
 <p class="normal"><bean:message key="issuetracking.account.new.mandatory-text"/></p>
-<jsp:include page="/WEB-INF/tiles/common/validationerrors.jsp" />
+<tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/guest/newuseraccount" method="POST">
     <table>
     <tr><td><bean:message key="issuetracking.account.new.username"/></td><td>
