@@ -27,7 +27,7 @@
         <table class="no-border">
         <tr><td><p class="bold">Mäklare</p></td><td><p class="bold">Aktie</p></td><td><p class="bold">Datum</p></td><td><p class="bold">Antal</p></td><td><p class="bold">Värde</p></td></tr>
         <%
-        it = account.getPurchaseContinouslyEntries().iterator();
+        it = account.getPurchaseOnceEntries().iterator();
         while(it.hasNext()) {
             StockAccountTransaction entry = (StockAccountTransaction) it.next();
             %>
@@ -39,6 +39,7 @@
             <td><%=entry.getValue()!=0?""+entry.getValue():""%></td>
             <td>
             <a class="bold-link" href="portal?do=stockaccountremovesingle&broker=<%=entry.getBroker()%>&stock=<%=entry.getStock()%>&purchasedate=<%=dateFormat.format(entry.getDate())%>" onClick="return confirm('Är du säker på att du vill ta bort denna ?')">Ta bort</a>
+            </td>
             </tr>
 <%      } %>
         </table>
