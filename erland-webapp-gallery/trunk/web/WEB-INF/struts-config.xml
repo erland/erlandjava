@@ -66,19 +66,19 @@
             path="/user/loadmenu"
             type="erland.webapp.gallery.act.gallery.SearchGalleriesAndCategoriesAction">
 
-            <forward name="gallery" path="/do/user/menuviewgallery?menuName={menuId}&amp;menuItemId={menuItemId}&amp;gallery={gallery}"/>
-            <forward name="category" path="/do/user/menuviewcategory?menuName={menuId}&amp;menuItemId={menuItemId}&amp;gallery={gallery}&amp;category={category}"/>
-            <forward name="guestuser" path="/do/user/menu?menuName={menuId}&amp;menuItemId={menuItemId}"/>
-            <forward name="guestusergallery" path="/do/user/menuviewguestusergallery?menuName={menuId}&amp;menuItemId={menuItemId}&amp;user={user}&amp;gallery={gallery}"/>
-            <forward name="guestusercategory" path="/do/user/menuviewguestusercategory?menuName={menuId}&amp;menuItemId={menuItemId}&amp;user={user}&amp;gallery={gallery}&amp;category={category}"/>
+            <forward name="gallery" path="/do/user/menuviewgallery?menuItemId={menuItemId}&amp;gallery={gallery}"/>
+            <forward name="category" path="/do/user/menuviewcategory?menuItemId={menuItemId}&amp;gallery={gallery}&amp;category={category}"/>
+            <forward name="guestuser" path="/do/user/menu?menuItemId={menuItemId}"/>
+            <forward name="guestusergallery" path="/do/user/menuviewguestusergallery?menuItemId={menuItemId}&amp;user={user}&amp;gallery={gallery}"/>
+            <forward name="guestusercategory" path="/do/user/menuviewguestusercategory?menuItemId={menuItemId}&amp;user={user}&amp;gallery={gallery}&amp;category={category}"/>
             <forward name="success" path="/do/user/viewdefaultgallery"/>
         </action>
         <action
             path="/guest/loadmenu"
             type="erland.webapp.gallery.act.gallery.SearchOfficialGalleriesAndCategoriesAction"
             name="menuFB">
-            <forward name="gallery" path="/do/guest/menuviewgallery?user={user}&amp;menuName={menuId}&amp;menuItemId={menuItemId}&amp;gallery={gallery}"/>
-            <forward name="category" path="/do/guest/menuviewcategory?user={user}&amp;menuName={menuId}&amp;menuItemId={menuItemId}&amp;gallery={gallery}&amp;category={category}"/>
+            <forward name="gallery" path="/do/guest/menuviewgallery?user={user}&amp;menuItemId={menuItemId}&amp;gallery={gallery}"/>
+            <forward name="category" path="/do/guest/menuviewcategory?user={user}&amp;menuItemId={menuItemId}&amp;gallery={gallery}&amp;category={category}"/>
             <forward name="success" path="/do/guest/viewdefaultgallery"/>
         </action>
         <action
@@ -99,7 +99,8 @@
             path="/guest/menu"
             type="erland.webapp.common.act.MenuExpandCollapseAction"
             name="mainMenuFB"
-            validate="false">
+            validate="false"
+            parameter="menuName=mainMenu">
 
             <forward name="success" path=".guest.index"/>
         </action>
@@ -107,7 +108,8 @@
             path="/user/menu"
             type="erland.webapp.common.act.MenuExpandCollapseAction"
             name="mainMenuFB"
-            validate="false">
+            validate="false"
+            parameter="menuName=mainMenu">
 
             <forward name="mainMenu-galleries-new" path="/do/user/newgallery"/>
             <forward name="mainMenu-preferences" path="/do/user/viewuseraccount"/>
@@ -121,7 +123,8 @@
             path="/guest/menuviewcategory"
             type="erland.webapp.common.act.MenuExpandCollapseAction"
             name="mainMenuFB"
-            validate="false">
+            validate="false"
+            parameter="menuName=mainMenu">
 
             <forward name="success" path="/do/guest/viewpictures"/>
         </action>
@@ -129,7 +132,8 @@
             path="/user/menuviewcategory"
             type="erland.webapp.common.act.MenuExpandCollapseAction"
             name="mainMenuFB"
-            validate="false">
+            validate="false"
+            parameter="menuName=mainMenu">
 
             <forward name="success" path="/do/user/viewpictures"/>
         </action>
@@ -137,7 +141,8 @@
             path="/guest/menuviewgallery"
             type="erland.webapp.common.act.MenuExpandCollapseAction"
             name="mainMenuFB"
-            validate="false">
+            validate="false"
+            parameter="menuName=mainMenu">
 
             <forward name="success" path="/do/guest/viewpictures"/>
         </action>
@@ -145,7 +150,8 @@
             path="/user/menuviewgallery"
             type="erland.webapp.common.act.MenuExpandCollapseAction"
             name="mainMenuFB"
-            validate="false">
+            validate="false"
+            parameter="menuName=mainMenu">
 
             <forward name="success" path="/do/user/viewpictures"/>
         </action>
@@ -153,7 +159,8 @@
             path="/user/menuviewguestusercategory"
             type="erland.webapp.common.act.MenuExpandCollapseAction"
             name="mainMenuFB"
-            validate="false">
+            validate="false"
+            parameter="menuName=mainMenu">
 
             <forward name="success" path="/do/user/viewguestpictures"/>
         </action>
@@ -161,7 +168,8 @@
             path="/user/menuviewguestusergallery"
             type="erland.webapp.common.act.MenuExpandCollapseAction"
             name="mainMenuFB"
-            validate="false">
+            validate="false"
+            parameter="menuName=mainMenu">
 
             <forward name="success" path="/do/user/viewguestpictures"/>
         </action>
@@ -297,8 +305,7 @@
             <forward name="picture-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
             <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}"/>
             <forward name="previous-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}&amp;max={max}"/>
-            <forward name="picture-resolution-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}"/>
-            <forward name="picture-resolution-link-complete" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
+            <forward name="picture-resolution-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
             <forward name="next-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}&amp;max={max}"/>
             <forward name="search-link" path="/do/guest/newsearch?user={user}&amp;gallery={gallery}&amp;max={max}"/>
         </action>
@@ -341,8 +348,7 @@
             <forward name="picture-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
             <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}"/>
             <forward name="previous-link" path="/do/guest/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}&amp;max={max}"/>
-            <forward name="picture-resolution-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}"/>
-            <forward name="picture-resolution-link-complete" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
+            <forward name="picture-resolution-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
             <forward name="next-link" path="/do/guest/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}&amp;max={max}"/>
             <forward name="search-link" path="/do/guest/newsearch?user={user}&amp;gallery={gallery}&amp;max={max}"/>
         </action>
