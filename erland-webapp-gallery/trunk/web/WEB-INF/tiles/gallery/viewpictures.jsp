@@ -21,8 +21,8 @@
     <td class="picturepage-navigation-cell" width="50%" align="left"><erland-common:beanlink style="picturepage-button" name="picturesPB" property="prevLink">&lt; <bean:message key="gallery.gallery.picture.previous"/></erland-common:beanlink></td>
     <td class="picturepage-navigation-cell" width="50%" align="right"><erland-common:beanlink style="picturepage-button" name="picturesPB" property="nextLink"><bean:message key="gallery.gallery.picture.next"/> &gt;</erland-common:beanlink></td>
     </tr>
-    <tr class="picturepage-picture-row"><td class="picturepage-picture-cell" width="100%" colspan="2" valign="top">
-    <erland-common:tablegrid name="picturesPB" property="pictures" id="picture" valign="bottom" align="center" nameRowsCols="galleryPB" colsProperty="noOfCols" rowsProperty="noOfRows" tableStyle="picturepage-pictures-body" width="100%">
+    <tr class="picturepage-pictures-row"><td class="picturepage-pictures-cell" width="100%" colspan="2" valign="top">
+    <erland-common:tablegrid name="picturesPB" property="pictures" id="picture" valign="bottom" align="center" nameRowsCols="galleryPB" colsProperty="noOfCols" rowsProperty="noOfRows" tableStyle="picturepage-pictures-body" cellStyle="picturepage-picture-cell" rowStyle="picturepage-picture-row"  width="100%">
         <erland-common:beanlink style="picturepage-button" name="picture" property="updateLink"><bean:message key="gallery.gallery.picture.modify"/></erland-common:beanlink>
         <erland-common:beanlink style="picturepage-button" name="picture" property="removeLink" onClickMessageKey="gallery.gallery.picture.remove.are-you-sure"><bean:message key="gallery.gallery.picture.remove"/><br></erland-common:beanlink>
         <logic:notEmpty name="picture" property="resolutionLinks">
