@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module version="4" relativePaths="false">
+<module version="4" relativePaths="false" type="JAVA_MODULE">
   <component name="ModuleRootManager" />
   <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/target/classes" />
@@ -14,6 +14,7 @@
     <orderEntry type="module" module-name="network" />
     <orderEntry type="module" module-name="util" />
     <orderEntry type="library" name="commons-logging" level="application" />
+    <orderEntryProperties />
   </component>
 </module>
 
