@@ -31,6 +31,7 @@
     A utility package for web applications
   </shortDescription>
 
+  <siteDirectory>\\xp2500\erland/public_html/java/erland-webapp-common</siteDirectory>
   <!-- any mailing lists for the project -->
   <mailingLists/>
   
