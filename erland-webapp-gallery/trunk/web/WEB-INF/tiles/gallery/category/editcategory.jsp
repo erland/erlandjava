@@ -12,22 +12,18 @@
         <html:text property="name"/>
         </td></tr>
         <tr><td><bean:message key="gallery.gallery.category.edit.visible"/></td><td>
-        <html:checkbox property="officialVisible" value="true"/>
-        (<bean:message key="gallery.gallery.category.edit.forced"/>
-        <html:checkbox property="forcedOfficial" value="true" />
-        )
+        <html:checkbox property="officialVisibleDisplay" value="true"/>
+        </td></tr>
+        <tr><td colspan="2"><bean:message key="gallery.gallery.category.edit.subcategories-will-be-updated"/>
         </td></tr>
         <tr><td><bean:message key="gallery.gallery.category.edit.official"/></td><td>
-        <html:checkbox property="official" value="true"/>
-        (<bean:message key="gallery.gallery.category.edit.forced"/>
-        <html:checkbox property="forcedOfficial" value="true" />
-        )
+        <html:checkbox property="officialDisplay" value="true"/>
+        </td></tr>
+        <tr><td><bean:message key="gallery.gallery.category.edit.official-guest"/></td><td>
+        <html:checkbox property="officialGuestDisplay" value="true"/>
         </td></tr>
         <tr><td><bean:message key="gallery.gallery.category.edit.official-always"/></td><td>
-        <html:checkbox property="officialAlways" value="true"/>
-        (<bean:message key="gallery.gallery.category.edit.forced"/>
-        <html:checkbox property="forcedOfficial" value="true" />
-        )
+        <html:checkbox property="officialAlwaysDisplay" value="true"/>
         </td></tr>
         <tr><td></td><td>
         <html:submit><bean:message key="gallery.buttons.save"/></html:submit>
