@@ -11,6 +11,9 @@ import java.text.ParseException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import erland.webapp.gallery.act.gallery.GalleryHelper;
+import erland.webapp.common.WebAppEnvironmentInterface;
+
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -35,7 +38,7 @@ public class IMatchImportHelper extends ImportHelper {
     private static Log LOG = LogFactory.getLog(IMatchImportHelper.class);
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public static boolean importPictures(Integer galleryId, Reader reader, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean clearAssociations) {
+    public static boolean importPictures(WebAppEnvironmentInterface environment,Integer galleryId, Reader reader, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Boolean clearAssociations) {
         long orderNoStart = getFirstFreeOrderNo(galleryId);
         Map categories = new HashMap();
         loadCategories(categories, galleryId);
@@ -51,7 +54,7 @@ public class IMatchImportHelper extends ImportHelper {
                 }
 
                 clearUnusedCategories(galleryId);
-                updatePictures(galleryId);
+                GalleryHelper.updatePictureVisibility(environment,galleryId);
                 return true;
             } catch (IOException e) {
                 LOG.error("Error while reading file",e);

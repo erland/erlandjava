@@ -137,47 +137,6 @@ public class ImportHelper {
         }
         return orderNoStart;
     }
-    public static void updatePictures(Integer gallery) {
-        QueryFilter filter = new QueryFilter("calculateofficialforgallery");
-        filter.setAttribute("gallery", gallery);
-        updatePictures(filter, gallery, Boolean.TRUE);
-
-        filter = new QueryFilter("calculateunofficialforgallery");
-        filter.setAttribute("gallery", gallery);
-        updatePictures(filter, gallery, Boolean.FALSE);
-
-        Gallery galleryEntity = GalleryHelper.getGallery(getEnvironment(),gallery);
-        Collection categoryList = new ArrayList();
-        if(galleryEntity.getOfficialCategory()!=null && galleryEntity.getOfficialCategory().intValue()!=0) {
-            categoryList.add(galleryEntity.getOfficialCategory());
-            filter = new QueryFilter("calculateallwithoutcategory");
-            filter.setAttribute("gallery",gallery);
-            filter.setAttribute("category", galleryEntity.getOfficialCategory());
-            updatePictures(filter, gallery, Boolean.FALSE);
-        }
-        if(galleryEntity.getOfficialGuestCategory()!=null && galleryEntity.getOfficialGuestCategory().intValue()!=0) {
-            categoryList.add(galleryEntity.getOfficialGuestCategory());
-            filter = new QueryFilter("calculateallwithcategory");
-            filter.setAttribute("gallery",gallery);
-            filter.setAttribute("category", galleryEntity.getOfficialGuestCategory());
-            updatePictures(filter, gallery, Boolean.FALSE);
-        }
-
-        filter = new QueryFilter("calculateofficialguestforgallery");
-        filter.setAttribute("gallery", gallery);
-        updatePicturesGuest(filter, gallery, Boolean.TRUE);
-
-        filter = new QueryFilter("calculateunofficialguestforgallery");
-        filter.setAttribute("gallery", gallery);
-        updatePicturesGuest(filter, gallery, Boolean.FALSE);
-
-        if(galleryEntity.getOfficialGuestCategory()!=null && galleryEntity.getOfficialGuestCategory().intValue()!=0) {
-            filter = new QueryFilter("calculateallunofficialorwithoutcategory");
-            filter.setAttribute("gallery",gallery);
-            filter.setAttribute("category", galleryEntity.getOfficialGuestCategory());
-            updatePicturesGuest(filter, gallery, Boolean.FALSE);
-        }
-    }
 
     public static Integer createPicture(Integer gallery, String picture, Date modificationDate, Integer id, String title, String description, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, Long orderNo) {
         picture = picture.replace('\\',File.separatorChar);
@@ -306,33 +265,6 @@ public class ImportHelper {
             if (entity != null && !entity.getParentCategory().equals(new Integer(0))) {
                 updateMembership(gallery, entity.getParentCategory(), category);
             }
-        }
-    }
-
-    private static void updatePictures(QueryFilter filter, Integer gallery, Boolean official) {
-        Picture entity = (Picture) getEnvironment().getEntityFactory().create("gallery-picture");
-        entity.setOfficial(official);
-        EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").search(filter);
-        updatePictures(entities, gallery, entity);
-    }
-
-    private static void updatePicturesGuest(QueryFilter filter, Integer gallery, Boolean official) {
-        Picture entity = (Picture) getEnvironment().getEntityFactory().create("gallery-picture");
-        entity.setOfficialGuest(official);
-        EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").search(filter);
-        updatePictures(entities, gallery, entity);
-    }
-
-    private static void updatePictures(EntityInterface[] entities, Integer gallery, Picture picture) {
-        Collection pictures = new ArrayList(entities.length);
-        for (int i = 0; i < entities.length; i++) {
-            pictures.add(((Picture) entities[i]).getId());
-        }
-        if (pictures.size() > 0) {
-            QueryFilter pictureFilter = new QueryFilter("allforgalleryandpicturelist");
-            pictureFilter.setAttribute("gallery", gallery);
-            pictureFilter.setAttribute("pictures", pictures);
-            getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").update(pictureFilter, picture);
         }
     }
 }

@@ -106,7 +106,7 @@ public class ExternalIMatchImportAction extends BaseAction {
                 saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.import.parse-failure"}));
                 return;
             }
-        }else if(!ExternalIMatchImportHelper.importPictures(galleryId,request.getReader(),fb.getLocalLinks(),fb.getFilenameAsPictureTitle(),fb.getFilenameAsPictureDescription(),Boolean.valueOf(!fb.getClearPictures().booleanValue()))){
+        }else if(!ExternalIMatchImportHelper.importPictures(getEnvironment(),galleryId,request.getReader(),fb.getLocalLinks(),fb.getFilenameAsPictureTitle(),fb.getFilenameAsPictureDescription(),Boolean.valueOf(!fb.getClearPictures().booleanValue()))){
             saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.import.parse-failure"}));
             return;
         }

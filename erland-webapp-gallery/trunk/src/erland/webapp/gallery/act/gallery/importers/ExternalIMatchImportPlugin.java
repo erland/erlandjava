@@ -100,7 +100,7 @@ public class ExternalIMatchImportPlugin extends BaseTaskPlugin{
             this.clearAssociations = clearAssociations;
         }
         public void run() {
-            ExternalIMatchImportHelper.importPictures(galleryId,reader,localLinks,filenameAsPictureTitle,filenameAsPictureDescription,clearAssociations);
+            ExternalIMatchImportHelper.importPictures(WebAppEnvironmentPlugin.getEnvironment(),galleryId,reader,localLinks,filenameAsPictureTitle,filenameAsPictureDescription,clearAssociations);
         }
     }
 }
