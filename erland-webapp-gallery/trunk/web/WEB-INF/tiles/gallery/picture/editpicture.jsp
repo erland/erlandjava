@@ -10,7 +10,7 @@
     <logic:notEmpty name="pictureFB" property="id">
         <html:hidden property="id"/>
     </logic:notEmpty> 
-    <table>
+    <table class="propertypage-body">
         <tr><td><bean:message key="gallery.gallery.picture.edit.title"/></td><td>
         <html:text property="title" size="30"/>
         </td></tr>
@@ -25,6 +25,9 @@
         </td></tr>
         <tr><td><bean:message key="gallery.gallery.picture.edit.date"/></td><td>
         <html:text property="dateDisplay" size="19"/>
+        </td></tr>
+        <tr><td><bean:message key="gallery.gallery.picture.edit.orderno"/></td><td>
+        <html:text property="orderNoDisplay" size="5"/>
         </td></tr>
         <tr><td><bean:message key="gallery.gallery.picture.edit.official"/></td><td>
         <html:checkbox property="officialDisplay" value="true"/>
