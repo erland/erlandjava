@@ -16,6 +16,7 @@ CREATE TABLE categories (
   officialvisible tinyint(1) NOT NULL default '0',
   officialalways tinyint(1) NOT NULL default '0',
   parent int(11) NOT NULL default '0',
+  officialnever tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (gallery,id)
 ) TYPE=MyISAM;
 
@@ -28,6 +29,19 @@ CREATE TABLE categorymembers (
   category int(11) NOT NULL default '0',
   member int(11) NOT NULL default '0',
   PRIMARY KEY  (gallery,category,member)
+) TYPE=MyISAM;
+
+--
+-- Table structure for table `filters`
+--
+
+CREATE TABLE filters (
+  id int(11) NOT NULL auto_increment,
+  name varchar(100) NOT NULL default '',
+  description longtext,
+  cls varchar(100) NOT NULL default '',
+  parameters longtext,
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 --
@@ -58,6 +72,20 @@ CREATE TABLE gallerycategories (
 ) TYPE=MyISAM;
 
 --
+-- Table structure for table `galleryfilters`
+--
+
+CREATE TABLE galleryfilters (
+  id int(11) NOT NULL auto_increment,
+  gallery int(11) NOT NULL default '0',
+  filter int(11) NOT NULL default '0',
+  orderno int(11) NOT NULL default '0',
+  type int(11) NOT NULL default '0',
+  parameters longtext,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
 -- Table structure for table `picturecategories`
 --
 
@@ -79,8 +107,9 @@ CREATE TABLE pictures (
   date date NOT NULL default '0000-00-00',
   description longtext NOT NULL,
   image varchar(255) NOT NULL default '',
-  official tinyint(1) NOT NULL default '0',
   link varchar(255) NOT NULL default '',
+  official tinyint(1) NOT NULL default '0',
+  officialguest tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (id,gallery)
 ) TYPE=MyISAM;
 
