@@ -71,6 +71,8 @@ public class GamePanelHandlerForApplication implements GamePanelHandlerImplement
     private ParameterValueStorageExInterface storage;
     /** Image handler object */
     private ImageHandlerInterface imageHandler;
+    /** Custom environment object */
+    private Object customEnvironment;
 
     public GamePanelHandlerForApplication() {
         storage = null;
@@ -354,6 +356,16 @@ public class GamePanelHandlerForApplication implements GamePanelHandlerImplement
     public void cheatWord(String cheatWord) {
         this.cheatWord = cheatWord;
         this.cheatWordCounter = 0;
+    }
+    public Object getCustomEnvironment() {
+        return customEnvironment;
+    }
+    /**
+     * Sets the custom environment object to use
+     * @param customEnvironment A custom environment object
+     */
+    public void setCustomEnvironment(Object customEnvironment) {
+        this.customEnvironment = customEnvironment;
     }
 
     /**

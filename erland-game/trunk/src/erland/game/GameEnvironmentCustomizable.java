@@ -41,6 +41,8 @@ public class GameEnvironmentCustomizable implements GameEnvironmentInterface {
     private HighScoreInterface highScore;
     /** The custom highscore list object to use */
     private HighScoreListInterface highScoreList;
+    /** The custom environment object to use */
+    private Object customEnvironment;
 
     /**
      * Creates a new instance using the specified game environment
@@ -87,6 +89,13 @@ public class GameEnvironmentCustomizable implements GameEnvironmentInterface {
         this.highScore = highScore;
     }
 
+    /**
+     * Set a custom environment object
+     * @param customEnvironment The custom environment object
+     */
+    public void setCustomEnvironment(Object customEnvironment) {
+        this.customEnvironment = customEnvironment;
+    }
     /**
      * Set a custom highscore list object
      * @param highScoreList The custom highscore list object
@@ -140,6 +149,14 @@ public class GameEnvironmentCustomizable implements GameEnvironmentInterface {
             return highScoreList;
         }else {
             return environment.getHighScoreList();
+        }
+    }
+
+    public Object getCustomEnvironment() {
+        if(customEnvironment!=null) {
+            return customEnvironment;
+        }else {
+            return environment.getCustomEnvironment();
         }
     }
 }
