@@ -1,1 +1,1 @@
-java -classpath "game.jar;util.jar;CrackOut.jar" erland.game.crackout.CrackOut
+java -classpath "@CLASSPATH@" erland.game.crackout.CrackOut
