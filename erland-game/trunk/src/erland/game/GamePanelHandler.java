@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Vector;
 
-public abstract class GamePanelHandler implements TimerListener, GamePanelHandlerInterface, GameEnvironmentInterface, ActionListener {
+public abstract class GamePanelHandler implements TimerListenerInterface, GamePanelHandlerInterface, GameEnvironmentInterface, ActionListener {
     protected FullScreenHandler screen;
     protected DisplayMode display[];
     protected boolean bQuit;
