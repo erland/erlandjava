@@ -8,6 +8,7 @@ import erland.game.*;
  */
  
 abstract class Block
+	implements Cloneable
 {
 	/** Image handler object */
 	protected ImageHandlerInterface images;
@@ -165,6 +166,12 @@ abstract class Block
 		this.y = y;
 	}
 	
+	public Object clone()
+		throws CloneNotSupportedException
+	{
+		Block b=(Block)super.clone();
+		return b;
+	}
 	/**
 	 * Update the position and state of the block
 	 */
