@@ -12,23 +12,23 @@
                   type="text/css"/>
     <title><tiles:getAsString name="title"/></title>
   </HEAD>
-<body>
-<table border="0" width="100%" cellspacing="5">
-<tr>
-  <td colspan="2"><tiles:insert attribute="header" /></td>
+<body class="layout">
+<table class="layout-main" border="0" width="100%" cellspacing="5">
+<tr class="layout-header">
+  <td class="layout-header" colspan="2"><tiles:insert attribute="header" /></td>
 </tr>
-<tr><td colspan="2" height="3" valign="top" bgcolor="#397AC0"></td></tr>
-<tr><td colspan="2" height="5" valign="top"></td></tr>
-<tr>
-  <td width="140" valign="top">
+<tr class="layout-header-separator-line"><td class="layout-header-separator-line" colspan="2" height="3" valign="top" bgcolor="#397AC0"></td></tr>
+<tr class="layout-header-separator"><td class="layout-header-separator" colspan="2" height="5" valign="top"></td></tr>
+<tr class="layout-body">
+  <td class="layout-body-menu" width="140" valign="top">
     <tiles:insert attribute='menu' />
   </td>
-  <td valign="top"  align="left">
+  <td class="layout-body-content" valign="top"  align="left">
     <tiles:insert attribute='body' />
   </td>
 </tr>
-<tr>
-  <td colspan="2">
+<tr class="layout-footer">
+  <td class="layout-footer" colspan="2">
     <tiles:insert attribute="footer" />
   </td>
 </tr>

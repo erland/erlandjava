@@ -1,13 +1,13 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html" %>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
-<%@ page session="true" %>
-<p class="normal">Logga in för att titta på dina aktiediagram eller för att uppdatera dina aktieinnehav<br>
-Om du vill ha tillgång till aktiediagramsidan kan du höra av dig till <a class="bold-link" href="mailto:erland.i@telia.com">mig</a><br><br>
+<p class="loginpage-description">
+<erland-common:expandhtml><erland-common:cfgresource name="welcometext"/></erland-common:expandhtml>
 
 <form name="loginForm" action="j_security_check" method="POST">
-<table>
+<table class="loginpage-body">
 <tr><td><bean:message key="stock.login.username"/></td><td>
 <input type="text" name="j_username" value="">
 </td></tr>

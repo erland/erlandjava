@@ -3,8 +3,8 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
 
-<jsp:include page="/WEB-INF/tiles/common/validationerrors.jsp" />
-<table class="no-border">
+<tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
+<table class="propertypage-body">
 <html:form action="/editaccountpermanentnumberforvalue" method="POST">
     <html:hidden name="brokerPB" property="broker"/>
     <tr><td><bean:message key="stock.account.edit.stock"/></td><td>
