@@ -2,6 +2,7 @@ package erland.webapp.diary.fb.inventory;
 
 import erland.webapp.diary.fb.account.SelectUserFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 import java.util.Date;
 
@@ -40,11 +41,11 @@ public class SelectInventoryEntryFB extends SelectUserFB {
     }
 
     public String getIdDisplay() {
-        return ServletParameterHelper.asString(id,null);
+        return StringUtil.asString(id,null);
     }
 
     public void setIdDisplay(String idDisplay) {
-        this.id = ServletParameterHelper.asInteger(idDisplay,null);
+        this.id = StringUtil.asInteger(idDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

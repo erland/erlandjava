@@ -2,6 +2,7 @@ package erland.webapp.diary.fb.inventory;
 
 import erland.webapp.diary.fb.account.SelectUserFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 import java.util.Date;
 
@@ -42,11 +43,11 @@ public class SelectInventoryFB extends SelectUserFB {
     }
 
     public String getDateDisplay() {
-        return ServletParameterHelper.asString(date,null);
+        return StringUtil.asString(date,null);
     }
 
     public void setDateDisplay(String dateDisplay) {
-        this.date = ServletParameterHelper.asDate(dateDisplay,null);
+        this.date = StringUtil.asDate(dateDisplay,null);
     }
 
     public Integer getContainer() {
@@ -58,11 +59,11 @@ public class SelectInventoryFB extends SelectUserFB {
     }
 
     public String getContainerDisplay() {
-        return ServletParameterHelper.asString(container,null);
+        return StringUtil.asString(container,null);
     }
 
     public void setContainerDisplay(String containerDisplay) {
-        this.container = ServletParameterHelper.asInteger(containerDisplay,null);
+        this.container = StringUtil.asInteger(containerDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

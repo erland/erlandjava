@@ -1,6 +1,7 @@
 package erland.webapp.diary.fb.inventory;
 
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 import java.util.Date;
 
@@ -43,11 +44,11 @@ public class InventoryEntryAndEventFB extends InventoryEntryFB {
     }
 
     public String getEventSizeDisplay() {
-        return ServletParameterHelper.asString(eventSize,null);
+        return StringUtil.asString(eventSize,null);
     }
 
     public void setEventSizeDisplay(String eventSizeDisplay) {
-        this.eventSize = ServletParameterHelper.asDouble(eventSizeDisplay,null);
+        this.eventSize = StringUtil.asDouble(eventSizeDisplay,null);
     }
 
     public Date getEventDate() {
@@ -59,11 +60,11 @@ public class InventoryEntryAndEventFB extends InventoryEntryFB {
     }
 
     public String getEventDateDisplay() {
-        return ServletParameterHelper.asString(eventDate,null);
+        return StringUtil.asString(eventDate,null);
     }
 
     public void setEventDateDisplay(String eventDateDisplay) {
-        this.eventDate = ServletParameterHelper.asDate(eventDateDisplay,null);
+        this.eventDate = StringUtil.asDate(eventDateDisplay,null);
     }
 
     public Integer getEventDescription() {
@@ -75,11 +76,11 @@ public class InventoryEntryAndEventFB extends InventoryEntryFB {
     }
 
     public String getEventDescriptionDisplay() {
-        return ServletParameterHelper.asString(eventDescription,null);
+        return StringUtil.asString(eventDescription,null);
     }
 
     public void setEventDescriptionDisplay(String eventDescriptionDisplay) {
-        this.eventDescription = ServletParameterHelper.asInteger(eventDescriptionDisplay,null);
+        this.eventDescription = StringUtil.asInteger(eventDescriptionDisplay,null);
     }
 
     public Integer getContainer() {
@@ -91,11 +92,11 @@ public class InventoryEntryAndEventFB extends InventoryEntryFB {
     }
 
     public String getContainerDisplay() {
-        return ServletParameterHelper.asString(container,null);
+        return StringUtil.asString(container,null);
     }
 
     public void setContainerDisplay(String containerDisplay) {
-        this.container = ServletParameterHelper.asInteger(containerDisplay,null);
+        this.container = StringUtil.asInteger(containerDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

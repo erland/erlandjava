@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.fb.BaseFB;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -41,11 +42,11 @@ public class DiaryFB extends BaseFB {
     }
 
     public String getIdDisplay() {
-        return ServletParameterHelper.asString(id,null);
+        return StringUtil.asString(id,null);
     }
 
     public void setIdDisplay(String idDisplay) {
-        this.id = ServletParameterHelper.asInteger(idDisplay,null);
+        this.id = StringUtil.asInteger(idDisplay,null);
     }
 
     public String getTitle() {
@@ -73,10 +74,10 @@ public class DiaryFB extends BaseFB {
     }
 
     public String getOfficialDisplay() {
-        return ServletParameterHelper.asString(official,null);
+        return StringUtil.asString(official,null);
     }
     public void setOfficialDisplay(String officialDisplay) {
-        this.official = ServletParameterHelper.asBoolean(officialDisplay,null);
+        this.official = StringUtil.asBoolean(officialDisplay,null);
     }
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);

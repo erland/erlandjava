@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.diary.fb.account.SelectUserFB;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -42,11 +43,11 @@ public class SelectYearMonthFB extends SelectUserFB {
     }
 
     public String getYearDisplay() {
-        return ServletParameterHelper.asString(year,null);
+        return StringUtil.asString(year,null);
     }
 
     public void setYearDisplay(String yearDisplay) {
-        this.year = ServletParameterHelper.asInteger(yearDisplay,null);
+        this.year = StringUtil.asInteger(yearDisplay,null);
     }
 
     public Integer getMonth() {
@@ -58,11 +59,11 @@ public class SelectYearMonthFB extends SelectUserFB {
     }
 
     public String getMonthDisplay() {
-        return ServletParameterHelper.asString(month,null);
+        return StringUtil.asString(month,null);
     }
 
     public void setMonthDisplay(String monthDisplay) {
-        this.month = ServletParameterHelper.asInteger(monthDisplay,null);
+        this.month = StringUtil.asInteger(monthDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

@@ -7,6 +7,7 @@ import java.util.Date;
 
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.fb.BaseFB;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -42,11 +43,11 @@ public class DiaryEntryFB extends BaseFB {
     }
 
     public String getDiaryDisplay() {
-        return ServletParameterHelper.asString(diary,null);
+        return StringUtil.asString(diary,null);
     }
 
     public void setDiaryDisplay(String diaryDisplay) {
-        this.diary = ServletParameterHelper.asInteger(diaryDisplay,null);
+        this.diary = StringUtil.asInteger(diaryDisplay,null);
     }
 
     public Date getDate() {
@@ -58,11 +59,11 @@ public class DiaryEntryFB extends BaseFB {
     }
 
     public String getDateDisplay() {
-        return ServletParameterHelper.asString(date,null);
+        return StringUtil.asString(date,null);
     }
 
     public void setDateDisplay(String dateDisplay) {
-        this.date = ServletParameterHelper.asDate(dateDisplay,null);
+        this.date = StringUtil.asDate(dateDisplay,null);
     }
 
     public String getTitle() {

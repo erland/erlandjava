@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import erland.webapp.common.fb.BasePB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -47,10 +48,10 @@ public class PurchasePriceGroupEntryPB extends BasePB {
     }
 
     public String getPriceDisplay() {
-        return ServletParameterHelper.asString(price,null);
+        return StringUtil.asString(price,null);
     }
 
     public void setPriceDisplay(String priceDisplay) {
-        this.price = ServletParameterHelper.asDouble(priceDisplay,null);
+        this.price = StringUtil.asDouble(priceDisplay,null);
     }
 }

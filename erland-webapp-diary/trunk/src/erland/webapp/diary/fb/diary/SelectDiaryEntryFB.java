@@ -3,6 +3,7 @@ package erland.webapp.diary.fb.diary;
 import org.apache.struts.validator.ValidatorForm;
 import erland.webapp.diary.fb.account.SelectUserFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 import java.util.Date;
 
@@ -37,11 +38,11 @@ public class SelectDiaryEntryFB extends SelectDiaryFB {
     }
 
     public String getDateDisplay() {
-        return ServletParameterHelper.asString(date,null);
+        return StringUtil.asString(date,null);
     }
 
     public void setDateDisplay(String dateDisplay) {
-        this.date = ServletParameterHelper.asDate(dateDisplay,null);
+        this.date = StringUtil.asDate(dateDisplay,null);
     }
 
 }

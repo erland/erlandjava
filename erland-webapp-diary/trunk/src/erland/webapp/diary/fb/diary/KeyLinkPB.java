@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.fb.BasePB;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -61,11 +62,11 @@ public class KeyLinkPB extends BasePB {
     }
 
     public String getSelectedDisplay() {
-        return ServletParameterHelper.asString(selected,null);
+        return StringUtil.asString(selected,null);
     }
 
     public void setSelectedDisplay(String selectedDisplay) {
-        this.selected = ServletParameterHelper.asBoolean(selectedDisplay,Boolean.FALSE);
+        this.selected = StringUtil.asBoolean(selectedDisplay,Boolean.FALSE);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

@@ -2,6 +2,7 @@ package erland.webapp.diary.fb.container;
 
 import erland.webapp.diary.fb.account.SelectUserFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,11 +38,11 @@ public class SelectContainerFB extends SelectUserFB {
     }
 
     public String getContainerDisplay() {
-        return ServletParameterHelper.asString(container,null);
+        return StringUtil.asString(container,null);
     }
 
     public void setContainerDisplay(String containerDisplay) {
-        this.container = ServletParameterHelper.asInteger(containerDisplay,null);
+        this.container = StringUtil.asInteger(containerDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

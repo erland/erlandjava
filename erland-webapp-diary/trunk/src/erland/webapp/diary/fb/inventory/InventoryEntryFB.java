@@ -3,6 +3,7 @@ package erland.webapp.diary.fb.inventory;
 import org.apache.struts.action.ActionMapping;
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.fb.BaseFB;
+import erland.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -57,11 +58,11 @@ public class InventoryEntryFB extends BaseFB {
     }
 
     public String getIdDisplay() {
-        return ServletParameterHelper.asString(id,null);
+        return StringUtil.asString(id,null);
     }
 
     public void setIdDisplay(String idDisplay) {
-        this.id = ServletParameterHelper.asInteger(idDisplay,null);
+        this.id = StringUtil.asInteger(idDisplay,null);
     }
 
     public Integer getType() {
@@ -73,11 +74,11 @@ public class InventoryEntryFB extends BaseFB {
     }
 
     public String getTypeDisplay() {
-        return ServletParameterHelper.asString(type,null);
+        return StringUtil.asString(type,null);
     }
 
     public void setTypeDisplay(String typeDisplay) {
-        this.type = ServletParameterHelper.asInteger(typeDisplay,null);
+        this.type = StringUtil.asInteger(typeDisplay,null);
     }
 
     public String getTypeDescription() {
@@ -97,11 +98,11 @@ public class InventoryEntryFB extends BaseFB {
     }
 
     public String getSexDisplay() {
-        return ServletParameterHelper.asString(sex,null);
+        return StringUtil.asString(sex,null);
     }
 
     public void setSexDisplay(String sexDisplay) {
-        this.sex = ServletParameterHelper.asInteger(sexDisplay,null);
+        this.sex = StringUtil.asInteger(sexDisplay,null);
     }
 
     public String getSexDescription() {
@@ -169,11 +170,11 @@ public class InventoryEntryFB extends BaseFB {
     }
 
     public String getGalleryDisplay() {
-        return ServletParameterHelper.asString(gallery,null);
+        return StringUtil.asString(gallery,null);
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        this.gallery = ServletParameterHelper.asInteger(galleryDisplay,null);
+        this.gallery = StringUtil.asInteger(galleryDisplay,null);
     }
 
     public String getGalleryLink() {

@@ -6,6 +6,7 @@ import java.util.Date;
 
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.fb.BaseFB;
+import erland.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -49,11 +50,11 @@ public class InventoryEntryEventFB extends BaseFB {
     }
 
     public String getIdDisplay() {
-        return ServletParameterHelper.asString(id,null);
+        return StringUtil.asString(id,null);
     }
 
     public void setIdDisplay(String idDisplay) {
-        this.id = ServletParameterHelper.asInteger(idDisplay,null);
+        this.id = StringUtil.asInteger(idDisplay,null);
     }
 
     public Integer getEventId() {
@@ -65,11 +66,11 @@ public class InventoryEntryEventFB extends BaseFB {
     }
 
     public String getEventIdDisplay() {
-        return ServletParameterHelper.asString(eventId,null);
+        return StringUtil.asString(eventId,null);
     }
 
     public void setEventIdDisplay(String eventIdDisplay) {
-        this.eventId = ServletParameterHelper.asInteger(eventIdDisplay,null);
+        this.eventId = StringUtil.asInteger(eventIdDisplay,null);
     }
 
     public Integer getDescription() {
@@ -81,11 +82,11 @@ public class InventoryEntryEventFB extends BaseFB {
     }
 
     public String getDescriptionDisplay() {
-        return ServletParameterHelper.asString(description,null);
+        return StringUtil.asString(description,null);
     }
 
     public void setDescriptionDisplay(String descriptionDisplay) {
-        this.description = ServletParameterHelper.asInteger(descriptionDisplay,null);
+        this.description = StringUtil.asInteger(descriptionDisplay,null);
     }
 
     public String getDescriptionText() {
@@ -105,11 +106,11 @@ public class InventoryEntryEventFB extends BaseFB {
     }
 
     public String getSizeDisplay() {
-        return ServletParameterHelper.asString(size,null);
+        return StringUtil.asString(size,null);
     }
 
     public void setSizeDisplay(String sizeDisplay) {
-        this.size = ServletParameterHelper.asDouble(sizeDisplay,null);
+        this.size = StringUtil.asDouble(sizeDisplay,null);
     }
 
     public String getSizeText() {
@@ -129,11 +130,11 @@ public class InventoryEntryEventFB extends BaseFB {
     }
 
     public String getDateDisplay() {
-        return ServletParameterHelper.asString(date,null);
+        return StringUtil.asString(date,null);
     }
 
     public void setDateDisplay(String dateDisplay) {
-        this.date = ServletParameterHelper.asDate(dateDisplay,null);
+        this.date = StringUtil.asDate(dateDisplay,null);
     }
 
     public Integer getContainer() {
@@ -145,11 +146,11 @@ public class InventoryEntryEventFB extends BaseFB {
     }
 
     public String getContainerDisplay() {
-        return ServletParameterHelper.asString(container,null);
+        return StringUtil.asString(container,null);
     }
 
     public void setContainerDisplay(String containerDisplay) {
-        this.container = ServletParameterHelper.asInteger(containerDisplay,null);
+        this.container = StringUtil.asInteger(containerDisplay,null);
     }
 
     public String getUpdateLink() {

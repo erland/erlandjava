@@ -2,6 +2,7 @@ package erland.webapp.diary.fb.container;
 
 import erland.webapp.common.fb.BaseFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,11 +49,11 @@ public class ContainerFB extends BaseFB {
     }
 
     public String getIdDisplay() {
-        return ServletParameterHelper.asString(id,null);
+        return StringUtil.asString(id,null);
     }
 
     public void setIdDisplay(String idDisplay) {
-        this.id = ServletParameterHelper.asInteger(idDisplay,null);
+        this.id = StringUtil.asInteger(idDisplay,null);
     }
 
     public String getName() {
@@ -80,11 +81,11 @@ public class ContainerFB extends BaseFB {
     }
 
     public String getVolumeDisplay() {
-        return ServletParameterHelper.asString(volume,null);
+        return StringUtil.asString(volume,null);
     }
 
     public void setVolumeDisplay(String volumeDisplay) {
-        this.volume = ServletParameterHelper.asInteger(volumeDisplay,null);
+        this.volume = StringUtil.asInteger(volumeDisplay,null);
     }
 
     public Integer getWidth() {
@@ -96,11 +97,11 @@ public class ContainerFB extends BaseFB {
     }
 
     public String getWidthDisplay() {
-        return ServletParameterHelper.asString(width,null);
+        return StringUtil.asString(width,null);
     }
 
     public void setWidthDisplay(String widthDisplay) {
-        this.width = ServletParameterHelper.asInteger(widthDisplay,null);
+        this.width = StringUtil.asInteger(widthDisplay,null);
     }
 
     public Integer getHeight() {
@@ -112,11 +113,11 @@ public class ContainerFB extends BaseFB {
     }
 
     public String getHeightDisplay() {
-        return ServletParameterHelper.asString(height,null);
+        return StringUtil.asString(height,null);
     }
 
     public void setHeightDisplay(String heightDisplay) {
-        this.height = ServletParameterHelper.asInteger(heightDisplay,null);
+        this.height = StringUtil.asInteger(heightDisplay,null);
     }
 
     public Integer getLength() {
@@ -128,11 +129,11 @@ public class ContainerFB extends BaseFB {
     }
 
     public String getLengthDisplay() {
-        return ServletParameterHelper.asString(length,null);
+        return StringUtil.asString(length,null);
     }
 
     public void setLengthDisplay(String lengthDisplay) {
-        this.length = ServletParameterHelper.asInteger(lengthDisplay,null);
+        this.length = StringUtil.asInteger(lengthDisplay,null);
     }
 
     public String getDescription() {
@@ -152,11 +153,11 @@ public class ContainerFB extends BaseFB {
     }
 
     public String getGalleryDisplay() {
-        return ServletParameterHelper.asString(gallery,null);
+        return StringUtil.asString(gallery,null);
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        this.gallery = ServletParameterHelper.asInteger(galleryDisplay,null);
+        this.gallery = StringUtil.asInteger(galleryDisplay,null);
     }
 
     public String getImage() {

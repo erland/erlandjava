@@ -6,6 +6,7 @@ import java.util.Date;
 
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.fb.BaseFB;
+import erland.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -46,11 +47,11 @@ public class PurchaseEntryFB extends BaseFB {
     }
 
     public String getIdDisplay() {
-        return ServletParameterHelper.asString(id,null);
+        return StringUtil.asString(id,null);
     }
 
     public void setIdDisplay(String idDisplay) {
-        this.id = ServletParameterHelper.asInteger(idDisplay,null);
+        this.id = StringUtil.asInteger(idDisplay,null);
     }
 
     public Date getDate() {
@@ -62,11 +63,11 @@ public class PurchaseEntryFB extends BaseFB {
     }
 
     public String getDateDisplay() {
-        return ServletParameterHelper.asString(date,null);
+        return StringUtil.asString(date,null);
     }
 
     public void setDateDisplay(String dateDisplay) {
-        this.date = ServletParameterHelper.asDate(dateDisplay,null);
+        this.date = StringUtil.asDate(dateDisplay,null);
     }
 
     public String getStore() {
@@ -86,11 +87,11 @@ public class PurchaseEntryFB extends BaseFB {
     }
 
     public String getCategoryDisplay() {
-        return ServletParameterHelper.asString(category,null);
+        return StringUtil.asString(category,null);
     }
 
     public void setCategoryDisplay(String categoryDisplay) {
-        this.category = ServletParameterHelper.asInteger(categoryDisplay,null);
+        this.category = StringUtil.asInteger(categoryDisplay,null);
     }
 
     public String getCategoryDescription() {
@@ -118,11 +119,11 @@ public class PurchaseEntryFB extends BaseFB {
     }
 
     public String getPriceDisplay() {
-        return ServletParameterHelper.asString(price,null);
+        return StringUtil.asString(price,null);
     }
 
     public void setPriceDisplay(String priceDisplay) {
-        this.price = ServletParameterHelper.asDouble(priceDisplay,null);
+        this.price = StringUtil.asDouble(priceDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

@@ -3,6 +3,7 @@ package erland.webapp.diary.fb.gallery;
 import org.apache.struts.action.ActionMapping;
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.fb.BaseFB;
+import erland.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -41,11 +42,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getIdDisplay() {
-        return ServletParameterHelper.asString(id,null);
+        return StringUtil.asString(id,null);
     }
 
     public void setIdDisplay(String idDisplay) {
-        this.id = ServletParameterHelper.asInteger(idDisplay,null);
+        this.id = StringUtil.asInteger(idDisplay,null);
     }
 
     public String getTitle() {
@@ -73,11 +74,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getGalleryDisplay() {
-        return ServletParameterHelper.asString(gallery,null);
+        return StringUtil.asString(gallery,null);
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        this.gallery = ServletParameterHelper.asInteger(galleryDisplay,null);
+        this.gallery = StringUtil.asInteger(galleryDisplay,null);
     }
 
     public Boolean getOfficial() {
@@ -89,11 +90,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getOfficialDisplay() {
-        return ServletParameterHelper.asString(official,null);
+        return StringUtil.asString(official,null);
     }
 
     public void setOfficialDisplay(String officialDisplay) {
-        this.official = ServletParameterHelper.asBoolean(officialDisplay,Boolean.FALSE);
+        this.official = StringUtil.asBoolean(officialDisplay,Boolean.FALSE);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

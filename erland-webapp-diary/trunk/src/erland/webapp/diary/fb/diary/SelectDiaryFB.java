@@ -3,6 +3,7 @@ package erland.webapp.diary.fb.diary;
 import org.apache.struts.validator.ValidatorForm;
 import erland.webapp.diary.fb.account.SelectUserFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -35,10 +36,10 @@ public class SelectDiaryFB extends SelectUserFB {
     }
 
     public String getDiaryDisplay() {
-        return ServletParameterHelper.asString(diary,null);
+        return StringUtil.asString(diary,null);
     }
 
     public void setDiaryDisplay(String diaryDisplay) {
-        this.diary = ServletParameterHelper.asInteger(diaryDisplay,null);
+        this.diary = StringUtil.asInteger(diaryDisplay,null);
     }
 }

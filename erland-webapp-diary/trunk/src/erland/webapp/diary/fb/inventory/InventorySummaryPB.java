@@ -4,6 +4,7 @@ import org.apache.struts.action.ActionMapping;
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.fb.BaseFB;
 import erland.webapp.common.fb.BasePB;
+import erland.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,10 +48,10 @@ public class InventorySummaryPB extends BasePB {
     }
 
     public String getNumberOfDisplay() {
-        return ServletParameterHelper.asString(numberOf,null);
+        return StringUtil.asString(numberOf,null);
     }
 
     public void setNumberOfDisplay(String numberOfDisplay) {
-        this.numberOf = ServletParameterHelper.asInteger(numberOfDisplay,null);
+        this.numberOf = StringUtil.asInteger(numberOfDisplay,null);
     }
 }
