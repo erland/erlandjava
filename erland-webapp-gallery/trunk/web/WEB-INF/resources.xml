@@ -18,5 +18,6 @@
         <entity id="gallery-categorymembership" reference="categorymembership:erland/webapp/gallery/entity/gallery/category/categorymembership.xml"/>
         <entity id="gallery-filter" reference="filter:erland/webapp/gallery/entity/gallery/filter/filter.xml"/>
         <entity id="gallery-galleryfilter" reference="galleryfilter:erland/webapp/gallery/entity/gallery/filter/galleryfilter.xml"/>
+        <entity id="gallery-skin" reference="skin:erland/webapp/gallery/entity/skin/skin.xml"/>
     </entities>
 </resources>
