@@ -511,4 +511,32 @@ public class StringUtil {
     public static String asString(Date value, String defaultValue, DateFormat format) {
         return value!=null?format.format(value):defaultValue;
     }
+    public static String wordWrap(String str, int width) {
+        StringBuffer sb = new StringBuffer(str);
+
+        int lastSpace = -1;
+        int lineStart = 0;
+        int i = 0;
+        while (i < sb.length()) {
+            if (Character.isWhitespace(sb.charAt(i))) {
+                lastSpace = i;
+            }
+            if (sb.charAt(i) == '\n') {
+                lastSpace = -1;
+                lineStart = i + 1;
+            }
+            if (i > lineStart + width - 1) {
+                if (lastSpace != -1) {
+                    sb.setCharAt(lastSpace, '\n');
+                    lineStart = lastSpace + 1;
+                    lastSpace = -1;
+                } else {
+                    sb.insert(i, '\n');
+                    lineStart = i + 1;
+                }
+            }
+            i++;
+        }
+        return sb.toString();
+    }
 }
