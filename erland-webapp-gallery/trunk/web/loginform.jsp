@@ -11,7 +11,8 @@
     String user = request.getParameter("user");
     if(user!=null && user.length()==0) {
         user = null;
-    }else {
+    }
+    if(user!=null) {
         %>
         <input type="hidden" name="user" value="<%=user%>">
         <%
