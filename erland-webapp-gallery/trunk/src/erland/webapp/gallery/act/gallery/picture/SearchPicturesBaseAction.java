@@ -366,6 +366,10 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         if(forward!=null) {
             pb.setSearchLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
         }
+        forward = mapping.findForward("page-link");
+        if(forward!=null) {
+            pb.setPageLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+        }
         request.setAttribute("picturesPB", pb);
 
         GalleryPB galleryPB = new GalleryPB();
