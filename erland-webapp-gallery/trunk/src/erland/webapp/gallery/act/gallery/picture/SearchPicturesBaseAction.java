@@ -35,12 +35,14 @@ import erland.util.Log;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionForward;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -54,6 +56,10 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         SelectPictureFB fb = (SelectPictureFB) form;
         virtualGalleryId = fb.getGallery();
         GalleryInterface gallery = GalleryHelper.getGallery(getEnvironment(), virtualGalleryId);
+        if(gallery==null) {
+            saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.gallery-not-found"}));
+            return;
+        }
         galleryId = GalleryHelper.getGalleryId(gallery);
         categoryId = fb.getCategory();
         Log.println(this,"Search pictures: "+fb.getGallery()+","+fb.getCategory());
@@ -131,6 +137,18 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
                 picturesPB[i].setLink(ServletParameterHelper.replaceDynamicParameters(path,pictureParameters));
             } else {
                 picturesPB[i].setLink(getImagePath(storageEntities, picturesPB[i].getLink()));
+            }
+            if (gallery.getUsername().equals(request.getRemoteUser())) {
+                ActionForward forward = mapping.findForward("picture-update-link");
+                if(forward!=null) {
+                    String path = forward.getPath();
+                    picturesPB[i].setUpdateLink(ServletParameterHelper.replaceDynamicParameters(path,pictureParameters));
+                }
+                forward = mapping.findForward("picture-remove-link");
+                if(forward!=null) {
+                    String path = forward.getPath();
+                    picturesPB[i].setRemoveLink(ServletParameterHelper.replaceDynamicParameters(path,pictureParameters));
+                }
             }
             picturesPB[i].setGallery(virtualGalleryId);
         }
