@@ -30,15 +30,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Enumeration;
+import java.util.*;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.Log;
 
 /**
  * Base class for all other actions, contains common functionallity
@@ -460,6 +458,9 @@ public class BaseAction extends Action {
                     forward = new ActionForward(forward.getName(),path,forward.getRedirect(),forward.getContextRelative());
                 }
             }
+            Log.println(this,"Goto: "+forward.getPath());
+        }else {
+            Log.println(this,"Goto: NOWHERE");
         }
         return forward;
     }
@@ -493,6 +494,12 @@ public class BaseAction extends Action {
         }
 
         result.putAll(request.getParameterMap());
+        if(Log.isEnabled(this)) {
+            for (Iterator iterator = result.entrySet().iterator(); iterator.hasNext();) {
+                Map.Entry entry = (Map.Entry) iterator.next();
+                Log.println(this,"Dynamic parameter: "+entry.getKey()+" = "+entry.getValue());
+            }
+        }
         return result;
     }
 
