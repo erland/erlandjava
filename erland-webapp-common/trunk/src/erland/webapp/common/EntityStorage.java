@@ -42,6 +42,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
     }
 
     public EntityInterface load(EntityInterface template) {
+        long startTime = System.currentTimeMillis();
         Connection conn = null;
         try {
             conn = getPool(environment).getConnection();
@@ -50,6 +51,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
             e.printStackTrace();
             return null;
         } finally {
+            if(Log.isEnabled(this)) Log.println(this,"load: "+template+" ("+(System.currentTimeMillis()-startTime)+" ms)");
             if(conn!=null) {
                 try {
                     conn.close();
@@ -61,6 +63,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
     }
 
     public boolean store(EntityInterface entity) {
+        long startTime = System.currentTimeMillis();
         Connection conn = null;
         try {
             conn = getPool(environment).getConnection();
@@ -72,6 +75,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            if(Log.isEnabled(this)) Log.println(this,"store: "+entity+" ("+(System.currentTimeMillis()-startTime)+" ms)");
             if(conn!=null) {
                 try {
                     conn.close();
@@ -84,6 +88,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
     }
 
     public boolean delete(EntityInterface entity) {
+        long startTime = System.currentTimeMillis();
         Connection conn = null;
         try {
             conn = getPool(environment).getConnection();
@@ -91,6 +96,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         } finally {
+            if(Log.isEnabled(this)) Log.println(this,"delete: "+entity+" ("+(System.currentTimeMillis()-startTime)+" ms)");
             if(conn!=null) {
                 try {
                     conn.close();
@@ -102,8 +108,29 @@ public abstract class EntityStorage implements EntityStorageInterface {
         return false;
     }
 
+    public boolean delete(FilterInterface filter) {
+        long startTime = System.currentTimeMillis();
+        Connection conn = null;
+        try {
+            conn = getPool(environment).getConnection();
+            return delete(conn,filter);
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+        } finally {
+            if(Log.isEnabled(this)) Log.println(this,"delete: "+filter+" ("+(System.currentTimeMillis()-startTime)+" ms)");
+            if(conn!=null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                }
+            }
+        }
+        return false;
+    }
 
     public EntityInterface[] search(FilterInterface filter) {
+        long startTime = System.currentTimeMillis();
         Connection conn = null;
         try {
             conn = getPool(environment).getConnection();
@@ -111,6 +138,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            if(Log.isEnabled(this)) Log.println(this,"search: "+filter+" ("+(System.currentTimeMillis()-startTime)+" ms)");
             if(conn!=null) {
                 try {
                     conn.close();
@@ -120,6 +148,27 @@ public abstract class EntityStorage implements EntityStorageInterface {
             }
         }
         return new EntityInterface[0];
+    }
+
+    public boolean update(FilterInterface filter, EntityInterface entity) {
+        long startTime = System.currentTimeMillis();
+        Connection conn = null;
+        try {
+            conn = getPool(environment).getConnection();
+            return update(conn,filter,entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(Log.isEnabled(this)) Log.println(this,"update: "+filter+" "+entity+" ("+(System.currentTimeMillis()-startTime)+" ms)");
+            if(conn!=null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                }
+            }
+        }
+        return false;
     }
 
     protected WebAppEnvironmentInterface getEnvironment() {
@@ -146,4 +195,8 @@ public abstract class EntityStorage implements EntityStorageInterface {
     protected abstract boolean update(Connection conn, EntityInterface entity) throws SQLException;
 
     protected abstract boolean delete(Connection conn, EntityInterface entity) throws SQLException;
+
+    protected abstract boolean update(Connection conn, FilterInterface filter, EntityInterface entity) throws SQLException;
+
+    protected abstract boolean delete(Connection conn, FilterInterface filter) throws SQLException;
 }
