@@ -53,6 +53,15 @@
             </logic:notEmpty>
             <br>
         </logic:notEmpty>
+        <logic:notEmpty name="picture" property="resolutionLink">
+            <bean:define id="resolutionLink" name="picture" property="resolutionLink" type="String"/>
+            <logic:iterate name="picture" property="resolutions" id="resolution">
+                <bean:define id="resolutionWidth" name="resolution" property="widthDisplay" type="String"/>
+                <bean:define id="resolutionDescription" name="resolution" property="description" type="String"/>
+                <a class="bold-link" href="<html:rewrite page="<%=resolutionLink%>"/>&width=<%=resolutionWidth%>" title="<%=resolutionDescription%>"><bean:write name="resolution" property="id"/></a>
+            </logic:iterate>
+            <br>
+        </logic:notEmpty>
         <bean:define id="link" name="picture" property="link" type="String"/>
         <bean:define id="image" name="picture" property="image" type="String"/>
         <a class="bold-link" href="<html:rewrite page="<%=link%>"/>" target="_blank" title="<bean:write name="picture" property="description"/>"><img src="<html:rewrite page="<%=image%>"/>" border="0"></img><br><div align="center"><bean:write name="picture" property="title"/></div></a>
