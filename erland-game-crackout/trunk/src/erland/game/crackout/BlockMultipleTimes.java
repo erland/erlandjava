@@ -2,12 +2,23 @@ package erland.game.crackout;
 import erland.game.*;
 import java.awt.*;
 
+/**
+ * Implements a block that has to be hit multiple times before it disappears
+ */
 class BlockMultipleTimes extends BlockSimple
 {
-	int hitCount;
-	int blinkCount;
+	/** 
+	 * Number of times the block must be hit before it disappers.
+	 * This is a counter that will be decreased every time the block is hit
+	 */
+	protected int hitCount;
+	/** Counter that handles the blinking every time the block is hit */
+	protected int blinkCount;
 	
-	BlockMultipleTimes()
+	/**
+	 * Creates an instance of the block
+	 */
+	public BlockMultipleTimes()
 	{
 		hitCount=0;
 		blinkCount=0;
@@ -21,7 +32,18 @@ class BlockMultipleTimes extends BlockSimple
 		return obj;
     }
 
-	void init(ImageHandlerInterface images, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color, int hitCount)
+	/**
+	 * Initialize block
+	 * @param images Image handler object
+	 * @param cont Reference to block container object
+	 * @param sizeX Width of block (Number of squares)
+	 * @param sizeY Height of block (Number of squares)
+	 * @param posX X position of block (Square coordinates)
+	 * @param posY Y position of block (Square coordinates)
+	 * @param color Color of the block
+	 * @param hitCount Number of times the block must be hit
+	 */
+	public void init(ImageHandlerInterface images, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color, int hitCount)
 	{
 		init(images,cont, sizeX, sizeY, posX, posY,color);
 		this.hitCount= hitCount;
@@ -51,7 +73,10 @@ class BlockMultipleTimes extends BlockSimple
 		active=false;
 	}
 
-	void drawPattern(Graphics g, Color color, int brightness)
+	/** 
+	 * Draw pattern that is visible as long as {@link #hitCount} is greater than 1
+	 */
+	protected void drawPattern(Graphics g, Color color, int brightness)
 	{
 		float hsb[] = new float[3];
 		Color.RGBtoHSB(color.getRed(),color.getGreen(),color.getBlue(),hsb);

@@ -3,12 +3,22 @@ package erland.game.crackout;
 import java.applet.*;
 import java.awt.*;
 
+/**
+ * Preloads all images needed by all the other classes.
+ * The other classes can just request an image and it will be
+ * returned immediately without disc access
+ */
 class ImageHandler
 	implements ImageHandlerInterface
 {
-	Image images[];
+	/** Array with all loaded image objects */
+	protected Image images[];
 	
-	ImageHandler(Applet applet)
+	/**
+	 * Creates a new instance
+	 * @param applet The applet object which should be used for the image loading
+	 */
+	public ImageHandler(Applet applet)
 	{
 		this.images = new Image[NO_OF_IMAGES];
 		String file="images/crackout/feature.gif";

@@ -1,21 +1,45 @@
 package erland.game.crackout;
 
 import java.awt.*;
-
+/**
+ * Represents a single bat
+ */
 class Bat
 	implements CollisionRect
 {
-	int x;
-	int y;
-	int leftLimit;
-	int rightLimit;
-	int sizeX;
-	int sizeY;
-	int speed;
-	int offsetX;
-	int offsetY;
-	int wantedSizeX;
+	/** X position of the bat */
+	protected int x;
+	/** Y position of the bat */
+	protected int y;
+	/** Minimum x position of some part of the bat */
+	protected int leftLimit;
+	/** Maximum x position of some part of the bat */
+	protected int rightLimit;
+	/** Current width of the bat */
+	protected int sizeX;
+	/** Height of the bat */
+	protected int sizeY;
+	/** Speed of the bat */
+	protected int speed;
+	/** Horisontal drawing offset */
+	protected int offsetX;
+	/** Vertical drawing offset */
+	protected int offsetY;
+	/** Requested width of the bat */
+	protected int wantedSizeX;
 	
+	/**
+	 * Initialize bat
+	 * @param offsetX Horisontal drawing offset
+	 * @param offsetY Vertical drawing offset
+	 * @param leftLimit Minimum x position of some part of the bat
+	 * @param rightLimit Maximum x position of some part of the bat
+	 * @param x Initial X position
+	 * @param y Initial Y position
+	 * @param sizeX Width of the bat
+	 * @param sizeY Height of the bat
+	 * @param speed Speed of the bat
+	 */
 	public void init(int offsetX, int offsetY, int leftLimit, int rightLimit, int x, int y, int sizeX, int sizeY, int speed)
 	{
 		this.x = x;
@@ -50,6 +74,10 @@ class Bat
 		return y+sizeY;
 	}
 		
+	/**
+	 * Move the bat one step right
+	 * @return true/false (Success/Failure)
+	 */
 	public boolean moveRight()
 	{
 		x+=speed;
@@ -60,6 +88,10 @@ class Bat
 		return true;
 	}
 	
+	/**
+	 * Move the bat one step left
+	 * @return true/false (Success/Failure)
+	 */
 	public boolean moveLeft()
 	{
 		x-=speed;
@@ -69,6 +101,11 @@ class Bat
 		}
 		return true;
 	}
+	
+	/**
+	 * Draw the bat
+	 * @param g The Graphics object to draw on
+	 */
 	public void draw(Graphics g)
 	{
 		if(wantedSizeX!=sizeX) {
@@ -83,7 +120,12 @@ class Bat
 	}
 	public void handleCollision(ActionInterface a) {
 	}
-	void setSpeed(int speed)
+	
+	/**
+	 * Set the speed of the bat
+	 * @param speed The new speed of the bat
+	 */
+	public void setSpeed(int speed)
 	{
 		if(speed>=1) {
 			if(speed>16) {
@@ -93,17 +135,29 @@ class Bat
 		}
 	}
 	
-	int getSpeed()
+	/**
+	 * Get the current speed of the bat
+	 * @return The current speed of the bat
+	 */
+	public int getSpeed()
 	{
 		return this.speed;
 	}
 	
-	int getSizeX()
+	/**
+	 * Get the current width of the bat
+	 * @return The current width of the bat
+	 */
+	public int getSizeX()
 	{
 		return this.sizeX;
 	}
 	
-	void changeSize()
+	/**
+	 * Change the width of the bat if the requested width
+	 * is different than the current width
+	 */
+	protected void changeSize()
 	{
 		if(wantedSizeX>sizeX) {
 			if(wantedSizeX>(sizeX+1)) {
@@ -129,17 +183,33 @@ class Bat
 			x=leftLimit;
 		}
 	}
-	void setSizeXFast(int sizeX)
+	
+	/**
+	 * Set the current and requested width of the bat
+	 * @param sizeX The new width of the bat
+	 */
+	public void setSizeXFast(int sizeX)
 	{
 		this.sizeX = sizeX;
 		wantedSizeX = sizeX;
 	}
 
-	void setSizeX(int sizeX)
+	/**
+	 * Set the requested width of the bat, the bat will shrink/grow to
+	 * this width during the next redraws
+	 * @param sizeX The new requested width of the bat
+	 */
+	public void setSizeX(int sizeX)
 	{
 		wantedSizeX = sizeX;
 	}
-	void setLimit(int left, int right)
+	
+	/**
+	 * Change the minimum and maximum x position of some part of the bat
+	 * @param left The new minimum x position
+	 * @param right The new maximum x position
+	 */
+	public void setLimit(int left, int right)
 	{
 		leftLimit = left;
 		rightLimit = right;

@@ -3,12 +3,22 @@ package erland.game.crackout;
 import java.awt.*;
 import java.io.*;
 
+/**
+ * Preloads all images needed by all the other classes.
+ * The other classes can just request an image and it will be
+ * returned immediately without disc access
+ */
 class ImageHandlerForApp
 	implements ImageHandlerInterface
 {
-	Image images[];
+	/** Array with all loaded image objects */
+	protected Image images[];
 	
-	ImageHandlerForApp(Component comp)
+	/**
+	 * Creates a new instance
+	 * @param comp The {@link Component} object which should be used during the image loading
+	 */
+	public ImageHandlerForApp(Component comp)
 	{
 		Toolkit tk = Toolkit.getDefaultToolkit();
 

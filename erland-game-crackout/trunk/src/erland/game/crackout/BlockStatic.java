@@ -2,9 +2,16 @@ package erland.game.crackout;
 
 import java.awt.*;
 
+/**
+ * Creates a block that never disappears when it is hit by the ball
+ * It will however disappear if it is hit by an explosion
+ */
 class BlockStatic extends Block
 {
-	BlockStatic()
+	/**
+	 * Creates a new block
+	 */
+	public BlockStatic()
 	{
 		description = "Static block";
 	}

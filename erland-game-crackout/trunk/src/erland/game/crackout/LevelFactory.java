@@ -4,62 +4,76 @@ import erland.game.*;
 import java.util.*;
 import java.awt.Color;
 
+/**
+ * Level factory object
+ * Manages all the levels available, both hardcoded and user made with the editor
+ */
 class LevelFactory
 {
-	static final int MAX_DEFAULT_LEVELS=8;
+	/** Number of hardcoded levels */
+	protected static final int MAX_DEFAULT_LEVELS=8;
 	
-	LinkedList blocks;
-	LinkedList levels;
+	/** Temporary storage for array of block, used by {@link #getFullBlockList()} and {@link #newBlock(int, int,Color,int)} */
+	protected LinkedList blocks;
+	/** List of all user made levels */
+	protected LinkedList levels;
 	
-	ImageHandlerInterface images;
-	int offsetX;
-	int offsetY;
-	int squareSize;
-	int sizeX;
-	int sizeY;
-	ParameterValueStorageInterface cookies;
-	int maxLevel;
-	BlockContainerInterface cont;
+	/** Image handler object */
+	protected ImageHandlerInterface images;
+	/** Width of blocks (Square coordinate) */
+	protected int sizeX;
+	/** Height of blocks (Square coordinate) */
+	protected int sizeY;
+	/** Parameter storage which contains user made levels */
+	protected ParameterValueStorageInterface cookies;
+	/** The last level number */
+	protected int maxLevel;
+	/** Block container which the blocks should reside in */
+	protected BlockContainerInterface cont;
 
-	Block[] getFullBlockList()
+	/**
+	 * Get a array with all different blocks available
+	 * @return An array with all different blocks available
+	 */
+	public Block[] getFullBlockList()
 	{
 		blocks = new LinkedList();
 		blocks.clear();
 		
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.yellow,Level.bPlain);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.red,Level.bMultiple);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.green,Level.bStatic);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.yellow,Level.BlockType.bPlain);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.red,Level.BlockType.bMultiple);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.green,Level.BlockType.bStatic);
 
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.green,Level.fLockBat);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.white,Level.fNewBall);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.blue,Level.fIncreaseBallSpeed);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.yellow,Level.fDecreaseBallSpeed);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.red,Level.fIncreaseBatSpeed);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.green,Level.fDecreaseBatSpeed);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.white,Level.fDoubleBat);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.blue,Level.fExtraLife);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.yellow,Level.fSafetyWall);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.red,Level.fMissile);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.green,Level.fLargeBat);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.white,Level.fSmallBat);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.blue,Level.fBomb);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.green,Level.BlockType.fLockBat);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.white,Level.BlockType.fNewBall);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.blue,Level.BlockType.fIncreaseBallSpeed);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.yellow,Level.BlockType.fDecreaseBallSpeed);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.red,Level.BlockType.fIncreaseBatSpeed);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.green,Level.BlockType.fDecreaseBatSpeed);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.white,Level.BlockType.fDoubleBat);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.blue,Level.BlockType.fExtraLife);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.yellow,Level.BlockType.fSafetyWall);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.red,Level.BlockType.fMissile);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.green,Level.BlockType.fLargeBat);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.white,Level.BlockType.fSmallBat);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.blue,Level.BlockType.fBomb);
 
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.green,Level.fLockBatHold);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.white,Level.fNewBallHold);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.blue,Level.fIncreaseBallSpeedHold);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.yellow,Level.fDecreaseBallSpeedHold);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.red,Level.fIncreaseBatSpeedHold);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.green,Level.fDecreaseBatSpeedHold);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.white,Level.fDoubleBatHold);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.blue,Level.fExtraLifeHold);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.yellow,Level.fSafetyWallHold);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.red,Level.fMissileHold);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.green,Level.fLargeBatHold);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.white,Level.fSmallBatHold);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.blue,Level.fBombHold);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.green,Level.BlockType.fLockBatHold);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.white,Level.BlockType.fNewBallHold);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.blue,Level.BlockType.fIncreaseBallSpeedHold);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.yellow,Level.BlockType.fDecreaseBallSpeedHold);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.red,Level.BlockType.fIncreaseBatSpeedHold);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.green,Level.BlockType.fDecreaseBatSpeedHold);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.white,Level.BlockType.fDoubleBatHold);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.blue,Level.BlockType.fExtraLifeHold);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.yellow,Level.BlockType.fSafetyWallHold);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.red,Level.BlockType.fMissileHold);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.green,Level.BlockType.fLargeBatHold);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.white,Level.BlockType.fSmallBatHold);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.blue,Level.BlockType.fBombHold);
 
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.blue,Level.mBounceBlock);
-		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.yellow,Level.mBounceOnceBlock);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.blue,Level.BlockType.mBounceBlock);
+		newBlock(blocks.size()%sizeX,blocks.size()/sizeX,Color.yellow,Level.BlockType.mBounceOnceBlock);
 
 		Block ret[];
 		if(blocks.size()>0) {
@@ -76,7 +90,14 @@ class LevelFactory
 		}
 	}
 	
-	void newBlock(int x, int y, Color c, int type)
+	/**
+	 * Creates a new block and put it into the {@link #blocks} list
+	 * @param x X position of block (Square coordinate)
+	 * @param y Y position of block (Square coordinate)
+	 * @param c Color of block
+	 * @param type Type of block, see {@link Level.BlockType}
+	 */
+	protected void newBlock(int x, int y, Color c, int type)
 	{
 		x*=Level.squareSizeX;
 		y*=Level.squareSizeY;
@@ -86,13 +107,16 @@ class LevelFactory
 			blocks.add(block);
 		}
 	}
-	LevelFactory(ImageHandlerInterface images, ParameterValueStorageInterface cookies, BlockContainerInterface cont)
+	/**
+	 * Creates a new level factory
+	 * @param images Image handler object
+	 * @param cookies Parameter storage object which should be used when accessing user made level data
+	 * @param cont Block container which the blocks should reside in
+	 */
+	public LevelFactory(ImageHandlerInterface images, ParameterValueStorageInterface cookies, BlockContainerInterface cont)
 	{
 		this.images = images;
 		this.cont = cont;
-		this.offsetX = cont.getOffsetX();
-		this.offsetY = cont.getOffsetY();
-		this.squareSize = cont.getSquareSize();
 		this.sizeX = cont.getSizeX();
 		this.sizeY = cont.getSizeY();
 		this.cookies = cookies;
@@ -100,7 +124,14 @@ class LevelFactory
 		loadAll();
 	}
 	
-	Block[] getLevel(int level)
+	/**
+	 * Get all blocks for a specific level
+	 * The level data will be taken from a user made level if it exists, else a hardcoded
+	 * level will be used
+	 * @param level Level number to get data for
+	 * @return Array of all blocks in the requested level, null if level does not exist
+	 */
+	public Block[] getLevel(int level)
 	{
 		if(level>maxLevel) {
 			return null;
@@ -122,185 +153,190 @@ class LevelFactory
 		}
 	}
 	
-	Block[] getDefaultLevel(int level)
+	/**
+	 * Get all blocks for a specific hardcoded level
+	 * @param level Level number to get data for
+	 * @return Array of all blocks in the requested level
+	 */
+	protected Block[] getDefaultLevel(int level)
 	{
 		blocks = new LinkedList();
 		blocks.clear();
 		switch(level) {
 			case 1:
-				newBlock(1,1,Color.yellow,Level.bPlain);
-				newBlock(3,1,Color.yellow,Level.bPlain);
-				newBlock(6,1,Color.yellow,Level.bPlain);
-				newBlock(8,1,Color.yellow,Level.bPlain);
-				newBlock(1,2,Color.red,Level.bPlain);
-				newBlock(3,2,Color.red,Level.bPlain);
-				newBlock(6,2,Color.red,Level.bPlain);
-				newBlock(8,2,Color.red,Level.bPlain);
-				newBlock(1,3,Color.green,Level.bPlain);
-				newBlock(2,3,Color.green,Level.bPlain);
-				newBlock(3,3,Color.green,Level.bPlain);
-				newBlock(4,3,Color.green,Level.bPlain);
-				newBlock(5,3,Color.green,Level.bPlain);
-				newBlock(6,3,Color.green,Level.bPlain);
-				newBlock(7,3,Color.green,Level.bPlain);
-				newBlock(8,3,Color.green,Level.bPlain);
+				newBlock(1,1,Color.yellow,Level.BlockType.bPlain);
+				newBlock(3,1,Color.yellow,Level.BlockType.bPlain);
+				newBlock(6,1,Color.yellow,Level.BlockType.bPlain);
+				newBlock(8,1,Color.yellow,Level.BlockType.bPlain);
+				newBlock(1,2,Color.red,Level.BlockType.bPlain);
+				newBlock(3,2,Color.red,Level.BlockType.bPlain);
+				newBlock(6,2,Color.red,Level.BlockType.bPlain);
+				newBlock(8,2,Color.red,Level.BlockType.bPlain);
+				newBlock(1,3,Color.green,Level.BlockType.bPlain);
+				newBlock(2,3,Color.green,Level.BlockType.bPlain);
+				newBlock(3,3,Color.green,Level.BlockType.bPlain);
+				newBlock(4,3,Color.green,Level.BlockType.bPlain);
+				newBlock(5,3,Color.green,Level.BlockType.bPlain);
+				newBlock(6,3,Color.green,Level.BlockType.bPlain);
+				newBlock(7,3,Color.green,Level.BlockType.bPlain);
+				newBlock(8,3,Color.green,Level.BlockType.bPlain);
 				break;
 			case 2:
-				newBlock(0,4,Color.red,Level.bPlain);
-				newBlock(1,4,Color.red,Level.bPlain);
-				newBlock(2,4,Color.red,Level.bPlain);
-				newBlock(3,4,Color.red,Level.bPlain);
-				newBlock(4,4,Color.red,Level.bPlain);
-				newBlock(5,4,Color.red,Level.bPlain);
-				newBlock(6,4,Color.red,Level.bPlain);
-				newBlock(7,4,Color.red,Level.bPlain);
-				newBlock(8,4,Color.red,Level.bPlain);
-				newBlock(9,4,Color.red,Level.bPlain);
-				newBlock(8,3,Color.red,Level.bPlain);
-				newBlock(1,3,Color.red,Level.bPlain);
-				newBlock(7,2,Color.red,Level.bPlain);
-				newBlock(2,2,Color.red,Level.bPlain);
-				newBlock(6,1,Color.red,Level.bPlain);
-				newBlock(3,1,Color.red,Level.bPlain);
-				newBlock(5,0,Color.red,Level.bPlain);
-				newBlock(4,0,Color.red,Level.bPlain);
-				newBlock(4,1,Color.yellow,Level.fExtraLife);
-				newBlock(5,1,Color.yellow,Level.fDoubleBat);
-				newBlock(3,2,Color.green,Level.bPlain);
-				newBlock(4,2,Color.green,Level.bPlain);
-				newBlock(5,2,Color.green,Level.bPlain);
-				newBlock(6,2,Color.green,Level.bPlain);
-				newBlock(2,3,Color.blue,Level.bPlain);
-				newBlock(3,3,Color.blue,Level.bPlain);
-				newBlock(4,3,Color.blue,Level.bPlain);
-				newBlock(5,3,Color.blue,Level.bPlain);
-				newBlock(6,3,Color.blue,Level.bPlain);
-				newBlock(7,3,Color.blue,Level.bPlain);
+				newBlock(0,4,Color.red,Level.BlockType.bPlain);
+				newBlock(1,4,Color.red,Level.BlockType.bPlain);
+				newBlock(2,4,Color.red,Level.BlockType.bPlain);
+				newBlock(3,4,Color.red,Level.BlockType.bPlain);
+				newBlock(4,4,Color.red,Level.BlockType.bPlain);
+				newBlock(5,4,Color.red,Level.BlockType.bPlain);
+				newBlock(6,4,Color.red,Level.BlockType.bPlain);
+				newBlock(7,4,Color.red,Level.BlockType.bPlain);
+				newBlock(8,4,Color.red,Level.BlockType.bPlain);
+				newBlock(9,4,Color.red,Level.BlockType.bPlain);
+				newBlock(8,3,Color.red,Level.BlockType.bPlain);
+				newBlock(1,3,Color.red,Level.BlockType.bPlain);
+				newBlock(7,2,Color.red,Level.BlockType.bPlain);
+				newBlock(2,2,Color.red,Level.BlockType.bPlain);
+				newBlock(6,1,Color.red,Level.BlockType.bPlain);
+				newBlock(3,1,Color.red,Level.BlockType.bPlain);
+				newBlock(5,0,Color.red,Level.BlockType.bPlain);
+				newBlock(4,0,Color.red,Level.BlockType.bPlain);
+				newBlock(4,1,Color.yellow,Level.BlockType.fExtraLife);
+				newBlock(5,1,Color.yellow,Level.BlockType.fDoubleBat);
+				newBlock(3,2,Color.green,Level.BlockType.bPlain);
+				newBlock(4,2,Color.green,Level.BlockType.bPlain);
+				newBlock(5,2,Color.green,Level.BlockType.bPlain);
+				newBlock(6,2,Color.green,Level.BlockType.bPlain);
+				newBlock(2,3,Color.blue,Level.BlockType.bPlain);
+				newBlock(3,3,Color.blue,Level.BlockType.bPlain);
+				newBlock(4,3,Color.blue,Level.BlockType.bPlain);
+				newBlock(5,3,Color.blue,Level.BlockType.bPlain);
+				newBlock(6,3,Color.blue,Level.BlockType.bPlain);
+				newBlock(7,3,Color.blue,Level.BlockType.bPlain);
 				break;
 			case 3:
-				newBlock(2,5,Color.red,Level.bPlain);
-				newBlock(3,5,Color.red,Level.bPlain);
-				newBlock(4,5,Color.green,Level.bMultiple);
-				newBlock(5,5,Color.green,Level.bMultiple);
-				newBlock(6,5,Color.red,Level.bPlain);
-				newBlock(7,5,Color.red,Level.bPlain);
-				newBlock(6,4,Color.red,Level.bStatic);
-				newBlock(7,3,Color.red,Level.bStatic);
-				newBlock(8,2,Color.red,Level.bStatic);
-				newBlock(3,4,Color.red,Level.bStatic);
-				newBlock(2,3,Color.red,Level.bStatic);
-				newBlock(1,2,Color.red,Level.bStatic);
-				newBlock(2,1,Color.green,Level.bMultiple);
-				newBlock(3,1,Color.red,Level.bPlain);
-				newBlock(4,1,Color.red,Level.bPlain);
-				newBlock(5,1,Color.red,Level.bPlain);
-				newBlock(6,1,Color.red,Level.bPlain);
-				newBlock(7,1,Color.green,Level.bMultiple);
-				newBlock(4,2,Color.white,Level.mBounceOnceBlock);
-				newBlock(5,2,Color.white,Level.mBounceOnceBlock);
+				newBlock(2,5,Color.red,Level.BlockType.bPlain);
+				newBlock(3,5,Color.red,Level.BlockType.bPlain);
+				newBlock(4,5,Color.green,Level.BlockType.bMultiple);
+				newBlock(5,5,Color.green,Level.BlockType.bMultiple);
+				newBlock(6,5,Color.red,Level.BlockType.bPlain);
+				newBlock(7,5,Color.red,Level.BlockType.bPlain);
+				newBlock(6,4,Color.red,Level.BlockType.bStatic);
+				newBlock(7,3,Color.red,Level.BlockType.bStatic);
+				newBlock(8,2,Color.red,Level.BlockType.bStatic);
+				newBlock(3,4,Color.red,Level.BlockType.bStatic);
+				newBlock(2,3,Color.red,Level.BlockType.bStatic);
+				newBlock(1,2,Color.red,Level.BlockType.bStatic);
+				newBlock(2,1,Color.green,Level.BlockType.bMultiple);
+				newBlock(3,1,Color.red,Level.BlockType.bPlain);
+				newBlock(4,1,Color.red,Level.BlockType.bPlain);
+				newBlock(5,1,Color.red,Level.BlockType.bPlain);
+				newBlock(6,1,Color.red,Level.BlockType.bPlain);
+				newBlock(7,1,Color.green,Level.BlockType.bMultiple);
+				newBlock(4,2,Color.white,Level.BlockType.mBounceOnceBlock);
+				newBlock(5,2,Color.white,Level.BlockType.mBounceOnceBlock);
 				break;
 			case 4:
-				newBlock(1,1,Color.green,Level.bPlain);
-				newBlock(2,1,Color.green,Level.bPlain);
-				newBlock(3,1,Color.green,Level.bPlain);
-				newBlock(1,2,Color.yellow,Level.bPlain);
-				newBlock(1,3,Color.blue,Level.bPlain);
-				newBlock(2,3,Color.blue,Level.bPlain);
-				newBlock(1,4,Color.white,Level.bPlain);
-				newBlock(1,5,Color.red,Level.bPlain);
-				newBlock(2,5,Color.red,Level.bPlain);
-				newBlock(3,5,Color.red,Level.bPlain);
-				newBlock(5,1,Color.green,Level.bPlain);
-				newBlock(6,1,Color.green,Level.bPlain);
-				newBlock(7,1,Color.green,Level.bPlain);
-				newBlock(6,2,Color.yellow,Level.bPlain);
-				newBlock(6,3,Color.blue,Level.bPlain);
-				newBlock(6,4,Color.white,Level.bPlain);
-				newBlock(5,5,Color.red,Level.bPlain);
-				newBlock(6,5,Color.red,Level.bPlain);
-				newBlock(7,5,Color.red,Level.bPlain);
+				newBlock(1,1,Color.green,Level.BlockType.bPlain);
+				newBlock(2,1,Color.green,Level.BlockType.bPlain);
+				newBlock(3,1,Color.green,Level.BlockType.bPlain);
+				newBlock(1,2,Color.yellow,Level.BlockType.bPlain);
+				newBlock(1,3,Color.blue,Level.BlockType.bPlain);
+				newBlock(2,3,Color.blue,Level.BlockType.bPlain);
+				newBlock(1,4,Color.white,Level.BlockType.bPlain);
+				newBlock(1,5,Color.red,Level.BlockType.bPlain);
+				newBlock(2,5,Color.red,Level.BlockType.bPlain);
+				newBlock(3,5,Color.red,Level.BlockType.bPlain);
+				newBlock(5,1,Color.green,Level.BlockType.bPlain);
+				newBlock(6,1,Color.green,Level.BlockType.bPlain);
+				newBlock(7,1,Color.green,Level.BlockType.bPlain);
+				newBlock(6,2,Color.yellow,Level.BlockType.bPlain);
+				newBlock(6,3,Color.blue,Level.BlockType.bPlain);
+				newBlock(6,4,Color.white,Level.BlockType.bPlain);
+				newBlock(5,5,Color.red,Level.BlockType.bPlain);
+				newBlock(6,5,Color.red,Level.BlockType.bPlain);
+				newBlock(7,5,Color.red,Level.BlockType.bPlain);
 				break;
 			case 5:
-				newBlock(0,4,Color.red,Level.fIncreaseBallSpeed);
-				newBlock(1,4,Color.red,Level.fIncreaseBallSpeed);
-				newBlock(2,4,Color.red,Level.fIncreaseBallSpeed);
-				newBlock(3,4,Color.red,Level.fIncreaseBallSpeed);
-				newBlock(4,4,Color.red,Level.fIncreaseBallSpeed);
-				newBlock(5,4,Color.green,Level.fDecreaseBallSpeed);
-				newBlock(6,4,Color.green,Level.fDecreaseBallSpeed);
-				newBlock(7,4,Color.green,Level.fDecreaseBallSpeed);
-				newBlock(8,4,Color.green,Level.fDecreaseBallSpeed);
-				newBlock(9,4,Color.green,Level.fDecreaseBallSpeed);
-				newBlock(0,2,Color.red,Level.fIncreaseBallSpeed);
-				newBlock(1,2,Color.red,Level.fIncreaseBallSpeed);
-				newBlock(2,2,Color.red,Level.fIncreaseBallSpeed);
-				newBlock(3,2,Color.red,Level.fIncreaseBallSpeed);
-				newBlock(4,2,Color.red,Level.fIncreaseBallSpeed);
-				newBlock(5,2,Color.green,Level.fDecreaseBallSpeed);
-				newBlock(6,2,Color.green,Level.fDecreaseBallSpeed);
-				newBlock(7,2,Color.green,Level.fDecreaseBallSpeed);
-				newBlock(8,2,Color.green,Level.fDecreaseBallSpeed);
-				newBlock(9,2,Color.green,Level.fDecreaseBallSpeed);
-				newBlock(0,0,Color.yellow,Level.fExtraLife);
-				newBlock(1,0,Color.yellow,Level.fExtraLife);
-				newBlock(2,0,Color.yellow,Level.fExtraLife);
-				newBlock(3,0,Color.yellow,Level.fExtraLife);
-				newBlock(4,0,Color.yellow,Level.fExtraLife);
-				newBlock(5,0,Color.yellow,Level.fExtraLife);
-				newBlock(6,0,Color.yellow,Level.fExtraLife);
-				newBlock(7,0,Color.yellow,Level.fExtraLife);
-				newBlock(8,0,Color.yellow,Level.fExtraLife);
-				newBlock(9,0,Color.yellow,Level.fExtraLife);
+				newBlock(0,4,Color.red,Level.BlockType.fIncreaseBallSpeed);
+				newBlock(1,4,Color.red,Level.BlockType.fIncreaseBallSpeed);
+				newBlock(2,4,Color.red,Level.BlockType.fIncreaseBallSpeed);
+				newBlock(3,4,Color.red,Level.BlockType.fIncreaseBallSpeed);
+				newBlock(4,4,Color.red,Level.BlockType.fIncreaseBallSpeed);
+				newBlock(5,4,Color.green,Level.BlockType.fDecreaseBallSpeed);
+				newBlock(6,4,Color.green,Level.BlockType.fDecreaseBallSpeed);
+				newBlock(7,4,Color.green,Level.BlockType.fDecreaseBallSpeed);
+				newBlock(8,4,Color.green,Level.BlockType.fDecreaseBallSpeed);
+				newBlock(9,4,Color.green,Level.BlockType.fDecreaseBallSpeed);
+				newBlock(0,2,Color.red,Level.BlockType.fIncreaseBallSpeed);
+				newBlock(1,2,Color.red,Level.BlockType.fIncreaseBallSpeed);
+				newBlock(2,2,Color.red,Level.BlockType.fIncreaseBallSpeed);
+				newBlock(3,2,Color.red,Level.BlockType.fIncreaseBallSpeed);
+				newBlock(4,2,Color.red,Level.BlockType.fIncreaseBallSpeed);
+				newBlock(5,2,Color.green,Level.BlockType.fDecreaseBallSpeed);
+				newBlock(6,2,Color.green,Level.BlockType.fDecreaseBallSpeed);
+				newBlock(7,2,Color.green,Level.BlockType.fDecreaseBallSpeed);
+				newBlock(8,2,Color.green,Level.BlockType.fDecreaseBallSpeed);
+				newBlock(9,2,Color.green,Level.BlockType.fDecreaseBallSpeed);
+				newBlock(0,0,Color.yellow,Level.BlockType.fExtraLife);
+				newBlock(1,0,Color.yellow,Level.BlockType.fExtraLife);
+				newBlock(2,0,Color.yellow,Level.BlockType.fExtraLife);
+				newBlock(3,0,Color.yellow,Level.BlockType.fExtraLife);
+				newBlock(4,0,Color.yellow,Level.BlockType.fExtraLife);
+				newBlock(5,0,Color.yellow,Level.BlockType.fExtraLife);
+				newBlock(6,0,Color.yellow,Level.BlockType.fExtraLife);
+				newBlock(7,0,Color.yellow,Level.BlockType.fExtraLife);
+				newBlock(8,0,Color.yellow,Level.BlockType.fExtraLife);
+				newBlock(9,0,Color.yellow,Level.BlockType.fExtraLife);
 				break;
 			case 6:
-				newBlock(1,4,Color.green,Level.mBounceBlock);
-				newBlock(2,4,Color.red,Level.mBounceBlock);
-				newBlock(3,4,Color.yellow,Level.mBounceBlock);
-				newBlock(4,4,Color.yellow,Level.bStatic);
-				newBlock(5,4,Color.yellow,Level.bStatic);
-				newBlock(6,4,Color.yellow,Level.mBounceBlock);
-				newBlock(7,4,Color.red,Level.mBounceBlock);
-				newBlock(8,4,Color.green,Level.mBounceBlock);
+				newBlock(1,4,Color.green,Level.BlockType.mBounceBlock);
+				newBlock(2,4,Color.red,Level.BlockType.mBounceBlock);
+				newBlock(3,4,Color.yellow,Level.BlockType.mBounceBlock);
+				newBlock(4,4,Color.yellow,Level.BlockType.bStatic);
+				newBlock(5,4,Color.yellow,Level.BlockType.bStatic);
+				newBlock(6,4,Color.yellow,Level.BlockType.mBounceBlock);
+				newBlock(7,4,Color.red,Level.BlockType.mBounceBlock);
+				newBlock(8,4,Color.green,Level.BlockType.mBounceBlock);
 				break;
 			case 7:
-				newBlock(1,5,Color.green,Level.fLockBat);
-				newBlock(2,5,Color.red,Level.fNewBall);
-				newBlock(3,5,Color.green,Level.fIncreaseBallSpeed);
-				newBlock(4,5,Color.red,Level.fDecreaseBallSpeed);
-				newBlock(5,5,Color.green,Level.fIncreaseBatSpeed);
-				newBlock(6,5,Color.red,Level.fDecreaseBatSpeed);
-				newBlock(7,5,Color.green,Level.fDoubleBat);
-				newBlock(8,5,Color.red,Level.fExtraLife);
+				newBlock(1,5,Color.green,Level.BlockType.fLockBat);
+				newBlock(2,5,Color.red,Level.BlockType.fNewBall);
+				newBlock(3,5,Color.green,Level.BlockType.fIncreaseBallSpeed);
+				newBlock(4,5,Color.red,Level.BlockType.fDecreaseBallSpeed);
+				newBlock(5,5,Color.green,Level.BlockType.fIncreaseBatSpeed);
+				newBlock(6,5,Color.red,Level.BlockType.fDecreaseBatSpeed);
+				newBlock(7,5,Color.green,Level.BlockType.fDoubleBat);
+				newBlock(8,5,Color.red,Level.BlockType.fExtraLife);
 				break;
 			case 8:
-				newBlock(0,4,Color.green,Level.fNewBall);
-				newBlock(1,4,Color.green,Level.fNewBall);
-				newBlock(2,4,Color.green,Level.fNewBall);
-				newBlock(3,4,Color.green,Level.fNewBall);
-				newBlock(4,4,Color.green,Level.fNewBall);
-				newBlock(5,4,Color.green,Level.fNewBall);
-				newBlock(6,4,Color.green,Level.fNewBall);
-				newBlock(7,4,Color.green,Level.fNewBall);
-				newBlock(8,4,Color.green,Level.fNewBall);
-				newBlock(9,4,Color.green,Level.fNewBall);
-				newBlock(0,5,Color.green,Level.fNewBall);
-				newBlock(1,5,Color.green,Level.fNewBall);
-				newBlock(2,5,Color.green,Level.fNewBall);
-				newBlock(3,5,Color.green,Level.fNewBall);
-				newBlock(4,5,Color.green,Level.fNewBall);
-				newBlock(5,5,Color.green,Level.fNewBall);
-				newBlock(6,5,Color.green,Level.fNewBall);
-				newBlock(7,5,Color.green,Level.fNewBall);
-				newBlock(8,5,Color.green,Level.fNewBall);
-				newBlock(9,5,Color.green,Level.fNewBall);
-				newBlock(3,1,Color.yellow,Level.bStatic);
-				newBlock(3,2,Color.yellow,Level.bStatic);
-				newBlock(3,3,Color.yellow,Level.bStatic);
-				newBlock(4,3,Color.yellow,Level.bStatic);
-				newBlock(5,3,Color.yellow,Level.bStatic);
-				newBlock(5,1,Color.yellow,Level.bStatic);
-				newBlock(5,2,Color.yellow,Level.bStatic);
-				newBlock(4,2,Color.yellow,Level.bMultiple);
+				newBlock(0,4,Color.green,Level.BlockType.fNewBall);
+				newBlock(1,4,Color.green,Level.BlockType.fNewBall);
+				newBlock(2,4,Color.green,Level.BlockType.fNewBall);
+				newBlock(3,4,Color.green,Level.BlockType.fNewBall);
+				newBlock(4,4,Color.green,Level.BlockType.fNewBall);
+				newBlock(5,4,Color.green,Level.BlockType.fNewBall);
+				newBlock(6,4,Color.green,Level.BlockType.fNewBall);
+				newBlock(7,4,Color.green,Level.BlockType.fNewBall);
+				newBlock(8,4,Color.green,Level.BlockType.fNewBall);
+				newBlock(9,4,Color.green,Level.BlockType.fNewBall);
+				newBlock(0,5,Color.green,Level.BlockType.fNewBall);
+				newBlock(1,5,Color.green,Level.BlockType.fNewBall);
+				newBlock(2,5,Color.green,Level.BlockType.fNewBall);
+				newBlock(3,5,Color.green,Level.BlockType.fNewBall);
+				newBlock(4,5,Color.green,Level.BlockType.fNewBall);
+				newBlock(5,5,Color.green,Level.BlockType.fNewBall);
+				newBlock(6,5,Color.green,Level.BlockType.fNewBall);
+				newBlock(7,5,Color.green,Level.BlockType.fNewBall);
+				newBlock(8,5,Color.green,Level.BlockType.fNewBall);
+				newBlock(9,5,Color.green,Level.BlockType.fNewBall);
+				newBlock(3,1,Color.yellow,Level.BlockType.bStatic);
+				newBlock(3,2,Color.yellow,Level.BlockType.bStatic);
+				newBlock(3,3,Color.yellow,Level.BlockType.bStatic);
+				newBlock(4,3,Color.yellow,Level.BlockType.bStatic);
+				newBlock(5,3,Color.yellow,Level.BlockType.bStatic);
+				newBlock(5,1,Color.yellow,Level.BlockType.bStatic);
+				newBlock(5,2,Color.yellow,Level.BlockType.bStatic);
+				newBlock(4,2,Color.yellow,Level.BlockType.bMultiple);
 			default:
 				break;
 		}
@@ -320,12 +356,21 @@ class LevelFactory
 			return ret;
 		}
 	}	
-	int getLastLevel()
+	
+	/**
+	 * Get the last available level
+	 * @return The number of the last available level
+	 */
+	public int getLastLevel()
 	{
 		return maxLevel;
 	}
 	
-	boolean loadAll()
+	/**
+	 * Load all available user made levels
+	 * @return true/false (Success/Failure)
+	 */
+	protected boolean loadAll()
 	{
 		if(cookies!=null) {
 			String maxlevelstr = cookies.getParameter("maxlevel");
@@ -345,7 +390,12 @@ class LevelFactory
 		return true;
 	}
 	
-	boolean loadLevel(int level)
+	/**
+	 * Load a specific user made level
+	 * @param level Level number of the level to load
+	 * @return true/false (Success/Failure)
+	 */
+	protected boolean loadLevel(int level)
 	{
 		if(cookies!=null) {
 			String leveldata = cookies.getParameter("level"+String.valueOf(level));
@@ -368,7 +418,12 @@ class LevelFactory
 		return false;
 	}
 	
-	boolean newLevel(int level)
+	/**
+	 * Create and insert a new user made level after the specified level number
+	 * @param level Level number of the level which the new level should be inserted after
+	 * @return true/false (Success/Failure)
+	 */
+	public boolean newLevel(int level)
 	{
 		ListIterator it = levels.listIterator();
 		while(it.hasNext()) {
@@ -384,7 +439,12 @@ class LevelFactory
 		return true;
 	}
 
-	boolean deleteLevel(int level)
+	/**
+	 * Delete the specified user made level
+	 * @param level Level number of the level to delete
+	 * @return true/false (Success/Failure)
+	 */
+	public boolean deleteLevel(int level)
 	{
 		if(maxLevel==1) {
 			newLevel(1);
@@ -416,7 +476,12 @@ class LevelFactory
 		return false;
 	}
 	
-	boolean saveLevel(int level) 
+	/**
+	 * Save the specified level as a user made level
+	 * @param level Level number of the level to save
+	 * @return true/false (Success/Failure)
+	 */
+	public boolean saveLevel(int level) 
 	{
 		if(cookies!=null) {
 			ListIterator it = levels.listIterator();
@@ -432,7 +497,13 @@ class LevelFactory
 		return false;
 	}
 	
-	boolean storeLevel(int level, Block blocks[])
+	/**
+	 * Set level data for the specified user made level
+	 * @param level Level number of the level to store
+	 * @param blocks Level data to be used
+	 * @return true/false (Success/Failure)
+	 */
+	public boolean storeLevel(int level, Block blocks[])
 	{
 		System.out.println("storeLevel:"+level);
 		Level lev=null;
@@ -453,7 +524,11 @@ class LevelFactory
 		
 		return true;
 	}
-	boolean saveAll()
+	/** 
+	 * Save all user made levels
+	 * @return true/false (Success/Failure)
+	 */
+	public boolean saveAll()
 	{
 		if(cookies!=null) {
 			for(int i=0;i<maxLevel;i++) {

@@ -4,39 +4,71 @@ import erland.game.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Main object for the level editor
+ */
 class CrackOutEditor
 	implements ActionListener
 {
-	int offsetX;
-	int offsetY;
-	int squareSize;
-	final int sizeX=20;
-	final int sizeY=20;
-	Block blocks[];
-	Block selectBlocks[];
-	Block preview;
-	boolean bEnd;
-	int blinkCounter;
-	final int BLINK_SPEED=20;
-	boolean bStarted;
-	int level;
-	int color;
-	final int MAX_LEVEL=9;
-	boolean bExit;
-	int selectedBlock = 0;
-
-	ImageHandlerInterface images;
-	ParameterValueStorageInterface cookies;
-	LevelFactory levelFactory;
-	LevelFactory levelFactorySelect;
-	ImageObject buttons[];
-	Button realButtons[];
-	String msg;
-	BlockContainerData mainCont;
-	BlockContainerData selectCont;
-	BlockContainerData previewCont;
-	Container container;
+	/** Horisontal drawing offset */
+	protected int offsetX;
+	/** Vertical drawing offset */
+	protected int offsetY;
+	/** Size of the squares the blocks consists of (Number of pixels) */
+	protected int squareSize;
+	/** Width of the main level editor area (Number of squares) */
+	protected final int sizeX=20;
+	/** Height of the main level editor area (Number of squares) */
+	protected final int sizeY=20;
+	/** Array with all the blocks in the main level editor area */
+	protected Block blocks[];
+	/** Array with all the blocks in the block select area */
+	protected Block selectBlocks[];
+	/** Block that is previewed/selected */
+	protected Block preview;
+	/** The level currently edited */
+	protected int level;
+	/** The color of the currently selected block */
+	protected int color;
+	/** Indicates if the Exit button has been clicked */
+	protected boolean bExit;
+	/** The position in {@link #selectBlocks} array of the currently selected block */
+	protected int selectedBlock = 0;
+	/** Image handler object */
+	protected ImageHandlerInterface images;
+	/** Reference to parameter storage where highscores and leveldata is stored */
+	protected ParameterValueStorageInterface cookies;
+	/** Level factory for the main level editor area */
+	protected LevelFactory levelFactory;
+	/** Level factory for the select block area */
+	protected LevelFactory levelFactorySelect;
+	/** Up/Down arrow buttons */
+	protected ImageObject buttons[];
+	/** 
+	 * Array with all the buttons
+	 * @see #buttons
+	 */
+	protected Button realButtons[];
+	/** The description of the currently selected block */
+	protected String msg;
+	/** Block container for the main level area */
+	protected BlockContainerData mainCont;
+	/** Block container for the block select area */
+	protected BlockContainerData selectCont;
+	/** Block container for the preview area */
+	protected BlockContainerData previewCont;
+	/** Container object that the buttons should be added to */
+	protected Container container;
 	
+	/**
+	 * Creates a new level editor
+	 * @param container Container object which the buttons can be added to
+	 * @param images Image handler object
+	 * @param cookies Reference to parameter storage object
+	 * @param offsetX Horisontal drawing offset
+	 * @param offsetY Vertical drawing offset
+	 * @param squareSize The size of the squares that all blocks are build of
+	 */
 	public CrackOutEditor(Container container, ImageHandlerInterface images, ParameterValueStorageInterface cookies, int offsetX, int offsetY, int squareSize)
 	{
 		this.container = container;
@@ -58,11 +90,11 @@ class CrackOutEditor
 		bExit = false;
 	}
 	
-	void init()
+	/**
+	 * Initialize object
+	 */
+	protected void init()
 	{
-		bEnd = false;
-		blinkCounter = 0;
-		bStarted=false;
 		level=0;
 		buttons = new ImageObject[4];
 		int rightColumnX = sizeX*squareSize+20;
@@ -127,7 +159,11 @@ class CrackOutEditor
 			e.printStackTrace();
 		}
 	}
-	void increaseLevel()
+
+	/**
+	 * Step to the next level
+	 */
+	protected void increaseLevel()
 	{
 		if(level>0) {
 			levelFactory.storeLevel(level,blocks);
@@ -138,7 +174,10 @@ class CrackOutEditor
 		}
 		blocks = levelFactory.getLevel(level);
 	}
-	void decreaseLevel()
+	/**
+	 * Step to the previous level
+	 */
+	protected void decreaseLevel()
 	{
 		levelFactory.storeLevel(level,blocks);
 		level--;
@@ -148,7 +187,10 @@ class CrackOutEditor
 		blocks = levelFactory.getLevel(level);
 	}
 	
-	void increaseColor()
+	/**
+	 * Change the selected block color to the next color
+	 */
+	protected void increaseColor()
 	{
 		color++;
 		if(color>4) {
@@ -161,7 +203,10 @@ class CrackOutEditor
 			selectBlocks[i].setColor(getColor(color));
 		}
 	}
-	void decreaseColor()
+	/**
+	 * Change the selected block color to the previous color
+	 */
+	protected void decreaseColor()
 	{
 		color--;
 		if(color<0) {
@@ -174,8 +219,13 @@ class CrackOutEditor
 			selectBlocks[i].setColor(getColor(color));
 		}
 	}
-
-	Color getColor(int color)
+	
+	/**
+	 * Get the color for the specified index
+	 * @param color The index of the color to get
+	 * @return The Color for the specified index, Color.gray if not found
+	 */
+	protected Color getColor(int color)
 	{
 		switch(color) {
 			case 0:
@@ -192,6 +242,10 @@ class CrackOutEditor
 				return Color.gray;
 		}
 	}
+	/**
+	 * Draw all the level editor grapics
+	 * @param g Graphics object to draw on
+	 */	 
 	public void draw(Graphics g)
 	{
 		g.setColor(Color.blue);
@@ -248,7 +302,14 @@ class CrackOutEditor
 		g.drawString("by Erland Isaksson",rightColumnX,offsetY+sizeY*squareSize);
 	}
 	
-	boolean checkCollision(CollisionRect rc, int x, int y)
+	/**
+	 * Checks if the specified coordinate is inside the specified rectangle
+	 * @param rc Rectangle to check if the coordinate is within
+	 * @param x x coordinate to check
+	 * @param y y coordinate to check
+	 * @return true/false (Inside/Not inside)
+	 */
+	protected boolean checkCollision(CollisionRect rc, int x, int y)
 	{
 		if(rc.left()<=x && rc.right()>=x) {			
 			if(rc.top()<=y && rc.bottom()>=y) {
@@ -257,7 +318,12 @@ class CrackOutEditor
 		}
 		return false;
 	}
-	void handleMousePressed(int x, int y)
+	/**
+	 * Handles mousePressed events. This lower the clicked button and raises all the other
+	 * @param x X position of mouse pointer
+	 * @param y Y position of mouse pointer
+	 */
+	public void handleMousePressed(int x, int y)
 	{
 		// Check buttons
 		for(int i=0;i<buttons.length;i++) 
@@ -268,7 +334,12 @@ class CrackOutEditor
 			}
 		}
 	}
-	void handleMouseReleased(int x, int y)
+	/**
+	 * Handles mouseReleased events. This raises all the buttons
+	 * @param x X position of mouse pointer
+	 * @param y Y position of mouse pointer
+	 */
+	public void handleMouseReleased(int x, int y)
 	{
 		// Check buttons
 		for(int i=0;i<buttons.length;i++) 
@@ -276,7 +347,15 @@ class CrackOutEditor
 			buttons[i].setRaised(true);
 		}
 	}
-	void handleMouseClicked(int x, int y)
+	/**
+	 * Handles mouseClicked events. 
+	 * This peforms the correct action for the button clicked if a up/down arrow button was clicked
+	 * This selects a new block if the block select area was clicked
+	 * This paste the currently selected block if the main level editor area was clicked
+	 * @param x X position of mouse pointer
+	 * @param y Y position of mouse pointer
+	 */
+	public void handleMouseClicked(int x, int y)
 	{
 		// Check buttons
 		for(int i=0;i<buttons.length;i++) 
@@ -357,13 +436,19 @@ class CrackOutEditor
 			}
 		}
 	}
-	void clearLevel()
+	/**
+	 * Remove all blocks from the main level editor area
+	 */
+	protected void clearLevel()
 	{
 		blocks = null;
 		blocks = new Block[0];
 	}
 
-	void deleteLevel()
+	/**
+	 * Deletes the currently selected level
+	 */
+	protected void deleteLevel()
 	{
 		levelFactory.deleteLevel(level);
 		if(level>levelFactory.getLastLevel()) {
@@ -371,40 +456,64 @@ class CrackOutEditor
 		}
 		blocks = levelFactory.getLevel(level);
 	}
-
-	void newLevel()
+	/**
+	 * Inserts a new level after the currently active level
+	 */
+	protected void newLevel()
 	{
 		levelFactory.newLevel(level);
 		increaseLevel();
 	}
-
-	void getDefaultLevel()
+	
+	/**
+	 * Get the hardcoded level data for the currently selected level
+	 */
+	protected void getDefaultLevel()
 	{
 		blocks = levelFactory.getDefaultLevel(level);
 	}
-
-	void saveThisLevel()
+	
+	/**
+	 * Save the currently active level to disk
+	 */
+	protected void saveThisLevel()
 	{
 		levelFactory.storeLevel(level,blocks);
 		levelFactory.saveLevel(level);
 	}
 
-	void saveAllLevels()
+	/**
+	 * Save all levels to disk
+	 */
+	protected void saveAllLevels()
 	{
 		levelFactory.storeLevel(level,blocks);
 		levelFactory.saveAll();
 	}
-	void exitEditor()
+	
+	/**
+	 * Exit the level editor
+	 */
+	protected void exitEditor()
 	{
 		for(int i=0;i<realButtons.length;i++) {
 			container.remove(realButtons[i]);
 		}
 		bExit=true;
 	}
-	boolean isExit()
+	/**
+	 * Checks if the Exit button has been pressed
+	 * @return true/false (Exit pressed/Exit not pressed)
+	 */
+	public boolean isExit()
 	{
 		return bExit;
 	}
+	
+	/**
+	 * Performs the correct action if any of the normal buttons was pressed
+	 * @param e ActionEvent with information about which button that was pressed
+	 */
 	public void actionPerformed(ActionEvent e)
 	{
 		for(int i=0;i<realButtons.length;i++) {

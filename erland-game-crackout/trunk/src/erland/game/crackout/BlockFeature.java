@@ -3,14 +3,22 @@ package erland.game.crackout;
 import erland.game.*;
 import java.awt.*;
 
+/**
+ * Implements a block that drops a feature when it is hit by the ball
+ */
 class BlockFeature extends BlockSimple
 {
-	int feature;
+	/** Feature that should be dropped when the ball is hit, see {@link Feature.FeatureType} */
+	protected int feature;
 	
-	BlockFeature()
+	/**
+	 * Creates the block
+	 */
+	public BlockFeature()
 	{
 		feature = Feature.FeatureType.lockBat;
 	}
+	
 	public Object clone()
     	throws CloneNotSupportedException
     {
@@ -19,7 +27,18 @@ class BlockFeature extends BlockSimple
 		return obj;
     }
 
-	void init(ImageHandlerInterface images, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color, int featureType)
+	/**
+	 * Initialize block
+	 * @param images Image handler object
+	 * @param cont Reference to block container object
+	 * @param sizeX Width of block (Number of squares)
+	 * @param sizeY Height of block (Number of squares)
+	 * @param posX X position of block (Square coordinates)
+	 * @param posY Y position of block (Square coordinates)
+	 * @param color Color of the block
+	 * @param featureType Type of feature that should be dropped when the block is hit, see {@link Feature.FeatureType}
+	 */
+	public void init(ImageHandlerInterface images, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color, int featureType)
 	{
 		init(images, cont, sizeX, sizeY, posX, posY,color);
 		feature = featureType;
@@ -149,7 +168,11 @@ class BlockFeature extends BlockSimple
 		a.NewFeature(f);
 	}
 	
-	int getFeature()
+	/**
+	 * Get the feature that will be dropped when the block is hit
+	 * @return The feature that will be dropped when the block is hit
+	 */
+	public int getFeature()
 	{
 		return feature;
 	}

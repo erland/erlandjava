@@ -16,25 +16,47 @@ import java.applet.*;
 import java.awt.event.*;
 import java.math.*;
 
+/**
+ * Main Application/Applet object
+ */
 public class CrackOut extends Applet 
 	implements Runnable
 {
-	static boolean inApplet =true;
-	static Frame myFrame;
-	Thread animator;
-	Image imag;
-	ImageHandlerInterface images;
-	ParameterValueStorageInterface cookies;
-	Graphics offScreen;
-	CrackOutMain main;
-	CrackOutEditor editor;
-	//ImageObject buttons[];
-	Button buttons[];
-	boolean bCheatMode;
-	int cheatCounter;
-	ActionHandler actionHandler;
+	/** Indicates if it runs as an application or applet, true indicates applet */
+	protected static boolean inApplet =true;
+	/** The main Frame window if it runs as an application */
+	protected static Frame myFrame;
+	/** Main thread that updates the objects position and redraws the screen */
+	protected Thread animator;
+	/** Image object needed for the double buffering mechanism */
+	protected Image imag;
+	/** Graphics object needed for the double buffering mechanism */
+	protected Graphics offScreen;
+	/** Image handler object */
+	protected ImageHandlerInterface images;
+	/** Parameter storage object */
+	protected ParameterValueStorageInterface cookies;
+	/** Main game object */
+	protected CrackOutMain main;
+	/** Main editor objec */
+	protected CrackOutEditor editor;
+	/** Editor and Game buttons */
+	protected Button buttons[];
+	/** Indicates if cheatmode is active or not */
+	protected boolean bCheatMode;
+	/** Counter that is increased every time the correct letter in the cheat word is entered on the keyboard */
+	protected int cheatCounter;
+	/** Object that handles when one of the buttons are pressed */
+	protected ActionHandler actionHandler;
 
+	/**
+	 * Takes care of all keyboard events
+	 */
 	class Keyboard extends KeyAdapter {
+		/**
+		 * Called when a key is pressed down
+		 * @param e KeyEvent event
+		 */
 		public void keyPressed(KeyEvent e) {
 			if(main!=null) {
 				if(e.getKeyCode()==e.VK_LEFT) {
@@ -80,6 +102,10 @@ public class CrackOut extends Applet
 				}
 			}
 		}
+		/**
+		 * Called when a key is released
+		 * @param e KeyEvent event
+		 */
 		public void keyReleased(KeyEvent e) {
 			if(main!=null) {
 				if(e.getKeyCode()==e.VK_LEFT) {
@@ -90,7 +116,15 @@ public class CrackOut extends Applet
 			}
 		}
 	}
+	
+	/**
+	 * Handles all the mouse events
+	 */
 	class Mouse extends MouseAdapter {
+		/**
+		 * Called when the mouse button is pressed down
+		 * @param e MouseEvent event
+		 */
 		public void mousePressed(MouseEvent e)
 		{
 			if(editor!=null) {
@@ -99,6 +133,10 @@ public class CrackOut extends Applet
 				main.handleMousePressed(e.getX(),e.getY());
 			}
 		}
+		/**
+		 * Called when the mouse button is released
+		 * @param e MouseEvent event
+		 */
 		public void mouseReleased(MouseEvent e)
 		{
 			if(editor!=null) {
@@ -107,6 +145,10 @@ public class CrackOut extends Applet
 				main.handleMouseReleased(e.getX(),e.getY());
 			}
 		}
+		/**
+		 * Called when the mouse button is clicked (pressed + released)
+		 * @param e MouseEvent event
+		 */
 		public void mouseClicked(MouseEvent e)
 		{
 			if(editor!=null) {
@@ -116,12 +158,25 @@ public class CrackOut extends Applet
 			}
 		}
 	}
+	
+	/**
+	 * Handles all clicks on the buttons
+	 */
 	class ActionHandler implements ActionListener {
+		/** Referens to the container of the buttons */
 		Container c;
-		ActionHandler(Container c)
+		/** 
+		 * Creates a new object 
+		 * @param c The container the buttons resides in
+		 */
+		public ActionHandler(Container c)
 		{
 			this.c = c;
 		}
+		/**
+		 * Performs the correct action when a button has been pressed
+		 * @param e ActionEvent with information about which button that has been pressed
+		 */
 		public void actionPerformed(ActionEvent e) {
 			if(main==null && editor==null) {
 				if(e.getSource()==buttons[0]) {
@@ -141,6 +196,9 @@ public class CrackOut extends Applet
 		}
 	}
 
+	/**
+	 * Initialize the application/applet 
+	 */
 	public void init() {
 		this.setLayout(null);
 		bCheatMode=false;
@@ -186,6 +244,10 @@ public class CrackOut extends Applet
 		}
 	}
 
+	/**
+	 * Draw the screen
+	 * @param g Graphics object to draw on
+	 */
 	public void paint(Graphics g) {
 		int width = getSize().width;
 		int height = getSize().height;
@@ -210,6 +272,9 @@ public class CrackOut extends Applet
 		g.drawImage(imag,0,0,null);
 	}
 
+	/**
+	 * start the application/applet
+	 */
 	public void start()
 	{
 		this.requestFocus();
@@ -219,6 +284,9 @@ public class CrackOut extends Applet
 		}
 	}
 	
+	/**
+	 * stop the application/applet
+	 */
 	public void stop()
 	{
 		if((animator != null) && (animator.isAlive())) {
@@ -226,16 +294,10 @@ public class CrackOut extends Applet
 		}
 	}
 	
-	boolean checkCollision(CollisionRect rc, int x, int y)
-	{
-		if(rc.left()<=x && rc.right()>=x) {			
-			if(rc.top()<=y && rc.bottom()>=y) {
-				return true;
-			}
-		}
-		return false;
-	}
-
+	/**
+	 * Main loop for the main thread 
+	 * Makes sure all objects are updated and draw at the correct time
+	 */
 	public void run()
 	{
 		long time = System.currentTimeMillis();
@@ -273,11 +335,20 @@ public class CrackOut extends Applet
 			}
 		}
 	}
+	
+	/**
+	 * Redraws the screen
+	 * @param g Graphics object to draw on
+	 */
 	public void update(Graphics g)
 	{
 		paint(g);
 	}
 	
+	/**
+	 * Main method if the game is executed as an application
+	 * @param args Command line arguments (None exists at the moment)
+	 */
 	public static void main(String args[]){
 		/*set a boolean flag to show if you are in an applet or not */
 		inApplet=false;

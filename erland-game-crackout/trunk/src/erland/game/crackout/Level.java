@@ -3,50 +3,66 @@ import erland.game.*;
 import java.awt.*;
 import java.util.*;
 
+/**
+ * Holds information of all level data for a single level
+ */
 class Level
 {
-	static final int fLockBat=1;
-	static final int fNewBall=2;
-	static final int fIncreaseBallSpeed=3;
-	static final int fDecreaseBallSpeed=4;
-	static final int fIncreaseBatSpeed=5;
-	static final int fDecreaseBatSpeed=6;
-	static final int fDoubleBat=7;
-	static final int fExtraLife=8;
-	static final int fSafetyWall=9;
-	static final int fMissile=10;
-	static final int fLargeBat=11;
-	static final int fSmallBat=12;
-	static final int fBomb=13;
-
-	static final int fLockBatHold=20;
-	static final int fNewBallHold=21;
-	static final int fIncreaseBallSpeedHold=22;
-	static final int fDecreaseBallSpeedHold=23;
-	static final int fIncreaseBatSpeedHold=24;
-	static final int fDecreaseBatSpeedHold=25;
-	static final int fDoubleBatHold=26;
-	static final int fExtraLifeHold=27;
-	static final int fSafetyWallHold=28;
-	static final int fMissileHold=29;
-	static final int fLargeBatHold=30;
-	static final int fSmallBatHold=31;
-	static final int fBombHold=32;
-
-	static final int mBounceBlock=50;
-	static final int mBounceOnceBlock=51;
-	static final int bPlain=70;
-	static final int bMultiple=71;
-	static final int bStatic=72;
-
-	static final int squareSizeX=2;
-	static final int squareSizeY=1;
-	Block blocks[];
-	int id;
-	ImageHandlerInterface images;
-	BlockContainerInterface cont;
+	abstract class BlockType {
+		public static final int fLockBat=1;
+		public static final int fNewBall=2;
+		public static final int fIncreaseBallSpeed=3;
+		public static final int fDecreaseBallSpeed=4;
+		public static final int fIncreaseBatSpeed=5;
+		public static final int fDecreaseBatSpeed=6;
+		public static final int fDoubleBat=7;
+		public static final int fExtraLife=8;
+		public static final int fSafetyWall=9;
+		public static final int fMissile=10;
+		public static final int fLargeBat=11;
+		public static final int fSmallBat=12;
+		public static final int fBomb=13;
 	
-	Level(ImageHandlerInterface images, BlockContainerInterface cont)
+		public static final int fLockBatHold=20;
+		public static final int fNewBallHold=21;
+		public static final int fIncreaseBallSpeedHold=22;
+		public static final int fDecreaseBallSpeedHold=23;
+		public static final int fIncreaseBatSpeedHold=24;
+		public static final int fDecreaseBatSpeedHold=25;
+		public static final int fDoubleBatHold=26;
+		public static final int fExtraLifeHold=27;
+		public static final int fSafetyWallHold=28;
+		public static final int fMissileHold=29;
+		public static final int fLargeBatHold=30;
+		public static final int fSmallBatHold=31;
+		public static final int fBombHold=32;
+	
+		public static final int mBounceBlock=50;
+		public static final int mBounceOnceBlock=51;
+		public static final int bPlain=70;
+		public static final int bMultiple=71;
+		public static final int bStatic=72;
+	}
+
+	/** Width of the blocks (Number of squares) */
+	public static final int squareSizeX=2;
+	/** Height of the blocks (Number of squares) */
+	public static final int squareSizeY=1;
+	/** Array with all the blocks which is part of this level */
+	protected Block blocks[];
+	/** The level number of this level */
+	protected int id;
+	/** Image handler object */
+	protected ImageHandlerInterface images;
+	/** Block container which the blocks resides in */
+	protected BlockContainerInterface cont;
+	
+	/**
+	 * Creates a new Level object
+	 * @param images Image handler object
+	 * @param cont Block container which the blocks should reside in
+	 */
+	public Level(ImageHandlerInterface images, BlockContainerInterface cont)
 	{
 		blocks = new Block[0];
 		id=0;
@@ -54,21 +70,39 @@ class Level
 		this.cont = cont;
 	}
 	
-	void setData(Block blocks[])
+	/**
+	 * Set the level data for this level
+	 * @param blocks Array with all the blocks that should be part of this level
+	 */
+	public void setData(Block blocks[])
 	{
 		this.blocks = blocks;
 	}
 	
-	void setId(int id)
+	/**
+	 * Set the level number of this level
+	 * @param id The new level number
+	 */
+	public void setId(int id)
 	{
 		this.id = id;
 	}
 		
-	int getId()
+	/**
+	 * Get the level number of this level
+	 * @return The level number
+	 */
+	public int getId()
 	{
 		return id;
 	}
-	Block[] getData()
+	
+	/**
+	 * Get the level data for this level
+	 * @return An array with all the blocks which is part of this level, a new copy of
+	 * all the blocks is returned in the array so you can modify them any way you want to
+	 */
+	public Block[] getData()
 	{
 		Block res[]=new Block[blocks.length];
 		for(int i=0;i<blocks.length;i++) {
@@ -82,8 +116,14 @@ class Level
 		return res;
 	}
 
-
-	boolean load(int id, String data)
+	/**
+	 * Initialize object from a level number and a String with level data
+	 * @param id The level number
+	 * @param data String with all blocks
+	 * @return true/false (Success/Failure)
+	 * @see #getDataAsString()
+	 */
+	public boolean load(int id, String data)
 	{
 		this.id = id;
 		LinkedList blocklist = new LinkedList();
@@ -157,7 +197,12 @@ class Level
 		}
 	}
 
-	String getDataAsString()
+	/**
+	 * Get the level data as a String
+	 * @return A String with all blocks in the level in text format
+	 * @see #load(int,String)
+	 */
+	public String getDataAsString()
 	{
 		String res="";
 		if(blocks!=null) {
@@ -178,7 +223,12 @@ class Level
 		return res;
 	}
 
-	int getBlockColor(Color c)
+	/**
+	 * Get the index for a specific color
+	 * @param c The Color to get an index for
+	 * @return The index of the color
+	 */
+	protected int getBlockColor(Color c)
 	{
 		if(c.equals(Color.red)) {
 			return 0;
@@ -195,7 +245,12 @@ class Level
 		}
 	}
 	
-	Color getBlockColor(int c)
+	/**
+	 * Get the Color for a specific color index
+	 * @param c The index to get the Color for
+	 * @return The color for the specified index
+	 */
+	protected Color getBlockColor(int c)
 	{
 		switch(c) {
 			case 0:
@@ -213,215 +268,230 @@ class Level
 		}
 	}
 
-	int getBlockType(Block b)
+	/**
+	 * Get the block type number for a specific block
+	 * @param b The Block to get a block type number for
+	 * @return The block type number for the block, see {@link BlockType}
+	 */
+	protected static int getBlockType(Block b)
 	{
-		if(b.getClass().getName().equals("erland.BlockSimple")) {
-			return bPlain;
-		}else if(b.getClass().getName().equals("erland.BlockMultipleTimes")) {
-			return bMultiple;
-		}else if(b.getClass().getName().equals("erland.BlockStatic")) {
-			return bStatic;
-		}else if(b.getClass().getName().equals("erland.BlockFeature")) {
+		if(b.getClass().getName().equals("erland.game.crackout.BlockSimple")) {
+			return BlockType.bPlain;
+		}else if(b.getClass().getName().equals("erland.game.crackout.BlockMultipleTimes")) {
+			return BlockType.bMultiple;
+		}else if(b.getClass().getName().equals("erland.game.crackout.BlockStatic")) {
+			return BlockType.bStatic;
+		}else if(b.getClass().getName().equals("erland.game.crackout.BlockFeature")) {
 			switch(((BlockFeature)b).getFeature()) {
 				case Feature.FeatureType.lockBat:
-					return fLockBat;
+					return BlockType.fLockBat;
 				case Feature.FeatureType.newBall:
-					return fNewBall;
+					return BlockType.fNewBall;
 				case Feature.FeatureType.increaseBallSpeed:
-					return fIncreaseBallSpeed;
+					return BlockType.fIncreaseBallSpeed;
 				case Feature.FeatureType.decreaseBallSpeed:
-					return fDecreaseBallSpeed;
+					return BlockType.fDecreaseBallSpeed;
 				case Feature.FeatureType.increaseBatSpeed:
-					return fIncreaseBatSpeed;
+					return BlockType.fIncreaseBatSpeed;
 				case Feature.FeatureType.decreaseBatSpeed:
-					return fDecreaseBatSpeed;
+					return BlockType.fDecreaseBatSpeed;
 				case Feature.FeatureType.doubleBat:
-					return fDoubleBat;
+					return BlockType.fDoubleBat;
 				case Feature.FeatureType.extraLife:
-					return fExtraLife;
+					return BlockType.fExtraLife;
 				case Feature.FeatureType.safetyWall:
-					return fSafetyWall;
+					return BlockType.fSafetyWall;
 				case Feature.FeatureType.missile:
-					return fMissile;
+					return BlockType.fMissile;
 				case Feature.FeatureType.largeBat:
-					return fLargeBat;
+					return BlockType.fLargeBat;
 				case Feature.FeatureType.smallBat:
-					return fSmallBat;
+					return BlockType.fSmallBat;
 				case Feature.FeatureType.bomb:
-					return fBomb;
+					return BlockType.fBomb;
 				default:
-					return fLockBat;
+					return BlockType.fLockBat;
 			}
-		}else if(b.getClass().getName().equals("erland.BlockFeatureHold")) {
+		}else if(b.getClass().getName().equals("erland.game.crackout.BlockFeatureHold")) {
 			switch(((BlockFeature)b).getFeature()) {
 				case Feature.FeatureType.lockBat:
-					return fLockBatHold;
+					return BlockType.fLockBatHold;
 				case Feature.FeatureType.newBall:
-					return fNewBallHold;
+					return BlockType.fNewBallHold;
 				case Feature.FeatureType.increaseBallSpeed:
-					return fIncreaseBallSpeedHold;
+					return BlockType.fIncreaseBallSpeedHold;
 				case Feature.FeatureType.decreaseBallSpeed:
-					return fDecreaseBallSpeedHold;
+					return BlockType.fDecreaseBallSpeedHold;
 				case Feature.FeatureType.increaseBatSpeed:
-					return fIncreaseBatSpeedHold;
+					return BlockType.fIncreaseBatSpeedHold;
 				case Feature.FeatureType.decreaseBatSpeed:
-					return fDecreaseBatSpeedHold;
+					return BlockType.fDecreaseBatSpeedHold;
 				case Feature.FeatureType.doubleBat:
-					return fDoubleBatHold;
+					return BlockType.fDoubleBatHold;
 				case Feature.FeatureType.extraLife:
-					return fExtraLifeHold;
+					return BlockType.fExtraLifeHold;
 				case Feature.FeatureType.safetyWall:
-					return fSafetyWallHold;
+					return BlockType.fSafetyWallHold;
 				case Feature.FeatureType.missile:
-					return fMissileHold;
+					return BlockType.fMissileHold;
 				case Feature.FeatureType.largeBat:
-					return fLargeBatHold;
+					return BlockType.fLargeBatHold;
 				case Feature.FeatureType.smallBat:
-					return fSmallBatHold;
+					return BlockType.fSmallBatHold;
 				case Feature.FeatureType.bomb:
-					return fBombHold;
+					return BlockType.fBombHold;
 				default:
-					return fLockBatHold;
+					return BlockType.fLockBatHold;
 			}
-		}else if(b.getClass().getName().equals("erland.BlockMonster")) {
+		}else if(b.getClass().getName().equals("erland.game.crackout.BlockMonster")) {
 			switch(((BlockMonster)b).getMonster()) {
 				case Monster.MonsterType.bounceBlock:
-					return mBounceBlock;
+					return BlockType.mBounceBlock;
 				case Monster.MonsterType.bounceOnceBlock:
-					return mBounceOnceBlock;
+					return BlockType.mBounceOnceBlock;
 				default:
-					return mBounceOnceBlock;
+					return BlockType.mBounceOnceBlock;
 			}
 		}else {
-			return bPlain;
+			return BlockType.bPlain;
 		}
 	}
-
-	static Block newBlock(ImageHandlerInterface images, BlockContainerInterface cont, int x, int y, Color c, int type)
+	
+	/**
+	 * Creates a new block and returns it
+	 * @param images Image handler object
+	 * @param cont Block container which the block should reside in
+	 * @param x X position of the block (Square coordinate)
+	 * @param y Y position of the block (Square coordinate)
+	 * @param c Color of the block
+	 * @param type Type of block to create, see {@link BlockType}
+	 * @return The newly created block
+	 */
+	public static Block newBlock(ImageHandlerInterface images, BlockContainerInterface cont, int x, int y, Color c, int type)
 	{
 		Block block = null;
 		switch(type) {
-			case fLockBat:
+			case BlockType.fLockBat:
 				block = new BlockFeature();
 				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.lockBat);
 				break;
-			case fNewBall:
+			case BlockType.fNewBall:
 				block = new BlockFeature();
 				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.newBall);
 				break;
-			case fIncreaseBallSpeed:
+			case BlockType.fIncreaseBallSpeed:
 				block = new BlockFeature();
 				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.increaseBallSpeed);
 				break;
-			case fDecreaseBallSpeed:
+			case BlockType.fDecreaseBallSpeed:
 				block = new BlockFeature();
 				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.decreaseBallSpeed);
 				break;
-			case fIncreaseBatSpeed:
+			case BlockType.fIncreaseBatSpeed:
 				block = new BlockFeature();
 				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.increaseBatSpeed);
 				break;
-			case fDecreaseBatSpeed:
+			case BlockType.fDecreaseBatSpeed:
 				block = new BlockFeature();
 				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.decreaseBatSpeed);
 				break;
-			case fDoubleBat:
+			case BlockType.fDoubleBat:
 				block = new BlockFeature();
 				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.doubleBat);
 				break;
-			case fExtraLife:
+			case BlockType.fExtraLife:
 				block = new BlockFeature();
 				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.extraLife);
 				break;
-			case fSafetyWall:
+			case BlockType.fSafetyWall:
 				block = new BlockFeature();
 				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.safetyWall);
 				break;
-			case fMissile:
+			case BlockType.fMissile:
 				block = new BlockFeature();
 				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.missile);
 				break;
-			case fLargeBat:
+			case BlockType.fLargeBat:
 				block = new BlockFeature();
 				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.largeBat);
 				break;
-			case fSmallBat:
+			case BlockType.fSmallBat:
 				block = new BlockFeature();
 				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.smallBat);
 				break;
-			case fBomb:
+			case BlockType.fBomb:
 				block = new BlockFeature();
 				((BlockFeature)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.bomb);
 				break;
-			case fLockBatHold:
+			case BlockType.fLockBatHold:
 				block = new BlockFeatureHold();
 				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.lockBat);
 				break;
-			case fNewBallHold:
+			case BlockType.fNewBallHold:
 				block = new BlockFeatureHold();
 				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.newBall);
 				break;
-			case fIncreaseBallSpeedHold:
+			case BlockType.fIncreaseBallSpeedHold:
 				block = new BlockFeatureHold();
 				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.increaseBallSpeed);
 				break;
-			case fDecreaseBallSpeedHold:
+			case BlockType.fDecreaseBallSpeedHold:
 				block = new BlockFeatureHold();
 				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.decreaseBallSpeed);
 				break;
-			case fIncreaseBatSpeedHold:
+			case BlockType.fIncreaseBatSpeedHold:
 				block = new BlockFeatureHold();
 				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.increaseBatSpeed);
 				break;
-			case fDecreaseBatSpeedHold:
+			case BlockType.fDecreaseBatSpeedHold:
 				block = new BlockFeatureHold();
 				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.decreaseBatSpeed);
 				break;
-			case fDoubleBatHold:
+			case BlockType.fDoubleBatHold:
 				block = new BlockFeatureHold();
 				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.doubleBat);
 				break;
-			case fExtraLifeHold:
+			case BlockType.fExtraLifeHold:
 				block = new BlockFeatureHold();
 				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.extraLife);
 				break;
-			case fSafetyWallHold:
+			case BlockType.fSafetyWallHold:
 				block = new BlockFeatureHold();
 				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.safetyWall);
 				break;
-			case fMissileHold:
+			case BlockType.fMissileHold:
 				block = new BlockFeatureHold();
 				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.missile);
 				break;
-			case fLargeBatHold:
+			case BlockType.fLargeBatHold:
 				block = new BlockFeatureHold();
 				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.largeBat);
 				break;
-			case fSmallBatHold:
+			case BlockType.fSmallBatHold:
 				block = new BlockFeatureHold();
 				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.smallBat);
 				break;
-			case fBombHold:
+			case BlockType.fBombHold:
 				block = new BlockFeatureHold();
 				((BlockFeatureHold)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Feature.FeatureType.bomb);
 				break;
-			case mBounceBlock:
+			case BlockType.mBounceBlock:
 				block = new BlockMonster();
 				((BlockMonster)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Monster.MonsterType.bounceBlock);
 				break;
-			case mBounceOnceBlock:
+			case BlockType.mBounceOnceBlock:
 				block = new BlockMonster();
 				((BlockMonster)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,Monster.MonsterType.bounceOnceBlock);
 				break;
-			case bPlain:
+			case BlockType.bPlain:
 				block = new BlockSimple();
 				((BlockSimple)block).init(images,cont,squareSizeX, squareSizeY,x,y,c);
 				break;
-			case bMultiple:
+			case BlockType.bMultiple:
 				block = new BlockMultipleTimes();
 				((BlockMultipleTimes)block).init(images,cont,squareSizeX, squareSizeY,x,y,c,2);
 				break;
-			case bStatic:
+			case BlockType.bStatic:
 				block = new BlockStatic();
 				((BlockStatic)block).init(images,cont,squareSizeX, squareSizeY,x,y);
 				break;

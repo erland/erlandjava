@@ -2,45 +2,91 @@ package erland.game.crackout;
 import erland.game.*;
 import java.awt.*;
 
+/**
+ * Implements a feature object that drops from the start position
+ * to the bottom of the screen. The user wil get the feature if 
+ * it is hit with the bat
+ */
 class Feature
 	implements CollisionRect
 {
-	int sizeX;
-	int sizeY;
-	double x;
-	double y;
-	boolean active;
-	int speed;
-	int offsetX;
-	int offsetY;
-	int limitX;
-	int limitY;
-	int featureType;
-	ImageHandlerInterface images;
-	BlockContainerInterface cont;
+	/** Width of object */
+	protected int sizeX;
+	/** Height of object */
+	protected int sizeY;
+	/** X position of object */
+	protected double x;
+	/** Y position of object */
+	protected double y;
+	/** Indicates if the object is visible(active) or not */
+	protected boolean active;
+	/** The speed the feature drops with */
+	protected int speed;
+	/** Horisontal drawing offset */
+	protected int offsetX;
+	/** Vertical drawing offset */
+	protected int offsetY;
+	/** Maximum allowed x position for any part of the feature object */
+	protected int limitX;
+	/** Maximum allowed y position for any part of the feature object */
+	protected int limitY;
+	/** Type of feature, see {@link FeatureType} */
+	protected int featureType;
+	/** Image handler object */
+	protected ImageHandlerInterface images;
+	/** Block container object which the feature resides in */
+	protected BlockContainerInterface cont;
 	
-	class FeatureType {
+	/**
+	 * Defines the features availeble
+	 */
+	abstract class FeatureType {
+		/** Locks the bat so it can't be moved for a while */
 		static final int lockBat=1;
+		/** Add a new ball to the game */
 		static final int newBall=2;
+		/** Increase the ballspeed of all active balls */
 		static final int increaseBallSpeed=3;
+		/** Decrease the ballspeed of all active balls */
 		static final int decreaseBallSpeed=4;
+		/** Increase the bat speed */
 		static final int increaseBatSpeed=5;
+		/** Decrease the bat speed */
 		static final int decreaseBatSpeed=6;
+		/** Change to a double bat for a while */
 		static final int doubleBat=7;
+		/** Adds an extra life */
 		static final int extraLife=8;
+		/** Puts up a safety wall at the bottom which the ball will bounce on for a while */
 		static final int safetyWall=9;
+		/** Adds an extra missile */
 		static final int missile=10;
+		/** Change to a large bat for a while */
 		static final int largeBat=11;
+		/** Change to a small bat for a while */
 		static final int smallBat=12;
+		/** Explode bomb */
 		static final int bomb=13;
 	}
 
-	Feature()
+	/**
+	 * Creates a new object
+	 */
+	public Feature()
 	{
 		active=true;
 		featureType = FeatureType.lockBat;
 	}
-	void init(ImageHandlerInterface images, BlockContainerInterface cont, int posX, int posY, int featureType)
+	
+	/**
+	 * Initialize object
+	 * @param images Image handler object
+	 * @param cont Block container which the feature resides in
+	 * @param posX Initial x position of the feature
+	 * @param posY Initial y position of the feature
+	 * @param featureType Type of feature, see {@link FeatureType}
+	 */
+	public void init(ImageHandlerInterface images, BlockContainerInterface cont, int posX, int posY, int featureType)
 	{
 		this.cont = cont;
 		x = posX;
@@ -75,7 +121,15 @@ class Feature
 	{
 		//active = false;
 	}
-	int handleCollision(ActionInterface a, Bat bats[])
+	/**
+	 * Check if the feature has reached the button or collided with a bat, 
+	 * perform the feature if it has collided with the bat and remove the feature
+	 * if it has reached the bottom of the screen
+	 * @param a Action object implementing all collision actions
+	 * @param bats The bats which collision should be checked with
+	 * @return The score should be increased with this number
+	 */
+	protected int handleCollision(ActionInterface a, Bat bats[])
 	{
 		// Handle collsion with walls
 		if(y>(limitY-sizeY)) {
@@ -139,12 +193,24 @@ class Feature
 		}
 		return 0;
 	}
-	int move(ActionInterface a, Bat bats[])
+	
+	/**
+	 * Move the feature to the next position and handle collisions with bats
+	 * @param a Action object implementing all collision actions
+	 * @param bats The bats which collision should be checked against
+	 * @return The score should be increased with this value
+	 */
+	public int move(ActionInterface a, Bat bats[])
 	{
 		y+=speed;
 		return handleCollision(a,bats);
 	}
-	void draw(Graphics g)
+	
+	/**
+	 * Draw the feature object
+	 * @param g Graphics object to draw on
+	 */
+	public void draw(Graphics g)
 	{
 		if(active) {
 			Image img=null;

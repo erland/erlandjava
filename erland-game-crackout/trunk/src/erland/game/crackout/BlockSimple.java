@@ -2,19 +2,21 @@ package erland.game.crackout;
 import erland.game.*;
 import java.awt.*;
 
+/**
+ * Implements a simple block that will disappear as soon
+ * has it has been hit
+ */
 class BlockSimple extends Block
 {
-	int dieCount;
-	Color color;
+	/** Counter that handles the fadeout when the block has been hit */
+	protected int dieCount;
+	/** Color of the block */
+	protected Color color;
 	
-	/*class ColorType {
-		public static final int red=1;
-		public static final int green=2;
-		public static final int blue=3;
-		public static final int yellow=4;
-		public static final int white=5;
-	}*/
-	BlockSimple()
+	/**
+	 * Creates a new instance of the block
+	 */
+	public BlockSimple()
 	{
 		dieCount=255;
 		color = Color.blue;
@@ -27,7 +29,17 @@ class BlockSimple extends Block
 		obj.init(images, cont, sizeX, sizeY, posX, posY, color);
 		return obj;
     }
-	void init(ImageHandlerInterface images, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color)
+	/**
+	 * Initialize block
+	 * @param images Image handler object
+	 * @param cont Reference to block container object
+	 * @param sizeX Width of block (Number of squares)
+	 * @param sizeY Height of block (Number of squares)
+	 * @param posX X position of block (Square coordinates)
+	 * @param posY Y position of block (Square coordinates)
+	 * @param color Color of the block
+	 */
+	public void init(ImageHandlerInterface images, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color)
 	{
 		init(images, cont , sizeX, sizeY, posX, posY);
 		this.color = color;
@@ -40,7 +52,13 @@ class BlockSimple extends Block
 	{
 		return true;	
 	}
-	public void drawBlock(Graphics g, Color color, int brightness)
+	/**
+	 * Draws a simple block
+	 * @param g Graphics object to draw on
+	 * @param color The color that the block should be drawn in
+	 * @param brightness The brightness the block should be drawn in. 0 is completely black, 256 is normal and 511 is completely white
+	 */
+	protected void drawBlock(Graphics g, Color color, int brightness)
 	{
 		float hsb[] = new float[3];
 		Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(),hsb);

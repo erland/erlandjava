@@ -3,14 +3,34 @@ package erland.game.crackout;
 import erland.game.*;
 import java.awt.*;
 
+/**
+ * Implements a block that will start to flash a feature when
+ * it is hit the first time and the get the feature you need
+ * to hit the block a second time before it stops to flash the
+ * feature
+ */
 class BlockFeatureHold extends BlockFeature
 {
-	int hitCount;
-	int featureDieCount;
-	int featureBlinkCount;
-	static final int BLINK_SPEED=10;
+	/** 
+	 * Number of times the block must be hit before it disappears.
+	 * This is a counter that will be decreased every time the block is hit
+	 */
+	protected int hitCount;
+	/** 
+	 * Counter that is decreased continously after the {@link #hitCount} has been decreased to 1.
+	 * The feature will start blinking when this counter starts to decrease and will disappear when
+	 * this counter has been decreased to 0
+	 */
+	protected int featureDieCount;
+	/** Counter that handles the blinking of the feature */
+	protected int featureBlinkCount;
+	/** The speed of the feature blink */
+	protected static final int BLINK_SPEED=10;
 	
-	BlockFeatureHold()
+	/**
+	 * Creates an instance of the block
+	 */
+	public BlockFeatureHold()
 	{
 		hitCount=2;
 		featureDieCount=0;
@@ -24,7 +44,18 @@ class BlockFeatureHold extends BlockFeature
 		return obj;
     }
 
-	void init(ImageHandlerInterface images, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color, int featureType)
+	/**
+	 * Initialize block
+	 * @param images Image handler object
+	 * @param cont Reference to block container object
+	 * @param sizeX Width of block (Number of squares)
+	 * @param sizeY Height of block (Number of squares)
+	 * @param posX X position of block (Square coordinates)
+	 * @param posY Y position of block (Square coordinates)
+	 * @param color Color of the block
+	 * @param featureType Type of feature that should be dropped when the block is hit, see {@link Feature.FeatureType}
+	 */
+	public void init(ImageHandlerInterface images, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color, int featureType)
 	{
 		super.init(images,cont,sizeX, sizeY,posX,posY,color,featureType);
 		hitCount=2;
@@ -32,7 +63,12 @@ class BlockFeatureHold extends BlockFeature
 		description += ", needs 2 hits, second hit generates feature";
 	}
 	
-	public void drawSimple(Graphics g)
+	/**
+	 * Draws the block after the feature has stopped blinking and during the blinking when
+	 * the feature is not visible
+	 * @param g Graphics object to draw on
+	 */
+	protected void drawSimple(Graphics g)
 	{
 		if(active) {
 			drawBlock(g,color,0xFF);

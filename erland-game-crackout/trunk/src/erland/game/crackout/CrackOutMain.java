@@ -4,58 +4,112 @@ import erland.game.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-
+/**
+ * This is the main game object that handles most of the game logic
+ */
 class CrackOutMain 
 	implements ActionInterface, ActionListener
 {
-	int offsetX;
-	int offsetY;
-	int squareSize;
-	Bat bats[];
-	LinkedList balls;
-	LinkedList removeBalls;
-	final int sizeX=20;
-	final int sizeY=20;
-	Block blocks[];
-	LinkedList features;
-	LinkedList monsters;
-	LinkedList removeFeatures;
-	LinkedList removeMonsters;
-	LinkedList missiles;
-	LinkedList bombs;
-	int missileCount;
-	boolean moveLeft;
-	boolean moveRight;
-	boolean bEnd;
-	int blinkCounter;
-	final int BLINK_SPEED=20;
-	boolean bStarted;
-	int savedHighScore;
-	int highScore;
-	int score;
-	int level;
-	int ballSize=15;
-	int ballSpeed;
-	int batSpeed;
-	int lifes;
-	int lockedBat;
-	int doubleBatCountDown;
-	int safetyWallCountDown;
-	int batSizeCountDown;
-	int safetyWallBlink;
-	ImageHandlerInterface images;
-	ParameterValueStorageInterface cookies;
-	LevelFactory levelFactory;
-	BlockContainerData cont;
-	boolean bExit;
-	//ImageObject exitButton;
-	Button exitButton;
-	boolean cheatMode;
-	long frameTime=0;
-	int fpsShow=0;
-	long fps=0;
-	Container container;
+	/** Horisontal drawing offset */
+	protected int offsetX;
+	/** Vertical drawing offset */
+	protected int offsetY;
+	/** Size of the squares all the blocks consists of */
+	protected int squareSize;
+	/** Array of all drawn bats (Can be 1 or 2) */
+	protected Bat bats[];
+	/** List of all active balls */
+	protected LinkedList balls;
+	/** List of all balls that should be removed from {@link #balls} */
+	protected LinkedList removeBalls;
+	/** Width of the main game area (Number of squares) */
+	protected final int sizeX=20;
+	/** Height of the main game area (Number of squares) */
+	protected final int sizeY=20;
+	/** Array with all the blocks in the current level */
+	protected Block blocks[];
+	/** List of all currently active features */
+	protected LinkedList features;
+	/** List of all currently active monsters */
+	protected LinkedList monsters;
+	/** List of all features that should be removed from {@link #features} */
+	protected LinkedList removeFeatures;
+	/** List of all monsters that should be removed from {@link #monsters} */
+	protected LinkedList removeMonsters;
+	/** List of all currently active missiles */
+	protected LinkedList missiles;
+	/** List of all currently active bombs */
+	protected LinkedList bombs;
+	/** Number of missiles that is left and can be launched */
+	protected int missileCount;
+	/** Indicates if the bat is moving left */
+	protected boolean moveLeft;
+	/** Indicates if the bat is moving right */
+	protected boolean moveRight;
+	/** Indicates if the game has been completed or GAME OVER has occurred */
+	protected boolean bEnd;
+	/** Counter that handles the blinking of text */
+	protected int blinkCounter;
+	/** The text blink speed */
+	protected final int BLINK_SPEED=20;
+	/** Indicates if the game is running or waiting for the user */
+	protected boolean bStarted;
+	/** Last highscore saved to disk */
+	protected int savedHighScore;
+	/** Current highscore */
+	protected int highScore;
+	/** Current score */
+	protected int score;
+	/** Current level */
+	protected int level;
+	/** The size of the ball (Can no longer be changed without making a new ball bitmap) */
+	protected int ballSize=15;
+	/** The speed all new balls get */
+	protected int ballSpeed;
+	/** The number of lifes left */
+	protected int lifes;
+	/** Counter that handles the locked bat state, greater than zero means locked bat */
+	protected int lockedBat;
+	/** Counter that handles double bat state, greater than zero means locked bat */
+	protected int doubleBatCountDown;
+	/** Counter that handles safety wall state, greater than zero means safety wall active */
+	protected int safetyWallCountDown;
+	/** Counter that handles changed bat size state, greater than zero means changed bat size */
+	protected int batSizeCountDown;
+	/** Counter that handles the blinking of the safety wall when it is about to disappear */
+	protected int safetyWallBlink;
+	/** Reference to image handler object */
+	protected ImageHandlerInterface images;
+	/** Reference to parameter storage object */
+	protected ParameterValueStorageInterface cookies;
+	/** Level factory object which contains all level data */
+	protected LevelFactory levelFactory;
+	/** Block container for the main game area */
+	protected BlockContainerData cont;
+	/** Indicates that the Exit button has been pressed */
+	protected boolean bExit;
+	/** The Exit button */
+	protected Button exitButton;
+	/** Indicates if cheatmode is active or not */
+	protected boolean cheatMode;
+	/** Counter used to calculate framerate when cheatmode is active */
+	protected long frameTime=0;
+	/** Counter used to indicate how many frames that shall be used to calculate a new framerate in cheatmode */
+	protected int fpsShow=0;
+	/** Last framerate calculated when cheatmode is active */
+	protected long fps=0;
+	/** Container object which the Exit button belongs to */
+	protected Container container;
 	
+	/**
+	 * Creates a new instance of the main game object
+	 * @param container Container which the buttons should be added to
+	 * @param images Image handler object
+	 * @param cookies Reference to parameter storage object
+	 * @param offsetX Horisontal drawing offset
+	 * @param offsetY Vertical drawing offset
+	 * @param squareSize The size of the square which all the blocks conists of
+	 */
 	public CrackOutMain(java.awt.Container container, ImageHandlerInterface images, ParameterValueStorageInterface cookies, int offsetX, int offsetY, int squareSize)
 	{
 		this.container = container;
@@ -95,7 +149,10 @@ class CrackOutMain
 		savedHighScore=highScore;
 	}
 	
-	void init()
+	/**
+	 * Initialize a new game
+	 */
+	protected void init()
 	{
 		missileCount=0;
 		ballSize=squareSize;
@@ -106,7 +163,11 @@ class CrackOutMain
 		score=0;
 		lifes =3;
 	}
-	void handleDeath()
+	
+	/**
+	 * Handle everything needed when the last ball has been lost
+	 */
+	protected void handleDeath()
 	{
 		lifes--;
 		if(lifes<=0) {
@@ -114,7 +175,7 @@ class CrackOutMain
 			bStarted=false;
 		}else {
 			ballSpeed = squareSize/4+level/2;
-			batSpeed = squareSize/4+level/2;
+			int batSpeed = squareSize/4+level/2;
 			lockedBat = 0;
 			features.clear();
 			monsters.clear();
@@ -137,11 +198,16 @@ class CrackOutMain
 			bats[0].init(offsetX+1, offsetY+1, 0,squareSize*sizeX,(squareSize*sizeX)/2-squareSize*2,(squareSize*sizeY)-squareSize*2, squareSize*4, squareSize,batSpeed);
 		}
 	}
-	boolean newLevel()
+	
+	/**
+	 * Get and initialize next level
+	 * @return true/false - false indicates that the game has been completed 
+	 */
+	protected boolean newLevel()
 	{	
 		level++;
 		ballSpeed = squareSize/4+level/2;
-		batSpeed = squareSize/4+level/2;
+		int batSpeed = squareSize/4+level/2;
 		lockedBat = 0;
 		features.clear();
 		monsters.clear();
@@ -174,6 +240,10 @@ class CrackOutMain
 		}				
 	}
 	
+	/**
+	 * Draw all the game graphics
+	 * @param g Graphics object to draw on
+	 */
 	public void draw(Graphics g)
 	{
 		if((++fpsShow)%25==0) {
@@ -314,6 +384,10 @@ class CrackOutMain
 		g.setColor(Color.red);
 		g.drawString("by Erland Isaksson",rightColumnX,offsetY+sizeY*squareSize);
 	}
+	
+	/**
+	 * Update all the objects for the next frame
+	 */
 	public void update()
 	{
 		if(!bStarted && level>0) {
@@ -450,24 +524,41 @@ class CrackOutMain
 			}
 		}
 	}
+	
+	/**
+	 * Start moving the bat left
+	 */
 	public void moveLeft()
 	{
 		moveLeft = true;
 		moveRight = false;
 	}
+	/**
+	 * Start moving the bat right
+	 */
 	public void moveRight()
 	{
 		moveLeft = false;
 		moveRight = true;
 	}
+	/**
+	 * Stop the bat from moving to left
+	 */
 	public void stopMoveLeft()
 	{
 		moveLeft = false;
 	}
+	/**
+	 * Stop the bat from moving to right
+	 */
 	public void stopMoveRight()
 	{
 		moveRight = false;
 	}
+	
+	/**
+	 * Step to next level, should only be used in cheatmode
+	 */
 	public void increaseStartLevel()
 	{
 		if(!bStarted) {
@@ -481,6 +572,12 @@ class CrackOutMain
 			score=0;
 		}
 	}
+	
+	/**
+	 * Performs the action associated with the space key.
+	 * This means firing missiles if game is running or start the
+	 * game if it is not running
+	 */
 	public void hitSpace()
 	{
 		if(bStarted) {
@@ -500,6 +597,10 @@ class CrackOutMain
 			start();
 		}
 	}
+	
+	/**
+	 * Start the game when it waits for the user to press space
+	 */
 	public void start()
 	{
 		if(!bStarted && level>0 && !bEnd) {
@@ -508,6 +609,10 @@ class CrackOutMain
 			newGame();
 		}
 	}
+	
+	/**
+	 * Start a new game
+	 */
 	public void newGame()
 	{
 		if(bEnd || !bStarted) {
@@ -636,37 +741,54 @@ class CrackOutMain
 		score += tmp;
 		bombs.add(b);
 	}
-	boolean checkCollision(CollisionRect rc, int x, int y)
-	{
-		if(rc.left()<=x && rc.right()>=x) {			
-			if(rc.top()<=y && rc.bottom()>=y) {
-				return true;
-			}
-		}
-		return false;
-	}
 
-	void handleMouseClicked(int x, int y) {
-		/*if(checkCollision(exitButton,x,y)) {
-			bExit = true;
-		}*/
-	}
-	void handleMousePressed(int x, int y)
+	/**
+	 * Handle mouseClicked event. Does nothing at the moment since the mouse is not used
+	 * @param x x coordinate of the mouse pointer
+	 * @param y y coordinate of the mouse pointer
+	 */
+	public void handleMouseClicked(int x, int y) 
 	{
 	}
-	void handleMouseReleased(int x, int y)
+	/**
+	 * Handle mousePressed event. Does nothing at the moment since the mouse is not used
+	 * @param x x coordinate of the mouse pointer
+	 * @param y y coordinate of the mouse pointer
+	 */
+	public void handleMousePressed(int x, int y)
+	{
+	}
+	/**
+	 * Handle mouseReleased event. Does nothing at the moment since the mouse is not used
+	 * @param x x coordinate of the mouse pointer
+	 * @param y y coordinate of the mouse pointer
+	 */
+	public void handleMouseReleased(int x, int y)
 	{
 	}
 	
-	boolean isExit()
+	/**
+	 * Check if the Exit button has been pressed
+	 * @return true/false (Exit pressed/Exit not pressed)
+	 */
+	public boolean isExit()
 	{
 		return bExit;
 	}
 	
-	void setCheatMode(boolean cheat)
+	/**
+	 * Activate or deactivate cheatmode
+	 * @param cheat true neas cheatmode, false means normal mode
+	 */
+	public void setCheatMode(boolean cheat)
 	{
 		cheatMode=cheat;
 	}
+	
+	/**
+	 * Handles the click on buttons
+	 * @param e ActionEvent indicating which button that has been pressed
+	 */
 	public void actionPerformed(ActionEvent e)
 	{
 		if(e.getSource()==exitButton) {

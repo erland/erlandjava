@@ -2,6 +2,10 @@ package erland.game.crackout;
 
 import java.awt.*;
 
+/**
+ * Specifies which images that exists and should be
+ * preloaded.
+ */
 interface ImageHandlerInterface
 {
 	static final int FEATURE=0;
@@ -26,5 +30,10 @@ interface ImageHandlerInterface
 	static final int BALL=19;
 	static final int NO_OF_IMAGES=20;
 
+	/**
+	 * Get a specific image
+	 * @param image Index of image to get
+	 * @return Image object for the specified index
+	 */
 	Image getImage(int image);
 }

@@ -3,22 +3,48 @@ package erland.game.crackout;
 import java.awt.*;
 import java.util.*;
 
-public class Ball
+/**
+ * Represents a ball
+ */
+class Ball
 {
-	int offsetX;
-	int offsetY;
-	double x;
-	double y;
-	int sizeX;
-	int sizeY;
-	int ballSize;
-	double direction;
-	int speed;
-	boolean active;
-	static final double MIN_ANGLE=Math.PI/9;
-	ImageHandlerInterface images;
+	/** Horisontal drawing offset */
+	protected int offsetX;
+	/** Vertical drawing offset */
+	protected int offsetY;
+	/** X position of the ball */
+	protected double x;
+	/** Y postition of the ball */
+	protected double y;
+	/** Width of game area */
+	protected int sizeX;
+	/** Height of game area */
+	protected int sizeY;
+	/** Size of ball in pixels */
+	protected int ballSize;
+	/** Current moving direction of the ball */
+	protected double direction;
+	/** Current speed of the ball */
+	protected int speed;
+	/** Minimum angle that the ball always has to have when it collides with something on the top eller bottom side of the ball */
+	protected static final double MIN_ANGLE=Math.PI/9;
+	/** Referense to image handler object */
+	protected ImageHandlerInterface images;
 			
-	void init(ImageHandlerInterface images, int offsetX, int offsetY, int sizeX, int sizeY, int x, int y, int ballSize, int speed, double direction)
+	/**
+	 * Initialize the ball
+	 * @param images Reference to image handler object
+	 * @param offsetX Horisontal drawing offset
+	 * @param offsetY Vertical drawing offset
+	 * @param sizeX Width of the game area
+	 * @param sizeY Height of the game area
+	 * @param x Initial x position of the ball
+	 * @param y Initial y position of the ball
+	 * @param ballSize Size of the ball
+	 * @param speed Speed of the ball 
+	 * @param direction Moving direction of the ball
+	 */
+	public void init(ImageHandlerInterface images, int offsetX, int offsetY, int sizeX, int sizeY, int x, int y, int ballSize, int speed, double direction)
 	{
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
@@ -30,15 +56,31 @@ public class Ball
 		this.direction = direction;
 		this.ballSize = ballSize;
 		this.images = images;
-		active=true;
 	}
 	
-	void move(int x,int y)
+	/**
+	 * Move the ball to the specified position
+	 * @param x New x position of the ball
+	 * @param y New y position of the ball
+	 * @see #move(ActionInterface, Bat[], Block[], LinkedList, double, boolean)	 
+	 */
+	public void move(int x,int y)
 	{
 		this.x = x;
 		this.y = y;
 	}
-	int move(ActionInterface a,Bat bats[], Block blocks[], LinkedList monsters, double scoreMultiplier, boolean safe)
+	
+	/**
+	 * Move the ball one step
+	 * @param a Reference to an object which implements all collision actions
+	 * @param bats An array with all bats
+	 * @param blocks An array with all blocks
+	 * @param monsters A list with all monsters
+	 * @param scoreMultiplier Every increase of the score should be multiplied with this
+	 * @param safe If true the ball shall also bounce with it hits the bottom of the game area
+	 * @return The number of points the score should be increased with
+	 */
+	public int move(ActionInterface a,Bat bats[], Block blocks[], LinkedList monsters, double scoreMultiplier, boolean safe)
 	{
 		int score=0;
 		for(int i=0;i<speed;i++) {
@@ -49,7 +91,17 @@ public class Ball
 		return score;
 	}
 	
-	int handleCollision(ActionInterface a, Bat bats[], Block blocks[], LinkedList monsters, double scoreMultiplier, boolean safe)
+	/**
+	 * Check if the ball collides with something
+	 * @param a Reference to an object which implements all collision actions
+	 * @param bats An array with all bats
+	 * @param blocks An array with all blocks
+	 * @param monsters A list with all monsters
+	 * @param scoreMultiplier Every increase of the score should be multiplied with this
+	 * @param safe If true the ball shall also bounce with it hits the bottom of the game area
+	 * @return The number of points the score should be increased with
+	 */
+	protected int handleCollision(ActionInterface a, Bat bats[], Block blocks[], LinkedList monsters, double scoreMultiplier, boolean safe)
 	{
 		int score =0;
 		// Handle collsion with walls
@@ -68,7 +120,6 @@ public class Ball
 			if(safe) {
 				bottomCollision(0);
 			}else {
-				active=false;
 				a.RemoveBall(this);
 			}
 			y=sizeY-ballSize;
@@ -106,7 +157,14 @@ public class Ball
 		normalizeDirection();
 		return score;
 	}
-	boolean checkCollision(CollisionRect rc, double deviation)
+	
+	/**
+	 * Check if the ball collides with the specified rectangle
+	 * @param rc CollisionRect object that collision should be checked with
+	 * @param deviation Maximum deviation of the bounce normal
+	 * @return true/false (Collision/No collision)
+	 */
+	protected boolean checkCollision(CollisionRect rc, double deviation)
 	{
 		boolean bCollision = false;
 		if((x+ballSize)>rc.left() && x<rc.right()) {
@@ -165,7 +223,11 @@ public class Ball
 		}
 		return bCollision;
 	}
-	void topCollision(double deviation)
+	/**
+	 * Change the angle due to a collistion on the top of the ball
+	 * @param deviation Deviation angle of the bounce normal
+	 */
+	protected void topCollision(double deviation)
 	{
 		double tmp = direction-2*Math.PI*3/4;
 		direction = Math.PI/2-tmp;
@@ -180,7 +242,11 @@ public class Ball
 			direction=MIN_ANGLE;
 		}
 	}
-	void bottomCollision(double deviation)
+	/**
+	 * Change the angle due to a collistion on the bottom of the ball
+	 * @param deviation Deviation angle of the bounce normal
+	 */
+	protected void bottomCollision(double deviation)
 	{
 		double tmp = direction-Math.PI/2;
 		if(Math.abs(tmp)>(Math.PI/4)) {
@@ -201,17 +267,29 @@ public class Ball
 			direction=2*Math.PI-MIN_ANGLE;
 		}
 	}
-	void leftCollision(double deviation)
+	/**
+	 * Change the angle due to a collistion on the left side of the ball
+	 * @param deviation Deviation angle of the bounce normal (Currently not implemented)
+	 */
+	protected void leftCollision(double deviation)
 	{
 		double tmp = direction-Math.PI;
 		direction = 2*Math.PI-tmp;
 	}
-	void rightCollision(double deviation)
+	/**
+	 * Change the angle due to a collistion on the right side of the ball
+	 * @param deviation Deviation angle of the bounce normal (Currently not implemented)
+	 */
+	protected void rightCollision(double deviation)
 	{
 		double tmp = direction;
 		direction = Math.PI-tmp;
 	}
-	void normalizeDirection()
+	
+	/**
+	 * Normalize the ball moving direction so it is an angle between 0 and 2*Math.PI
+	 */
+	protected void normalizeDirection()
 	{	
 		// Make sure direction is between 0 and 2*PI
 		while(direction<0) {
@@ -222,7 +300,11 @@ public class Ball
 		}
 	}
 	
-	void draw(Graphics g)
+	/**
+	 * Draw the ball on the specified Graphics object
+	 * @param g The Graphics object to draw on
+	 */
+	public void draw(Graphics g)
 	{
 		//g.setColor(new Color(0x444444));
 		//g.fillOval((int)(offsetX+x),(int)(offsetY+y),ballSize,ballSize);
@@ -235,12 +317,12 @@ public class Ball
 		g.drawImage(images.getImage(images.BALL),(int)(offsetX+x),(int)(offsetY+y),null);
 		
 	}
-	boolean isActive()
-	{
-		return active;
-	}
 	
-	void setSpeed(int speed)
+	/**
+	 * Set the speed of the ball
+	 * @param speed The new speed of the ball
+	 */
+	public void setSpeed(int speed)
 	{
 		if(speed>=1) {
 			if(speed>10) {
@@ -250,9 +332,12 @@ public class Ball
 		}
 	}
 	
-	int getSpeed()
+	/**
+	 * Get the speed of the ball
+	 * @return The current speed of the ball
+	 */
+	public int getSpeed()
 	{
 		return this.speed;
-	}
-	
+	}	
 }

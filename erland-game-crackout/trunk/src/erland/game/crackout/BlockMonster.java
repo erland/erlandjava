@@ -2,11 +2,18 @@ package erland.game.crackout;
 import erland.game.*;
 import java.awt.*;
 
+/**
+ * Implements a block that creates a new monster when it is hit
+ */
 class BlockMonster extends BlockSimple
 {
-	int monster;
+	/** Type of monster to create when the block is hit, see {@link Monster.MonsterType} */
+	protected int monster;
 	
-	BlockMonster()
+	/**
+	 * Create a new instance of the block
+	 */
+	public BlockMonster()
 	{
 		super();
 		monster = Monster.MonsterType.bounceBlock;
@@ -19,7 +26,18 @@ class BlockMonster extends BlockSimple
 		return obj;
     }
 
-	void init(ImageHandlerInterface images, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color, int monsterType)
+	/**
+	 * Initialize block
+	 * @param images Image handler object
+	 * @param cont Reference to block container object
+	 * @param sizeX Width of block (Number of squares)
+	 * @param sizeY Height of block (Number of squares)
+	 * @param posX X position of block (Square coordinates)
+	 * @param posY Y position of block (Square coordinates)
+	 * @param color Color of the block
+	 * @param monsterType Type of monster that should be created when the block is hit
+	 */
+	public void init(ImageHandlerInterface images, BlockContainerInterface cont, int sizeX, int sizeY, int posX, int posY, Color color, int monsterType)
 	{
 		init(images, cont, sizeX, sizeY, posX, posY,color);
 		monster = monsterType;
@@ -84,7 +102,11 @@ class BlockMonster extends BlockSimple
 		a.NewMonster(m);
 	}
 
-	int getMonster()
+	/**
+	 * Get the type of monster that will be created when the block is hit
+	 * @return Type of monster that will be created when the block is hit, see {@link Monster.MonsterType}
+	 */
+	public int getMonster()
 	{
 		return monster;
 	}
