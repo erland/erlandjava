@@ -13,6 +13,7 @@ import erland.webapp.download.fb.ApplicationVersionPB;
 import erland.webapp.download.fb.ApplicationIdFB;
 import erland.webapp.download.fb.ApplicationFileFB;
 import erland.webapp.download.entity.ApplicationVersion;
+import erland.util.StringUtil;
 
 import java.util.*;
 
@@ -38,12 +39,16 @@ import java.util.*;
 public class SearchAllApplicationVersionsAction extends SearchApplicationVersionsAction {
     protected QueryFilter getFilter(HttpServletRequest request, ActionForm actionForm) {
         ApplicationIdFB fb = (ApplicationIdFB) actionForm;
+        String language = fb.getLanguage();
+        if(StringUtil.asNull(language)==null) {
+            language = request.getLocale().getLanguage();
+        }
         QueryFilter filter = new QueryFilter("all");
         String mainDir = WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("basedirectory");
         filter.setAttribute("directory",mainDir);
         filter.setAttribute("extensions", ".zip,.exe");
         filter.setAttribute("tree",Boolean.TRUE);
-        filter.setAttribute("language",request.getLocale().getLanguage());
+        filter.setAttribute("language",language);
         return filter;
     }
 }

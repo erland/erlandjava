@@ -5,10 +5,12 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
 import erland.webapp.download.fb.ApplicationPB;
+import erland.webapp.download.fb.SelectLanguageFB;
 import erland.webapp.download.entity.Application;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
+import erland.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,10 +40,15 @@ import java.util.Arrays;
 
 public class SearchApplicationsAction extends Action {
     public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+        SelectLanguageFB fb = (SelectLanguageFB) actionForm;
+        String language = fb.getLanguage();
+        if(StringUtil.asNull(language)==null) {
+            language = httpServletRequest.getLocale().getLanguage();
+        }
         QueryFilter filter = new QueryFilter("all");
         filter.setAttribute("directory",WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("basedirectory"));
         filter.setAttribute("directoriesonly",Boolean.TRUE);
-        filter.setAttribute("language",httpServletRequest.getLocale().getLanguage());
+        filter.setAttribute("language",language);
         EntityInterface[] entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-application").search(filter);
         if(entities!=null) {
             Collection applications = new ArrayList();

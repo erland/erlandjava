@@ -4,20 +4,15 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
-import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import erland.webapp.download.fb.ApplicationPB;
 import erland.webapp.download.fb.ApplicationIdFB;
 import erland.webapp.download.entity.Application;
-import erland.webapp.common.EntityInterface;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
 import erland.webapp.common.image.ImageWriteHelper;
-
-import java.io.PipedOutputStream;
-import java.io.FileInputStream;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -41,12 +36,16 @@ import java.io.FileInputStream;
 public class ViewApplicationLogoAction extends Action {
     public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         ApplicationIdFB fb = (ApplicationIdFB) actionForm;
+        String language = fb.getLanguage();
+        if(StringUtil.asNull(language)==null) {
+            language = httpServletRequest.getLocale().getLanguage();
+        }
 
         Application entity = (Application) WebAppEnvironmentPlugin.getEnvironment().getEntityFactory().create("download-application");
 
         entity.setDirectory(WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("basedirectory"));
         entity.setId(fb.getName());
-        entity.setLanguage(httpServletRequest.getLocale().getLanguage());
+        entity.setLanguage(language);
 
         entity = (Application) WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-application").load(entity);
         if(entity!=null) {
