@@ -34,5 +34,7 @@
     <definition name=".viewallapplicationversions" extends=".index">
         <put name="body" value="/WEB-INF/tiles/viewallapplicationversions.jsp"/>
     </definition>
+    <definition name=".ws.searchallapplicationversions" path="/WEB-INF/ws/searchallapplicationversions.jsp">
+    </definition>
 
 </tiles-definitions>
