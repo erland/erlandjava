@@ -55,6 +55,9 @@ public class ServletParameterHelper {
                                 endPos = startPos;
                             }
                         }
+                    }else {
+                        sb.replace(startPos,endPos+1,"");
+                        endPos = startPos;
                     }
                 }
                 startPos = sb.indexOf("[",endPos);
