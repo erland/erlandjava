@@ -19,6 +19,12 @@
 	    <ant:copy todir="${maven.dist.bin.assembly.dir}/${maven.database.src}">
 	      <ant:fileset dir="${maven.database.src}" />
 	    </ant:copy>
+
+        <!-- Copy Misc Files -->
+        <ant:mkdir dir="${maven.dist.src.assembly.dir}/${maven.misc.src}"/>
+        <ant:copy todir="${maven.dist.src.assembly.dir}/${maven.misc.src}">
+          <ant:fileset dir="${maven.misc.src}" />
+        </ant:copy>
 	</postGoal>
 
 	<postGoal name="dist:prepare-src-filesystem">
@@ -35,8 +41,21 @@
 	      <ant:fileset dir="${maven.database.src}" />
 	    </ant:copy>
 
+        <!-- Copy Misc Files -->
+        <ant:mkdir dir="${maven.dist.src.assembly.dir}/${maven.misc.src}"/>
+        <ant:copy todir="${maven.dist.src.assembly.dir}/${maven.misc.src}">
+          <ant:fileset dir="${maven.misc.src}" />
+        </ant:copy>
 	</postGoal>
 
+    <preGoal name="war:webapp">
+        <!-- Delete previous lib dir to make sure all old dependencies are removed -->
+        <delete dir="${maven.war.webapp.dir}/WEB-INF/lib"/>
+    </preGoal>
+    <preGoal name="war:war">
+        <!-- Delete previous war to make sure all old dependencies are removed -->
+        <delete file="${maven.war.build.dir}/${maven.war.final.name}"/>
+    </preGoal>
 	<postGoal name="war:webapp">
 		<!-- copy validator-rules.xml to WEB-INF, war plugin does not do that automatically -->
 		<copy 
@@ -95,7 +114,8 @@
             file="${maven.war.build.dir}/${maven.war.final.name}"
             toDir="${maven.webserver.webapp.dir}"
             overwrite="true"/>
-
+        <!-- Delete previous lib dir to make sure all old dependencies are removed -->
+        <delete dir="${maven.webserver.webapp.dir}/${maven.webapp.name}/WEB-INF/lib"/>
         <unwar dest="${maven.webserver.webapp.dir}/${maven.webapp.name}"
             src="${maven.war.build.dir}/${maven.war.final.name}"/>
     </goal>
