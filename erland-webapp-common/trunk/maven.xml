@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project default="all:build"
+    xmlns:ant="jelly:ant">
+
+  <postGoal name="jar:jar">
+	<mkdir dir="${maven.build.dir}/tlds"/>
+    <copy todir="${maven.build.dir}/tlds" flatten="true">
+        <fileset dir="${maven.src.dir}">
+            <include name="**/*.tld"/>
+        </fileset>
+    </copy>
+  	<ant:jar jarfile="${maven.build.dir}/${maven.final.name}.jar" update="true">
+        <ant:metainf dir="${maven.build.dir}">
+    		<ant:include name="tlds/*"/>
+        </ant:metainf>
+  	</ant:jar>
+  </postGoal>
+  
+  <goal name="all:build">
+	<attainGoal name="jar:install" />
+    <ant:mkdir dir="${maven.repo.local}/${pom.artifactDirectory}/tlds"/>    
+    <ant:copy 
+      file="${maven.tld.dir}/erland-common.tld"
+      toFile="${maven.repo.local}/${pom.artifactDirectory}/tlds/erland-taglib-common-${pom.currentVersion}.tld"
+      overwrite="true"/>
+  </goal>
+</project>
