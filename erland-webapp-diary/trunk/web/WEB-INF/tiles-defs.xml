@@ -118,6 +118,9 @@
     <definition name=".user.viewpurchaseentries" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/purchase/viewpurchaseentries.jsp"/>
     </definition>
+    <definition name=".user.viewpurchasestats" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/purchase/viewpurchasestats.jsp"/>
+    </definition>
     <definition name=".user.editgalleryentry" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/gallery/editgalleryentry.jsp"/>
     </definition>
