@@ -1,6 +1,6 @@
 package erland.webapp.gallery.fb.account;
 
-import org.apache.struts.action.ActionForm;
+import erland.webapp.common.fb.BasePB;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionForm;
  * 
  */
 
-public class AccountPB extends ActionForm {
+public class AccountPB extends BasePB {
     private String username;
     private String firstName;
     private String lastName;

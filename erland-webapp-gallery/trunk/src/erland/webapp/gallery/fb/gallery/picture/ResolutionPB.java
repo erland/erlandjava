@@ -1,6 +1,8 @@
 package erland.webapp.gallery.fb.gallery.picture;
 
 import org.apache.struts.action.ActionForm;
+import erland.webapp.common.fb.BasePB;
+import erland.webapp.common.ServletParameterHelper;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -21,7 +23,7 @@ import org.apache.struts.action.ActionForm;
  * 
  */
 
-public class ResolutionPB extends ActionForm {
+public class ResolutionPB extends BasePB {
     private String id;
     private String description;
     private Integer width;
@@ -58,14 +60,10 @@ public class ResolutionPB extends ActionForm {
     }
 
     public String getWidthDisplay() {
-        return width!=null?width.toString():null;
+        return ServletParameterHelper.asString(width,null);
     }
 
     public void setWidthDisplay(String widthDisplay) {
-        try {
-            this.width = Integer.valueOf(widthDisplay);
-        } catch (NumberFormatException e) {
-            this.width = null;
-        }
+        this.width = ServletParameterHelper.asInteger(widthDisplay,null);
     }
 }

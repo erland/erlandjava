@@ -1,10 +1,6 @@
 package erland.webapp.gallery.fb.gallery.picture;
 
-import org.apache.struts.validator.ValidatorForm;
-import erland.webapp.gallery.fb.gallery.GalleryPB;
-import erland.webapp.gallery.fb.gallery.category.CategoryPB;
-
-import java.util.Map;
+import erland.webapp.common.fb.BasePB;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -25,7 +21,7 @@ import java.util.Map;
  * 
  */
 
-public class PictureCollectionPB extends ValidatorForm {
+public class PictureCollectionPB extends BasePB {
     private PicturePB[] pictures;
     private String prevLink;
     private String nextLink;

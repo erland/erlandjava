@@ -1,6 +1,6 @@
 package erland.webapp.gallery.fb.loader;
 
-import org.apache.struts.validator.ValidatorForm;
+import erland.webapp.common.fb.BaseFB;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -21,7 +21,7 @@ import org.apache.struts.validator.ValidatorForm;
  * 
  */
 
-public class MetadataPB extends ValidatorForm {
+public class MetadataPB extends BaseFB {
     private String id;
     private String description;
     private String value;

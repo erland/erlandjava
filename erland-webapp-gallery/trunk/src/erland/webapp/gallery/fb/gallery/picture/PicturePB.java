@@ -4,6 +4,9 @@ import org.apache.struts.validator.ValidatorForm;
 
 import java.util.Map;
 
+import erland.webapp.common.fb.BasePB;
+import erland.webapp.common.ServletParameterHelper;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -23,7 +26,7 @@ import java.util.Map;
  * 
  */
 
-public class PicturePB extends ValidatorForm {
+public class PicturePB extends BasePB {
     private Integer gallery;
     private Integer id;
     private String title;
@@ -44,15 +47,11 @@ public class PicturePB extends ValidatorForm {
     }
 
     public String getGalleryDisplay() {
-        return gallery!=null?gallery.toString():null;
+        return ServletParameterHelper.asString(gallery,null);
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        try {
-            this.gallery = Integer.valueOf(galleryDisplay);
-        } catch (NumberFormatException e) {
-            this.gallery = null;
-        }
+        this.gallery = ServletParameterHelper.asInteger(galleryDisplay,null);
     }
 
     public Integer getId() {
@@ -64,15 +63,11 @@ public class PicturePB extends ValidatorForm {
     }
 
     public String getIdDisplay() {
-        return id!=null?id.toString():null;
+        return ServletParameterHelper.asString(id,null);
     }
 
     public void setIdDisplay(String idDisplay) {
-        try {
-            this.id = Integer.valueOf(idDisplay);
-        } catch (NumberFormatException e) {
-            this.id = null;
-        }
+        this.id = ServletParameterHelper.asInteger(idDisplay,null);
     }
 
     public String getTitle() {

@@ -1,9 +1,10 @@
 package erland.webapp.gallery.fb.loader;
 
-import org.apache.struts.validator.ValidatorForm;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
+
+import erland.webapp.common.ServletParameterHelper;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -38,11 +39,11 @@ public class ThumbnailImageFB extends ImageFB {
     }
 
     public String getUseCacheDisplay() {
-        return useCache!=null?useCache.toString():null;
+        return ServletParameterHelper.asString(useCache,null);
     }
 
     public void setUseCacheDisplay(String useCacheDisplay) {
-        this.useCache = Boolean.valueOf(useCacheDisplay);
+        this.useCache = ServletParameterHelper.asBoolean(useCacheDisplay,Boolean.TRUE);
     }
 
     public Float getCompression() {
@@ -54,15 +55,11 @@ public class ThumbnailImageFB extends ImageFB {
     }
 
     public String getCompressionDisplay() {
-        return compression!=null?compression.toString():null;
+        return ServletParameterHelper.asString(compression,null);
     }
 
     public void setCompressionDisplay(String compressionDisplay) {
-        try {
-            this.compression = Float.valueOf(compressionDisplay);
-        } catch (NumberFormatException e) {
-            this.compression = null;
-        }
+        this.compression = ServletParameterHelper.asFloat(compressionDisplay,null);
     }
 
     public Integer getWidth() {
@@ -74,15 +71,11 @@ public class ThumbnailImageFB extends ImageFB {
     }
 
     public String getWidthDisplay() {
-        return width!=null?width.toString():null;
+        return ServletParameterHelper.asString(width,null);
     }
 
     public void setWidthDisplay(String widthDisplay) {
-        try {
-            this.width = Integer.valueOf(widthDisplay);
-        } catch (NumberFormatException e) {
-            this.width = null;
-        }
+        this.width = ServletParameterHelper.asInteger(widthDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

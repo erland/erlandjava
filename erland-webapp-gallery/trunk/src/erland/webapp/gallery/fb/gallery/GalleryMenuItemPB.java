@@ -1,7 +1,6 @@
 package erland.webapp.gallery.fb.gallery;
 
-import org.apache.struts.validator.ValidatorForm;
-import erland.webapp.gallery.fb.gallery.category.CategoryPB;
+import erland.webapp.common.ServletParameterHelper;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -34,14 +33,10 @@ public class GalleryMenuItemPB extends MenuItemPB {
     }
 
     public String getGalleryDisplay() {
-        return gallery!=null?gallery.toString():null;
+        return ServletParameterHelper.asString(gallery,null);
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        try {
-            this.gallery = Integer.valueOf(galleryDisplay);
-        } catch (NumberFormatException e) {
-            this.gallery = null;
-        }
+        this.gallery = ServletParameterHelper.asInteger(galleryDisplay,null);
     }
 }

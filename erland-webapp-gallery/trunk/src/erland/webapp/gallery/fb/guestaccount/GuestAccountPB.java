@@ -1,6 +1,6 @@
 package erland.webapp.gallery.fb.guestaccount;
 
-import org.apache.struts.action.ActionForm;
+import erland.webapp.common.fb.BasePB;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionForm;
  * 
  */
 
-public class GuestAccountPB extends ActionForm {
+public class GuestAccountPB extends BasePB {
     private String guestUser;
 
     public String getGuestUser() {

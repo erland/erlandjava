@@ -1,9 +1,11 @@
 package erland.webapp.gallery.fb.loader;
 
-import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
+
+import erland.webapp.common.fb.BasePB;
+import erland.webapp.common.ServletParameterHelper;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -24,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  * 
  */
 
-public class MetadataCollectionPB extends ActionForm {
+public class MetadataCollectionPB extends BasePB {
     private MetadataPB[] items;
     private Boolean showAll;
     private String showSelectedLink;
@@ -47,11 +49,11 @@ public class MetadataCollectionPB extends ActionForm {
     }
 
     public String getShowAllDisplay() {
-        return showAll!=null?showAll.toString():null;
+        return ServletParameterHelper.asString(showAll,null);
     }
 
     public void setShowAllDisplay(String showAllDisplay) {
-        this.showAll = Boolean.valueOf(showAllDisplay);
+        this.showAll = ServletParameterHelper.asBoolean(showAllDisplay,Boolean.FALSE);
     }
 
     public String getShowSelectedLink() {

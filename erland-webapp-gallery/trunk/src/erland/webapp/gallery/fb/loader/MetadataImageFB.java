@@ -5,6 +5,8 @@ import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
+import erland.webapp.common.ServletParameterHelper;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -36,11 +38,11 @@ public class MetadataImageFB extends ThumbnailImageFB {
     }
 
     public String getShowAllDisplay() {
-        return showAll!=null?showAll.toString():null;
+        return ServletParameterHelper.asString(showAll,null);
     }
 
     public void setShowAllDisplay(String showAllDisplay) {
-        this.showAll = Boolean.valueOf(showAllDisplay);
+        this.showAll = ServletParameterHelper.asBoolean(showAllDisplay,Boolean.FALSE);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

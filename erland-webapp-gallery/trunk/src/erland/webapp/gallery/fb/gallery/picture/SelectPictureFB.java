@@ -1,11 +1,11 @@
 package erland.webapp.gallery.fb.gallery.picture;
 
-import org.apache.struts.validator.ValidatorForm;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
 import erland.webapp.gallery.fb.gallery.category.SelectCategoryFB;
+import erland.webapp.common.ServletParameterHelper;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -40,15 +40,11 @@ public class SelectPictureFB extends SelectCategoryFB {
     }
 
     public String getIdDisplay() {
-        return id!=null?id.toString():null;
+        return ServletParameterHelper.asString(id,null);
     }
 
     public void setIdDisplay(String idDisplay) {
-        try {
-            this.id = Integer.valueOf(idDisplay);
-        } catch (NumberFormatException e) {
-            this.id = null;
-        }
+        this.id = ServletParameterHelper.asInteger(idDisplay,null);
     }
 
     public Integer getStart() {
@@ -60,15 +56,11 @@ public class SelectPictureFB extends SelectCategoryFB {
     }
 
     public String getStartDisplay() {
-        return start!=null?start.toString():null;
+        return ServletParameterHelper.asString(start,null);
     }
 
     public void setStartDisplay(String startDisplay) {
-        try {
-            this.start = Integer.valueOf(startDisplay);
-        } catch (NumberFormatException e) {
-            this.start = null;
-        }
+        this.start=ServletParameterHelper.asInteger(startDisplay,null);
     }
 
     public Integer getMax() {
@@ -80,15 +72,11 @@ public class SelectPictureFB extends SelectCategoryFB {
     }
 
     public String getMaxDisplay() {
-        return max!=null?max.toString():null;
+        return ServletParameterHelper.asString(max,null);
     }
 
     public void setMaxDisplay(String maxDisplay) {
-        try {
-            this.max = Integer.valueOf(maxDisplay);
-        } catch (NumberFormatException e) {
-            this.max = null;
-        }
+        this.max = ServletParameterHelper.asInteger(maxDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

@@ -1,9 +1,11 @@
 package erland.webapp.gallery.fb.gallery.category;
 
-import org.apache.struts.validator.ValidatorForm;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
+
+import erland.webapp.common.fb.BaseFB;
+import erland.webapp.common.ServletParameterHelper;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -24,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  * 
  */
 
-public class CategoryFB extends ValidatorForm {
+public class CategoryFB extends BaseFB {
     private Boolean official;
     private Boolean forcedOfficial;
     private Boolean officialAlways;
@@ -58,11 +60,11 @@ public class CategoryFB extends ValidatorForm {
     }
 
     public String getOfficialAlwaysDisplay() {
-        return officialAlways!=null?officialAlways.toString():null;
+        return ServletParameterHelper.asString(officialAlways,null);
     }
 
     public void setOfficialAlwaysDisplay(String officialAlwaysDisplay) {
-        this.officialAlways = Boolean.valueOf(officialAlwaysDisplay);
+        this.officialAlways = ServletParameterHelper.asBoolean(officialAlwaysDisplay,Boolean.FALSE);
     }
 
     public Boolean getForcedOfficial() {
@@ -74,11 +76,11 @@ public class CategoryFB extends ValidatorForm {
     }
 
     public String getForcedOfficialDisplay() {
-        return forcedOfficial!=null?forcedOfficial.toString():null;
+        return ServletParameterHelper.asString(forcedOfficial,null);
     }
 
     public void setForcedOfficialDisplay(String forcedOfficialDisplay) {
-        this.forcedOfficial = Boolean.valueOf(forcedOfficialDisplay);
+        this.forcedOfficial = ServletParameterHelper.asBoolean(forcedOfficialDisplay,Boolean.FALSE);
     }
 
     public Boolean getOfficialVisible() {
@@ -90,11 +92,11 @@ public class CategoryFB extends ValidatorForm {
     }
 
     public String getOfficialVisibleDisplay() {
-        return officialVisible!=null?officialVisible.toString():null;
+        return ServletParameterHelper.asString(officialVisible,null);
     }
 
     public void setOfficialVisibleDisplay(String officialVisibleDisplay) {
-        this.officialVisible = Boolean.valueOf(officialVisibleDisplay);
+        this.officialVisible = ServletParameterHelper.asBoolean(officialVisibleDisplay,Boolean.FALSE);
     }
 
     public Integer getCategory() {
@@ -106,15 +108,11 @@ public class CategoryFB extends ValidatorForm {
     }
 
     public String getCategoryDisplay() {
-        return category!=null?category.toString():null;
+        return ServletParameterHelper.asString(category,null);
     }
 
     public void setCategoryDisplay(String categoryDisplay) {
-        try {
-            this.category = Integer.valueOf(categoryDisplay);
-        } catch (NumberFormatException e) {
-            this.category = null;
-        }
+        this.category = ServletParameterHelper.asInteger(categoryDisplay,null);
     }
 
     public Integer getGallery() {
@@ -126,15 +124,11 @@ public class CategoryFB extends ValidatorForm {
     }
 
     public String getGalleryDisplay() {
-        return gallery!=null?gallery.toString():null;
+        return ServletParameterHelper.asString(gallery,null);
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        try {
-            this.gallery = Integer.valueOf(galleryDisplay);
-        } catch (NumberFormatException e) {
-            this.gallery = null;
-        }
+        this.gallery = ServletParameterHelper.asInteger(galleryDisplay,null);
     }
 
     public String getName() {

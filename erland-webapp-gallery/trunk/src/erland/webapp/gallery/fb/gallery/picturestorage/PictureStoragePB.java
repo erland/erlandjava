@@ -1,6 +1,7 @@
 package erland.webapp.gallery.fb.gallery.picturestorage;
 
-import org.apache.struts.validator.ValidatorForm;
+import erland.webapp.common.fb.BasePB;
+import erland.webapp.common.ServletParameterHelper;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -21,7 +22,7 @@ import org.apache.struts.validator.ValidatorForm;
  * 
  */
 
-public class PictureStoragePB extends ValidatorForm {
+public class PictureStoragePB extends BasePB {
     private Integer id;
     private String name;
     private String path;
@@ -35,15 +36,11 @@ public class PictureStoragePB extends ValidatorForm {
     }
 
     public String getIdDisplay() {
-        return id!=null?id.toString():"";
+        return ServletParameterHelper.asString(id,"");
     }
 
     public void setIdDisplay(String idDisplay) {
-        try {
-            this.id = Integer.valueOf(idDisplay);
-        } catch (NumberFormatException e) {
-            this.id = null;
-        }
+        this.id = ServletParameterHelper.asInteger(idDisplay,null);
     }
 
     public String getName() {

@@ -1,10 +1,11 @@
 package erland.webapp.gallery.fb.gallery;
 
-import org.apache.struts.validator.ValidatorForm;
 import org.apache.struts.action.ActionMapping;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+
+import erland.webapp.common.fb.BaseFB;
+import erland.webapp.common.ServletParameterHelper;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -25,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  * 
  */
 
-public class SelectGalleryFB extends ValidatorForm {
+public class SelectGalleryFB extends BaseFB {
     private String user;
     private String guestUser;
     private Integer gallery;
@@ -55,15 +56,11 @@ public class SelectGalleryFB extends ValidatorForm {
     }
 
     public String getGalleryDisplay() {
-        return gallery!=null?gallery.toString():null;
+        return ServletParameterHelper.asString(gallery,null);
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        try {
-            this.gallery = Integer.valueOf(galleryDisplay);
-        } catch (NumberFormatException e) {
-            this.gallery = null;
-        }
+        this.gallery = ServletParameterHelper.asInteger(galleryDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest servletRequest) {

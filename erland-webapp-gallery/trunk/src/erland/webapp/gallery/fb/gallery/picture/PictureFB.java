@@ -1,13 +1,12 @@
 package erland.webapp.gallery.fb.gallery.picture;
 
-import org.apache.struts.validator.ValidatorForm;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.text.DateFormat;
-import java.text.ParseException;
+
+import erland.webapp.common.fb.BaseFB;
+import erland.webapp.common.ServletParameterHelper;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -28,7 +27,7 @@ import java.text.ParseException;
  * 
  */
 
-public class PictureFB extends ValidatorForm {
+public class PictureFB extends BaseFB {
     private Integer gallery;
     private Integer id;
     private String title;
@@ -38,7 +37,6 @@ public class PictureFB extends ValidatorForm {
     private Boolean official;
     private Date date;
 
-    private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS");
     public Integer getGallery() {
         return gallery;
     }
@@ -48,15 +46,11 @@ public class PictureFB extends ValidatorForm {
     }
 
     public String getGalleryDisplay() {
-        return gallery!=null?gallery.toString():null;
+        return ServletParameterHelper.asString(gallery,null);
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        try {
-            this.gallery = Integer.valueOf(galleryDisplay);
-        } catch (NumberFormatException e) {
-            this.gallery = null;
-        }
+        this.gallery = ServletParameterHelper.asInteger(galleryDisplay,null);
     }
 
     public Integer getId() {
@@ -68,15 +62,11 @@ public class PictureFB extends ValidatorForm {
     }
 
     public String getIdDisplay() {
-        return id!=null?id.toString():null;
+        return ServletParameterHelper.asString(id,null);
     }
 
     public void setIdDisplay(String idDisplay) {
-        try {
-            this.id = Integer.valueOf(idDisplay);
-        } catch (NumberFormatException e) {
-            this.id = null;
-        }
+        this.id = ServletParameterHelper.asInteger(idDisplay,null);
     }
 
     public String getTitle() {
@@ -136,15 +126,11 @@ public class PictureFB extends ValidatorForm {
     }
 
     public String getDateDisplay() {
-        return date!=null?dateFormat.format(date):null;
+        return ServletParameterHelper.asString(date,null);
     }
 
     public void setDateDisplay(String dateDisplay) {
-        try {
-            this.date = dateFormat.parse(dateDisplay);
-        } catch (ParseException e) {
-            this.date = null;
-        }
+        this.date = ServletParameterHelper.asDate(dateDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

@@ -8,6 +8,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
+import erland.webapp.common.ServletParameterHelper;
+
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -45,11 +47,11 @@ public class SearchPictureFB extends SelectPictureFB {
     }
 
     public String getAllCategoriesDisplay() {
-        return allCategories!=null?allCategories.toString():null;
+        return ServletParameterHelper.asString(allCategories,null);
     }
 
     public void setAllCategoriesDisplay(String allCategoriesDisplay) {
-        this.allCategories = Boolean.valueOf(allCategoriesDisplay);
+        this.allCategories = ServletParameterHelper.asBoolean(allCategoriesDisplay,Boolean.FALSE);
     }
 
     public Integer[] getCategories() {
@@ -64,7 +66,7 @@ public class SearchPictureFB extends SelectPictureFB {
         if(categories!=null) {
             String[] result = new String[categories.length];
             for (int i = 0; i < categories.length; i++) {
-                result[i] = categories[i]!=null?categories[i].toString():null;
+                result[i] = ServletParameterHelper.asString(categories[i],null);
             }
             return result;
         }else {
@@ -76,11 +78,7 @@ public class SearchPictureFB extends SelectPictureFB {
         if(categoriesDisplay!=null) {
             this.categories = new Integer[categoriesDisplay.length];
             for (int i = 0; i < categoriesDisplay.length; i++) {
-                try {
-                    this.categories[i] = Integer.valueOf(categoriesDisplay[i]);
-                } catch (NumberFormatException e) {
-                    this.categories[i] = null;
-                }
+                this.categories[i] = ServletParameterHelper.asInteger(categoriesDisplay[i],null);
             }
         }else {
             this.categories = null;
@@ -96,15 +94,11 @@ public class SearchPictureFB extends SelectPictureFB {
     }
 
     public String getDateAfterDisplay() {
-        return dateAfter!=null?dateFormat.format(dateAfter):"";
+        return ServletParameterHelper.asString(dateAfter,"");
     }
 
     public void setDateAfterDisplay(String dateAfterDisplay) {
-        try {
-            this.dateAfter = dateFormat.parse(dateAfterDisplay);
-        } catch (ParseException e) {
-            this.dateAfter = null;
-        }
+        this.dateAfter = ServletParameterHelper.asDate(dateAfterDisplay,null);
     }
 
     public Date getDateBefore() {
@@ -116,15 +110,11 @@ public class SearchPictureFB extends SelectPictureFB {
     }
 
     public String getDateBeforeDisplay() {
-        return dateBefore!=null?dateFormat.format(dateBefore):"";
+        return ServletParameterHelper.asString(dateBefore,"");
     }
 
     public void setDateBeforeDisplay(String dateBeforeDisplay) {
-        try {
-            this.dateBefore = dateFormat.parse(dateBeforeDisplay);
-        } catch (ParseException e) {
-            this.dateBefore = null;
-        }
+        this.dateBefore = ServletParameterHelper.asDate(dateBeforeDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

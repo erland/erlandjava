@@ -1,7 +1,7 @@
 package erland.webapp.gallery.fb.gallery;
 
-import org.apache.struts.validator.ValidatorForm;
-import erland.webapp.gallery.fb.gallery.category.CategoryPB;
+import erland.webapp.common.fb.BaseFB;
+import erland.webapp.common.ServletParameterHelper;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -22,7 +22,7 @@ import erland.webapp.gallery.fb.gallery.category.CategoryPB;
  * 
  */
 
-public class MenuItemPB extends ValidatorForm {
+public class MenuItemPB extends BaseFB {
     private Integer id;
     private String name;
     private String path;
@@ -38,15 +38,11 @@ public class MenuItemPB extends ValidatorForm {
     }
 
     public String getIdDisplay() {
-        return id!=null?id.toString():"";
+        return ServletParameterHelper.asString(id,"");
     }
 
     public void setIdDisplay(String idDisplay) {
-        try {
-            this.id = Integer.valueOf(idDisplay);
-        } catch (NumberFormatException e) {
-            this.id = null;
-        }
+        this.id = ServletParameterHelper.asInteger(idDisplay,null);
     }
 
     public String getName() {
