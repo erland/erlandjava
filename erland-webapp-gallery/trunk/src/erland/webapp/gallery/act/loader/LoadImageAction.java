@@ -25,30 +25,36 @@ import erland.webapp.common.act.BaseAction;
 import erland.webapp.common.image.ImageWriteHelper;
 import erland.webapp.gallery.act.gallery.GalleryHelper;
 import erland.webapp.gallery.entity.gallery.Gallery;
+import erland.webapp.gallery.entity.gallery.GalleryInterface;
 import erland.webapp.gallery.entity.gallery.picture.Picture;
 import erland.webapp.gallery.entity.gallery.picturestorage.PictureStorage;
+import erland.webapp.gallery.entity.guestaccount.GuestAccount;
 import erland.webapp.gallery.fb.loader.ImageFB;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 
 public class LoadImageAction extends BaseAction {
-    private String imageFile;
-    private String username;
+    private final static String GALLERY = LoadImageAction.class+"-gallery";
+    private final static String PICTURE = LoadImageAction.class+"-picture";
+    private final static String IMAGE_FILE = LoadImageAction.class+"-imageFile";
+    private final static String USERNAME = LoadImageAction.class+"-username";
 
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ImageFB fb = (ImageFB) form;
-        Integer gallery = GalleryHelper.getGalleryId(getEnvironment(), fb.getGallery());
+        GalleryInterface gallery = GalleryHelper.getGallery(getEnvironment(),fb.getGallery());
+        setGallery(request,gallery);
+        Integer galleryId = GalleryHelper.getGalleryId(gallery);
         Picture template = (Picture) getEnvironment().getEntityFactory().create("gallery-picture");
-        template.setGallery(gallery);
+        template.setGallery(galleryId);
         template.setId(fb.getImage());
         Picture picture = (Picture) getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").load(template);
+        setPicture(request,picture);
         if (picture != null) {
             /*
             String username = request.getParameter("user");
@@ -58,16 +64,26 @@ public class LoadImageAction extends BaseAction {
             }
             setUsername(username);
             */
-            Gallery templateGallery = (Gallery) getEnvironment().getEntityFactory().create("gallery-gallery");
-            templateGallery.setId(gallery);
-            Gallery entity = (Gallery) getEnvironment().getEntityStorageFactory().getStorage("gallery-gallery").load(templateGallery);
-            if (entity == null) {
+            if (gallery == null) {
                 saveErrors(request, Arrays.asList(new String[]{"gallery.loader.gallery-dont-exist"}));
                 return;
             }
-            setUsername(entity.getUsername());
+            setUsername(request,gallery.getUsername());
             if (!picture.getOfficial().booleanValue()) {
-                if (request.getRemoteUser() != null && !request.getRemoteUser().equals(entity.getUsername())) {
+                if (request.getRemoteUser() != null && request.getRemoteUser().equals(gallery.getUsername())) {
+                    //OK, correct user logged in
+                }else if(request.getRemoteUser() != null) {
+                    GuestAccount guestTemplate = (GuestAccount) getEnvironment().getEntityFactory().create("gallery-guestaccount");
+                    guestTemplate.setUsername(gallery.getUsername());
+                    guestTemplate.setGuestUser(request.getRemoteUser());
+                    EntityInterface entity = getEnvironment().getEntityStorageFactory().getStorage("gallery-guestaccount").load(guestTemplate);
+                    if(entity!=null) {
+                        //OK, authorized guest user logged in
+                    }else {
+                        saveErrors(request, Arrays.asList(new String[]{"gallery.loader.invalid-user"}));
+                        return;
+                    }
+                }else {
                     saveErrors(request, Arrays.asList(new String[]{"gallery.loader.invalid-user"}));
                     return;
                 }
@@ -75,14 +91,14 @@ public class LoadImageAction extends BaseAction {
                 TODO: Implement handling for guest users
                 else if (request.getRemoteUser() == null) {
                     User guestUser = (User) request.getSession().getAttribute("guestuser");
-                    if (guestUser == null || !username.equals(entity.getUsername()) || !GuestAccountHelper.isGuestUser(getEnvironment(), username, guestUser.getUsername())) {
+                    if (guestUser == null || !username.equals(gallery.getUsername()) || !GuestAccountHelper.isGuestUser(getEnvironment(), username, guestUser.getUsername())) {
                         return null;
                     }
                 }
                 */
             }
             QueryFilter filter = new QueryFilter("allforuser");
-            filter.setAttribute("username", getUsername());
+            filter.setAttribute("username", getUsername(request));
             EntityInterface[] storageEntities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picturestorage").search(filter);
 
             String imageFile = getImageFileName(picture);
@@ -93,7 +109,7 @@ public class LoadImageAction extends BaseAction {
                     break;
                 }
             }
-            setImageFile(imageFile);
+            setImageFile(request,imageFile);
         }
     }
 
@@ -101,18 +117,18 @@ public class LoadImageAction extends BaseAction {
         return picture.getLink().substring(1, picture.getLink().length() - 1);
     }
 
-    protected void setImageFile(String imageFile) {
-        this.imageFile = imageFile;
+    protected void setImageFile(HttpServletRequest request, String imageFile) {
+        request.setAttribute(IMAGE_FILE,imageFile);
     }
 
-    public String getImageFile() {
-        return imageFile;
+    public String getImageFile(HttpServletRequest request) {
+        return (String)request.getAttribute(IMAGE_FILE);
     }
 
     protected ActionForward findSuccess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         try {
             response.setContentType("image/jpeg");
-            if (!ImageWriteHelper.writeImage(getEnvironment(), getImageFile(), response.getOutputStream())) {
+            if (!ImageWriteHelper.writeImage(getEnvironment(), getImageFile(request), response.getOutputStream())) {
                 return findFailure(mapping,form,request,response);
             }
         } catch (IOException e) {
@@ -121,11 +137,25 @@ public class LoadImageAction extends BaseAction {
         return null;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUsername(HttpServletRequest request) {
+        return (String)request.getAttribute(USERNAME);
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(HttpServletRequest request, String username) {
+        request.setAttribute(USERNAME,username);
+    }
+
+    public GalleryInterface getGallery(HttpServletRequest request) {
+        return (GalleryInterface) request.getAttribute(GALLERY);
+    }
+
+    public void setGallery(HttpServletRequest request, GalleryInterface gallery) {
+        request.setAttribute(GALLERY,gallery);
+    }
+    public Picture getPicture(HttpServletRequest request) {
+        return (Picture) request.getAttribute(PICTURE);
+    }
+    public void setPicture(HttpServletRequest request, Picture picture) {
+        request.setAttribute(PICTURE,picture);
     }
 }
