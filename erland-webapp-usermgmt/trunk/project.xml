@@ -46,6 +46,9 @@
       <artifactId>erland-util</artifactId>
       <version>SNAPSHOT</version>
       <type>jar</type>
+      <properties>
+	      <dist.bundle>true</dist.bundle>
+      </properties>
     </dependency>
 
 	<dependency>
@@ -54,6 +57,9 @@
       <artifactId>erland-webapp-common</artifactId>
       <version>SNAPSHOT</version>
       <type>jar</type>
+      <properties>
+	      <dist.bundle>true</dist.bundle>
+      </properties>
     </dependency>
 
 	<dependency>
