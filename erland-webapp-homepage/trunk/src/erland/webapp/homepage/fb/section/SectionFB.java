@@ -179,6 +179,9 @@ public class SectionFB extends BaseFB {
         super.reset(actionMapping, httpServletRequest);
         idDisplay = null;
         parentDisplay = null;
+        name = null;
+        nameEnglish = null;
+        orderNoDisplay = null;
         title = null;
         titleEnglish = null;
         description = null;
