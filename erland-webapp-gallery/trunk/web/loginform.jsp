@@ -19,10 +19,10 @@
     }
 %>
 <table>
-<tr><td>Username</td><td>
+<tr><td>Användarnamn</td><td>
 <input type="text" name="name" value="<%=loginuser!=null?loginuser:""%>">
 </td></tr>
-<tr><td>Password</td><td>
+<tr><td>Lösenord</td><td>
 <input type="password" name="password" value="">
 </td></tr>
 <tr><td></td><td>

@@ -7,9 +7,9 @@
     if(cmd instanceof ViewGuestAccountsInterface) {
         GuestAccount[] accounts = ((ViewGuestAccountsInterface)cmd).getAccounts();
         %>
-        <p class="normal">These users will have access to all of your private pictures and galleries</p>
+        <p class="normal">Dessa användare kommer åt dina privata bilder och privata bildarkiv</p>
         <br>
-        <a href="portal?do=newguestaccount" class="bold-link">Add</a>
+        <a href="portal?do=newguestaccount" class="bold-link">Lägg till användare</a>
         <table border="0">
         <%
         for (int i = 0; i < accounts.length; i++) {
@@ -17,7 +17,7 @@
             %>
             <tr>
             <td><%=account.getGuestUser()%></td>
-            <td><a href="portal?do=removeguestaccount&guestuser=<%=account.getGuestUser()%>" class="bold-link" onClick="return confirm('Are you sure you want to delete this ?')">Delete</a></td>
+            <td><a href="portal?do=removeguestaccount&guestuser=<%=account.getGuestUser()%>" class="bold-link" onClick="return confirm('Är du säker på att du vill ta bort denna ?')">Ta bort</a></td>
             </tr>
             <%
         }

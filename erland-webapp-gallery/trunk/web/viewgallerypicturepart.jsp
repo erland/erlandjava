@@ -32,8 +32,8 @@
                     Boolean newWindow=Boolean.FALSE;
                     if(writable!=null && writable.equalsIgnoreCase("true")) {
                         %>
-                        <a href="portal?do=newpicture&gallery=<%=gallery.getId()%>&id=<%=entry.getId()%>" class="bold-link">Update</a>
-                        <a href="portal?do=removepicture&gallery=<%=gallery.getId()%>&id=<%=entry.getId()%>" class="bold-link" onClick="return confirm('Are you sure you want to delete this ?')">Delete</a><br>
+                        <a href="portal?do=newpicture&gallery=<%=gallery.getId()%>&id=<%=entry.getId()%>" class="bold-link">Uppdatera</a>
+                        <a href="portal?do=removepicture&gallery=<%=gallery.getId()%>&id=<%=entry.getId()%>" class="bold-link" onClick="return confirm('Är du säker på att du vill ta bort denna ?')">Ta bort</a><br>
                         <%
                         if(link==null || link.length()==0) {
                             String withCmd = ServletParameterHelper.replaceParameter((String)request.getAttribute("cmdparameters"),"do",request.getParameter("do")+"viewpicture");

@@ -22,24 +22,24 @@
                 <%
             }
             %>
-            <tr><td>Title</td><td>
+            <tr><td>Titel</td><td>
             <input type="text" name="title" value="<%=entry!=null?entry.getTitle():""%>">
             </td></tr>
-            <tr><td>Description</td><td>
+            <tr><td>Beskrivning</td><td>
             <textarea name="description" cols="80" rows="15" wrap="virtual"><%=entry!=null?entry.getDescription():""%></textarea>
             </td></tr>
-            <tr><td>Small image</td><td>
+            <tr><td>Liten bild</td><td>
             <input type="text" name="image" value="<%=entry!=null?entry.getImage():""%>">
             </td></tr>
-            <tr><td>Large image</td><td>
+            <tr><td>Stor bild</td><td>
             <input type="text" name="link" value="<%=entry!=null?entry.getLink():""%>">
             </td></tr>
-            <tr><td>Official</td><td>
+            <tr><td>Officiell</td><td>
             <input type="checkbox" name="official" value="true" <%=(entry!=null && entry.getOfficial().booleanValue())?"checked":""%>>
             </td></tr>
             <tr><td></td><td>
-            <input type="submit" value="Save">
-            <input type="button" value="Cancel" onClick="window.location='portal?do=searchgalleryentries<%=entry!=null?"&gallery="+entry.getGallery():"&gallery="+request.getParameter("gallery")%>&start=0&max=9'">
+            <input type="submit" value="Spara">
+            <input type="button" value="Avbryt" onClick="window.location='portal?do=searchgalleryentries<%=entry!=null?"&gallery="+entry.getGallery():"&gallery="+request.getParameter("gallery")%>&start=0&max=9'">
             </td></tr>
             </table>
         </form>

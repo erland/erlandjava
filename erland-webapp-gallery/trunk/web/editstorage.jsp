@@ -19,15 +19,15 @@
                 <%
             }
             %>
-            <tr><td>Prefix path</td><td>
+            <tr><td>Början på sökväg</td><td>
             <input type="text" name="name" value="<%=storage!=null?storage.getName():""%>">
             </td></tr>
-            <tr><td>Real path</td><td>
+            <tr><td>Början på sökväg som skall användas</td><td>
             <input type="text" name="path" value="<%=storage!=null?storage.getPath():""%>">
             </td></tr>
             <tr><td></td><td>
-            <input type="submit" value="Save">
-            <input type="button" value="Cancel" onClick="window.location='portal?do=home'">
+            <input type="submit" value="Spara">
+            <input type="button" value="Avbryt" onClick="window.location='portal?do=home'">
             </td></tr>
             <table>
         </form>

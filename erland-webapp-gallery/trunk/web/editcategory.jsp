@@ -20,27 +20,27 @@
                 <%
             }
             %>
-            <tr><td>Name</td><td>
+            <tr><td>Namn</td><td>
             <input type="text" name="name" value="<%=category!=null?category.getName():""%>">
             </td></tr>
-            <tr><td>Official Visible</td><td>
+            <tr><td>Visa i officiellt bildarkiv</td><td>
             <input type="checkbox" name="visible" value="true" <%=(category!=null && category.getOfficialVisible().booleanValue())?"checked":""%>>
-            (Forced update
+            (Uppdatera alltid
             <input type="checkbox" name="forcedofficial" value="true">)
             </td></tr>
-            <tr><td>Official</td><td>
+            <tr><td>Officiell</td><td>
             <input type="checkbox" name="official" value="true" <%=(category!=null && category.getOfficial().booleanValue())?"checked":""%>>
-            (Forced update
+            (Uppdatera alltid
             <input type="checkbox" name="forcedofficial" value="true">)
             </td></tr>
-            <tr><td>Always Official</td><td>
+            <tr><td>Alltid officiell</td><td>
             <input type="checkbox" name="alwaysofficial" value="true" <%=(category!=null && category.getOfficialAlways().booleanValue())?"checked":""%>>
-            (Forced update
+            (Uppdatera alltid
             <input type="checkbox" name="forcedofficial" value="true">)
             </td></tr>
             <tr><td></td><td>
-            <input type="submit" value="Save">
-            <input type="button" value="Cancel" onClick="window.location='portal?do=searchgalleryentries<%=category!=null?"&gallery="+category.getGallery():""%><%=category!=null?"&category="+category.getCategory():""%>&start=0&max=9'">
+            <input type="submit" value="Spara">
+            <input type="button" value="Avbryt" onClick="window.location='portal?do=searchgalleryentries<%=category!=null?"&gallery="+category.getGallery():""%><%=category!=null?"&category="+category.getCategory():""%>&start=0&max=9'">
             </td></tr>
             <table>
         </form>

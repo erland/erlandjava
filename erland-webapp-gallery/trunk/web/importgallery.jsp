@@ -1,14 +1,14 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
                                 erland.webapp.gallery.gallery.Gallery,
                                 erland.webapp.gallery.gallery.ViewGalleryCommand"%>
-<p class="normal">This will import your picture gallery from a text file which has
-been exported from the <a class="bold-link" href="http://www.photools.com/" target="_blank">IMatch</a> image management tool.
-<p class="normal">The text file should be created in IMatch as follows:
+<p class="normal">Detta är en funktion för att importera ditt bild galleri från en text file som har
+exporterats från bildhanteringsprogrammet <a class="bold-link" href="http://www.photools.com/" target="_blank">IMatch</a>.
+<p class="normal">Text filen skall skapas i IMatch enligt följande:
 <ol>
-<li>Select the category or database you want to export
-<li>Choose menu: Database->Import and Export...
-<li>Choose the export module: Export to Text Format
-<li>Select the following image attributes
+<li>Välj den databas eller kategori du vill exportera
+<li>Välj meny: Database->Import and Export...
+<li>Välj export modul: Export to Text Format
+<li>Välj följande bild attribut(image attributes)
 <ul>
 <li>Full File Name
 <li>Last Modified
@@ -16,45 +16,46 @@ been exported from the <a class="bold-link" href="http://www.photools.com/" targ
 <li>Categories (fully qualified)
 </ul>
 </li>
-<li>Select the following image properties
+<li>Välj följande bild egenskaper(image properties)
 <ul>
 <li>Title
 <li>Description
 </ul>
 </li>
-<li>Save the export file on a web server where this web service can access it. Enter the path to the file below
+<li>Spara export filen på en web server som är åtkommlig från internet. Ange hela sökvägen(webadressen) till filen nedan.
 </ol>
-<p class="normal">If your picture gallery should be available on internet for other users the pictures must also be accessible on a internet server somewhere. The paths used in IMatch can be re-mapped to the internet server paths
-by later setting up a picture storage mapping in the Storages menu. If the picture gallery only will be used from your local computer, make sure to
-select the option "Pictures not available on internet" below.
+<p class="normal">Om ditt bild galleri skall finnas tillgängligt för andra på internet så måste dina bilder ligga på en web server någonstans.
+Bild sökvägarna som exporteras från IMatch kan sedan mappas om till sökvägarna till web servern
+genom att senare sätta upp en mappning i Lagringsplatser menyn till vänster. Om bild galleriet endast skall användas från din lokala dator så
+skall du markera alternativet "Bilder ej tillgängliga på internet" nedan.
 <form name="editEntry" action="portal" method="POST">
     <input type="hidden" name="do" value="importgallery">
     <input type="hidden" name="gallery" value="<%=request.getParameter("gallery")%>">
     <table>
-    <tr><td>File</td><td>
+    <tr><td>Sökväg till importfilen</td><td>
     <input type="text" name="file" size="80" value="http://erland.homeip.net/imatch.txt">
     </td></tr>
-    <tr><td>Remove existing categories</td><td>
+    <tr><td>Ta bort existerande kategeorier</td><td>
     <input type="checkbox" name="clearcategories" value="true">
     </td></tr>
-    <tr><td>Remove existing pictures</td><td>
+    <tr><td>Ta bort exsisterande bild länkar</td><td>
     <input type="checkbox" name="clearpictures" value="true" checked>
     </td></tr>
-    <tr><td>Pictures not available on internet</td><td>
+    <tr><td>Bilder ej tillgängliga på internet</td><td>
     <input type="checkbox" name="locallinks" value="true" checked>
     </td></tr>
-    <tr><td>Use file names as picture title if no title is available</td><td>
+    <tr><td>Använd filnamn som bild titel om ingen riktig bild titel är tillgänglig</td><td>
     <input type="checkbox" name="filenameaspicturetitle" value="true" checked>
     </td></tr>
-    <tr><td>Use file names as picture description if no description is available</td><td>
+    <tr><td>Använd filnamn som bild beskrivning om ingen riktig bild beskrivning är tillgänglig</td><td>
     <input type="checkbox" name="filenameaspicturedescription" value="true" checked>
     </td></tr>
-    <tr><td>Cut long picture titles (more than 30 characters)</td><td>
+    <tr><td>Kapa långa bild namn (mer än 30 tecken)</td><td>
     <input type="checkbox" name="cutlongpicturetitles" value="true" checked>
     </td></tr>
     <tr><td></td><td>
-    <input type="submit" value="Save">
-    <input type="button" value="Cancel" onClick="window.location='portal?do=searchgalleryentries<%=request.getParameter("gallery")!=null?"&gallery="+request.getParameter("gallery"):""%>&start=0&max=9'">
+    <input type="submit" value="Spara">
+    <input type="button" value="Avbryt" onClick="window.location='portal?do=searchgalleryentries<%=request.getParameter("gallery")!=null?"&gallery="+request.getParameter("gallery"):""%>&start=0&max=9'">
     </td></tr>
     <table>
     <p class="normal">Please note that importing 1000 pictures may take a number of minutes</p>

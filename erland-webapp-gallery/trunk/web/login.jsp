@@ -1,8 +1,8 @@
 <%@ page session="true" %>
-<p class="normal">Login to update your gallery or click
-<a class="bold-link" href="portal?do=home&user=erland">here</a> to look at my gallery
-You can choose to look at someones gallery by clicking on the links below.<br>
-You can register your own gallery by clicking <a class="bold-link" href="portal?do=registernewuseraccount">here</a><br><br>
+<p class="normal">Logga in för att uppdatera ditt bildarkiv eller klicka
+<a class="bold-link" href="portal?do=home&user=erland">här</a> för att titta i mitt bildarkiv.
+Du kan också titta på någon annans bildarkiv genom att klicka på länkarna nedan.<br>
+Du kan också registrera ditt eget bildarkiv <a class="bold-link" href="portal?do=registernewuseraccount">här</a><br><br>
 <jsp:include page="viewuseraccountsguest.jsp">
     <jsp:param name="viewusercmd" value="home" />
 </jsp:include>

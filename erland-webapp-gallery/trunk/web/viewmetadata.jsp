@@ -31,11 +31,11 @@
         String showAll = request.getParameter("showall");
         if(showAll!=null && showAll.equalsIgnoreCase("true")) {
             %>
-            <br><a class="bold-link" href="portal?<%=ServletParameterHelper.removeParameter(request.getAttribute("cmdparameters").toString(),"showall")%>">Some only selected metadata</a>
+            <br><a class="bold-link" href="portal?<%=ServletParameterHelper.removeParameter(request.getAttribute("cmdparameters").toString(),"showall")%>">Visa utvald bildinformation</a>
             <%
         }else {
             %>
-            <br><a class="bold-link" href="portal?<%=ServletParameterHelper.replaceParameter(request.getAttribute("cmdparameters").toString(),"showall","true")%>">Show all metadata</a>
+            <br><a class="bold-link" href="portal?<%=ServletParameterHelper.replaceParameter(request.getAttribute("cmdparameters").toString(),"showall","true")%>">Visa all bildinformation</a>
             <%
         }
         %>

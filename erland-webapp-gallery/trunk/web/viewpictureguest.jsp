@@ -34,7 +34,7 @@
             if(showMetadata!=null && showMetadata.equalsIgnoreCase("true")) {
                 %>
                 <tr><td>
-                <a class="bold-link" href="portal?<%=ServletParameterHelper.replaceParameter((String)request.getAttribute("cmdparameters"),"showmetadata","false")%>">Hide metadata</a>
+                <a class="bold-link" href="portal?<%=ServletParameterHelper.replaceParameter((String)request.getAttribute("cmdparameters"),"showmetadata","false")%>">Göm bildinformation</a>
                 </td><tr>
                 <tr><td>
                 <jsp:include page="viewmetadata.jsp"/>
@@ -43,7 +43,7 @@
             }else {
                 %>
                 <tr><td>
-                <a class="bold-link" href="portal?<%=ServletParameterHelper.replaceParameter((String)request.getAttribute("cmdparameters"),"showmetadata","true")%>">Show metadata</a>
+                <a class="bold-link" href="portal?<%=ServletParameterHelper.replaceParameter((String)request.getAttribute("cmdparameters"),"showmetadata","true")%>">Visa bildinformation</a>
                 </td><tr>
                 <%
             }

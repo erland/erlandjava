@@ -20,13 +20,13 @@
             <input type="hidden" name="max" value="9">
             <table>
             <input type="hidden" name="gallery" value="<%=request.getParameter("gallery")%>">
-            <tr><td>Start date</td><td>
+            <tr><td>Tidigaste datum</td><td>
             <input type="text" name="dateafter" value="">
             </td></tr>
-            <tr><td>End date</td><td>
+            <tr><td>Senaste datum</td><td>
             <input type="text" name="datebefore" value="">
             </td></tr>
-            <tr><td>Categories</td><td>
+            <tr><td>Kategorier</td><td>
             <select name="categories" size="10" multiple>
             <%
             Category[] categories = ((ViewCategoriesInterface)cmd).getCategories();
@@ -39,12 +39,12 @@
             %>
             </select>
             </td></tr>
-            <tr><td>All categories required</td><td>
+            <tr><td>Bilden måste ha samtliga valda kategorier</td><td>
             <input type="checkbox" name="allcategories" value="true">
             </td></tr>
             <tr><td></td><td>
-            <input type="submit" value="Search">
-            <input type="button" value="Cancel" onClick="window.location='portal?do=<%=request.getParameter("backcmd")%>&gallery=<%=request.getParameter("gallery")%><%=(user!=null?"&user="+user:"")%>&start=0&max=9'">
+            <input type="submit" value="Sök">
+            <input type="button" value="Avbryt" onClick="window.location='portal?do=<%=request.getParameter("backcmd")%>&gallery=<%=request.getParameter("gallery")%><%=(user!=null?"&user="+user:"")%>&start=0&max=9'">
             </td></tr>
             </table>
         </form>

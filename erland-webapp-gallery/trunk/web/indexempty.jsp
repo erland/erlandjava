@@ -7,7 +7,7 @@
      response.setHeader("Pragma","no-cache"); //HTTP 1.0
      response.setHeader ("Expires", "0"); //prevents caching at the proxy server
  %>
-<title>Gallery page</title>
+<title>Bildarkivet</title>
 <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>

@@ -7,7 +7,7 @@
 <tr>
 <td class="left-margin"></td>
 <td colspan="3">
-<a href="portal?do=searchgalleries" class="bold-link">Galleries</a>
+<a href="portal?do=searchgalleries" class="bold-link">Bildarkiv</a>
 </td>
 </tr>
 <%
@@ -24,19 +24,19 @@
 <tr>
 <td class="left-margin"></td>
 <td colspan="3">
-<a href="portal?do=searchstorages" class="bold-link">Storages</a>
+<a href="portal?do=searchstorages" class="bold-link">Lagringsplatser</a>
 </td>
 </tr>
 <tr>
 <td class="left-margin"></td>
 <td colspan="3">
-<a href="portal?do=searchguestaccounts" class="bold-link">Guest users</a>
+<a href="portal?do=searchguestaccounts" class="bold-link">Gästanvändare</a>
 </td>
 </tr>
 <tr>
 <td class="left-margin"></td>
 <td colspan="3">
-<a href="portal?do=viewuseraccount" class="bold-link">Preferences</a>
+<a href="portal?do=viewuseraccount" class="bold-link">Inställningar</a>
 </td>
 </tr>
 <%
@@ -45,7 +45,7 @@ if(user.hasRole("manager")) {
     <tr>
     <td class="left-margin"></td>
     <td colspan="3">
-    <a href="portal?do=searchuseraccounts" class="bold-link">Users</a>
+    <a href="portal?do=searchuseraccounts" class="bold-link">Användare</a>
     </td>
     </tr>
     <%
@@ -53,6 +53,6 @@ if(user.hasRole("manager")) {
 %>
 <tr>
 <td class="left-margin"></td>
-<td><a class="bold-link" href="portal?do=logout">Logout</a></td>
+<td><a class="bold-link" href="portal?do=logout">Logga ut</a></td>
 </tr>
 </table>

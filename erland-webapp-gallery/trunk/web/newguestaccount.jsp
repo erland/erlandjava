@@ -3,12 +3,12 @@
 <form name="editEntry" action="portal" method="POST">
     <input type="hidden" name="do" value="editguestaccount">
     <table>
-    <tr><td>Username</td><td>
+    <tr><td>Användarnamn</td><td>
     <input type="text" name="guestuser" value="">
     </td></tr>
     <tr><td></td><td>
-    <input type="submit" value="Save">
-    <input type="button" value="Cancel" onClick="window.location='portal?do=default'">
+    <input type="submit" value="Spara">
+    <input type="button" value="Avbryt" onClick="window.location='portal?do=default'">
     </td></tr>
     <table>
 </form>

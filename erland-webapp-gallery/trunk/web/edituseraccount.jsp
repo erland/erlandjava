@@ -13,13 +13,13 @@
         <form name="editEntry" action="portal" method="POST">
             <input type="hidden" name="do" value="edituseraccount">
             <table>
-            <tr><td>Username</td><td>
+            <tr><td>Användarnamn</td><td>
             <input type="hidden" name="username" value="<%=account.getUsername()%>"><a class="normal"><%=account.getUsername()%></a>
             </td></tr>
-            <tr><td>Description</td><td>
+            <tr><td>Beskrivning</td><td>
             <textarea name="description" cols="80" rows="5" wrap="virtual"><%=account!=null?account.getDescription():""%></textarea>
             </td></tr>
-            <tr><td>Welcome text</td><td>
+            <tr><td>Välkomsttext</td><td>
             <textarea name="welcometext" cols="80" rows="15" wrap="virtual"><%=account!=null?account.getWelcomeText():""%></textarea>
             </td></tr>
             <tr><td>Logo</td><td>
@@ -28,9 +28,9 @@
             <tr><td>Copyright text</td><td>
             <input type="text" name="copyright" value="<%=account!=null?account.getCopyrightText():""%>">
             </td></tr>
-            <tr><td>Default gallery</td><td>
+            <tr><td>Standard bildarkiv</td><td>
             <select name="defaultgallery" size="1">
-            <option value="" <%=account.getDefaultGallery()==null||account.getDefaultGallery().intValue()==0?"selected":""%>>Ingen</option>
+            <option value="" <%=account.getDefaultGallery()==null||account.getDefaultGallery().intValue()==0?"selected":""%>>Inget</option>
             <%
             GalleryInterface[] galleries = ((ViewUserAccountInterface)cmd).getGalleries();
             for (int i = 0; i < galleries.length; i++) {
@@ -42,12 +42,12 @@
             %>
             </select>
             </td></tr>
-            <tr><td>Official page</td><td>
+            <tr><td>Synlig på förstasida</td><td>
             <input type="checkbox" name="official" value="true" <%=(account!=null && account.getOfficial().booleanValue())?"checked":""%>>
             </td></tr>
             <tr><td></td><td>
-            <input type="submit" value="Save">
-            <input type="button" value="Cancel" onClick="window.location='portal?do=home'">
+            <input type="submit" value="Spara">
+            <input type="button" value="Avbryt" onClick="window.location='portal?do=home'">
             </td></tr>
             <table>
         </form>

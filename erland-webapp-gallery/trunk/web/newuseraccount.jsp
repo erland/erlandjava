@@ -5,31 +5,31 @@
     <input type="hidden" name="do" value="newuseraccount">
     <table>
     <input type="hidden" name="newuser" value="true">
-    <tr><td>Username</td><td>
+    <tr><td>Användarnamn</td><td>
     <input type="text" name="username" value="">
     </td></tr>
-    <tr><td>First name</td><td>
+    <tr><td>Förnamn</td><td>
     <input type="text" name="firstname" value="">
     </td></tr>
-    <tr><td>Last name</td><td>
+    <tr><td>Efternamn</td><td>
     <input type="text" name="lastname" value="">
     </td></tr>
-    <tr><td>Password</td><td>
+    <tr><td>Lösenord</td><td>
     <input type="password" name="password1" value="">
     </td></tr>
-    <tr><td>Password (again)</td><td>
+    <tr><td>Lösenord (igen)</td><td>
     <input type="password" name="password2" value="">
     </td></tr>
     <tr><td></td><td>
     <input type="hidden" name="welcometext" value="<%=
-        "You can change this text and a lot more "+
-        "by selecting Preferences in the menu "+
-        "to the left.\n" +
-        "When you feel that you have entered all neccesary information "+
-        "you can make your gallery visible on the front page by "+
-        "marking it as official in the preferences"%>">
-    <input type="submit" value="Register">
-    <input type="button" value="Cancel" onClick="window.location='portal?do=default'">
+        "Du kan ändra denna text och mycket annat "+
+        "genom att välja Inställningar i menyn "+
+        "till vänster.\n" +
+        "När du har registrerat all nödvändig information i ditt bildarkiv "+
+        "can du göra det synligt på förstasidan genom att sätta en markering "+
+        "i Inställningar"%>">
+    <input type="submit" value="Registrera">
+    <input type="button" value="Avbryt" onClick="window.location='portal?do=default'">
     </td></tr>
     <table>
 </form>

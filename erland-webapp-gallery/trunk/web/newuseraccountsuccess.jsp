@@ -8,22 +8,22 @@
         UserAccount account = ((ViewUserAccountInterface)cmd).getAccount();
         User user = ((ViewUserAccountInterface)cmd).getUser();
         %>
-        A new user has been created for you with the following information
+        En ny användare har skapats åt dig med följande information
         <table>
         <tr>
-        <td>Username</td>
+        <td>Användarnamn</td>
         <td><%=account.getUsername()%></td>
         </tr>
         <tr>
-        <td>First name</td>
+        <td>Förnamn</td>
         <td><%=user.getFirstName()%></td>
         </tr>
         <tr>
-        <td>Last name</td>
+        <td>Efternamn</td>
         <td><%=user.getLastName()%></td>
         </tr>
         </table>
-        Login below to start using your gallery
+        Logga in nedan för att börja använda ditt bildarkiv
         <jsp:include page="loginform.jsp">
             <jsp:param name="loginuser" value="<%=account.getUsername()%>"/>
             <jsp:param name="logincmd" value="login"/>

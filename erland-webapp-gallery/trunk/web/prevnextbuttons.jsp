@@ -11,7 +11,7 @@
         Integer next =((ViewPicturePageInterface)cmd).getNextPage();
         if(prev!=null) {
             %>
-            <td align="left"><a class="bold-link" href="portal?<%=ServletParameterHelper.replaceParameter((String)request.getAttribute("cmdparameters"),"start",prev.toString())%>">&lt;-Prev</a></td>
+            <td align="left"><a class="bold-link" href="portal?<%=ServletParameterHelper.replaceParameter((String)request.getAttribute("cmdparameters"),"start",prev.toString())%>">&lt; Föregående</a></td>
             <%
         }else {
             %>
@@ -24,7 +24,7 @@
             String withBack = ServletParameterHelper.replaceParameter(tmp,"do",request.getParameter("backcmd"));
             String link = ServletParameterHelper.removeParameter(withBack,"backcmd");
             %>
-            <td align="center"><a class="bold-link" href="portal?<%=link%>">Up</a></td>
+            <td align="center"><a class="bold-link" href="portal?<%=link%>">Upp</a></td>
             <%
         }else {
             %>
@@ -33,7 +33,7 @@
         }
         if(next!=null) {
             %>
-            <td align="right"><a class="bold-link" href="portal?<%=ServletParameterHelper.replaceParameter((String)request.getAttribute("cmdparameters"),"start",next.toString())%>">Next-&gt;</a></td>
+            <td align="right"><a class="bold-link" href="portal?<%=ServletParameterHelper.replaceParameter((String)request.getAttribute("cmdparameters"),"start",next.toString())%>">Nästa &gt;</a></td>
             <%
         }else {
             %>
