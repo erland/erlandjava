@@ -32,4 +32,12 @@ public class HTMLEncoder {
     public static void addReplaceRoutine(StringReplaceInterface replaceRoutine) {
         replaceRoutines.add(replaceRoutine);
     }
+    public static void reset() {
+        for (int i = 0; i < replaceRoutines.size(); i++) {
+            StringReplaceInterface replaceRoutine = (StringReplaceInterface) replaceRoutines.elementAt(i);
+            if(replaceRoutine instanceof DynamicStringReplaceInterface) {
+                ((DynamicStringReplaceInterface)replaceRoutine).reset();
+            }
+        }
+    }
 }
