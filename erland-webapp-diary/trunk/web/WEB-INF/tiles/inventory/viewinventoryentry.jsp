@@ -89,9 +89,16 @@
     <logic:notEmpty name="inventoryEntryPB" property="link">
         <tr>
         <td colspan="2">
-        <erland-common:beanlink style="bold-link" name="inventoryEntryPB" property="link" target="_blank">
-            <bean:message key="diary.inventory.more-information"/>
-        </erland-common:beanlink>
+        <logic:empty name="inventoryEntryPB" property="linkSource">
+            <erland-common:beanlink style="bold-link" name="inventoryEntryPB" property="link" target="_blank">
+                <bean:message key="diary.inventory.more-information"/>
+            </erland-common:beanlink>
+        </logic:empty>
+        <logic:notEmpty name="inventoryEntryPB" property="linkSource">
+            <erland-common:beanlink style="bold-link" name="inventoryEntryPB" property="link" target="_blank">
+                <bean:message key="diary.inventory.more-information-with-source"/> <bean:write name="inventoryEntryPB" property="linkSource"/>
+            </erland-common:beanlink>
+        </logic:notEmpty>
         </td>
         </tr>
     </logic:notEmpty>

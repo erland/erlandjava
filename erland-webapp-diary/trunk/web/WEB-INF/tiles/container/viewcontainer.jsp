@@ -73,9 +73,16 @@
     <logic:notEmpty name="containerPB" property="link">
         <tr>
         <td colspan="2">
-        <erland-common:beanlink style="bold-link" name="containerPB" property="link" target="_blank">
-            <bean:message key="diary.container.more-information"/>
-        </erland-common:beanlink>
+        <logic:empty name="containerPB" property="linkSource">
+            <erland-common:beanlink style="bold-link" name="containerPB" property="link" target="_blank">
+                <bean:message key="diary.container.more-information"/>
+            </erland-common:beanlink>
+        </logic:empty>
+        <logic:notEmpty name="containerPB" property="linkSource">
+            <erland-common:beanlink style="bold-link" name="containerPB" property="link" target="_blank">
+                <bean:message key="diary.container.more-information-with-source"/> <bean:write name="containerPB" property="linkSource"/>
+            </erland-common:beanlink>
+        </logic:notEmpty>
         </td>
         </tr>
     </logic:notEmpty>
