@@ -29,14 +29,14 @@
   <parameter name="allowedMethods" value="getVersion"/>
   <parameter name="className" value="org.apache.axis.Version"/>
  </service>
- <service name="SearchAllApplicationVersions" provider="java:RPC">
+ <service name="Download" provider="java:RPC">
   <parameter name="allowedMethods" value="*"/>
-  <parameter name="wsdlPortType" value="SearchAllApplicationVersions"/>
+  <parameter name="wsdlPortType" value="Download"/>
   <parameter name="scope" value="Session"/>
-  <parameter name="className" value="erland.webapp.download.ws.SearchAllApplicationVersionsSoapBindingSkeleton"/>
-  <parameter name="wsdlServicePort" value="SearchAllApplicationVersions"/>
+  <parameter name="className" value="erland.webapp.download.ws.DownloadSoapBindingSkeleton"/>
+  <parameter name="wsdlServicePort" value="Download"/>
   <parameter name="wsdlTargetNamespace" value="http://erland.homeip.net/download"/>
-  <parameter name="wsdlServiceElement" value="SearchAllApplicationVersionsService"/>
+  <parameter name="wsdlServiceElement" value="DownloadService"/>
  </service>
  <transport name="http">
   <requestFlow>
