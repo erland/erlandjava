@@ -349,7 +349,7 @@
     <layout>
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.3305369" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.4369748" order="0" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.42647058" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.33" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
@@ -463,9 +463,7 @@
     <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/picture/PictureFB.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="146" column="1" selection-start="3718" selection-end="3718" vertical-scroll-proportion="0.8410463">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -479,36 +477,28 @@
     <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/picture/SelectPictureFB.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="87" column="1" selection-start="2499" selection-end="2499" vertical-scroll-proportion="0.8410463">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/picturestorage/PictureStorageFB.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="71" column="1" selection-start="1975" selection-end="1975" vertical-scroll-proportion="0.8410463">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/GalleryFB.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="163" column="1" selection-start="4595" selection-end="4595" vertical-scroll-proportion="0.8410463">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/gallery/SelectGalleryFB.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="71" column="1" selection-start="2059" selection-end="2059" vertical-scroll-proportion="0.8038462">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -522,9 +512,7 @@
     <entry file="file://E:/EGNA/Working/Java/Web/Gallery/src/erland/webapp/gallery/fb/loader/ImageFB.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="69" column="1" selection-start="2098" selection-end="2098" vertical-scroll-proportion="0.8038462">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -559,7 +547,6 @@
             <marker date="1077697989263" expanded="true" signature="1151:1183" placeholder="{...}" />
             <marker date="1077697989263" expanded="true" signature="1662:1709" placeholder="{...}" />
             <marker date="1077697989263" expanded="true" signature="1444:1539" placeholder="{...}" />
-            <element signature="imports" expanded="true" />
             <marker date="1077697989263" expanded="true" signature="1753:1826" placeholder="{...}" />
             <marker date="1077697989263" expanded="true" signature="1575:1610" placeholder="{...}" />
             <marker date="1077697989263" expanded="true" signature="2016:2045" placeholder="{...}" />
