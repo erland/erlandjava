@@ -30,6 +30,7 @@ public class Skin extends BaseEntity {
     private String viewPictures;
     private String viewPicture;
     private String search;
+    private String stylesheet;
 
     public String getId() {
         return id;
@@ -93,5 +94,13 @@ public class Skin extends BaseEntity {
 
     public void setSearch(String search) {
         this.search = search;
+    }
+
+    public String getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(String stylesheet) {
+        this.stylesheet = stylesheet;
     }
 }

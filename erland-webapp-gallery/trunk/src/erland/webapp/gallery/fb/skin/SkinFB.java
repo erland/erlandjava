@@ -33,6 +33,7 @@ public class SkinFB extends BaseFB {
     private String viewPictures;
     private String viewPicture;
     private String search;
+    private String stylesheet;
 
     public String getId() {
         return id;
@@ -98,6 +99,14 @@ public class SkinFB extends BaseFB {
         this.search = search;
     }
 
+    public String getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(String stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         id = null;
@@ -108,5 +117,6 @@ public class SkinFB extends BaseFB {
         search = null;
         viewPicture = null;
         viewPictures = null;
+        stylesheet = null;
     }
 }
