@@ -22,8 +22,16 @@
                 <column>title</column>
                 <type>String</type>
             </field>
+            <field id="titleEnglish">
+                <column>title_en</column>
+                <type>String</type>
+            </field>
             <field id="description">
                 <column>description</column>
+                <type>String</type>
+            </field>
+            <field id="descriptionEnglish">
+                <column>description_en</column>
                 <type>String</type>
             </field>
             <field id="topCategory">
@@ -122,9 +130,29 @@
                 <column>showresolutionlinks</column>
                 <type>Boolean</type>
             </field>
-            <field id="showPictureDescription">
-                <column>showpicturedescription</column>
-                <type>Boolean</type>
+            <field id="pictureTitle">
+                <column>picturetitle</column>
+                <type>String</type>
+            </field>
+            <field id="thumbnailPictureTitle">
+                <column>thumbnailpicturetitle</column>
+                <type>String</type>
+            </field>
+            <field id="thumbnailRow1">
+                <column>thumbnailrow1</column>
+                <type>String</type>
+            </field>
+            <field id="thumbnailRow2">
+                <column>thumbnailrow2</column>
+                <type>String</type>
+            </field>
+            <field id="thumbnailRow3">
+                <column>thumbnailrow3</column>
+                <type>String</type>
+            </field>
+            <field id="copyrightText">
+                <column>copyright</column>
+                <type>String</type>
             </field>
         </fields>
         <queries>

@@ -27,7 +27,9 @@ public class Gallery extends BaseEntity {
     private Integer id;
     private String username;
     private String title;
+    private String titleEnglish;
     private String description;
+    private String descriptionEnglish;
     private Integer topCategory;
     private Boolean official;
     private Integer referencedGallery;
@@ -51,8 +53,13 @@ public class Gallery extends BaseEntity {
     private Boolean cutLongPictureTitles;
     private Boolean useShortPictureNames;
     private Boolean showPictureTitle;
-    private Boolean showPictureDescription;
     private Boolean showResolutionLinks;
+    private String pictureTitle;
+    private String thumbnailPictureTitle;
+    private String thumbnailRow1;
+    private String thumbnailRow2;
+    private String thumbnailRow3;
+    private String copyrightText;
 
     public Integer getId() {
         return id;
@@ -78,12 +85,28 @@ public class Gallery extends BaseEntity {
         this.title = title;
     }
 
+    public String getTitleEnglish() {
+        return titleEnglish;
+    }
+
+    public void setTitleEnglish(String titleEnglish) {
+        this.titleEnglish = titleEnglish;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getDescriptionEnglish() {
+        return descriptionEnglish;
+    }
+
+    public void setDescriptionEnglish(String descriptionEnglish) {
+        this.descriptionEnglish = descriptionEnglish;
     }
 
     public Boolean getOfficial() {
@@ -278,11 +301,51 @@ public class Gallery extends BaseEntity {
         this.showResolutionLinks = showResolutionLinks;
     }
 
-    public Boolean getShowPictureDescription() {
-        return showPictureDescription;
+    public String getPictureTitle() {
+        return pictureTitle;
     }
 
-    public void setShowPictureDescription(Boolean showPictureDescription) {
-        this.showPictureDescription = showPictureDescription;
+    public void setPictureTitle(String pictureTitle) {
+        this.pictureTitle = pictureTitle;
+    }
+
+    public String getThumbnailPictureTitle() {
+        return thumbnailPictureTitle;
+    }
+
+    public void setThumbnailPictureTitle(String thumbnailPictureTitle) {
+        this.thumbnailPictureTitle = thumbnailPictureTitle;
+    }
+
+    public String getThumbnailRow1() {
+        return thumbnailRow1;
+    }
+
+    public void setThumbnailRow1(String thumbnailRow1) {
+        this.thumbnailRow1 = thumbnailRow1;
+    }
+
+    public String getThumbnailRow2() {
+        return thumbnailRow2;
+    }
+
+    public void setThumbnailRow2(String thumbnailRow2) {
+        this.thumbnailRow2 = thumbnailRow2;
+    }
+
+    public String getThumbnailRow3() {
+        return thumbnailRow3;
+    }
+
+    public void setThumbnailRow3(String thumbnailRow3) {
+        this.thumbnailRow3 = thumbnailRow3;
+    }
+
+    public String getCopyrightText() {
+        return copyrightText;
+    }
+
+    public void setCopyrightText(String copyrightText) {
+        this.copyrightText = copyrightText;
     }
 }
