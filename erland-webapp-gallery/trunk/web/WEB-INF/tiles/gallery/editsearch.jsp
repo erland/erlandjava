@@ -6,9 +6,11 @@
 
 <html:form action="/user/viewsearchpictures" method="POST">
     <html:hidden property="start"/>
-    <html:hidden property="max"/>
+    <logic:notEmpty name="searchPictureFB" property="max">
+        <html:hidden property="max"/>
+    </logic:notEmpty>
     <html:hidden property="gallery"/>
-    <table>
+    <table class="propertypage-body">
     <tr><td><bean:message key="gallery.gallery.search.first-date"/></td><td>
     <html:text property="dateAfterDisplay"/>
     </td></tr>

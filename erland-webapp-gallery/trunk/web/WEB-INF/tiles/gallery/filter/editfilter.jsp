@@ -6,7 +6,7 @@
 
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/user/editfilter" method="POST">
-    <table>
+    <table class="propertypage-body">
     <html:hidden property="id"/>
     <tr><td><bean:message key="gallery.gallery.filter.edit.name"/></td><td>
     <html:text property="name" size="40"/>

@@ -3,13 +3,13 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
-<table border="0">
+<table class="propertypage-body">
 <logic:iterate name="filtersPB" id="filter">
     <tr>
     <td><bean:message key="gallery.gallery.filter.edit.name"/></td>
     <td><bean:write name="filter" property="name"/></td>
-    <td><a href="<html:rewrite page="/do/user/viewfilter"/>?idDisplay=<bean:write name="filter" property="idDisplay"/>" class="bold-link"><bean:message key="gallery.gallery.filter.menu.edit"/></a></td>
-    <td><a href="<html:rewrite page="/do/user/removefilter"/>?idDisplay=<bean:write name="filter" property="idDisplay"/>" class="bold-link" onClick="return confirm('<bean:message key="gallery.gallery.filter.menu.delete.are-you-sure"/>')"><bean:message key="gallery.gallery.filter.menu.delete"/></a></td>
+    <td><a href="<html:rewrite page="/do/user/viewfilter"/>?idDisplay=<bean:write name="filter" property="idDisplay"/>" class="propertypage-button"><bean:message key="gallery.gallery.filter.menu.edit"/></a></td>
+    <td><a href="<html:rewrite page="/do/user/removefilter"/>?idDisplay=<bean:write name="filter" property="idDisplay"/>" class="propertypage-button" onClick="return confirm('<bean:message key="gallery.gallery.filter.menu.delete.are-you-sure"/>')"><bean:message key="gallery.gallery.filter.menu.delete"/></a></td>
     </tr>
     <tr>
     <td><bean:message key="gallery.gallery.filter.edit.description"/></td>

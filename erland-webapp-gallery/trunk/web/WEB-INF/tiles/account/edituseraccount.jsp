@@ -5,7 +5,7 @@
 
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/user/edituseraccount" method="POST">
-    <table>
+    <table class="propertypage-body">
     <html:hidden property="username"/>
     <tr><td><bean:message key="gallery.account.edit.description"/></td><td>
     <html:textarea property="description" cols="80" rows="5"/>
@@ -18,6 +18,9 @@
     </td></tr>
     <tr><td><bean:message key="gallery.account.edit.copyright-text"/></td><td>
     <html:text property="copyrightText" size="30"/>
+    </td></tr>
+    <tr><td><bean:message key="gallery.account.edit.stylesheet"/></td><td>
+    <html:text property="stylesheet" size="60"/>
     </td></tr>
     <tr><td><bean:message key="gallery.account.edit.default-gallery"/></td><td>
     <html:select property="defaultGalleryDisplay" size="1">

@@ -8,7 +8,7 @@
 <html:form action="/user/editcategory" method="POST">
     <html:hidden property="gallery"/>
     <html:hidden property="category"/>
-    <table>
+    <table class="propertypage-body">
         <tr><td><bean:message key="gallery.gallery.category.edit.name"/></td><td>
         <html:text property="name"/>
         </td></tr>

@@ -3,11 +3,11 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
-<p class="bold"><bean:message key="gallery.account.new.title"/></p>
-<p class="normal"><bean:message key="gallery.account.new.mandatory-text"/></p>
+<p class="propertypage-title"><bean:message key="gallery.account.new.title"/></p>
+<p class="propertypage-description"><bean:message key="gallery.account.new.mandatory-text"/></p>
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/guest/newuseraccount" method="POST">
-    <table>
+    <table class="propertypage-body">
     <tr><td><bean:message key="gallery.account.new.username"/></td><td>
     <html:text property="username"/>
     </td></tr>

@@ -5,17 +5,17 @@
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
 <logic:notEmpty name="galleryPB">
-    <a href="<html:rewrite page="/do/user/viewgallery"/>?id=<bean:write name="galleryPB" property="id"/>" class="bold-link"><bean:message key="gallery.gallery.modify"/></a>
-    <a href="<html:rewrite page="/do/user/removegallery"/>?id=<bean:write name="galleryPB" property="id"/>" class="bold-link" onClick="return confirm('<bean:message key="gallery.gallery.delete.are-you-sure"/>')"><bean:message key="gallery.gallery.delete"/></a>
-    <a href="<html:rewrite page="/do/user/viewgalleryfilters"/>?gallery=<bean:write name="galleryPB" property="id"/>" class="bold-link"><bean:message key="gallery.gallery.view-filters"/></a>
-    <a href="<html:rewrite page="/do/user/clearcachegallery"/>?id=<bean:write name="galleryPB" property="id"/>" class="bold-link"><bean:message key="gallery.gallery.clear-cache"/></a>
+    <a href="<html:rewrite page="/do/user/viewgallery"/>?id=<bean:write name="galleryPB" property="id"/>" class="picturepage-button"><bean:message key="gallery.gallery.modify"/></a>
+    <a href="<html:rewrite page="/do/user/removegallery"/>?id=<bean:write name="galleryPB" property="id"/>" class="picturepage-button" onClick="return confirm('<bean:message key="gallery.gallery.delete.are-you-sure"/>')"><bean:message key="gallery.gallery.delete"/></a>
+    <a href="<html:rewrite page="/do/user/viewgalleryfilters"/>?gallery=<bean:write name="galleryPB" property="id"/>" class="picturepage-button"><bean:message key="gallery.gallery.view-filters"/></a>
+    <a href="<html:rewrite page="/do/user/clearcachegallery"/>?id=<bean:write name="galleryPB" property="id"/>" class="picturepage-button"><bean:message key="gallery.gallery.clear-cache"/></a>
     <logic:notEqual name="galleryPB" property="virtual" value="true">
-        <a href="<html:rewrite page="/do/user/newpicture"/>?gallery=<bean:write name="galleryPB" property="id"/>" class="bold-link"><bean:message key="gallery.gallery.add-picture"/></a>
-        <a href="<html:rewrite page="/do/user/newimportpictures"/>?gallery=<bean:write name="galleryPB" property="id"/>" class="bold-link"><bean:message key="gallery.gallery.import-pictures"/></a>
+        <a href="<html:rewrite page="/do/user/newpicture"/>?gallery=<bean:write name="galleryPB" property="id"/>" class="picturepage-button"><bean:message key="gallery.gallery.add-picture"/></a>
+        <a href="<html:rewrite page="/do/user/newimportpictures"/>?gallery=<bean:write name="galleryPB" property="id"/>" class="picturepage-button"><bean:message key="gallery.gallery.import-pictures"/></a>
     </logic:notEqual>
     <logic:notEmpty name="selectPictureFB">
         <logic:notEmpty name="selectPictureFB" property="category">
-            <a href="<html:rewrite page="/do/user/viewcategory"/>?gallery=<bean:write name="galleryPB" property="id"/>&category=<bean:write name="selectPictureFB" property="category"/>" class="bold-link"><bean:message key="gallery.gallery.modify-category"/></a>
+            <a href="<html:rewrite page="/do/user/viewcategory"/>?gallery=<bean:write name="galleryPB" property="id"/>&category=<bean:write name="selectPictureFB" property="category"/>" class="picturepage-button"><bean:message key="gallery.gallery.modify-category"/></a>
         </logic:notEmpty>
     </logic:notEmpty>
     <br>
