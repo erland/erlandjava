@@ -30,6 +30,10 @@ public class ParameterStorageChild implements ParameterValueStorageExInterface {
         return values.getParameterAsStorage(prefix+name);
     }
 
+    public void setParameterAsStorage(String name, StorageInterface value) {
+        values.setParameterAsStorage(prefix+name,value);
+    }
+
     public String getParameter(String name) {
         return values.getParameter(prefix+name);
     }

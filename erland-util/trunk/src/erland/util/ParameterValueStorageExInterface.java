@@ -33,4 +33,13 @@ public interface ParameterValueStorageExInterface extends ParameterValueStorageI
      * @return A StorageInterface object containing the value of the parameter
      */
     public StorageInterface getParameterAsStorage(String name);
+
+    /**
+     * Sets the parameter as a StorageInterface object instead of a value
+     * Observe that this is a new StorageInterface object must have been retreived
+     * with the {@link #getParameterAsStorage(String)} method
+     * @param name The name of the parameter to set
+     * @param value The value as a StorageInterface object
+     */
+    public void setParameterAsStorage(String name, StorageInterface value);
 }

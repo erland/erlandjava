@@ -160,6 +160,10 @@ public class ParameterStorageTree implements ParameterValueStorageExInterface {
         // Do nothing, this is not supported
     }
 
+    public void setParameterAsStorage(String name, StorageInterface value) {
+        // Do nothing, this is not supported
+    }
+
     public StorageInterface getParameterAsStorage(String name) {
         XMLNode node = getParameterNode(name);
         if(node!=null) {
