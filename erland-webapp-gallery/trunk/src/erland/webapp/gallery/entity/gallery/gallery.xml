@@ -86,6 +86,10 @@
                 <column>thumbnailwidth</column>
                 <type>Integer</type>
             </field>
+            <field id="thumbnailHeight">
+                <column>thumbnailheight</column>
+                <type>Integer</type>
+            </field>
             <field id="sortOrder">
                 <column>sortorder</column>
                 <type>String</type>
@@ -116,6 +120,10 @@
             </field>
             <field id="showResolutionLinks">
                 <column>showresolutionlinks</column>
+                <type>Boolean</type>
+            </field>
+            <field id="showPictureDescription">
+                <column>showpicturedescription</column>
                 <type>Boolean</type>
             </field>
         </fields>

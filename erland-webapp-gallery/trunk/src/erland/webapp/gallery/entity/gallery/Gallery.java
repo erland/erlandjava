@@ -43,6 +43,7 @@ public class Gallery extends BaseEntity {
     private Date cacheDate;
     private String stylesheet;
     private Integer thumbnailWidth;
+    private Integer thumbnailHeight;
     private String sortOrder;
     private Integer noOfRows;
     private Integer noOfCols;
@@ -50,6 +51,7 @@ public class Gallery extends BaseEntity {
     private Boolean cutLongPictureTitles;
     private Boolean useShortPictureNames;
     private Boolean showPictureTitle;
+    private Boolean showPictureDescription;
     private Boolean showResolutionLinks;
 
     public Integer getId() {
@@ -204,6 +206,14 @@ public class Gallery extends BaseEntity {
         this.thumbnailWidth = thumbnailWidth;
     }
 
+    public Integer getThumbnailHeight() {
+        return thumbnailHeight;
+    }
+
+    public void setThumbnailHeight(Integer thumbnailHeight) {
+        this.thumbnailHeight = thumbnailHeight;
+    }
+
     public String getSortOrder() {
         return sortOrder;
     }
@@ -266,5 +276,13 @@ public class Gallery extends BaseEntity {
 
     public void setShowResolutionLinks(Boolean showResolutionLinks) {
         this.showResolutionLinks = showResolutionLinks;
+    }
+
+    public Boolean getShowPictureDescription() {
+        return showPictureDescription;
+    }
+
+    public void setShowPictureDescription(Boolean showPictureDescription) {
+        this.showPictureDescription = showPictureDescription;
     }
 }
