@@ -66,12 +66,25 @@
         </fields>
         <queries>
             <query id="allforuser">
-                <orderstring>order by orderno asc, title asc</orderstring>
+                <orderstring>order by parent asc, title asc</orderstring>
                 <querystring/>
             </query>
             <query id="allofficialforuser">
-                <orderstring>order by orderno asc, title asc</orderstring>
+                <orderstring>order by parent asc, title asc</orderstring>
                 <querystring>official=1</querystring>
+            </query>
+            <query id="allforparent">
+                <querystring>username=? and parent=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>username</field>
+                        <type>String</type>
+                    </field>
+                    <field id="2">
+                        <field>parent</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
             </query>
         </queries>
     </data>
