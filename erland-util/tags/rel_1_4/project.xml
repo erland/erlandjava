@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+
+  <!-- the version of maven's project object model -->
+  <pomVersion>3</pomVersion>
+  
+  <!-- a unique name for this project -->
+  <groupId>erland</groupId>
+  <id>erland-util</id>
+  
+  <!-- a short but descriptive name for the project -->
+  <name>Erland Util</name>
+  
+  <!-- The version of the project under development, e.g.
+       1.1, 1.2, 2.0-SNAPSHOT -->
+  <currentVersion>1.4</currentVersion>
+  
+  <organization>
+        <name>Erland Isaksson</name>
+        <url>http://erland.homeip.net</url>
+  </organization>
+
+  <!-- the year the project started -->
+  <inceptionYear>2003</inceptionYear>
+  <package>erland.util</package>
+  <description>
+    A utility package with a number of different utility classes
+  </description>
+  <!-- a short description of what the project does -->
+  <shortDescription>
+    A number of different utility classes
+  </shortDescription>
+  <siteDirectory>\\xp2500\erland/public_html/java/erland-util</siteDirectory>
+  <!-- any mailing lists for the project -->
+  <mailingLists/>
+
+  <!-- who the developers are for the project -->
+  <developers>
+  	<developer>
+	  	<name>Erland Isaksson</name>
+	  	<email>erland.i@telia.com</email>
+	  	<url>http://erland.homeip.net</url>
+	</developer>
+  </developers>
+
+  <!-- jar files the project is dependent on -->
+  <dependencies>
+	<dependency>
+      <url>http://erland.homeip.net</url>
+      <groupId>erland</groupId>
+      <artifactId>jdklinkedlist</artifactId>
+      <version>1.1</version>
+      <type>jar</type>
+    </dependency>
+
+	<dependency>
+      <url>http://erland.homeip.net</url>
+      <groupId>erland</groupId>
+      <artifactId>netscapejavascript</artifactId>
+      <version>1.0</version>
+      <type>jar</type>
+    </dependency>
+
+	<dependency>
+      <url>http://erland.homeip.net</url>
+      <groupId>erland</groupId>
+      <artifactId>displaymode</artifactId>
+      <version>1.0</version>
+      <type>jar</type>
+    </dependency>
+
+    <dependency>
+        <url>http://jakarta.apache.org/commons/logging</url>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.0.4</version>
+        <type>jar</type>
+    </dependency>
+  </dependencies>
+  
+  <!-- build information for the project -->
+  <build>
+    <nagEmailAddress>erland.i@telia.com</nagEmailAddress>
+    <sourceDirectory>src</sourceDirectory>
+    <resources>
+        <resource>
+            <directory>${basedir}/src</directory>
+            <includes>
+                <include>**/*.xml</include>
+                <include>**/*.properties</include>
+            </includes>
+        </resource>
+    </resources>
+  </build>
+  <reports><report>maven-javadoc-plugin</report></reports>
+</project>
+
