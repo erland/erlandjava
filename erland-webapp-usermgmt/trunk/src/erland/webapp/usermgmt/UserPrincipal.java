@@ -2,6 +2,9 @@ package erland.webapp.usermgmt;
 
 import java.security.Principal;
 import java.io.Serializable;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Arrays;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -23,16 +26,18 @@ import java.io.Serializable;
  */
 
 public class UserPrincipal implements Principal, Serializable{
-    private User user;
-    public UserPrincipal(User user) {
-        this.user = user;
+    private String name;
+    private Set roles;
+    public UserPrincipal(String name, String[] roles) {
+        this.name = name;
+        this.roles = new HashSet(Arrays.asList(roles));
     }
 
     public String getName() {
-        return user!=null?user.getUsername():null;
+        return name;
     }
 
-    public User getUser() {
-        return user;
+    public boolean hasRole(String role) {
+        return roles.contains(role);
     }
 }

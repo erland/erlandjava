@@ -3,7 +3,6 @@
   <component name="LvcsConfiguration">
     <option name="LOCAL_VCS_ENABLED" value="true" />
     <option name="LOCAL_VCS_PURGING_PERIOD" value="259200000" />
-    <option name="MARK_EXTERNAL_CHANGES_AS_UP_TO_DATE" value="true" />
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
@@ -15,6 +14,7 @@
     <orderEntry type="library" name="Erland WebCommon" level="application" />
     <orderEntry type="library" name="Erland util" level="application" />
     <orderEntry type="library" name="commons-beanutils" level="application" />
+    <orderEntry type="library" name="securityfilter" level="application" />
   </component>
   <component name="ModuleRootManager">
     <jdk name="java version &quot;1.4.1&quot;" />
