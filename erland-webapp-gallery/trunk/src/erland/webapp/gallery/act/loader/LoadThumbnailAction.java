@@ -24,6 +24,7 @@ import erland.webapp.common.image.ImageThumbnail;
 import erland.webapp.common.image.ImageWriteHelper;
 import erland.webapp.gallery.entity.account.UserAccount;
 import erland.webapp.gallery.entity.gallery.picture.Picture;
+import erland.webapp.gallery.fb.loader.ThumbnailImageFB;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -40,12 +41,15 @@ public class LoadThumbnailAction extends LoadImageAction {
     }
 
     protected ActionForward findSuccess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        Integer requestedWidth = ServletParameterHelper.asInteger(request.getParameter("width"), null);
-        Boolean useCache = ServletParameterHelper.asBoolean(request.getParameter("usecache"), Boolean.TRUE);
-        Float requestedCompression = ServletParameterHelper.asFloat(request.getParameter("compression"), null);
+        ThumbnailImageFB fb = (ThumbnailImageFB) form;
+        Integer width = fb.getWidth();
+        if(getGallery(request).getMaxWidth()!=null && getGallery(request).getMaxWidth().intValue()>0 && width!=null && getGallery(request).getMaxWidth().compareTo(width)<0) {
+
+           width = getGallery(request).getMaxWidth();
+        }
         try {
             response.setContentType("image/jpeg");
-            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), requestedWidth, useCache, requestedCompression, getUsername(), getImageFile(), getCopyrightText(), new ImageThumbnail(), response.getOutputStream())) {
+            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, fb.getUseCache(), fb.getCompression(), getUsername(request), getImageFile(request), getCopyrightText(getUsername(request)), new ImageThumbnail(), response.getOutputStream())) {
                 return findFailure(mapping,form,request,response);
             }
         } catch (IOException e) {
@@ -54,15 +58,15 @@ public class LoadThumbnailAction extends LoadImageAction {
         return null;
     }
 
-    private UserAccount getUserAccount() {
+    private UserAccount getUserAccount(String username) {
         UserAccount template = (UserAccount) getEnvironment().getEntityFactory().create("gallery-useraccount");
-        template.setUsername(getUsername());
+        template.setUsername(username);
         UserAccount account = (UserAccount) getEnvironment().getEntityStorageFactory().getStorage("gallery-useraccount").load(template);
         return account;
     }
 
-    protected String getCopyrightText() {
-        UserAccount account = getUserAccount();
+    protected String getCopyrightText(String username) {
+        UserAccount account = getUserAccount(username);
         if (account != null) {
             return account.getCopyrightText();
         }

@@ -34,20 +34,20 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class ViewDefaultGalleryAction extends BaseAction {
-    Integer gallery = null;
-    String username = null;
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SelectUserFB fb = (SelectUserFB) form;
-        username = getUsername(request,fb);
+        String username = getUsername(request,fb);
+        setUsername(request,username);
         UserAccount template = (UserAccount) getEnvironment().getEntityFactory().create("gallery-useraccount");
         template.setUsername(username);
         UserAccount account = (UserAccount) getEnvironment().getEntityStorageFactory().getStorage("gallery-useraccount").load(template);
-        gallery = null;
+        Integer gallery = null;
         if(account.getDefaultGallery()!=null && account.getDefaultGallery().intValue()>0) {
             gallery = account.getDefaultGallery();
         }else {
             saveErrors(request, Arrays.asList(new String[]{"gallery.account.no-defaultgallery"}));
         }
+        setGallery(request,gallery);
     }
 
     protected String getUsername(HttpServletRequest request, SelectUserFB fb) {
@@ -56,13 +56,26 @@ public class ViewDefaultGalleryAction extends BaseAction {
 
     protected Map getDynamicParameters(HttpServletRequest request) {
         Map parameters = super.getDynamicParameters(request);
-        if(gallery!=null) {
+        if(getGallery(request)!=null) {
             if(parameters==null) {
                 parameters = new HashMap();
             }
-            parameters.put("gallery",gallery.toString());
-            parameters.put("user",username);
+            parameters.put("gallery",getGallery(request));
+            parameters.put("user",getUsername(request));
         }
         return parameters;
+    }
+
+    public String getUsername(HttpServletRequest request) {
+        return (String) request.getAttribute(ViewDefaultGalleryAction.class+"-username");
+    }
+    public void setUsername(HttpServletRequest request, String username) {
+        request.setAttribute(ViewDefaultGalleryAction.class+"-username",username);
+    }
+    public Integer getGallery(HttpServletRequest request) {
+        return (Integer) request.getAttribute(ViewDefaultGalleryAction.class+"-gallery");
+    }
+    public void setGallery(HttpServletRequest request, Integer gallery) {
+        request.setAttribute(ViewDefaultGalleryAction.class+"-gallery",gallery);
     }
 }
