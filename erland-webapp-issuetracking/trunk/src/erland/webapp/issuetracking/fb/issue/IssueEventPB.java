@@ -1,6 +1,7 @@
 package erland.webapp.issuetracking.fb.issue;
 
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 import java.util.Date;
 
@@ -36,11 +37,11 @@ public class IssueEventPB extends IssueEventFB{
     }
 
     public String getDateDisplay() {
-        return ServletParameterHelper.asString(date,null);
+        return StringUtil.asString(date,null);
     }
 
     public void setDateDisplay(String dateDisplay) {
-        this.date = ServletParameterHelper.asDate(dateDisplay,null);
+        this.date = StringUtil.asDate(dateDisplay,null);
     }
 
     public String getStateTextKey() {

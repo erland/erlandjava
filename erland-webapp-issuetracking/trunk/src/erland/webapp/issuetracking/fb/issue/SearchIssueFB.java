@@ -2,6 +2,7 @@ package erland.webapp.issuetracking.fb.issue;
 
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.issuetracking.fb.application.SelectApplicationFB;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,11 +39,11 @@ public class SearchIssueFB extends SelectApplicationFB {
     }
 
     public String getTypeDisplay() {
-        return ServletParameterHelper.asString(type,null);
+        return StringUtil.asString(type,null);
     }
 
     public void setTypeDisplay(String typeDisplay) {
-        this.type = ServletParameterHelper.asInteger(typeDisplay,null);
+        this.type = StringUtil.asInteger(typeDisplay,null);
     }
 
     public Integer[] getStates() {
@@ -57,7 +58,7 @@ public class SearchIssueFB extends SelectApplicationFB {
         if(states!=null) {
             String[] result = new String[states.length];
             for (int i = 0; i < states.length; i++) {
-                result[i] = ServletParameterHelper.asString(states[i],null);
+                result[i] = StringUtil.asString(states[i],null);
             }
             return result;
         }else {
@@ -69,7 +70,7 @@ public class SearchIssueFB extends SelectApplicationFB {
         if(statesDisplay!=null) {
             this.states = new Integer[statesDisplay.length];
             for (int i = 0; i < statesDisplay.length; i++) {
-                this.states[i] = ServletParameterHelper.asInteger(statesDisplay[i],null);
+                this.states[i] = StringUtil.asInteger(statesDisplay[i],null);
             }
         }else {
             this.states = null;

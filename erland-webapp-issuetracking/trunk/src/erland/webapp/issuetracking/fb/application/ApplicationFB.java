@@ -2,6 +2,7 @@ package erland.webapp.issuetracking.fb.application;
 
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.fb.BaseFB;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,11 +67,11 @@ public class ApplicationFB extends BaseFB {
     }
 
     public String getOfficialDisplay() {
-        return ServletParameterHelper.asString(official,null);
+        return StringUtil.asString(official,null);
     }
 
     public void setOfficialDisplay(String officialDisplay) {
-        this.official = ServletParameterHelper.asBoolean(officialDisplay,Boolean.FALSE);
+        this.official = StringUtil.asBoolean(officialDisplay,Boolean.FALSE);
     }
 
     public String getTitleEnglish() {

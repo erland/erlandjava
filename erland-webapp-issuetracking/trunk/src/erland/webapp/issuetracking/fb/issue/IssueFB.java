@@ -3,6 +3,7 @@ package erland.webapp.issuetracking.fb.issue;
 import erland.webapp.common.BaseEntity;
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.fb.BaseFB;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,11 +46,11 @@ public class IssueFB extends BaseFB {
     }
 
     public String getIdDisplay() {
-        return ServletParameterHelper.asString(id,null);
+        return StringUtil.asString(id,null);
     }
 
     public void setIdDisplay(String idDisplay) {
-        this.id = ServletParameterHelper.asInteger(idDisplay,null);
+        this.id = StringUtil.asInteger(idDisplay,null);
     }
 
     public Integer getType() {
@@ -61,11 +62,11 @@ public class IssueFB extends BaseFB {
     }
 
     public String getTypeDisplay() {
-        return ServletParameterHelper.asString(type,null);
+        return StringUtil.asString(type,null);
     }
 
     public void setTypeDisplay(String typeDisplay) {
-        this.type = ServletParameterHelper.asInteger(typeDisplay,null);
+        this.type = StringUtil.asInteger(typeDisplay,null);
     }
 
     public String getApplication() {
