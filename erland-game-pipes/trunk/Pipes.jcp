@@ -19,6 +19,8 @@ COMPILER := "<Default>"
 LABEL := "Root"
 FILTER := ""
 
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockCrossSplit.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipePartCrossSplit.java" #[EndFile]
 #[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockStartDown.java" #[EndFile]
 #[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockStartUp.java" #[EndFile]
 #[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockStartLeft.java" #[EndFile]
