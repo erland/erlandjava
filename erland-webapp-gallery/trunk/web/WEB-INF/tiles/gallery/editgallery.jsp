@@ -32,6 +32,9 @@
         </html:select>
         </td></tr>
     </logic:notEmpty>
+    <tr><td><bean:message key="gallery.gallery.edit.use-cache-large-images"/></td><td>
+    <html:checkbox property="useCacheLargeImagesDisplay" value="true"/>
+    </td></tr>
     <tr><td><bean:message key="gallery.gallery.edit.max-width"/></td><td>
     <html:text property="maxWidthDisplay"/>
     </td></tr>
