@@ -63,5 +63,6 @@ public class NewUserAccountAction extends BaseAction {
         AccountPB pb = new AccountPB();
         PropertyUtils.copyProperties(pb, template);
         PropertyUtils.copyProperties(pb, templateAccount);
+	request.getSession().setAttribute("accountPB",pb);
     }
 }
