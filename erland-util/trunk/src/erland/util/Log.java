@@ -1,6 +1,9 @@
 package erland.util;
 
 import java.util.Hashtable;
+import java.util.Calendar;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 /**
  * Logging class which makes it possible to activate/deactivate logging
@@ -14,8 +17,16 @@ public abstract class Log
     private static boolean allEnabled=false;
 	/** Hash table with all parts with logging enabled */
 	private static Hashtable configTable = null;
-	
-	/** 
+    /** Indicates that timestamps should be logged */
+    private static boolean bTimestamp = false;
+    /** Indicates that classnames should be logged */
+    private static boolean bClassname = false;
+    /** Calendar object used if timestamps should be shown */
+    private static Calendar cal = Calendar.getInstance();
+    /** Date format to use when logging timestamps */
+    private static DateFormat dateFormat = new SimpleDateFormat();
+
+	/**
 	 * Enabled or disable logging everywhere
 	 * @param active Indicates if logging should be enable
 	 */
@@ -116,6 +127,18 @@ public abstract class Log
         }
 
         int i=1;
+        String timestamp = config.getParameter("timestamp");
+        if(timestamp!=null && timestamp.equalsIgnoreCase("true")) {
+            bTimestamp = true;
+        }
+        String classname = config.getParameter("classname");
+        if(classname!=null && classname.equalsIgnoreCase("true")) {
+            bClassname = true;
+        }
+        String timestampFormat = config.getParameter("timestampformat");
+        if(timestampFormat!=null && timestampFormat.length()>0) {
+            dateFormat = new SimpleDateFormat(timestampFormat);
+        }
         String item = config.getParameter("logitem"+i);
         String itemlevelstr = config.getParameter("logitemlevel"+i++);
         while(item!=null && item.length()>0) {
@@ -158,8 +181,15 @@ public abstract class Log
      * @param logString The string that should be logged
      * @param level The log level of this log string
 	 */
-	public static void println(final Object obj, final String logString, final int level) {
+	public synchronized static void println(final Object obj, final String logString, final int level) {
         if(isEnabled(obj,level)) {
+            if(bTimestamp) {
+                cal.setTimeInMillis(System.currentTimeMillis());
+                System.out.print(dateFormat.format(cal.getTime())+" ");
+            }
+            if(bClassname) {
+                System.out.print(obj.getClass().getName()+" ");
+            }
             System.out.println(logString);
         }
 	}
