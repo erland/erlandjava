@@ -45,6 +45,7 @@ public class GalleryFB extends BaseFB {
     private Boolean thumbnailAntialias;
     private String stylesheet;
     private Integer thumbnailWidth;
+    private Integer thumbnailHeight;
     private String sortOrder;
     private Integer noOfRows;
     private Integer noOfCols;
@@ -53,6 +54,8 @@ public class GalleryFB extends BaseFB {
     private Boolean useShortPictureNames;
     private Boolean showPictureTitle;
     private Boolean showResolutionLinks;
+    private Boolean forcePictureUpdate;
+    private Boolean showPictureDescription;
 
     public Integer getId() {
         return id;
@@ -436,6 +439,54 @@ public class GalleryFB extends BaseFB {
         this.showResolutionLinks = ServletParameterHelper.asBoolean(showResolutionLinksDisplay,Boolean.FALSE);
     }
 
+    public Boolean getForcePictureUpdate() {
+        return forcePictureUpdate;
+    }
+
+    public void setForcePictureUpdate(Boolean forcePictureUpdate) {
+        this.forcePictureUpdate = forcePictureUpdate;
+    }
+
+    public String getForcePictureUpdateDisplay() {
+        return ServletParameterHelper.asString(forcePictureUpdate,null);
+    }
+
+    public void setForcePictureUpdateDisplay(String forcePictureUpdateDisplay) {
+        this.forcePictureUpdate = ServletParameterHelper.asBoolean(forcePictureUpdateDisplay,Boolean.FALSE);
+    }
+
+    public Boolean getShowPictureDescription() {
+        return showPictureDescription;
+    }
+
+    public void setShowPictureDescription(Boolean showPictureDescription) {
+        this.showPictureDescription = showPictureDescription;
+    }
+
+    public String getShowPictureDescriptionDisplay() {
+        return ServletParameterHelper.asString(showPictureDescription,null);
+    }
+
+    public void setShowPictureDescriptionDisplay(String showPictureDescriptionDisplay) {
+        this.showPictureDescription = ServletParameterHelper.asBoolean(showPictureDescriptionDisplay,Boolean.FALSE);
+    }
+
+    public Integer getThumbnailHeight() {
+        return thumbnailHeight;
+    }
+
+    public void setThumbnailHeight(Integer thumbnailHeight) {
+        this.thumbnailHeight = thumbnailHeight;
+    }
+
+    public String getThumbnailHeightDisplay() {
+        return ServletParameterHelper.asString(thumbnailHeight,null);
+    }
+
+    public void setThumbnailHeightDisplay(String thumbnailHeightDisplay) {
+        this.thumbnailHeight = ServletParameterHelper.asInteger(thumbnailHeightDisplay,null);
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         id = null;
@@ -456,6 +507,7 @@ public class GalleryFB extends BaseFB {
         thumbnailAntialias = Boolean.FALSE;
         stylesheet = null;
         thumbnailWidth = null;
+        thumbnailHeight = null;
         sortOrder = null;
         noOfRows = null;
         noOfCols = null;
@@ -464,5 +516,7 @@ public class GalleryFB extends BaseFB {
         useShortPictureNames = Boolean.FALSE;
         showPictureTitle = Boolean.FALSE;
         showResolutionLinks = Boolean.FALSE;
+        forcePictureUpdate = Boolean.FALSE;
+        showPictureDescription = Boolean.FALSE;
     }
 }
