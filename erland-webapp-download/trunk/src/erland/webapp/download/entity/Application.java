@@ -30,6 +30,7 @@ import java.io.File;
 public class Application extends BaseEntity implements EntityReadUpdateInterface {
     private String directory;
     private String id;
+    private String category;
     private String name;
     private String title;
     private String logo;
@@ -41,6 +42,14 @@ public class Application extends BaseEntity implements EntityReadUpdateInterface
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getName() {
@@ -123,6 +132,13 @@ public class Application extends BaseEntity implements EntityReadUpdateInterface
                 setTitle(reader.readLine());
             } catch (IOException e) {
                 setTitle(null);
+            }
+
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(getId()+"/category.txt"));
+                setCategory(reader.readLine());
+            } catch (IOException e) {
+                setCategory(null);
             }
         }
         if (id != null) {

@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionForm;
 public class ApplicationFB extends ActionForm {
     private String title;
     private String name;
+    private String category;
     private String logo;
     private String description;
 
@@ -41,6 +42,14 @@ public class ApplicationFB extends ActionForm {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getLogo() {
