@@ -13,16 +13,11 @@
     <definition name=".mainLayout" path="/WEB-INF/layouts/classicLayout.jsp">
         <put name="title" value="Bildarkivet"/>
         <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
-        <put name="footer" value="NOTUSED"/>
-        <put name="body" value="NOTUSED"/>
-        <put name="menu" value="NOTUSED"/>
     </definition>
 
     <definition name=".mainLayoutNoMenu" path="/WEB-INF/layouts/classicLayoutNoMenu.jsp">
         <put name="title" value="Bildarkivet"/>
         <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
-        <put name="footer" value="NOTUSED"/>
-        <put name="body" value="NOTUSED"/>
     </definition>
 
     <!-- ========================================================== -->
