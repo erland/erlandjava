@@ -2,6 +2,7 @@ package erland.webapp.help.fb.application;
 
 import erland.webapp.common.fb.BaseFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,11 +57,11 @@ public class ApplicationVersionFB extends BaseFB {
     }
 
     public String getOrderNoDisplay() {
-        return ServletParameterHelper.asString(orderNo,null);
+        return StringUtil.asString(orderNo,null);
     }
 
     public void setOrderNoDisplay(String orderNoDisplay) {
-        this.orderNo = ServletParameterHelper.asInteger(orderNoDisplay,null);
+        this.orderNo = StringUtil.asInteger(orderNoDisplay,null);
     }
 
     public String getPreviousVersion() {

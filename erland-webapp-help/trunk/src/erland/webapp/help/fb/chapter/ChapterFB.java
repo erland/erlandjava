@@ -2,6 +2,7 @@ package erland.webapp.help.fb.chapter;
 
 import erland.webapp.common.fb.BaseFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,11 +48,11 @@ public class ChapterFB extends BaseFB {
     }
 
     public String getIdDisplay() {
-        return ServletParameterHelper.asString(id,null);
+        return StringUtil.asString(id,null);
     }
 
     public void setIdDisplay(String idDisplay) {
-        this.id = ServletParameterHelper.asInteger(idDisplay,null);
+        this.id = StringUtil.asInteger(idDisplay,null);
     }
 
     public String getApplication() {
@@ -87,11 +88,11 @@ public class ChapterFB extends BaseFB {
     }
 
     public String getOrderNoDisplay() {
-        return ServletParameterHelper.asString(orderNo,null);
+        return StringUtil.asString(orderNo,null);
     }
 
     public void setOrderNoDisplay(String orderNoDisplay) {
-        this.orderNo = ServletParameterHelper.asInteger(orderNoDisplay,null);
+        this.orderNo = StringUtil.asInteger(orderNoDisplay,null);
     }
 
     public String getTitleNative() {
