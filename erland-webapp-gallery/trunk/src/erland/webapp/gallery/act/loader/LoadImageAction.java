@@ -73,7 +73,7 @@ public class LoadImageAction extends BaseAction {
             if (!picture.getOfficial().booleanValue()) {
                 if (request.getRemoteUser() != null && request.getRemoteUser().equals(gallery.getUsername())) {
                     //OK, correct user logged in
-                }else if(request.getRemoteUser() != null) {
+                }else if(request.getRemoteUser() != null && picture.getOfficialGuest().booleanValue()) {
                     GuestAccount guestTemplate = (GuestAccount) getEnvironment().getEntityFactory().create("gallery-guestaccount");
                     guestTemplate.setUsername(gallery.getUsername());
                     guestTemplate.setGuestUser(request.getRemoteUser());
