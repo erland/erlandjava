@@ -29,6 +29,7 @@ public class Category extends BaseEntity {
     private Boolean official;
     private Boolean officialVisible;
     private Boolean officialAlways;
+    private Boolean officialNever;
 
     public Integer getGallery() {
         return gallery;
@@ -84,5 +85,13 @@ public class Category extends BaseEntity {
 
     public void setOfficialAlways(Boolean officialAlways) {
         this.officialAlways = officialAlways;
+    }
+
+    public Boolean getOfficialNever() {
+        return officialNever;
+    }
+
+    public void setOfficialNever(Boolean officialNever) {
+        this.officialNever = officialNever;
     }
 }

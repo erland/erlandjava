@@ -35,6 +35,10 @@
                 <column>officialvisible</column>
                 <type>Boolean</type>
             </field>
+            <field id="officialNever">
+                <column>officialnever</column>
+                <type>Boolean</type>
+            </field>
             <field id="parentCategory">
                 <column>parent</column>
                 <type>Integer</type>
