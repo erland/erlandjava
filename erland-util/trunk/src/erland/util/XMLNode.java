@@ -3,129 +3,41 @@ package erland.util;
 import java.util.*;
 
 /**
- * Makes it easy to parse and work with XML documents
- * Note that this is not a fully compliant XML parser, just a simple parser
- * that only supports ordinary XML nodes. It is currently not possilble to
- * access attributes defined in the XML nodes.
+ * A node object for an XML document tree.
  * An object of this class represents a node and all its child nodes
  * @author Erland Isaksson
  */
 public class XMLNode {
-	/**
-	 * XML processing instruction related to this XML node
-	 */
-	protected String procInstr;
+	/** The name of this XML node */
+	private String name;
 
-	/**
-	 * The name of this XML node
-	 */
-	protected String name;
+	/** The value of this XML node, will be empty if child nodes exists */
+	private String value;
 
-	/**
-	 * The value of this XML node, will be empty if child nodes exists
-	 */
-	protected String value;
+	/** The attributes of this XML node */
+	private Map attributes;
 
-	/**
-	 * The attributes of this XML node
-	 */
-	protected String attributes;
+	/** A list of all child nodes */
+	private LinkedList childs;
 
-	/**
-	 * The parent XML node, null if this it the top of the XML tree
-	 */
-	protected XMLNode parent;
+    /** Indicates if this is a child node */
+    private boolean childNode;
 
-	/**
-	 * A list of all child nodes
-	 */
-	protected LinkedList childs;
-
-	/**
-	 * Current child node accessed
-	 */
-	protected int pos =0;
-
-	/**
-	 * Temporary storage for node name during parsing
-	 */
-	protected String tmpName;
-	/**
-	 * Temporary storage for node value during parsing
-	 */
-	protected String tmpValue;
-	/**
-	 * Temporary storage for XML processing instruction during parsing
-	 */
-	protected String tmpProcInstr;
-	/**
-	 * Temporary storage for node attributes during parsing
-	 */
-	protected String tmpAttr;
-
-    /**
-     * Indicates if a preprocessor directive should be added int the beginning
-     */
-    protected boolean preprocessor;
-
-	/**
-	 * Creates a new empty XML node
-	 */
-	public XMLNode() 
-	{
-        this.preprocessor = true;
-		this.name = null;
-		this.value = null;
-		this.procInstr = null;
-		this.attributes = null;
-		childs = null;
-		childs = new LinkedList();
-		this.parent = null;
-	}
-
-    /**
-	 * Creates a new empty XML node, makes it possible to select if the preprocessor directive
-     * should be added int he beginning. It might be useful to set preprocessor=false if you
-     * are creating a XMLNode which is part of another XML document.
-     * @param preprocessor true - Add a preprocessor directive
-     *                     false - Do not add a preprocessor directive
-	 */
-	public XMLNode(boolean preprocessor)
-	{
-        this.preprocessor = preprocessor;
-		this.name = null;
-		this.value = null;
-		this.procInstr = null;
-		this.attributes = null;
-		childs = null;
-		childs = new LinkedList();
-		this.parent = null;
-	}
 
 	/**
 	 * Creates a new empty XML node
 	 * @param name The name of the node
-	 * @param value The value of the node, set to null if childs is going to be added
-	 * @param attibutes The value of the attribute strings for the node, set to null if no attributes exist
-	 * @param procInstr The value of the XML processing instruction for the node, set to null if no processing instruction exist
-	 * @param parent The parent node, set to null if this is the top of the XML tree
-     * @param preprocessor Indicates if a preprocessor directive should be added if parent==null. true means that a preprocessor directive will be added
+	 * @param attributes The value of the attribute strings for the node, set to null if no attributes exist
 	 */
-	public XMLNode(String name, String value, String attributes, String procInstr, XMLNode parent, boolean preprocessor)
+	public XMLNode(String name, Map attributes)
 	{
 		this.name = name;
-		this.value = value;
+        this.value = null;
 		childs = null;
 		childs = new LinkedList();
-		this.parent = parent;
-		this.procInstr = procInstr;
 		this.attributes = attributes;
-        this.preprocessor = preprocessor;
-		if(parent==null) {
-            if(preprocessor==true) {
-                this.procInstr = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-            }
-		}
+        this.childNode = false;
+        //Log.println(this,"new XMLNode name="+name+" value="+value+" "+getClass().getName()+"@"+Integer.toHexString(hashCode()));
 	}
 
 	/**
@@ -148,7 +60,7 @@ public class XMLNode {
             ListIterator it = childs.listIterator();
             while(it.hasNext()) {
                 XMLNode node =(XMLNode)(it.next());
-                node.appendToString(str);
+                node.toString(str,true,0);
             }
             return str.toString();
         }else {
@@ -165,59 +77,53 @@ public class XMLNode {
         this.value = null;
 		childs = null;
 		childs = new LinkedList();
-        Log.println(this,"setValue name="+name+" parent="+parent);
-        parse(value,this);
-	}
-	
-	/**
-	 * Get the first child node
-	 * @return The first child node, null if no childs exist
-	 * @see #getNextChild()
-	 */
-	public XMLNode getFirstChild()
-	{
-		try {
-			pos=0;
-			if(childs!=null) {
-				return (XMLNode)(childs.get(pos));
-			}
-		}catch(IndexOutOfBoundsException e) {
-		}
-		return null;
-	}
-	
-	/**
-	 * Get the next child node
-	 * @return The next child node, null if no more childs exist
-	 * @see #getFirstChild()
-	 */
-	public XMLNode getNextChild()
-	{
-		try {
-			pos++;
-			if(childs!=null) {
-				if(pos>=childs.size()) {
-					return null;
-				}
-				return (XMLNode)(childs.get(pos));
-			}
-		}catch(IndexOutOfBoundsException e) {
-		}
-		return null;
+        //Log.println(this,"setValue name="+name+" parent="+parent+" value="+value);
+        this.value = value;
 	}
 
-	/**
-	 * Add a child node
-	 * @param name The name of the child node
-	 * @param value The value of the child node
-	 * @return The created child node
-	 */
-	public XMLNode addChild(String name, String value) {
-		XMLNode tmp = new XMLNode(name,value,null,null,this,preprocessor);
-		childs.add(tmp);
-		return tmp;
-	}
+    /**
+     * Get an iterator with the name of all attributes for the node
+     * @return An Iterator with all attribute names
+     */
+    public Iterator getAttributes() {
+        return attributes!=null?attributes.keySet().iterator():new Vector().iterator();
+    }
 
+    /**
+     * Get the value of a specified attribute for the node
+     * @param attribute The name of the attribute to get
+     * @return The value of the attribute
+     */
+    public String getAttributeValue(String attribute) {
+        return attributes!=null?(String)attributes.get(attribute):null;
+    }
+    /**
+     * Get all child nodes
+     * @return An Iterator with all child nodes
+     */
+    public Iterator getChilds() {
+        return childs!=null?childs.iterator():new Vector().iterator();
+    }
+
+
+    /**
+     * Add a child node
+     * @param node The child node to add
+     */
+    public void addChild(XMLNode node) {
+        node.childNode = true;
+        childs.add(node);
+        //Log.println(this,"addChild "+getClass().getName()+"@"+Integer.toHexString(hashCode())+" -> "+node.getClass().getName()+"@"+Integer.toHexString(node.hashCode()));
+    }
+
+    /**
+     * Insert a child node
+     * @param node The child node to insert
+     */
+    public void insertChild(XMLNode node) {
+        node.childNode = true;
+        childs.add(0,node);
+    }
 	/**
 	 * Delete a child node.
 	 * If the child node has child nodes itself these will also be deleted.
@@ -227,15 +133,15 @@ public class XMLNode {
 	public void delChild(XMLNode node) {
 		childs.remove(node);
 	}
-	
+
 	/**
 	 * Delete the first child node matching the name
 	 * If the child node has child nodes itself these will also be deleted.
 	 * @param name The name of the child node which should be deleted
-	 * @see #delChild(XMLNode)
+	 * @see #delChild(erland.util.XMLNode)
 	 */
 	public void delChild(String name) {
-		ListIterator it = childs.listIterator();
+		Iterator it = childs.iterator();
 		while(it.hasNext()) {
 			XMLNode node = (XMLNode)(it.next());
 			if(node.getName().equalsIgnoreCase(name)) {
@@ -246,224 +152,103 @@ public class XMLNode {
 	}
 
 	/**
-	 * Initiate the object with new XML data from a String
-	 * @param data The XML data string
-	 * @return <pre>true - XML string parsed successfully</pre>
-	 *         <pre>false - XML string parsing failed</pre>
-	 */
-	public boolean parse(String data)
-	{
-		return parse(data,null);
-	}
-	
-
-	/**
-	 * Initiate the object with new XML data from a String
-	 * @param data The XML data string
-	 * @param parent The parent XML node
-	 * @return <pre>true - XML string parsed successfully</pre>
-	 *         <pre>false - XML string parsing failed</pre>
-	 */
-	public boolean parse(String data, XMLNode parent)
-	{
-		Log.println(this,"parse:" + this.hashCode()+ ":"+ data,10);
-		int pos =0;
-		while(pos!=-1) {
-			int oldpos = pos;
-			pos = parseNextSibling(data,oldpos);
-			if(pos!=-1) {
-				XMLNode tmp;
-				tmp = new XMLNode(tmpName, null,tmpAttr,tmpProcInstr,parent,preprocessor);
-				if(parent!=null) {
-					parent.childs.add(tmp);
-					Log.println(this,"parse(store child):" + this.hashCode()+ ":name="+ tmpName);
-				}else {
-					this.name = tmpName;
-					if(preprocessor && tmpProcInstr!=null && tmpProcInstr.length()>0) {
-						this.procInstr = tmpProcInstr;
-					}else if(preprocessor) {
-						this.procInstr = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-					}
-					this.attributes = tmpAttr;
-					Log.println(this,"parse(store main):" + this.hashCode()+ ":name="+ tmpName);
-				}
-				
-				if(parent!=null) {
-					if(!tmp.parse(tmpValue,tmp)) {
-						if(parent!=null) {
-							parent.childs.remove(tmp);
-						}else {
-							this.name = null;
-						}
-					}
-				}else {
-					if(!this.parse(tmpValue,this)) {
-						this.name = null;
-					}
-				}
-			}else {
-				if(data.substring(oldpos).length()<=0) {
-					return true;
-				}
-				this.value = data.substring(oldpos);
-				Log.println(this,"parse(store value):" + this.hashCode()+ ":"+ this.value);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Initiate the object with new XML data from a String
-	 * @param value The XML data string
-	 * @param pos The position in the string where parsing should start
-	 * @return The position in the string where the next node starts, or -1 if
-	 *         the parsing failed. If the position is equal to the string length
-	 *         no more nodes exist
-	 */
-	protected int parseNextSibling(String value, int pos)
-	{
-		Log.println(this,"parseNextSibling: "+pos + ":"+ value,10);
-		//Log.println(this,"parseNextSibling2: "+value.substring(pos));
-		int startpos = pos;
-		tmpProcInstr = "";
-		tmpAttr="";
-		try {
-			boolean processingInstruction=false;
-			do {
-				//Log.println(this,"parseNext: "+ value.substring(pos));
-				pos=skipSpaces(value,pos);
-				if(value.charAt(pos)!='<') {
-                    Log.println(this,"parseNext: ERROR XML does not begin with <",10);
-					return -1;
-				}
-				startpos = pos;
-				//Log.println(this,"parseNext: " + value.substring(pos,pos+2));
-				if(value.substring(pos,pos+2).equals("<?")) {
-					processingInstruction=true;
-					String endtag = "?>";
-					int endpos = value.indexOf(endtag,pos);
-					if(endpos==-1) {
-                        Log.println(this,"parseNext: ERROR XML missing ?> after <?");
-						return -1;
-					}
-					tmpProcInstr += value.substring(pos,endpos+endtag.length());
-					Log.println(this,"parseNext: " + tmpProcInstr,10);
-					pos = endpos+endtag.length();
-				}else {
-					processingInstruction=false;
-				}
-			}while(processingInstruction);
-			Log.println(this,"parseNext: "+value.substring(pos),10);
-			while(value.charAt(pos)!=' ' && value.charAt(pos)!='>') {
-				pos++;
-			}
-			tmpName = value.substring(startpos+1,pos);
-			int attrStartPos = pos;
-			while(value.charAt(pos)!='>') {
-				pos++;
-			}
-			tmpAttr = value.substring(attrStartPos,pos);
-			
-			String endtag = "</"+tmpName+">";
-            String startTagSpace = "<"+tmpName+" ";
-            String startTagBracket = "<"+tmpName+">";
-            int nestedtags = value.indexOf(startTagBracket,pos);
-            if(nestedtags==-1) {
-                nestedtags = value.indexOf(startTagSpace,pos);
-            }
-            int endpos = value.indexOf(endtag,pos);
-            while(endpos!=-1 && nestedtags!=-1 && nestedtags<endpos) {
-                endpos = value.indexOf(endtag,endpos+1);
-
-                nestedtags= value.indexOf(startTagBracket,nestedtags+1);
-                if(nestedtags==-1) {
-                    nestedtags= value.indexOf(startTagSpace,nestedtags+1);
-                }
-            }
-
-
-			if(endpos==-1) {
-				name=null;
-				return -1;
-			}
-			tmpValue = value.substring(pos+1,endpos);
-			return endpos + endtag.length();
-		}catch (IndexOutOfBoundsException e) {
-			return -1;
-		} 
-	}
-	
-	/**
-	 * Calculate the position of the first real character after the specified position, skipping
-	 * space and tab characters.
-	 * @param data The text string
-	 * @param pos The start position in the string
-	 * @return The position of the next real character, 
-	 *         equal to string length if no more real character exist
-	 */
-	protected int skipSpaces(String data, int pos)
-	{
-		char ch;
-		try {
-			ch=data.charAt(pos);
-			while(ch==' ' || ch=='\t' || ch=='\n' || ch=='\r') {
-				pos++;
-				ch=data.charAt(pos);
-			}
-		}catch(IndexOutOfBoundsException e) {
-			return pos = data.length(); 
-		}
-		return pos;
-	}
-
-    /**
-	 * Get a string representation of the XML node and all its child nodes
-	 * @return A string representatino of the XML node and its child nodes
-	 */
-	public void appendToString(StringBuffer str)
-    {
-        //String str = "";//"[" + this.hashCode()+"]{";
-		if(procInstr!=null && procInstr.length()>0) {
-			str.append(procInstr);
-            str.append("\n\n");
-		}
-		if(name!=null && name.length()>0) {
-			str.append("<");
-            str.append(name);
-			if(attributes!=null && attributes.length()>0) {
-				str.append(attributes);
-			}
-			str.append(">");
-			if(childs!=null && childs.size()>0) {
-				str.append("\n");
-				ListIterator it = childs.listIterator();
-				while(it.hasNext()) {
-					XMLNode node =(XMLNode)(it.next());
-					node.appendToString(str);
-				}
-			}else if(value!=null && value.length()>0){
-				str.append(value);
-			}
-			str.append("</");
-            str.append(name);
-            str.append(">\n");
-		}else if(value!=null){
-			str.append(value);
-            str.append("\n");
-		}else {
-			str.append("ERROR!");
-		}
-		str.append("");//"}";
-    }
-	/**
 	 * Get a string representation of the XML node and all its child nodes
 	 * @return A string representatino of the XML node and its child nodes
 	 */
 	public String toString()
 	{
-        StringBuffer str = new StringBuffer(1000);
-        appendToString(str);
-        return str.toString();
+        return toString(false);
 	}
+
+    /**
+     * Get a string representation of the XML node and all its child nodes.
+     * You have option to select if each node should be separated with a linefeed
+     * character or not
+     * @param lineFeeds Indicates that each node should be printed on its own line
+     * @return A string representationi of the XML node and its child nodes
+     */
+    public String toString(boolean lineFeeds) {
+        StringBuffer str = new StringBuffer(1000);
+        toString(str,lineFeeds,0);
+        return str.toString();
+    }
+
+    /**
+     * Appends attributes to a string
+     * @param sb StringBuffer object to append attributes to
+     * @param attributes The Map with the attributes to append
+     */
+    private void attributesToString(StringBuffer sb,Map attributes) {
+        if(attributes!=null && attributes.size()>0) {
+            Set s = attributes.keySet();
+            Iterator it = s.iterator();
+            while(it.hasNext()) {
+                String attr = (String) it.next();
+                sb.append(" "+attr+"=\""+attributes.get(attr)+"\"");
+            }
+        }
+    }
+
+    /**
+     * Appends a string representation of the XML node and its child nodes to a StringBuffer
+     * @param sb The StringBuffer to append the XML node to
+     * @param lineFeeds Indicates that each node should be printed on its own line
+     * @param level The indentation level
+     */
+    private void toString(StringBuffer sb, boolean lineFeeds, int level) {
+        //Log.println(this,"XMLNode.toString() "+this.getName()+" "+getClass().getName()+"@"+Integer.toHexString(hashCode()));
+        if(!childNode) {
+            for(int i=0;lineFeeds&&i<level;i++) {
+                sb.append("  ");
+            }
+            sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            if(lineFeeds) sb.append("\n\n");
+        }
+        for(int i=0;lineFeeds&&i<level;i++) {
+            sb.append("  ");
+        }
+        if(value!=null&&value.length()>0) {
+            //Log.println(this,"XMLNode.toString() "+this.getName()+" "+getClass().getName()+"@"+Integer.toHexString(hashCode())+" value");
+            sb.append("<");
+            sb.append(getName());
+            attributesToString(sb,attributes);
+            sb.append(">");
+            sb.append(value);
+            sb.append("</");
+            sb.append(getName());
+            sb.append(">");
+            if(lineFeeds) {
+                sb.append("\n");
+            }
+        }else {
+            //Log.println(this,"XMLNode.toString() "+this.getName()+" "+getClass().getName()+"@"+Integer.toHexString(hashCode())+" childs");
+            sb.append("<");
+            sb.append(getName());
+            attributesToString(sb,attributes);
+            Iterator it = getChilds();
+            if(it.hasNext()) {
+                sb.append(">");
+                if(lineFeeds) {
+                    sb.append("\n");
+                }
+                while(it.hasNext()) {
+                    ((XMLNode)it.next()).toString(sb,lineFeeds,level + 2);
+                }
+                for(int i=0;lineFeeds&&i<level;i++) {
+                    sb.append("  ");
+                }
+                sb.append("</");
+                sb.append(getName());
+                sb.append(">");
+                if(lineFeeds) {
+                    sb.append("\n");
+                }
+            }else {
+                sb.append("/>");
+                if(lineFeeds) {
+                    sb.append("\n");
+                }
+            }
+        }
+    }
 }
