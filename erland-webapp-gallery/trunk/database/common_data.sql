@@ -18,11 +18,11 @@ INSERT INTO descriptiontags VALUES ('common-metadatafielddescription','Exif+Expo
 INSERT INTO descriptiontags VALUES ('common-metadatafielddescription','Exif+Focal+Length','Brännvidd');
 INSERT INTO descriptiontags VALUES ('common-metadatafielddescription','Exif+ISO+Speed+Ratings','ISO');
 INSERT INTO descriptiontags VALUES ('common-metadatafielddescription','Exif+Date/Time','Datum/Tid');
-INSERT INTO descriptiontags VALUES ('gallery-description','welcometext','Logga in för att uppdatera ditt bildarkiv eller klicka [boldlinksamewindow=http://erland.homeip.net/gallery/portal?do=home&user=erland,här] för att titta i mitt bildarkiv. Du kan också titta på någon annans bildarkiv genom att klicka på länkarna nedan.\r\nDu kan också registrera ditt eget bildarkiv [boldlinksamewindow=portal?do=registernewuseraccount,här]\r\n\r\n');
 
 --
 -- Dumping data for table 'resources'
 --
 
 INSERT INTO resources VALUES ('gallery','resources.thumbnail.cache','D%3A%5Cusers%5Cerland%5Cthumbnails');
+INSERT INTO resources VALUES ('gallery','resources.welcometext','Logga in för att uppdatera ditt bildarkiv eller klicka [boldlinksamewindow=http://erland.homeip.net/gallery/portal?do=home&user=erland,här] för att titta i mitt bildarkiv. Du kan också titta på någon annans bildarkiv genom att klicka på länkarna nedan.\r\nDu kan också registrera ditt eget bildarkiv [boldlinksamewindow=portal?do=registernewuseraccount,här]\r\n\r\n');
 
