@@ -28,7 +28,7 @@ import erland.webapp.common.ServletParameterHelper;
 
 public class CategoryFB extends BaseFB {
     private Boolean official;
-    private Boolean forcedOfficial;
+    private Boolean officialGuest;
     private Boolean officialAlways;
     private Boolean officialVisible;
     private Integer category;
@@ -67,20 +67,20 @@ public class CategoryFB extends BaseFB {
         this.officialAlways = ServletParameterHelper.asBoolean(officialAlwaysDisplay,Boolean.FALSE);
     }
 
-    public Boolean getForcedOfficial() {
-        return forcedOfficial;
+    public Boolean getOfficialGuest() {
+        return officialGuest;
     }
 
-    public void setForcedOfficial(Boolean forcedOfficial) {
-        this.forcedOfficial = forcedOfficial;
+    public void setOfficialGuest(Boolean officialGuest) {
+        this.officialGuest = officialGuest;
     }
 
-    public String getForcedOfficialDisplay() {
-        return ServletParameterHelper.asString(forcedOfficial,null);
+    public String getOfficialGuestDisplay() {
+        return ServletParameterHelper.asString(officialGuest,null);
     }
 
-    public void setForcedOfficialDisplay(String forcedOfficialDisplay) {
-        this.forcedOfficial = ServletParameterHelper.asBoolean(forcedOfficialDisplay,Boolean.FALSE);
+    public void setOfficialGuestDisplay(String officialGuestDisplay) {
+        this.officialGuest = ServletParameterHelper.asBoolean(officialGuestDisplay,Boolean.FALSE);
     }
 
     public Boolean getOfficialVisible() {
@@ -142,7 +142,7 @@ public class CategoryFB extends BaseFB {
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         official = Boolean.FALSE;
-        forcedOfficial = Boolean.FALSE;
+        officialGuest = Boolean.FALSE;
         officialAlways = Boolean.FALSE;
         officialVisible = Boolean.FALSE;
         category = null;
