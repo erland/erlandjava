@@ -48,7 +48,11 @@ public class NewGalleryAction extends BaseAction {
 
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GalleryFB fb = (GalleryFB) form;
-
+        fb.setCompression(null);
+        fb.setThumbnailCompression(null);
+        fb.setAntialias(Boolean.TRUE);
+        fb.setThumbnailAntialias(Boolean.TRUE);
+        
         Gallery[] galleries = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",request.getRemoteUser(),"allrealforuser");
         GalleryPB[] pbGalleries = new GalleryPB[galleries.length];
         for (int i = 0; i < galleries.length; i++) {
