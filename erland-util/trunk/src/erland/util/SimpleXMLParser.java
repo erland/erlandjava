@@ -138,9 +138,9 @@ public class SimpleXMLParser implements XMLParserInterface {
                     }
                 }
             }else if(str.charAt(pos)=='/') {
-                if(bCollectElement && startPos==pos) {
+                if(bCollectElement && !bCollectAttribute && startPos==pos) {
                     bEndElementFound = true;
-                }else if(bCollectElement) {
+                }else if(bCollectElement && !bCollectAttribute) {
                     endPos = pos;
                     bSimpleEndElementFound = true;
                 }
@@ -162,6 +162,7 @@ public class SimpleXMLParser implements XMLParserInterface {
                     attributes.put(attributeName,str.substring(startPos,pos));
                     attributeName=null;
                     bCollectAttributeValueString = false;
+                    bCollectAttribute = false;
                 }else if(bCollectAttribute && attributeName!=null && !bCollectAttributeValueString && startPos==pos) {
                     bCollectAttributeValueString = true;
                     startPos = pos+1;
