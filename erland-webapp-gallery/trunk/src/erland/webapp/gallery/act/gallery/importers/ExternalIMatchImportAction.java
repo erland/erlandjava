@@ -88,7 +88,7 @@ public class ExternalIMatchImportAction extends BaseAction {
             saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.import.unauthorized-access"}));
             return;
         }
-        galleryId = getGalleryByTitle(fb.getUser(),fb.getGallery());
+        galleryId = GalleryHelper.getGalleryId(getEnvironment(),fb.getUser(),fb.getGallery());
         if(galleryId==null) {
             saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.import.gallery-dont-exist"}));
             return;
@@ -122,14 +122,4 @@ public class ExternalIMatchImportAction extends BaseAction {
         return false;
     }
 
-    private Integer getGalleryByTitle(String username, String title) {
-        QueryFilter filter = new QueryFilter("allforuserandtitle");
-        filter.setAttribute("username",username);
-        filter.setAttribute("title",title);
-        EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-gallery").search(filter);
-        if(entities.length==1) {
-            return ((Gallery)entities[0]).getId();
-        }
-        return null;
-    }
 }
