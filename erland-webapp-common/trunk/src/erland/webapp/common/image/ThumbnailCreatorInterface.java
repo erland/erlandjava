@@ -3,6 +3,7 @@ package erland.webapp.common.image;
 import java.io.IOException;
 import java.net.URL;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageFilter;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -24,5 +25,5 @@ import java.awt.image.BufferedImage;
  */
 
 public interface ThumbnailCreatorInterface {
-    public BufferedImage create(URL url, int requestedWidth, ImageFilterInterface[] filters) throws IOException;
+    public BufferedImage create(URL url, int requestedWidth, ImageFilter[] filters) throws IOException;
 }

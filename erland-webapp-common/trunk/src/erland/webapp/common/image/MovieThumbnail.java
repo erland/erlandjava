@@ -34,6 +34,7 @@ import javax.media.protocol.*;
 import javax.media.util.BufferToImage;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageFilter;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -422,7 +423,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
         this.noOfRows = noOfRows;
     }
 
-    public BufferedImage create(URL movie, int width, ImageFilterInterface[] filters) {
+    public BufferedImage create(URL movie, int width, ImageFilter[] filters) {
         synchronized (sync) {
             MediaLocator ml;
             ml = new MediaLocator(movie);

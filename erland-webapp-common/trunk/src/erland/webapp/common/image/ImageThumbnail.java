@@ -22,21 +22,30 @@ package erland.webapp.common.image;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageFilter;
+import java.awt.image.ImageProducer;
+import java.awt.image.FilteredImageSource;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URL;
 
 public class ImageThumbnail implements ThumbnailCreatorInterface {
 
-    public BufferedImage create(URL url, int requestedWidth, ImageFilterInterface[] filters) throws IOException {
+    public BufferedImage create(URL url, int requestedWidth, ImageFilter[] filters) throws IOException {
         BufferedImage image = ImageIO.read(new BufferedInputStream(url.openStream()));
         BufferedImage thumbnail = null;
         if (image != null) {
-            if(filters!=null) {
+            if(filters!=null && filters.length>0) {
+                ImageProducer prod = thumbnail.getSource();
                 for (int i = 0; i < filters.length; i++) {
-                    ImageFilterInterface filter = filters[i];
-                    image = filter.filter(image);
+                    ImageFilter postFilter = filters[i];
+                    prod = new FilteredImageSource(prod,postFilter);
                 }
+                Image img = Toolkit.getDefaultToolkit().createImage(prod);
+                image = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
+                Graphics g = image.createGraphics();
+                g.drawImage(image, 0, 0, null);
+                g.dispose();
             }
             int width = requestedWidth;
             int height = width * image.getHeight() / image.getWidth();

@@ -29,7 +29,7 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
+import java.awt.image.*;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
@@ -73,7 +73,7 @@ public class ImageWriteHelper {
         return writeThumbnail(environment,width,useCache,compression,username,imageFile,copyrightText,thumbnailCreator,null,null,output);
     }
 
-    public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, ImageFilterInterface[] preFilters, ImageFilterInterface postFilters[], OutputStream output) {
+    public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, ImageFilter[] preFilters, ImageFilter postFilters[], OutputStream output) {
         Log.println(getLogInstance(), "Loading thumbnail image: " + imageFile);
         String cacheDir = environment.getConfigurableResources().getParameter("thumbnail.cache");
         int requestedWidth = width!=null?width.intValue():THUMBNAIL_WIDTH;
@@ -112,11 +112,13 @@ public class ImageWriteHelper {
                     return true;
                 } else {
                     thumbnail = thumbnailCreator.create(url, requestedWidth, preFilters);
-                    if(postFilters!=null) {
+                    if(postFilters!=null && postFilters.length>0) {
+                        ImageProducer prod = thumbnail.getSource();
                         for (int i = 0; i < postFilters.length; i++) {
-                            ImageFilterInterface postFilter = postFilters[i];
-                            thumbnail = postFilter.filter(thumbnail);
+                            ImageFilter postFilter = postFilters[i];
+                            prod = new FilteredImageSource(prod,postFilter);
                         }
+                        Toolkit.getDefaultToolkit().createImage(prod);
                     }
                     Graphics2D g2= thumbnail.createGraphics();
                     int finalWidth = thumbnail.getWidth();
