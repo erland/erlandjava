@@ -1,4 +1,22 @@
 package erland.webapp.common;
+/*
+ * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *
+ */
 
 import erland.util.*;
 
@@ -13,6 +31,7 @@ import java.util.*;
 
 public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterface {
     private ParameterValueStorageExInterface resources=null;
+    private ParameterValueStorageExInterface configurableResources=null;
     private EntityFactoryInterface entityFactory;
     private EntityStorageFactoryInterface entityStorageFactory;
     private CommandFactoryInterface commandFactory;
@@ -86,6 +105,18 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
             resources = new ParameterStorageChild("resources.",new ParameterStorageTree(getStorage()));
         }
         return resources;
+    }
+    protected String getConfigurableResourcesEntityName() {
+        return "resource";
+    }
+    protected boolean getConfigurableResourcesCache() {
+        return true;
+    }
+    public ParameterValueStorageExInterface getConfigurableResources() {
+        if(configurableResources==null) {
+            configurableResources = new ParameterStorageChild("resources.",new ResourceStorage(getEnvironment(),getConfigurableResourcesEntityName(),getConfigurableResourcesCache()));
+        }
+        return configurableResources;
     }
 
     public EntityFactoryInterface getEntityFactory() {
