@@ -4,6 +4,7 @@ import erland.webapp.common.html.HTMLEncoder;
 
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.BodyContent;
+import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +36,7 @@ import org.apache.struts.util.RequestUtils;
  * 
  */
 
-public class BeanLinkTag extends BodyTagSupport {
+public class BeanLinkTag extends TagSupport {
     private String style;
     private String styleSelected;
     private String name;
@@ -208,12 +209,15 @@ public class BeanLinkTag extends BodyTagSupport {
                 }
             }
         }
+        String style = this.style;
         if(styleSelected!=null && (selectedValue==selected || (selectedValue!=null && selectedValue.equalsIgnoreCase(String.valueOf(selected))))) {
             style = styleSelected;
         }
+        String onClickMessage = this.onClickMessage;
         if(onClickMessage==null && onClickMessageKey!=null) {
             onClickMessage = RequestUtils.message(pageContext,null,null,onClickMessageKey);
         }
+        String title = this.title;
         if(title==null && titleKey!=null) {
             title = RequestUtils.message(pageContext,null,null,titleKey);
         }
@@ -248,7 +252,7 @@ public class BeanLinkTag extends BodyTagSupport {
         if(link!=null) {
             try {
                 out.write("<a href=\""+addContextPath(link)+"\" "+(style!=null?"class=\""+style+"\" ":"")+" "+(target!=null?" target=\""+target+"\"":"")+(onClickMessage!=null?" onClick=\"return confirm('"+onClickMessage+"')\"":"")+(title!=null?" title=\""+title+"\" ":"")+">");
-                return EVAL_BODY_BUFFERED;
+                return EVAL_BODY_INCLUDE;
             } catch (IOException e) {
                 link = null;
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -260,7 +264,6 @@ public class BeanLinkTag extends BodyTagSupport {
     public int doEndTag() throws JspException {
         try {
             if(link!=null) {
-                pageContext.getOut().print(bodyContent.getString());
                 pageContext.getOut().write("</a>");
             }
         } catch (IOException e) {
@@ -291,7 +294,7 @@ public class BeanLinkTag extends BodyTagSupport {
         if(link==null) {
             return link;
         }
-        if(Pattern.matches("[a-z]*:",link)) {
+        if(Pattern.matches("[a-z]*:.*",link)) {
             return link;
         }else {
             return ((HttpServletRequest) pageContext.getRequest()).getContextPath()+link;
