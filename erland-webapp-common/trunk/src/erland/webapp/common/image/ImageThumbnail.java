@@ -28,10 +28,16 @@ import java.net.URL;
 
 public class ImageThumbnail implements ThumbnailCreatorInterface {
 
-    public BufferedImage create(URL url, int requestedWidth) throws IOException {
+    public BufferedImage create(URL url, int requestedWidth, ImageFilterInterface[] filters) throws IOException {
         BufferedImage image = ImageIO.read(new BufferedInputStream(url.openStream()));
         BufferedImage thumbnail = null;
         if (image != null) {
+            if(filters!=null) {
+                for (int i = 0; i < filters.length; i++) {
+                    ImageFilterInterface filter = filters[i];
+                    image = filter.filter(image);
+                }
+            }
             int width = requestedWidth;
             int height = width * image.getHeight() / image.getWidth();
             if (((double) image.getWidth() / image.getHeight()) < ((double) 1600 / 1200)) {

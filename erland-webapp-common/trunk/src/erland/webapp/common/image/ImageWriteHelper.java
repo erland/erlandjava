@@ -70,6 +70,10 @@ public class ImageWriteHelper {
 
 
     public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, OutputStream output) {
+        return writeThumbnail(environment,width,useCache,compression,username,imageFile,copyrightText,thumbnailCreator,null,null,output);
+    }
+
+    public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, ImageFilterInterface[] preFilters, ImageFilterInterface postFilters[], OutputStream output) {
         Log.println(getLogInstance(), "Loading thumbnail image: " + imageFile);
         String cacheDir = environment.getConfigurableResources().getParameter("thumbnail.cache");
         int requestedWidth = width!=null?width.intValue():THUMBNAIL_WIDTH;
@@ -107,7 +111,13 @@ public class ImageWriteHelper {
                     inputCache.close();
                     return true;
                 } else {
-                    thumbnail = thumbnailCreator.create(url, requestedWidth);
+                    thumbnail = thumbnailCreator.create(url, requestedWidth, preFilters);
+                    if(postFilters!=null) {
+                        for (int i = 0; i < postFilters.length; i++) {
+                            ImageFilterInterface postFilter = postFilters[i];
+                            thumbnail = postFilter.filter(thumbnail);
+                        }
+                    }
                     Graphics2D g2= thumbnail.createGraphics();
                     int finalWidth = thumbnail.getWidth();
                     int finalHeight = thumbnail.getHeight();

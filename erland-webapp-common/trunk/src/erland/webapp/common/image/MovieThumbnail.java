@@ -422,7 +422,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
         this.noOfRows = noOfRows;
     }
 
-    public BufferedImage create(URL movie, int width) {
+    public BufferedImage create(URL movie, int width, ImageFilterInterface[] filters) {
         synchronized (sync) {
             MediaLocator ml;
             ml = new MediaLocator(movie);
@@ -616,7 +616,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
                 url = new File(args[0]).toURL();
             }
             MovieThumbnail me = new MovieThumbnail(4, 2);
-            BufferedImage image = me.create(url, 600);
+            BufferedImage image = me.create(url, 600,null);
             if (image != null) {
                 ImageIO.write(image, "JPEG", new File("C:\\temp\\test\\test.jpg"));
             } else {
