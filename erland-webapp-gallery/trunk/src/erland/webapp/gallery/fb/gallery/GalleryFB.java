@@ -69,6 +69,8 @@ public class GalleryFB extends BaseFB {
     private Boolean useExifThumbnails;
     private Boolean scaleExifThumbnails;
     private Boolean useCacheLargeImages;
+    private String nationalNamePattern;
+    private String englishNamePattern;
 
     public Integer getId() {
         return id;
@@ -602,6 +604,22 @@ public class GalleryFB extends BaseFB {
         this.useCacheLargeImages = StringUtil.asBoolean(useCacheLargeImagesDisplay,Boolean.FALSE);
     }
 
+    public String getNationalNamePattern() {
+        return nationalNamePattern;
+    }
+
+    public void setNationalNamePattern(String nationalNamePattern) {
+        this.nationalNamePattern = nationalNamePattern;
+    }
+
+    public String getEnglishNamePattern() {
+        return englishNamePattern;
+    }
+
+    public void setEnglishNamePattern(String englishNamePattern) {
+        this.englishNamePattern = englishNamePattern;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         id = null;
@@ -643,5 +661,7 @@ public class GalleryFB extends BaseFB {
         useExifThumbnails = Boolean.FALSE;
         scaleExifThumbnails = Boolean.FALSE;
         useCacheLargeImages = Boolean.FALSE;
+        nationalNamePattern = null;
+        englishNamePattern = null;
     }
 }

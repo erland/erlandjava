@@ -63,6 +63,8 @@ public class Gallery extends BaseEntity {
     private Boolean useExifThumbnails;
     private Boolean scaleExifThumbnails;
     private Boolean useCacheLargeImages;
+    private String nationalNamePattern;
+    private String englishNamePattern;
 
     public Integer getId() {
         return id;
@@ -374,5 +376,21 @@ public class Gallery extends BaseEntity {
 
     public void setUseCacheLargeImages(Boolean useCacheLargeImages) {
         this.useCacheLargeImages = useCacheLargeImages;
+    }
+
+    public String getNationalNamePattern() {
+        return nationalNamePattern;
+    }
+
+    public void setNationalNamePattern(String nationalNamePattern) {
+        this.nationalNamePattern = nationalNamePattern;
+    }
+
+    public String getEnglishNamePattern() {
+        return englishNamePattern;
+    }
+
+    public void setEnglishNamePattern(String englishNamePattern) {
+        this.englishNamePattern = englishNamePattern;
     }
 }

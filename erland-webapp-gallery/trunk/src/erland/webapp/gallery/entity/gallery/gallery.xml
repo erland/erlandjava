@@ -166,6 +166,14 @@
                 <column>usecachelargeimages</column>
                 <type>Boolean</type>
             </field>
+            <field id="nationalNamePattern">
+                <column>nationalnamepattern</column>
+                <type>String</type>
+            </field>
+            <field id="englishNamePattern">
+                <column>englishnamepattern</column>
+                <type>String</type>
+            </field>
         </fields>
         <queries>
             <query id="all">
