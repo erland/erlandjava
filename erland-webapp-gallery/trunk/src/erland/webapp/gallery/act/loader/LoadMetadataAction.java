@@ -183,6 +183,17 @@ public class LoadMetadataAction extends BaseAction {
         }else {
             request.getSession().setAttribute("stylesheetPB",pbSkin.getStylesheet());
         }
+        String pbTitle = (String) request.getSession().getAttribute("titlePB");
+        if(StringUtil.asNull(pbTitle)==null) {
+            UserAccount templateAccount = (UserAccount) getEnvironment().getEntityFactory().create("gallery-useraccount");
+            templateAccount.setUsername(username);
+            UserAccount account = (UserAccount) getEnvironment().getEntityStorageFactory().getStorage("gallery-useraccount").load(templateAccount);
+            String title = account.getTitle();
+            if(useEnglish && StringUtil.asNull(account.getTitleEnglish())!=null) {
+                title = account.getTitleEnglish();
+            }
+            request.getSession().setAttribute("titlePB",title);
+        }
     }
 
     protected String getImageFileName(Picture picture) {
