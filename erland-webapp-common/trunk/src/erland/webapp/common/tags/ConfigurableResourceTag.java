@@ -46,7 +46,14 @@ public class ConfigurableResourceTag extends TagSupport {
             // getJspWriter to output content
             JspWriter out = pageContext.getOut();
             if (out!= null) {
-                String value = WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter(name);
+                String language = pageContext.getRequest().getLocale().getLanguage();
+                String value = null;
+                if(language!=null) {
+                    value = WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter(name+"_"+language);
+                }
+                if(value==null) {
+                    value = WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter(name);
+                }
                 if(value!=null) {
                     out.print(value);
                 }
