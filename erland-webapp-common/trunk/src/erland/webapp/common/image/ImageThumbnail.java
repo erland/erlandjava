@@ -30,39 +30,43 @@ import java.io.IOException;
 import java.net.URL;
 
 public class ImageThumbnail implements ThumbnailCreatorInterface {
+    private static Object sync = new Object();
 
     public BufferedImage create(URL url, int requestedWidth, ImageFilterContainerInterface filters) throws IOException {
-        BufferedImage image = ImageIO.read(new BufferedInputStream(url.openStream()));
         BufferedImage thumbnail = null;
-        if (image != null) {
-            ImageFilter[] filterList = filters.getFilters();
-            if(filterList!=null && filterList.length>0) {
-                ImageProducer prod = thumbnail.getSource();
-                for (int i = 0; i < filterList.length; i++) {
-                    ImageFilter postFilter = filterList[i];
-                    prod = new FilteredImageSource(prod,postFilter);
+        synchronized (sync) {
+            BufferedImage image = ImageIO.read(new BufferedInputStream(url.openStream()));
+            if (image != null) {
+                ImageFilter[] filterList = filters!=null?filters.getFilters():null;
+                Toolkit toolkit = Toolkit.getDefaultToolkit();
+                if(filterList!=null && filterList.length>0) {
+                    ImageProducer prod = image.getSource();
+                    for (int i = 0; i < filterList.length; i++) {
+                        ImageFilter postFilter = filterList[i];
+                        prod = new FilteredImageSource(prod,postFilter);
+                    }
+                    Image img = toolkit.createImage(prod);
+                    image = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
+                    Graphics g = image.createGraphics();
+                    g.drawImage(img, 0, 0, null);
+                    g.dispose();
                 }
-                Image img = Toolkit.getDefaultToolkit().createImage(prod);
-                image = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
-                Graphics g = image.createGraphics();
-                g.drawImage(image, 0, 0, null);
-                g.dispose();
+                int width = requestedWidth;
+                int height = width * image.getHeight() / image.getWidth();
+                if (((double) image.getWidth() / image.getHeight()) < ((double) 1600 / 1200)) {
+                    height = width * 1200 / 1600;
+                    width = height * image.getWidth() / image.getHeight();
+                }
+                if (width > image.getWidth() || height > image.getHeight()) {
+                    width = image.getWidth();
+                    height = image.getHeight();
+                }
+                thumbnail = new BufferedImage(width, height, image.getType());
+                Graphics2D g2 = thumbnail.createGraphics();
+                g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+                g2.drawImage(image, 0, 0, width, height, 0, 0, image.getWidth(), image.getHeight(), null);
+                g2.dispose();
             }
-            int width = requestedWidth;
-            int height = width * image.getHeight() / image.getWidth();
-            if (((double) image.getWidth() / image.getHeight()) < ((double) 1600 / 1200)) {
-                height = width * 1200 / 1600;
-                width = height * image.getWidth() / image.getHeight();
-            }
-            if (width > image.getWidth() || height > image.getHeight()) {
-                width = image.getWidth();
-                height = image.getHeight();
-            }
-            thumbnail = new BufferedImage(width, height, image.getType());
-            Graphics2D g2 = thumbnail.createGraphics();
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-            g2.drawImage(image, 0, 0, width, height, 0, 0, image.getWidth(), image.getHeight(), null);
-            g2.dispose();
         }
         return thumbnail;
     }
