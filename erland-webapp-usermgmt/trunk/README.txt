@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 2. LIBRARIES
 ============
+A number of different libraries from http://jakarta.apache.org is also used.
 
 3. PREREQUISITES
 ================
@@ -26,11 +27,39 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 4. FILES
 ========
-This archive should contain the following files:
-- readme.txt (this file)
-- *.jar (The application code)
+This binary archive should contain the following files:
+- README.txt (this file)
+- LICENSE.txt (the software license)
+- *.jar (The library classes)
+- docs/* (The javadoc documentation for the library classes)
 
-5. RUN
+This source archive should contain the following files:
+- README.txt (this file)
+- LICENSE.txt (the software license)
+- src/* (The library source code)
+- build.xml (A build file for ant)
+- maven.xml (A build file for maven)
+- project.properties (A configuration file for maven)
+- project.xml (A configuration file for maven)
+
+5. THIRD PARTY LIBRARIES
+========================
+No third party libraries are needed besides those delivered with the application
+
+6. RUN
 =================
 This is not an application, it is just a library that can be used
 from other applications.
+
+7. BUILDING
+============
+This chapter is only interesting if you for some reason wants to recompile the web application from
+the source archive. There is an ant build file delivered witht he application but the recommended and
+tested way to build it is by using maven(http://maven.apache.org).
+
+- Install maven
+- Build with:
+  To just generate the war archive:
+  maven all:build
+  To generate a new distribution:
+  maven dist
