@@ -63,6 +63,8 @@ public class GalleryFB extends BaseFB {
     private String thumbnailRow2;
     private String thumbnailRow3;
     private String copyrightText;
+    private Boolean useExifThumbnails;
+    private Boolean scaleExifThumbnails;
 
     public Integer getId() {
         return id;
@@ -542,6 +544,38 @@ public class GalleryFB extends BaseFB {
         this.copyrightText = copyrightText;
     }
 
+    public Boolean getUseExifThumbnails() {
+        return useExifThumbnails;
+    }
+
+    public void setUseExifThumbnails(Boolean useExifThumbnails) {
+        this.useExifThumbnails = useExifThumbnails;
+    }
+
+    public Boolean getScaleExifThumbnails() {
+        return scaleExifThumbnails;
+    }
+
+    public void setScaleExifThumbnails(Boolean scaleExifThumbnails) {
+        this.scaleExifThumbnails = scaleExifThumbnails;
+    }
+
+    public String getUseExifThumbnailsDisplay() {
+        return ServletParameterHelper.asString(useExifThumbnails,null);
+    }
+
+    public void setUseExifThumbnailsDisplay(String useExifThumbnailsDisplay) {
+        this.useExifThumbnails = ServletParameterHelper.asBoolean(useExifThumbnailsDisplay,Boolean.FALSE);
+    }
+
+    public String getScaleExifThumbnailsDisplay() {
+        return ServletParameterHelper.asString(scaleExifThumbnails,null);
+    }
+
+    public void setScaleExifThumbnailsDisplay(String scaleExifThumbnailsDisplay) {
+        this.scaleExifThumbnails = ServletParameterHelper.asBoolean(scaleExifThumbnailsDisplay,Boolean.FALSE);
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         id = null;
@@ -580,5 +614,7 @@ public class GalleryFB extends BaseFB {
         thumbnailRow2 = null;
         thumbnailRow3 = null;
         copyrightText = null;
+        useExifThumbnails = Boolean.FALSE;
+        scaleExifThumbnails = Boolean.FALSE;
     }
 }

@@ -154,6 +154,14 @@
                 <column>copyright</column>
                 <type>String</type>
             </field>
+            <field id="scaleExifThumbnails">
+                <column>scaleexifthumbnails</column>
+                <type>Boolean</type>
+            </field>
+            <field id="useExifThumbnails">
+                <column>useexifthumbnails</column>
+                <type>Boolean</type>
+            </field>
         </fields>
         <queries>
             <query id="allforuser">

@@ -60,6 +60,8 @@ public class Gallery extends BaseEntity {
     private String thumbnailRow2;
     private String thumbnailRow3;
     private String copyrightText;
+    private Boolean useExifThumbnails;
+    private Boolean scaleExifThumbnails;
 
     public Integer getId() {
         return id;
@@ -347,5 +349,21 @@ public class Gallery extends BaseEntity {
 
     public void setCopyrightText(String copyrightText) {
         this.copyrightText = copyrightText;
+    }
+
+    public Boolean getUseExifThumbnails() {
+        return useExifThumbnails;
+    }
+
+    public void setUseExifThumbnails(Boolean useExifThumbnails) {
+        this.useExifThumbnails = useExifThumbnails;
+    }
+
+    public Boolean getScaleExifThumbnails() {
+        return scaleExifThumbnails;
+    }
+
+    public void setScaleExifThumbnails(Boolean scaleExifThumbnails) {
+        this.scaleExifThumbnails = scaleExifThumbnails;
     }
 }
