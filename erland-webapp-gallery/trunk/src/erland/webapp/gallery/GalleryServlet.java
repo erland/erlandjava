@@ -33,26 +33,6 @@ public class GalleryServlet extends UserMgmtServlet {
         return "gallery";
     }
     public void initEnd() {
-        Log.setLogConfig(new ParameterStorageString(new StringStorage(
-                "<log>"+
-                "<timestamp>true</timestamp>"+
-                "<timestampformat>HH:mm:ss.SSS</timestampformat>"+
-                "<classname>true</classname>"+
-                "<logitem1>erland.webapp.usermgmt.UserMgmtServletDisabled</logitem1>"+
-                "<logitem2>erland.webapp.usermgmt.LoginCommand</logitem2>"+
-                "<logitem3>erland.webapp.usermgmt.UserDisabled</logitem3>"+
-                "<logitem4>erland.webapp.gallery.GalleryServlet</logitem4>"+
-                "<logitem5>erland.webapp.usermgmt.UserMgmtServletDisabled</logitem5>"+
-                "<logitem6>erland.webapp.common.GenericEntityStorageDisabled</logitem6>"+
-                "<logitem7>erland.webapp.gallery.HTMLBasicStringReplaceDisabled</logitem7>"+
-                "<logitem8>erland.webapp.gallery.HTMLLinkStringReplaceDisabled</logitem8>"+
-                "<logitem9>erland.webapp.gallery.gallery.picture.SearchPicturesCommandDisabled</logitem9>"+
-                "<logitem10>erland.webapp.common.image.ImageWriteHelperDisabled</logitem10>"+
-                "<logitem11>erland.webapp.gallery.loader.LoadThumbnailCommandDisabled</logitem11>"+
-                "<logitem12>erland.webapp.gallery.loader.LoadMetadataCommandDisabled</logitem12>"+
-                "<logitem13>erland.webapp.common.DescriptionTagHelper</logitem13>"+
-                "<logitem14>erland.webapp.common.image.JPEGMetadataHandlerDisabled</logitem14>"+
-                "</log>"),null,"log"));
         HTMLEncoder.addReplaceRoutine(new HTMLBasicStringReplace());
         HTMLEncoder.addReplaceRoutine(new HTMLLinkStringReplace());
         DescriptionTagHelper.getInstance().init(getEnvironment());
