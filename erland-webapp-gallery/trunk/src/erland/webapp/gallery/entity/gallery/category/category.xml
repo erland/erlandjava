@@ -23,6 +23,10 @@
                 <column>name</column>
                 <type>String</type>
             </field>
+            <field id="nameEnglish">
+                <column>name_en</column>
+                <type>String</type>
+            </field>
             <field id="official">
                 <column>official</column>
                 <type>Boolean</type>

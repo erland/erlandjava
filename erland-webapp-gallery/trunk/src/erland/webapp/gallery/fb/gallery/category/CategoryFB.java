@@ -34,6 +34,7 @@ public class CategoryFB extends BaseFB {
     private Integer category;
     private Integer gallery;
     private String name;
+    private String nameEnglish;
 
     public Boolean getOfficial() {
         return official;
@@ -139,6 +140,14 @@ public class CategoryFB extends BaseFB {
         this.name = name;
     }
 
+    public String getNameEnglish() {
+        return nameEnglish;
+    }
+
+    public void setNameEnglish(String nameEnglish) {
+        this.nameEnglish = nameEnglish;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         official = Boolean.FALSE;
@@ -148,5 +157,6 @@ public class CategoryFB extends BaseFB {
         category = null;
         gallery = null;
         name = null;
+        nameEnglish = null;
     }
 }

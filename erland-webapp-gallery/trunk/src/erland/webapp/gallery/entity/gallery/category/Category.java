@@ -26,6 +26,7 @@ public class Category extends BaseEntity {
     private Integer category;
     private Integer parentCategory;
     private String name;
+    private String nameEnglish;
     private Boolean official;
     private Boolean officialVisible;
     private Boolean officialAlways;
@@ -61,6 +62,14 @@ public class Category extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getNameEnglish() {
+        return nameEnglish;
+    }
+
+    public void setNameEnglish(String nameEnglish) {
+        this.nameEnglish = nameEnglish;
     }
 
     public Boolean getOfficial() {
