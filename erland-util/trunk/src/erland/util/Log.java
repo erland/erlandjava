@@ -39,6 +39,8 @@ public abstract class Log
     private static boolean bTimestamp = false;
     /** Indicates that classnames should be logged */
     private static boolean bClassname = false;
+    /** Indicates that row numbers should be logged */
+    private static boolean bRowNumber = false;
     /** Calendar object used if timestamps should be shown */
     private static Calendar cal = Calendar.getInstance();
     /** Date format to use when logging timestamps */
@@ -142,6 +144,8 @@ public abstract class Log
     public static void setLogConfig(final ParameterValueStorageInterface config) {
         if(configTable==null) {
             configTable = new Hashtable();
+        }else {
+            configTable.clear();
         }
 
         int i=1;
@@ -152,6 +156,10 @@ public abstract class Log
         String classname = config.getParameter("classname");
         if(classname!=null && classname.equalsIgnoreCase("true")) {
             bClassname = true;
+        }
+        String rownumber = config.getParameter("rownumber");
+        if(rownumber!=null && rownumber.equalsIgnoreCase("true")) {
+            bRowNumber = true;
         }
         String timestampFormat = config.getParameter("timestampformat");
         if(timestampFormat!=null && timestampFormat.length()>0) {
@@ -207,6 +215,21 @@ public abstract class Log
             }
             if(bClassname) {
                 System.out.print(obj.getClass().getName()+" ");
+            }
+            if(bRowNumber) {
+                StackTraceElement[] stack = new Throwable().getStackTrace();
+                if(stack.length>0) {
+                    int pos = -1;
+                    for(int i=0;i<stack.length;i++) {
+                        if(!stack[i].getClassName().equals(Log.class.getName())) {
+                            pos = i;
+                            break;
+                        }
+                    }
+                    if(pos>=0) {
+                        System.out.print("("+stack[pos].getClassName()+":"+stack[pos].getLineNumber()+") ");
+                    }
+                }
             }
             System.out.println(logString);
         }
