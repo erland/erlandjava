@@ -5,21 +5,22 @@ import java.util.*;
 
 /**
  * Loads images using an Applet object for the loading mechanism
+ * @author Erland Isaksson
  */
 public class ImageHandlerForApplet
 	implements ImageHandlerInterface
 {
 	/** Applet object that should be used for the image loading */
-	protected Applet applet;
+	private Applet applet;
 	/** Directory where all images are stored */
-	protected String imageDir;
+	private String imageDir;
 	/** Vector with all loaded images, see {@link ImageData} */
-	protected LinkedList images;
+	private LinkedList images;
 
 	/**
 	 * Contains the name of the image and the Image object
 	 */
-	class ImageData {
+	private class ImageData {
 		/** name of the image */
 		public String name;
 		/** Image object for the loaded image */
@@ -65,9 +66,10 @@ public class ImageHandlerForApplet
 		
 		if(image == null) {
 			String file = imageDir + "/" + imagename;
-			image = applet.getImage(applet.getDocumentBase(),file);
+			image = applet.getImage(applet.getCodeBase(),file);
 			images.add(new ImageData(imagename,image));
 			MediaTracker mt = new MediaTracker(applet);
+            System.out.println("getImage "+file);
 			mt.addImage(image,1);
 			try {
 				mt.waitForAll();
