@@ -434,8 +434,10 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
             try {
                 ds = Manager.createDataSource(ml);
                 long noOfFrames = getNumberOfFrames(ds);
-                ds = Manager.createDataSource(ml);
-                return createThumbnail(ds, (int) (noOfFrames / (noOfColumns * noOfRows)), noOfColumns, noOfRows, width, height);
+                if(noOfFrames>0) {
+                    ds = Manager.createDataSource(ml);
+                    return createThumbnail(ds, (int) (noOfFrames / (noOfColumns * noOfRows)), noOfColumns, noOfRows, width, height);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
