@@ -1,0 +1,30 @@
+<entity id="user">
+    <class>erland.webapp.usermgmt.User</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/users</datasource>
+        <table>users</table>
+        <fields>
+            <field id="username">
+                <column>username</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="firstName">
+                <column>firstname</column>
+                <type>String</type>
+            </field>
+            <field id="lastName">
+                <column>lastname</column>
+                <type>String</type>
+            </field>
+            <field id="password">
+                <column>password</column>
+                <type>String</type>
+            </field>
+        </fields>
+    </data>
+</entity>
