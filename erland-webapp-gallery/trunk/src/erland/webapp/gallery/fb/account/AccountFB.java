@@ -35,6 +35,8 @@ public class AccountFB extends BaseFB {
     private String welcomeText;
     private String welcomeTextEnglish;
     private String copyrightText;
+    private String title;
+    private String titleEnglish;
     private String description;
     private String descriptionEnglish;
     private String logo;
@@ -179,6 +181,22 @@ public class AccountFB extends BaseFB {
         this.descriptionEnglish = descriptionEnglish;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitleEnglish() {
+        return titleEnglish;
+    }
+
+    public void setTitleEnglish(String titleEnglish) {
+        this.titleEnglish = titleEnglish;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         username = null;
@@ -191,6 +209,8 @@ public class AccountFB extends BaseFB {
         copyrightText = null;
         description = null;
         descriptionEnglish = null;
+        title = null;
+        titleEnglish = null;
         logo = null;
         official = null;
         defaultGallery = null;
