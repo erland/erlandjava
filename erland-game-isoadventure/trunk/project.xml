@@ -31,6 +31,7 @@
     An adventure game with a isometric view
   </shortDescription>
   <url>http://erland.homeip.net/games/applications</url>
+  <siteDirectory>\\xp2500\erland/public_html/java/erland-game-isoadventure</siteDirectory>
   <!-- any mailing lists for the project -->
   <mailingLists/>
   
