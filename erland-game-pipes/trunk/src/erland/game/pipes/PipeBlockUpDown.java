@@ -9,7 +9,13 @@ import erland.util.*;
  */
 class PipeBlockUpDown extends PipeBlock
 {
+	/** Image handler object */
 	ImageHandlerInterface images;
+	
+	/**
+	 * Creates a new pipe block
+	 * @param images Image handler object
+	 */
 	public PipeBlockUpDown(ImageHandlerInterface images) 
 	{
 		this.images = images;

@@ -4,21 +4,36 @@ import erland.util.*;
 import erland.game.*;
 
 /**
- * Implements a pipe part with openings left and down
+ * Implements a pipe part with two separate pipes one from left to right
+ * and one from up to down
  */
 class PipePartCross extends PipePart
 {
+	/** Background image of part */
 	protected Image baseImage;
+	/** Water forground image when only up/down pipe contains water */
 	protected Image waterImageUpDown;
+	/** Water forground image when only left/right pipe contains water */
 	protected Image waterImageLeftRight;
+	/** Water forground image when both pipes contains water */
 	protected Image waterImageCrossAll;
+	/** Indicates which side of the up/down pipe water has been received on, see {@link Direction}  */
 	protected int waterEntryUpDown;
+	/** Indicates which side of the left/right pipe water has been received on, see {@link Direction} */
 	protected int waterEntryLeftRight;
+	/** Indicates if there is water in the up/down pipe */
 	protected boolean waterInPartUpDown;
+	/** Indicates if there is water in the left/right pipe */
 	protected boolean waterInPartLeftRight;
+	/** Indicates how far water has run in the up/down pipe */
 	protected int waterProgressUpDown;
+	/** Indicates how far water has run in the left/right pipe */
 	protected int waterProgressLeftRight;
 
+	/**
+	 * Creates a new pipe part
+	 * @param images Image handler object
+	 */
 	public PipePartCross(ImageHandlerInterface images)
 	{
 		baseImage=images.getImage("crossPipe.gif");

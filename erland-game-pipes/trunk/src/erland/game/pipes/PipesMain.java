@@ -81,6 +81,10 @@ class PipesMain
 	protected LevelFactory levelFactory;
 	/** Number of pipes that needs to be filled with water on this level */
 	protected int leftToFill;
+	/** Indicates if the Exit button has been pressed */
+	protected boolean bExit;
+	/** The last block which water was moved in */
+	protected PipeBlock lastMovedWater;
 	
 	/**
 	 * Creates a new instance of the main game class
@@ -100,14 +104,11 @@ class PipesMain
 		cheatMode = false;
 		blocksWithMovingWater = new LinkedList();
 		addBlocksWithMovingWater = new LinkedList();
-		levelFactory = new LevelFactory(cont,images);
+		levelFactory = new LevelFactory(cookies,cont,images);
 
-		// TODO: initiate all buttons
-		// buttons = new Button[2];
-		// buttons[0] = new Button("Button1");
-		// buttons[0].setBounds(offsetX + 10,offsetY + 10,73,25);
-		// buttons[1] = new Button("Button2");
-		// buttons[2].setBounds(offsetX + 10,offsetY + 40,73,25);
+		buttons = new Button[1];
+		buttons[0] = new Button("Exit");
+		buttons[0].setBounds(offsetX + sizeX*blockSize+80,offsetY + sizeY*blockSize-50,73,25);
 		if(buttons!=null) {
 			for(int i=0;i<buttons.length;i++) {
 				buttons[i].addActionListener(this);
@@ -126,6 +127,7 @@ class PipesMain
 			highScore=0;
 		}
 		savedHighScore=highScore;
+		bExit = false;
 	}
 	
 	/**
@@ -145,6 +147,7 @@ class PipesMain
 		speedCounter = 0;
 		selectedBlock = null;
 		movingBlock = null;
+		lastMovedWater=null;
 	}
 	/**
 	 * Does whatever neccesary when you have died, for example decreases the life counter
@@ -169,6 +172,16 @@ class PipesMain
 				container.remove(buttons[i]);
 			}
 		}
+		bExit = true;
+	}
+	
+	/**
+	 * Checks if the Exit button has been pressed
+	 * @return true/false (Pressed/Not pressed)
+	 */
+	public boolean isExit()
+	{
+		return bExit;
 	}
 
 	/**
@@ -190,23 +203,19 @@ class PipesMain
 		}				
 	}
 	
+	/**
+	 * Initialize the current level with level data
+	 */
 	protected void initLevel()
 	{
 		blocks = levelFactory.getLevel(level);
-		PipeBlock startBlock = new PipeBlockStartRight(images);
-		int startBlockPos=-1;
-		while(startBlockPos==-1) {
-			int tmp =(int)(Math.random()*sizeX*sizeY);
-			if(blocks.length>tmp) {
-				if(blocks[tmp].getPosX()<=sizeX/2) {
-					startBlockPos=tmp;
-				}
+		for (int i=0; i<blocks.length; i++) {
+			blocks[i].updateBlock();
+			if(blocks[i].hasMovingWater()) {
+				addBlocksWithMovingWater.add(blocks[i]);
 			}
-		}
-		startBlock.init(cont, blocks[startBlockPos].getPosX(),blocks[startBlockPos].getPosY());
-		blocks[startBlockPos] = startBlock;
-		addWater(blocks[startBlockPos].getPosX(), blocks[startBlockPos].getPosY(),1,1,PipePart.Direction.LEFT);
-		leftToFill = 5+level*2;
+	    }
+		leftToFill = 10+level*6;
 		timeUntilWater = 1000-level*75;
 		speed = 45+level/2;
 	}
@@ -343,10 +352,36 @@ class PipesMain
 					speedCounter=0;
 					// Move water
 					ListIterator it = blocksWithMovingWater.listIterator();
-					while(it.hasNext()) {
+					boolean bMoved = false;
+					if(blocksWithMovingWater.size()>1 && lastMovedWater!=null) {
+						while(it.hasNext() && !bMoved) {
+							PipeBlock block = (PipeBlock)(it.next());
+							if(block==lastMovedWater) {
+								bMoved = true;
+								if(!it.hasNext()) {
+									it = blocksWithMovingWater.listIterator();
+								}
+							}
+						}
+					}
+					bMoved = false;
+					while(it.hasNext() && !bMoved) {
 						PipeBlock block = (PipeBlock)(it.next());
 						if(block.hasMovingWater()) {
 							block.moveWater(this);
+							lastMovedWater = block;
+							bMoved = true;
+						}
+					}
+					if(!bMoved) {
+						it = blocksWithMovingWater.listIterator();
+						while(it.hasNext() && !bMoved) {
+							PipeBlock block = (PipeBlock)(it.next());
+							if(block.hasMovingWater()) {
+								block.moveWater(this);
+								lastMovedWater = block;
+								bMoved = true;
+							}
 						}
 					}
 				}
@@ -361,10 +396,6 @@ class PipesMain
 					PipeBlock block = (PipeBlock)(it.next());
 					if(!blocksWithMovingWater.contains(block)) {
 						blocksWithMovingWater.add(block);
-						score+=10*level;
-						if(leftToFill>0) {
-							leftToFill--;
-						}
 					}
 				}
 				addBlocksWithMovingWater.clear();
@@ -529,23 +560,25 @@ class PipesMain
 		if(buttons!=null) {
 			for(int i=0;i<buttons.length;i++) {
 				if(e.getSource()==buttons[i]) {
-					// TODO: Handle click on buttons[i]
+					exit();
 				}
 			}
 		}
 	}
 
-	public void addWater(int blockX, int blockY, int partX, int partY, int direction)
+	public boolean addWater(int blockX, int blockY, int partX, int partY, int direction)
 	{
 		for (int i=0; i<blocks.length; i++) {
 			if(blocks[i].getPosX()==blockX && blocks[i].getPosY()==blockY) {
 				if(!blocks[i].isMoving()) {
 					if(blocks[i].initWater(partX, partY, direction)) {
 						addBlocksWithMovingWater.add(blocks[i]);
+						return true;
 					}
 				}
 			}
 	    }
+	    return false;
 	}
 	public boolean isFreePos(int x, int y)
 	{
@@ -560,5 +593,15 @@ class PipesMain
 			}
 		}
 		return false;
+	}
+	public void addScore(int score)
+	{
+		this.score+=score*level;
+	}
+	public void addFilledPart()
+	{
+		if(leftToFill>0) {
+			leftToFill--;
+		}
 	}
 }

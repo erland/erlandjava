@@ -8,8 +8,14 @@ import erland.game.*;
  */
 class PipePartLeftRight extends PipePart
 {
+	/** Background image */
 	protected Image baseImage;
+	/** Water foreground image */
 	protected Image waterImage;
+	/**
+	 * Creates new pipe part
+	 * @param images Image handler object
+	 */
 	public PipePartLeftRight(ImageHandlerInterface images)
 	{
 		baseImage = images.getImage("leftRightPipe.gif");

@@ -37,12 +37,18 @@ public class Pipes extends Applet
 	protected ParameterValueStorageInterface cookies;
 	/** This is the main class that implements the game */
 	protected PipesMain main;
+	/** This is the class that implements the options screen */
+	protected PipesOptions options;
 	/** Indicates if cheatmode is active or not */
 	protected boolean bCheatMode;
 	/** Counter that counts the number of characters entered in the secret cheat word */
 	protected int cheatCounter;
 	/** Image handler object */
 	protected ImageHandlerInterface images;
+	/** Object that handles when one of the buttons are pressed */
+	protected ActionHandler actionHandler;
+	/** Option and Game buttons */
+	protected Button buttons[];
 
 	/**
 	 * Class that catch all supported keyboard commands
@@ -108,6 +114,8 @@ public class Pipes extends Applet
 		{
 			if(main!=null && (e.getModifiers() & e.BUTTON1_MASK)!=0) {
 				main.handleLeftMousePressed(e.getX(),e.getY());
+			}else if(options!=null && (e.getModifiers() & e.BUTTON1_MASK)!=0) {
+				options.handleLeftMousePressed(e.getX(),e.getY());
 			}
 		}
 		/**
@@ -118,6 +126,8 @@ public class Pipes extends Applet
 		{
 			if(main!=null && (e.getModifiers() & e.BUTTON1_MASK)!=0) {
 				main.handleLeftMouseReleased(e.getX(),e.getY());
+			}else if(options!=null && (e.getModifiers() & e.BUTTON1_MASK)!=0) {
+				options.handleLeftMouseReleased(e.getX(),e.getY());
 			}
 		}
 		/**
@@ -128,6 +138,8 @@ public class Pipes extends Applet
 		{
 			if(main!=null && (e.getModifiers() & e.BUTTON1_MASK)!=0) {
 				main.handleLeftMouseClicked(e.getX(),e.getY());
+			}else if(options!=null && (e.getModifiers() & e.BUTTON1_MASK)!=0) {
+				options.handleLeftMouseClicked(e.getX(),e.getY());
 			}
 		}
 	}
@@ -145,6 +157,43 @@ public class Pipes extends Applet
 		{
 			if(main!=null && (e.getModifiers() & e.BUTTON1_MASK)!=0) {
 				main.handleLeftMouseDragged(e.getX(),e.getY());
+			}
+		}
+	}
+
+	/**
+	 * Handles all clicks on the buttons
+	 */
+	class ActionHandler implements ActionListener {
+		/** Referens to the container of the buttons */
+		Container c;
+		/** 
+		 * Creates a new object 
+		 * @param c The container the buttons resides in
+		 */
+		public ActionHandler(Container c)
+		{
+			this.c = c;
+		}
+		/**
+		 * Performs the correct action when a button has been pressed
+		 * @param e ActionEvent with information about which button that has been pressed
+		 */
+		public void actionPerformed(ActionEvent e) {
+			if(main==null && options==null) {
+				if(e.getSource()==buttons[0]) {
+					buttons[0].setVisible(false);
+					buttons[1].setVisible(false);
+					main = new PipesMain(c,cookies,images,10,10);
+					requestFocus();
+					options = null;
+				}else if(e.getSource()==buttons[1]) {
+					buttons[0].setVisible(false);
+					buttons[1].setVisible(false);
+					options = new PipesOptions(c,cookies,images,10,10);
+					requestFocus();
+					main = null;
+				}
 			}
 		}
 	}
@@ -172,7 +221,26 @@ public class Pipes extends Applet
 			this.cookies = new ParameterStorage("pipes.xml","pipes");
 		}
 
-		main = new PipesMain(this,cookies,images, 10,10);
+		buttons = new Button[2];
+		buttons[0] = new Button("Game");
+		buttons[1] = new Button("Options");
+		buttons[0].setBounds(100,100,73,25);
+		buttons[1].setBounds(100,140,73,25);
+		this.add(buttons[0]);
+		this.add(buttons[1]);
+		actionHandler= new ActionHandler(this);
+		buttons[0].addActionListener(actionHandler);
+		buttons[1].addActionListener(actionHandler);
+
+		if(cookies==null) {
+			buttons[0].setVisible(false);
+			buttons[1].setVisible(false);
+			main = new PipesMain(this,cookies,images, 10,10);
+			options = null;
+		}else {
+			main = null;
+			options = null;
+		}
 	}
 
 	/**
@@ -192,6 +260,8 @@ public class Pipes extends Applet
 		offScreen.setColor(Color.blue);
 		if(main!=null) {
 			main.draw(offScreen);
+		}else if(options != null) {
+			options.draw(offScreen);
 		}
 		g.drawImage(imag,0,0,null);
 	}
@@ -235,6 +305,23 @@ public class Pipes extends Applet
 				animator.sleep(Math.max(0,time-System.currentTimeMillis()));
 				if(main!=null) {
 					main.update();
+					if(main.isExit()) {
+						buttons[0].setVisible(true);
+						buttons[1].setVisible(true);
+						this.requestFocus();
+						cheatCounter=0;
+						bCheatMode=false;
+						main=null;
+					}
+				}else if(options!=null) {
+					if(options.isExit()) {
+						buttons[0].setVisible(true);
+						buttons[1].setVisible(true);
+						this.requestFocus();
+						cheatCounter=0;
+						bCheatMode=false;
+						options=null;
+					}
 				}
 				repaint();
 			}

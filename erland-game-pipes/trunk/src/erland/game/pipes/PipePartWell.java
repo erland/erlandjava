@@ -4,12 +4,20 @@ import erland.util.*;
 import erland.game.*;
 
 /**
- * Implements a pipe part with openings left and down
+ * Implements a pipe part with openings on all sides.
+ * This part is thought to be a well which has water from
+ * the beginning
  */
 class PipePartWell extends PipePart
 {
+	/** Background image */
 	protected Image baseImage;
+	/** Water foreground image */
 	protected Image waterImage;
+	/**
+	 * Creates new pipe part
+	 * @param images Image handler object
+	 */
 	public PipePartWell(ImageHandlerInterface images)
 	{
 		baseImage = images.getImage("wellPipe.gif");

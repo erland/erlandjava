@@ -8,8 +8,12 @@ import erland.game.*;
  */
 class PipePartNone extends PipePart
 {
+	/** Background image */
 	protected Image baseImage;
-	protected Image waterImage;
+	/**
+	 * Creates new pipe part
+	 * @param images Image handler object
+	 */
 	public PipePartNone(ImageHandlerInterface images)
 	{
 		baseImage = images.getImage("noPipe.gif");
