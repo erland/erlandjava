@@ -5,7 +5,7 @@
 <%@ page session="true" %>
 
 <center>
-<jsp:include page="/WEB-INF/tiles/company/listcompanies.jsp"/>
+<tiles:insert page="/WEB-INF/tiles/company/listcompanies.jsp"/>
 <br>
 <bean:message key="companylist.welcome.logintext"/>
 <br>
