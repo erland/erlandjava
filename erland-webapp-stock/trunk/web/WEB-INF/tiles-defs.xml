@@ -1,6 +1,6 @@
 <!DOCTYPE tiles-definitions PUBLIC
        "-//Apache Software Foundation//DTD Tiles Configuration//EN"
-       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       "http://struts.apache.org/dtds/tiles-config_1_1.dtd">
 
 <!-- Definitions for Tiles documentation   -->
 <tiles-definitions>
