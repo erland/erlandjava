@@ -7,7 +7,7 @@
     <logic:iterate name="inventoryEntriesPB" id="entry">
         <tr>
         <td><erland-common:beanlink name="entry" property="viewLink" style="bold-link"><bean:write name="entry" property="name"/></erland-common:beanlink></td>
-        <td><p class="normal">&nbsp&nbsp&nbsp</p></td>
+        <td><p class="normal"><bean:write name="entry" property="sexDescription"/></p></td>
         <logic:iterate name="entry" property="events" id="event" length="1">
             <td><p class="normal"><bean:write name="event" property="sizeText"/></p></td>
             <td><p class="normal"><bean:write name="event" property="descriptionText"/></p></td>
