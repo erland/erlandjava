@@ -8,13 +8,16 @@ ALTER TABLE galleries
   ADD cutlongpicturetitles tinyint(1) NOT NULL default '1',
   ADD useshortpicturenames tinyint(1) NOT NULL default '0',
   ADD showpicturetitle tinyint(1) NOT NULL default '1',
-  ADD showresolutionlinks tinyint(1) NOT NULL default '1';
+  ADD showresolutionlinks tinyint(1) NOT NULL default '1',
+  ADD showpicturedescription tinyint(1) NOT NULL default '0',
+  ADD thumbnailheight int(11) default NULL;
 
 ALTER TABLE pictures
   ADD orderno int(11) NOT NULL default '0';
 
 ALTER TABLE useraccounts
-  ADD stylesheet varchar(255) default NULL;
+  ADD stylesheet varchar(255) default NULL,
+  ADD skin varchar(100) default NULL;
 
 CREATE TABLE skins (
   id varchar(100) NOT NULL default '',

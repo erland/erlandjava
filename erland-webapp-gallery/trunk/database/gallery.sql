@@ -76,6 +76,8 @@ CREATE TABLE galleries (
   useshortpicturenames tinyint(1) NOT NULL default '0',
   showpicturetitle tinyint(1) NOT NULL default '1',
   showresolutionlinks tinyint(1) NOT NULL default '1',
+  showpicturedescription tinyint(1) NOT NULL default '0',
+  thumbnailheight int(11) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -184,6 +186,7 @@ CREATE TABLE useraccounts (
   copyright varchar(100) NOT NULL default '',
   official tinyint(1) NOT NULL default '0',
   stylesheet varchar(255) default NULL,
+  skin varchar(100) default NULL,
   PRIMARY KEY  (username)
 ) TYPE=MyISAM;
 
