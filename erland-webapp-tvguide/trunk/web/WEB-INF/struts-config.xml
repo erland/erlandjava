@@ -457,4 +457,5 @@
                    erland.webapp.common.html.HTMLBoldLinkStringReplace,
                    erland.webapp.common.html.HTMLTextStyleStringReplace"/>
     </plug-in>
+    <plug-in className="erland.webapp.tvguide.act.subscription.SubscriptionPlugin"/>
 </struts-config>
