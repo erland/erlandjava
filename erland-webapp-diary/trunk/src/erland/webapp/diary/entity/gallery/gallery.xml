@@ -38,6 +38,7 @@
         <queries>
             <query id="allforuser">
                 <querystring>username=?</querystring>
+                <orderstring>order by title asc</orderstring>
                 <fields>
                     <field id="1">
                         <field>username</field>
@@ -47,6 +48,7 @@
             </query>
             <query id="allofficialforuser">
                 <querystring>username=? and official=1</querystring>
+                <orderstring>order by title asc</orderstring>
                 <fields>
                     <field id="1">
                         <field>username</field>
