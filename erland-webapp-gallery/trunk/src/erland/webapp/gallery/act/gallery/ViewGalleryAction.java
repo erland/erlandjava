@@ -64,10 +64,10 @@ public class ViewGalleryAction extends BaseAction {
             QueryFilter filter = new QueryFilter("allforgallery");
             filter.setAttribute("gallery",gallery.getId());
             EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-gallerycategoryassociation").search(filter);
-            String[] categories = new String[entities.length];
+            Integer[] categories = new Integer[entities.length];
             for (int i = 0; i < entities.length; i++) {
                 GalleryCategoryAssociation entity = (GalleryCategoryAssociation) entities[i];
-                categories[i] = String.valueOf(entity.getCategory());
+                categories[i] = entity.getCategory();
             }
             fb.setCategories(categories);
         }
