@@ -1,6 +1,7 @@
 package erland.webapp.common.tags.menu;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.struts.util.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -45,6 +46,7 @@ public class BeanMenuItemTag extends TagSupport {
     private String bean;
     private String childs;
     private String page;
+    private String title;
     private String titleKey;
     private String id;
     private String style;
@@ -77,6 +79,10 @@ public class BeanMenuItemTag extends TagSupport {
 
     public void setTitleKey(String titleKey) {
         this.titleKey = titleKey;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setId(String id) {
@@ -192,6 +198,7 @@ public class BeanMenuItemTag extends TagSupport {
         super.release();
         page = null;
         titleKey = null;
+        title = null;
         id = null;
         style = null;
         styleSelected = null;
@@ -215,7 +222,8 @@ public class BeanMenuItemTag extends TagSupport {
         for (int i = 0; i < items.length; i++) {
             Object item = items[i];
             String id = (String) PropertyUtils.getProperty(item, this.id);
-            String title = (String) PropertyUtils.getProperty(item, this.titleKey);
+            String titleKey = (String) PropertyUtils.getProperty(item, this.titleKey);
+            String title = (String) PropertyUtils.getProperty(item, this.title);
             String page = (String) PropertyUtils.getProperty(item, this.page);
             if (parentId != null && parentId.length() > 0) {
                 id = parentId + "-" + id;
@@ -233,6 +241,12 @@ public class BeanMenuItemTag extends TagSupport {
             out.write("<a " + (style != null ? "class=\"" + style + "\" " : "") + "href=\"" + addContextPath(ServletParameterHelper.replaceDynamicParameters((String) page, getParameterMap(item, getMenuId(), (String) id))) + "\">");
             if (title != null) {
                 out.write((String) title);
+            }else if(titleKey != null) {
+                try {
+                    String titleValue = RequestUtils.message(pageContext,null,null,titleKey);
+                    out.write((String) titleValue);
+                } catch (JspException e) {
+                }
             }
             out.write("</a>");
             out.write("</td>");
