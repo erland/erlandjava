@@ -27,6 +27,7 @@ import erland.webapp.gallery.gallery.picture.Picture;
 import erland.webapp.gallery.gallery.picture.ViewPictureInterface;
 import erland.webapp.gallery.gallery.picturestorage.PictureStorage;
 import erland.webapp.usermgmt.User;
+import erland.util.Log;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -68,6 +69,7 @@ public class LoadMetadataCommand implements CommandInterface, ViewMetadataInterf
                     }
                 }
                 handler = new JPEGMetadataHandler(!showAll.booleanValue());
+                handler.load(imageFile);
             }
         }
         return null;
