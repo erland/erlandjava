@@ -103,6 +103,11 @@ public class ViewSectionInfoAction extends BaseAction {
                         Map parameterValues = new HashMap();
                         parameterValues.put("language",request.getLocale().getLanguage());
                         parameterValues.put("user",username);
+                        if(request.getRemoteUser()!=null) {
+                            parameterValues.put("usertype","user");
+                        }else {
+                            parameterValues.put("usertype","guest");
+                        }
                         String sectionParameterString = ServletParameterHelper.replaceDynamicParameters(StringUtil.asEmpty(section.getServiceParameters()),parameterValues);
                         String serviceParameterString = ServletParameterHelper.replaceDynamicParameters(StringUtil.asEmpty(service.getServiceData()),parameterValues);
                         ParameterValueStorageExInterface serviceParameters = new ParameterStorageParameterString(new StringStorage(sectionParameterString),new StringStorage(serviceParameterString),',',StringUtil.asEmpty(service.getCustomizedServiceData()),null);
@@ -116,10 +121,10 @@ public class ViewSectionInfoAction extends BaseAction {
                             if(transformerInstance instanceof TransformerInterface) {
                                 sectionParameterString = StringUtil.asEmpty(sectionParameterString);
                                 if(request.getRemoteUser()!=null) {
-                                    sectionParameterString+=",usertype=user";
+                                    sectionParameterString=ServletParameterHelper.replaceParameter(sectionParameterString,"usertype","user",',');
                                 }else {
-                                    sectionParameterString+=",usertype=guest";
-                                    sectionParameterString+=",user="+username;
+                                    sectionParameterString=ServletParameterHelper.replaceParameter(sectionParameterString,"usertype","guest",',');
+                                    sectionParameterString=ServletParameterHelper.replaceParameter(sectionParameterString,"user",username,',');
                                 }
                                 ParameterValueStorageExInterface transformerParameters = new ParameterStorageParameterString(new StringStorage(sectionParameterString),new StringStorage(service.getTransformerData()),',',StringUtil.asEmpty(service.getCustomizedTransformerData()),null);
                                 LOG.debug("Transforming with: "+transformerInstance);
