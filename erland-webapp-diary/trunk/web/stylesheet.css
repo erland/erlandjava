@@ -1,4 +1,4 @@
-a.bold-link {
+.bold-link {
 font-family:arial;
 font-size:12px;
 font-weight:bold;
@@ -6,7 +6,7 @@ color:#397AC0;
 text-decoration:none;
 }
 
-a:hover.bold-link {
+:hover.bold-link {
 font-family:arial;
 font-size:12px;
 font-weight:bold;
@@ -14,47 +14,32 @@ color:#000000;
 text-decoration:none;
 }
 
-a.bold-link-selected {
+.link {
 font-family:arial;
 font-size:12px;
-font-weight:bold;
 color:#000000;
-text-decoration:none;
 }
 
-a:hover.bold-link-selected {
+:hover.link {
 font-family:arial;
 font-size:12px;
-font-weight:bold;
-color:#000000;
-text-decoration:none;
-}
-
-a.link {
-font-family:arial;
-color:#000000;
-}
-
-a:hover.link {
-font-family:arial;
 color:#397AC0;
 }
 
-form {
+.menu {
+font-family:arial;
+border:0px;
+}
+
+.menuitem {
 font-family:arial;
 font-size:12px;
-color:#000000;
+font-weight:bold;
+color:#397AC0;
 text-decoration:none;
 }
 
-p.normal {
-font-family:arial;
-font-size:12px;
-color:#000000;
-text-decoration:none;
-}
-
-p.bold {
+:hover.menuitem {
 font-family:arial;
 font-size:12px;
 font-weight:bold;
@@ -62,7 +47,39 @@ color:#000000;
 text-decoration:none;
 }
 
-p.title {
+.menuitem-selected {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+:hover.menuitem-selected {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.propertypage-header {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.propertypage-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.propertypage-title {
 font-family:arial;
 font-size:14px;
 font-weight:bold;
@@ -70,22 +87,69 @@ color:#000000;
 text-decoration:none;
 }
 
-p.big-title {
-font-family:arial;
-font-size:18px;
-font-weight:bold;
-color:#000000;
-text-decoration:none;
-}
-
-font.normal {
+.propertypage-description {
 font-family:arial;
 font-size:12px;
 color:#000000;
 text-decoration:none;
 }
 
-font.title {
+.propertypage-notice {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.propertypage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.propertypage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.propertypage-link {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.propertypage-link {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.gallerypage-header {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.gallerypage-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.gallerypage-title {
 font-family:arial;
 font-size:14px;
 font-weight:bold;
@@ -93,15 +157,38 @@ color:#000000;
 text-decoration:none;
 }
 
-font.big-title {
+.gallerypage-description {
 font-family:arial;
-font-size:18px;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.gallerypage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.gallerypage-button {
+font-family:arial;
+font-size:12px;
 font-weight:bold;
 color:#000000;
 text-decoration:none;
 }
 
-div.bold {
+.gallerypage-picture-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.gallerypage-picture-button {
 font-family:arial;
 font-size:12px;
 font-weight:bold;
@@ -109,55 +196,581 @@ color:#000000;
 text-decoration:none;
 }
 
-td.left-margin {
+.gallerypage-picture-link {
 font-family:arial;
 font-size:12px;
+font-weight:bold;
+color:#397AC0;
 text-decoration:none;
-width:10px;
 }
 
-td.sub-menu {
+:hover.gallerypage-picture-link {
 font-family:arial;
 font-size:12px;
+font-weight:bold;
+color:#000000;
 text-decoration:none;
-width:5px;
 }
 
-td.no-border-tight {
+.gallerypage-picture-row {
+}
+
+.gallerypage-picture-cell {
+}
+
+.gallerypage-picture-title {
+}
+
+.loginpage-header {
 font-family:arial;
 font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.loginpage-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.loginpage-footer {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.loginpage-title {
+font-family:arial;
+font-size:14px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.loginpage-description {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.loginpage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.loginpage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.header-text {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.header-logo {
+font-family:arial;
+border:0px;
+}
+
+.layout-header {
+}
+
+.layout-body {
+}
+
+.layout-body-menu {
+}
+
+.layout-body-content {
+}
+
+.layout-footer {
+}
+
+.layout-menu {
+}
+
+.layout {
+}
+
+.layout-main {
+font-family:arial;
+border:0px;
+}
+
+.layout-header-separator-line {
+}
+
+.layout-header-separator {
+}
+
+.layoutempty-body {
+}
+
+.layoutempty-body-content {
+}
+
+.layoutempty {
+}
+
+.layoutempty-main {
+font-family:arial;
+border:0px;
+}
+
+.layoutnomenu-header {
+}
+
+.layoutnomenu-body {
+}
+
+.layoutnomenu-body-content {
+}
+
+.layoutnomenu-footer {
+}
+
+.layoutnomenu {
+}
+.layoutnomenu-main {
+font-family:arial;
+border:0px;
+}
+
+.layoutnomenu-header-separator-line {
+}
+
+.layoutnomenu-header-separator {
+}
+
+.diarypage-header {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.diarypage-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.diarypage-title {
+font-family:arial;
+font-size:14px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.diarypage-description {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.diarypage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.diarypage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.diaryentrypage-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.diaryentrypage-title {
+font-family:arial;
+font-size:14px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.diaryentrypage-description {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+
+.inventorypage-header {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.inventorypage-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.inventorypage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.inventorypage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.inventorypage-list-field {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.inventorypage-main-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.inventorypage-entry-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.inventorypage-entry-title {
+font-family:arial;
+font-size:14px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.inventorypage-entry-description {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.purchasepage-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.purchasepage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.purchasepage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.purchasepage-list-field {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.purchasepage-stats-list-field {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.purchasepage-stats-title {
+font-family:arial;
+font-size:14px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+
+
+.containerpage-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.containerpage-title {
+font-family:arial;
+font-size:14px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.containerpage-description {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.containerpage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.containerpage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.containerpage-inventory-title {
+font-family:arial;
+font-size:14px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.containerpage-inventory-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.calendar-header {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.calendar-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+border-collapse: collapse;
 margin:0px;
 padding:0px;
 }
 
-td #calendar-month {
+.calendar-cell {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+border-collapse: collapse;
+margin:0px;
+padding:0px;
+}
+
+.calendar-cell-link {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+border-collapse: collapse;
+margin:0px;
+padding:0px;
+}
+
+.calendar-description {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.calendar-description-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.calendar-description-current {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+height:14px;
+}
+
+.calendar-description-current-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.calendar-year {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+.calendar-month {
 font-family:arial;
 font-size:12px;
 border:0px;
 width=27px;
 }
-
-td.margin {
-padding:7px;
-margin:0px;
-}
-
-textarea.normal {
+.calendar-month-button {
 font-family:arial;
 font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.calendar-month-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
 color:#000000;
 text-decoration:none;
 }
 
-table.no-border {
+.calendar-month-button-selected {
 font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.calendar-year-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.calendar-year-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.calendar-year-button-selected {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.welcometext {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
 border:0px;
 }
 
-table.no-border-tight {
+.menu-button {
 font-family:arial;
-margin:0px;
-padding:0px;
-border:0px;
-border-collapse: collapse;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
 }
+
+:hover.menu-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.menu-header {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
