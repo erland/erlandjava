@@ -28,16 +28,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 This archive should contain the following files:
 - readme.txt (this file)
 - *.jar (The application code)
-- *.jnlp (The webstart startup files)
+- Tetris.jnlp (The webstart startup file)
+- Tetris.bat (A bat file to start the client)
 - TetrisServer.bat (A bat file to start the server)
 
 5. CONFIGURING JNLP
 ===================
-The *.jnlp files contains references to my local machie, so you will have to
+The jnlp-file contains references to my local machie, so you will have to
 change these to your machine
 
 6. RUN
 =================
 If you want to run a networked game you can start the server with the included
 bat-file. To start the client as standalone or networked just lanunch the included
-jnlp file with webstart.
+jnlp file with webstart or the included bat-file to start the client.
