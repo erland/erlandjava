@@ -18,7 +18,9 @@
     <orderEntry type="module" module-name="WebCommon" />
     <orderEntry type="module" module-name="util" />
     <orderEntry type="module" module-name="UserMgmt" />
+    <orderEntry type="library" name="axis" level="application" />
     <orderEntry type="library" name="Generic" level="application_server_libraries" />
+    <orderEntry type="library" name="wsdl4j" level="application" />
     <orderEntryProperties />
   </component>
   <component name="WebModuleBuildComponent">
@@ -31,19 +33,7 @@
     <setting name="RUN_JASPER_VALIDATION" value="false" />
   </component>
   <component name="WebModuleProperties">
-    <containerElement type="module" name="UserMgmt">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/classes" />
-    </containerElement>
-    <containerElement type="module" name="util">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/classes" />
-    </containerElement>
-    <containerElement type="module" name="WebCommon">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/classes" />
-    </containerElement>
-    <containerElement type="library" level="application" name="commons-beanutils">
+    <containerElement type="library" level="application" name="axis">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib" />
     </containerElement>
@@ -55,11 +45,7 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib" />
     </containerElement>
-    <containerElement type="library" level="application" name="metadata-extractor">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib" />
-    </containerElement>
-    <containerElement type="library" level="application" name="securityfilter">
+    <containerElement type="library" level="application" name="wsdl4j">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib" />
     </containerElement>
