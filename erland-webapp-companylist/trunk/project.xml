@@ -175,4 +175,5 @@
       </resource>
     </resources>
   </build>
+  <reports><report>maven-javadoc-plugin</report></reports>
 </project>
