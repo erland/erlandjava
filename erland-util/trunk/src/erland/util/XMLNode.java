@@ -60,7 +60,7 @@ public class XMLNode {
             ListIterator it = childs.listIterator();
             while(it.hasNext()) {
                 XMLNode node =(XMLNode)(it.next());
-                node.toString(str,true,0);
+                node.toString(str,true,0,false);
             }
             return str.toString();
         }else {
@@ -168,8 +168,21 @@ public class XMLNode {
      * @return A string representationi of the XML node and its child nodes
      */
     public String toString(boolean lineFeeds) {
+        return toString(lineFeeds,!childNode);
+    }
+
+    /**
+     * Get a string representation of the XML node and all its child nodes.
+     * You have option to select if each node should be separated with a linefeed
+     * character or not, and you can also choos if the preprocessor directive should
+     * be printed or not
+     * @param lineFeeds Indicates that each node should be printed on its own line
+     * @param preprocessor Indicates that a preprocessor directive should be printed at the beginning
+     * @return A string representationi of the XML node and its child nodes
+     */
+    public String toString(boolean lineFeeds, boolean preprocessor) {
         StringBuffer str = new StringBuffer(1000);
-        toString(str,lineFeeds,0);
+        toString(str,lineFeeds,0,preprocessor);
         return str.toString();
     }
 
@@ -195,13 +208,13 @@ public class XMLNode {
      * @param lineFeeds Indicates that each node should be printed on its own line
      * @param level The indentation level
      */
-    private void toString(StringBuffer sb, boolean lineFeeds, int level) {
+    private void toString(StringBuffer sb, boolean lineFeeds, int level, boolean printPreprocessor) {
         //Log.println(this,"XMLNode.toString() "+this.getName()+" "+getClass().getName()+"@"+Integer.toHexString(hashCode()));
-        if(!childNode) {
+        if(printPreprocessor) {
             for(int i=0;lineFeeds&&i<level;i++) {
                 sb.append("  ");
             }
-            sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            sb.append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
             if(lineFeeds) sb.append("\n\n");
         }
         for(int i=0;lineFeeds&&i<level;i++) {
@@ -232,7 +245,7 @@ public class XMLNode {
                     sb.append("\n");
                 }
                 while(it.hasNext()) {
-                    ((XMLNode)it.next()).toString(sb,lineFeeds,level + 2);
+                    ((XMLNode)it.next()).toString(sb,lineFeeds,level + 2,false);
                 }
                 for(int i=0;lineFeeds&&i<level;i++) {
                     sb.append("  ");
