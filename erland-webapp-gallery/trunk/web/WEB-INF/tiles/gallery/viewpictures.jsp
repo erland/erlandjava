@@ -44,6 +44,15 @@
             <tr>
         </logic:equal>
         <td align="center">
+        <logic:notEmpty name="picture" property="updateLink">
+            <bean:define id="updateLink" name="picture" property="updateLink" type="String"/>
+            <a class="bold-link" href="<html:rewrite page="<%=updateLink%>"/>"><bean:message key="gallery.gallery.picture.modify"/></a>
+            <logic:notEmpty name="picture" property="removeLink">
+                <bean:define id="removeLink" name="picture" property="removeLink" type="String"/>
+                <a class="bold-link" href="<html:rewrite page="<%=removeLink%>"/>" onClick="return confirm('<bean:message key="gallery.gallery.picture.remove.are-you-sure"/>')"><bean:message key="gallery.gallery.picture.remove"/></a>
+            </logic:notEmpty>
+            <br>
+        </logic:notEmpty>
         <bean:define id="link" name="picture" property="link" type="String"/>
         <bean:define id="image" name="picture" property="image" type="String"/>
         <a class="bold-link" href="<html:rewrite page="<%=link%>"/>" target="_blank" title="<bean:write name="picture" property="description"/>"><img src="<html:rewrite page="<%=image%>"/>" border="0"></img><br><div align="center"><bean:write name="picture" property="title"/></div></a>
