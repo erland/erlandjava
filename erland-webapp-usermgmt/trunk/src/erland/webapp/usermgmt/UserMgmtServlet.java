@@ -24,7 +24,7 @@ import erland.util.Log;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
 
-public class UserMgmtServlet extends BaseServlet {
+public abstract class UserMgmtServlet extends BaseServlet {
     protected boolean isCommandAllowed(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         String cmd = getCommandClassName(request);
