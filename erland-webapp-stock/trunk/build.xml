@@ -40,10 +40,6 @@
                 <include name="**/*.jsp"/>
                 <include name="**/*.html"/>
                 <include name="**/*.css"/>
-            </fileset>
-        </copy>
-        <copy todir="${dist}/images">
-            <fileset dir="images">
                 <include name="**/*.gif"/>
                 <include name="**/*.jpg"/>
             </fileset>
