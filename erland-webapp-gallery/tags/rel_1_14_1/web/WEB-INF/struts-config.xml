@@ -1,0 +1,1047 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE struts-config PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+    "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+    <form-beans>
+        <form-bean name="mainMenuFB" type="erland.webapp.common.fb.MenuExpandCollapseFB"/>
+        <form-bean name="menuFB" type="erland.webapp.gallery.fb.gallery.SelectGalleryFB"/>
+        <form-bean name="selectUserFB" type="erland.webapp.gallery.fb.account.SelectUserFB"/>
+        <form-bean name="newUserAccountFB" type="erland.webapp.gallery.fb.account.AccountFB"/>
+        <form-bean name="userAccountFB" type="erland.webapp.gallery.fb.account.AccountFB"/>
+        <form-bean name="storageFB" type="erland.webapp.gallery.fb.gallery.picturestorage.PictureStorageFB"/>
+        <form-bean name="skinFB" type="erland.webapp.gallery.fb.skin.SkinFB"/>
+        <form-bean name="filterFB" type="erland.webapp.gallery.fb.gallery.filter.FilterFB"/>
+        <form-bean name="galleryFilterFB" type="erland.webapp.gallery.fb.gallery.filter.GalleryFilterFB"/>
+        <form-bean name="guestAccountFB" type="erland.webapp.gallery.fb.guestaccount.GuestAccountFB"/>
+        <form-bean name="pictureFB" type="erland.webapp.gallery.fb.gallery.picture.PictureFB"/>
+        <form-bean name="galleryFB" type="erland.webapp.gallery.fb.gallery.GalleryFB"/>
+        <form-bean name="categoryFB" type="erland.webapp.gallery.fb.gallery.category.CategoryFB"/>
+        <form-bean name="selectCategoryFB" type="erland.webapp.gallery.fb.gallery.category.SelectCategoryFB"/>
+        <form-bean name="selectPictureFB" type="erland.webapp.gallery.fb.gallery.picture.SelectPictureFB"/>
+        <form-bean name="searchPictureFB" type="erland.webapp.gallery.fb.gallery.picture.SearchPictureFB"/>
+        <form-bean name="imageFB" type="erland.webapp.gallery.fb.loader.ImageFB"/>
+        <form-bean name="resolutionImageFB" type="erland.webapp.gallery.fb.loader.ThumbnailImageFB"/>
+        <form-bean name="metadataImageFB" type="erland.webapp.gallery.fb.loader.MetadataImageFB"/>
+        <form-bean name="metadataResolutionImageFB" type="erland.webapp.gallery.fb.loader.MetadataImageFB"/>
+        <form-bean name="importFB" type="erland.webapp.gallery.fb.gallery.importers.ImportFB"/>
+        <form-bean name="externalImportFB" type="erland.webapp.gallery.fb.gallery.importers.ExternalImportFB"/>
+        <form-bean name="editTasksFB" type="erland.webapp.gallery.fb.tasks.TasksFB"/>
+    </form-beans>
+
+    <global-forwards>
+        <forward name="index" path="/do/index"/>
+    </global-forwards>
+
+    <action-mappings>
+        <action
+            path="/index"
+            type="erland.webapp.gallery.act.account.SearchOfficialUserAccountsAction">
+
+            <forward name="success" path=".index"/>
+        </action>
+
+        <action
+            path="/guest/registeruser"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter=".guest.newuseraccount">
+        </action>
+
+        <action
+            path="/guest/newuseraccount"
+            type="erland.webapp.gallery.act.account.NewUserAccountAction"
+            input=".guest.newuseraccount"
+            name="newUserAccountFB"
+            validate="true">
+
+            <forward name="success" path=".guest.newuseraccount.success"/>
+        </action>
+        <action
+            path="/user/home"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/do/user/loadmenu">
+        </action>
+        <action
+            path="/guest/home"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/do/guest/loadmenu">
+        </action>
+        <action
+            path="/user/loadmenu"
+            type="erland.webapp.gallery.act.gallery.SearchGalleriesAndCategoriesAction">
+
+            <forward name="gallery" path="/do/user/menuviewgallery?menuItemId={menuItemId}&amp;gallery={gallery}[max,&amp;max={max}]"/>
+            <forward name="category" path="/do/user/menuviewcategory?menuItemId={menuItemId}&amp;gallery={gallery}&amp;category={category}[max,&amp;max={max}]"/>
+            <forward name="guestuser" path="/do/user/menu?menuItemId={menuItemId}[max,&amp;max={max}]"/>
+            <forward name="guestusergallery" path="/do/user/menuviewguestusergallery?menuItemId={menuItemId}&amp;user={user}&amp;gallery={gallery}[max,&amp;max={max}]"/>
+            <forward name="guestusercategory" path="/do/user/menuviewguestusercategory?menuItemId={menuItemId}&amp;user={user}&amp;gallery={gallery}&amp;category={category}[max,&amp;max={max}]"/>
+            <forward name="success" path="/do/user/viewdefaultgallery"/>
+        </action>
+        <action
+            path="/user/viewpicturesloadmenu"
+            type="erland.webapp.gallery.act.gallery.SearchGalleriesAndCategoriesAction">
+
+            <forward name="gallery" path="/do/user/menuviewgallery?menuItemId={menuItemId}&amp;gallery={gallery}[max,&amp;max={max}]"/>
+            <forward name="category" path="/do/user/menuviewcategory?menuItemId={menuItemId}&amp;gallery={gallery}&amp;category={category}[max,&amp;max={max}]"/>
+            <forward name="guestuser" path="/do/user/menu?menuItemId={menuItemId}[max,&amp;max={max}]"/>
+            <forward name="guestusergallery" path="/do/user/menuviewguestusergallery?menuItemId={menuItemId}&amp;user={user}&amp;gallery={gallery}[max,&amp;max={max}]"/>
+            <forward name="guestusercategory" path="/do/user/menuviewguestusercategory?menuItemId={menuItemId}&amp;user={user}&amp;gallery={gallery}&amp;category={category}[max,&amp;max={max}]"/>
+            <forward name="success" path="/do/user/viewpictures"/>
+        </action>
+        <action
+            path="/guest/loadmenu"
+            type="erland.webapp.gallery.act.gallery.SearchOfficialGalleriesAndCategoriesAction"
+            name="menuFB">
+            <forward name="gallery" path="/do/guest/menuviewgallery?user={user}&amp;menuItemId={menuItemId}&amp;gallery={gallery}[max,&amp;max={max}]"/>
+            <forward name="category" path="/do/guest/menuviewcategory?user={user}&amp;menuItemId={menuItemId}&amp;gallery={gallery}&amp;category={category}[max,&amp;max={max}]"/>
+            <forward name="success" path="/do/guest/viewdefaultgallery"/>
+        </action>
+        <action
+            path="/guest/viewpicturesloadmenu"
+            type="erland.webapp.gallery.act.gallery.SearchOfficialGalleriesAndCategoriesAction"
+            name="menuFB">
+            <forward name="gallery" path="/do/guest/menuviewgallery?user={user}&amp;menuItemId={menuItemId}&amp;gallery={gallery}[max,&amp;max={max}]"/>
+            <forward name="category" path="/do/guest/menuviewcategory?user={user}&amp;menuItemId={menuItemId}&amp;gallery={gallery}&amp;category={category}[max,&amp;max={max}]"/>
+            <forward name="success" path="/do/guest/viewpictures"/>
+        </action>
+        <action
+            path="/guest/viewdefaultgallery"
+            type="erland.webapp.gallery.act.account.ViewOfficialDefaultGalleryAction"
+            name="selectUserFB">
+            <forward name="success" path="/do/guest/menuviewgallery?user={user}&amp;menuName=mainMenu&amp;menuItemId={gallery}&amp;gallery={gallery}"/>
+            <forward name="failure" path=".guest.index"/>
+        </action>
+        <action
+            path="/user/viewdefaultgallery"
+            type="erland.webapp.gallery.act.account.ViewDefaultGalleryAction"
+            name="selectUserFB">
+            <forward name="success" path="/do/user/menuviewgallery?menuName=mainMenu&amp;menuItemId=galleries-{gallery}&amp;gallery={gallery}"/>
+            <forward name="failure" path=".user.index"/>
+        </action>
+        <action
+            path="/guest/menu"
+            type="erland.webapp.common.act.MenuExpandCollapseAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path=".guest.index"/>
+        </action>
+        <action
+            path="/user/menu"
+            type="erland.webapp.common.act.MenuExpandCollapseAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="mainMenu-galleries-new" path="/do/user/newgallery"/>
+            <forward name="mainMenu-preferences" path="/do/user/viewuseraccount"/>
+            <forward name="mainMenu-users" path="/do/user/viewuseraccounts"/>
+            <forward name="mainMenu-guestusers" path="/do/user/viewguestaccounts"/>
+            <forward name="mainMenu-storages" path="/do/user/viewpicturestorages"/>
+            <forward name="mainMenu-storages-new" path="/do/user/newpicturestorage"/>
+            <forward name="mainMenu-filters" path="/do/user/viewfilters"/>
+            <forward name="mainMenu-filters-new" path="/do/user/newfilter"/>
+            <forward name="mainMenu-logout" path="/do/logout"/>
+            <forward name="mainMenu-skins" path="/do/user/viewskins"/>
+            <forward name="mainMenu-skins-new" path="/do/user/newskin"/>
+            <forward name="mainMenu-usertasks" path="/do/user/viewusertaskstatus"/>
+            <forward name="mainMenu-tasks" path="/do/user/viewtaskstatus"/>
+            <forward name="mainMenu-tasks-edit" path="/do/user/viewtasks"/>
+            <forward name="success" path=".user.index"/>
+        </action>
+        <action
+            path="/guest/menuviewcategory"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path="/do/guest/viewpicturescheckmenu"/>
+        </action>
+        <action
+            path="/guest/menuviewpictures"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path="/do/guest/viewpicturescheckmenu"/>
+        </action>
+        <action
+            path="/user/menuviewcategory"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path="/do/user/viewpicturescheckmenu"/>
+        </action>
+        <action
+            path="/user/menuviewpictures"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path="/do/user/viewpicturescheckmenu"/>
+        </action>
+        <action
+            path="/guest/menuviewgallery"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path="/do/guest/viewpicturescheckmenu"/>
+        </action>
+        <action
+            path="/user/menuviewgallery"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path="/do/user/viewpicturescheckmenu"/>
+        </action>
+        <action
+            path="/user/menuviewguestusercategory"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path="/do/user/viewguestpictures"/>
+        </action>
+        <action
+            path="/user/menuviewguestusergallery"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path="/do/user/viewguestpictures"/>
+        </action>
+
+        <action
+            path="/user/clearcachegallery"
+            type="erland.webapp.gallery.act.gallery.ClearCacheGalleryAction"
+            name="galleryFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/viewpictures?gallery={id}"/>
+        </action>
+
+        <action
+            path="/user/viewgallery"
+            type="erland.webapp.gallery.act.gallery.ViewGalleryAction"
+            name="galleryFB"
+            validate="false">
+
+            <forward name="success" path=".user.editgallery"/>
+        </action>
+
+        <action
+            path="/user/newgallery"
+            type="erland.webapp.gallery.act.gallery.NewGalleryAction"
+            name="galleryFB"
+            validate="false">
+
+            <forward name="success" path=".user.editgallery"/>
+        </action>
+
+        <action
+            path="/user/editgallery"
+            type="erland.webapp.gallery.act.gallery.EditGalleryAction"
+            name="galleryFB"
+            input=".user.editgallery"
+            validate="true">
+
+            <forward name="success-edit" path="/do/user/viewpictures?gallery={id}"/>
+            <forward name="success-new" path="/do/user/home"/>
+        </action>
+
+        <action
+            path="/user/removegallery"
+            type="erland.webapp.gallery.act.gallery.RemoveGalleryAction"
+            name="galleryFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/home"/>
+        </action>
+
+        <action
+            path="/user/viewpicture"
+            type="erland.webapp.gallery.act.gallery.picture.ViewPictureAction"
+            name="pictureFB"
+            validate="false">
+
+            <forward name="success" path=".user.editpicture"/>
+        </action>
+
+        <action
+            path="/user/newpicture"
+            type="org.apache.struts.actions.ForwardAction"
+            name="pictureFB"
+            validate="false"
+            parameter=".user.editpicture" >
+        </action>
+
+        <action
+            path="/user/editpicture"
+            type="erland.webapp.gallery.act.gallery.picture.EditPictureAction"
+            name="pictureFB"
+            input=".user.editpicture"
+            validate="true">
+
+            <forward name="success" path="/do/user/viewpictures"/>
+        </action>
+
+        <action
+            path="/user/removepicture"
+            type="erland.webapp.gallery.act.gallery.picture.RemovePictureAction"
+            name="pictureFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/viewpictures"/>
+        </action>
+
+        <action
+            path="/user/newimportpictures"
+            type="erland.webapp.gallery.act.gallery.importers.NewIMatchImportAction"
+            name="importFB"
+            validate="false">
+
+            <forward name="success" path=".user.importpictures"/>
+        </action>
+        <action
+            path="/user/importpictures"
+            type="erland.webapp.gallery.act.gallery.importers.IMatchImportAction"
+            input=".user.importpictures"
+            name="importFB"
+            validate="true">
+
+            <forward name="success" path="/do/user/home"/>
+        </action>
+        <action
+            path="/guest/externalimportpictures"
+            type="erland.webapp.gallery.act.gallery.importers.ExternalIMatchImportAction"
+            name="externalImportFB"
+            validate="false">
+
+        </action>
+        <action
+            path="/user/viewpicturescheckmenu"
+            type="erland.webapp.common.act.SessionObjectSwitchAction"
+            validate="false"
+            parameter="menuGalleriesAndCategoriesPB">
+
+            <forward name="success" path="/do/user/viewpictures"/>
+            <forward name="success-null" path="/do/user/viewpicturesloadmenu"/>
+        </action>
+        <action
+            path="/user/viewpictures"
+            type="erland.webapp.gallery.act.gallery.picture.SearchPicturesAction"
+            name="selectPictureFB"
+            validate="false">
+
+            <forward name="success" path=".user.viewpictures"/>
+            <forward name="picture-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-update-link" path="/do/user/viewpicture?gallery={gallery}&amp;id={picture}"/>
+            <forward name="picture-remove-link" path="/do/user/removepicture?gallery={gallery}&amp;id={picture}"/>
+            <forward name="picture-image" path="/do/user/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
+            <forward name="previous-link" path="/do/user/menuviewpictures?[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="next-link" path="/do/user/menuviewpictures?[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="search-link" path="/do/user/newsearch?gallery={gallery}[max,&amp;max={max}]"/>
+            <forward name="search-private-link" path="/do/user/newsearch?gallery={gallery}[max,&amp;max={max}]"/>
+        </action>
+
+        <action
+            path="/user/viewguestpictures"
+            type="erland.webapp.gallery.act.gallery.picture.SearchOfficialGuestPicturesAction"
+            name="selectPictureFB"
+            validate="false">
+
+            <forward name="success" path=".user.viewguestpictures"/>
+            <forward name="picture-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-image" path="/do/user/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
+            <forward name="previous-link" path="/do/user/viewguestpictures?gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="next-link" path="/do/user/viewguestpictures?gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="search-link" path="/do/user/newguestsearch?gallery={gallery}[max,&amp;max={max}]"/>
+            <forward name="search-private-link" path="/do/user/newsearch?gallery={gallery}[max,&amp;max={max}]"/>
+        </action>
+
+        <action
+            path="/guest/viewpictures"
+            type="erland.webapp.gallery.act.gallery.picture.SearchOfficialPicturesAction"
+            name="selectPictureFB"
+            validate="false">
+
+            <forward name="success" path=".guest.viewpictures"/>
+            <forward name="picture-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
+            <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
+            <forward name="previous-link" path="/do/guest/menuviewpictures?user={user}&amp;[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="picture-resolution-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
+            <forward name="next-link" path="/do/guest/menuviewpictures?user={user}&amp;[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="search-link" path="/do/guest/newsearch?user={user}&amp;gallery={gallery}[max,&amp;max={max}]"/>
+        </action>
+        <action
+            path="/guest/viewpicturescheckmenu"
+            type="erland.webapp.common.act.SessionObjectSwitchAction"
+            validate="false"
+            parameter="menuGalleriesAndCategoriesPB">
+
+            <forward name="success" path="/do/guest/viewpictures"/>
+            <forward name="success-null" path="/do/guest/viewpicturesloadmenu"/>
+        </action>
+
+        <action
+            path="/user/viewsearchpictures"
+            type="erland.webapp.gallery.act.gallery.picture.AdvancedSearchPicturesAction"
+            name="searchPictureFB"
+            validate="false">
+
+            <forward name="success" path=".user.viewpictures"/>
+            <forward name="picture-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-image" path="/do/user/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
+            <forward name="previous-link" path="/do/user/viewsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="next-link" path="/do/user/viewsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="search-link" path="/do/user/newsearch?gallery={gallery}[max,&amp;max={max}]"/>
+            <forward name="search-private-link" path="/do/user/newsearch?gallery={gallery}[max,&amp;max={max}]"/>
+        </action>
+
+        <action
+            path="/user/viewguestsearchpictures"
+            type="erland.webapp.gallery.act.gallery.picture.AdvancedSearchOfficialGuestPicturesAction"
+            name="searchPictureFB"
+            validate="false">
+
+            <forward name="success" path=".user.viewguestpictures"/>
+            <forward name="picture-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-image" path="/do/user/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
+            <forward name="previous-link" path="/do/user/viewguestsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="next-link" path="/do/user/viewguestsearchpictures?gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="search-link" path="/do/user/newguestsearch?gallery={gallery}[max,&amp;max={max}]"/>
+            <forward name="search-private-link" path="/do/user/newguestsearch?gallery={gallery}[max,&amp;max={max}]"/>
+        </action>
+
+        <action
+            path="/guest/viewsearchpictures"
+            type="erland.webapp.gallery.act.gallery.picture.AdvancedSearchOfficialPicturesAction"
+            name="searchPictureFB"
+            validate="false">
+
+            <forward name="success" path=".guest.viewpictures"/>
+            <forward name="picture-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
+            <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
+            <forward name="previous-link" path="/do/guest/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="picture-resolution-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
+            <forward name="next-link" path="/do/guest/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}]"/>
+            <forward name="search-link" path="/do/guest/newsearch?user={user}&amp;gallery={gallery}[max,&amp;max={max}]"/>
+        </action>
+
+        <action
+            path="/user/newsearch"
+            type="erland.webapp.gallery.act.gallery.picture.NewSearchPicturesAction"
+            name="searchPictureFB"
+            validate="false">
+
+            <forward name="success" path=".user.editsearch"/>
+        </action>
+
+        <action
+            path="/user/newguestsearch"
+            type="erland.webapp.gallery.act.gallery.picture.NewSearchPicturesAction"
+            name="searchPictureFB"
+            validate="false">
+
+            <forward name="success" path=".user.editguestsearch"/>
+        </action>
+
+        <action
+            path="/guest/newsearch"
+            type="erland.webapp.gallery.act.gallery.picture.NewOfficialSearchPicturesAction"
+            name="searchPictureFB"
+            validate="false">
+
+            <forward name="success" path=".guest.editsearch"/>
+        </action>
+
+        <action
+            path="/user/viewimage"
+            type="erland.webapp.gallery.act.loader.LoadMetadataAction"
+            name="metadataImageFB"
+            validate="false"
+            scope="request">
+            <forward name="show-all-metadata-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}&amp;showAll=true"/>
+            <forward name="show-selected-metadata-link" path="/do/user/viewimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="picture-image" path="/do/user/loadimage?gallery={gallery}&amp;image={picture}"/>
+            <forward name="success" path=".user.viewimage"/>
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/user/viewresolutionimage"
+            type="erland.webapp.gallery.act.loader.LoadMetadataAction"
+            name="metadataResolutionImageFB"
+            validate="false"
+            scope="request">
+            <forward name="show-all-metadata-link" path="/do/user/viewresolutionimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;showAll=true"/>
+            <forward name="show-selected-metadata-link" path="/do/user/viewresolutionimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
+            <forward name="picture-image" path="/do/user/loadresolutionimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;useCache=false"/>
+            <forward name="success" path=".user.viewresolutionimage"/>
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/guest/viewimage"
+            type="erland.webapp.gallery.act.loader.LoadMetadataAction"
+            name="metadataResolutionImageFB"
+            validate="false"
+            scope="request">
+            <forward name="show-all-metadata-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;showAll=true"/>
+            <forward name="show-selected-metadata-link" path="/do/guest/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
+            <forward name="picture-image" path="/do/guest/loadimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;useCache=false"/>
+            <forward name="success" path=".guest.viewimage"/>
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/user/loadimage"
+            type="erland.webapp.gallery.act.loader.LoadImageAction"
+            name="imageFB"
+            validate="false"
+            scope="request">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/guest/loadimage"
+            type="erland.webapp.gallery.act.loader.LoadThumbnailAction"
+            name="resolutionImageFB"
+            validate="false"
+            scope="request">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/user/loadresolutionimage"
+            type="erland.webapp.gallery.act.loader.LoadThumbnailAction"
+            name="resolutionImageFB"
+            validate="false"
+            scope="request">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/user/loadthumbnail"
+            type="erland.webapp.gallery.act.loader.LoadThumbnailAction"
+            name="resolutionImageFB"
+            validate="false"
+            scope="request">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/guest/loadthumbnail"
+            type="erland.webapp.gallery.act.loader.LoadThumbnailAction"
+            name="resolutionImageFB"
+            validate="false"
+            scope="request">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+        </action>
+
+        <action
+            path="/user/viewcategory"
+            type="erland.webapp.gallery.act.gallery.category.ViewCategoryAction"
+            name="categoryFB"
+            validate="false">
+
+            <forward name="success" path=".user.editcategory"/>
+        </action>
+
+        <action
+            path="/user/editcategory"
+            type="erland.webapp.gallery.act.gallery.category.EditCategoryAction"
+            name="categoryFB"
+            input=".user.editcategory"
+            validate="true">
+
+            <forward name="success" path="/do/user/viewpictures"/>
+        </action>
+
+        <action
+            path="/user/viewuseraccount"
+            type="erland.webapp.gallery.act.account.ViewUserAccountAction"
+            name="userAccountFB"
+            validate="false">
+
+            <forward name="success" path=".user.edituseraccount"/>
+        </action>
+
+        <action
+            path="/user/viewotheruseraccount"
+            type="erland.webapp.gallery.act.account.ViewOtherUserAccountAction"
+            name="userAccountFB"
+            validate="false">
+
+            <forward name="success" path=".user.edituseraccount"/>
+        </action>
+
+        <action
+            path="/user/edituseraccount"
+            type="erland.webapp.gallery.act.account.EditUserAccountAction"
+            name="userAccountFB"
+            input=".user.edituseraccount"
+            validate="true">
+
+            <forward name="success" path=".user.index"/>
+        </action>
+
+        <action
+            path="/user/viewuseraccounts"
+            type="erland.webapp.gallery.act.account.SearchUserAccountsAction">
+
+            <forward name="success" path=".user.viewuseraccounts"/>
+        </action>
+
+        <action
+            path="/user/viewguestaccounts"
+            type="erland.webapp.gallery.act.guestaccount.SearchGuestAccountsAction">
+
+            <forward name="success" path=".user.viewguestaccounts"/>
+        </action>
+
+        <action
+            path="/user/newguestaccount"
+            type="org.apache.struts.actions.ForwardAction"
+            name="guestAccountFB"
+            validate="false"
+            parameter=".user.editguestaccount">
+        </action>
+
+        <action
+            path="/user/editguestaccount"
+            type="erland.webapp.gallery.act.guestaccount.NewGuestAccountAction"
+            name="guestAccountFB"
+            input=".user.editguestaccount"
+            validate="true">
+
+            <forward name="success" path="/do/user/viewguestaccounts"/>
+        </action>
+
+        <action
+            path="/user/removeguestaccount"
+            type="erland.webapp.gallery.act.guestaccount.RemoveGuestAccountAction"
+            name="guestAccountFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/viewguestaccounts"/>
+        </action>
+
+        <action
+            path="/user/viewpicturestorages"
+            type="erland.webapp.gallery.act.gallery.picturestorage.SearchPictureStoragesAction">
+
+            <forward name="success" path=".user.viewpicturestorages"/>
+        </action>
+
+        <action
+            path="/user/viewpicturestorage"
+            type="erland.webapp.gallery.act.gallery.picturestorage.ViewPictureStorageAction"
+            name="storageFB"
+            validate="false">
+
+            <forward name="success" path=".user.editpicturestorage"/>
+        </action>
+
+        <action
+            path="/user/newpicturestorage"
+            type="org.apache.struts.actions.ForwardAction"
+            name="storageFB"
+            validate="false"
+            parameter=".user.editpicturestorage">
+        </action>
+
+        <action
+            path="/user/editpicturestorage"
+            type="erland.webapp.gallery.act.gallery.picturestorage.EditPictureStorageAction"
+            name="storageFB"
+            input=".user.editpicturestorage"
+            validate="true">
+
+            <forward name="success" path="/do/user/viewpicturestorages"/>
+        </action>
+
+        <action
+            path="/user/removepicturestorage"
+            type="erland.webapp.gallery.act.gallery.picturestorage.RemovePictureStorageAction"
+            name="storageFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/viewpicturestorages"/>
+        </action>
+
+        <action
+            path="/user/viewskins"
+            type="erland.webapp.gallery.act.skin.SearchSkinsAction">
+
+            <forward name="success" path=".user.viewskins"/>
+        </action>
+
+        <action
+            path="/user/viewskin"
+            type="erland.webapp.gallery.act.skin.ViewSkinAction"
+            name="skinFB"
+            validate="false">
+
+            <forward name="success" path=".user.editskin"/>
+        </action>
+
+        <action
+            path="/user/newskin"
+            type="org.apache.struts.actions.ForwardAction"
+            name="skinFB"
+            validate="false"
+            parameter=".user.editskin">
+        </action>
+
+        <action
+            path="/user/editskin"
+            type="erland.webapp.gallery.act.skin.EditSkinAction"
+            name="skinFB"
+            input=".user.editskin"
+            validate="true">
+
+            <forward name="success" path="/do/user/viewskins"/>
+        </action>
+
+        <action
+            path="/user/removeskin"
+            type="erland.webapp.gallery.act.skin.RemoveSkinAction"
+            name="skinFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/viewskins"/>
+        </action>
+
+        <action
+            path="/user/viewusertaskstatus"
+            type="erland.webapp.gallery.act.tasks.ViewUserTasksStatusAction"
+            validate="false">
+
+            <forward name="success" path=".user.viewusertaskstatus"/>
+        </action>
+
+        <action
+            path="/user/viewtaskstatus"
+            type="erland.webapp.gallery.act.tasks.ViewTasksStatusAction"
+            validate="false">
+
+            <forward name="success" path=".user.viewtaskstatus"/>
+        </action>
+
+        <action
+            path="/user/viewtasks"
+            type="erland.webapp.gallery.act.tasks.ViewTasksAction"
+            name="editTasksFB"
+            validate="false">
+
+            <forward name="success" path=".user.edittasks"/>
+        </action>
+
+        <action
+            path="/user/edittasks"
+            type="erland.webapp.gallery.act.tasks.EditTasksAction"
+            name="editTasksFB"
+            input=".user.edittasks"
+            validate="true">
+
+            <forward name="success" path="/do/user/home"/>
+        </action>
+
+        <action
+            path="/user/viewfilters"
+            type="erland.webapp.gallery.act.gallery.filter.SearchFiltersAction">
+
+            <forward name="success" path=".user.viewfilters"/>
+        </action>
+
+        <action
+            path="/user/viewfilter"
+            type="erland.webapp.gallery.act.gallery.filter.ViewFilterAction"
+            name="filterFB"
+            validate="false">
+
+            <forward name="success" path=".user.editfilter"/>
+        </action>
+
+        <action
+            path="/user/newfilter"
+            type="org.apache.struts.actions.ForwardAction"
+            name="filterFB"
+            validate="false"
+            parameter=".user.editfilter">
+        </action>
+
+        <action
+            path="/user/editfilter"
+            type="erland.webapp.gallery.act.gallery.filter.EditFilterAction"
+            name="filterFB"
+            input=".user.editfilter"
+            validate="true">
+
+            <forward name="success" path="/do/user/viewfilters"/>
+        </action>
+
+        <action
+            path="/user/removefilter"
+            type="erland.webapp.gallery.act.gallery.filter.RemoveFilterAction"
+            name="filterFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/viewfilters"/>
+        </action>
+
+        <action
+            path="/user/viewgalleryfilters"
+            type="erland.webapp.gallery.act.gallery.filter.SearchGalleryFiltersAction"
+            name="menuFB"
+            validate="false">
+
+            <forward name="new-filter-link" path="/do/user/newgalleryfilter?gallery={gallery}"/>
+
+            <forward name="success" path=".user.viewgalleryfilters"/>
+        </action>
+
+        <action
+            path="/user/viewgalleryfilter"
+            type="erland.webapp.gallery.act.gallery.filter.ViewGalleryFilterAction"
+            name="galleryFilterFB"
+            validate="false">
+
+            <forward name="success" path=".user.editgalleryfilter"/>
+        </action>
+
+        <action
+            path="/user/newgalleryfilter"
+            type="erland.webapp.gallery.act.gallery.filter.NewGalleryFilterAction"
+            name="galleryFilterFB"
+            validate="false">
+
+            <forward name="success" path=".user.editgalleryfilter"/>
+        </action>
+
+        <action
+            path="/user/editgalleryfilter"
+            type="erland.webapp.gallery.act.gallery.filter.EditGalleryFilterAction"
+            name="galleryFilterFB"
+            input=".user.editgalleryfilter"
+            validate="true">
+
+            <forward name="success" path="/do/user/viewgalleryfilters?gallery={gallery}"/>
+        </action>
+
+        <action
+            path="/user/removegalleryfilter"
+            type="erland.webapp.gallery.act.gallery.filter.RemoveGalleryFilterAction"
+            name="galleryFilterFB"
+            validate="false">
+
+            <forward name="success" path="/do/user/viewgalleryfilters"/>
+        </action>
+
+        <action
+            path="/skin/menuviewcategory"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path="/do/skin/viewpicturesloadmenu"/>
+        </action>
+        <action
+            path="/skin/menuviewpictures"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path="/do/skin/viewpicturesloadmenu"/>
+        </action>
+
+        <action
+            path="/skin/menuviewgallery"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path="/do/skin/viewpicturesloadmenu"/>
+        </action>
+
+        <action
+            path="/skin/viewpicturesloadmenu"
+            type="erland.webapp.gallery.act.gallery.SearchOfficialGalleriesAndCategoriesAction"
+            name="menuFB"
+            parameter="skin">
+            <forward name="gallery" path="/do/skin/menuviewgallery?user={user}&amp;menuItemId={menuItemId}&amp;gallery={gallery}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
+            <forward name="category" path="/do/skin/menuviewcategory?user={user}&amp;menuItemId={menuItemId}&amp;gallery={gallery}&amp;category={category}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
+            <forward name="success" path="/do/skin/viewpictures"/>
+        </action>
+
+        <action
+            path="/skin/viewpictures"
+            type="erland.webapp.gallery.act.gallery.picture.SearchOfficialPicturesAction"
+            name="selectPictureFB"
+            validate="false"
+            parameter="useskin">
+
+            <forward name="success" path=".skin.viewpictures"/>
+            <forward name="picture-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
+            <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
+            <forward name="previous-link" path="/do/skin/menuviewpictures?user={user}&amp;[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
+            <forward name="picture-resolution-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
+            <forward name="next-link" path="/do/skin/menuviewpictures?user={user}&amp;[menuItemId,menuItemId={menuItemId}]&amp;gallery={gallery}[category,&amp;category={category}]&amp;start={start}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
+            <forward name="search-link" path="/do/skin/newsearch?user={user}&amp;gallery={gallery}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
+
+            <forward name="skin-layout" path="/WEB-INF/tiles/skin/default/layout.jsp"/>
+            <forward name="skin-layoutSingle" path="/WEB-INF/tiles/skin/default/layoutSingle.jsp"/>
+            <forward name="skin-header" path="/WEB-INF/tiles/skin/default/header.jsp"/>
+            <forward name="skin-menu" path="/WEB-INF/tiles/skin/default/menu.jsp"/>
+            <forward name="skin-search" path="/WEB-INF/tiles/skin/default/search.jsp"/>
+            <forward name="skin-viewpicture" path="/WEB-INF/tiles/skin/default/viewpicture.jsp"/>
+            <forward name="skin-viewpictures" path="/WEB-INF/tiles/skin/default/viewpictures.jsp"/>
+        </action>
+
+        <action
+            path="/skin/viewimage"
+            type="erland.webapp.gallery.act.loader.LoadMetadataAction"
+            name="metadataResolutionImageFB"
+            validate="false"
+            scope="request"
+            parameter="useskin">
+            <forward name="show-all-metadata-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;showAll=true[skin,&amp;skin={skin}]"/>
+            <forward name="show-selected-metadata-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}[skin,&amp;skin={skin}]"/>
+            <forward name="picture-image" path="/do/guest/loadimage?gallery={gallery}&amp;image={picture}&amp;width={width}&amp;useCache=false"/>
+            <forward name="success" path=".skin.viewimage"/>
+            <forward name="failure" path="/images/thumbnailna.gif"/>
+
+            <forward name="skin-layout" path="/WEB-INF/tiles/skin/default/layout.jsp"/>
+            <forward name="skin-layoutSingle" path="/WEB-INF/tiles/skin/default/layoutSingle.jsp"/>
+            <forward name="skin-header" path="/WEB-INF/tiles/skin/default/header.jsp"/>
+            <forward name="skin-menu" path="/WEB-INF/tiles/skin/default/menu.jsp"/>
+            <forward name="skin-search" path="/WEB-INF/tiles/skin/default/search.jsp"/>
+            <forward name="skin-viewpicture" path="/WEB-INF/tiles/skin/default/viewpicture.jsp"/>
+            <forward name="skin-viewpictures" path="/WEB-INF/tiles/skin/default/viewpictures.jsp"/>
+        </action>
+
+        <action
+            path="/skin/newsearch"
+            type="erland.webapp.gallery.act.gallery.picture.NewOfficialSearchPicturesAction"
+            name="searchPictureFB"
+            validate="false">
+
+            <forward name="success" path=".skin.editsearch"/>
+        </action>
+
+        <action
+            path="/skin/viewsearchpictures"
+            type="erland.webapp.gallery.act.gallery.picture.AdvancedSearchOfficialPicturesAction"
+            name="searchPictureFB"
+            validate="false"
+            parameter="useskin">
+
+            <forward name="success" path=".skin.viewpictures"/>
+            <forward name="picture-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width=9999"/>
+            <forward name="picture-image" path="/do/guest/loadthumbnail?gallery={gallery}&amp;image={picture}[thumbnailwidth,&amp;width={thumbnailwidth}][thumbnailheight,&amp;height={thumbnailheight}]"/>
+            <forward name="previous-link" path="/do/skin/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
+            <forward name="picture-resolution-link" path="/do/skin/viewimage?gallery={gallery}&amp;image={picture}&amp;width={width}"/>
+            <forward name="next-link" path="/do/skin/viewsearchpictures?user={user}&amp;gallery={gallery}[categoriesDisplay,&amp;categoriesDisplay={categoriesDisplay}]&amp;allCategories={allCategoriesDisplay}&amp;dateBeforeDisplay={dateBeforeDisplay}&amp;dateAfterDisplay={dateAfterDisplay}&amp;start={start}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
+            <forward name="search-link" path="/do/skin/newsearch?user={user}&amp;gallery={gallery}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
+
+            <forward name="skin-layout" path="/WEB-INF/tiles/skin/default/layout.jsp"/>
+            <forward name="skin-layoutSingle" path="/WEB-INF/tiles/skin/default/layoutSingle.jsp"/>
+            <forward name="skin-header" path="/WEB-INF/tiles/skin/default/header.jsp"/>
+            <forward name="skin-menu" path="/WEB-INF/tiles/skin/default/menu.jsp"/>
+            <forward name="skin-search" path="/WEB-INF/tiles/skin/default/search.jsp"/>
+            <forward name="skin-viewpicture" path="/WEB-INF/tiles/skin/default/viewpicture.jsp"/>
+            <forward name="skin-viewpictures" path="/WEB-INF/tiles/skin/default/viewpictures.jsp"/>
+        </action>
+
+        <action
+            path="/skin/home"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/do/skin/loadmenu">
+        </action>
+
+        <action
+            path="/skin/loadmenu"
+            type="erland.webapp.gallery.act.gallery.SearchOfficialGalleriesAndCategoriesAction"
+            name="menuFB"
+            parameter="skin">
+            <forward name="gallery" path="/do/skin/menuviewgallery?user={user}&amp;menuItemId={menuItemId}&amp;gallery={gallery}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
+            <forward name="category" path="/do/skin/menuviewcategory?user={user}&amp;menuItemId={menuItemId}&amp;gallery={gallery}&amp;category={category}[max,&amp;max={max}][skin,&amp;skin={skin}]"/>
+            <forward name="success" path="/do/skin/viewdefaultgallery"/>
+        </action>
+
+        <action
+            path="/skin/viewdefaultgallery"
+            type="erland.webapp.gallery.act.account.ViewOfficialDefaultGalleryAction"
+            name="selectUserFB"
+            parameter="useskin">
+            <forward name="success" path="/do/skin/menuviewgallery?user={user}&amp;menuName=mainMenu&amp;menuItemId={gallery}&amp;gallery={gallery}[skin,&amp;skin={skin}]"/>
+            <forward name="failure" path=".skin.index"/>
+
+            <forward name="skin-layout" path="/WEB-INF/tiles/skin/default/layout.jsp"/>
+            <forward name="skin-layoutSingle" path="/WEB-INF/tiles/skin/default/layoutSingle.jsp"/>
+            <forward name="skin-header" path="/WEB-INF/tiles/skin/default/header.jsp"/>
+            <forward name="skin-menu" path="/WEB-INF/tiles/skin/default/menu.jsp"/>
+            <forward name="skin-search" path="/WEB-INF/tiles/skin/default/search.jsp"/>
+            <forward name="skin-viewpicture" path="/WEB-INF/tiles/skin/default/viewpicture.jsp"/>
+            <forward name="skin-viewpictures" path="/WEB-INF/tiles/skin/default/viewpictures.jsp"/>
+        </action>
+
+        <action
+            path="/logout"
+            type="erland.webapp.common.act.InvalidateSessionAction">
+            <forward name="success" path="/do/index"/>
+        </action>
+    </action-mappings>
+
+    <message-resources parameter="erland.webapp.gallery.resources.message" null="false"/>
+
+    <plug-in className="erland.webapp.common.act.WebAppEnvironmentPlugin">
+        <set-property
+            property="applicationName"
+            value="gallery"/>
+        <set-property
+            property="xmlParser"
+            value="erland.util.SAXXMLParser"/>
+    </plug-in>
+    <plug-in className="erland.webapp.common.act.LogConfigurationPlugin">
+        <set-property
+            property="logConfigurationFile"
+            value="gallery_log.xml"/>
+    </plug-in>
+    <plug-in className="org.apache.struts.tiles.TilesPlugin">
+        <set-property property="definitions-config"
+            value="/WEB-INF/tiles-defs.xml"/>
+    </plug-in>
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property
+            property="pathnames"
+            value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    </plug-in>
+    <plug-in className="erland.webapp.common.act.HtmlEncoderPlugin">
+        <set-property property="replaceRoutines"
+            value="erland.webapp.common.html.HTMLBasicStringReplace,
+                   erland.webapp.common.html.HTMLLinkStringReplace,
+                   erland.webapp.common.html.HTMLBoldLinkStringReplace"/>
+    </plug-in>
+    <plug-in className="erland.webapp.common.act.DescriptionTagPlugin"/>
+    <plug-in className="erland.webapp.gallery.act.gallery.importers.ExternalIMatchImportPlugin"/>
+    <plug-in className="erland.webapp.gallery.act.gallery.importers.IMatchImportPlugin"/>
+    <plug-in className="erland.webapp.gallery.act.loader.GenerateThumbnailPlugin"/>
+</struts-config>
