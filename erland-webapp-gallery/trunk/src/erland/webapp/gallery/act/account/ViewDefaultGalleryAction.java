@@ -24,6 +24,9 @@ import erland.webapp.gallery.entity.account.UserAccount;
 import erland.webapp.gallery.fb.account.AccountFB;
 import erland.webapp.gallery.fb.account.SelectUserFB;
 import erland.webapp.gallery.fb.gallery.SelectGalleryFB;
+import erland.webapp.gallery.fb.skin.SkinFB;
+import erland.webapp.gallery.act.skin.SkinHelper;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 
@@ -41,6 +44,22 @@ public class ViewDefaultGalleryAction extends BaseAction {
         UserAccount template = (UserAccount) getEnvironment().getEntityFactory().create("gallery-useraccount");
         template.setUsername(username);
         UserAccount account = (UserAccount) getEnvironment().getEntityStorageFactory().getStorage("gallery-useraccount").load(template);
+
+        if(account.getStylesheet()!=null && account.getStylesheet().length()>0) {
+            request.getSession().setAttribute("stylesheetPB",account.getStylesheet());
+        }else {
+            request.getSession().removeAttribute("stylesheetPB");
+        }
+        String skin = account.getSkin();
+        if(StringUtil.asNull(fb.getSkin())!=null) {
+            skin = fb.getSkin();
+        }
+        SkinFB previous = (SkinFB) request.getSession().getAttribute("skinPB");
+        if(mapping.getParameter()!=null && mapping.getParameter().equals("useskin") && (previous==null || previous.getId()==null || !previous.getId().equals(skin))) {
+            SkinFB pbSkin = SkinHelper.loadSkin(mapping,skin);
+            request.getSession().setAttribute("skinPB",pbSkin);
+        }
+
         Integer gallery = null;
         if(account.getDefaultGallery()!=null && account.getDefaultGallery().intValue()>0) {
             gallery = account.getDefaultGallery();
@@ -48,11 +67,6 @@ public class ViewDefaultGalleryAction extends BaseAction {
             saveErrors(request, Arrays.asList(new String[]{"gallery.account.no-defaultgallery"}));
         }
         setGallery(request,gallery);
-        if(account.getStylesheet()!=null && account.getStylesheet().length()>0) {
-            request.getSession().setAttribute("stylesheetPB",account.getStylesheet());
-        }else {
-            request.getSession().removeAttribute("stylesheetPB");
-        }
     }
 
     protected String getUsername(HttpServletRequest request, SelectUserFB fb) {
