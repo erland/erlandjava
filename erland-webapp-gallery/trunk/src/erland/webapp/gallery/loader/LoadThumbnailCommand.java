@@ -22,7 +22,6 @@ package erland.webapp.gallery.loader;
 import erland.webapp.common.CommandInterface;
 import erland.webapp.common.CommandResponseInterface;
 import erland.webapp.common.ServletParameterHelper;
-import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.image.ImageThumbnail;
 import erland.webapp.common.image.ImageWriteHelper;
 import erland.webapp.gallery.account.UserAccount;
@@ -36,10 +35,6 @@ import java.io.IOException;
 
 public class LoadThumbnailCommand extends LoadImageCommand implements CommandInterface, CommandResponseInterface {
     private UserAccount account;
-
-    public void init(WebAppEnvironmentInterface environment) {
-        super.init(environment);
-    }
 
     protected String getImageFileName(Picture picture) {
         return picture.getImage().substring(1, picture.getImage().length() - 1);
