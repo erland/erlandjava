@@ -29,7 +29,7 @@ import javax.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.util.*;
 
-public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterface {
+public abstract class BaseServlet extends HttpServlet implements WebAppEnvironmentInterface {
     private ParameterValueStorageExInterface resources=null;
     private ParameterValueStorageExInterface configurableResources=null;
     private EntityFactoryInterface entityFactory;
@@ -102,19 +102,19 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
 
     public ParameterValueStorageExInterface getResources() {
         if(resources==null) {
-            resources = new ParameterStorageChild("resources.",new ParameterStorageTree(getStorage()));
+            resources = new ParameterStorageChild("resources.",new ParameterStorageTree(getStorage(),new JarFileStorageFactory()));
         }
         return resources;
     }
     protected String getConfigurableResourcesEntityName() {
-        return "resource";
+        return "common-resource";
     }
     protected boolean getConfigurableResourcesCache() {
         return true;
     }
     public ParameterValueStorageExInterface getConfigurableResources() {
         if(configurableResources==null) {
-            configurableResources = new ParameterStorageChild("resources.",new ResourceStorage(getEnvironment(),getConfigurableResourcesEntityName(),getConfigurableResourcesCache()));
+            configurableResources = new ParameterStorageChild("resources.",new ResourceStorage(getEnvironment(),getApplicationName(),getConfigurableResourcesEntityName(),getConfigurableResourcesCache()));
         }
         return configurableResources;
     }
@@ -470,4 +470,6 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
         }
         return sb.toString();
     }
+
+    protected abstract String getApplicationName();
 }
