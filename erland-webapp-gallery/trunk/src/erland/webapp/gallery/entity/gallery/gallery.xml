@@ -46,6 +46,38 @@
                 <column>maxwidth</column>
                 <type>Integer</type>
             </field>
+            <field id="officialCategory">
+                <column>officialcategory</column>
+                <type>Integer</type>
+            </field>
+            <field id="officialGuestCategory">
+                <column>officialguestcategory</column>
+                <type>Integer</type>
+            </field>
+            <field id="compression">
+                <column>compression</column>
+                <type>Float</type>
+            </field>
+            <field id="thumbnailCompression">
+                <column>thumbnailCompression</column>
+                <type>Float</type>
+            </field>
+            <field id="skin">
+                <column>skin</column>
+                <type>String</type>
+            </field>
+            <field id="antialias">
+                <column>antialias</column>
+                <type>Boolean</type>
+            </field>
+            <field id="thumbnailAntialias">
+                <column>thumbnailantialias</column>
+                <type>Boolean</type>
+            </field>
+            <field id="cacheDate">
+                <column>cachedate</column>
+                <type>Timestamp</type>
+            </field>
         </fields>
         <queries>
             <query id="allforuser">
