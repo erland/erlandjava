@@ -28,41 +28,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SearchOfficialPicturesAction extends SearchPicturesAction {
-    public final static String OFFICIAL = SearchOfficialPicturesAction.class + "-official";
-
-    protected void preProcess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        SelectPictureFB fb = (SelectPictureFB) form;
-        Boolean official = Boolean.TRUE;
-        String username = request.getRemoteUser();
-        if (fb != null) {
-            username = fb.getUser();
-        }
-        if (GuestAccountHelper.isGuestUser(getEnvironment(), username, fb.getGuestUser())) {
-            official = Boolean.FALSE;
-        }
-        setOfficial(request, official);
-    }
-
     protected String getAllFilter(HttpServletRequest request) {
-        if (getOfficial(request).booleanValue()) {
-            return "allofficialforgallery";
-        } else {
-            return super.getAllFilter(request);
-        }
+        return "allofficialforgallery";
     }
 
     protected String getCategoryTreeFilter(HttpServletRequest request) {
-        if (getOfficial(request).booleanValue()) {
-            return "allofficialforgalleryandcategorylist";
-        } else {
-            return super.getCategoryTreeFilter(request);
-        }
-    }
-    public Boolean getOfficial(HttpServletRequest request) {
-        return (Boolean) request.getAttribute(OFFICIAL);
-    }
-
-    public void setOfficial(HttpServletRequest request, Boolean official) {
-        request.setAttribute(OFFICIAL,official);
+        return "allofficialforgalleryandcategorylist";
     }
 }
