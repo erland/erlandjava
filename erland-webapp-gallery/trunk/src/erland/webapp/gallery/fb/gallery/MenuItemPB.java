@@ -27,6 +27,7 @@ public class MenuItemPB extends BaseFB {
     private String name;
     private String path;
     private String user;
+    private String idText;
     private MenuItemPB[] childs;
 
     public Integer getId() {
@@ -35,6 +36,14 @@ public class MenuItemPB extends BaseFB {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getIdText() {
+        return idText;
+    }
+
+    public void setIdText(String idText) {
+        this.idText = idText;
     }
 
     public String getIdDisplay() {
