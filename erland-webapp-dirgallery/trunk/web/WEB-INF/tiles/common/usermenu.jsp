@@ -7,7 +7,7 @@
 <erland-common:menu id="mainMenu" menuStyle="no-border" style="bold-link" styleSelected="bold-link-selected" indentWidth="10" indentImage="/images/transparent.gif" >
     <erland-common:menuitem id="galleries" titleKey="dirgallery.menu.galleries" page="/do/user/menu?id={menuItemId}" >
         <erland-common:menuitem id="new" titleKey="dirgallery.menu.galleries.new" page="/do/user/menu?id={menuItemId}" />
-        <erland-common:beanmenuitem bean="menuGalleriesPB" id="idDisplay" titleKey="name" page="path" childs="childs" />
+        <erland-common:beanmenuitem bean="menuGalleriesPB" id="idDisplay" title="name" page="path" childs="childs" />
     </erland-common:menuitem>
     <erland-common:menuitem id="preferences" titleKey="dirgallery.menu.preferences" page="/do/user/menu?id={menuItemId}" />
     <erland-common:menuitem id="users" titleKey="dirgallery.menu.users" page="/do/user/menu?id={menuItemId}" roles="manager">
