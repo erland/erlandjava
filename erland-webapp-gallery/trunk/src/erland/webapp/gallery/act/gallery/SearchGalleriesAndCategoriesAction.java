@@ -21,6 +21,7 @@ package erland.webapp.gallery.act.gallery;
 
 import erland.webapp.common.EntityInterface;
 import erland.webapp.common.QueryFilter;
+import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.gallery.fb.gallery.SelectGalleryFB;
 import erland.webapp.gallery.fb.gallery.MenuItemPB;
@@ -141,6 +142,15 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
                 pbGuest[i].setChilds(pbGalleries);
             }
             request.getSession().setAttribute(prefix+"guestMenuGalleriesAndCategoriesPB", pbGuest);
+
+            String path = getEnvironment().getConfigurableResources().getParameter("helppath");
+            if(path!=null) {
+                MenuItemPB helpMenuPB = new MenuItemPB();
+                helpMenuPB.setName("gallery.menu.help");
+                helpMenuPB.setPath(ServletParameterHelper.replaceDynamicParameters(path,new HashMap()));
+                helpMenuPB.setIdText("help");
+                request.getSession().setAttribute("helpMenuPB",helpMenuPB);
+            }
         }
     }
 
