@@ -2026,6 +2026,9 @@
         <page id="searchgalleriesguestviewdefaultgallery">
             <forward>portal?do=searchcategoriesguest&amp;start=0&amp;max=9</forward>
         </page>
+        <page id="searchgalleries">
+            <forward>portal?do=viewwelcometext</forward>
+        </page>
         <page id="viewdefaultgallery">
             <page id="withdefaultgallery">
                 <forward>portal?do=searchgalleriesviewdefaultgallery&amp;gallery={defaultgallery}</forward>
