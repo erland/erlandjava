@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE securityfilter-config PUBLIC
+    "-//SecurityFilter.org//DTD Security Filter Configuration 1.1//EN"
+    "http://www.securityfilter.org/dtd/securityfilter-config_1_1.dtd">
+
+<securityfilter-config>
+
+   <security-constraint>
+      <web-resource-collection>
+         <web-resource-name>Secure Page</web-resource-name>
+         <url-pattern>/do/user/*</url-pattern>
+      </web-resource-collection>
+      <auth-constraint>
+         <role-name>user</role-name>
+      </auth-constraint>
+   </security-constraint>
+
+   <login-config>
+      <auth-method>FORM</auth-method>
+      <realm-name>Erlands Security Realm</realm-name>
+      <form-login-config>>
+          <form-default-page>/do/user/home</form-default-page>
+          <form-error-page>/do/index</form-error-page>
+          <form-login-page>/do/index</form-login-page>
+      </form-login-config>
+   </login-config>
+
+   <realm className="erland.webapp.usermgmt.SecurityFilterRealm">
+      <realm-param name="application" value="gallery" />
+   </realm>
+
+</securityfilter-config>
