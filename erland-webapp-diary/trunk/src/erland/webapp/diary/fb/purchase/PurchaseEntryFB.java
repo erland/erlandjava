@@ -1,11 +1,11 @@
 package erland.webapp.diary.fb.purchase;
 
-import org.apache.struts.validator.ValidatorForm;
 import org.apache.struts.action.ActionMapping;
 
 import java.util.Date;
 
 import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.common.fb.BaseFB;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
  * 
  */
 
-public class PurchaseEntryFB extends ValidatorForm {
+public class PurchaseEntryFB extends BaseFB {
     private Integer id;
     private Date date;
     private String store;

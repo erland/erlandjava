@@ -1,11 +1,10 @@
 package erland.webapp.diary.fb.inventory;
 
-import org.apache.struts.validator.ValidatorForm;
 import org.apache.struts.action.ActionMapping;
 import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.common.fb.BaseFB;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -26,7 +25,7 @@ import java.util.Date;
  * 
  */
 
-public class InventoryEntryFB extends ValidatorForm {
+public class InventoryEntryFB extends BaseFB {
     private Integer id;
     private Integer type;
     private String typeDescription;

@@ -1,6 +1,6 @@
 package erland.webapp.diary.fb.diary;
 
-import org.apache.struts.action.ActionForm;
+import erland.webapp.common.fb.BasePB;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionForm;
  * 
  */
 
-public class YearMonthsPB extends ActionForm {
+public class YearMonthsPB extends BasePB {
     KeyLinkPB[] years;
     KeyLinkPB[] months;
 

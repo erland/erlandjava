@@ -1,9 +1,7 @@
 package erland.webapp.diary.fb.gallery;
 
-import org.apache.struts.validator.ValidatorForm;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionForm;
-import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.common.fb.BasePB;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
  * 
  */
 
-public class GalleryEntryCollectionPB extends ActionForm {
+public class GalleryEntryCollectionPB extends BasePB {
     private GalleryEntryPB[] pictures;
 
     public GalleryEntryPB[] getPictures() {

@@ -1,7 +1,7 @@
 package erland.webapp.diary.fb.inventory;
 
 import erland.webapp.common.ServletParameterHelper;
-import org.apache.struts.action.ActionForm;
+import erland.webapp.common.fb.BasePB;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
  * 
  */
 
-public class DescriptionIdPB extends ActionForm {
+public class DescriptionIdPB extends BasePB {
     private Integer id;
     private String description;
 

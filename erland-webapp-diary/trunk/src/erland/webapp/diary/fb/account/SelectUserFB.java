@@ -1,9 +1,10 @@
 package erland.webapp.diary.fb.account;
 
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.validator.ValidatorForm;
 
 import javax.servlet.http.HttpServletRequest;
+
+import erland.webapp.common.fb.BaseFB;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -24,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
  * 
  */
 
-public class SelectUserFB extends ValidatorForm {
+public class SelectUserFB extends BaseFB {
     private String user;
 
     public String getUser() {

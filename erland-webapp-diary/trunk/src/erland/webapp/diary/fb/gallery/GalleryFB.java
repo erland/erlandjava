@@ -1,8 +1,8 @@
 package erland.webapp.diary.fb.gallery;
 
-import org.apache.struts.validator.ValidatorForm;
 import org.apache.struts.action.ActionMapping;
 import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.common.fb.BaseFB;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
  * 
  */
 
-public class GalleryFB extends ValidatorForm {
+public class GalleryFB extends BaseFB {
     private Integer id;
     private String title;
     private String description;

@@ -1,9 +1,10 @@
 package erland.webapp.diary.fb.account;
 
-import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
+
+import erland.webapp.common.fb.BasePB;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -24,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
  * 
  */
 
-public class AccountPB extends ActionForm {
+public class AccountPB extends BasePB {
     private String username;
     private String firstName;
     private String lastName;

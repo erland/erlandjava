@@ -1,12 +1,11 @@
 package erland.webapp.diary.fb.diary;
 
-import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.validator.ValidatorForm;
 
 import javax.servlet.http.HttpServletRequest;
 
 import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.common.fb.BaseFB;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -27,7 +26,7 @@ import erland.webapp.common.ServletParameterHelper;
  * 
  */
 
-public class DiaryFB extends ValidatorForm {
+public class DiaryFB extends BaseFB {
     private Integer id;
     private String title;
     private String description;

@@ -1,11 +1,11 @@
 package erland.webapp.diary.fb.diary;
 
-import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
 import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.common.fb.BasePB;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -26,7 +26,7 @@ import erland.webapp.common.ServletParameterHelper;
  * 
  */
 
-public class KeyLinkPB extends ActionForm {
+public class KeyLinkPB extends BasePB {
     private String key;
     private String link;
     private Boolean selected;
