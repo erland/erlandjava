@@ -1,0 +1,13 @@
+<tag>
+  <name>safehtml</name>
+  <tagclass>erland.webapp.common.tags.ExpandHtmlTag</tagclass>
+  <bodycontent>JSP</bodycontent>
+  <info>Removes all &gt; and &lt; characters from string and inserts &lt;br&gt;</info>
+</tag>
+
+<tag>
+  <name>expandhtml</name>
+  <tagclass>erland.webapp.common.tags.ExpandHtmlTag</tagclass>
+  <bodycontent>JSP</bodycontent>
+  <info>Expands text to html, use HTMLEncoder to configure the expansion routine</info>
+</tag>
