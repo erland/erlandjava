@@ -42,102 +42,34 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class IMatchImportAction extends BaseImportAction {
-    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
+public class IMatchImportAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ImportFB fb = (ImportFB) form;
         try {
             if (fb.getClearCategories().booleanValue()) {
-                clearCategories(fb.getGallery());
+                ImportHelper.clearCategories(fb.getGallery());
             }
             if (fb.getClearPictures().booleanValue()) {
-                clearPictures(fb.getGallery());
+                ImportHelper.clearPictures(fb.getGallery());
             }
-            long orderNoStart = getFirstFreeOrderNo(fb.getGallery());
-            Map categories = new HashMap();
-            loadCategories(categories, fb.getGallery());
-            BufferedReader reader = null;
+            Reader reader = null;
             try {
-                reader = new BufferedReader(new FileReader(fb.getFile()));
+                reader = new FileReader(fb.getFile());
             } catch (FileNotFoundException e) {
-                reader = new BufferedReader(new InputStreamReader(new URL(fb.getFile()).openConnection().getInputStream()));
+                reader = new InputStreamReader(new URL(fb.getFile()).openStream());
             }
-            if (reader != null) {
-                //Ignore first line
-                reader.readLine();
-                String line = reader.readLine();
-                while (line != null) {
-                    doImport(categories, fb.getGallery(), line, fb.getLocalLinks(), fb.getFilenameAsPictureTitle(), fb.getFilenameAsPictureDescription(), orderNoStart++);
-                    line = reader.readLine();
+            IMatchImportPlugin plugin = IMatchImportPlugin.getInstance();
+            if(plugin!=null && plugin.isActive()) {
+                if(!plugin.importPictures(fb.getGallery(),reader,fb.getLocalLinks(),fb.getFilenameAsPictureTitle(),fb.getFilenameAsPictureDescription())) {
+                    saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.import.parse-failure"}));
+                    return;
                 }
-
-                updatePictures(fb.getGallery());
+            }else if(!IMatchImportHelper.importPictures(fb.getGallery(),reader,fb.getLocalLinks(),fb.getFilenameAsPictureTitle(),fb.getFilenameAsPictureDescription())) {
+                saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.import.parse-failure"}));
+                return;
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void doImport(Map previousCategories, Integer gallery, String line, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, long orderNoStart) {
-        StringTokenizer tokenizer = new StringTokenizer(line, "\t", true);
-        if (tokenizer.countTokens() >= 8) {
-            String picture = tokenizer.nextToken();
-            //Discard delimiter
-            tokenizer.nextToken();
-            String dateString = tokenizer.nextToken();
-            Date date = null;
-            try {
-                date = dateFormat.parse(dateString);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            //Discard delimiter
-            tokenizer.nextToken();
-            String oidString = tokenizer.nextToken();
-            Integer oid = null;
-            if (oidString != null && oidString.length() > 0) {
-                oid = Integer.valueOf(oidString);
-            }
-            String categories = "\"\"";
-            String title = null;
-            String description = null;
-            try {
-                //Discard delimiter
-                tokenizer.nextToken();
-                categories = tokenizer.nextToken();
-                if (categories.equalsIgnoreCase("\t")) {
-                    categories = "\"\"";
-                } else {
-                    //Discard delimiter
-                    tokenizer.nextToken();
-                }
-                title = tokenizer.nextToken();
-                if (title.equalsIgnoreCase("\t")) {
-                    title = null;
-                } else {
-                    //Discard delimiter
-                    tokenizer.nextToken();
-                }
-                if (title != null && title.length() > 0) {
-                    title = title.substring(1, title.length() - 1);
-                }
-                description = tokenizer.nextToken();
-                if (description.equalsIgnoreCase("\t")) {
-                    description = null;
-                }
-                if (description != null && description.length() > 0) {
-                    description = description.substring(1, description.length() - 1);
-                }
-            } catch (NoSuchElementException e) {
-                // Do nothing
-            }
-            Integer pictureId = createPicture(gallery, picture.substring(1, picture.length() - 1), date, oid, title, description, localLinks, filenameAsPictureTitle, filenameAsPictureDescription, new Long(orderNoStart));
-            for (StringTokenizer it = new StringTokenizer(categories.substring(1, categories.length() - 1), ","); it.hasMoreTokens();) {
-                String category = it.nextToken();
-                Integer categoryId = createCategory(previousCategories, gallery, category);
-                createPictureAssociation(gallery, pictureId, categoryId);
-            }
         }
     }
 }

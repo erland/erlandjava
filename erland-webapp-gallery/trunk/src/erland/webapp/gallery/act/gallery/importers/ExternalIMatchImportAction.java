@@ -39,6 +39,7 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import org.dom4j.DocumentException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,9 +66,7 @@ import java.util.*;
  * <br>     &lt;/image&gt;
  * <br>&lt;/images&gt;
  */
-public class ExternalIMatchImportAction extends BaseImportAction {
-    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
+public class ExternalIMatchImportAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ExternalImportFB fb = (ExternalImportFB) form;
         Log.println(this,"External import started...");
@@ -93,84 +92,23 @@ public class ExternalIMatchImportAction extends BaseImportAction {
         }
 
         if (fb.getClearCategories().booleanValue()) {
-            clearCategories(galleryId);
+            ImportHelper.clearCategories(galleryId);
         }
         if (fb.getClearPictures().booleanValue()) {
-            clearPictures(galleryId);
+            ImportHelper.clearPictures(galleryId);
         }
-        long orderNoStart = getFirstFreeOrderNo(galleryId);
-        Map categories = new HashMap();
-        loadCategories(categories, galleryId);
-
-        SAXReader reader = new SAXReader();
-        Document document = reader.read(request.getReader());
-
-        if (document != null) {
-            List list = document.selectNodes( "/images/image" );
-            Log.println(this,"Found "+list.size()+" image elements");
-            int i = 1;
-            for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-                Element element = (Element) iter.next();
-                Log.println(this,"Parsing image "+ i++);
-                doImport(categories, galleryId, element, fb.getLocalLinks(), fb.getFilenameAsPictureTitle(), fb.getFilenameAsPictureDescription(), orderNoStart++);
+        ExternalIMatchImportPlugin plugin = ExternalIMatchImportPlugin.getInstance();
+        if(plugin!=null && plugin.isActive()) {
+            if(!plugin.importPictures(galleryId,request.getReader(),fb.getLocalLinks(),fb.getFilenameAsPictureTitle(),fb.getFilenameAsPictureDescription())) {
+                saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.import.parse-failure"}));
+                return;
             }
-            Log.println(this,"All image elements imported, updating visibility flags...");
-            updatePictures(galleryId);
-            Log.println(this,"Visibility flags updated");
-        }else {
+        }else if(!ExternalIMatchImportHelper.importPictures(galleryId,request.getReader(),fb.getLocalLinks(),fb.getFilenameAsPictureTitle(),fb.getFilenameAsPictureDescription())){
             saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.import.parse-failure"}));
             return;
         }
     }
 
-    private void doImport(Map previousCategories, Integer gallery, Element element, Boolean localLinks, Boolean filenameAsPictureTitle, Boolean filenameAsPictureDescription, long orderNoStart) {
-        if (element != null) {
-            Node node = element.selectSingleNode("last-modified");
-            Date date = null;
-            if(node!=null) {
-                String dateString = node.getText();
-                try {
-                    date = dateFormat.parse(dateString);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-            String oidString = element.valueOf("@oid");
-            Integer oid = null;
-            if (oidString != null && oidString.length() > 0) {
-                oid = Integer.valueOf(oidString);
-            }
-            String title = null;
-            node = element.selectSingleNode("properties/property[@name='Title']");
-            if(node!=null) {
-                title = node.getText();
-            }
-            String description = null;
-            node = element.selectSingleNode("properties/property[@name='Description']");
-            if(node!=null) {
-                description = node.getText();
-            }
-            String filename = null;
-            node = element.selectSingleNode("filename");
-            if(node!=null) {
-                filename = node.getText();
-            }
-            Log.println(this,"filename="+filename,Log.DEBUG);
-            Log.println(this,"date="+date,Log.DEBUG);
-            Log.println(this,"oid="+oid,Log.DEBUG);
-            Log.println(this,"title="+title,Log.DEBUG);
-            Log.println(this,"description="+description,Log.DEBUG);
-            Integer pictureId = createPicture(gallery, filename, date, oid, title, description, localLinks, filenameAsPictureTitle, filenameAsPictureDescription, new Long(orderNoStart));
-            List list = element.selectNodes( "categories/category" );
-            for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-                Element e = (Element) iter.next();
-                String category = e.getText();
-                Log.println(this,"category="+category,Log.DEBUG);
-                Integer categoryId = createCategory(previousCategories, gallery, category);
-                createPictureAssociation(gallery, pictureId, categoryId);
-            }
-        }
-    }
     private boolean validateUser(String username, String password) {
         User user = (User)getEnvironment().getEntityFactory().create("usermgmt-user");
         user.setUsername(username);
