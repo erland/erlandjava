@@ -572,6 +572,15 @@
             <forward name="failure" path=".user.index"/>
             <forward name="success" path=".user.viewpurchaseentries"/>
         </action>
+        <action
+            path="/user/viewpurchasestats"
+            type="erland.webapp.diary.act.purchase.ViewPurchaseStatsAction"
+            name="selectUserFB">
+
+            <forward name="failure" path=".user.index"/>
+            <forward name="success" path=".user.viewpurchasestats"/>
+        </action>
+
 
         <action
             path="/user/newgallery"
