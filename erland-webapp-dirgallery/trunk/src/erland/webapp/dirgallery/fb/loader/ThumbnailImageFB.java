@@ -80,7 +80,7 @@ public class ThumbnailImageFB extends ImageFB {
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
-        useCache = Boolean.TRUE;
+        useCache = null;
         compression = null;
         width = null;
     }
