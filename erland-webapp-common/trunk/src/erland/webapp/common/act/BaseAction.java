@@ -22,14 +22,20 @@ package erland.webapp.common.act;
 
 import org.apache.struts.Globals;
 import org.apache.struts.action.*;
+import org.apache.commons.beanutils.PropertyUtils;
 
 import javax.servlet.ServletException;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Enumeration;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.ServletParameterHelper;
@@ -446,9 +452,9 @@ public class BaseAction extends Action {
      * @return The updated ActionForward, this is a new object if it has been updated or the same object if it has not
      * been updated
      */
-    protected ActionForward replaceDynamicParameters(ActionForward forward) {
+    protected ActionForward replaceDynamicParameters(HttpServletRequest request, ActionForward forward) {
         if(forward!=null) {
-            Map parameters = getDynamicParameters();
+            Map parameters = getDynamicParameters(request);
             if(parameters!=null) {
                 String path = ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters);
                 if(!path.equals(forward.getPath())) {
@@ -463,8 +469,32 @@ public class BaseAction extends Action {
      * Get dynamic parameter values that can be replaced in action forward objects
      * @return A Map with all dynamic parameters
      */
-    protected Map getDynamicParameters() {
-        return null;
+    protected Map getDynamicParameters(HttpServletRequest request) {
+        Map result = new HashMap();
+
+        HttpSession session = request.getSession();
+        if (session != null) {
+            Enumeration attributes = session.getAttributeNames();
+            while (attributes.hasMoreElements()) {
+                String name = (String) attributes.nextElement();
+                Object val = session.getAttribute(name);
+                if (val != null) {
+                    result.put(name, val);
+                }
+            }
+        }
+
+        Enumeration attributes = request.getAttributeNames();
+        while (attributes.hasMoreElements()) {
+            String name = (String) attributes.nextElement();
+            Object val = request.getAttribute(name);
+            if (val != null) {
+                result.put(name, val);
+            }
+        }
+
+        result.putAll(request.getParameterMap());
+        return result;
     }
 
 
@@ -500,7 +530,7 @@ public class BaseAction extends Action {
         preProcess(mapping, form, request, response);
 
         if (isErrors(request)) {
-            return replaceDynamicParameters(findFailure(mapping, form, request, response));
+            return replaceDynamicParameters(request,findFailure(mapping, form, request, response));
         }
 
         // Try the logic; Call catchException() if needed
@@ -517,10 +547,10 @@ public class BaseAction extends Action {
 
         // If errors queued, fail
         if (isErrors(request)) {
-            return replaceDynamicParameters(findFailure(mapping, form, request, response));
+            return replaceDynamicParameters(request,findFailure(mapping, form, request, response));
         }
 
-        return replaceDynamicParameters(findSuccess(mapping, form, request, response));
+        return replaceDynamicParameters(request,findSuccess(mapping, form, request, response));
     }
 }
 
