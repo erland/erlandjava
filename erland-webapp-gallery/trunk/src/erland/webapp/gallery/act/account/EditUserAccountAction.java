@@ -22,6 +22,7 @@ package erland.webapp.gallery.act.account;
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.gallery.entity.account.UserAccount;
 import erland.webapp.gallery.fb.account.AccountFB;
+import erland.util.StringUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -40,6 +41,14 @@ public class EditUserAccountAction extends BaseAction {
             request.getSession().setAttribute("stylesheetPB",account.getStylesheet());
         }else {
             request.getSession().removeAttribute("stylesheetPB");
+        }
+        if(account.getUsername().equals(request.getRemoteUser())) {
+            boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
+            String title = account.getTitle();
+            if(useEnglish && StringUtil.asNull(account.getTitleEnglish())!=null) {
+                title = account.getTitleEnglish();
+            }
+            request.getSession().setAttribute("titlePB",title);
         }
     }
 }

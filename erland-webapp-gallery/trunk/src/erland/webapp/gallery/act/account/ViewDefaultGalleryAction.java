@@ -64,7 +64,13 @@ public class ViewDefaultGalleryAction extends BaseAction {
         }else {
             request.getSession().setAttribute("stylesheetPB",pbSkin.getStylesheet());
         }
-
+        boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
+        String title = account.getTitle();
+        if(useEnglish && StringUtil.asNull(account.getTitleEnglish())!=null) {
+            title = account.getTitleEnglish();
+        }
+        request.getSession().setAttribute("titlePB",title);
+        
         Integer gallery = null;
         if(account.getDefaultGallery()!=null && account.getDefaultGallery().intValue()>0) {
             gallery = account.getDefaultGallery();
