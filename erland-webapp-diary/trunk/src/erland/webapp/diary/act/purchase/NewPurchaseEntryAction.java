@@ -21,7 +21,10 @@ package erland.webapp.diary.act.purchase;
 
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.diary.entity.purchase.PurchaseEntry;
+import erland.webapp.diary.entity.inventory.DescriptionId;
 import erland.webapp.diary.fb.purchase.PurchaseEntryFB;
+import erland.webapp.diary.fb.inventory.DescriptionIdPB;
+import erland.webapp.diary.logic.inventory.DescriptionIdHelper;
 import erland.webapp.usermgmt.User;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -41,6 +44,15 @@ public class NewPurchaseEntryAction extends BaseAction {
         fb.setDate(new Date());
         fb.setDescription(null);
         fb.setId(null);
+        fb.setCategory(new Integer(0)); // Set Unknown as default category
         fb.setStore(null);
+
+        DescriptionId[] types = DescriptionIdHelper.getDescriptionIdList("diary-purchaseentrycategory");
+        DescriptionIdPB[] typesPB = new DescriptionIdPB[types.length];
+        for (int i = 0; i < types.length; i++) {
+            typesPB[i] = new DescriptionIdPB();
+            PropertyUtils.copyProperties(typesPB[i],types[i]);
+        }
+        request.getSession().setAttribute("purchaseEntryCategoriesPB",typesPB);
     }
 }

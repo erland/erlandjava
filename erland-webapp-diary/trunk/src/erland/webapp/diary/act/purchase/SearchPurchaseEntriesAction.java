@@ -26,6 +26,7 @@ import erland.webapp.common.act.BaseAction;
 import erland.webapp.diary.entity.purchase.PurchaseEntry;
 import erland.webapp.diary.fb.account.SelectUserFB;
 import erland.webapp.diary.fb.purchase.PurchaseEntryPB;
+import erland.webapp.diary.logic.inventory.DescriptionIdHelper;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
@@ -54,6 +55,7 @@ public class SearchPurchaseEntriesAction extends BaseAction {
         for (int i = 0; i < entities.length; i++) {
             pb[i] = new PurchaseEntryPB();
             PropertyUtils.copyProperties(pb[i],entities[i]);
+            pb[i].setCategoryDescription(DescriptionIdHelper.getDescription("diary-purchaseentrycategory",((PurchaseEntry)entities[i]).getCategory()));
             parameters.put("id",((PurchaseEntry)entities[i]).getId());
             if(updateForward!=null) {
                 pb[i].setUpdateLink(ServletParameterHelper.replaceDynamicParameters(updateForward.getPath(),parameters));
