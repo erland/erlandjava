@@ -17,8 +17,16 @@
                 <column>welcometext</column>
                 <type>String</type>
             </field>
+            <field id="welcomeTextEnglish">
+                <column>welcometext_en</column>
+                <type>String</type>
+            </field>
             <field id="description">
                 <column>description</column>
+                <type>String</type>
+            </field>
+            <field id="descriptionEnglish">
+                <column>description_en</column>
                 <type>String</type>
             </field>
             <field id="logo">

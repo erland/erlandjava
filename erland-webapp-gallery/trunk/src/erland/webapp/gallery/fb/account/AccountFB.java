@@ -32,8 +32,10 @@ public class AccountFB extends BaseFB {
     private String password1;
     private String password2;
     private String welcomeText;
+    private String welcomeTextEnglish;
     private String copyrightText;
     private String description;
+    private String descriptionEnglish;
     private String logo;
     private Boolean official;
     private Integer defaultGallery;
@@ -160,6 +162,22 @@ public class AccountFB extends BaseFB {
         this.skin = skin;
     }
 
+    public String getWelcomeTextEnglish() {
+        return welcomeTextEnglish;
+    }
+
+    public void setWelcomeTextEnglish(String welcomeTextEnglish) {
+        this.welcomeTextEnglish = welcomeTextEnglish;
+    }
+
+    public String getDescriptionEnglish() {
+        return descriptionEnglish;
+    }
+
+    public void setDescriptionEnglish(String descriptionEnglish) {
+        this.descriptionEnglish = descriptionEnglish;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         username = null;
@@ -168,8 +186,10 @@ public class AccountFB extends BaseFB {
         password1 = null;
         password2 = null;
         welcomeText = null;
+        welcomeTextEnglish = null;
         copyrightText = null;
         description = null;
+        descriptionEnglish = null;
         logo = null;
         official = null;
         defaultGallery = null;

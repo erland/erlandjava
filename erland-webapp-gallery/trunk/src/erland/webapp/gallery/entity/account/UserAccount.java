@@ -24,7 +24,9 @@ import erland.webapp.common.BaseEntity;
 public class UserAccount extends BaseEntity {
     private String username;
     private String description;
+    private String descriptionEnglish;
     private String welcomeText;
+    private String welcomeTextEnglish;
     private String logo;
     private Boolean official;
     private Integer defaultGallery;
@@ -46,6 +48,14 @@ public class UserAccount extends BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getDescriptionEnglish() {
+        return descriptionEnglish;
+    }
+
+    public void setDescriptionEnglish(String descriptionEnglish) {
+        this.descriptionEnglish = descriptionEnglish;
     }
 
     public Boolean getOfficial() {
@@ -70,6 +80,14 @@ public class UserAccount extends BaseEntity {
 
     public void setWelcomeText(String welcomeText) {
         this.welcomeText = welcomeText;
+    }
+
+    public String getWelcomeTextEnglish() {
+        return welcomeTextEnglish;
+    }
+
+    public void setWelcomeTextEnglish(String welcomeTextEnglish) {
+        this.welcomeTextEnglish = welcomeTextEnglish;
     }
 
     public Integer getDefaultGallery() {
