@@ -70,10 +70,10 @@ public class ImageWriteHelper {
 
 
     public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, OutputStream output) {
-        return writeThumbnail(environment,width,useCache,compression,username,imageFile,copyrightText,thumbnailCreator,null,null,output);
+        return writeThumbnail(environment,width,useCache,compression,username,imageFile,copyrightText,thumbnailCreator,null,null,null,output);
     }
 
-    public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, ImageFilterContainerInterface preFilters, ImageFilterContainerInterface postFilters, OutputStream output) {
+    public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, String cachePrefix, ImageFilterContainerInterface preFilters, ImageFilterContainerInterface postFilters, OutputStream output) {
         Log.println(getLogInstance(), "Loading thumbnail image: " + imageFile);
         String cacheDir = environment.getConfigurableResources().getParameter("thumbnail.cache");
         int requestedWidth = width!=null?width.intValue():THUMBNAIL_WIDTH;
@@ -103,7 +103,7 @@ public class ImageWriteHelper {
 
                 File cachedFile = null;
                 if (useCache.booleanValue()) {
-                    cachedFile = getFromCache(cacheDir,username, requestedWidth, imageFile, lastModified);
+                    cachedFile = getFromCache(cacheDir, username, cachePrefix, requestedWidth, imageFile, lastModified);
                 }
                 if (cachedFile != null) {
                     InputStream inputCache = new FileInputStream(cachedFile);
@@ -112,14 +112,18 @@ public class ImageWriteHelper {
                     return true;
                 } else {
                     thumbnail = thumbnailCreator.create(url, requestedWidth, preFilters);
-                    ImageFilter[] filters = postFilters.getFilters();
+                    ImageFilter[] filters = postFilters!=null?postFilters.getFilters():null;
                     if(filters!=null && filters.length>0) {
                         ImageProducer prod = thumbnail.getSource();
                         for (int i = 0; i < filters.length; i++) {
                             ImageFilter postFilter = filters[i];
                             prod = new FilteredImageSource(prod,postFilter);
                         }
-                        Toolkit.getDefaultToolkit().createImage(prod);
+                        Image img = Toolkit.getDefaultToolkit().createImage(prod);
+                        thumbnail = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
+                        Graphics g = thumbnail.createGraphics();
+                        g.drawImage(img, 0, 0, null);
+                        g.dispose();
                     }
                     Graphics2D g2= thumbnail.createGraphics();
                     int finalWidth = thumbnail.getWidth();
@@ -142,7 +146,7 @@ public class ImageWriteHelper {
                         imageOutput.close();
 
                         if (useCache.booleanValue()) {
-                            setInCache(cacheDir,username, requestedWidth, imageFile, thumbnail, requestedCompression);
+                            setInCache(cacheDir,username, cachePrefix, requestedWidth, imageFile, thumbnail, requestedCompression);
                         }
                         return true;
                     }
@@ -185,12 +189,12 @@ public class ImageWriteHelper {
         writer.dispose();
     }
 
-    private static String getCacheFileName(String username, int width, String file) {
-        return username + "_" + width + "_" + file.replaceAll("[\\\\:/]", "_");
+    private static String getCacheFileName(String username, String cachePrefix, int width, String file) {
+        return username + "_" + (cachePrefix!=null?cachePrefix + "_":"") + width + "_" + file.replaceAll("[\\\\:/]", "_");
     }
 
-    private static File getFromCache(String cacheDir,String username, int width, String originalFile, long lastModified) {
-        String cacheFileName = getCacheFileName(username, width, originalFile);
+    private static File getFromCache(String cacheDir,String username, String cachePrefix, int width, String originalFile, long lastModified) {
+        String cacheFileName = getCacheFileName(username, cachePrefix, width, originalFile);
         Log.println(getLogInstance(), "Loading thumbnail from cache: " + cacheDir+"/"+cacheFileName);
         File cachedfile = new File(cacheDir + "/" + cacheFileName);
         if (cachedfile.exists()) {
@@ -201,9 +205,9 @@ public class ImageWriteHelper {
         return null;
     }
 
-    private static void setInCache(String cacheDir,String username, int width, String originalFile, BufferedImage image, float compression) {
+    private static void setInCache(String cacheDir,String username, String cachePrefix, int width, String originalFile, BufferedImage image, float compression) {
         try {
-            String cacheFileName = getCacheFileName(username, width, originalFile);
+            String cacheFileName = getCacheFileName(username, cachePrefix, width, originalFile);
             ImageOutputStream output = ImageIO.createImageOutputStream(new File(cacheDir + "/" + cacheFileName));
             writeImageToOutput(image, compression, output);
             output.close();
