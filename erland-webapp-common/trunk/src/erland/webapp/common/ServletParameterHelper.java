@@ -99,40 +99,40 @@ public class ServletParameterHelper {
         }
         return sb.toString();
     }
-    public static Boolean asBoolean(String value) {
-        Boolean booleanValue = Boolean.FALSE;
+    public static Boolean asBoolean(String value,Boolean defaultValue) {
+        Boolean booleanValue = defaultValue;
         if(value!=null && value.equalsIgnoreCase("true")) {
             booleanValue = Boolean.TRUE;
         }
         return booleanValue;
     }
 
-    public static Integer asInteger(String value) {
-        Integer integerValue = null;
+    public static Integer asInteger(String value,Integer defaultValue) {
+        Integer integerValue = defaultValue;
         if(value!=null && value.length()>0) {
             integerValue = Integer.valueOf(value);
         }
         return integerValue;
     }
 
-    public static Long asLong(String value) {
-        Long longValue = null;
+    public static Long asLong(String value, Long defaultValue) {
+        Long longValue = defaultValue;
         if(value!=null && value.length()>0) {
             longValue = Long.valueOf(value);
         }
         return longValue;
     }
 
-    public static Double asDouble(String value) {
-        Double doubleValue = null;
+    public static Double asDouble(String value, Double defaultValue) {
+        Double doubleValue = defaultValue;
         if(value!=null && value.length()>0) {
             doubleValue = Double.valueOf(value);
         }
         return doubleValue;
     }
 
-    public static Float asFloat(String value) {
-        Float floatValue = null;
+    public static Float asFloat(String value, Float defaultValue) {
+        Float floatValue = defaultValue;
         if(value!=null && value.length()>0) {
             floatValue = Float.valueOf(value);
         }
