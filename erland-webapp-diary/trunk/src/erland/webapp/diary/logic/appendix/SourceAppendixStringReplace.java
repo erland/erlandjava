@@ -24,7 +24,6 @@ import erland.webapp.common.QueryFilter;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
 import erland.webapp.common.html.StringReplaceInterface;
 import erland.webapp.diary.entity.appendix.AppendixEntry;
-import erland.util.Log;
 
 public class SourceAppendixStringReplace extends AppendixStringReplace {
     protected String getEntity() {

@@ -25,9 +25,12 @@ import erland.webapp.common.act.WebAppEnvironmentPlugin;
 import erland.webapp.common.html.StringReplaceInterface;
 import erland.webapp.common.html.DynamicStringReplaceInterface;
 import erland.webapp.diary.entity.appendix.AppendixEntry;
-import erland.util.Log;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class AppendixStringReplace implements DynamicStringReplaceInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(AppendixStringReplace.class);
     private EntityInterface[] entities = null;
     protected String getEntity() {
         return "diary-appendixentry";
@@ -38,17 +41,17 @@ public class AppendixStringReplace implements DynamicStringReplaceInterface {
     }
 
     public String replace(String str) {
-        Log.println(this,"replacing appendix entries with "+getClass().getName());
+        LOG.debug("replacing appendix entries with "+getClass().getName());
         if(entities==null) {
             entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage(getEntity()).search(new QueryFilter("all"));
         }
         for (int i = 0; i < entities.length; i++) {
             AppendixEntry entry = (AppendixEntry) entities[i];
-            Log.println(this,"replacing appendix entry "+entry.getName());
+            LOG.debug("replacing appendix entry "+entry.getName());
             if(entry.getDescription()!=null && entry.getDescription().length()>0) {
-                Log.println(this,"Before:"+str);
+                LOG.debug("Before:"+str);
                 str = doReplace(str,"(?i)(\\b\\w*"+entry.getName()+"\\w*\\b)",entry.getDescription());
-                Log.println(this,"After :"+str);
+                LOG.debug("After :"+str);
             }
         }
         return str;
