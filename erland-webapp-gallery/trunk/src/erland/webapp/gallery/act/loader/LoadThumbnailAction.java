@@ -52,6 +52,7 @@ public class LoadThumbnailAction extends LoadImageAction {
     protected ActionForward findSuccess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ThumbnailImageFB fb = (ThumbnailImageFB) form;
         Integer width = fb.getWidth();
+        Integer height = fb.getHeight();
         Gallery gallery = getGallery(request);
         if(getGallery(request).getMaxWidth()!=null && getGallery(request).getMaxWidth().intValue()>0 && width!=null && getGallery(request).getMaxWidth().compareTo(width)<0) {
 
@@ -73,7 +74,7 @@ public class LoadThumbnailAction extends LoadImageAction {
         }
         try {
             response.setContentType("image/jpeg");
-            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, fb.getUseCache(), compression , getUsername(request), getImageFile(request), getCopyrightText(getUsername(request)), new ImageThumbnail(antialias), gallery.getId().toString(),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_PREFILTER),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_POSTFILTER),gallery.getCacheDate(),response.getOutputStream())) {
+            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, height,fb.getUseCache(), compression , getUsername(request), getImageFile(request), getCopyrightText(getUsername(request)), new ImageThumbnail(antialias), gallery.getId().toString(),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_PREFILTER),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_POSTFILTER),gallery.getCacheDate(),response.getOutputStream())) {
                 return findFailure(mapping,form,request,response);
             }
         } catch (IOException e) {
