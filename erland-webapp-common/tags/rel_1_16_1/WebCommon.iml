@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4" relativePaths="false">
+  <component name="LvcsConfiguration">
+    <option name="LOCAL_VCS_ENABLED" value="true" />
+    <option name="LOCAL_VCS_PURGING_PERIOD" value="259200000" />
+    <option name="SHOW_CHANGES_ONLY" value="false" />
+  </component>
+  <component name="ModuleRootManager">
+    <jdk name="java version &quot;1.4.1&quot;" />
+    <library name="J2EE 1.3.1" />
+    <projectPath>
+      <root type="composite">
+        <root type="simple" url="file://$MODULE_DIR$" />
+      </root>
+    </projectPath>
+    <sourcePath>
+      <root type="composite">
+        <root type="jdk" rootType="sourcePath" name="java version &quot;1.4.1&quot;" />
+        <root type="simple" url="file://$MODULE_DIR$/src" />
+        <root type="library" rootType="sourcePath" name="J2EE 1.3.1" />
+      </root>
+    </sourcePath>
+    <classPath>
+      <root type="composite">
+        <root type="jdk" rootType="classPath" name="java version &quot;1.4.1&quot;" />
+        <root type="output" />
+        <root type="library" rootType="classPath" name="J2EE 1.3.1" />
+      </root>
+    </classPath>
+    <excludePath>
+      <root type="composite">
+        <root type="excludedOutput" />
+      </root>
+    </excludePath>
+    <javadocPath>
+      <root type="composite">
+        <root type="jdk" rootType="javadocPath" name="java version &quot;1.4.1&quot;" />
+        <root type="library" rootType="javadocPath" name="J2EE 1.3.1" />
+      </root>
+    </javadocPath>
+    <assert_keyword enabled="no" />
+    <exclude_output enabled="yes" />
+  </component>
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Jakarta Struts" level="application" />
+    <orderEntry type="library" name="commons-beanutils" level="application" />
+    <orderEntry type="library" name="Servletapi" level="application" />
+    <orderEntry type="module" module-name="util" />
+    <orderEntry type="library" name="metadata-extractor-2.1" level="application" />
+    <orderEntry type="library" name="commons-logging" level="application" />
+  </component>
+</module>
+
