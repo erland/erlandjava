@@ -56,6 +56,9 @@
                     <tr><td>Datum</td><td>
                     <input type="text" name="date" value="<%=dateFormat.format(new Date())%>">
                     </td></tr>
+                    <tr><td>Storlek</td><td>
+                    <input type="text" name="size" value="">
+                    </td></tr>
                     <tr><td>Händelse</td><td>
                     <select name="eventdescription">
                     <%
