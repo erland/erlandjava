@@ -21,18 +21,22 @@ package erland.webapp.common;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.common.QueryFilter;
+import erland.webapp.common.act.WebAppEnvironmentPlugin;
+import erland.webapp.common.fb.DescriptionTagPB;
+import erland.util.StringUtil;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.beanutils.PropertyUtils;
 
 public class DescriptionTagHelper {
     /** Logging instance */
     private static Log LOG = LogFactory.getLog(DescriptionTagHelper.class);
     private static DescriptionTagHelper me;
-    private WebAppEnvironmentInterface environment;
     private Map map = new HashMap();
 
     private DescriptionTagHelper() {}
@@ -44,9 +48,6 @@ public class DescriptionTagHelper {
         return me;
     }
 
-    public void init(WebAppEnvironmentInterface environment) {
-        this.environment = environment;
-    }
     public DescriptionTag[] getDescriptionTagList(String entity) {
         return getDescriptionTagList(entity,true);
     }
@@ -73,16 +74,16 @@ public class DescriptionTagHelper {
         return null;
     }
     public void setDescription(String entity, String tag, String description) {
-        DescriptionTag template = (DescriptionTag) environment.getEntityFactory().create(entity);
+        DescriptionTag template = (DescriptionTag) WebAppEnvironmentPlugin.getEnvironment().getEntityFactory().create(entity);
         template.setType(entity);
         template.setTag(tag);
         template.setDescription(description);
-        environment.getEntityStorageFactory().getStorage(entity).store(template);
+        WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage(entity).store(template);
         // Make sure we reload the cache also
         getDescriptionTagList(entity,false);
     }
 
-    private DescriptionTag[] getDescriptionTagList(String entity, boolean useCached) {
+    public DescriptionTag[] getDescriptionTagList(String entity, boolean useCached) {
         DescriptionTag[] tagList = null;
         if(useCached) {
             tagList = (DescriptionTag[]) map.get(entity);
@@ -90,7 +91,7 @@ public class DescriptionTagHelper {
         if(tagList==null) {
             QueryFilter filter = new QueryFilter("allfortype");
             filter.setAttribute("type",entity);
-            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage(entity).search(filter);
+            EntityInterface[] entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage(entity).search(filter);
             tagList = new DescriptionTag[entities.length];
             for (int i = 0; i < entities.length; i++) {
                 tagList[i] = (DescriptionTag) entities[i];
@@ -99,5 +100,29 @@ public class DescriptionTagHelper {
             map.put(entity,tagList);
         }
         return tagList;
+    }
+    public DescriptionTagPB[] getDescriptionTagPBList(String entity, boolean useEnglish, boolean useCached) {
+        DescriptionTag[] tagList = getDescriptionTagList(entity,useCached);
+        if(tagList!=null) {
+            DescriptionTagPB[] pbList = new DescriptionTagPB[tagList.length];
+            for (int i = 0; i < pbList.length; i++) {
+                pbList[i] = new DescriptionTagPB();
+                try {
+                    PropertyUtils.copyProperties(pbList[i],tagList[i]);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                if(useEnglish && StringUtil.asNull(tagList[i].getDescriptionEnglish())!=null) {
+                    pbList[i].setDescription(tagList[i].getDescriptionEnglish());
+                }
+            }
+            return pbList;
+        }else {
+            return null;
+        }
     }
 }
