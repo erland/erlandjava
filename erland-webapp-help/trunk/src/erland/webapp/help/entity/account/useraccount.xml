@@ -1,0 +1,23 @@
+<entity id="useraccount">
+    <class>erland.webapp.help.entity.account.UserAccount</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/help</datasource>
+        <table>useraccounts</table>
+        <fields>
+            <field id="username">
+                <column>username</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+        </fields>
+        <queries>
+            <query id="all">
+                <querystring/>
+            </query>
+        </queries>
+    </data>
+</entity>

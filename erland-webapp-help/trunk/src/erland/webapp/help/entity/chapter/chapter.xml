@@ -1,0 +1,107 @@
+<entity id="chapter">
+    <class>erland.webapp.help.entity.chapter.Chapter</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/help</datasource>
+        <table>chapters</table>
+        <fields>
+            <field id="id">
+                <column>id</column>
+                <type>Integer</type>
+                <identity>true</identity>
+                <auto>true</auto>
+            </field>
+            <field id="application">
+                <column>application</column>
+                <type>String</type>
+            </field>
+            <field id="version">
+                <column>version</column>
+                <type>String</type>
+            </field>
+            <field id="chapter">
+                <column>chapter</column>
+                <type>String</type>
+            </field>
+            <field id="orderNo">
+                <column>orderno</column>
+                <type>Integer</type>
+            </field>
+            <field id="titleNative">
+                <column>titlenative</column>
+                <type>String</type>
+            </field>
+            <field id="titleEnglish">
+                <column>titleenglish</column>
+                <type>String</type>
+            </field>
+            <field id="headerNative">
+                <column>headernative</column>
+                <type>String</type>
+            </field>
+            <field id="headerEnglish">
+                <column>headerenglish</column>
+                <type>String</type>
+            </field>
+            <field id="footerNative">
+                <column>footernative</column>
+                <type>String</type>
+            </field>
+            <field id="footerEnglish">
+                <column>footerenglish</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="all">
+                <querystring/>
+                <orderstring>order by application asc,orderno asc,version asc</orderstring>
+            </query>
+            <query id="allforapplication">
+                <querystring>application=?</querystring>
+                <orderstring>order by orderno asc,version asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>application</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforapplicationandversion">
+                <querystring>application=? and version=?</querystring>
+                <orderstring>order by orderno asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>application</field>
+                        <type>String</type>
+                    </field>
+                    <field id="2">
+                        <field>version</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforapplicationandversionandchapter">
+                <querystring>application=? and version=? and chapter=?</querystring>
+                <orderstring>order by orderno asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>application</field>
+                        <type>String</type>
+                    </field>
+                    <field id="2">
+                        <field>version</field>
+                        <type>String</type>
+                    </field>
+                    <field id="3">
+                        <field>chapter</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
