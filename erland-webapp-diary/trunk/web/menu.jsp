@@ -33,10 +33,16 @@
         <td class="left-margin"></td>
         <form name="newEntry" action="portal" method="POST">
             <td>
+            <table class="no-border-tight">
+            <tr>
+            <td>
             <input type="text" name="date" value="<%=dateFormat.format(new Date())%>">
             </td>
             <td>
             <a href="javascript: window.location='portal?do=newentry<%=diary!=null?"&diary="+diary:""%>&date='+newEntry.date.value" class="bold-link">Lägg till</a>
+            </td>
+            </tr>
+            </table>
             </td>
         </form>
         </tr>
@@ -82,7 +88,8 @@
     </td>
     </tr>
     <%
-        if(originalCmd instanceof ViewGalleriesInterface) {
+        CommandInterface galleriesCmd = (CommandInterface) request.getSession().getAttribute("menugalleries");
+        if(galleriesCmd instanceof ViewGalleriesInterface) {
             %>
             <tr>
             <td class="left-margin"></td>

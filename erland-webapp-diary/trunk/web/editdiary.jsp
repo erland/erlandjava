@@ -24,7 +24,7 @@
             <input type="text" name="title" value="<%=diary!=null?diary.getTitle():""%>">
             </td></tr>
             <tr><td>Beskrivning</td><td>
-            <textarea name="description" cols="80" rows="15" wrap="virtual"><%=diary!=null?diary.getDescription():""%></textarea>
+            <textarea class="normal" name="description" cols="80" rows="15" wrap="virtual"><%=diary!=null?diary.getDescription():""%></textarea>
             </td></tr>
             <tr><td>Officiell</td><td>
             <input type="checkbox" name="official" value="true" <%=(diary!=null && diary.getOfficial().booleanValue())?"checked":""%>>

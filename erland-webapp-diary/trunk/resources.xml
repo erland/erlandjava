@@ -4,6 +4,9 @@
         <command id="default">
             <class>erland.webapp.common.DefaultCommand</class>
         </command>
+        <command id="home">
+            <class>erland.webapp.usermgmt.LoginStatusCommand</class>
+        </command>
         <command id="login">
             <class>erland.webapp.usermgmt.LoginCommand</class>
         </command>
@@ -37,9 +40,11 @@
         <command id="searchdiaries">
             <class>erland.webapp.diary.diary.SearchDiariesCommand</class>
             <role>user</role>
+            <delete type="session">menugalleries</delete>
         </command>
         <command id="searchdiariesguest">
             <class>erland.webapp.diary.diary.SearchOfficialDiariesCommand</class>
+            <delete type="session">menugalleries</delete>
         </command>
         <command id="searchentries">
             <save>searchentriescmd</save>
@@ -86,9 +91,11 @@
         <command id="searchgalleries">
             <class>erland.webapp.diary.gallery.SearchGalleriesCommand</class>
             <role>user</role>
+            <save type="session">menugalleries</save>
         </command>
         <command id="searchgalleriesguest">
             <class>erland.webapp.diary.gallery.SearchOfficialGalleriesCommand</class>
+            <save type="session">menugalleries</save>
         </command>
         <command id="searchgalleryentries">
             <class>erland.webapp.diary.gallery.SearchGalleryEntriesCommand</class>
@@ -117,6 +124,7 @@
         <command id="searchappendixentries">
             <class>erland.webapp.diary.appendix.SearchAppendixEntriesCommand</class>
             <role>manager</role>
+            <delete type="session">menugalleries</delete>
         </command>
         <command id="editpurchaseentry">
             <class>erland.webapp.diary.purchase.EditPurchaseEntryCommand</class>
@@ -133,6 +141,7 @@
         <command id="searchpurchaseentries">
             <class>erland.webapp.diary.purchase.SearchPurchaseEntriesCommand</class>
             <role>user</role>
+            <delete type="session">menugalleries</delete>
         </command>
         <command id="editinventoryentry">
             <class>erland.webapp.diary.inventory.EditInventoryEntryCommand</class>
@@ -154,13 +163,18 @@
         <command id="searchinventoryentries">
             <class>erland.webapp.diary.inventory.SearchInventoryEntriesCommand</class>
             <role>user</role>
+            <saveparameters type="session">searchinventorycmd</saveparameters>
+            <delete type="session">menugalleries</delete>
         </command>
         <command id="searchactiveinventoryentries">
             <class>erland.webapp.diary.inventory.SearchActiveInventoryEntriesCommand</class>
             <role>user</role>
+            <saveparameters type="session">searchinventorycmd</saveparameters>
+            <delete type="session">menugalleries</delete>
         </command>
         <command id="searchactiveinventoryentriesguest">
             <class>erland.webapp.diary.inventory.SearchActiveInventoryEntriesCommand</class>
+            <delete type="session">menugalleries</delete>
         </command>
         <command id="editinventoryentryevent">
             <class>erland.webapp.diary.inventory.EditInventoryEntryEventCommand</class>
@@ -2345,7 +2359,7 @@
     <pages>
         <page id="login">
             <page id="success">
-                <forward>portal?do=searchentries</forward>
+                <forward>portal?do=home</forward>
                 <page id="main">index.jsp</page>
                 <page id="header">welcome.jsp</page>
             </page>
@@ -2482,10 +2496,10 @@
             <page>editinventoryentry.jsp</page>
         </page>
         <page id="editinventoryentry">
-            <forward>portal?do=searchinventoryentries</forward>
+            <forward>portal?{searchinventorycmd}</forward>
         </page>
         <page id="removeinventoryentry">
-            <forward>portal?do=searchinventoryentries</forward>
+            <forward>portal?{searchinventorycmd}</forward>
         </page>
         <page id="searchinventoryentries">
             <page>viewinventoryentries.jsp</page>
@@ -2500,10 +2514,10 @@
             <page>editinventoryentryevent.jsp</page>
         </page>
         <page id="editinventoryentryevent">
-            <forward>portal?do=searchinventoryentries</forward>
+            <forward>portal?{searchinventorycmd}</forward>
         </page>
         <page id="removeinventoryentryevent">
-            <forward>portal?do=searchinventoryentries</forward>
+            <forward>portal?{searchinventorycmd}</forward>
         </page>
         <page id="removeuseraccount">
             <forward>portal?do=searchentries</forward>
@@ -2542,6 +2556,21 @@
         </page>
         <page id="removepicture">
             <forward>portal?do=searchgalleryentries</forward>
+        </page>
+        <page id="home">
+            <page id="user">
+                <forward>portal?do=searchentries</forward>
+                <page id="menu">menu.jsp</page>
+            </page>
+            <page id="guest">
+                <forward>portal?do=searchentriesguest</forward>
+                <page id="main">index.jsp</page>
+                <page id="header">welcomeguest.jsp</page>
+                <page id="menu">menuguest.jsp</page>
+            </page>
+            <page id="none">
+                <forward>portal?do=default</forward>
+            </page>
         </page>
         <page id="default">
             <forward>portal?do=searchofficialuseraccounts</forward>

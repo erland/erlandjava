@@ -3,7 +3,7 @@
                                 erland.webapp.diary.gallery.ViewGalleriesInterface,
                                 erland.webapp.diary.gallery.Gallery"%>
 <%
-    CommandInterface cmd = (CommandInterface) request.getAttribute("cmd");
+    CommandInterface cmd = (CommandInterface) request.getSession().getAttribute("menugalleries");
     if(cmd instanceof ViewGalleriesInterface) {
         %>
         <table class="no-border">

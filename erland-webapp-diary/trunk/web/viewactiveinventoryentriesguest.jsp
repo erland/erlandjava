@@ -25,21 +25,21 @@
                 InventoryEntry entry = entries[i];
                 %>
                 <tr>
-                <td><a class="bold-link" href="portal?do=<%=request.getParameter("do")%><%=user!=null?"&user="+user:""%>&id=<%=entry.getId()%>"><%=entry.getName()%></a></td>
-                <td><p class="normal">&nbsp&nbsp&nbsp</p></td>
+                <td nowrap><a class="bold-link" href="portal?do=<%=request.getParameter("do")%><%=user!=null?"&user="+user:""%>&id=<%=entry.getId()%>"><%=entry.getName()%></a></td>
+                <td nowrap><p class="normal">&nbsp&nbsp&nbsp</p></td>
                 <%
                     InventoryEntryEvent[] events = ((ViewInventoryEntriesInterface)cmd).getEvents(entry);
                     if(events.length>0) {
                         %>
-                        <td><%=events[0].getSize()%> cm</td>
-                        <td><%=DescriptionIdHelper.getInstance().getDescription("inventoryentryeventtype",events[events.length-1].getDescription())%></td>
-                        <td><%=dateFormat.format(events[events.length-1].getDate())%></td>
+                        <td nowrap><p class="normal"><%=events[0].getSize()%> cm</p></td>
+                        <td nowrap><p class="normal"><%=DescriptionIdHelper.getInstance().getDescription("inventoryentryeventtype",events[events.length-1].getDescription())%></p></td>
+                        <td nowrap><p class="normal"><%=dateFormat.format(events[events.length-1].getDate())%></p></td>
                         <%
                     }else {
                         %>
-                        <td><p class="normal">&nbsp</p></td>
-                        <td><p class="normal">&nbsp</p></td>
-                        <td><p class="normal">&nbsp</p></td>
+                        <td nowrap><p class="normal">&nbsp</p></td>
+                        <td nowrap><p class="normal">&nbsp</p></td>
+                        <td nowrap><p class="normal">&nbsp</p></td>
                         <%
                     }
                 %>

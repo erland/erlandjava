@@ -16,10 +16,10 @@
             <input type="hidden" name="username" value="<%=account.getUsername()%>"><a class="normal"><%=account.getUsername()%></a>
             </td></tr>
             <tr><td>Beskrivning</td><td>
-            <textarea name="description" cols="80" rows="5" wrap="virtual"><%=account!=null?account.getDescription():""%></textarea>
+            <textarea class="normal" name="description" cols="80" rows="5" wrap="virtual"><%=account!=null?account.getDescription():""%></textarea>
             </td></tr>
             <tr><td>Välkomsttext</td><td>
-            <textarea name="welcometext" cols="80" rows="15" wrap="virtual"><%=account!=null?account.getWelcomeText():""%></textarea>
+            <textarea class="normal" name="welcometext" cols="80" rows="15" wrap="virtual"><%=account!=null?account.getWelcomeText():""%></textarea>
             </td></tr>
             <tr><td>Logo</td><td>
             <input type="text" name="logo" value="<%=account!=null?account.getLogo():""%>">

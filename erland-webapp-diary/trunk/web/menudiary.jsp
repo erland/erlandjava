@@ -33,9 +33,9 @@
         for(int i=0;i<entries.length&&i<5;i++) {
             %>
             <tr>
-            <td><p class="normal"><%=dateFormat.format(entries[i].getDate())%></p></td>
+            <td nowrap><p class="normal"><%=dateFormat.format(entries[i].getDate())%></p></td>
             <td><p class="normal">&nbsp</p></td>
-            <td>
+            <td nowrap>
             <a class="bold-link" href="portal?<%=queryAttributes%>&date=<%=dateFormat.format(entries[i].getDate())%>">
                 <%=entries[i].getTitle()%>
             </a>

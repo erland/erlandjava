@@ -7,17 +7,16 @@
      response.setHeader("Pragma","no-cache"); //HTTP 1.0
      response.setHeader ("Expires", "0"); //prevents caching at the proxy server
  %>
-<title>Akvariedagboksidan</title>
+<title>Akvariedagboken</title>
 <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+<font class="normal">
+<center>
 <table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
 <tr>
-<td width="300" height="100" valign="center" halign="center" background="gradient.gif">
+<td colspan="2" width="100%" height="80" valign="center" align="center">
 <a href="portal?do=logout"><img src="logo.gif" border="0"></img></a>
-</td>
-<td width="10" bgcolor="#76C7FF"></td>
-<td width="*" bgcolor="#76C7FF">
 <%
 String p = (String) request.getAttribute("header");
 if(p!=null) {
@@ -29,13 +28,15 @@ if(p!=null) {
 </td>
 </tr>
 <tr>
-<td height="10" valign="top" background="gradient.gif">
+<td colspan="2" height="3" valign="top" bgcolor="#397AC0">
 </td>
-<td background="gradient4.gif"></td>
-<td background="gradient3.gif"></td>
 </tr>
 <tr>
-<td height="*" valign="top" background="gradient.gif">
+<td height="5" valign="top" bgcolor="#E5F4FF">
+</td>
+</tr>
+<tr>
+<td width="300" height="100%" valign="top" align="left" bgcolor="#E5F4FF">
 <%
 p = (String) request.getAttribute("menu");
 if(p!=null) {
@@ -45,9 +46,7 @@ if(p!=null) {
 }
 %>
 </td>
-<td width="10" valign="top" background="gradient2.gif">
-</td>
-<td valign="top">
+<td width="100%" heigth="100%" class="margin" valign="top" align="left">
 <%
 p = (String) request.getAttribute("content");
 if(p!=null) {
@@ -58,4 +57,6 @@ if(p!=null) {
 %>
 </td>
 </table>
+</center>
+</font>
 </body>

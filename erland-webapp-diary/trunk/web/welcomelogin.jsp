@@ -1,1 +1,1 @@
-<h3>Välkommen till min akvariedagboksida</h3>
+<div class="bold">Välkommen till min akvariedagbokssida</div>

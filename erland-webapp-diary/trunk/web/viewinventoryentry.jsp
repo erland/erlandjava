@@ -63,7 +63,7 @@
             <%
             for (int i = 0; i < events.length; i++) {
                 %>
-                <tr><td><%=dateFormat.format(events[i].getDate())%> <%=DescriptionIdHelper.getInstance().getDescription("inventoryentryeventtype",events[i].getDescription())%> <%=events[i].isSizeRelevant()?events[i].getSize().toString()+" cm":""%></td><tr>
+                <tr><td nowrap><p class="normal"><%=dateFormat.format(events[i].getDate())%> <%=DescriptionIdHelper.getInstance().getDescription("inventoryentryeventtype",events[i].getDescription())%> <%=events[i].isSizeRelevant()?events[i].getSize().toString()+" cm":""%></p></td><tr>
                 <%
             }
             if(entry.getGallery()!=null && entry.getGallery().intValue()!=0) {

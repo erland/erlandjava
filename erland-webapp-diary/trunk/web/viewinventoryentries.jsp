@@ -18,17 +18,17 @@
             InventoryEntry entry = entries[i];
             %>
             <tr>
-            <td><%=entry.getId()%></td>
-            <td><%=DescriptionIdHelper.getInstance().getDescription("inventoryentrytype",entry.getType())%></td>
-            <td><%=entry.getName()%></td>
+            <td><p class="normal"><%=entry.getId()%></p></td>
+            <td><p class="normal"><%=DescriptionIdHelper.getInstance().getDescription("inventoryentrytype",entry.getType())%></p></td>
+            <td><p class="normal"><%=entry.getName()%></p></td>
             <td><p class="normal">&nbsp&nbsp&nbsp</p></td>
             <%
                 InventoryEntryEvent[] events = ((ViewInventoryEntriesInterface)cmd).getEvents(entry);
                 if(events.length>0) {
                     %>
-                    <td><%=events[0].isSizeRelevant()?events[0].getSize().toString()+" cm":""%></td>
-                    <td><%=DescriptionIdHelper.getInstance().getDescription("inventoryentryeventtype",events[0].getDescription())%></td>
-                    <td><%=dateFormat.format(events[0].getDate())%></td>
+                    <td><p class="normal"><%=events[0].isSizeRelevant()?events[0].getSize().toString()+" cm":""%></p></td>
+                    <td><p class="normal"><%=DescriptionIdHelper.getInstance().getDescription("inventoryentryeventtype",events[0].getDescription())%></p></td>
+                    <td><p class="normal"><%=dateFormat.format(events[0].getDate())%></p></td>
                     <td><a href="portal?do=newinventoryentryevent&id=<%=events[0].getId()%>&eventid=<%=events[0].getEventId()%>" class="bold-link">Uppdatera</a></td>
                     <td><a href="portal?do=removeinventoryentryevent&id=<%=events[0].getId()%>&eventid=<%=events[0].getEventId()%>" class="bold-link" onClick="return confirm('Är du säker på att du vill ta bort denna ?')">Ta bort</a></td>
                     <%
@@ -51,9 +51,9 @@
                     <td><p class="normal">&nbsp</p></td>
                     <td><p class="normal">&nbsp</p></td>
                     <td><p class="normal">&nbsp&nbsp&nbsp</p></td>
-                    <td><%=events[j].isSizeRelevant()?events[j].getSize().toString()+" cm":""%></td>
-                    <td><%=DescriptionIdHelper.getInstance().getDescription("inventoryentryeventtype",events[j].getDescription())%></td>
-                    <td><%=dateFormat.format(events[j].getDate())%></td>
+                    <td><p class="normal"><%=events[j].isSizeRelevant()?events[j].getSize().toString()+" cm":""%></p></td>
+                    <td><p class="normal"><%=DescriptionIdHelper.getInstance().getDescription("inventoryentryeventtype",events[j].getDescription())%></p></td>
+                    <td><p class="normal"><%=dateFormat.format(events[j].getDate())%></p></td>
                     <td><a href="portal?do=newinventoryentryevent&id=<%=events[j].getId()%>&eventid=<%=events[j].getEventId()%>" class="bold-link">Uppdatera</a></td>
                     <td><a href="portal?do=removeinventoryentryevent&id=<%=events[j].getId()%>&eventid=<%=events[j].getEventId()%>" class="bold-link" onClick="return confirm('Är du säker på att du vill ta bort denna ?')">Ta bort</a></td>
                     </tr>

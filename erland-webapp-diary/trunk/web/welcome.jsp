@@ -1,3 +1,3 @@
 <%@ page session="true" import="erland.webapp.usermgmt.User"%>
 <jsp:useBean id="user" scope="session" class="User" />
-<h3>Välkommen <%=user.getFirstName()%> <%=user.getLastName()%> till din akvariedagbok</h3>
+<div class="bold"><%=user.getFirstName()%> <%=user.getLastName()%> välkommen till din akvariedagbok</div>

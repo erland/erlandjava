@@ -5,7 +5,7 @@
 <jsp:useBean id="user" scope="session" class="User" />
 
 <%
-    CommandInterface cmd = (CommandInterface) request.getAttribute("cmd");
+    CommandInterface cmd = (CommandInterface) request.getSession().getAttribute("menugalleries");
     if(cmd instanceof ViewGalleriesInterface) {
         %>
         <table class="no-border">

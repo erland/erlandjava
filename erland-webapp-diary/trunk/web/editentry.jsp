@@ -28,7 +28,7 @@
             <input type="text" name="title" value="<%=entry!=null?entry.getTitle():""%>">
             </td></tr>
             <tr><td>Beskrivning</td><td>
-            <textarea name="description" cols="80" rows="15" wrap="virtual"><%=entry!=null?entry.getDescription():""%></textarea>
+            <textarea class="normal" name="description" cols="80" rows="15" wrap="virtual"><%=entry!=null?entry.getDescription():""%></textarea>
             </td></tr>
             <tr><td></td><td>
             <input type="submit" value="Spara">

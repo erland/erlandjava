@@ -16,16 +16,16 @@
             PurchaseEntry entry = entries[i];
             %>
             <tr>
-            <td><%=dateFormat.format(entry.getDate())%></td>
-            <td><%=entry.getDescription()%></td>
-            <td><p class="normal">&nbsp&nbsp&nbsp</p></td>
-            <td><%=entry.getPrice()%> kr</td>
+            <td nowrap><p class="normal"><%=dateFormat.format(entry.getDate())%></p></td>
+            <td nowrap><p class="normal"><%=entry.getDescription()%></p></td>
+            <td nowrap><p class="normal">&nbsp&nbsp&nbsp</p></td>
+            <td nowrap><p class="normal"><%=entry.getPrice()%> kr</p></td>
             </tr>
             <tr>
             <td></td>
-            <td><%=entry.getStore()%></td>
-            <td><a href="portal?do=newpurchaseentry&id=<%=entry.getId()%>" class="bold-link">Uppdatera</a></td>
-            <td><a href="portal?do=removepurchaseentry&id=<%=entry.getId()%>" class="bold-link" onClick="return confirm('Är du säker på att du vill ta bort denna ?')">Ta bort</a></td>
+            <td nowrap><p class="normal"><%=entry.getStore()%></p></td>
+            <td nowrap><a href="portal?do=newpurchaseentry&id=<%=entry.getId()%>" class="bold-link">Uppdatera</a></td>
+            <td nowrap><a href="portal?do=removepurchaseentry&id=<%=entry.getId()%>" class="bold-link" onClick="return confirm('Är du säker på att du vill ta bort denna ?')">Ta bort</a></td>
             <tr>
             <%
         }

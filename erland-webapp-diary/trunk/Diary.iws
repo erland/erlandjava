@@ -26,7 +26,7 @@
       <window_info id="SQL" active="false" anchor="bottom" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.6694631" order="8" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.3305369" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.40273395" order="0" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.39852786" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.3305369" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.3305369" order="8" />
@@ -65,20 +65,19 @@
   <component name="ProjectViewSettings">
     <navigator currentView="ProjectPane" flattenPackages="false" showMembers="false" showStructure="false" autoscrollToSource="false" splitterProportion="0.5" />
     <view id="ProjectPane">
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp/diary/purchase" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp/diary" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp/diary/inventory" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp/diary/appendix" />
+      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland" />
       <expanded_node type="directory" url="file://$PROJECT_DIR$/web" />
+      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp" />
+      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp/diary" />
       <expanded_node type="directory" url="file://$PROJECT_DIR$/src" />
       <expanded_node type="directory" url="file://$PROJECT_DIR$" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp/diary/diary" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp/diary/gallery" />
-      <expanded_node type="directory" url="file://$PROJECT_DIR$/src/erland/webapp/diary/account" />
     </view>
-    <view id="SourcepathPane" />
+    <view id="SourcepathPane">
+      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/Common/src" />
+      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp" />
+      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common" />
+      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/Common/src/erland" />
+    </view>
     <view id="ClasspathPane" />
   </component>
   <component name="Commander">
@@ -105,59 +104,52 @@
       <is-autoscroll-to-source value="true" />
     </todo-panel>
   </component>
-  <component name="editorManager" selected-file="file://$PROJECT_DIR$/web/viewinventoryentry.jsp">
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/inventory/EditInventoryEntryCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="0" selection-start="1664" selection-end="1664" vertical-scroll-proportion="0.5019157" horizontal-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/editinventoryentry.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="0" selection-start="2845" selection-end="2845" vertical-scroll-proportion="0.33141762" horizontal-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/editgalleryentry.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/viewinventoryentry.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="62" selection-start="2241" selection-end="2241" vertical-scroll-proportion="0.48850575" horizontal-scroll-proportion="0.868">
-          <folding />
-        </state>
-      </provider>
-    </entry>
+  <component name="editorManager" selected-file="file://$PROJECT_DIR$/web/login.jsp">
     <entry file="file://$PROJECT_DIR$/resources.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="436" column="49" selection-start="18145" selection-end="18145" vertical-scroll-proportion="0.44636014" horizontal-scroll-proportion="0.686">
+        <state line="9" column="8" selection-start="308" selection-end="308" vertical-scroll-proportion="0.29310346" horizontal-scroll-proportion="0.11111111">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/viewuseraccountsguest.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="74" selection-start="1132" selection-end="1132" vertical-scroll-proportion="0.33333334" horizontal-scroll-proportion="0.9583333">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/login.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="276" selection-end="276" vertical-scroll-proportion="0.1302682" horizontal-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/viewuseraccounts.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="21" selection-start="95" selection-end="95" vertical-scroll-proportion="0.0651341" horizontal-scroll-proportion="0.29166666">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common/BaseServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="217" column="0" selection-start="8379" selection-end="8379" vertical-scroll-proportion="0.33333334" horizontal-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/account/SearchUserAccountsCommand.java">
+    <entry file="file://$PROJECT_DIR$/web/loginform.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/account/ViewUserAccountCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/diary/BaseEntryCommand.java">
+    <entry file="file://$PROJECT_DIR$/web/viewgallery.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
           <folding />
@@ -166,61 +158,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/viewactiveinventoryentries.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
+        <state line="48" column="24" selection-start="2836" selection-end="2836" vertical-scroll-proportion="0.34661356" horizontal-scroll-proportion="0.33333334">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/viewinventoryentries.jsp">
+    <entry file="file://$PROJECT_DIR$/web/viewpurchaseentries.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="49" selection-start="1935" selection-end="1935" vertical-scroll-proportion="0.39043826" horizontal-scroll-proportion="0.462">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/viewactiveinventoryentriesguest.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="39" selection-start="1659" selection-end="1659" vertical-scroll-proportion="0.33266932" horizontal-scroll-proportion="0.394">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/inventory/InventoryEntryEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
+        <state line="36" column="0" selection-start="1651" selection-end="1651" vertical-scroll-proportion="0.8965517" horizontal-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/editgallery.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="0" selection-start="1606" selection-end="1606" vertical-scroll-proportion="0.1302682" horizontal-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/DiaryServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="18" selection-start="1132" selection-end="1132" vertical-scroll-proportion="0.48850575" horizontal-scroll-proportion="0.252">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/inventory/InventoryEntry.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="4" selection-start="1350" selection-end="1350" vertical-scroll-proportion="0.34661356" horizontal-scroll-proportion="0.056">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/diary/inventory/EditInventoryEntryCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="0" selection-start="1664" selection-end="1664" vertical-scroll-proportion="0.5019157" horizontal-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/editgalleryentry.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
           <folding />
@@ -229,21 +179,70 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/editinventoryentry.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="0" selection-start="2845" selection-end="2845" vertical-scroll-proportion="0.33141762" horizontal-scroll-proportion="0.0">
+        <state line="57" column="0" selection-start="2860" selection-end="2860" vertical-scroll-proportion="0.33333334" horizontal-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/viewinventoryentry.jsp">
+    <entry file="file://$PROJECT_DIR$/web/menu.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="62" selection-start="2241" selection-end="2241" vertical-scroll-proportion="0.48850575" horizontal-scroll-proportion="0.868">
+        <state line="90" column="107" selection-start="3235" selection-end="3235" vertical-scroll-proportion="0.33333334" horizontal-scroll-proportion="0.9305556">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/menugalleries.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/menugalleriesguest.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/menuguest.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="58" selection-start="1456" selection-end="1456" vertical-scroll-proportion="0.42337164" horizontal-scroll-proportion="0.25">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="436" column="49" selection-start="18145" selection-end="18145" vertical-scroll-proportion="0.44636014" horizontal-scroll-proportion="0.686">
+        <state line="9" column="8" selection-start="308" selection-end="308" vertical-scroll-proportion="0.29310346" horizontal-scroll-proportion="0.11111111">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/EGNA/Working/Java/Web/Common/src/erland/webapp/common/BaseServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="217" column="0" selection-start="8379" selection-end="8379" vertical-scroll-proportion="0.33333334" horizontal-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/viewuseraccounts.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="21" selection-start="95" selection-end="95" vertical-scroll-proportion="0.0651341" horizontal-scroll-proportion="0.29166666">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/login.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="276" selection-end="276" vertical-scroll-proportion="0.1302682" horizontal-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/viewuseraccountsguest.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="74" selection-start="1132" selection-end="1132" vertical-scroll-proportion="0.33333334" horizontal-scroll-proportion="0.9583333">
           <folding />
         </state>
       </provider>
@@ -291,7 +290,6 @@
     <option name="SKIP_SYNTHETIC_METHODS" value="true" />
     <option name="SKIP_CONSTRUCTORS" value="false" />
     <option name="STEP_THREAD_SUSPEND_POLICY" value="SuspendThread" />
-    <option name="EVALUATION_TIMEOUT" value="1000" />
     <default_breakpoint_settings>
       <option name="NOTIFY_CAUGHT" value="true" />
       <option name="NOTIFY_UNCAUGHT" value="true" />
@@ -451,10 +449,10 @@
   </component>
   <component name="AppServerRunManager" />
   <component name="SQL">
-    <database name="diary" driver="jdbc:mysql" user="erland" maxReconnects="3" db="diary" initialTimeout="2" host="dual350" port="3306" current="true" />
-    <database name="users" driver="jdbc:mysql" user="root" maxReconnects="3" db="users" initialTimeout="2" host="dual350" port="3306" />
-    <database name="stock" driver="jdbc:mysql" user="erland" maxReconnects="3" db="stock" initialTimeout="2" host="dual350" port="3306" />
-    <database name="gallery" driver="jdbc:mysql" user="erland" db="gallery" host="dual350" />
+    <database name="diary" driver="jdbc:mysql" user="erland" db="diary" maxReconnects="3" initialTimeout="2" host="dual350" port="3306" current="true" />
+    <database name="users" driver="jdbc:mysql" user="root" db="users" maxReconnects="3" initialTimeout="2" host="dual350" port="3306" />
+    <database name="stock" driver="jdbc:mysql" user="erland" db="stock" maxReconnects="3" initialTimeout="2" host="dual350" port="3306" />
+    <database name="gallery" driver="jdbc:mysql" user="erland" db="gallery" maxReconnects="3" initialTimeout="2" host="dual350" port="3306" />
     <htmlExport table="border: 1px solid black; border-spacing:0px" cell="border: 1px solid black" header="background: darkgrey; font-weight:bold; text-align: center" row1="background: white" row2="background: lightgrey" alternate="true" interval="1" />
     <csvExport delimiter="," text="&quot;" />
     <partialExecute value="0" />

@@ -19,7 +19,7 @@
                 <td><p class="title"><%=dateFormat.format(entry.getDate())%> <%=entry.getTitle()%></p></td>
             </tr>
             <tr>
-                <td><%=HTMLEncoder.encode(entry.getDescription())%></td>
+                <td><font class="normal"><%=HTMLEncoder.encode(entry.getDescription())%></font></td>
             </tr>
             </table>
 

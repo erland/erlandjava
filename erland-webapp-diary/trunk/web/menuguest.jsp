@@ -31,7 +31,8 @@
     </td>
     </tr>
     <%
-        if(cmd instanceof ViewGalleriesInterface) {
+        CommandInterface galleriesCmd = (CommandInterface) request.getSession().getAttribute("menugalleries");
+        if(galleriesCmd instanceof ViewGalleriesInterface) {
             %>
             <tr>
             <td class="left-margin"></td>

@@ -52,8 +52,14 @@
             </select>
             </td></tr>
             <tr><td></td><td>
+            <%
+            String abortCmd = (String) request.getSession().getAttribute("searchinventorycmd");
+            if(abortCmd!=null && abortCmd.length()==0) {
+                abortCmd=null;
+            }
+            %>
             <input type="submit" value="Spara">
-            <input type="button" value="Avbryt" onClick="window.location='portal?do=searchinventoryentries'">
+            <input type="button" value="Avbryt" onClick="window.location='portal?<%=abortCmd!=null?abortCmd:"do=searchinventoryentries"%>'">
             </td></tr>
             <table>
         </form>

@@ -43,7 +43,7 @@
             <input type="text" name="name" value="<%=entry!=null?entry.getName():""%>">
             </td></tr>
             <tr><td>Beskrivning</td><td>
-            <textarea name="description" cols="80" rows="15" wrap="virtual"><%=entry!=null?entry.getDescription():""%></textarea>
+            <textarea class="normal" name="description" cols="80" rows="15" wrap="virtual"><%=entry!=null?entry.getDescription():""%></textarea>
             </td></tr>
             <tr><td>Liten Bild (300 pixel bred)</td><td>
             <input type="text" name="image" value="<%=entry!=null?entry.getImage():""%>">
@@ -102,8 +102,14 @@
                 }
             %>
             <tr><td></td><td>
+            <%
+            String abortCmd = (String) request.getSession().getAttribute("searchinventorycmd");
+            if(abortCmd!=null && abortCmd.length()==0) {
+                abortCmd=null;
+            }
+            %>
             <input type="submit" value="Spara">
-            <input type="button" value="Avbryt" onClick="window.location='portal?do=searchinventoryentries'">
+            <input type="button" value="Avbryt" onClick="window.location='portal?<%=abortCmd!=null?abortCmd:"do=searchactiveinventoryentries"%>'">
             </td></tr>
             <table>
         </form>

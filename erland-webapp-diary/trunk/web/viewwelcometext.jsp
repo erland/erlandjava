@@ -10,7 +10,7 @@
         UserAccount account = ((ViewUserAccountInterface)cmd).getAccount();
         if(account!=null) {
             %>
-            <%=HTMLEncoder.encode(account.getWelcomeText())%>
+            <font class="normal"><%=HTMLEncoder.encode(account.getWelcomeText())%></font>
             <%
         }
     }
