@@ -81,7 +81,7 @@ public class SelectPictureFB extends SelectCategoryFB {
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
-        max = new Integer(9);
+        max = null;
         start = new Integer(0);
         id=null;
     }
