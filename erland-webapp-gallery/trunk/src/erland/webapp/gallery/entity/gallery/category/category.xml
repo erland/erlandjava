@@ -199,6 +199,19 @@
                     </field>
                 </fields>
             </query>
+            <query id="allforgallerynotused">
+                <completequerystring>(select categories.* from categorymembers left join categories on categorymembers.gallery=categories.gallery and categorymembers.category=categories.id left join picturecategories on categorymembers.gallery=picturecategories.gallery and categorymembers.member=picturecategories.category where categorymembers.gallery=? group by categories.gallery, categories.id having count(picturecategories.category)=0) union (select categories.* from categories left join categorymembers on categories.gallery=categorymembers.gallery and categories.id=categorymembers.category left join picturecategories on categories.gallery=picturecategories.gallery and categories.id=picturecategories.category where categories.gallery=? and categorymembers.category is null group by categories.gallery, categories.id having count(picturecategories.category)=0)</completequerystring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
         </queries>
     </data>
 </entity>
