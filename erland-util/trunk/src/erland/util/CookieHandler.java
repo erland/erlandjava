@@ -63,7 +63,7 @@ public class CookieHandler
 				return myCookie;
 		}
 		catch (Exception e){
-			e.printStackTrace();
+			LOG.error("getCookie failed",e);
 		}
 		return "?";
 	}
@@ -103,13 +103,13 @@ public class CookieHandler
 	}
 
     protected String cleanValue(String value) {
-        //System.out.println("cleanValue value = " + value);
+        LOG.debug("cleanValue value = " + value);
         int i = value.indexOf('\n');
         if(i==-1) {
             i = value.indexOf('\r');
         }
         if(i!=-1) {
-            //System.out.println("cleanValue removing newline");
+            LOG.debug("cleanValue removing newline");
             StringBuffer sb = new StringBuffer(value);
             i = sb.indexOf("\n");
             while(i!=-1) {
@@ -121,10 +121,10 @@ public class CookieHandler
                 sb.deleteCharAt(i);
                 i = sb.indexOf("\r");
             }
-            //System.out.println("cleanValue value ut = " + sb.toString());
+            LOG.debug("cleanValue value ut = " + sb.toString());
             return sb.toString();
         }else {
-            //System.out.println("cleanValue not modified");
+            LOG.debug("cleanValue not modified");
             return value;
         }
     }
@@ -153,7 +153,7 @@ public class CookieHandler
 			myDocument.setMember("cookie", s1);
 			LOG.debug("set:" + s1);
 		}catch(JSException e) {
-			e.printStackTrace();
+			LOG.error("setCookie "+name+"="+value+" failed",e);
 		}
 	}
 	
@@ -178,7 +178,7 @@ public class CookieHandler
 			LOG.debug("del: " + s1);
 			myDocument.setMember("cookie", s1);	
 		}catch(JSException e) {
-			e.printStackTrace();
+			LOG.error("deleteCookie "+name+" failed",e);
 		}
 	}
 

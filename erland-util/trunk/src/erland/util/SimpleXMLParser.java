@@ -18,6 +18,8 @@ package erland.util;
  *
  */
 
+import org.apache.commons.logging.LogFactory;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.io.*;
@@ -28,6 +30,8 @@ import java.io.*;
  * @author Erland Isaksson
  */
 public class SimpleXMLParser implements XMLParserInterface {
+    /** Logging instance */
+    private static org.apache.commons.logging.Log LOG = LogFactory.getLog(SimpleXMLParser.class);
     /**
      * Calculate the position of the first real character after the specified position, skipping
      * space and tab characters.
@@ -59,7 +63,7 @@ public class SimpleXMLParser implements XMLParserInterface {
             }
             return parse(sb.toString(),handler);
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Parse failure",e);
         }
         return false;
     }

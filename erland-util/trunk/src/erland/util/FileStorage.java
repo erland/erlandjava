@@ -93,7 +93,7 @@ public class FileStorage implements StorageInterface
             w.write(data);
             w.flush();
         }catch(IOException e) {
-            e.printStackTrace();
+            LOG.error("Unable to save to: "+file,e);
         }
 	}
 }

@@ -23,6 +23,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.InputSource;
+import org.apache.commons.logging.*;
 
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.parsers.SAXParser;
@@ -40,6 +41,8 @@ import java.io.ByteArrayInputStream;
  * @author Erland Isaksson
  */
 public class SAXXMLParser implements XMLParserInterface {
+    /** Logging instance */
+    private static org.apache.commons.logging.Log LOG = LogFactory.getLog(SAXXMLParser.class);
     /**
      * An adapter that forwards all relevant callbacks to
      * the {@link DefaultHandler} to the specified XMLParserHandlerInterface object
@@ -95,13 +98,13 @@ public class SAXXMLParser implements XMLParserInterface {
             reader.parse(new InputSource(in));
             return true;
         } catch (FactoryConfigurationError factoryConfigurationError) {
-            factoryConfigurationError.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Parse failure",factoryConfigurationError);
         } catch (ParserConfigurationException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Parse failure",e);
         } catch (SAXException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Parse failure",e);
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            LOG.error("Parse failure",e);
         }
         return false;
     }

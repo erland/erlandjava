@@ -18,6 +18,8 @@ package erland.util;
  *
  */
 
+import org.apache.commons.logging.*;
+
 import java.applet.Applet;
 
 /**
@@ -26,6 +28,8 @@ import java.applet.Applet;
  * @author Erland Isaksson
  */
 public class CookieStorage implements StorageInterface {
+    /** Logging instance */
+    private static org.apache.commons.logging.Log LOG = LogFactory.getLog(CookieStorage.class);
     /** The cookie handler to use */
     CookieHandler handler;
     /** The name of the cookie to store data in */
@@ -48,7 +52,7 @@ public class CookieStorage implements StorageInterface {
 
     public String load() {
         String s = handler.getParameter(cookieName);
-        //System.out.println("CookieStorage.load s = " + s);
+        LOG.debug("CookieStorage.load s = " + s);
         return s;
     }
 }

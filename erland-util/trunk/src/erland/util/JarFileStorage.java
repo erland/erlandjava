@@ -65,7 +65,7 @@ public class JarFileStorage implements StorageInterface {
 				throw new IOException("Unable to open: "+file);
             }
         }catch(IOException e) {
-            e.printStackTrace();
+            LOG.error("Unable to open: "+file,e);
 
         }
         if(LOG.isDebugEnabled()) {

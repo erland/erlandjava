@@ -96,7 +96,7 @@ public class StreamStorage implements StorageInterface
                 w.write(data);
                 w.flush();
             }catch(IOException e) {
-                e.printStackTrace();
+                LOG.error("Unable to save",e);
             }
         }
 	}
