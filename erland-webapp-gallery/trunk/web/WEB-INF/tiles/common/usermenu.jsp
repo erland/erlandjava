@@ -20,6 +20,9 @@
     <erland-common:menuitem id="filters" titleKey="gallery.menu.filters" page="/do/user/menu?menuItemId={menuItemId}" roles="manager" >
         <erland-common:menuitem id="new" titleKey="gallery.menu.filters.new" page="/do/user/menu?menuItemId={menuItemId}" roles="manager"/>
     </erland-common:menuitem>
+    <erland-common:menuitem id="skins" titleKey="gallery.menu.skins" page="/do/user/menu?menuItemId={menuItemId}" roles="manager" >
+        <erland-common:menuitem id="new" titleKey="gallery.menu.skins.new" page="/do/user/menu?menuItemId={menuItemId}" roles="manager"/>
+    </erland-common:menuitem>
     <erland-common:menuitem id="users" titleKey="gallery.menu.users" page="/do/user/menu?menuItemId={menuItemId}" roles="manager" />
     <erland-common:menuitem id="logout" titleKey="gallery.menu.logout" page="/do/user/menu?menuItemId={menuItemId}" />
 </erland-common:menu>
