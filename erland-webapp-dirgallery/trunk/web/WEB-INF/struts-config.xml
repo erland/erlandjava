@@ -481,4 +481,5 @@
                    erland.webapp.common.html.HTMLLinkStringReplace,
                    erland.webapp.common.html.HTMLBoldLinkStringReplace"/>
     </plug-in>
+    <plug-in className="erland.webapp.common.act.DescriptionTagPlugin"/>
 </struts-config>
