@@ -9,6 +9,7 @@
     <target name="copylibraries">
         <!-- Copy required libraries to distribution dir -->
         <copy todir="${dist}">
+            <fileset file="${java.home.securityfilter.lib}"/>
             <fileset dir="../Common/${dist}">
                 <include name="*.jar"/>
             </fileset>
@@ -36,7 +37,7 @@
         <ant dir="${basedir}" antfile="${buildutil}" target="dist">
             <property name="currentproject" value="${ant.project.name}"/>
             <property name="currentpackage" value="erland.webapp.usermgmt"/>
-            <property name="projectclasspath" value="${java.home.j2ee};${java.home.beanutils};../common/${dist}/webcommon.jar;../../common/util/${dist}/util.jar"/>
+            <property name="projectclasspath" value="${java.home.j2ee};${java.home.securityfilter.lib};${java.home.beanutils};../common/${dist}/webcommon.jar;../../common/util/${dist}/util.jar"/>
         </ant>
         <antcall target="copylibraries"/>
     </target>
@@ -50,7 +51,7 @@
         <ant dir="${basedir}" antfile="${buildutil}" target="doc">
             <property name="currentproject" value="${ant.project.name}"/>
             <property name="currentpackage" value="erland.webapp.usermgmt"/>
-            <property name="projectclasspath" value="${java.home.j2ee};${java.home.beanutils};../common/${dist}/webcommon.jar;../../common/util/${dist}/util.jar"/>
+            <property name="projectclasspath" value="${java.home.j2ee};${java.home.securityfilter.lib};${java.home.beanutils};../common/${dist}/webcommon.jar;../../common/util/${dist}/util.jar"/>
         </ant>
     </target>
     <target name="Public Documentation">
@@ -58,7 +59,7 @@
         <ant dir="${basedir}" antfile="${buildutil}" target="docpublic">
             <property name="currentproject" value="${ant.project.name}"/>
             <property name="currentpackage" value="erland.webapp.usermgmt"/>
-            <property name="projectclasspath" value="${java.home.j2ee};${java.home.beanutils};../common/${dist}/webcommon.jar;../../common/util/${dist}/util.jar"/>
+            <property name="projectclasspath" value="${java.home.j2ee};${java.home.securityfilter.lib};${java.home.beanutils};../common/${dist}/webcommon.jar;../../common/util/${dist}/util.jar"/>
         </ant>
     </target>
 
