@@ -51,18 +51,31 @@ public class ParameterStorageTree implements ParameterValueStorageExInterface {
                 }
                 return element;
             }else {
-                if(childs != null) {
+                if(childs != null && childs.hasNext()) {
                     while(childs.hasNext()) {
                         XMLNode child = (XMLNode)childs.next();
                         if(child.getName().equals("id")) {
                             if(child.getValue().equals(token)) {
-                                if(tokenizer.hasMoreElements()) {
-                                    return getParameter(tokenizer,childs);
-                                }else {
-                                    return getParameter(tokenizer,childs);
-                                }
+                                return getParameter(tokenizer,childs);
                             }
                         }
+                    }
+                    if(element.getAttributeValue("id")!=null && element.getAttributeValue("id").equals(token)) {
+                        return getParameter(tokenizer,element.getChilds());
+                    }
+                }else if(element.getAttributeValue("id")!=null && element.getAttributeValue("id").equals(token)) {
+                    if(tokenizer.hasMoreElements()) {
+                        String valueName = (String)tokenizer.nextElement();
+                        String value = element.getAttributeValue(valueName);
+                        if(value!=null) {
+                            XMLNode node = new XMLNode(token,null);
+                            node.setValue(value);
+                            return node;
+                        }else {
+                            return element;
+                        }
+                    }else {
+                        return element;
                     }
                 }
             }
