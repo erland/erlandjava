@@ -33,7 +33,7 @@ public class CookieHandler
 		** get all cookies for a document
 		*/
 		try {
-			JSObject myBrowser = (JSObject) JSObject.getWindow(applet);
+			JSObject myBrowser = JSObject.getWindow(applet);
 			JSObject myDocument =  (JSObject) myBrowser.getMember("document");
 			String myCookie = (String)myDocument.getMember("cookie");
 			if (myCookie!=null && myCookie.length() > 0)
@@ -79,6 +79,32 @@ public class CookieHandler
 		return "";
 	}
 
+    protected String cleanValue(String value) {
+        //System.out.println("cleanValue value = " + value);
+        int i = value.indexOf('\n');
+        if(i==-1) {
+            i = value.indexOf('\r');
+        }
+        if(i!=-1) {
+            //System.out.println("cleanValue removing newline");
+            StringBuffer sb = new StringBuffer(value);
+            i = sb.indexOf("\n");
+            while(i!=-1) {
+                sb.deleteCharAt(i);
+                i = sb.indexOf("\n");
+            }
+            i = sb.indexOf("\r");
+            while(i!=-1) {
+                sb.deleteCharAt(i);
+                i = sb.indexOf("\r");
+            }
+            //System.out.println("cleanValue value ut = " + sb.toString());
+            return sb.toString();
+        }else {
+            //System.out.println("cleanValue not modified");
+            return value;
+        }
+    }
 	/**
 	 * Write a cookie
 	 * @param name The name of the cookie
@@ -86,7 +112,7 @@ public class CookieHandler
 	 */
 	protected void setCookie(String name,String value)
 	{
-
+        value = cleanValue(value);
 		/*  
 		**  write a cookie
 		**    computes the expiration date, good for 1 month
