@@ -33,6 +33,9 @@ import java.net.URLConnection;
 import java.util.Vector;
 import java.util.Iterator;
 import java.util.Arrays;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 
 public class RoburConnection implements BrokerConnectionInterface {
     private WebAppEnvironmentInterface environment;
@@ -49,14 +52,18 @@ public class RoburConnection implements BrokerConnectionInterface {
             conn.setUseCaches(false);
             conn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
             DataOutputStream outRobur = new DataOutputStream(conn.getOutputStream());
+            Date today = new Date();
+            DateFormat formatYear = new SimpleDateFormat("yyyy");
+            DateFormat formatMonth = new SimpleDateFormat("MM");
+            DateFormat formatDay = new SimpleDateFormat("dd");
             outRobur.writeBytes(
                     "strFundID="+fondPrefix+
                     "&fryear=1980"+
                     "&frmonth=01"+
                     "&frday=01"+
-                    "&toyear=2005"+
-                    "&tomonth=01"+
-                    "&today=01");
+                    "&toyear="+formatYear.format(today)+
+                    "&tomonth="+formatMonth.format(today)+
+                    "&today="+formatDay.format(today));
             outRobur.flush();
             outRobur.close();
             BufferedReader inRobur = new BufferedReader(new InputStreamReader(conn.getInputStream(),"ISO-8859-1"));
