@@ -3,10 +3,12 @@ package erland.webapp.common;
 import erland.util.ParameterValueStorageInterface;
 import erland.util.ObjectStorageMap;
 import erland.util.ObjectStorageInterface;
+import erland.util.StringUtil;
 
 import java.util.Map;
 import java.util.Date;
 import java.util.Locale;
+import java.util.StringTokenizer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
@@ -94,7 +96,7 @@ public class ServletParameterHelper {
                         }else {
                             resultString = internalReplaceDynamicParameters(realString,parameters,0);
                         }
-                        if(resultString!=null) {
+                        if(StringUtil.asNull(resultString)!=null) {
                             sb.replace(startPos,endPos+1,resultString);
                             endPos = startPos+resultString.length();
                         }else {
@@ -130,8 +132,13 @@ public class ServletParameterHelper {
                     if(value instanceof Object[]) {
                         value = ((Object[])value)[index];
                     }
-                    sb.replace(startPos,endPos+1,value.toString());
-                    endPos = startPos+value.toString().length();
+                    if(StringUtil.asNull(value.toString())!=null) {
+                        sb.replace(startPos,endPos+1,value.toString());
+                        endPos = startPos+value.toString().length();
+                    }else {
+                        sb.replace(startPos,endPos+1,"");
+                        endPos = startPos;
+                    }
                 }else {
                     sb.replace(startPos,endPos+1,"");
                     endPos = startPos;
@@ -144,6 +151,38 @@ public class ServletParameterHelper {
         return sb.toString();
     }
 
+    public static String replaceParametersInUrl(String url, String replaceParameterString) {
+        int pos = url.indexOf('?');
+        if(pos>=0) {
+            String parameterString = "";
+            if(pos<url.length()-1) {
+                parameterString = url.substring(pos+1);
+                url = url.substring(0,pos+1);
+            }
+            return url+replaceParameters(parameterString,replaceParameterString);
+        }else {
+            return url+"?"+replaceParameterString;
+        }
+    }
+    public static String replaceParameters(String parameterString, String replaceParameterString) {
+        StringTokenizer tokenString = new StringTokenizer(replaceParameterString,"&");
+        while(tokenString.hasMoreElements()) {
+            String parameterValue = (String) tokenString.nextElement();
+            int pos = parameterValue.indexOf('=');
+            if(pos>=0) {
+                String value = "";
+                if(pos<parameterValue.length()-1) {
+                    value = parameterValue.substring(pos+1);
+                }
+                if(StringUtil.asNull(value)!=null) {
+                    parameterString = replaceParameter(parameterString,parameterValue.substring(0,pos),value);
+                }else {
+                    parameterString = removeParameter(parameterString,parameterValue.substring(0,pos));
+                }
+            }
+        }
+        return parameterString;
+    }
     public static String replaceParameter(String parameterString,String parameter,String value) {
         StringBuffer sb = new StringBuffer(parameterString);
         int startPos = 0;
@@ -151,11 +190,17 @@ public class ServletParameterHelper {
             int pos = parameterString.indexOf('&');
             if(pos<0) {
                 sb.setLength(0);
-                sb.append(parameter);
-                sb.append("=");
-                sb.append(value);
+                if(StringUtil.asNull(value)!=null) {
+                    sb.append(parameter);
+                    sb.append("=");
+                    sb.append(value);
+                }
             }else {
-                sb.replace(0,pos,parameter+"="+value);
+                if(StringUtil.asNull(value)!=null) {
+                    sb.replace(0,pos,parameter+"="+value);
+                }else {
+                    sb.replace(0,pos,"");
+                }
             }
             startPos = parameter.length()+1+value.length();
         }else {
@@ -165,13 +210,20 @@ public class ServletParameterHelper {
                 if(endPos<0) {
                     endPos = sb.length();
                 }
-                sb.replace(pos+1,endPos,parameter+"="+value);
-                startPos = pos+1+parameter.length()+1+value.length();
+                if(StringUtil.asNull(value)!=null) {
+                    sb.replace(pos+1,endPos,parameter+"="+value);
+                    startPos = pos+1+parameter.length()+1+value.length();
+                }else {
+                    sb.replace(pos+1,endPos,"");
+                    startPos = pos+1;
+                }
             }else {
-                sb.append("&");
-                sb.append(parameter);
-                sb.append("=");
-                sb.append(value);
+                if(StringUtil.asNull(value)!=null) {
+                    sb.append("&");
+                    sb.append(parameter);
+                    sb.append("=");
+                    sb.append(value);
+                }
                 startPos = sb.length();
             }
         }
@@ -219,6 +271,9 @@ public class ServletParameterHelper {
             }
             sb.replace(pos,endPos,"");
             pos = sb.indexOf("&"+parameter+"=",pos);
+        }
+        while(sb.charAt(sb.length()-1)=='&') {
+            sb.setLength(sb.length()-1);
         }
         return sb.toString();
     }
