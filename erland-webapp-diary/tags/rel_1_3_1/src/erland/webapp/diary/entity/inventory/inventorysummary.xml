@@ -1,0 +1,37 @@
+<entity id="inventorysummary">
+    <class>erland.webapp.diary.entity.inventory.InventorySummary</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/diary</datasource>
+        <table>inventoryentries</table>
+        <fields>
+            <field id="name">
+                <column>name</column>
+                <type>String</type>
+            </field>
+            <field id="numberOf">
+                <column>numberof</column>
+                <type>Integer</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allcurrentforuserandcontainer">
+                <completequerystring>select name,count(*) numberof from inventoryentries entry left join inventoryentryhistory event on entry.id=event.id and username=? left join inventoryentryhistory lastevent on event.id=lastevent.id and event.eventid&lt;lastevent.eventid where event.eventid is not null and lastevent.eventid is null and event.container=? and event.description in (1,5,6,7,8,9) group by entry.name</completequerystring>
+                <orderstring>order by name</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>username</field>
+                        <type>String</type>
+                    </field>
+                    <field id="2">
+                        <field>container</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
