@@ -5,7 +5,7 @@
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
 <div class="propertypage-title"><bean:message key="gallery.gallery.quicksetup.windowtitle"/></div>
-<erland-common:helplink style="propertypage-button" context="gallery.edit" target="_blank"><bean:message key="gallery.help.button"/></erland-common:helplink>
+<erland-common:helplink style="propertypage-button" context="gallery.quicksetup" target="_blank"><bean:message key="gallery.help.button"/></erland-common:helplink>
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/user/quicksetup3" method="POST">
     <html:hidden property="galleryDisplay"/>
