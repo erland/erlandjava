@@ -146,6 +146,10 @@ text-decoration:none;
 .helppage-body {
 border-width:1px;
 border-style:outset;
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
 }
 .helppage-footer-row {
 }
