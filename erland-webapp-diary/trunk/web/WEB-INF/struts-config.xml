@@ -39,6 +39,9 @@
         <form-bean name="editContainerFB" type="erland.webapp.diary.fb.container.ContainerFB"/>
         <form-bean name="removeContainerFB" type="erland.webapp.diary.fb.container.ContainerFB"/>
         <form-bean name="selectContainerFB" type="erland.webapp.diary.fb.container.SelectContainerFB"/>
+        <form-bean name="selectSpeciesEntryFB" type="erland.webapp.diary.fb.species.SelectSpeciesFB"/>
+        <form-bean name="editSpeciesEntryFB" type="erland.webapp.diary.fb.species.SpeciesFB"/>
+        <form-bean name="removeSpeciesEntryFB" type="erland.webapp.diary.fb.species.SpeciesFB"/>
     </form-beans>
 
     <global-forwards>
@@ -202,6 +205,8 @@
             <forward name="mainMenu-appendix" path="/do/user/viewappendixentries?menuName={mainMenu}&amp;menuItemId={menuItemId}"/>
             <forward name="mainMenu-sourceappendix" path="/do/user/viewsourceappendixentries?menuName={mainMenu}&amp;menuItemId={menuItemId}"/>
             <forward name="mainMenu-purchase" path="/do/user/viewpurchaseentries"/>
+            <forward name="mainMenu-inventory" path="/do/user/viewcurrentinventory"/>
+            <forward name="mainMenu-species" path="/do/user/viewspecies"/>
             <forward name="mainMenu-users" path="/do/user/viewuseraccounts"/>
             <forward name="mainMenu-logout" path="/do/logout"/>
             <forward name="success" path=".user.index"/>
@@ -437,7 +442,6 @@
             name="selectInventoryFB">
 
             <forward name="view-entry-link" path="/do/user/viewinventoryentryinfo?id={id}"/>
-            <forward name="view-gallery-link" path="/do/user/viewpictures?gallery={gallery}"/>
             <forward name="view-container-link" path="/do/user/viewcontainerinfo?container={container}"/>
 
             <forward name="failure" path=".user.index"/>
@@ -450,7 +454,6 @@
             name="selectInventoryFB">
 
             <forward name="view-entry-link" path="/do/user/viewinventoryentryinfo?id={id}"/>
-            <forward name="view-gallery-link" path="/do/user/viewpictures?gallery={gallery}"/>
             <forward name="view-container-link" path="/do/user/viewcontainerinfo?container={container}"/>
 
             <forward name="failure" path=".user.index"/>
@@ -551,7 +554,6 @@
             name="selectInventoryFB">
 
             <forward name="view-entry-link" path="/do/guest/viewinventoryentryinfo?user={user}&amp;id={id}"/>
-            <forward name="view-gallery-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}"/>
 
             <forward name="failure" path=".guest.index"/>
             <forward name="success" path=".guest.viewinventoryentries"/>
@@ -568,6 +570,8 @@
             <forward name="remove-event-link" path="/do/user/removeinventoryentryevent?id={id}&amp;eventId={eventId}"/>
             <forward name="new-event-link" path="/do/user/newinventoryentryevent?id={id}&amp;size={size}&amp;container={container}"/>
             <forward name="view-gallery-link" path="/do/user/viewpictures?gallery={gallery}"/>
+            <forward name="view-species-link" path="/do/user/viewinventoryentryspecies?id={species}"/>
+            <forward name="view-species-gallery-link" path="/do/user/viewpictures?gallery={gallery}"/>
             <forward name="view-container-link" path="/do/user/viewcontainerinfo?container={container}"/>
 
             <forward name="failure" path=".user.index"/>
@@ -580,10 +584,34 @@
             name="selectInventoryEntryFB">
 
             <forward name="view-gallery-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}"/>
+            <forward name="view-species-link" path="/do/guest/viewinventoryentryspecies?user={user}&amp;id={species}"/>
+            <forward name="view-species-gallery-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}"/>
             <forward name="view-container-link" path="/do/guest/viewcontainer?user={user}&amp;container={container}"/>
 
             <forward name="failure" path=".guest.index"/>
             <forward name="success" path=".guest.viewinventoryentry"/>
+        </action>
+
+        <action
+            path="/user/viewinventoryentryspecies"
+            type="erland.webapp.diary.act.species.ViewSpeciesEntryInfoAction"
+            name="selectSpeciesEntryFB">
+
+            <forward name="view-gallery-link" path="/do/user/viewpictures?gallery={gallery}"/>
+
+            <forward name="failure" path=".user.index"/>
+            <forward name="success" path=".user.viewinventoryentryspecies"/>
+        </action>
+
+        <action
+            path="/guest/viewinventoryentryspecies"
+            type="erland.webapp.diary.act.species.ViewSpeciesEntryInfoAction"
+            name="selectSpeciesEntryFB">
+
+            <forward name="view-gallery-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}"/>
+
+            <forward name="failure" path=".guest.index"/>
+            <forward name="success" path=".guest.viewinventoryentryspecies"/>
         </action>
 
         <action
@@ -660,6 +688,7 @@
             name="selectContainerFB">
             <forward name="view-gallery-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}"/>
             <forward name="view-inventory-link" path="/do/guest/viewinventory?user={user}&amp;container={container}"/>
+            <forward name="view-species-link" path="/do/guest/viewcontainerspecies?user={user}&amp;id={species}"/>
             <forward name="success" path=".guest.viewcontainer"/>
         </action>
         <action
@@ -670,7 +699,29 @@
             <forward name="delete-container-link" path="/do/user/removecontainer?id={container}"/>
             <forward name="view-gallery-link" path="/do/user/viewpictures?gallery={gallery}"/>
             <forward name="view-inventory-link" path="/do/user/viewcurrentinventory?container={container}"/>
+            <forward name="view-species-link" path="/do/user/viewcontainerspecies?id={species}"/>
             <forward name="success" path=".user.viewcontainer"/>
+        </action>
+        <action
+            path="/user/viewcontainerspecies"
+            type="erland.webapp.diary.act.species.ViewSpeciesEntryInfoAction"
+            name="selectSpeciesEntryFB">
+
+            <forward name="view-gallery-link" path="/do/user/viewpictures?gallery={gallery}"/>
+
+            <forward name="failure" path=".user.index"/>
+            <forward name="success" path=".user.viewcontainerspecies"/>
+        </action>
+
+        <action
+            path="/guest/viewcontainerspecies"
+            type="erland.webapp.diary.act.species.ViewSpeciesEntryInfoAction"
+            name="selectSpeciesEntryFB">
+
+            <forward name="view-gallery-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}"/>
+
+            <forward name="failure" path=".guest.index"/>
+            <forward name="success" path=".guest.viewcontainerspecies"/>
         </action>
         <action
             path="/user/newcontainer"
@@ -709,6 +760,92 @@
 
             <forward name="failure" path="/do/user/loadmenuupdate"/>
             <forward name="success" path="/do/user/loadmenuupdate"/>
+        </action>
+
+        <action
+            path="/user/viewspeciesentry"
+            type="erland.webapp.diary.act.species.ViewSpeciesEntryAction"
+            validate="false"
+            name="editSpeciesEntryFB">
+
+            <forward name="failure" path=".user.index"/>
+            <forward name="success" path=".user.editspeciesentry"/>
+        </action>
+
+        <action
+            path="/user/editspeciesentry"
+            type="erland.webapp.diary.act.species.EditSpeciesEntryAction"
+            name="editSpeciesEntryFB"
+            input=".user.editspeciesentry">
+
+            <forward name="failure" path=".user.editspeciesentry"/>
+            <forward name="success" path="/do/user/viewspeciesentryinfo?id={id}"/>
+        </action>
+
+        <action
+            path="/user/removespeciesentry"
+            type="erland.webapp.diary.act.species.RemoveSpeciesEntryAction"
+            name="removeSpeciesEntryFB">
+
+            <forward name="success" path="/do/user/viewspecies"/>
+            <forward name="success" path="/do/user/viewspecies"/>
+        </action>
+
+        <action
+            path="/user/newspeciesentry"
+            type="erland.webapp.diary.act.species.NewSpeciesEntryAction"
+            validate="false"
+            name="editSpeciesEntryFB">
+
+            <forward name="failure" path=".user.index"/>
+            <forward name="success" path=".user.editspeciesentry"/>
+        </action>
+
+        <action
+            path="/guest/viewspecies"
+            type="erland.webapp.diary.act.species.SearchSpeciesAction"
+            name="selectUserFB">
+
+            <forward name="view-entry-link" path="/do/guest/viewspeciesentryinfo?user={user}&amp;id={id}"/>
+            <forward name="view-gallery-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}"/>
+
+            <forward name="failure" path=".guest.index"/>
+            <forward name="success" path=".guest.viewspecies"/>
+        </action>
+
+        <action
+            path="/user/viewspecies"
+            type="erland.webapp.diary.act.species.SearchSpeciesAction">
+
+            <forward name="view-entry-link" path="/do/user/viewspeciesentryinfo?id={id}"/>
+            <forward name="view-gallery-link" path="/do/user/viewpictures?gallery={gallery}"/>
+
+            <forward name="failure" path=".user.index"/>
+            <forward name="success" path=".user.viewspecies"/>
+        </action>
+
+        <action
+            path="/user/viewspeciesentryinfo"
+            type="erland.webapp.diary.act.species.ViewSpeciesEntryInfoAction"
+            name="selectSpeciesEntryFB">
+
+            <forward name="update-entry-link" path="/do/user/viewspeciesentry?id={id}"/>
+            <forward name="delete-entry-link" path="/do/user/removespeciesentry?id={id}"/>
+            <forward name="view-gallery-link" path="/do/user/viewpictures?gallery={gallery}"/>
+
+            <forward name="failure" path=".user.index"/>
+            <forward name="success" path=".user.viewspeciesentry"/>
+        </action>
+
+        <action
+            path="/guest/viewspeciesentryinfo"
+            type="erland.webapp.diary.act.species.ViewSpeciesEntryInfoAction"
+            name="selectSpeciesEntryFB">
+
+            <forward name="view-gallery-link" path="/do/guest/viewpictures?user={user}&amp;gallery={gallery}"/>
+
+            <forward name="failure" path=".guest.index"/>
+            <forward name="success" path=".guest.viewspeciesentry"/>
         </action>
 
         <action
