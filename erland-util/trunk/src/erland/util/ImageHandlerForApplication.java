@@ -1,6 +1,6 @@
 package erland.util;
 /*
- * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
+ * Copyright (C) 2003-2004 Erland Isaksson (erland_i@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -56,7 +56,7 @@ public class ImageHandlerForApplication
 	}	
 	/**
      * Creates a new instance
-     * @param applet Applet object to use for the loading
+     * @param component Component object to use for the loading
      * @param imageDir Directory where all images are stored
      */
 	public ImageHandlerForApplication(Component component, String imageDir)
