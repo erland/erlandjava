@@ -1,6 +1,6 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
-                                erland.webapp.gallery.guestaccount.GuestAccount,
-                                erland.webapp.gallery.guestaccount.ViewGuestAccountsInterface"%>
+                                erland.webapp.gallery.entity.guestaccount.GuestAccount,
+                                erland.webapp.gallery.act.guestaccount.ViewGuestAccountsInterface"%>
 
 <%
     CommandInterface cmd = (CommandInterface) request.getAttribute("cmd");

@@ -1,10 +1,10 @@
-<%@ page import="erland.webapp.gallery.gallery.picture.ViewPicturesInterface,
-                 erland.webapp.gallery.gallery.picture.Picture,
+<%@ page import="erland.webapp.gallery.act.gallery.picture.ViewPicturesInterface,
+                 erland.webapp.gallery.entity.gallery.picture.Picture,
                  erland.webapp.common.CommandInterface,
-                 erland.webapp.gallery.gallery.ViewGalleryInterface,
-                 erland.webapp.gallery.gallery.Gallery,
+                 erland.webapp.gallery.act.gallery.ViewGalleryInterface,
+                 erland.webapp.gallery.entity.gallery.Gallery,
                  erland.webapp.common.ServletParameterHelper,
-                 erland.webapp.gallery.gallery.GalleryInterface"%>
+                 erland.webapp.gallery.entity.gallery.GalleryInterface"%>
  <%
     CommandInterface cmd = (CommandInterface) request.getAttribute("cmd");
     if(cmd instanceof ViewGalleryInterface) {

@@ -1,6 +1,6 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
-                                erland.webapp.gallery.gallery.Gallery,
-                                erland.webapp.gallery.gallery.ViewGalleryCommand"%>
+                                erland.webapp.gallery.entity.gallery.Gallery,
+                                erland.webapp.gallery.act.gallery.ViewGalleryAction"%>
 <p class="normal">Detta är en funktion för att importera ditt bild galleri från en text file som har
 exporterats från bildhanteringsprogrammet <a class="bold-link" href="http://www.photools.com/" target="_blank">IMatch</a>.
 <p class="normal">Text filen skall skapas i IMatch enligt följande:

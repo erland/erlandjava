@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<resources>
+    <commands>
+        <command id="default">
+            <class>erland.webapp.common.DefaultCommand</class>
+        </command>
+        <command id="home">
+            <class>erland.webapp.usermgmt.LoginStatusCommand</class>
+        </command>
+        <command id="login">
+            <class>erland.webapp.usermgmt.LoginCommand</class>
+        </command>
+        <command id="logout">
+            <class>erland.webapp.usermgmt.LogoutCommand</class>
+        </command>
+        <command id="searchofficialuseraccounts">
+            <class>erland.webapp.gallery.act.account.SearchOfficialUserAccountsAction</class>
+        </command>
+        <command id="searchuseraccounts">
+            <class>erland.webapp.gallery.act.account.SearchUserAccountsAction</class>
+            <role>manager</role>
+        </command>
+        <command id="viewuseraccount">
+            <class>erland.webapp.gallery.act.account.ViewUserAccountAction</class>
+            <role>user</role>
+        </command>
+        <command id="edituseraccount">
+            <class>erland.webapp.gallery.act.account.EditUserAccountAction</class>
+            <role>user</role>
+        </command>
+        <command id="removeuseraccount">
+            <class>erland.webapp.gallery.act.account.RemoveUserAccountAction</class>
+            <role>manager</role>
+        </command>
+        <command id="viewwelcometext">
+            <class>erland.webapp.gallery.act.account.ViewUserAccountAction</class>
+        </command>
+        <command id="newuseraccount">
+            <class>erland.webapp.gallery.act.account.NewUserAccountAction</class>
+        </command>
+        <command id="registernewuseraccount">
+            <class>erland.webapp.common.NoneCommand</class>
+        </command>
+        <command id="editgallery">
+            <class>erland.webapp.gallery.act.gallery.EditGalleryAction</class>
+            <role>user</role>
+        </command>
+        <command id="newgallery">
+            <class>erland.webapp.gallery.act.gallery.ViewGalleryAction</class>
+            <role>user</role>
+        </command>
+        <command id="removegallery">
+            <class>erland.webapp.gallery.act.gallery.RemoveGalleryAction</class>
+            <role>user</role>
+        </command>
+        <command id="editpicture">
+            <class>erland.webapp.gallery.act.gallery.picture.EditPictureAction</class>
+            <role>user</role>
+        </command>
+        <command id="newpicture">
+            <class>erland.webapp.gallery.act.gallery.picture.ViewPictureAction</class>
+            <role>user</role>
+        </command>
+        <command id="removepicture">
+            <class>erland.webapp.gallery.act.gallery.picture.RemovePictureAction</class>
+            <role>user</role>
+        </command>
+        <command id="searchgalleries">
+            <class>erland.webapp.gallery.act.gallery.SearchGalleriesAction</class>
+            <role>user</role>
+            <save type="session">menugalleries</save>
+        </command>
+        <command id="searchgalleriesviewdefaultgallery">
+            <class>erland.webapp.gallery.act.gallery.SearchGalleriesAction</class>
+            <role>user</role>
+            <save type="session">menugalleries</save>
+        </command>
+        <command id="searchgalleriesguest">
+            <class>erland.webapp.gallery.act.gallery.SearchOfficialGalleriesAction</class>
+            <save type="session">menugalleries</save>
+        </command>
+        <command id="searchgalleriesguestviewdefaultgallery">
+            <class>erland.webapp.gallery.act.gallery.SearchOfficialGalleriesAction</class>
+            <save type="session">menugalleries</save>
+        </command>
+        <command id="searchgalleriesguestviewwelcometext">
+            <class>erland.webapp.gallery.act.gallery.SearchOfficialGalleriesAction</class>
+            <save type="session">menugalleries</save>
+        </command>
+        <command id="editcategory">
+            <class>erland.webapp.gallery.act.gallery.category.EditCategoryAction</class>
+            <role>user</role>
+        </command>
+        <command id="updatecategory">
+            <class>erland.webapp.gallery.act.gallery.category.ViewCategoryAction</class>
+            <role>user</role>
+        </command>
+        <command id="newsearchgalleryentriesadvanced">
+            <class>erland.webapp.gallery.act.gallery.category.SearchAllCategoriesAction</class>
+            <role>user</role>
+        </command>
+        <command id="newsearchgalleryentriesadvancedguest">
+            <class>erland.webapp.gallery.act.gallery.category.SearchOfficialAllCategoriesAction</class>
+        </command>
+        <command id="searchgalleryentriesadvanced">
+            <class>erland.webapp.gallery.act.gallery.picture.AdvancedSearchPicturesAction</class>
+            <role>user</role>
+            <save type="request">prevnext</save>
+            <saveparameters type="request">cmdparameters</saveparameters>
+        </command>
+        <command id="searchgalleryentriesadvancedguest">
+            <class>erland.webapp.gallery.act.gallery.picture.AdvancedSearchOfficialPicturesAction</class>
+            <save type="request">prevnext</save>
+            <saveparameters type="request">cmdparameters</saveparameters>
+        </command>
+        <command id="searchgalleryentriesadvancedviewpicture">
+            <class>erland.webapp.gallery.act.gallery.picture.AdvancedSearchPicturesAction</class>
+            <role>user</role>
+            <save type="request">prevnext</save>
+            <saveparameters type="request">cmdparameters</saveparameters>
+        </command>
+        <command id="searchgalleryentriesadvancedguestviewpicture">
+            <class>erland.webapp.gallery.act.gallery.picture.AdvancedSearchOfficialPicturesAction</class>
+            <save type="request">prevnext</save>
+            <saveparameters type="request">cmdparameters</saveparameters>
+        </command>
+        <command id="searchcategories">
+            <class>erland.webapp.gallery.act.gallery.category.SearchCategoriesAction</class>
+            <role>user</role>
+            <save type="session">menucategories{indent}</save>
+        </command>
+        <command id="searchcategoriesguest">
+            <class>erland.webapp.gallery.act.gallery.category.SearchOfficialCategoriesAction</class>
+            <save type="session">menucategories{indent}</save>
+        </command>
+        <command id="searchgalleryentries">
+            <class>erland.webapp.gallery.act.gallery.picture.SearchPicturesAction</class>
+            <role>user</role>
+            <save type="request">prevnext</save>
+            <saveparameters type="request">cmdparameters</saveparameters>
+        </command>
+        <command id="searchgalleryentriesguest">
+            <class>erland.webapp.gallery.act.gallery.picture.SearchOfficialPicturesAction</class>
+            <save type="request">prevnext</save>
+            <saveparameters type="request">cmdparameters</saveparameters>
+        </command>
+        <command id="searchgalleryentriesviewpicture">
+            <class>erland.webapp.gallery.act.gallery.picture.SearchPicturesAction</class>
+            <role>user</role>
+            <save type="request">prevnext</save>
+            <saveparameters type="request">cmdparameters</saveparameters>
+        </command>
+        <command id="searchgalleryentriesguestviewpicture">
+            <class>erland.webapp.gallery.act.gallery.picture.SearchOfficialPicturesAction</class>
+            <save type="request">prevnext</save>
+            <saveparameters type="request">cmdparameters</saveparameters>
+        </command>
+        <command id="chooseimport">
+            <class>erland.webapp.common.NoneCommand</class>
+            <role>user</role>
+        </command>
+        <command id="importgallery">
+            <class>erland.webapp.gallery.act.gallery.importers.IMatchImportAction</class>
+            <role>user</role>
+        </command>
+        <command id="searchstorages">
+            <class>erland.webapp.gallery.act.gallery.picturestorage.SearchPictureStoragesAction</class>
+            <role>user</role>
+        </command>
+        <command id="editstorage">
+            <class>erland.webapp.gallery.act.gallery.picturestorage.EditPictureStorageAction</class>
+            <role>user</role>
+        </command>
+        <command id="newstorage">
+            <class>erland.webapp.gallery.act.gallery.picturestorage.ViewPictureStorageActionclass></class>
+            <role>user</role>
+        </command>
+        <command id="removestorage">
+            <class>erland.webapp.gallery.act.gallery.picturestorage.RemovePictureStorageAction</class>
+            <role>user</role>
+        </command>      <command id="viewpicture">
+            <class>erland.webapp.gallery.act.loader.LoadMetadataAction</class>
+        </command>
+        <command id="viewpictureguest">
+            <class>erland.webapp.gallery.act.loader.LoadMetadataAction</class>
+            <saveparameters type="request">cmdparameters</saveparameters>
+        </command>
+        <command id="loadthumbnail">
+            <class>erland.webapp.gallery.act.loader.LoadThumbnailAction</class>
+        </command>
+        <command id="loadimage">
+            <class>erland.webapp.gallery.act.loader.LoadImageAction</class>
+            <role>user</role>
+        </command>
+        <command id="viewdefaultgalleryguest">
+            <class>erland.webapp.gallery.act.account.ViewUserAccountAction</class>
+        </command>
+        <command id="viewdefaultgallery">
+            <class>erland.webapp.gallery.act.account.ViewUserAccountAction</class>
+            <role>user</role>
+        </command>
+        <command id="newguestaccount">
+            <class>erland.webapp.common.NoneCommand</class>
+            <role>user</role>
+        </command>
+        <command id="editguestaccount">
+            <class>erland.webapp.gallery.act.guestaccount.NewGuestAccountAction</class>
+            <role>user</role>
+        </command>
+       <command id="removeguestaccount">
+            <class>erland.webapp.gallery.act.guestaccount.RemoveGuestAccountAction</class>
+            <role>user</role>
+        </command>
+      <command id="searchguestaccounts">
+            <class>erland.webapp.gallery.act.guestaccount.SearchGuestAccountsAction</class>
+            <role>user</role>
+        </command>
+     <command id="loginasguest">
+            <class>erland.webapp.common.NoneCommand</class>
+        </command>
+        <command id="loginguest">
+            <class>erland.webapp.usermgmt.LoginCommand</class>
+            <options>
+                <option id="userattribute">guestuser</option>
+            </options>
+        </command>
+        <command id="logoutguest">
+            <class>erland.webapp.usermgmt.LogoutCommand</class>
+            <options>
+                <option id="userattribute">guestuser</option>
+                <option id="invalidatesession">false</option>
+            </options>
+        </command>
+    </commands>
+    <entities>
+        <entity id="common-resource" reference="resource:erland/webapp/common/resource.xml"/>
+        <entity id="common-metadatafielddescription" reference="descriptiontag:erland/webapp/common/descriptiontag.xml"/>
+        <entity id="usermgmt-user" reference="user:erland/webapp/usermgmt/user.xml"/>
+        <entity id="usermgmt-userapplicationrole" reference="userapplicationrole:erland/webapp/usermgmt/userapplicationrole.xml"/>
+        <entity id="usermgmt-userinfo" reference="userinfo:erland/webapp/usermgmt/userinfo.xml"/>
+        <entity id="gallery-useraccount" reference="useraccount:erland/webapp/gallery/entity/account/useraccount.xml"/>
+        <entity id="gallery-guestaccount" reference="guestaccount:erland/webapp/gallery/entity/guestaccount/guestaccount.xml"/>
+        <entity id="gallery-gallery" reference="gallery:erland/webapp/gallery/entity/gallery/gallery.xml"/>
+        <entity id="gallery-gallerycategoryassociation" reference="gallerycategoryassociation:erland/webapp/gallery/entity/gallery/gallerycategoryassociation.xml"/>
+        <entity id="gallery-picture" reference="picture:erland/webapp/gallery/entity/gallery/picture/picture.xml"/>
+        <entity id="gallery-picturestorage" reference="picturestorage:erland/webapp/gallery/entity/gallery/picturestorage/picturestorage.xml"/>
+        <entity id="gallery-category" reference="category:erland/webapp/gallery/entity/gallery/category/category.xml"/>
+        <entity id="gallery-categorypictureassociation" reference="categorypictureassociation:erland/webapp/gallery/entity/gallery/category/categorypictureassociation.xml"/>
+        <entity id="gallery-categorymembership" reference="categorymembership:erland/webapp/gallery/entity/gallery/category/categorymembership.xml"/>
+    </entities>
+    <pages>
+        <page id="login">
+            <page id="success">
+                <forward>portal?do=home</forward>
+                <page id="main">index.jsp</page>
+                <page id="header">welcome.jsp</page>
+            </page>
+            <page id="failure">
+                <forward>portal?do=default</forward>
+            </page>
+        </page>
+        <page id="logout">
+            <forward>portal?do=default</forward>
+        </page>
+        <page id="removeuseraccount">
+            <forward>portal?do=home</forward>
+        </page>
+        <page id="viewuseraccount">
+            <page>edituseraccount.jsp</page>
+        </page>
+        <page id="viewwelcometext">
+            <page>viewwelcometext.jsp</page>
+        </page>
+        <page id="edituseraccount">
+            <forward>portal?do=home</forward>
+        </page>
+        <page id="searchofficialuseraccounts">
+            <page>login.jsp</page>
+        </page>
+        <page id="searchuseraccounts">
+            <page>viewuseraccounts.jsp</page>
+        </page>
+        <page id="newuseraccount">
+            <page id="success">
+                <page>newuseraccountsuccess.jsp</page>
+            </page>
+            <page id="failure">
+                <page>newuseraccount.jsp</page>
+            </page>
+        </page>
+        <page id="registernewuseraccount">
+            <page>newuseraccount.jsp</page>
+        </page>
+        <page id="newgallery">
+            <page>editgallery.jsp</page>
+        </page>
+        <page id="editgallery">
+            <forward>portal?do=searchgalleries</forward>
+        </page>
+        <page id="removegallery">
+            <forward>portal?do=searchgalleries</forward>
+        </page>
+        <page id="newpicture">
+            <page>editpicture.jsp</page>
+        </page>
+        <page id="editpicture">
+            <forward>portal?do=searchgalleryentries&amp;start=0&amp;max=9</forward>
+        </page>
+        <page id="removepicture">
+            <forward>portal?do=searchgalleryentries&amp;start=0&amp;max=9</forward>
+        </page>
+        <page id="chooseimport">
+            <page>importgallery.jsp</page>
+        </page>
+        <page id="importgallery">
+            <forward>portal?do=searchgalleryentries&amp;start=0&amp;max=9</forward>
+        </page>
+        <page id="editcategory">
+            <forward>portal?do=searchgalleryentries&amp;start=0&amp;max=9</forward>
+        </page>
+        <page id="updatecategory">
+            <page>editcategory.jsp</page>
+        </page>
+        <page id="searchcategories">
+            <forward>portal?do=searchgalleryentries</forward>
+        </page>
+        <page id="searchcategoriesguest">
+            <forward>portal?do=searchgalleryentriesguest</forward>
+        </page>
+        <page id="searchgalleryentries">
+            <page>viewgallery.jsp</page>
+        </page>
+        <page id="searchgalleryentriesguest">
+            <page>viewgalleryguest.jsp</page>
+        </page>
+        <page id="searchgalleryentriesviewpicture">
+            <forward>portal?do=viewpicture&amp;image={firstimage}</forward>
+        </page>
+        <page id="searchgalleryentriesguestviewpicture">
+            <forward>portal?do=viewpicture&amp;image={firstimage}</forward>
+        </page>
+        <page id="searchstorages">
+            <page>viewstorages.jsp</page>
+        </page>
+        <page id="newstorage">
+            <page>editstorage.jsp</page>
+        </page>
+        <page id="editstorage">
+            <forward>portal?do=searchstorages</forward>
+        </page>
+        <page id="removegallery">
+            <forward>portal?do=searchstorages</forward>
+        </page>
+        <page id="newsearchgalleryentriesadvanced">
+            <page>editsearch.jsp</page>
+        </page>
+        <page id="newsearchgalleryentriesadvancedguest">
+            <page>editsearchguest.jsp</page>
+        </page>
+        <page id="searchgalleryentriesadvanced">
+            <page>viewgallery.jsp</page>
+        </page>
+        <page id="searchgalleryentriesadvancedguest">
+            <page>viewgalleryguest.jsp</page>
+        </page>
+        <page id="searchgalleryentriesadvancedviewpicture">
+            <forward>portal?do=viewpicture&amp;image={firstimage}</forward>
+        </page>
+        <page id="searchgalleryentriesadvancedguestviewpicture">
+            <forward>portal?do=viewpicture&amp;image={firstimage}</forward>
+        </page>
+        <page id="viewpicture">
+            <page>viewpicture.jsp</page>
+            <role>user</role>
+        </page>
+        <page id="viewpictureguest">
+            <page type="request">viewpictureguest.jsp</page>
+            <page id="main" type="request">indexempty.jsp</page>
+        </page>
+        <page id="searchgalleriesviewdefaultgallery">
+            <forward>portal?do=searchcategories&amp;start=0&amp;max=9</forward>
+        </page>
+        <page id="searchgalleriesguestviewwelcometext">
+            <forward>portal?do=viewwelcometext</forward>
+        </page>
+        <page id="searchgalleriesguestviewdefaultgallery">
+            <forward>portal?do=searchcategoriesguest&amp;start=0&amp;max=9</forward>
+        </page>
+        <page id="searchgalleries">
+            <forward>portal?do=viewwelcometext</forward>
+        </page>
+        <page id="viewdefaultgallery">
+            <page id="withdefaultgallery">
+                <forward>portal?do=searchgalleriesviewdefaultgallery&amp;gallery={defaultgallery}</forward>
+            </page>
+            <page id="withoutdefaultgallery">
+                <forward>portal?do=viewwelcometext&amp;withdifferentpages=0</forward>
+            </page>
+        </page>
+        <page id="viewdefaultgalleryguest">
+            <page id="withdefaultgallery">
+                <forward>portal?do=searchgalleriesguestviewdefaultgallery&amp;gallery={defaultgallery}</forward>
+            </page>
+            <page id="withoutdefaultgallery">
+                <forward>portal?do=searchgalleriesguestviewwelcometext&amp;withdifferentpages=0</forward>
+            </page>
+        </page>
+        <page id="editguestaccount">
+            <forward>portal?do=searchguestaccounts</forward>
+        </page>
+        <page id="removeguestaccount">
+            <forward>portal?do=searchguestaccounts</forward>
+        </page>
+        <page id="searchguestaccounts">
+            <page>viewguestaccounts.jsp</page>
+        </page>
+        <page id="newguestaccount">
+            <page>newguestaccount.jsp</page>
+        </page>
+        <page id="loginasguest">
+            <page>loginguest.jsp</page>
+        </page>
+        <page id="loginguest">
+            <page id="success">
+                <forward>portal?do=home</forward>
+            </page>
+        </page>
+        <page id="logoutguest">
+            <forward>portal?do=home</forward>
+        </page>
+        <page id="home">
+            <page id="user">
+                <forward>portal?do=viewdefaultgallery&amp;withdifferentpages=1</forward>
+                <page id="menu">menu.jsp</page>
+            </page>
+            <page id="guest">
+                <forward>portal?do=viewdefaultgalleryguest&amp;withdifferentpages=1</forward>
+                <page id="main">index.jsp</page>
+                <page id="header">welcomeguest.jsp</page>
+                <page id="menu">menuguest.jsp</page>
+            </page>
+            <page id="none">
+                <forward>portal?do=default</forward>
+            </page>
+        </page>
+        <page id="default">
+            <forward>portal?do=searchofficialuseraccounts</forward>
+            <page id="main">index.jsp</page>
+            <page id="header">welcomelogin.jsp</page>
+            <page id="menu"/>
+        </page>
+        <page id="accessdenied">
+            <page>accessdenied.jsp</page>
+        </page>
+        <page id="notallowed">
+            <forward>portal?do=default</forward>
+        </page>
+        <page id="error">
+            <page>error.jsp</page>
+        </page>
+    </pages>
+</resources>

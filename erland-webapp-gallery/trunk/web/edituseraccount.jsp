@@ -1,14 +1,14 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
-                                erland.webapp.gallery.account.UserAccount,
-                                erland.webapp.gallery.account.ViewUserAccountCommand,
-                                erland.webapp.gallery.account.ViewUserAccountInterface,
-                                erland.webapp.gallery.gallery.Gallery,
-                                erland.webapp.gallery.gallery.GalleryInterface"%>
+                                erland.webapp.gallery.entity.account.UserAccount,
+                                erland.webapp.gallery.act.account.ViewUserAccountAction,
+                                erland.webapp.gallery.act.account.ViewUserAccountInterface,
+                                erland.webapp.gallery.entity.gallery.Gallery,
+                                erland.webapp.gallery.entity.gallery.GalleryInterface"%>
 
 <%
     CommandInterface cmd = (CommandInterface) request.getAttribute("cmd");
-    if(cmd instanceof ViewUserAccountCommand) {
-        UserAccount account = ((ViewUserAccountCommand)cmd).getAccount();
+    if(cmd instanceof ViewUserAccountAction) {
+        UserAccount account = ((ViewUserAccountAction)cmd).getAccount();
         %>
         <form name="editEntry" action="portal" method="POST">
             <input type="hidden" name="do" value="edituseraccount">

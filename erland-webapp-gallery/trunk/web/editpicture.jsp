@@ -1,13 +1,13 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
-                                erland.webapp.gallery.gallery.Gallery,
-                                erland.webapp.gallery.gallery.ViewGalleryCommand,
-                                erland.webapp.gallery.gallery.picture.ViewPictureCommand,
-                                erland.webapp.gallery.gallery.picture.Picture"%>
+                                erland.webapp.gallery.entity.gallery.Gallery,
+                                erland.webapp.gallery.act.gallery.ViewGalleryAction,
+                                erland.webapp.gallery.act.gallery.picture.ViewPictureAction,
+                                erland.webapp.gallery.entity.gallery.picture.Picture"%>
 
 <%
     CommandInterface cmd = (CommandInterface) request.getAttribute("cmd");
-    if(cmd instanceof ViewPictureCommand) {
-        Picture entry = ((ViewPictureCommand)cmd).getPicture();
+    if(cmd instanceof ViewPictureAction) {
+        Picture entry = ((ViewPictureAction)cmd).getPicture();
         %>
         <form name="editEntry" action="portal" method="POST">
             <input type="hidden" name="do" value="editpicture">

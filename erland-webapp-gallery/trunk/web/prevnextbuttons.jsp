@@ -1,4 +1,4 @@
-<%@ page import="erland.webapp.gallery.gallery.picture.ViewPicturePageInterface,
+<%@ page import="erland.webapp.gallery.act.gallery.picture.ViewPicturePageInterface,
                  erland.webapp.common.CommandInterface,
                  erland.webapp.common.ServletParameterHelper"%>
 <%

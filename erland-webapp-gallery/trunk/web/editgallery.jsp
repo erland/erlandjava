@@ -1,15 +1,16 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
-                                erland.webapp.gallery.gallery.category.Category,
-                                erland.webapp.gallery.gallery.category.ViewCategoriesInterface,
-                                erland.webapp.gallery.account.ViewUserAccountInterface,
+                                erland.webapp.gallery.entity.gallery.category.Category,
+                                erland.webapp.gallery.act.gallery.category.ViewCategoriesInterface,
+                                erland.webapp.gallery.act.account.ViewUserAccountInterface,
                                 java.util.Arrays,
                                 java.util.Collection,
-                                erland.webapp.gallery.gallery.*"%>
+                                erland.webapp.gallery.act.gallery.*,
+                                erland.webapp.gallery.entity.gallery.GalleryInterface"%>
 
 <%
     CommandInterface cmd = (CommandInterface) request.getAttribute("cmd");
-    if(cmd instanceof ViewGalleryCommand) {
-        GalleryInterface gallery = ((ViewGalleryCommand)cmd).getGallery();
+    if(cmd instanceof ViewGalleryAction) {
+        GalleryInterface gallery = ((ViewGalleryAction)cmd).getGallery();
         %>
         <form name="editEntry" action="portal" method="POST">
             <input type="hidden" name="do" value="editgallery">

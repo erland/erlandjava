@@ -1,5 +1,5 @@
 <%@ page import="erland.webapp.common.CommandInterface,
-                 erland.webapp.gallery.loader.ViewMetadataInterface,
+                 erland.webapp.gallery.act.loader.ViewMetadataInterface,
                  erland.webapp.common.ServletParameterHelper"%>
 <%
     CommandInterface cmd = (CommandInterface) request.getAttribute("cmd");

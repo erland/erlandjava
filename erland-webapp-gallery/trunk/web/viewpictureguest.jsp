@@ -1,5 +1,5 @@
-<%@ page session="true" import="erland.webapp.gallery.gallery.picture.ViewPictureInterface,
-                 erland.webapp.gallery.gallery.picture.Picture,
+<%@ page session="true" import="erland.webapp.gallery.act.gallery.picture.ViewPictureInterface,
+                                erland.webapp.gallery.entity.gallery.picture.Picture,
                                 erland.webapp.common.CommandInterface,
                                 erland.webapp.common.ServletParameterHelper"%>
 <%

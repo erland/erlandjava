@@ -1,6 +1,6 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
-                                erland.webapp.gallery.gallery.picturestorage.ViewPictureStoragesInterface,
-                                erland.webapp.gallery.gallery.picturestorage.PictureStorage"%>
+                                erland.webapp.gallery.act.gallery.picturestorage.ViewPictureStoragesInterface,
+                                erland.webapp.gallery.entity.gallery.picturestorage.PictureStorage"%>
 
 <%
     CommandInterface cmd = (CommandInterface) request.getAttribute("cmd");

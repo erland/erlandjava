@@ -1,8 +1,8 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
                                 java.text.DateFormat,
                                 java.text.SimpleDateFormat,
-                                erland.webapp.gallery.account.ViewUserAccountsInterface,
-                                erland.webapp.gallery.account.UserAccount,
+                                erland.webapp.gallery.act.account.ViewUserAccountsInterface,
+                                erland.webapp.gallery.entity.account.UserAccount,
                                 erland.webapp.usermgmt.User"%>
 
 <%

@@ -1,7 +1,7 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
-                                erland.webapp.gallery.gallery.ViewGalleryInterface,
-                                erland.webapp.gallery.gallery.Gallery,
-                                erland.webapp.gallery.gallery.GalleryInterface,
+                                erland.webapp.gallery.act.gallery.ViewGalleryInterface,
+                                erland.webapp.gallery.entity.gallery.Gallery,
+                                erland.webapp.gallery.entity.gallery.GalleryInterface,
                                 erland.webapp.common.html.HTMLEncoder"%>
 
 

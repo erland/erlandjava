@@ -1,5 +1,5 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
-                                erland.webapp.gallery.gallery.ViewGalleriesInterface"%>
+                                erland.webapp.gallery.act.gallery.ViewGalleriesInterface"%>
 <table class="no-border">
     <%
         String user = request.getParameter("user");

@@ -4,19 +4,74 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
+    <filter>
+        <filter-name>Security Filter</filter-name>
+        <filter-class>org.securityfilter.filter.SecurityFilter</filter-class>
+        <init-param>
+            <param-name>config</param-name>
+            <param-value>/WEB-INF/securityfilter-config.xml</param-value>
+            <description>Configuration file location (this is the default value)</description>
+        </init-param>
+        <init-param>
+            <param-name>validate</param-name>
+            <param-value>false</param-value>
+            <description>Validate config file if set to true</description>
+        </init-param>
+    </filter>
+
+    <!-- map all requests to the SecurityFilter, control what it does with configuration settings -->
+    <filter-mapping>
+        <filter-name>Security Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <servlet>
-        <servlet-name>gallery</servlet-name>
-        <servlet-class>erland.webapp.gallery.GalleryServlet</servlet-class>
+        <servlet-name>action</servlet-name>
+        <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+        <init-param>
+            <param-name>application</param-name>
+            <param-value>erland.webapp.gallery.resources.message</param-value>
+        </init-param>
+        <init-param>
+            <param-name>config</param-name>
+            <param-value>/WEB-INF/struts-config.xml</param-value>
+        </init-param>
+        <load-on-startup>0</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>gallery</servlet-name>
-        <url-pattern>/portal/*</url-pattern>
+        <servlet-name>action</servlet-name>
+        <url-pattern>/do/*</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+
+    <taglib>
+        <taglib-uri>http://jakarta.apache.org/struts/tags-bean</taglib-uri>
+        <taglib-location>lib/struts-bean.tld</taglib-location>
+    </taglib>
+    <taglib>
+        <taglib-uri>http://jakarta.apache.org/struts/tags-html</taglib-uri>
+        <taglib-location>lib/struts-html.tld</taglib-location>
+    </taglib>
+    <taglib>
+        <taglib-uri>http://jakarta.apache.org/struts/tags-logic</taglib-uri>
+        <taglib-location>lib/struts-logic.tld</taglib-location>
+    </taglib>
+    <taglib>
+        <taglib-uri>http://jakarta.apache.org/struts/tags-nested</taglib-uri>
+        <taglib-location>lib/struts-nested.tld</taglib-location>
+    </taglib>
+    <taglib>
+        <taglib-uri>http://jakarta.apache.org/struts/tags-tiles</taglib-uri>
+        <taglib-location>lib/struts-tiles.tld</taglib-location>
+    </taglib>
+    <taglib>
+        <taglib-uri>http://erland.homeip.net/tags/erland-common</taglib-uri>
+        <taglib-location>lib/erland-common.tld</taglib-location>
+    </taglib>
 
     <resource-ref>
       <res-ref-name>jdbc/common</res-ref-name>

@@ -1,7 +1,7 @@
 <%@ page session="true" import="erland.webapp.usermgmt.User,
                                 erland.webapp.common.CommandInterface,
                                 erland.webapp.common.MenuCommand,
-                                erland.webapp.gallery.gallery.ViewGalleriesInterface"%>
+                                erland.webapp.gallery.act.gallery.ViewGalleriesInterface"%>
 <jsp:useBean id="user" scope="session" class="User" />
 <table class="no-border">
 <tr>

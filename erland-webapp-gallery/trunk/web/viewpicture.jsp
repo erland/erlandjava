@@ -1,6 +1,6 @@
 <%@ page import="erland.webapp.common.CommandInterface,
-                 erland.webapp.gallery.gallery.picture.ViewPictureInterface,
-                 erland.webapp.gallery.gallery.picture.Picture"%>
+                 erland.webapp.gallery.act.gallery.picture.ViewPictureInterface,
+                 erland.webapp.gallery.entity.gallery.picture.Picture"%>
 <%@ page session="true" %>
 <table class="no-border">
 <jsp:include page="prevnextbuttons.jsp"/>

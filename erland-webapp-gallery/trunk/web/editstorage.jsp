@@ -1,11 +1,11 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
-                                erland.webapp.gallery.gallery.picturestorage.ViewPictureStorageCommand,
-                                erland.webapp.gallery.gallery.picturestorage.PictureStorage"%>
+                                erland.webapp.gallery.act.gallery.picturestorage.ViewPictureStorageAction,
+                                erland.webapp.gallery.entity.gallery.picturestorage.PictureStorage"%>
 
 <%
     CommandInterface cmd = (CommandInterface) request.getAttribute("cmd");
-    if(cmd instanceof ViewPictureStorageCommand) {
-        PictureStorage storage = ((ViewPictureStorageCommand)cmd).getStorage();
+    if(cmd instanceof ViewPictureStorageAction) {
+        PictureStorage storage = ((ViewPictureStorageAction)cmd).getStorage();
         %>
         <form name="editEntry" action="portal" method="POST">
             <input type="hidden" name="do" value="editstorage">

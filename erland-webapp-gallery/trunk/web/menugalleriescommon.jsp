@@ -1,9 +1,9 @@
-<%@ page import="erland.webapp.gallery.gallery.Gallery,
-                 erland.webapp.gallery.gallery.ViewGalleriesInterface,
+<%@ page import="erland.webapp.gallery.entity.gallery.Gallery,
+                 erland.webapp.gallery.act.gallery.ViewGalleriesInterface,
                  erland.webapp.common.CommandInterface,
-                 erland.webapp.gallery.gallery.category.ViewCategoriesInterface,
-                 erland.webapp.gallery.gallery.category.Category,
-                 erland.webapp.gallery.gallery.GalleryInterface"%>
+                 erland.webapp.gallery.act.gallery.category.ViewCategoriesInterface,
+                 erland.webapp.gallery.entity.gallery.category.Category,
+                 erland.webapp.gallery.entity.gallery.GalleryInterface"%>
 <%
 CommandInterface cmd = (CommandInterface) request.getSession().getAttribute("menugalleries");
 if(cmd instanceof ViewGalleriesInterface) {
