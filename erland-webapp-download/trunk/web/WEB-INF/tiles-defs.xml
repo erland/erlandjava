@@ -29,9 +29,7 @@
 
     <definition name=".index" extends=".viewapplications"/>
 
-    <definition name=".viewapplications" extends=".mainLayout">
-        <put name="body" value="/WEB-INF/tiles/viewapplications.jsp"/>
-    </definition>
+    <definition name=".viewapplications" extends=".mainLayout"/>
 
     <definition name=".viewapplicationversions" extends=".index">
         <put name="body" value="/WEB-INF/tiles/viewapplicationversions.jsp"/>
