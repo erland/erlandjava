@@ -8,7 +8,7 @@ if(cmd instanceof ViewGalleriesInterface) {
     GalleryInterface[] galleries = ((ViewGalleriesInterface)cmd).getGalleries();
     String user = request.getParameter("user");
     String command = request.getParameter("searchcmd");
-    Integer galleryId= ServletParameterHelper.asInteger(request.getParameter("gallery"));
+    Integer galleryId= ServletParameterHelper.asInteger(request.getParameter("gallery"),null);
     for (int i = 0; i < galleries.length; i++) {
         GalleryInterface gallery = galleries[i];
         String title = gallery.getMenuName();
