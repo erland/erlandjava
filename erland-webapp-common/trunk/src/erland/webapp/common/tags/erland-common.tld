@@ -336,6 +336,14 @@
             <required>false</required>
         </attribute>
         <attribute>
+            <name>rowIterationsProperty</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>columnIterationsProperty</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
             <name>tableStyle</name>
             <required>false</required>
         </attribute>
