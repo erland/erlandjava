@@ -636,6 +636,12 @@ public class GenericEntityStorage extends EntityStorage {
                 value = new Double(0);
             }
             stmt.setDouble(fieldNo,((Double)value).doubleValue());
+        }else if(type.equals("Float")) {
+            Log.println(this,"setFloat("+fieldNo+","+value+")");
+            if(value==null) {
+                value = new Float(0);
+            }
+            stmt.setFloat(fieldNo,((Float)value).floatValue());
         }else if(type.equals("Boolean")) {
             Log.println(this,"setBoolean("+fieldNo+","+value+")");
             if(value==null) {
@@ -681,6 +687,10 @@ public class GenericEntityStorage extends EntityStorage {
                 Double value = new Double(rs.getDouble(dbField));
                 Log.println(this,"entity.set"+field+"("+value+")");
                 PropertyUtils.setProperty(object,field,value);
+            }else if(type.equals("Float")) {
+                Float value = new Float(rs.getFloat(dbField));
+                Log.println(this,"entity.set"+field+"("+value+")");
+                PropertyUtils.setProperty(object,field,value);
             }else if(type.equals("Boolean")) {
                 Boolean value = Boolean.valueOf(rs.getBoolean(dbField));
                 Log.println(this,"entity.set"+field+"("+value+")");
@@ -721,6 +731,10 @@ public class GenericEntityStorage extends EntityStorage {
             PropertyUtils.setProperty(object,field,value);
         }else if(type.equals("Double")) {
             Double value = new Double(rs.getDouble(fieldNo));
+            Log.println(this,"entity.set"+field+"("+value+")");
+            PropertyUtils.setProperty(object,field,value);
+        }else if(type.equals("Float")) {
+            Float value = new Float(rs.getFloat(fieldNo));
             Log.println(this,"entity.set"+field+"("+value+")");
             PropertyUtils.setProperty(object,field,value);
         }else if(type.equals("Boolean")) {
