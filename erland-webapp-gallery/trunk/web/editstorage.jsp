@@ -20,10 +20,10 @@
             }
             %>
             <tr><td>Början på sökväg</td><td>
-            <input type="text" name="name" value="<%=storage!=null?storage.getName():""%>">
+            <input type="text" name="name" size="40" value="<%=storage!=null?storage.getName():""%>">
             </td></tr>
             <tr><td>Början på sökväg som skall användas</td><td>
-            <input type="text" name="path" value="<%=storage!=null?storage.getPath():""%>">
+            <input type="text" name="path" size="80" value="<%=storage!=null?storage.getPath():""%>">
             </td></tr>
             <tr><td></td><td>
             <input type="submit" value="Spara">

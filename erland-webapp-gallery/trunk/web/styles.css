@@ -71,6 +71,13 @@ color:#000000;
 text-decoration:none;
 }
 
+font.normal {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
 font.title {
 font-family:arial;
 font-size:14px;
@@ -83,6 +90,13 @@ font.big-title {
 font-family:arial;
 font-size:18px;
 font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+textarea.normal {
+font-family:arial;
+font-size:12px;
 color:#000000;
 text-decoration:none;
 }

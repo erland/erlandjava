@@ -23,16 +23,16 @@
             }
             %>
             <tr><td>Titel</td><td>
-            <input type="text" name="title" value="<%=entry!=null?entry.getTitle():""%>">
+            <input type="text" name="title" size="30" value="<%=entry!=null?entry.getTitle():""%>">
             </td></tr>
             <tr><td>Beskrivning</td><td>
-            <textarea name="description" cols="80" rows="15" wrap="virtual"><%=entry!=null?entry.getDescription():""%></textarea>
+            <textarea class="normal" name="description" cols="80" rows="15" wrap="virtual"><%=entry!=null?entry.getDescription():""%></textarea>
             </td></tr>
             <tr><td>Liten bild</td><td>
-            <input type="text" name="image" value="<%=entry!=null?entry.getImage():""%>">
+            <input type="text" name="image" size="80" value="<%=entry!=null?entry.getImage():""%>">
             </td></tr>
             <tr><td>Stor bild</td><td>
-            <input type="text" name="link" value="<%=entry!=null?entry.getLink():""%>">
+            <input type="text" name="link" size="80" value="<%=entry!=null?entry.getLink():""%>">
             </td></tr>
             <tr><td>Officiell</td><td>
             <input type="checkbox" name="official" value="true" <%=(entry!=null && entry.getOfficial().booleanValue())?"checked":""%>>

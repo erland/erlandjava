@@ -11,6 +11,7 @@
 <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+<font class="normal">
 <center>
 <table border="0" cellspacing="0" cellpadding="0" width="600" height="100%">
 <tr>
@@ -57,4 +58,5 @@ if(p!=null) {
 </td>
 </table>
 </center>
+</font>
 </body>

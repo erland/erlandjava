@@ -28,7 +28,7 @@
             <input type="text" name="title" value="<%=gallery!=null?gallery.getTitle():""%>">
             </td></tr>
             <tr><td>Beskrivning</td><td>
-            <textarea name="description" cols="80" rows="15" wrap="virtual"><%=gallery!=null?gallery.getDescription():""%></textarea>
+            <textarea class="normal" name="description" cols="80" rows="15" wrap="virtual"><%=gallery!=null?gallery.getDescription():""%></textarea>
             </td></tr>
             <%
             if(gallery!=null) {
