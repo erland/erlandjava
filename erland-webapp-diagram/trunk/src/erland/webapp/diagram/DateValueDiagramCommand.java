@@ -74,7 +74,8 @@ public class DateValueDiagramCommand implements CommandInterface, CommandRespons
         return defaultValue;
     }
     public String execute(HttpServletRequest request) {
-        CommandInterface cmd = environment.getCommandFactory().create(request.getParameter("dataproducer"));
+        //TODO: Correct since command factory no longer is part of environment interface
+        CommandInterface cmd = null;//environment.getCommandFactory().create(request.getParameter("dataproducer"));
         if(cmd!=null && cmd instanceof DateValueSeriesContainerInterface) {
             cmd.execute(request);
 
