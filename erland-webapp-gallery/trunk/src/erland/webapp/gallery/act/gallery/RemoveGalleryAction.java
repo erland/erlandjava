@@ -34,8 +34,7 @@ public class RemoveGalleryAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GalleryFB fb = (GalleryFB) form;
         Gallery gallery = (Gallery) getEnvironment().getEntityFactory().create("gallery-gallery");
-        User user = (User) request.getSession().getAttribute("user");
-        String username = user.getUsername();
+        String username = request.getRemoteUser();
         gallery.setId(fb.getId());
         gallery = (Gallery) getEnvironment().getEntityStorageFactory().getStorage("gallery-gallery").load(gallery);
         if (gallery.getUsername().equals(username)) {
