@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+    <tlibversion>1.0</tlibversion>
+    <jspversion>1.1</jspversion>
+    <shortname>erland-common</shortname>
+    <uri>http://erland.homeip.net/tags/erland-common</uri>
+    <tag>
+        <name>safehtml</name>
+        <tagclass>erland.webapp.common.tags.ExpandHtmlTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>Removes all &gt; and &lt; characters from string and inserts &lt;br&gt;</info>
+    </tag>
+
+    <tag>
+        <name>expandhtml</name>
+        <tagclass>erland.webapp.common.tags.ExpandHtmlTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>Expands text to html, use HTMLEncoder to configure the expansion routine</info>
+    </tag>
+
+    <tag>
+        <name>cfgresource</name>
+        <tagclass>erland.webapp.common.tags.ConfigurableResourceTag</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Write the configurable resource value to the body</info>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+        </attribute>
+    </tag>
+    <tag>
+        <name>menu</name>
+        <tagclass>erland.webapp.common.tags.menu.MenuTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>A container of menu items, just needed to specify the menu session attribute</info>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>styleSelected</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>indentWidth</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>indentImage</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>menuStyle</name>
+            <required>false</required>
+        </attribute>
+    </tag>
+    <tag>
+        <name>menuitem</name>
+        <tagclass>erland.webapp.common.tags.menu.MenuItemTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>The body is visible if the name attribute value starts with the id value</info>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>titleKey</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>page</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>styleSelected</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>roles</name>
+            <required>false</required>
+        </attribute>
+    </tag>
+    <tag>
+        <name>menuitemseparator</name>
+        <tagclass>erland.webapp.common.tags.menu.MenuItemSeparatorTag</tagclass>
+        <bodycontent>Empty</bodycontent>
+        <info>The body is visible if the name attribute value starts with the id value</info>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>styleSelected</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>roles</name>
+            <required>false</required>
+        </attribute>
+    </tag>
+    <tag>
+        <name>beanmenuitem</name>
+        <tagclass>erland.webapp.common.tags.menu.BeanMenuItemTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>The body is visible if the name attribute value starts with the id value</info>
+        <attribute>
+            <name>bean</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>childs</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>titleKey</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>page</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>styleSelected</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>roles</name>
+            <required>false</required>
+        </attribute>
+    </tag>
+</taglib>
