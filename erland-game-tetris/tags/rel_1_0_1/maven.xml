@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project default="all:build"          
+	xmlns:j="jelly:core"
+	xmlns:ant="jelly:ant">
+
+	<postGoal name="dist:prepare-bin-filesystem">
+	    <!-- Copy jar Files -->
+	    <j:set var="dist.jars.classpath" value="${maven.final.name}.jar"/>
+	    <j:forEach var="lib" items="${pom.artifacts}">
+	      <j:set var="dep" value="${lib.dependency}"/>     
+	      <j:if test="${dep.getProperty('dist.bin.bundle')=='true'}">
+	          
+	         <j:if test="${dep.type =='jar'}"> 
+	           <ant:copy todir="${maven.dist.bin.assembly.dir}" file="${lib.path}"/>  
+	           <j:set var="dist.jars.classpath" value="${dist.jars.classpath};${lib.name}"/>
+	         </j:if> 
+	         
+	      </j:if>  
+	    </j:forEach>            
+		<ant:filter token="CLASSPATH" value="${dist.jars.classpath}"/>
+	    <!-- Copy bat files -->
+	    <ant:copy todir="${maven.dist.bin.assembly.dir}" filtering="true">
+	      <ant:fileset dir="${pom.dir}">
+	        <ant:include name="*.bat"/>
+	      </ant:fileset>
+	    </ant:copy>
+	</postGoal>
+
+	<postGoal name="dist:prepare-src-filesystem">
+	    <!-- Copy bat and files -->
+	    <ant:copy todir="${maven.dist.src.assembly.dir}">
+	      <ant:fileset dir="${pom.dir}">
+	        <ant:include name="*.bat"/>
+	      </ant:fileset>
+	    </ant:copy>
+
+	    <j:set var="dist.jars.classpath" value="${maven.final.name}.jar"/>
+	    <j:forEach var="lib" items="${pom.artifacts}">
+	      <j:set var="dep" value="${lib.dependency}"/>     
+	      <j:if test="${dep.getProperty('dist.bin.bundle')=='true'}">
+	          
+	         <j:if test="${dep.type =='jar'}"> 
+	           <j:set var="dist.jars.classpath" value="${dist.jars.classpath};${lib.name}"/>
+	         </j:if> 
+	         
+	      </j:if>  
+	    </j:forEach>            
+	</postGoal>
+
+  <goal name="all:build">
+	<attainGoal name="jar:install" />
+    <ant:mkdir dir="${maven.build.dir}/build"/>
+    <ant:copy todir="${maven.build.dir}/build" file="${maven.build.dir}/${maven.final.name}.jar"/>
+
+    <j:set var="dist.jars.classpath" value="${maven.final.name}.jar"/>
+    <j:forEach var="lib" items="${pom.artifacts}">
+      <j:set var="dep" value="${lib.dependency}"/>
+      <j:if test="${dep.getProperty('dist.bin.bundle')=='true'}">
+
+         <j:if test="${dep.type =='jar'}">
+           <ant:copy todir="${maven.build.dir}/build" file="${lib.path}"/>
+           <j:set var="dist.jars.classpath" value="${dist.jars.classpath};${lib.name}"/>
+         </j:if>
+
+      </j:if>
+    </j:forEach>
+    <ant:filter token="CLASSPATH" value="${dist.jars.classpath}"/>
+    <!-- Copy bat files -->
+    <ant:copy todir="${maven.build.dir}/build" filtering="true">
+      <ant:fileset dir="${pom.dir}">
+        <ant:include name="*.bat"/>
+      </ant:fileset>
+    </ant:copy>
+  </goal>
+</project>
