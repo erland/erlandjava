@@ -27,27 +27,6 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
-    <taglib>
-        <taglib-uri>http://jakarta.apache.org/struts/tags-bean</taglib-uri>
-        <taglib-location>lib/struts-bean.tld</taglib-location>
-    </taglib>
-    <taglib>
-        <taglib-uri>http://jakarta.apache.org/struts/tags-html</taglib-uri>
-        <taglib-location>lib/struts-html.tld</taglib-location>
-    </taglib>
-    <taglib>
-        <taglib-uri>http://jakarta.apache.org/struts/tags-logic</taglib-uri>
-        <taglib-location>lib/struts-logic.tld</taglib-location>
-    </taglib>
-    <taglib>
-        <taglib-uri>http://jakarta.apache.org/struts/tags-tiles</taglib-uri>
-        <taglib-location>lib/struts-tiles.tld</taglib-location>
-    </taglib>
-    <taglib>
-        <taglib-uri>http://erland.homeip.net/tags/erland-common</taglib-uri>
-        <taglib-location>lib/erland-common.tld</taglib-location>
-    </taglib>
-
     <resource-ref>
         <res-ref-name>jdbc/common</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
