@@ -55,6 +55,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 
 public abstract class SearchPicturesBaseAction extends BaseAction {
+    private final static String GALLERY = SearchPicturesBaseAction.class + "-gallery";
     private final static String GALLERY_ID = SearchPicturesBaseAction.class + "-galleryId";
     private final static String VIRTUAL_GALLERY_ID = SearchPicturesBaseAction.class + "-virtualGalleryId";
     private final static String CATEGORY_ID = SearchPicturesBaseAction.class + "-categoryId";
@@ -68,6 +69,7 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
             saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.gallery-not-found"}));
             return;
         }
+        setGallery(request,gallery);
         boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
         Integer galleryId = GalleryHelper.getGalleryId(gallery);
         setGalleryId(request,galleryId);
@@ -177,10 +179,14 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         if(defaultResolution!=null) {
             pictureParameters.put("width",defaultResolution.toString());
         }
-        if(gallery.getThumbnailWidth()!=null && gallery.getThumbnailWidth().intValue()>0) {
+        if(StringUtil.asNull(request.getParameter("thumbnailwidth"))!=null) {
+            pictureParameters.put("thumbnailwidth",request.getParameter("thumbnailwidth"));
+        }else if(gallery.getThumbnailWidth()!=null && gallery.getThumbnailWidth().intValue()>0) {
             pictureParameters.put("thumbnailwidth",gallery.getThumbnailWidth());
         }
-        if(gallery.getThumbnailHeight()!=null && gallery.getThumbnailHeight().intValue()>0) {
+        if(StringUtil.asNull(request.getParameter("thumbnailheight"))!=null) {
+            pictureParameters.put("thumbnailheight",request.getParameter("thumbnailheight"));
+        }else if(gallery.getThumbnailHeight()!=null && gallery.getThumbnailHeight().intValue()>0) {
             pictureParameters.put("thumbnailheight",gallery.getThumbnailHeight());
         }
         List thumbnailInfoList = new ArrayList();
@@ -197,6 +203,18 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         JPEGMetadataHandler jpegHandler = new JPEGMetadataHandler(false);
         FileMetadataHandler fileHandler = new FileMetadataHandler(false);
 
+        Integer currentStart = fb.getStart();
+        if(currentStart==null) {
+            currentStart=new Integer(0);
+        }
+        Map currentLinkPictureParameters = new HashMap();
+        Map currentParameters = new HashMap();
+        Enumeration enum = request.getParameterNames();
+        while (enum.hasMoreElements()) {
+            String parameter = (String) enum.nextElement();
+            currentParameters.put(parameter,request.getParameter(parameter));
+        }
+        ActionForward currentForward = mapping.findForward("current-link");
         for (int i = 0; i < entities.length; i++) {
             picturesPB[i] = new PicturePB();
             Picture picture = (Picture) entities[i];
@@ -279,16 +297,20 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
             if(thumbnailInfo.length>2) {
                 picturesPB[i].setRow3Info(getPictureInfo(thumbnailInfo[2],picture,picturesPB[i],jpegHandler,fileHandler));
             }
+            if(currentForward!=null) {
+                currentLinkPictureParameters.clear();
+                currentLinkPictureParameters.putAll(pictureParameters);
+                currentLinkPictureParameters.putAll(currentParameters);
+                currentLinkPictureParameters.put("start",currentStart.toString());
+                picturesPB[i].setCurrentLink(ServletParameterHelper.replaceDynamicParameters(currentForward.getPath(),currentLinkPictureParameters));
+                currentStart = new Integer(currentStart.intValue()+1);
+            }
         }
         PictureCollectionPB pb = new PictureCollectionPB();
         pb.setPictures(picturesPB);
 
         Map parameters = new HashMap();
-        Enumeration enum = request.getParameterNames();
-        while (enum.hasMoreElements()) {
-            String parameter = (String) enum.nextElement();
-            parameters.put(parameter,request.getParameter(parameter));
-        }
+        parameters.putAll(currentParameters);
         addParameters(parameters,fb);
         Integer prevStart = getPreviousPage(fb.getStart(), max);
         if(prevStart!=null) {
@@ -310,7 +332,16 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         }else {
             pb.setNextLink(null);
         }
-        parameters.put("start","0");
+
+        currentStart = fb.getStart();
+        if(currentStart==null) {
+            currentStart = new Integer(0);
+        }
+        parameters.put("start",currentStart.toString());
+        if(currentForward!=null) {
+            pb.setCurrentLink(ServletParameterHelper.replaceDynamicParameters(currentForward.getPath(),parameters));
+        }
+
         ActionForward forward = null;
         if(gallery.getAllowSearch()!=null && gallery.getAllowSearch().booleanValue()) {
             forward = mapping.findForward("search-link");
@@ -445,6 +476,12 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
     }
     protected void setVirtualGalleryId(HttpServletRequest request, Integer virtualGalleryId) {
         request.setAttribute(VIRTUAL_GALLERY_ID,virtualGalleryId);
+    }
+    protected Gallery getGallery(HttpServletRequest request) {
+        return (Gallery) request.getAttribute(GALLERY);
+    }
+    protected void setGallery(HttpServletRequest request, Gallery gallery) {
+        request.setAttribute(GALLERY,gallery);
     }
     protected Integer getCategoryId(HttpServletRequest request) {
         return (Integer) request.getAttribute(CATEGORY_ID);
