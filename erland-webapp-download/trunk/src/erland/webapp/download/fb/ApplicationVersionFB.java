@@ -27,13 +27,22 @@ import java.text.ParseException;
  */
 
 public class ApplicationVersionFB extends ActionForm {
-    private String name;
     private Date date;
-    private String filename;
+    private ApplicationFileFB[] files;
+    private String name;
+    private String title;
     private String version;
     private String description;
 
     private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    public ApplicationFileFB[] getFiles() {
+        return files;
+    }
+
+    public void setFiles(ApplicationFileFB[] files) {
+        this.files = files;
+    }
 
     public String getName() {
         return name;
@@ -43,12 +52,12 @@ public class ApplicationVersionFB extends ActionForm {
         this.name = name;
     }
 
-    public String getFilename() {
-        return filename;
+    public String getTitle() {
+        return title;
     }
 
-    public void setFilename(String name) {
-        this.filename = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getVersion() {
