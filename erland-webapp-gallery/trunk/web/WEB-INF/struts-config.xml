@@ -229,6 +229,7 @@
             type="erland.webapp.gallery.act.loader.LoadImageAction"
             name="imageFB"
             validate="false">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
         </action>
 
         <action
@@ -236,6 +237,7 @@
             type="erland.webapp.gallery.act.loader.LoadThumbnailAction"
             name="imageFB"
             validate="false">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
         </action>
 
         <action
@@ -243,6 +245,7 @@
             type="erland.webapp.gallery.act.loader.LoadImageAction"
             name="imageFB"
             validate="false">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
         </action>
 
         <action
@@ -250,6 +253,7 @@
             type="erland.webapp.gallery.act.loader.LoadThumbnailAction"
             name="imageFB"
             validate="false">
+            <forward name="failure" path="/images/thumbnailna.gif"/>
         </action>
 
         <action
@@ -390,7 +394,7 @@
     <plug-in className="erland.webapp.common.act.LogConfigurationPlugin">
         <set-property
             property="logConfigurationFile"
-            value="D:/gallery_log.xml"/>
+            value="C:/gallery_log.xml"/>
     </plug-in>
     <plug-in className="org.apache.struts.tiles.TilesPlugin">
         <set-property property="definitions-config"
