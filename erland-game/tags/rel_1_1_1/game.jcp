@@ -1,0 +1,24 @@
+! ** JCreator Project File (C)2000
+! ********** DO NOT EDIT *********
+
+VERSION := "1.10"
+LABEL := "game"
+JDKPROFILE := "JDK version 1.3.1"
+ACTIVE := "0"
+OUTPUTPATH := "classes"
+COMPILER := "Ant"
+
+! Start RunTime Configuration Structure
+#[BeginRunTime]LABEL := "<Default>" RUNAPPLIC := "" RUNAPPLET := "<Default>" PARAM := "" RUN := "" CHECK := "10" #[EndRunTime]
+! Start Required Libraries Structure
+
+! Start Project Folder Structure
+#[BeginFolder]
+LABEL := "Root"
+FILTER := ""
+
+#[BeginFile]SOURCE := "build.xml" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\BlockContainerData.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\BlockContainerInterface.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\Direction.java" #[EndFile]
+#[EndFolder]
