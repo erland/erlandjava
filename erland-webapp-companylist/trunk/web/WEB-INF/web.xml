@@ -48,27 +48,6 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
-    <taglib>
-        <taglib-uri>http://jakarta.apache.org/struts/tags-bean</taglib-uri>
-        <taglib-location>tld/struts-bean-1.1.tld</taglib-location>
-    </taglib>
-    <taglib>
-        <taglib-uri>http://jakarta.apache.org/struts/tags-html</taglib-uri>
-        <taglib-location>tld/struts-html-1.1.tld</taglib-location>
-    </taglib>
-    <taglib>
-        <taglib-uri>http://jakarta.apache.org/struts/tags-logic</taglib-uri>
-        <taglib-location>tld/struts-logic-1.1.tld</taglib-location>
-    </taglib>
-    <taglib>
-        <taglib-uri>http://jakarta.apache.org/struts/tags-tiles</taglib-uri>
-        <taglib-location>tld/struts-tiles-1.1.tld</taglib-location>
-    </taglib>
-    <taglib>
-        <taglib-uri>http://erland.homeip.net/tags/erland-common</taglib-uri>
-        <taglib-location>tld/erland-taglib-common-SNAPSHOT.tld</taglib-location>
-    </taglib>
-
     <resource-ref>
         <res-ref-name>jdbc/companylist</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
