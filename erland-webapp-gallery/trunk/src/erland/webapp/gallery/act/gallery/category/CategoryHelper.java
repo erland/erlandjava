@@ -51,4 +51,12 @@ public class CategoryHelper {
         EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery-category").search(filter);
         return (Category[]) Arrays.asList(entities).toArray(new Category[0]);
     }
+
+    public static Category[] searchCategories(WebAppEnvironmentInterface environment, Integer gallery, String filterName) {
+        QueryFilter filter = null;
+        filter = new QueryFilter(filterName);
+        filter.setAttribute("gallery", gallery);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery-category").search(filter);
+        return (Category[]) Arrays.asList(entities).toArray(new Category[0]);
+    }
 }
