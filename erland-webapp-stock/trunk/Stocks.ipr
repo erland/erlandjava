@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4" relativePaths="false">
   <component name="ProjectRootManager" version="2" assert-keyword="false" />
-  <component name="CodeStyleManager">
-    <option name="USE_DEFAULT_CODE_STYLE_SCHEME" value="true" />
-    <option name="CODE_STYLE_SCHEME" value="" />
+  <component name="CodeStyleSettingsManager">
+    <option name="PER_PROJECT_SETTINGS" />
+    <option name="USE_PER_PROJECT_SETTINGS" value="false" />
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module filepath="$PROJECT_DIR$/Stocks.iml" />
+      <module filepath="E:\EGNA\Working\Java\Web\Stocks\Stocks.iml" />
     </modules>
   </component>
   <component name="libraryTable" />
@@ -77,21 +77,23 @@
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
   <component name="WebManager">
-    <option enabled="false" />
+    <option enabled="true" />
   </component>
-  <component name="WebRootContainer" />
-  <component name="EjbManager" enabled="false" />
+  <component name="WebRootContainer">
+    <root url="file://$PROJECT_DIR$/web" name="stock" validate="false" />
+  </component>
   <component name="DataSourceManager" />
-  <component name="EjbActionsConfiguration">
-    <option name="NEW_MESSAGE_BEAN_LAST_PACKAGE" value="" />
-    <option name="NEW_ENTITY_BEAN_LAST_PACKAGE" value="" />
-    <option name="NEW_SESSION_BEAN_LAST_PACKAGE" value="" />
+  <component name="J2EEManager">
+    <integrations />
   </component>
   <component name="ImportConfiguration">
     <option name="VENDOR" />
     <option name="RELEASE_TAG" />
     <option name="LOG_MESSAGE" />
     <option name="CHECKOUT_AFTER_IMPORT" value="true" />
+  </component>
+  <component name="uidesigner-configuration">
+    <option name="INSTRUMENT_CLASSES" value="true" />
   </component>
 </project>
 

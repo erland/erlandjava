@@ -16,37 +16,38 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="last_opened_file_path" value="C:\Program Files\Java" />
+    <property name="last_opened_file_path" value="E:\EGNA\Working\Java" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="3" width="1004" height="728" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="SQL" active="false" anchor="bottom" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.49166667" order="8" />
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.6224832" order="8" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.38380653" order="0" x="20" y="89" width="240" height="600" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.3305369" order="1" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.24947807" order="1" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.3305369" order="8" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="6" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.28466386" order="0" x="20" y="89" width="240" height="600" />
+      <window_info id="App Server" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.33" order="1" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.24894957" order="1" />
       <window_info id="Aspects" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="3" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.1745531" order="1" />
-      <window_info id="Sequence" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.39833334" order="8" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="6" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.17436975" order="1" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33064517" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
+      <window_info id="CVS File View" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.53886557" order="3" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="3" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.4" order="0" />
-      <window_info id="PsiViewer" active="false" anchor="right" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.32985386" order="3" />
-      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="0" />
-      <window_info id="App Server" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
-      <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="4" />
-      <window_info id="Tailed Logs" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
-      <window_info id="Code Logic" active="false" anchor="left" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.94050103" order="3" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="5" />
+      <window_info id="Sequence" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="simpleUML" active="false" anchor="left" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.32985386" order="3" />
+      <window_info id="PsiViewer" active="false" anchor="right" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.32985386" order="3" />
+      <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="4" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="5" />
+      <window_info id="Code Logic" active="false" anchor="left" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.94050103" order="3" />
+      <window_info id="Tailed Logs" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
     </layout>
   </component>
   <component name="ErrorTreeViewConfiguration">
@@ -64,17 +65,11 @@
     <option name="HIDE_NOT_PUBLIC" value="false" />
   </component>
   <component name="ProjectViewSettings">
-    <navigator currentView="ProjectPane" flattenPackages="false" showMembers="false" showStructure="false" autoscrollToSource="false" splitterProportion="0.5" />
+    <navigator currentView="ProjectPane" flattenPackages="false" showMembers="false" showModules="false" showLibraryContents="false" hideEmptyPackages="false" showStructure="false" autoscrollToSource="false" splitterProportion="0.5" />
     <view id="ProjectPane">
       <expanded_node type="directory" url="file://$PROJECT_DIR$" />
     </view>
-    <view id="SourcepathPane">
-      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/Diagram/src/erland/webapp" />
-      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/Diagram/src" />
-      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/Diagram/src/erland/webapp/diagram" />
-      <expanded_node type="directory" url="file://E:/EGNA/Working/Java/Web/Diagram/src/erland" />
-    </view>
-    <view id="ClasspathPane" />
+    <view id="PackagesPane" />
   </component>
   <component name="Commander">
     <leftPanel view="Project" />
@@ -100,109 +95,134 @@
       <is-autoscroll-to-source value="true" />
     </todo-panel>
   </component>
-  <component name="editorManager" />
+  <component name="FileEditorManager" split-orientation="vertical" split-proportion="0.5">
+    <first-group selected-file="file://$PROJECT_DIR$/readme.txt">
+      <entry file="file://$PROJECT_DIR$/database/stock_data.sql" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="10" column="36" selection-start="234" selection-end="234" vertical-scroll-proportion="0.3231939">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/database/common_data.sql" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="10" column="0" selection-start="200" selection-end="200" vertical-scroll-proportion="0.3231939">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/readme.txt" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="20" column="34" selection-start="820" selection-end="820" vertical-scroll-proportion="0.4524715">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/database/stock.sql" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/database/users_data.sql" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="18" column="14" selection-start="444" selection-end="444" vertical-scroll-proportion="0.581749">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+    </first-group>
+    <second-group />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/showdiagramvalues.jsp">
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/account/viewdiagram.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
+        <state line="9" column="0" selection-start="581" selection-end="581" vertical-scroll-proportion="0.2908745">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/xmlstocklist.jsp">
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/common/login.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
+        <state line="5" column="0" selection-start="261" selection-end="261" vertical-scroll-proportion="0.16159695">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/web.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="0" selection-start="2787" selection-end="2787" vertical-scroll-proportion="0.48288974">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="0" selection-start="1951" selection-end="1951" vertical-scroll-proportion="0.6863469" horizontal-scroll-proportion="0.0">
+        <state line="42" column="0" selection-start="1627" selection-end="1627" vertical-scroll-proportion="1.2798834">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/stocks/account.xml">
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/layouts/classicLayout.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="1015" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
+        <state line="17" column="0" selection-start="672" selection-end="672" vertical-scroll-proportion="0.8425656">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/stocks/transaction.xml">
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/tiles/common/header.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="11" selection-start="11" selection-end="11" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.14893617">
+        <state line="7" column="0" selection-start="386" selection-end="386" vertical-scroll-proportion="0.21794872">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/stocks/stockaccountstockentry.xml">
+    <entry file="file://$PROJECT_DIR$/database/common.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="11" selection-start="11" selection-end="11" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.14893617">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/stocks/DatabaseStockAccount.java">
+    <entry file="file://$PROJECT_DIR$/database/users.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="105" selection-start="1405" selection-end="1405" vertical-scroll-proportion="0.13793103" horizontal-scroll-proportion="0.7156673">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/stocks/Account.java">
+    <entry file="file://$PROJECT_DIR$/database/stock.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="14" selection-start="936" selection-end="936" vertical-scroll-proportion="0.33333334" horizontal-scroll-proportion="0.18955512">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/stocks/StockServletEnvironment.java">
+    <entry file="file://$PROJECT_DIR$/database/users_data.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="10" selection-start="1238" selection-end="1238" vertical-scroll-proportion="0.87931037" horizontal-scroll-proportion="0.13539653">
+        <state line="18" column="14" selection-start="444" selection-end="444" vertical-scroll-proportion="0.581749">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/stock_data.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="36" selection-start="234" selection-end="234" vertical-scroll-proportion="0.3231939">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/readme.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="85" selection-start="1994" selection-end="1994" vertical-scroll-proportion="0.33394834" horizontal-scroll-proportion="0.63772774">
+        <state line="20" column="34" selection-start="820" selection-end="820" vertical-scroll-proportion="0.4524715">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/stocks/StockServlet.java">
+    <entry file="file://$PROJECT_DIR$/database/common_data.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" horizontal-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/welcome.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="16" selection-start="79" selection-end="79" vertical-scroll-proportion="0.03256705" horizontal-scroll-proportion="0.12162162">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="0" selection-start="4179" selection-end="4179" vertical-scroll-proportion="0.6781609" horizontal-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Stocks.iws">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="470" column="17" selection-start="25302" selection-end="25302" vertical-scroll-proportion="0.43678162" horizontal-scroll-proportion="0.12934363">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/stocks/StockAccountFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="52" selection-start="1528" selection-end="1528" vertical-scroll-proportion="0.5" horizontal-scroll-proportion="0.3918919">
+        <state line="10" column="0" selection-start="200" selection-end="200" vertical-scroll-proportion="0.3231939">
           <folding />
         </state>
       </provider>
@@ -225,16 +245,15 @@
         <option name="NOTIFY_UNCAUGHT" value="true" />
         <option name="ENABLED" value="false" />
         <option name="SUSPEND_VM" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="LOG_MESSAGE" />
         <option name="COUNT_FILTER_ENABLED" value="false" />
         <option name="COUNT_FILTER" value="0" />
         <option name="CONDITION_ENABLED" value="false" />
         <option name="CONDITION" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="LOG_MESSAGE" />
         <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INVERSE_CLASS_FILLTERS" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
       </breakpoint_any>
     </exception_breakpoints>
     <field_breakpoints />
@@ -250,26 +269,6 @@
     <option name="SKIP_SYNTHETIC_METHODS" value="true" />
     <option name="SKIP_CONSTRUCTORS" value="false" />
     <option name="STEP_THREAD_SUSPEND_POLICY" value="SuspendThread" />
-    <default_breakpoint_settings>
-      <option name="NOTIFY_CAUGHT" value="true" />
-      <option name="NOTIFY_UNCAUGHT" value="true" />
-      <option name="WATCH_MODIFICATION" value="true" />
-      <option name="WATCH_ACCESS" value="true" />
-      <option name="WATCH_ENTRY" value="true" />
-      <option name="WATCH_EXIT" value="true" />
-      <option name="ENABLED" value="true" />
-      <option name="SUSPEND_VM" value="true" />
-      <option name="COUNT_FILTER_ENABLED" value="false" />
-      <option name="COUNT_FILTER" value="0" />
-      <option name="CONDITION_ENABLED" value="false" />
-      <option name="CONDITION" />
-      <option name="LOG_ENABLED" value="false" />
-      <option name="LOG_EXPRESSION_ENABLED" value="false" />
-      <option name="LOG_MESSAGE" />
-      <option name="CLASS_FILTERS_ENABLED" value="false" />
-      <option name="INVERSE_CLASS_FILLTERS" value="false" />
-      <option name="SUSPEND_POLICY" value="SuspendAll" />
-    </default_breakpoint_settings>
     <filter>
       <option name="PATTERN" value="com.sun.*" />
       <option name="ENABLED" value="true" />
@@ -341,6 +340,9 @@
       <Port>5050</Port>
       <LaunchServer>false</LaunchServer>
     </configuration>
+    <configuration name="&lt;template&gt;" type="WebLogic Instance" default="true" selected="false">
+      <option name="WEBLOGIC_INSTANCE_CONFIGURATION_NAME" />
+    </configuration>
     <configuration name="Unnamed" type="Application" default="false" selected="true">
       <option name="MAIN_CLASS_NAME" value="erland.webapp.common.ApplicationResources" />
       <option name="VM_PARAMETERS" />
@@ -399,20 +401,70 @@
     <option name="SHOW_CHECKIN_OPTIONS" value="true" />
     <option name="LAST_COMMIT_MESSAGE" value="" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_COMMIT" value="false" />
+    <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
+    <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
   </component>
   <component name="CheckinPanelState" />
-  <component name="WebViewSettings">
-    <webview flattenPackages="false" showMembers="false" autoscrollToSource="false" />
+  <component name="VCS.FileViewConfiguration">
+    <option name="SELECTED_STATUSES" value="Deleted from file system" />
+    <option name="SELECTED_COLUMNS" value="Revision;Sticky Tag;Keyword Substitution;Status" />
+    <option name="SHOW_FILTERS" value="true" />
+    <option name="CUSTOMIZE_VIEW" value="true" />
+    <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
   </component>
-  <component name="EjbViewSettings">
-    <EjbView showMembers="false" autoscrollToSource="false" />
+  <component name="WebViewSettings">
+    <webview flattenPackages="false" showMembers="true" autoscrollToSource="false" />
+  </component>
+  <component name="J2EEViewSettings">
+    <option name="SHOW_MEMBERS" value="false" />
+    <option name="AUTOSCROLL" value="false" />
+    <expandedElements>
+      <node type="Project" info="" />
+    </expandedElements>
   </component>
   <component name="AppServerRunManager" />
+  <component name="Cvs2Configuration">
+    <option name="REQUEST_FOR_COMMENTS" value="true" />
+    <option name="PRUNE_EMPTY_DIRECTORIES" value="true" />
+    <option name="SHOW_UPDATE_OPTIONS" value="true" />
+    <option name="SHOW_ADD_OPTIONS" value="true" />
+    <option name="SHOW_REMOVE_OPTIONS" value="true" />
+    <option name="MERGE_WITH_BRANCH1" value="false" />
+    <option name="MERGE_WITH_BRANCH1_NAME" value="HEAD" />
+    <option name="RESET_STICKY" value="true" />
+    <option name="CREATE_NEW_DIRECTORIES" value="true" />
+    <option name="DEFAULT_TEXT_FILE_SUBSTITUTION" value="kv" />
+    <option name="PROCESS_UNKNOWN_FILES" value="false" />
+    <option name="PROCESS_DELETED_FILES" value="false" />
+    <option name="SHOW_EDIT_DIALOG" value="false" />
+    <option name="RESERVED_EDIT" value="false" />
+    <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
+    <option name="OFFLINE_MODE" value="false" />
+    <option name="SHOW_CHECKOUT_OPTIONS" value="true" />
+    <option name="CHECKOUT_BY_BRANCH" value="false" />
+    <option name="CHECKOUT_BY_DATE" value="false" />
+    <option name="CHECKOUT_BRANCH" value="" />
+    <option name="CHECKOUT_DATE" value="" />
+    <option name="SHOW_OUTPUT" value="true" />
+    <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
+    <option name="USE_EXTERNAL_DIFF_TOOL" value="false" />
+    <option name="PATH_TO_THE_EXTERNAL_DIFF_TOOL" value="" />
+    <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
+    <option name="PUT_FOCUS_INTO_COMMENT" value="false" />
+    <option name="SHOW_CHECKIN_OPTIONS" value="true" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated with jdbc/common and struts" />
+    <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_COMMIT" value="false" />
+    <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
+    <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
+  </component>
   <component name="SQL">
-    <database name="users" driver="jdbc:mysql" user="erland" port="3306" maxReconnects="3" initialTimeout="2" host="dual350" db="users" />
-    <database name="stock" driver="jdbc:mysql" user="erland" port="3306" maxReconnects="3" initialTimeout="2" host="dual350" db="stock" current="true" />
-    <database name="gallery" driver="jdbc:mysql" user="erland" port="3306" maxReconnects="3" initialTimeout="2" host="dual350" db="gallery" />
-    <database name="common" driver="jdbc:mysql" user="erland" port="3306" maxReconnects="3" initialTimeout="2" host="dual350" db="common" />
+    <database name="users" driver="jdbc:mysql" maxReconnects="3" db="users" host="localhost" initialTimeout="2" user="erland" port="3306" />
+    <database name="stock" driver="jdbc:mysql" maxReconnects="3" db="stock" host="localhost" initialTimeout="2" user="erland" port="3306" current="true" />
+    <database name="common" driver="jdbc:mysql" maxReconnects="3" db="common" host="localhost" initialTimeout="2" user="erland" port="3306" />
     <htmlExport table="border: 1px solid black; border-spacing:0px" cell="border: 1px solid black" header="background: darkgrey; font-weight:bold; text-align: center" row1="background: white" row2="background: lightgrey" alternate="false" interval="1" />
     <csvExport delimiter="," text="&quot;" />
     <partialExecute value="0" />
@@ -435,6 +487,10 @@
     <option name="SHOW_CHECKIN_OPTIONS" value="true" />
     <option name="LAST_COMMIT_MESSAGE" value="" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_COMMIT" value="false" />
+    <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
+    <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
   </component>
 </project>
 
