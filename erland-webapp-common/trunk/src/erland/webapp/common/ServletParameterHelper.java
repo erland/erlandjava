@@ -191,7 +191,10 @@ public class ServletParameterHelper {
     public static Integer asInteger(String value,Integer defaultValue) {
         Integer integerValue = defaultValue;
         if(value!=null && value.length()>0) {
-            integerValue = Integer.valueOf(value);
+            try {
+                integerValue = Integer.valueOf(value);
+            } catch (NumberFormatException e) {
+            }
         }
         return integerValue;
     }
@@ -199,7 +202,10 @@ public class ServletParameterHelper {
     public static Long asLong(String value, Long defaultValue) {
         Long longValue = defaultValue;
         if(value!=null && value.length()>0) {
-            longValue = Long.valueOf(value);
+            try {
+                longValue = Long.valueOf(value);
+            } catch (NumberFormatException e) {
+            }
         }
         return longValue;
     }
@@ -207,7 +213,10 @@ public class ServletParameterHelper {
     public static Double asDouble(String value, Double defaultValue) {
         Double doubleValue = defaultValue;
         if(value!=null && value.length()>0) {
-            doubleValue = Double.valueOf(value);
+            try {
+                doubleValue = Double.valueOf(value);
+            } catch (NumberFormatException e) {
+            }
         }
         return doubleValue;
     }
@@ -215,7 +224,10 @@ public class ServletParameterHelper {
     public static Float asFloat(String value, Float defaultValue) {
         Float floatValue = defaultValue;
         if(value!=null && value.length()>0) {
-            floatValue = Float.valueOf(value);
+            try {
+                floatValue = Float.valueOf(value);
+            } catch (NumberFormatException e) {
+            }
         }
         return floatValue;
     }
