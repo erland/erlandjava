@@ -83,6 +83,10 @@
             <class>erland.webapp.gallery.gallery.SearchOfficialGalleriesCommand</class>
             <save type="session">menugalleries</save>
         </command>
+        <command id="searchgalleriesguestviewwelcometext">
+            <class>erland.webapp.gallery.gallery.SearchOfficialGalleriesCommand</class>
+            <save type="session">menugalleries</save>
+        </command>
         <command id="editcategory">
             <class>erland.webapp.gallery.gallery.category.EditCategoryCommand</class>
             <role>user</role>
@@ -377,6 +381,9 @@
         <page id="searchgalleriesviewdefaultgallery">
             <forward>portal?do=searchcategories&amp;start=0&amp;max=9</forward>
         </page>
+        <page id="searchgalleriesguestviewwelcometext">
+            <forward>portal?do=viewwelcometext</forward>
+        </page>
         <page id="searchgalleriesguestviewdefaultgallery">
             <forward>portal?do=searchcategoriesguest&amp;start=0&amp;max=9</forward>
         </page>
@@ -396,7 +403,7 @@
                 <forward>portal?do=searchgalleriesguestviewdefaultgallery&amp;gallery={defaultgallery}</forward>
             </page>
             <page id="withoutdefaultgallery">
-                <forward>portal?do=viewwelcometext&amp;withdifferentpages=0</forward>
+                <forward>portal?do=searchgalleriesguestviewwelcometext&amp;withdifferentpages=0</forward>
             </page>
         </page>
         <page id="editguestaccount">
