@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<resources>
+    <entities>
+        <entity id="common-resource" reference="resource:erland/webapp/common/resource.xml"/>
+        <entity id="common-metadatafielddescription" reference="descriptiontag:erland/webapp/common/descriptiontag.xml"/>
+        <entity id="usermgmt-user" reference="user:erland/webapp/usermgmt/user.xml"/>
+        <entity id="usermgmt-userapplicationrole" reference="userapplicationrole:erland/webapp/usermgmt/userapplicationrole.xml"/>
+        <entity id="usermgmt-userinfo" reference="userinfo:erland/webapp/usermgmt/userinfo.xml"/>
+        <entity id="dirgallery-useraccount" reference="useraccount:erland/webapp/dirgallery/entity/account/useraccount.xml"/>
+        <entity id="dirgallery-gallery" reference="gallery:erland/webapp/dirgallery/entity/gallery/gallery.xml"/>
+        <entity id="dirgallery-friendgallery" reference="friendgallery:erland/webapp/dirgallery/entity/gallery/friendgallery.xml"/>
+        <entity id="dirgallery-picturecomment" reference="picturecomment:erland/webapp/dirgallery/entity/gallery/picture/picturecomment.xml"/>
+        <entity id="dirgallery-picture" reference="picture:erland/webapp/dirgallery/entity/gallery/picture/picture.xml"/>
+        <entity id="dirgallery-resolution" reference="resolution:erland/webapp/dirgallery/entity/gallery/picture/resolution.xml"/>
+    </entities>
+    <forwards>
+        <forward id="1" pattern=".*do=home.*" path="/do/guest/home?user={user}"/>
+        <forward id="2" pattern=".*do=viewpicture.*" path="/do/guest/viewimage?gallery={gallery}&amp;image={image}"/>
+        <forward id="3" pattern=".*do=loadimage.*mpg" path="/do/guest/loadmovie?gallery={gallery}&amp;image={image}"/>
+        <forward id="4" pattern=".*do=loadimage.*mpeg" path="/do/guest/loadmovie?gallery={gallery}&amp;image={image}"/>
+        <forward id="5" pattern=".*do=loadimage.*" path="/do/guest/loadimage?gallery={gallery}&amp;image={image}"/>
+        <forward id="6" pattern=".*do=searchgalleryentriesguest.*" path="/do/guest/selectgallery?user={user}&amp;gallery={gallery}"/>
+        <forward id="7" pattern=".*do=viewgallery.*" path="/do/guest/selectgallery?user={user}&amp;gallery={gallery}"/>
+        <forward id="8" pattern=".*user=.*" path="/do/guest/home?user={user}"/>
+        <forward id="9" pattern=".*" path="/"/>
+    </forwards>
+    <pathforwards>
+        <forward id="1" pattern="/guest/loadimage/(.*)" path="/do/guest/loadimage"/>
+        <forward id="2" pattern="/guest/loadresolutionimage/(.*)" path="/do/guest/loadresolutionimage"/>
+        <forward id="3" pattern="/user/loadimage/(.*)" path="/do/user/loadimage"/>
+        <forward id="4" pattern="/user/loadresolutionimage/(.*)" path="/do/user/loadresolutionimage"/>
+        <forward id="5" pattern=".*" path="/"/>
+    </pathforwards>
+</resources>

@@ -1,0 +1,34 @@
+<entity id="friendgallery">
+    <class>erland.webapp.dirgallery.entity.gallery.FriendGallery</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/dirgallery</datasource>
+        <table>galleryfriends</table>
+        <fields>
+            <field id="gallery">
+                <column>gallery</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+            <field id="friendGallery">
+                <column>friendgallery</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+        </fields>
+        <queries>
+            <query id="allforgallery">
+                <querystring>gallery=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
