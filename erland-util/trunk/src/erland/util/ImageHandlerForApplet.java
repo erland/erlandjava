@@ -88,7 +88,7 @@ public class ImageHandlerForApplet
 			image = applet.getImage(applet.getCodeBase(),file);
 			images.add(new ImageData(imagename,image));
 			MediaTracker mt = new MediaTracker(applet);
-            System.out.println("getImage "+file);
+            Log.println(this,"getImage "+file);
 			mt.addImage(image,1);
 			try {
 				mt.waitForAll();

@@ -74,7 +74,7 @@ public class ImageHandlerForApplicationJarFile
 
     public Image getImage(String imagename)
     {
-        System.out.println("getImage \""+imagename+"\"");
+        Log.println(this,"getImage \""+imagename+"\"");
         Image image = null;
         ListIterator it = images.listIterator();
         while(it.hasNext()) {
