@@ -223,6 +223,10 @@
             <name>propertyTitleKey</name>
             <required>false</required>
         </attribute>
+        <attribute>
+            <name>parameters</name>
+            <required>false</required>
+        </attribute>
     </tag>
     <tag>
         <name>helplink</name>
@@ -285,6 +289,10 @@
         </attribute>
         <attribute>
             <name>height</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>parameters</name>
             <required>false</required>
         </attribute>
     </tag>
