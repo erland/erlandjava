@@ -26,6 +26,7 @@ import erland.webapp.help.entity.application.Application;
 import erland.webapp.help.entity.application.ApplicationVersion;
 import erland.webapp.help.entity.chapter.Chapter;
 import erland.webapp.help.fb.application.MenuItemPB;
+import erland.webapp.help.fb.chapter.SelectChapterFB;
 import erland.util.StringUtil;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -137,5 +138,13 @@ public class LoadMenuAction extends BaseAction {
             }
         }
         return chaptersPB;
+    }
+    protected ActionForward findSuccess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        SelectChapterFB fb = (SelectChapterFB) form;
+        if(StringUtil.asNull(fb.getChapter())!=null) {
+            return mapping.findForward("success-chapter");
+        }else {
+            return super.findSuccess(mapping, form, request, response);
+        }
     }
 }
