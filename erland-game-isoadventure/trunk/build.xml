@@ -34,7 +34,6 @@
                 <exclude name="displaymode.jar"/>
                 <exclude name="netscapejavascript.jar"/>
             </fileset>
-            <fileset file="${dist}/${ant.project.name}.xml"/>
             <fileset file="${dist}/*.jnlp">
                 <exclude name="*Local.jnlp"/>
             </fileset>
