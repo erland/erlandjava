@@ -27,6 +27,7 @@
         <form-bean name="metadataResolutionImageFB" type="erland.webapp.gallery.fb.loader.MetadataImageFB"/>
         <form-bean name="importFB" type="erland.webapp.gallery.fb.gallery.importers.ImportFB"/>
         <form-bean name="externalImportFB" type="erland.webapp.gallery.fb.gallery.importers.ExternalImportFB"/>
+        <form-bean name="editTasksFB" type="erland.webapp.gallery.fb.tasks.TasksFB"/>
     </form-beans>
 
     <global-forwards>
@@ -145,6 +146,9 @@
             <forward name="mainMenu-logout" path="/do/logout"/>
             <forward name="mainMenu-skins" path="/do/user/viewskins"/>
             <forward name="mainMenu-skins-new" path="/do/user/newskin"/>
+            <forward name="mainMenu-usertasks" path="/do/user/viewusertaskstatus"/>
+            <forward name="mainMenu-tasks" path="/do/user/viewtaskstatus"/>
+            <forward name="mainMenu-tasks-edit" path="/do/user/viewtasks"/>
             <forward name="success" path=".user.index"/>
         </action>
         <action
@@ -723,6 +727,41 @@
         </action>
 
         <action
+            path="/user/viewusertaskstatus"
+            type="erland.webapp.gallery.act.tasks.ViewUserTasksStatusAction"
+            validate="false">
+
+            <forward name="success" path=".user.viewusertaskstatus"/>
+        </action>
+
+        <action
+            path="/user/viewtaskstatus"
+            type="erland.webapp.gallery.act.tasks.ViewTasksStatusAction"
+            validate="false">
+
+            <forward name="success" path=".user.viewtaskstatus"/>
+        </action>
+
+        <action
+            path="/user/viewtasks"
+            type="erland.webapp.gallery.act.tasks.ViewTasksAction"
+            name="editTasksFB"
+            validate="false">
+
+            <forward name="success" path=".user.edittasks"/>
+        </action>
+
+        <action
+            path="/user/edittasks"
+            type="erland.webapp.gallery.act.tasks.EditTasksAction"
+            name="editTasksFB"
+            input=".user.edittasks"
+            validate="true">
+
+            <forward name="success" path="/do/user/home"/>
+        </action>
+
+        <action
             path="/user/viewfilters"
             type="erland.webapp.gallery.act.gallery.filter.SearchFiltersAction">
 
@@ -1002,4 +1041,7 @@
                    erland.webapp.common.html.HTMLBoldLinkStringReplace"/>
     </plug-in>
     <plug-in className="erland.webapp.common.act.DescriptionTagPlugin"/>
+    <plug-in className="erland.webapp.gallery.act.gallery.importers.ExternalIMatchImportPlugin"/>
+    <plug-in className="erland.webapp.gallery.act.gallery.importers.IMatchImportPlugin"/>
+    <plug-in className="erland.webapp.gallery.act.loader.GenerateThumbnailPlugin"/>
 </struts-config>
