@@ -67,7 +67,11 @@ public class CookieHandler
 					end = myCookie.length();
 				}
 				System.out.println("get: " + myCookie.substring(offset,end));
-				return myCookie.substring(offset,end);
+				if(!myCookie.substring(offset,end).equals(" ")) {
+					return myCookie.substring(offset,end);
+				}else {
+					return "";
+				}
 			}
 			else 
 				System.out.println("Did not find cookie: "+name);
@@ -110,7 +114,7 @@ public class CookieHandler
 	 */	 
 	protected void deleteCookie(String name)
 	{
-
+		setCookie(name," ");
 		/*
 		**  delete a cookie, set the expiration in the past
 		*/
