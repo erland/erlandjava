@@ -30,12 +30,16 @@ public class SubImageHandler {
     private Image image;
     /** Width of sub images */
     private int width;
-    /** Heigth of sub images */
+    /** Height of sub images */
     private int height;
     /** Number of sub images on each row */
     private int noOfX;
     /** Number of rows with sub images */
     private int noOfY;
+    /** Drawing offset for x coordinate */
+    private int drawOffsetX;
+    /** Drawing offset for y coordinate */
+    private int drawOffsetY;
 
     /**
      * Creates a image handler which makes it possible to extract sub images
@@ -48,11 +52,30 @@ public class SubImageHandler {
      */
     public SubImageHandler(Image image,int width,int height,int noOfX,int noOfY)
     {
+        this(image,width,height,noOfX,noOfY,0,0);
+    }
+
+    /**
+     * Creates a image handler which makes it possible to extract sub images
+     * from a main image. It is also possible to select an offset which should
+     * be added before drawing the image.
+     * @param image The main image to extract sub images from
+     * @param width The width of each subimage
+     * @param height The height of each subimage
+     * @param noOfX Number of sub images on each row
+     * @param noOfY Number of rows with sub images
+     * @param drawOffsetX Number of pixels to add to x coordinate before drawing
+     * @param drawOffsetY Number of pixels to add to y coordinate before drawing
+     */
+    public SubImageHandler(Image image,int width,int height,int noOfX,int noOfY, int drawOffsetX, int drawOffsetY)
+    {
         this.image = image;
         this.width = width;
         this.height = height;
         this.noOfX = noOfX;
         this.noOfY = noOfY;
+        this.drawOffsetX = drawOffsetX;
+        this.drawOffsetY = drawOffsetY;
     }
     /**
      * Draw a specific subimage
@@ -63,8 +86,33 @@ public class SubImageHandler {
      */
     public void drawImage(Graphics g, int subimage,int x, int y)
     {
+        x+=drawOffsetX;
+        y+=drawOffsetY;
         int subImagePosX = (subimage%noOfX)*width;
         int subImagePosY = (subimage/noOfX)*height;
         g.drawImage(image,x,y,x+width,y+height,subImagePosX,subImagePosY,subImagePosX+width,subImagePosY+height,null);
+    }
+
+
+    /**
+     * Get the main image which contains all sub images
+     * @return The main image
+     */
+    public Image getImage() {
+        return image;
+    }
+
+    /**
+     * Get a Graphics object for the specified sub image
+     * @param subimage The sub image to get a Graphics object for
+     * @return A Graphics object for the subimage
+     */
+    public Graphics getGraphics(int subimage) {
+        Graphics g = image.getGraphics();
+        int subImagePosX = (subimage%noOfX)*width;
+        int subImagePosY = (subimage/noOfX)*height;
+        g.setClip(subImagePosX,subImagePosY,width,height);
+        g.translate(subImagePosX-drawOffsetX,subImagePosY-drawOffsetY);
+        return g;
     }
 }
