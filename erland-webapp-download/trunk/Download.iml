@@ -19,7 +19,6 @@
     <orderEntry type="module" module-name="util" />
     <orderEntry type="module" module-name="UserMgmt" />
     <orderEntry type="library" name="axis" level="application" />
-    <orderEntry type="library" name="Generic" level="application_server_libraries" />
     <orderEntry type="library" name="wsdl4j" level="application" />
     <orderEntryProperties />
   </component>
