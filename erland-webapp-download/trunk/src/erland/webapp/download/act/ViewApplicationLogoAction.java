@@ -9,7 +9,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import erland.webapp.download.fb.ApplicationFB;
+import erland.webapp.download.fb.ApplicationPB;
 import erland.webapp.download.fb.ApplicationIdFB;
 import erland.webapp.download.entity.Application;
 import erland.webapp.common.EntityInterface;

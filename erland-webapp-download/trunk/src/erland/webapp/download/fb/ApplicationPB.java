@@ -1,11 +1,6 @@
 package erland.webapp.download.fb;
 
-import org.apache.struts.action.ActionForm;
-
-import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.text.DateFormat;
-import java.text.ParseException;
+import erland.webapp.common.fb.BasePB;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -26,22 +21,19 @@ import java.text.ParseException;
  * 
  */
 
-public class ApplicationVersionFB extends ActionForm {
-    private Date date;
-    private ApplicationFileFB[] files;
-    private String name;
+public class ApplicationPB extends BasePB {
     private String title;
-    private String version;
+    private String name;
+    private String category;
+    private String logo;
     private String description;
 
-    private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-    public ApplicationFileFB[] getFiles() {
-        return files;
+    public String getTitle() {
+        return title;
     }
 
-    public void setFiles(ApplicationFileFB[] files) {
-        this.files = files;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getName() {
@@ -52,20 +44,20 @@ public class ApplicationVersionFB extends ActionForm {
         this.name = name;
     }
 
-    public String getTitle() {
-        return title;
+    public String getCategory() {
+        return category;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public String getVersion() {
-        return version;
+    public String getLogo() {
+        return logo;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 
     public String getDescription() {
@@ -74,25 +66,5 @@ public class ApplicationVersionFB extends ActionForm {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getDateDisplay() {
-        return dateFormat.format(date);
-    }
-
-    public void setDateDisplay(String dateDisplay) {
-        try {
-            date = dateFormat.parse(dateDisplay);
-        } catch (ParseException e) {
-            date = null;
-        }
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 }

@@ -4,7 +4,7 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
-import erland.webapp.download.fb.ApplicationFB;
+import erland.webapp.download.fb.ApplicationPB;
 import erland.webapp.download.entity.Application;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.common.QueryFilter;
@@ -45,7 +45,7 @@ public class SearchApplicationsAction extends Action {
         if(entities!=null) {
             Collection applications = new ArrayList();
             for (int i = 0; i < entities.length; i++) {
-                ApplicationFB application = new ApplicationFB();
+                ApplicationPB application = new ApplicationPB();
                 Application entity = (Application) entities[i];
 
                 application.setTitle(entity.getTitle()!=null?entity.getTitle():entity.getName());
@@ -56,16 +56,16 @@ public class SearchApplicationsAction extends Action {
 
                 applications.add(application);
             }
-            ApplicationFB[] pb = (ApplicationFB[]) applications.toArray(new ApplicationFB[0]);
+            ApplicationPB[] pb = (ApplicationPB[]) applications.toArray(new ApplicationPB[0]);
             Arrays.sort(pb,new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    String category1 = ((ApplicationFB)o1).getCategory()!=null?((ApplicationFB)o1).getCategory():"";
-                    String category2 = ((ApplicationFB)o2).getCategory()!=null?((ApplicationFB)o2).getCategory():"";
+                    String category1 = ((ApplicationPB)o1).getCategory()!=null?((ApplicationPB)o1).getCategory():"";
+                    String category2 = ((ApplicationPB)o2).getCategory()!=null?((ApplicationPB)o2).getCategory():"";
                     int order = category1.compareTo(category2);
                     if(order!=0) {
                         return order;
                     }else {
-                        return ((ApplicationFB)o1).getTitle().compareTo(((ApplicationFB)o2).getTitle());
+                        return ((ApplicationPB)o1).getTitle().compareTo(((ApplicationPB)o2).getTitle());
                     }
                 }
             });

@@ -1,6 +1,6 @@
 package erland.webapp.download.fb;
 
-import org.apache.struts.action.ActionForm;
+import erland.webapp.common.fb.BaseFB;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionForm;
  * 
  */
 
-public class ApplicationFileFB extends ActionForm {
+public class ApplicationFileFB extends BaseFB {
     private String name;
     private String type;
     private String filename;

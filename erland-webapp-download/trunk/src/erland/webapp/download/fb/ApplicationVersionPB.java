@@ -1,6 +1,9 @@
 package erland.webapp.download.fb;
 
-import org.apache.struts.action.ActionForm;
+import java.util.Date;
+
+import erland.webapp.common.fb.BasePB;
+import erland.webapp.common.ServletParameterHelper;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -21,19 +24,20 @@ import org.apache.struts.action.ActionForm;
  * 
  */
 
-public class ApplicationFB extends ActionForm {
-    private String title;
+public class ApplicationVersionPB extends BasePB {
+    private Date date;
+    private ApplicationFileFB[] files;
     private String name;
-    private String category;
-    private String logo;
+    private String title;
+    private String version;
     private String description;
 
-    public String getTitle() {
-        return title;
+    public ApplicationFileFB[] getFiles() {
+        return files;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setFiles(ApplicationFileFB[] files) {
+        this.files = files;
     }
 
     public String getName() {
@@ -44,20 +48,20 @@ public class ApplicationFB extends ActionForm {
         this.name = name;
     }
 
-    public String getCategory() {
-        return category;
+    public String getTitle() {
+        return title;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getLogo() {
-        return logo;
+    public String getVersion() {
+        return version;
     }
 
-    public void setLogo(String logo) {
-        this.logo = logo;
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     public String getDescription() {
@@ -66,5 +70,21 @@ public class ApplicationFB extends ActionForm {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getDateDisplay() {
+        return ServletParameterHelper.asString(date,null);
+    }
+
+    public void setDateDisplay(String dateDisplay) {
+        this.date = ServletParameterHelper.asDate(dateDisplay,null);
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

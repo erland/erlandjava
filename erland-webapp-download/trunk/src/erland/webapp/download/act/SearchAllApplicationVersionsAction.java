@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
-import erland.webapp.download.fb.ApplicationVersionFB;
+import erland.webapp.download.fb.ApplicationVersionPB;
 import erland.webapp.download.fb.ApplicationIdFB;
 import erland.webapp.download.fb.ApplicationFileFB;
 import erland.webapp.download.entity.ApplicationVersion;

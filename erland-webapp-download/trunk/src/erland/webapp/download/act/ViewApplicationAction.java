@@ -8,7 +8,7 @@ import org.apache.struts.action.ActionForm;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import erland.webapp.download.fb.ApplicationFB;
+import erland.webapp.download.fb.ApplicationPB;
 import erland.webapp.download.fb.ApplicationIdFB;
 import erland.webapp.download.entity.Application;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
@@ -43,7 +43,7 @@ public class ViewApplicationAction extends Action {
 
         entity = (Application) WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-application").load(entity);
         if(entity!=null) {
-            ApplicationFB pb = new ApplicationFB();
+            ApplicationPB pb = new ApplicationPB();
 
             pb.setTitle(entity.getTitle()!=null?entity.getTitle():entity.getName());
             pb.setCategory(entity.getCategory());

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
-import erland.webapp.download.fb.ApplicationVersionFB;
+import erland.webapp.download.fb.ApplicationVersionPB;
 import erland.webapp.download.fb.ApplicationIdFB;
 import erland.webapp.download.fb.ApplicationFileFB;
 import erland.webapp.download.entity.ApplicationVersion;
@@ -44,7 +44,7 @@ public class SearchApplicationVersionsAction extends Action {
             for (int i = 0; i < entities.length; i++) {
                 ApplicationVersion entity = (ApplicationVersion) entities[i];
                 if(applicationVersions.containsKey(entity.getApplicationName()+"-"+entity.getVersion())) {
-                    ApplicationVersionFB existingEntry = (ApplicationVersionFB) applicationVersions.get(entity.getApplicationName()+"-"+entity.getVersion());
+                    ApplicationVersionPB existingEntry = (ApplicationVersionPB) applicationVersions.get(entity.getApplicationName()+"-"+entity.getVersion());
                     ApplicationFileFB[] existingFiles = existingEntry.getFiles();
                     ApplicationFileFB[] newFiles = new ApplicationFileFB[existingFiles.length+1];
                     boolean bInserted = false;
@@ -66,7 +66,7 @@ public class SearchApplicationVersionsAction extends Action {
                         existingEntry.setDescription(existingEntry.getDescription()+entity.getDescription());
                     }
                 }else {
-                    ApplicationVersionFB version = new ApplicationVersionFB();
+                    ApplicationVersionPB version = new ApplicationVersionPB();
                     version.setName(entity.getApplicationName());
                     version.setTitle(entity.getApplicationTitle());
                     version.setDate(entity.getDate());
@@ -77,10 +77,10 @@ public class SearchApplicationVersionsAction extends Action {
                     applicationVersions.put(entity.getApplicationName()+"-"+entity.getVersion(),version);
                 }
             }
-            ApplicationVersionFB[] versions = (ApplicationVersionFB[]) applicationVersions.values().toArray(new ApplicationVersionFB[0]);
+            ApplicationVersionPB[] versions = (ApplicationVersionPB[]) applicationVersions.values().toArray(new ApplicationVersionPB[0]);
             Arrays.sort(versions, new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    return -((ApplicationVersionFB)o1).getDate().compareTo(((ApplicationVersionFB)o2).getDate());
+                    return -((ApplicationVersionPB)o1).getDate().compareTo(((ApplicationVersionPB)o2).getDate());
                 }
             });
             httpServletRequest.setAttribute("applicationversionsPB",versions);
