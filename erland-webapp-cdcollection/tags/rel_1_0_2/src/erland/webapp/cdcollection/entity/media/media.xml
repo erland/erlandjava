@@ -1,0 +1,85 @@
+<entity id="media">
+    <class>erland.webapp.cdcollection.entity.media.Media</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/cdcollection</datasource>
+        <table>medias</table>
+        <fields>
+            <field id="id">
+                <column>id</column>
+                <type>Integer</type>
+                <identity>true</identity>
+                <auto>true</auto>
+            </field>
+            <field id="title">
+                <column>title</column>
+                <type>String</type>
+            </field>
+            <field id="artist">
+                <column>artist</column>
+                <type>String</type>
+            </field>
+            <field id="uniqueMediaId">
+                <column>uniquemediaid</column>
+                <type>String</type>
+            </field>
+            <field id="year">
+                <column>year</column>
+                <type>Integer</type>
+            </field>
+            <field id="coverUrl">
+                <column>coverurl</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="all">
+                <querystring/>
+                <orderstring>order by artist,title</orderstring>
+            </query>
+            <query id="allforuniquemediaid">
+                <querystring>uniquemediaid=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>uniquemediaid</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allfortitlelike">
+                <querystring>title=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>title</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforartistlike">
+                <querystring>artist=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>artist</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allfortitlelikeandartistlike">
+                <querystring>title=? and artist=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>title</field>
+                        <type>String</type>
+                    </field>
+                    <field id="2">
+                        <field>artist</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
