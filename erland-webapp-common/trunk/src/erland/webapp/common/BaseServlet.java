@@ -9,8 +9,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterface {
     private ParameterValueStorageExInterface resources=null;
@@ -18,6 +17,8 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
     private EntityStorageFactoryInterface entityStorageFactory;
     private CommandFactoryInterface commandFactory;
     private StorageInterface storage;
+    private static final String SESSION = "session";
+    private static final String REQUEST = "request";
 
     class Pages {
         private String[] supportPageNames;
@@ -48,7 +49,7 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
         }
 
         public void setPage(String page, String value) {
-            System.out.println("setPage "+page+"="+value);
+            Log.println(this,"setPage "+page+"="+value);
             if(value!=null) {
                 pages.put(page,value);
             }else {
@@ -132,15 +133,17 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
         if(cmd!=null) {
             if(isCommandAllowed(request)) {
                 setCommandClass(request,cmd);
+                String saveParameters = getEnvironment().getResources().getParameter("commands."+getCommandClassName(request)+".saveparameters");
+                if(saveParameters!=null) {
+                    String type = getEnvironment().getResources().getParameter("commands."+getCommandClassName(request)+".saveparameters.type");
+                    saveParameter(request,type,REQUEST,saveParameters,getParameters(request));
+                }
                 Log.println(this,cmd.getClass().getName()+"::execute("+request.getQueryString()+")");
                 page = cmd.execute(request);
                 String save = getEnvironment().getResources().getParameter("commands."+getCommandClassName(request)+".save");
                 if(save!=null) {
-                    if(save.length()>0) {
-                        request.getSession().setAttribute(save,cmd);
-                    }else {
-                        request.getSession().removeAttribute(save);
-                    }
+                    String type = getEnvironment().getResources().getParameter("commands."+getCommandClassName(request)+".save.type");
+                    saveParameter(request, type, SESSION, save, cmd);
                 }
             }else {
                 page = getNotAllowedPage(request);
@@ -191,6 +194,21 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
         }
     }
 
+    protected void saveParameter(HttpServletRequest request, String type, String defaultType, String name, Object value) {
+        if(type==null || (!type.equalsIgnoreCase(SESSION) && !type.equalsIgnoreCase(REQUEST))) {
+            type=defaultType;
+        }
+        name = decodeParameter(request,name);
+        Log.println(this,"Save "+value.getClass().getName()+" in "+type+" as "+name);
+        if(name.length()>0) {
+            if(type.equalsIgnoreCase(SESSION)) {
+                request.getSession().setAttribute(name,value);
+            }else {
+                request.setAttribute(name,value);
+            }
+        }
+    }
+
     private void setPage(HttpServletRequest request, String page, String value) {
         if(value!=null && value.length()>0) {
             request.getSession().setAttribute(page,value);
@@ -233,7 +251,12 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
             if(content==null) {
                 content = getEnvironment().getResources().getParameter(page+".page");
                 Log.println(this,"getPages("+page+".page)="+content);
+                if(content!=null) {
+                    content = replaceDynamicParameters(request,content);
+                }
                 bForward = false;
+            }else {
+                content = replaceDynamicParameters(request,content);
             }
             Log.println(this,"getPages("+page+")="+content);
             if(content!=null) {
@@ -286,5 +309,95 @@ public class BaseServlet extends HttpServlet implements WebAppEnvironmentInterfa
 
     protected String getNotAllowedPage(HttpServletRequest request) {
         return "notallowed";
+    }
+    protected String decodeParameter(HttpServletRequest request, String parameter) {
+        int startPos = parameter.indexOf('{');
+        if(startPos>=0) {
+            int endPos = parameter.indexOf('}',startPos+1);
+            if(endPos>=0) {
+                StringBuffer sb = new StringBuffer(parameter);
+                String replaceValue = request.getParameter(parameter.substring(startPos+1,endPos));
+                if(replaceValue==null) {
+                    replaceValue="";
+                }
+                sb.replace(startPos,endPos+1,replaceValue);
+                parameter = sb.toString();
+                return decodeParameter(request,parameter);
+            }
+        }
+        return parameter;
+    }
+
+    protected String[] getPreferedParameterOrder() {
+        return new String[] {"do"};
+    }
+
+    protected String getParameters(HttpServletRequest request) {
+        Map map = request.getParameterMap();
+        StringBuffer sb = new StringBuffer();
+        boolean bFirst = true;
+        String[] order = getPreferedParameterOrder();
+        Collection orderCollection = Arrays.asList(order);
+        for (int i = 0; i < order.length; i++) {
+            String name = order[i];
+            String values[] = request.getParameterValues(name);
+            for (int j = 0; values!=null && j < values.length; j++) {
+                if(!bFirst) {
+                    sb.append("&");
+                }
+                bFirst= false;
+                sb.append(name);
+                sb.append("=");
+                sb.append(values[j]);
+            }
+        }
+        for(Iterator it=map.keySet().iterator();it.hasNext();) {
+            String name = (String) it.next();
+            if(!orderCollection.contains(name)) {
+                String[] values = (String[]) map.get(name);
+                for (int i = 0; i < values.length; i++) {
+                    if(!bFirst) {
+                        sb.append("&");
+                    }
+                    bFirst = false;
+                    sb.append(name);
+                    sb.append("=");
+                    sb.append(values[i]);
+                }
+            }
+        }
+        return sb.toString();
+    }
+
+    protected String replaceDynamicParameters(HttpServletRequest request,String address) {
+        StringBuffer sb = new StringBuffer(address);
+        int startPos = sb.indexOf("{");
+        while(startPos>=0) {
+            int endPos = sb.indexOf("}",startPos+1);
+            if(endPos>=0) {
+                String attribute = sb.substring(startPos+1,endPos);
+                Object value = request.getParameter(attribute);
+                if(value==null) {
+                    value = request.getAttribute(attribute);
+                }
+                if(value==null) {
+                    HttpSession session = request.getSession(false);
+                    if(session!=null) {
+                        value = session.getAttribute(attribute);
+                    }
+                }
+                if(value!=null) {
+                    sb.replace(startPos,endPos+1,value.toString());
+                    endPos = startPos+value.toString().length();
+                }else {
+                    sb.replace(startPos,endPos+1,"");
+                    endPos = startPos;
+                }
+                startPos = sb.indexOf("{",endPos);
+            }else {
+                startPos = -1;
+            }
+        }
+        return sb.toString();
     }
 }
