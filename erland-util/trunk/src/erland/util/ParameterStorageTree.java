@@ -88,7 +88,7 @@ public class ParameterStorageTree implements ParameterValueStorageExInterface {
      * @return The XMLNode for the specified parameter
      */
     private XMLNode getParameterNode(String str) {
-        StringTokenizer tokenizer = new StringTokenizer("resources."+str,".");
+        StringTokenizer tokenizer = new StringTokenizer(str,".");
         if(tokenizer.hasMoreTokens()) {
             if(resources!=null) {
                 Vector v = new Vector();
