@@ -41,7 +41,6 @@
     <definition name=".user.newuseraccount.success" extends=".user.index"/>
 
     <definition name=".user.index" extends=".mainLayout">
-        <put name="body" value="/WEB-INF/tiles/common/welcome.jsp"/>
         <put name="menu" value="/WEB-INF/tiles/common/usermenu.jsp"/>
     </definition>
     <definition name=".user.edituseraccount" extends=".user.index">
