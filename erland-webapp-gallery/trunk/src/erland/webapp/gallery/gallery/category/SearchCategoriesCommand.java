@@ -5,6 +5,8 @@ import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.gallery.gallery.Gallery;
+import erland.webapp.gallery.gallery.GalleryInterface;
+import erland.webapp.gallery.gallery.GalleryHelper;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,21 +18,19 @@ public class SearchCategoriesCommand implements CommandInterface, ViewCategories
     }
 
     public String execute(HttpServletRequest request) {
-        Integer gallery = null;
+        initCommand(request);
         Integer category = null;
-        String galleryString = request.getParameter("gallery");
-        if(galleryString!=null&&galleryString.length()>0) {
-            gallery = Integer.valueOf(galleryString);
-        }
+        Integer gallery = getGalleryId(request);
         String categoryString = request.getParameter("category");
         if(categoryString!=null&&categoryString.length()>0) {
             category = Integer.valueOf(categoryString);
         }
         if(gallery!=null) {
+            Integer virtualGalleryId = Integer.valueOf(request.getParameter("gallery"));
             if(category==null) {
                 Gallery template = (Gallery) environment.getEntityFactory().create("gallery");
-                template.setId(gallery);
-                Gallery entity = (Gallery) environment.getEntityStorageFactory().getStorage("gallery").load(template);
+                template.setId(virtualGalleryId);
+                GalleryInterface entity = (GalleryInterface) environment.getEntityStorageFactory().getStorage("gallery").load(template);
                 if(entity!=null && !entity.getTopCategory().equals(new Integer(0))) {
                     category = entity.getTopCategory();
                 }
@@ -47,9 +47,18 @@ public class SearchCategoriesCommand implements CommandInterface, ViewCategories
             categories = new Category[entities.length];
             for (int i = 0; i < entities.length; i++) {
                 categories[i] = (Category) entities[i];
+                categories[i].setGallery(virtualGalleryId);
             }
         }
         return null;
+    }
+
+    protected void initCommand(HttpServletRequest request) {
+        //Do nothing
+    }
+
+    protected Integer getGalleryId(HttpServletRequest request) {
+        return GalleryHelper.getGalleryId(environment,request);
     }
 
     protected String getNoParentFilter() {
@@ -62,5 +71,9 @@ public class SearchCategoriesCommand implements CommandInterface, ViewCategories
 
     public Category[] getCategories() {
         return categories;
+    }
+
+    public WebAppEnvironmentInterface getEnvironment() {
+        return environment;
     }
 }
