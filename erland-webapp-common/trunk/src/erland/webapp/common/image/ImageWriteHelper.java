@@ -42,11 +42,8 @@ public class ImageWriteHelper {
     /** Logging instance */
     private static Log LOG = LogFactory.getLog(ImageWriteHelper.class);
     private static final int THUMBNAIL_WIDTH = 150;
-    private static final int COPYRIGHT_WIDTH = 250;
-    private static final int COPYRIGHT_HEIGHT = COPYRIGHT_WIDTH*3/4;
     private static final float COMPRESSION = 0.9f;
     private static final float SMALL_THUMBNAIL_COMPRESSION = 0.5f;
-    private static final int COPYRIGHT_OFFSET = 5;
     private static ImageWriteHelper me;
 
     private ImageWriteHelper() {};
@@ -77,7 +74,6 @@ public class ImageWriteHelper {
     public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, OutputStream output) {
         return writeThumbnail(environment,width,null,useCache,compression,username,imageFile,copyrightText,thumbnailCreator,null,null,null,null,output);
     }
-
     public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Integer height, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, OutputStream output) {
         return writeThumbnail(environment,width,height,useCache,compression,username,imageFile,copyrightText,thumbnailCreator,null,null,null,null,output);
     }
@@ -85,6 +81,18 @@ public class ImageWriteHelper {
         return writeThumbnail(environment,width,null,useCache,compression,username,imageFile,copyrightText,thumbnailCreator,null,null,null,null,output);
     }
     public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Integer height, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, String cachePrefix, ImageFilterContainerInterface preFilters, ImageFilterContainerInterface postFilters, Date cacheDate, OutputStream output) {
+        return writeThumbnail(environment,width,height,useCache,compression,username,imageFile,new Copyright(copyrightText,CopyrightPosition.BOTTOM_RIGHT),thumbnailCreator,cachePrefix,preFilters,postFilters,cacheDate,output);
+    }
+    public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, CopyrightCreatorInterface copyrightCreator, ThumbnailCreatorInterface thumbnailCreator, OutputStream output) {
+        return writeThumbnail(environment,width,null,useCache,compression,username,imageFile,copyrightCreator,thumbnailCreator,null,null,null,null,output);
+    }
+    public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Integer height, Boolean useCache, Float compression, String username, String imageFile, CopyrightCreatorInterface copyrightCreator, ThumbnailCreatorInterface thumbnailCreator, OutputStream output) {
+        return writeThumbnail(environment,width,height,useCache,compression,username,imageFile,copyrightCreator,thumbnailCreator,null,null,null,null,output);
+    }
+    public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, CopyrightCreatorInterface copyrightCreator, ThumbnailCreatorInterface thumbnailCreator, String cachePrefix, ImageFilterContainerInterface preFilters, ImageFilterContainerInterface postFilters, Date cacheDate, OutputStream output) {
+        return writeThumbnail(environment,width,null,useCache,compression,username,imageFile,copyrightCreator,thumbnailCreator,null,null,null,null,output);
+    }
+    public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Integer height, Boolean useCache, Float compression, String username, String imageFile, CopyrightCreatorInterface copyrightCreator, ThumbnailCreatorInterface thumbnailCreator, String cachePrefix, ImageFilterContainerInterface preFilters, ImageFilterContainerInterface postFilters, Date cacheDate, OutputStream output) {
         LOG.debug( "Loading thumbnail image: " + imageFile);
         String cacheDir = environment.getConfigurableResources().getParameter("thumbnail.cache");
         int requestedWidth = width!=null?width.intValue():THUMBNAIL_WIDTH;
@@ -142,21 +150,8 @@ public class ImageWriteHelper {
                             g.dispose();
                             LOG.trace("Filters applied");
                         }
-                        Graphics2D g2= thumbnail.createGraphics();
-                        int finalWidth = thumbnail.getWidth();
-                        int finalHeight = thumbnail.getHeight();
-                        if (finalWidth >= COPYRIGHT_WIDTH || finalHeight>= COPYRIGHT_HEIGHT) {
-                            if (copyrightText != null && copyrightText.length() > 0) {
-                                LOG.trace("Drawing copyright");
-                                FontMetrics metrics = g2.getFontMetrics();
-                                Rectangle2D rc = metrics.getStringBounds(copyrightText, g2);
-                                g2.setColor(new Color(1f, 1f, 1f, 0.4f));
-                                g2.fill3DRect(finalWidth - (int) rc.getWidth() - COPYRIGHT_OFFSET * 3, finalHeight - (int) rc.getHeight() - COPYRIGHT_OFFSET * 3, (int) rc.getWidth() + COPYRIGHT_OFFSET * 2, (int) rc.getHeight() + COPYRIGHT_OFFSET * 2, true);
-                                g2.setColor(Color.black);
-                                g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-                                g2.drawString(copyrightText, finalWidth - (int) rc.getWidth() - COPYRIGHT_OFFSET * 2, finalHeight - COPYRIGHT_OFFSET * 2 - metrics.getDescent());
-                                LOG.trace("Copyright drawed");
-                            }
+                        if(copyrightCreator!=null) {
+                            copyrightCreator.draw(thumbnail);
                         }
                     }
 
