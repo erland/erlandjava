@@ -10,6 +10,21 @@
         <!-- Copy required libraries to distribution dir -->
     </target>
 
+    <target name="Make archive">
+        <antcall target="Clean All"/>
+        <antcall target="Build Application"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="makedeliverable">
+            <property name="currentproject" value="${ant.project.name}"/>
+        </ant>
+    </target>
+    <target name="Make archive (Debug)">
+        <antcall target="Clean All"/>
+        <antcall target="Build Application (Debug)"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="makedeliverable">
+            <property name="currentproject" value="${ant.project.name}"/>
+        </ant>
+    </target>
+
     <target name="Build Application">
         <antcall target="buildlibraries"/>
         <property name="nojarsign" value="true"/>
