@@ -51,6 +51,8 @@ public abstract class GameServer implements NetworkServerListenerInterface, Time
     private HighScore highScore;
     /** Synchronization object, used to make sure that only one client command is handled at one time */
     private Object syncObj = new Object();
+    /** A custom game environment */
+    private Object customEnvironment;
 
     /**
      * Start and run the game server on the specified port
@@ -144,6 +146,17 @@ public abstract class GameServer implements NetworkServerListenerInterface, Time
 
     public HighScoreListInterface getHighScoreList() {
         return null;
+    }
+
+    public Object getCustomEnvironment() {
+        return customEnvironment;
+    }
+    /**
+     * Set a custom environment
+     * @param customEnvironment A custom environment
+     */
+    public void setCustomEnvironment(Object customEnvironment) {
+        this.customEnvironment = customEnvironment;
     }
 
     /**
