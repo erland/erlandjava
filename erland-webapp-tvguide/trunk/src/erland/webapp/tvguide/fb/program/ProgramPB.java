@@ -19,12 +19,16 @@ package erland.webapp.tvguide.fb.program;
  *
  */
 
+import erland.webapp.common.fb.BasePB;
+import erland.util.StringUtil;
+
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-public class ProgramPB {
+public class ProgramPB extends BasePB {
     private static DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
+    private static DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE d MMM");
     private Date start;
     private Date stop;
     private String name;
@@ -32,6 +36,10 @@ public class ProgramPB {
     private String channelLogo;
     private String channelName;
     private String channelLink;
+    private Boolean started;
+    private Boolean startOtherDay;
+    private String newSubscriptionLink;
+    private String viewSubscriptionLink;
 
     public Date getStart() {
         return start;
@@ -53,13 +61,30 @@ public class ProgramPB {
         return TIME_FORMAT.format(start);
     }
 
+    public String getStartDateDisplay() {
+        return DATE_FORMAT.format(start);
+    }
+
     public void setStartTimeDisplay(String startTimeDisplay) {
         //No implementation needed
     }
+
+    public void setStartDateDisplay(String startTimeDisplay) {
+        //No implementation needed
+    }
+
     public String getStopTimeDisplay() {
         return TIME_FORMAT.format(stop);
     }
+
+    public String getStopDateDisplay() {
+        return DATE_FORMAT.format(stop);
+    }
     public void setStopTimeDisplay(String stopTimeDisplay) {
+        //No implementation needed
+    }
+
+    public void setStopDateDisplay(String stopTimeDisplay) {
         //No implementation needed
     }
 
@@ -102,5 +127,52 @@ public class ProgramPB {
 
     public void setChannelLink(String channelLink) {
         this.channelLink = channelLink;
+    }
+
+    public Boolean getStarted() {
+        return started;
+    }
+
+    public void setStarted(Boolean started) {
+        this.started = started;
+    }
+    public String getStartedDisplay() {
+        return StringUtil.asString(started,"false");
+    }
+
+    public void setStartedDisplay(String startedDisplay) {
+        this.started = StringUtil.asBoolean(startedDisplay,Boolean.FALSE);
+    }
+
+    public Boolean getStartOtherDay() {
+        return startOtherDay;
+    }
+
+    public void setStartSameDay(Boolean startOtherDay) {
+        this.startOtherDay = startOtherDay;
+    }
+
+    public String getStartSameDayDisplay() {
+        return StringUtil.asString(startOtherDay,"true");
+    }
+
+    public void setStartSameDayDisplay(String startSameDayDisplay) {
+        this.startOtherDay = StringUtil.asBoolean(startSameDayDisplay,Boolean.TRUE);
+    }
+
+    public String getNewSubscriptionLink() {
+        return newSubscriptionLink;
+    }
+
+    public void setNewSubscriptionLink(String newSubscriptionLink) {
+        this.newSubscriptionLink = newSubscriptionLink;
+    }
+
+    public String getViewSubscriptionLink() {
+        return viewSubscriptionLink;
+    }
+
+    public void setViewSubscriptionLink(String viewSubscriptionLink) {
+        this.viewSubscriptionLink = viewSubscriptionLink;
     }
 }

@@ -1,4 +1,11 @@
-package erland.webapp.tvguide.fb.channel;
+package erland.webapp.tvguide.fb.program;
+
+import erland.webapp.common.fb.BasePB;
+import erland.util.StringUtil;
+
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 
 /*
  * Copyright (C) 2005 Erland Isaksson (erland_i@hotmail.com)
@@ -19,14 +26,7 @@ package erland.webapp.tvguide.fb.channel;
  *
  */
 
-import erland.webapp.tvguide.fb.program.ProgramPB;
-import erland.util.StringUtil;
-
-import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
-public class ChannelPB extends ChannelFB {
+public class ProgramCollectionPB extends BasePB {
     private static DateFormat FORMAT = new SimpleDateFormat("EEEE d MMM");
     private String currentLink;
     private String currentDateDisplay;
@@ -34,33 +34,8 @@ public class ChannelPB extends ChannelFB {
     private String nextDateDisplay;
     private String prevLink;
     private String prevDateDisplay;
-    private String updateLink;
-    private String removeLink;
     private ProgramPB[] programs;
 
-    public String getUpdateLink() {
-        return updateLink;
-    }
-
-    public void setUpdateLink(String updateLink) {
-        this.updateLink = updateLink;
-    }
-
-    public String getRemoveLink() {
-        return removeLink;
-    }
-
-    public void setRemoveLink(String removeLink) {
-        this.removeLink = removeLink;
-    }
-
-    public ProgramPB[] getPrograms() {
-        return programs;
-    }
-
-    public void setPrograms(ProgramPB[] programs) {
-        this.programs = programs;
-    }
     public String getCurrentLink() {
         return currentLink;
     }
@@ -107,6 +82,14 @@ public class ChannelPB extends ChannelFB {
 
     public void setPrevDateDisplay(String prevDateDisplay) {
         this.prevDateDisplay = prevDateDisplay;
+    }
+
+    public ProgramPB[] getPrograms() {
+        return programs;
+    }
+
+    public void setPrograms(ProgramPB[] programs) {
+        this.programs = programs;
     }
 
     public Date getCurrentDate() {

@@ -1,4 +1,4 @@
-package erland.webapp.tvguide.fb.channel;
+package erland.webapp.tvguide.fb.program;
 
 /*
  * Copyright (C) 2005 Erland Isaksson (erland_i@hotmail.com)
@@ -19,8 +19,8 @@ package erland.webapp.tvguide.fb.channel;
  *
  */
 
-import erland.util.StringUtil;
 import erland.webapp.tvguide.fb.account.SelectUserFB;
+import erland.util.StringUtil;
 
 import java.util.Date;
 
@@ -28,25 +28,10 @@ import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class SelectChannelFB extends SelectUserFB {
-    private String channelDisplay;
+public class SearchProgramFB extends SelectUserFB {
     private String dateDisplay;
+    private String dayOffsetDisplay;
 
-    public Integer getChannel() {
-        return StringUtil.asInteger(channelDisplay,null);
-    }
-
-    public void setChannel(Integer channel) {
-        this.channelDisplay = StringUtil.asString(channel,null);
-    }
-
-    public String getChannelDisplay() {
-        return channelDisplay;
-    }
-
-    public void setChannelDisplay(String channelDisplay) {
-        this.channelDisplay = channelDisplay;
-    }
     public Date getDate() {
         return StringUtil.asDate(dateDisplay,null);
     }
@@ -63,9 +48,25 @@ public class SelectChannelFB extends SelectUserFB {
         this.dateDisplay = dateDisplay;
     }
 
+    public Integer getDayOffset() {
+        return StringUtil.asInteger(dayOffsetDisplay,null);
+    }
+
+    public void setDayOffset(Integer dayOffset) {
+        this.dayOffsetDisplay = StringUtil.asString(dayOffset,null);
+    }
+
+    public String getDayOffsetDisplay() {
+        return dayOffsetDisplay;
+    }
+
+    public void setDayOffsetDisplay(String dayOffsetDisplay) {
+        this.dayOffsetDisplay = dayOffsetDisplay;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
-        channelDisplay = null;
         dateDisplay = null;
+        dayOffsetDisplay = null;
     }
 }

@@ -1,4 +1,4 @@
-package erland.webapp.tvguide.fb.channel;
+package erland.webapp.tvguide.fb.subscription;
 
 /*
  * Copyright (C) 2005 Erland Isaksson (erland_i@hotmail.com)
@@ -19,53 +19,53 @@ package erland.webapp.tvguide.fb.channel;
  *
  */
 
+import erland.webapp.common.fb.BaseFB;
 import erland.util.StringUtil;
-import erland.webapp.tvguide.fb.account.SelectUserFB;
-
-import java.util.Date;
-
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class SelectChannelFB extends SelectUserFB {
-    private String channelDisplay;
-    private String dateDisplay;
+public class SubscriptionFB extends BaseFB {
+    private String idDisplay;
+    private String name;
+    private String pattern;
 
-    public Integer getChannel() {
-        return StringUtil.asInteger(channelDisplay,null);
+    public String getIdDisplay() {
+        return idDisplay;
     }
 
-    public void setChannel(Integer channel) {
-        this.channelDisplay = StringUtil.asString(channel,null);
+    public void setIdDisplay(String idDisplay) {
+        this.idDisplay = idDisplay;
     }
 
-    public String getChannelDisplay() {
-        return channelDisplay;
+    public Integer getId() {
+        return StringUtil.asInteger(idDisplay,null);
     }
 
-    public void setChannelDisplay(String channelDisplay) {
-        this.channelDisplay = channelDisplay;
-    }
-    public Date getDate() {
-        return StringUtil.asDate(dateDisplay,null);
+    public void setId(Integer id) {
+        this.idDisplay = StringUtil.asString(id,null);
     }
 
-    public void setDate(Date date) {
-        this.dateDisplay = StringUtil.asString(date,null);
+    public String getName() {
+        return name;
     }
 
-    public String getDateDisplay() {
-        return dateDisplay;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setDateDisplay(String dateDisplay) {
-        this.dateDisplay = dateDisplay;
+    public String getPattern() {
+        return pattern;
+    }
+
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
-        channelDisplay = null;
-        dateDisplay = null;
+        idDisplay = null;
+        name = null;
+        pattern = null;
     }
 }

@@ -146,6 +146,20 @@
                     </field>
                 </fields>
             </query>
+            <query id="allinlistaftertime">
+                <orderstring>order by start asc</orderstring>
+                <querystring>channel in ({1}) and stop &gt;= ?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>channel</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>time</field>
+                        <type>Timestamp</type>
+                    </field>
+                </fields>
+            </query>
         </queries>
     </data>
 </entity>

@@ -18,7 +18,11 @@
         <form-bean name="selectServiceFB" type="erland.webapp.tvguide.fb.service.SelectServiceFB"/>
         <form-bean name="editServiceFB" type="erland.webapp.tvguide.fb.service.ServiceFB"/>
         <form-bean name="removeServiceFB" type="erland.webapp.tvguide.fb.service.ServiceFB"/>
-        <form-bean name="selectProgramFB" type="erland.webapp.tvguide.fb.program.SelectProgramFB"/>
+        <form-bean name="searchProgramFB" type="erland.webapp.tvguide.fb.program.SearchProgramFB"/>
+        <form-bean name="editSubscriptionFB" type="erland.webapp.tvguide.fb.subscription.SubscriptionFB"/>
+        <form-bean name="removeSubscriptionFB" type="erland.webapp.tvguide.fb.subscription.SubscriptionFB"/>
+        <form-bean name="selectSubscriptionFB" type="erland.webapp.tvguide.fb.subscription.SelectSubscriptionFB"/>
+        <form-bean name="searchSubscriptionFB" type="erland.webapp.tvguide.fb.account.SelectUserFB"/>
     </form-beans>
 
     <global-forwards>
@@ -68,7 +72,7 @@
             name="menuFB">
 
             <forward name="channel" path="/do/user/menuviewchannel?channel={idDisplay}&amp;menuItemId={menuItemId}"/>
-            <forward name="success" path="/do/user/viewprograms"/>
+            <forward name="success" path="/do/user/searchprograms"/>
         </action>
         <action
             path="/guest/loadmenu"
@@ -76,7 +80,7 @@
             name="menuFB">
 
             <forward name="channel" path="/do/guest/menuviewchannel?user={user}&amp;channel={idDisplay}&amp;menuItemId={menuItemId}"/>
-            <forward name="success" path="/do/guest/viewprograms"/>
+            <forward name="success" path="/do/guest/searchprograms"/>
         </action>
         <action
             path="/guest/menu"
@@ -85,8 +89,9 @@
             validate="false"
             parameter="menuName=mainMenu">
 
-            <forward name="mainMenu-tomorrow" path="/do/guest/viewprograms?user={user}&amp;dayOffset=1"/>
-            <forward name="mainMenu-today" path="/do/guest/viewprograms?user={user}"/>
+            <forward name="mainMenu-today" path="/do/guest/searchprograms?user={user}"/>
+            <forward name="mainMenu-subscribed" path="/do/guest/searchsubscribedprograms?user={user}"/>
+            <forward name="mainMenu-subscriptions" path="/do/guest/viewsubscriptions?user={user}"/>
             <forward name="success" path=".guest.index"/>
         </action>
         <action
@@ -96,9 +101,11 @@
             validate="false"
             parameter="menuName=mainMenu">
 
-            <forward name="mainMenu-tomorrow" path="/do/user/viewprograms?dayOffset=1"/>
-            <forward name="mainMenu-today" path="/do/user/viewprograms"/>
+            <forward name="mainMenu-today" path="/do/user/searchprograms"/>
             <forward name="mainMenu-newfavorite" path="/do/user/newfavorite"/>
+            <forward name="mainMenu-subscribed" path="/do/user/searchsubscribedprograms"/>
+            <forward name="mainMenu-subscriptions" path="/do/user/viewsubscriptions"/>
+            <forward name="mainMenu-subscriptions-new" path="/do/user/newsubscription"/>
             <forward name="mainMenu-services" path="/do/user/viewservices"/>
             <forward name="mainMenu-services-new" path="/do/user/newservice"/>
             <forward name="mainMenu-channels-new" path="/do/user/newchannel"/>
@@ -180,14 +187,25 @@
             path="/user/viewchannelinfo"
             type="erland.webapp.tvguide.act.channel.ViewChannelInfoAction"
             name="selectChannelFB">
+
             <forward name="update-channel-link" path="/do/user/viewchannel?idDisplay={channel}"/>
             <forward name="remove-channel-link" path="/do/user/removechannel?idDisplay={channel}"/>
+            <forward name="prev-view-link" path="/do/user/viewchannelinfo?channel={channel}&amp;dateDisplay={date}"/>
+            <forward name="current-view-link" path="/do/user/viewchannelinfo?channel={channel}&amp;dateDisplay={date}"/>
+            <forward name="next-view-link" path="/do/user/viewchannelinfo?channel={channel}&amp;dateDisplay={date}"/>
+            <forward name="add-subscription-link" path="/do/user/addsubscription?name={programName}"/>
+
             <forward name="success" path=".user.viewchannel"/>
         </action>
         <action
             path="/guest/viewchannel"
             type="erland.webapp.tvguide.act.channel.ViewChannelInfoAction"
             name="selectChannelFB">
+
+            <forward name="prev-view-link" path="/do/guest/viewchannel?user={user}&amp;channel={channel}&amp;dateDisplay={date}"/>
+            <forward name="current-view-link" path="/do/guest/viewchannel?user={user}&amp;channel={channel}&amp;dateDisplay={date}"/>
+            <forward name="next-view-link" path="/do/guest/viewchannel?user={user}&amp;channel={channel}&amp;dateDisplay={date}"/>
+
             <forward name="success" path=".guest.viewchannel"/>
         </action>
         <action
@@ -204,17 +222,119 @@
             <forward name="success" path="/do/user/home"/>
         </action>
 
+
         <action
-            path="/user/viewprograms"
+            path="/user/newsubscription"
+            type="erland.webapp.tvguide.act.subscription.NewSubscriptionAction"
+            validate="false"
+            name="editSubscriptionFB">
+            <forward name="success" path=".user.editsubscription"/>
+        </action>
+        <action
+            path="/user/addsubscription"
+            type="erland.webapp.tvguide.act.subscription.AddSubscriptionAction"
+            validate="false"
+            name="editSubscriptionFB">
+            <forward name="success" path=".user.editsubscription"/>
+        </action>
+        <action
+            path="/user/editsubscription"
+            type="erland.webapp.tvguide.act.subscription.EditSubscriptionAction"
+            name="editSubscriptionFB"
+            input=".user.editsubscription">
+            <forward name="failure" path=".user.editsubscription"/>
+            <forward name="success" path="/do/user/viewsubscriptioninfo?subscription={id}"/>
+        </action>
+        <action
+            path="/user/viewsubscriptioninfo"
+            type="erland.webapp.tvguide.act.subscription.ViewSubscriptionInfoAction"
+            name="selectSubscriptionFB">
+
+            <forward name="update-subscription-link" path="/do/user/viewsubscription?idDisplay={subscription}"/>
+            <forward name="remove-subscription-link" path="/do/user/removesubscription?idDisplay={subscription}"/>
+
+            <forward name="success" path=".user.viewsubscription"/>
+        </action>
+        <action
+            path="/guest/viewsubscription"
+            type="erland.webapp.tvguide.act.subscription.ViewSubscriptionInfoAction"
+            name="selectSubscriptionFB">
+
+            <forward name="success" path=".guest.viewsubscription"/>
+        </action>
+        <action
+            path="/user/viewsubscription"
+            type="erland.webapp.tvguide.act.subscription.ViewSubscriptionAction"
+            validate="false"
+            name="editSubscriptionFB">
+            <forward name="success" path=".user.editsubscription"/>
+        </action>
+        <action
+            path="/user/removesubscription"
+            type="erland.webapp.tvguide.act.subscription.RemoveSubscriptionAction"
+            name="removeSubscriptionFB">
+            <forward name="success" path="/do/user/viewsubscriptions"/>
+        </action>
+        <action
+            path="/user/viewsubscriptions"
+            type="erland.webapp.tvguide.act.subscription.SearchSubscriptionsAction"
+            name="searchSubscriptionFB">
+            <forward name="view-subscription-link" path="/do/user/viewsubscriptioninfo?subscription={subscription}"/>
+            <forward name="update-subscription-link" path="/do/user/viewsubscription?idDisplay={subscription}"/>
+            <forward name="remove-subscription-link" path="/do/user/removesubscription?idDisplay={subscription}"/>
+            <forward name="success" path=".user.viewsubscriptions"/>
+        </action>
+        <action
+            path="/guest/viewsubscriptions"
+            type="erland.webapp.tvguide.act.subscription.SearchSubscriptionsAction"
+            name="searchSubscriptionFB">
+            <forward name="view-subscription-link" path="/do/guest/viewsubscription?user={user}&amp;subscription={subscription}"/>
+            <forward name="success" path=".guest.viewsubscriptions"/>
+        </action>
+
+
+        <action
+            path="/user/searchprograms"
             type="erland.webapp.tvguide.act.program.SearchProgramsAction"
-            name="selectProgramFB">
+            name="searchProgramFB">
+
+            <forward name="prev-view-link" path="/do/user/searchprograms?dateDisplay={date}"/>
+            <forward name="current-view-link" path="/do/user/searchprograms?dateDisplay={date}"/>
+            <forward name="next-view-link" path="/do/user/searchprograms?dateDisplay={date}"/>
+            <forward name="add-subscription-link" path="/do/user/addsubscription?name={programName}"/>
+
             <forward name="success" path=".user.viewprograms"/>
         </action>
         <action
-            path="/guest/viewprograms"
+            path="/guest/searchprograms"
             type="erland.webapp.tvguide.act.program.SearchProgramsAction"
-            name="selectProgramFB">
+            name="searchProgramFB">
+
+            <forward name="prev-view-link" path="/do/guest/searchprograms?user={user}&amp;dateDisplay={date}"/>
+            <forward name="current-view-link" path="/do/guest/searchprograms?user={user}&amp;dateDisplay={date}"/>
+            <forward name="next-view-link" path="/do/guest/searchprograms?user={user}&amp;dateDisplay={date}"/>
+
             <forward name="success" path=".guest.viewprograms"/>
+        </action>
+
+        <action
+            path="/user/searchsubscribedprograms"
+            type="erland.webapp.tvguide.act.program.SearchSubscribedProgramsAction"
+            name="searchProgramFB">
+
+            <forward name="add-subscription-link" path="/do/user/addsubscription?name={programName}"/>
+            <forward name="view-subscription-link" path="/do/user/viewsubscriptioninfo?subscription={subscription}"/>
+
+            <forward name="success" path=".user.viewsubscribedprograms"/>
+        </action>
+        <action
+            path="/guest/searchsubscribedprograms"
+            type="erland.webapp.tvguide.act.program.SearchSubscribedProgramsAction"
+            name="searchProgramFB">
+
+            <forward name="view-subscription-link" path="/do/guest/viewsubscription?user={user}&amp;subscription={subscription}"/>
+
+            <forward name="success" path=".guest.viewsubscribedprograms"/>
         </action>
 
 

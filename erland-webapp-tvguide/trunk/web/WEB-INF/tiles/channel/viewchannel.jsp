@@ -3,7 +3,15 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
-<table width="600" class="channelpage-body">
+<table width="600" class="channelpage-header" width="600">
+        <tr valign="top" align="center" class="programpage-header-row">
+            <td width="33%"><erland-common:beanlink name="channelPB" property="prevLink" style="channelpage-button"><bean:write name="channelPB" property="prevDateDisplay"/></erland-common:beanlink></td>
+            <td width="33%"><erland-common:beanlink name="channelPB" property="currentLink" style="channelpage-button-selected"><bean:write name="channelPB" property="currentDateDisplay"/></erland-common:beanlink></td>
+            <td width="33%"><erland-common:beanlink name="channelPB" property="nextLink" style="channelpage-button"><bean:write name="channelPB" property="nextDateDisplay"/></erland-common:beanlink></td>
+        </tr>
+</table>
+
+<table width="600" class="channelpage-body" width="600">
     <tr><td colspan="2"><erland-common:beanlink name="channelPB" property="updateLink" style="channelpage-button"><bean:message key="tvguide.channel.button.edit"/></erland-common:beanlink>
     <erland-common:beanlink name="channelPB" property="removeLink" style="channelpage-button" onClickMessageKey="tvguide.channel.button.delete.are-you-sure"><bean:message key="tvguide.channel.button.delete"/></erland-common:beanlink></td></tr>
     <tr><td colspan="2">
@@ -12,7 +20,7 @@
             <logic:notEmpty name="channelPB" property="logo">
                 <td><erland-common:beanimage style="channelpage-logo" name="channelPB" property="logo"/></td>
             </logic:notEmpty>
-            <td valig="top" align="left">
+            <td width="100%" valig="top" align="left">
                 <logic:notEmpty name="channelPB" property="name">
                     <div class="channelpage-title"><bean:write name="channelPB" property="name"/></div>
                 </logic:notEmpty>
@@ -24,10 +32,10 @@
         </table>
     </td></tr>
     <logic:iterate id="program" name="channelPB" property="programs">
-        <tr valign="top" align="left" class="channelpage-program-row">
+        <tr valign="top" align="left" class="channelpage-program-row<logic:equal name="program" property="startedDisplay" value="true">-started</logic:equal>">
             <td><b><bean:write name="program" property="startTimeDisplay"/></b></td>
-            <td>
-                <b><bean:write name="program" property="name"/></b><br>
+            <td width="100%">
+                <b><bean:write name="program" property="name"/></b>&nbsp;&nbsp;&nbsp;<erland-common:beanlink name="program" property="newSubscriptionLink" style="channelpage-button"><bean:message key="tvguide.channel.addsubscription"/></erland-common:beanlink><br>
                 <erland-common:expandhtml><bean:write name="program" property="description"/></erland-common:expandhtml>
             </td>
         </tr>

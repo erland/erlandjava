@@ -11,5 +11,6 @@
         <entity id="tvguide-favorite" reference="favorite:erland/webapp/tvguide/entity/favorite/favorite.xml"/>
         <entity id="tvguide-service" reference="service:erland/webapp/tvguide/entity/service/service.xml"/>
         <entity id="tvguide-program" reference="program:erland/webapp/tvguide/entity/program/program.xml"/>
+        <entity id="tvguide-subscription" reference="subscription:erland/webapp/tvguide/entity/subscription/subscription.xml"/>
     </entities>
 </resources>

@@ -31,6 +31,7 @@ import erland.webapp.tvguide.fb.channel.ChannelPB;
 import erland.webapp.tvguide.fb.channel.SelectChannelFB;
 import erland.webapp.tvguide.fb.program.ProgramPB;
 import erland.webapp.tvguide.logic.program.ProgramHelper;
+import erland.util.StringUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,6 +44,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Date;
+import java.util.Calendar;
 import java.lang.reflect.InvocationTargetException;
 
 public class ViewChannelInfoAction extends BaseAction {
@@ -71,16 +73,58 @@ public class ViewChannelInfoAction extends BaseAction {
         if(username==null) {
             username = fb.getUser();
         }
+
+        parameters.put("user",username);
+        Date date = new Date();
+        if(fb.getDate()!=null) {
+            date = fb.getDate();
+        }
+        parameters.put("date",StringUtil.asString(date,null));
+
+        Calendar cal = Calendar.getInstance();
+
+        forward = mapping.findForward("current-view-link");
+        if(forward!=null) {
+            pb.setCurrentDate(date);
+            pb.setCurrentLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+        }
+        forward = mapping.findForward("next-view-link");
+        if(forward!=null) {
+            cal.setTime(date);
+            cal.add(Calendar.DATE,1);
+            pb.setNextDate(cal.getTime());
+            parameters.put("date",StringUtil.asString(cal.getTime(),null));
+            pb.setNextLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+        }
+        forward = mapping.findForward("prev-view-link");
+        if(forward!=null) {
+            cal.setTime(date);
+            cal.add(Calendar.DATE,-1);
+            pb.setPrevDate(cal.getTime());
+            parameters.put("date",StringUtil.asString(cal.getTime(),null));
+            pb.setPrevLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+        }
+
         ProgramHelper.loadPrograms(getEnvironment(),false);
 
-        pb.setPrograms(getPrograms(username,fb,channel));
+        forward = mapping.findForward("add-subscription-link");
+
+        pb.setPrograms(getPrograms(username,fb,channel,forward));
         request.setAttribute("channelPB",pb);
     }
 
-    protected ProgramPB[] getPrograms(String username, BaseFB fb,Channel channel) {
+    protected ProgramPB[] getPrograms(String username, SelectChannelFB fb,Channel channel,ActionForward subscriptionForward) {
         QueryFilter filter = new QueryFilter("allforchannelanddateaftertime");
         filter.setAttribute("channel",channel.getId());
-        filter.setAttribute("time",new Date());
+        Date date = fb.getDate();
+        Date currentDate = new Date();
+        if(fb.getDate()==null) {
+            date = currentDate;
+        }
+        if(!sameDay(currentDate,date) && currentDate.before(date)) {
+            currentDate = date;
+        }
+        filter.setAttribute("time",date);
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("tvguide-program").search(filter);
         ProgramPB[] programsPB = new ProgramPB[entities.length];
         for (int i = 0; i < entities.length; i++) {
@@ -92,7 +136,24 @@ public class ViewChannelInfoAction extends BaseAction {
             } catch (InvocationTargetException e) {
             } catch (NoSuchMethodException e) {
             }
+            if(programsPB[i].getStart().before(currentDate)) {
+                programsPB[i].setStarted(Boolean.TRUE);
+            }else {
+                programsPB[i].setStarted(Boolean.FALSE);
+            }
+            if(subscriptionForward!=null) {
+                Map parameters = new HashMap();
+                parameters.put("programName",programsPB[i].getName());
+                programsPB[i].setNewSubscriptionLink(ServletParameterHelper.replaceDynamicParameters(subscriptionForward.getPath(),parameters));
+            }
         }
         return programsPB;
+    }
+    private boolean sameDay(Date date1, Date date2) {
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(date1);
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(date2);
+        return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c1.get(Calendar.DATE) == c2.get(Calendar.DATE);
     }
 }

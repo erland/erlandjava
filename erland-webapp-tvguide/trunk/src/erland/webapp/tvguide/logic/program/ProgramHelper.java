@@ -55,11 +55,11 @@ public class ProgramHelper {
     private static void loadPrograms(WebAppEnvironmentInterface environment, Channel channel,boolean forced) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
-        cal.add(Calendar.HOUR_OF_DAY,-1);
+        cal.add(Calendar.DATE,-1);
         if(channel.getService()!=null && channel.getService().intValue()!=0 && (forced || channel.getCacheDate()==null || cal.getTime().after(channel.getCacheDate()))) {
             String data = ServiceHelper.getServiceData(environment,channel.getService(),channel.getServiceParameters());
             Reader reader = new StringReader(data);
-            SAXReader saxReader = new SAXReader();
+            SAXReader saxReader = new SAXReader(false);
 
             try {
                 Document document = saxReader.read(reader);

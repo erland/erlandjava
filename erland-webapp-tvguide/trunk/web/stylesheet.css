@@ -157,6 +157,27 @@ color:#000000;
 text-decoration:none;
 }
 
+.channelpage-program-row-otherday{
+font-family:arial;
+font-size:12px;
+color:#888888;
+text-decoration:none;
+}
+
+.channelpage-program-row-started{
+font-family:arial;
+font-size:12px;
+color:#888888;
+text-decoration:none;
+}
+
+.channelpage-program-row-started-otherday{
+font-family:arial;
+font-size:12px;
+color:#888888;
+text-decoration:none;
+}
+
 .channelpage-description {
 font-family:arial;
 font-size:12px;
@@ -225,6 +246,131 @@ text-decoration:none;
 
 
 
+.subscriptionpage-logo {
+font-family:arial;
+border:0px;
+}
+
+.subscriptionpage-header {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.subscriptionpage-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.subscriptionpage-title {
+font-family:arial;
+font-size:14px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.subscriptionpage-program-row{
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.subscriptionpage-program-row-otherday{
+font-family:arial;
+font-size:12px;
+color:#888888;
+text-decoration:none;
+}
+
+.subscriptionpage-program-row-started{
+font-family:arial;
+font-size:12px;
+color:#888888;
+text-decoration:none;
+}
+
+.subscriptionpage-program-row-started-otherday{
+font-family:arial;
+font-size:12px;
+color:#888888;
+text-decoration:none;
+}
+
+.subscriptionpage-description {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.subscriptionpage-notice {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.subscriptionpage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.subscriptionpage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.subscriptionpage-button-selected {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+:hover.subscriptionpage-button-selected {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.subscriptionpage-link {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.subscriptionpage-link {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+
+
+
+
+
+
 .programpage-logo {
 font-family:arial;
 border:0px;
@@ -254,10 +400,38 @@ color:#000000;
 text-decoration:none;
 }
 
+.programpage-header-row{
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
 .programpage-program-row{
 font-family:arial;
 font-size:12px;
 color:#000000;
+text-decoration:none;
+}
+
+.programpage-program-row-otherday{
+font-family:arial;
+font-size:12px;
+color:#888888;
+text-decoration:none;
+}
+
+.programpage-program-row-started{
+font-family:arial;
+font-size:12px;
+color:#888888;
+text-decoration:none;
+}
+
+.programpage-program-row-started-otherday{
+font-family:arial;
+font-size:12px;
+color:#888888;
 text-decoration:none;
 }
 

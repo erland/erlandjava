@@ -1,4 +1,4 @@
-package erland.webapp.tvguide.fb.program;
+package erland.webapp.tvguide.fb.subscription;
 
 /*
  * Copyright (C) 2005 Erland Isaksson (erland_i@hotmail.com)
@@ -19,8 +19,8 @@ package erland.webapp.tvguide.fb.program;
  *
  */
 
-import erland.webapp.tvguide.fb.account.SelectUserFB;
 import erland.util.StringUtil;
+import erland.webapp.tvguide.fb.account.SelectUserFB;
 
 import java.util.Date;
 
@@ -28,45 +28,27 @@ import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class SelectProgramFB extends SelectUserFB {
-    private String dateDisplay;
-    private String dayOffsetDisplay;
+public class SelectSubscriptionFB extends SelectUserFB {
+    private String subscriptionDisplay;
 
-    public Date getDate() {
-        return StringUtil.asDate(dateDisplay,null);
+    public Integer getSubscription() {
+        return StringUtil.asInteger(subscriptionDisplay,null);
     }
 
-    public void setDate(Date date) {
-        this.dateDisplay = StringUtil.asString(date,null);
+    public void setSubscription(Integer subscription) {
+        this.subscriptionDisplay = StringUtil.asString(subscription,null);
     }
 
-    public String getDateDisplay() {
-        return dateDisplay;
+    public String getSubscriptionDisplay() {
+        return subscriptionDisplay;
     }
 
-    public void setDateDisplay(String dateDisplay) {
-        this.dateDisplay = dateDisplay;
-    }
-
-    public Integer getDayOffset() {
-        return StringUtil.asInteger(dayOffsetDisplay,null);
-    }
-
-    public void setDayOffset(Integer dayOffset) {
-        this.dayOffsetDisplay = StringUtil.asString(dayOffset,null);
-    }
-
-    public String getDayOffsetDisplay() {
-        return dayOffsetDisplay;
-    }
-
-    public void setDayOffsetDisplay(String dayOffsetDisplay) {
-        this.dayOffsetDisplay = dayOffsetDisplay;
+    public void setSubscriptionDisplay(String subscriptionDisplay) {
+        this.subscriptionDisplay = subscriptionDisplay;
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
-        dateDisplay = null;
-        dayOffsetDisplay = null;
+        subscriptionDisplay = null;
     }
 }
