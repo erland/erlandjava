@@ -8,13 +8,13 @@
 <table class="propertypage-body" align="center">
     <logic:iterate name="applicationversionsPB" id="item" length="10" >
         <tr>
-        <td valign="top" nowrap><a class="propertypage-button" href="<%=request.getContextPath()%>/do/viewapplication?name=<bean:write name="item" property="name"/>"><bean:write name="item" property="title"/></a> <bean:write name="item" property="version"/></td>
+        <td valign="top" nowrap><erland-common:beanlink style="propertypage-button" name="item" property="applicationLink"><bean:write name="item" property="title"/></erland-common:beanlink> <bean:write name="item" property="version"/></td>
         <td width="20">&nbsp;</td>
         <td valign="top" nowrap><bean:write name="item" property="dateDisplay"/></td>
         <td width="20">&nbsp;</td>
         <td valign="top">
         <logic:iterate name="item" property="files" id="file">
-        <a class="propertypage-button" href="<bean:write name="file" property="url"/>"><bean:write name="file" property="filename"/></a>&nbsp;&nbsp;&nbsp;
+        <erland-common:beanlink style="propertypage-button" name="file" property="url"><bean:write name="file" property="filename"/></erland-common:beanlink>&nbsp;&nbsp;&nbsp;
         </logic:iterate>
         <br>
         <erland-common:expandhtml><bean:write name="item" property="description"/></erland-common:expandhtml>

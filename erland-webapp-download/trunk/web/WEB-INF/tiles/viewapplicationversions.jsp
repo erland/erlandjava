@@ -21,7 +21,7 @@
         <td width="20">&nbsp;</td>
         <td valign="top">
         <logic:iterate name="item" property="files" id="file">
-        <a class="propertypage-button" href="<bean:write name="file" property="url"/>"><bean:write name="file" property="filename"/></a>&nbsp;&nbsp;&nbsp;
+        <erland-common:beanlink style="propertypage-button" name="file" property="url"><bean:write name="file" property="filename"/></erland-common:beanlink>&nbsp;&nbsp;&nbsp;
         </logic:iterate>
         <br>
         <erland-common:expandhtml><bean:write name="item" property="description"/></erland-common:expandhtml>
