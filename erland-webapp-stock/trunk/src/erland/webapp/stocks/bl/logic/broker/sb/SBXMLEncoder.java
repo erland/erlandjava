@@ -18,14 +18,18 @@ package erland.webapp.stocks.bl.logic.broker.sb;
  *
  */
 
-import erland.util.Log;
 import erland.util.XMLNode;
 import erland.util.XMLParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class SBXMLEncoder {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(SBXMLEncoder.class);
     private static Object logObject;
     private static Object getLogObject() {
         if(logObject==null) {
@@ -36,12 +40,12 @@ public class SBXMLEncoder {
     static String encodeStockData(BufferedReader data, int rateColumn) {
         String out="";
         try {
-            Log.println(getLogObject(),"getXMLData start "+System.currentTimeMillis());
+            LOG.debug("getXMLData start "+System.currentTimeMillis());
             String xmlData = getXMLData(data);
-            if(Log.isEnabled(getLogObject())) {
-                Log.println(getLogObject(),xmlData,Log.DEBUG);
+            if(LOG.isTraceEnabled()) {
+                LOG.trace(xmlData);
             }
-            Log.println(getLogObject(),"getXMLData stop "+System.currentTimeMillis());
+            LOG.debug("getXMLData stop "+System.currentTimeMillis());
             if(xmlData!=null) {
                 SBXMLParser parser = new SBXMLParser(rateColumn);
                 //System.out.println(xmlData);

@@ -289,11 +289,6 @@
             property="applicationName"
             value="stock"/>
     </plug-in>
-    <plug-in className="erland.webapp.common.act.LogConfigurationPlugin">
-        <set-property
-            property="logConfigurationFile"
-            value="D:/stock_log.xml"/>
-    </plug-in>
     <plug-in className="org.apache.struts.tiles.TilesPlugin">
         <set-property property="definitions-config"
             value="/WEB-INF/tiles-defs.xml"/>

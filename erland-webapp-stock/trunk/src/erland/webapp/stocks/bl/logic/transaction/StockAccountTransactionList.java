@@ -18,7 +18,8 @@ package erland.webapp.stocks.bl.logic.transaction;
  *
  */
 
-import erland.util.Log;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.Vector;
 import java.util.Date;
@@ -28,6 +29,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class StockAccountTransactionList implements StockAccountTransactionListInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(StockAccountTransactionList.class);
     private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private Vector vector = new Vector();
 
@@ -137,20 +140,20 @@ public class StockAccountTransactionList implements StockAccountTransactionListI
         return result;
     }
     public StockAccountTransaction getTransactionBefore(String broker, String stock, Date date, StockAccountTransactionFilterInterface filter) {
-        Log.println(this,"getLastBeforDate "+date+" vector.size()="+vector.size());
+        LOG.debug("getLastBeforDate "+date+" vector.size()="+vector.size());
         Date currentDate = new Date(0);
         int currentPos = -1;
         for(int i=0;i<vector.size();i++) {
             StockAccountTransaction entry = getTransaction(i);
-            Log.println(this,"getLastBeforeDate validating "+entry.getBroker()+" "+entry.getStock()+" "+entry.getDate()+" < "+date);
+            LOG.debug("getLastBeforeDate validating "+entry.getBroker()+" "+entry.getStock()+" "+entry.getDate()+" < "+date);
             if(entry.getBroker().equals(broker) &&
                     entry.getStock().equals(stock) &&
                     entry.getDate().getTime()<=date.getTime()) {
 
-                Log.println(this,"getLastBeforeDate validating "+entry.getDate()+" >= "+currentDate);
+                LOG.debug("getLastBeforeDate validating "+entry.getDate()+" >= "+currentDate);
                 if(entry.getDate().getTime()>=currentDate.getTime() &&
                         (filter==null || filter.isMatching(entry))) {
-                    Log.println(this,"getLastBeforeDate found "+entry.getDate());
+                    LOG.debug("getLastBeforeDate found "+entry.getDate());
                     currentDate=entry.getDate();
                     currentPos=i;
                 }
@@ -163,20 +166,20 @@ public class StockAccountTransactionList implements StockAccountTransactionListI
         }
     }
     public StockAccountTransaction getTransactionAfter(String broker, String stock, Date date, StockAccountTransactionFilterInterface filter) {
-        Log.println(this,"getNextAfterDate "+date+" vector.size()="+vector.size());
+        LOG.debug("getNextAfterDate "+date+" vector.size()="+vector.size());
         Date currentDate = null;
         int currentPos = -1;
         for(int i=0;i<vector.size();i++) {
             StockAccountTransaction entry = getTransaction(i);
-            Log.println(this,"getNextAfterDate validating "+entry.getBroker()+" "+entry.getStock()+" "+entry.getDate()+" > "+date);
+            LOG.debug("getNextAfterDate validating "+entry.getBroker()+" "+entry.getStock()+" "+entry.getDate()+" > "+date);
             if(entry.getBroker().equals(broker) &&
                     entry.getStock().equals(stock) &&
                     entry.getDate().getTime()>date.getTime()) {
 
-                Log.println(this,"getNextAfterDate validating "+entry.getDate()+" < "+currentDate);
+                LOG.debug("getNextAfterDate validating "+entry.getDate()+" < "+currentDate);
                 if(currentDate==null || entry.getDate().getTime()<currentDate.getTime()) {
                     if((filter==null || filter.isMatching(entry))) {
-                        Log.println(this,"getNextAfterDate found "+entry.getDate());
+                        LOG.debug("getNextAfterDate found "+entry.getDate());
                         currentDate=entry.getDate();
                         currentPos=i;
                     }

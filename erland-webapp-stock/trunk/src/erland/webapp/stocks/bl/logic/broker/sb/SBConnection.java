@@ -24,7 +24,6 @@ import erland.webapp.stocks.bl.entity.BrokerStockEntry;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.EntityInterface;
-import erland.util.Log;
 
 import java.net.URL;
 import java.net.URLConnection;
@@ -33,7 +32,12 @@ import java.io.InputStreamReader;
 import java.util.Locale;
 import java.util.Arrays;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class SBConnection implements BrokerConnectionInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(SBConnection.class);
     private WebAppEnvironmentInterface environment;
 
     public void init(WebAppEnvironmentInterface environment) {
@@ -68,7 +72,7 @@ public class SBConnection implements BrokerConnectionInterface {
             String s = System.getProperty("http.agent", "Unknown/1.0");
             String s1 = System.getProperty("os.arch", "") + " [" + Locale.getDefault().getLanguage() + "] " + System.getProperty("os.name", "") + " " + System.getProperty("os.version", "") + "; Sun";
             s = s + " (" + s1 + ")";
-            Log.println(this,s);
+            LOG.debug(s);
             conn.setRequestProperty("User-Agent", s);
             conn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
             BufferedReader inSB = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -79,7 +83,7 @@ public class SBConnection implements BrokerConnectionInterface {
             }
             */
             String result = SBXMLEncoder.encodeStockData(inSB,getRateColumn());
-            Log.println(this,result,Log.DEBUG);
+            LOG.trace(result);
             inSB.close();
             return result;
         } catch (java.io.IOException e) {
@@ -100,7 +104,6 @@ public class SBConnection implements BrokerConnectionInterface {
     }
     /*
     public static void main(String[] args) {
-        //Log.setLog(true);
         XMLParser.setInstance(new SAXXMLParser());
         String result = new SBConnection().getStock(args[0]);
         System.out.println("result = " + result);

@@ -80,6 +80,7 @@
     <orderEntry type="module" module-name="UserMgmt" />
     <orderEntry type="module" module-name="util" />
     <orderEntry type="module" module-name="WebCommon" />
+    <orderEntry type="library" name="commons-logging" level="application" />
   </component>
 </module>
 
