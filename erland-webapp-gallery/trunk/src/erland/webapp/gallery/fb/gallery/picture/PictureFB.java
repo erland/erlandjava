@@ -31,7 +31,10 @@ public class PictureFB extends BaseFB {
     private Integer gallery;
     private Integer id;
     private String title;
+    private String titleEnglish;
     private String description;
+    private String descriptionEnglish;
+    private String file;
     private String image;
     private String link;
     private Boolean official;
@@ -79,12 +82,36 @@ public class PictureFB extends BaseFB {
         this.title = title;
     }
 
+    public String getTitleEnglish() {
+        return titleEnglish;
+    }
+
+    public void setTitleEnglish(String titleEnglish) {
+        this.titleEnglish = titleEnglish;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getDescriptionEnglish() {
+        return descriptionEnglish;
+    }
+
+    public void setDescriptionEnglish(String descriptionEnglish) {
+        this.descriptionEnglish = descriptionEnglish;
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
     }
 
     public String getImage() {
@@ -172,7 +199,10 @@ public class PictureFB extends BaseFB {
         gallery = null;
         id = null;
         title = null;
+        titleEnglish = null;
         description = null;
+        descriptionEnglish = null;
+        file = null;
         image = null;
         link = null;
         official = Boolean.FALSE;

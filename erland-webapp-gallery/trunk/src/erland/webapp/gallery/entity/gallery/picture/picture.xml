@@ -23,12 +23,24 @@
                 <column>title</column>
                 <type>String</type>
             </field>
+            <field id="titleEnglish">
+                <column>title_en</column>
+                <type>String</type>
+            </field>
             <field id="date">
                 <column>date</column>
                 <type>Date</type>
             </field>
             <field id="description">
                 <column>description</column>
+                <type>String</type>
+            </field>
+            <field id="descriptionEnglish">
+                <column>description_en</column>
+                <type>String</type>
+            </field>
+            <field id="file">
+                <column>file</column>
                 <type>String</type>
             </field>
             <field id="image">
