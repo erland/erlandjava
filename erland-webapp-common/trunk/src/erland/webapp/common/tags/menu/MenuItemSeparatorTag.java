@@ -151,7 +151,7 @@ public class MenuItemSeparatorTag extends TagSupport implements MenuItemInterfac
         }
         String menuObjName = getMenuId();
         String menuObj = (String) pageContext.getAttribute(menuObjName,PageContext.SESSION_SCOPE);
-        if((getParentId().length()==0 || (menuObj!=null && menuObj.startsWith(getParentId()))) && (isUserInRole(roles))) {
+        if((getParentId().length()==0 || (menuObj!=null && menuObj.startsWith(getParentId()) && (menuObj.equals(getParentId()) || menuObj.charAt(getParentId().length())=='-'))) && (isUserInRole(roles))) {
             try {
                 out.write("<tr>");
                 int indent = getIndent();
