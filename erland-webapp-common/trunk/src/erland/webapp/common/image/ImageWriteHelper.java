@@ -115,7 +115,9 @@ public class ImageWriteHelper {
                 }
                 if (cachedFile != null && (cacheDate==null||cacheDate.getTime()<cachedFile.lastModified())) {
                     InputStream inputCache = new FileInputStream(cachedFile);
-                    write(inputCache, output);
+                    if(output!=null) {
+                        write(inputCache, output);
+                    }
                     inputCache.close();
                     return true;
                 } else {
@@ -153,12 +155,14 @@ public class ImageWriteHelper {
                     }
 
                     if (thumbnail != null) {
-                        Log.println(getLogInstance(),"Create thumbnail jpeg",Log.DEBUG);
-                        ImageOutputStream imageOutput = ImageIO.createImageOutputStream(output);
-                        Log.println(getLogInstance(),"Write thumbnail to response",Log.DEBUG);
-                        writeImageToOutput(thumbnail, requestedCompression, imageOutput);
-                        Log.println(getLogInstance(),"Thumbnail written to response",Log.DEBUG);
-                        imageOutput.close();
+                        if(output!=null) {
+                            Log.println(getLogInstance(),"Create thumbnail jpeg",Log.DEBUG);
+                            ImageOutputStream imageOutput = ImageIO.createImageOutputStream(output);
+                            Log.println(getLogInstance(),"Write thumbnail to response",Log.DEBUG);
+                            writeImageToOutput(thumbnail, requestedCompression, imageOutput);
+                            Log.println(getLogInstance(),"Thumbnail written to response",Log.DEBUG);
+                            imageOutput.close();
+                        }
 
                         if (useCache.booleanValue()) {
                             setInCache(cacheDir,username, cachePrefix, requestedWidth, imageFile, thumbnail, requestedCompression);
