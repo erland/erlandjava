@@ -119,6 +119,8 @@ public class LoadMenuAction extends BaseAction {
             pb.setPath(sectionPath);
             pb.setUser(username);
             pb.setOrderNo(section.getOrderNo());
+            pb.setHosts(section.getHosts());
+            pb.setIpAddr(section.getIpAddr());
             if (section.getParent() == null || section.getParent().equals(new Integer(0))) {
                 result.add(pb);
             } else {
