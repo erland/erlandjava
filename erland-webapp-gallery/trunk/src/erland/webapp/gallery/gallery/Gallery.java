@@ -4,13 +4,14 @@ import erland.webapp.common.EntityInterface;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.BaseEntity;
 
-public class Gallery extends BaseEntity {
+public class Gallery extends BaseEntity implements GalleryInterface {
     private Integer id;
     private String username;
     private String title;
     private String description;
     private Integer topCategory;
     private Boolean official;
+    private Integer referencedGallery;
 
     public Integer getId() {
         return id;
@@ -58,5 +59,13 @@ public class Gallery extends BaseEntity {
 
     public void setTopCategory(Integer topCategory) {
         this.topCategory = topCategory;
+    }
+
+    public Integer getReferencedGallery() {
+        return referencedGallery;
+    }
+
+    public void setReferencedGallery(Integer referencedGallery) {
+        this.referencedGallery = referencedGallery;
     }
 }
