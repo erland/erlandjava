@@ -71,7 +71,7 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         Collection categories = getCategories(request, form);
         Collection picturesAllowed = getPictures(request, form);
         QueryFilter filter;
-        if (fb.getStart() != null && fb.getMax() != null) {
+        if (fb.getStart() != null && fb.getMax() != null && fb.getMax().intValue()!=0) {
             if (picturesAllowed != null) {
                 if (categories != null) {
                     filter = new QueryFilter(getCategoryTreeFilter(request) + "andpicturelist" + "withlimit");
