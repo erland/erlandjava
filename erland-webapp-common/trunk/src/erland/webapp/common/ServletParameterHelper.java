@@ -79,8 +79,13 @@ public class ServletParameterHelper {
                                 sb.replace(startPos,endPos+1,"");
                                 endPos = startPos;
                             }
+                        }else {
+                            sb.replace(startPos,endPos+1,"");
+                            endPos = startPos;
                         }
-                    }else if(!bExists && visibleValue==null) {
+                    }else if(!bExists && (visibleValue==null ||
+                            (visibleValue instanceof Object[] && ((Object[])visibleValue).length==0) ||
+                            (visibleValue.toString().length()==0))) {
                         String realString = sb.substring(attributeEndPos+1,endPos);
                         String resultString = "";
                         if(visibleValue instanceof Object[]) {
