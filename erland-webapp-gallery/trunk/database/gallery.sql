@@ -66,6 +66,16 @@ CREATE TABLE galleries (
   thumbnailantialias tinyint(1) NOT NULL default '0',
   antialias tinyint(1) NOT NULL default '0',
   cachedate datetime default NULL,
+  stylesheet varchar(255) default NULL,
+  thumbnailwidth int(11) default NULL,
+  sortorder varchar(20) NOT NULL default 'bydatedesc',
+  noofcols int(11) NOT NULL default '3',
+  noofrows int(11) NOT NULL default '3',
+  allowsearch tinyint(1) NOT NULL default '1',
+  cutlongpicturetitles tinyint(1) NOT NULL default '1',
+  useshortpicturenames tinyint(1) NOT NULL default '0',
+  showpicturetitle tinyint(1) NOT NULL default '1',
+  showresolutionlinks tinyint(1) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -118,6 +128,7 @@ CREATE TABLE pictures (
   official tinyint(1) NOT NULL default '0',
   link varchar(255) NOT NULL default '',
   officialguest tinyint(1) NOT NULL default '0',
+  orderno int(11) NOT NULL default '0',
   PRIMARY KEY  (id,gallery)
 ) TYPE=MyISAM;
 
@@ -156,6 +167,7 @@ CREATE TABLE useraccounts (
   defaultgallery int(11) NOT NULL default '0',
   copyright varchar(100) NOT NULL default '',
   official tinyint(1) NOT NULL default '0',
+  stylesheet varchar(255) default NULL,
   PRIMARY KEY  (username)
 ) TYPE=MyISAM;
 
