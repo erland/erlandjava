@@ -13,7 +13,7 @@
   
   <!-- The version of the project under development, e.g.
        1.1, 1.2, 2.0-SNAPSHOT -->
-  <currentVersion>SNAPSHOT</currentVersion>
+  <currentVersion>1.0</currentVersion>
   
   <!-- the year the project started -->
   <inceptionYear>2003</inceptionYear>
@@ -25,7 +25,7 @@
   <shortDescription>
     An adventure game with a isometric perspective view
   </shortDescription>
-
+  <url>http://erland.homeip.net/games/applications</url>
   <!-- any mailing lists for the project -->
   <mailingLists/>
   
@@ -44,24 +44,36 @@
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-util</artifactId>
-      <version>SNAPSHOT</version>
+      <version>1.0</version>
       <type>jar</type>
+	  <properties>
+        <jnlp.jar>true</jnlp.jar>
+        <dist.bin.bundle>true</dist.bin.bundle>
+      </properties>
     </dependency>
 
 	<dependency>
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-game</artifactId>
-      <version>SNAPSHOT</version>
+      <version>1.0</version>
       <type>jar</type>
+	  <properties>
+        <jnlp.jar>true</jnlp.jar>
+        <dist.bin.bundle>true</dist.bin.bundle>
+      </properties>
     </dependency>
 
 	<dependency>
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-network</artifactId>
-      <version>SNAPSHOT</version>
+      <version>1.0</version>
       <type>jar</type>
+	  <properties>
+        <jnlp.jar>true</jnlp.jar>
+        <dist.bin.bundle>true</dist.bin.bundle>
+      </properties>
     </dependency>
   </dependencies>
   
@@ -75,6 +87,12 @@
             <includes>
                 <include>**/*.xml</include>
                 <include>**/*.properties</include>
+            </includes>
+        </resource>
+        <resource>
+            <directory>${basedir}</directory>
+            <includes dir="images">
+                <include>**/*.gif</include>
             </includes>
         </resource>
     </resources>
