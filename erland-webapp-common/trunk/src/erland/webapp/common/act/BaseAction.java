@@ -297,6 +297,25 @@ public class BaseAction extends Action {
             HttpServletRequest request,
             HttpServletResponse response) {
 
+        if(Log.isEnabled(this)) {
+            ActionErrors errors = getErrors(request,false);
+            if(errors!=null) {
+                for (Iterator iterator = errors.get(); iterator.hasNext();) {
+                    ActionError o = (ActionError) iterator.next();
+                    StringBuffer sb = new StringBuffer(o.getKey()+":");
+                    Object[] values = o.getValues();
+                    for (int i = 0; values!=null && i < values.length; i++) {
+                        Object value = values[i];
+                        sb.append(value);
+                        if(i<values.length-1) {
+                            sb.append(",");
+                        }
+                    }
+                    Log.println(this,"Error: "+sb.toString());
+                }
+            }
+
+        }
         // If input page, use that
         if (mapping.getInput() != null)
             return (new ActionForward(mapping.getInput()));
@@ -494,10 +513,26 @@ public class BaseAction extends Action {
         }
 
         result.putAll(request.getParameterMap());
-        if(Log.isEnabled(this)) {
+        if(Log.isEnabled(this,Log.DEBUG)) {
             for (Iterator iterator = result.entrySet().iterator(); iterator.hasNext();) {
                 Map.Entry entry = (Map.Entry) iterator.next();
-                Log.println(this,"Dynamic parameter: "+entry.getKey()+" = "+entry.getValue());
+                if(entry.getValue() instanceof Object[]) {
+                    Log.println(this,"Dynamic parameter: "+entry.getKey()+" = "+entry.getValue());
+                    Object[] o = (Object[])(entry.getValue());
+                    for (int i = 0; i < o.length; i++) {
+                        Log.println(this,"Dynamic parameter: "+entry.getKey()+"["+i+"] = "+o[i]);
+                    }
+                }else if(entry.getValue() instanceof Collection) {
+                    Log.println(this,"Dynamic parameter: "+entry.getKey()+" = "+entry.getValue());
+                    Collection o = (Collection)(entry.getValue());
+                    int i=0;
+                    for (Iterator iterator1 = o.iterator(); iterator1.hasNext();i++) {
+                        Object o1 = (Object) iterator1.next();
+                        Log.println(this,"Dynamic parameter: "+entry.getKey()+"("+i+") = "+o1);
+                    }
+                }else {
+                    Log.println(this,"Dynamic parameter: "+entry.getKey()+" = "+entry.getValue());
+                }
             }
         }
         return result;
@@ -531,6 +566,28 @@ public class BaseAction extends Action {
             HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
+        if(Log.isEnabled(this)) {
+            Log.println(this,"Executing: "+request.getPathInfo()+(request.getQueryString()!=null?"?"+request.getQueryString():""));
+            Log.println(this,"Using class: "+getClass().getName());
+            Log.println(this,"Using ActionForm: "+form);
+            if(Log.isEnabled(this,Log.DEBUG)) {
+                Map parameters = request.getParameterMap();
+                StringBuffer sb = new StringBuffer();
+                for (Iterator iterator = parameters.entrySet().iterator(); iterator.hasNext();) {
+                    Map.Entry entry = (Map.Entry) iterator.next();
+                    sb.setLength(0);
+                    Object[] value = (Object[])entry.getValue();
+                    for (int i = 0; i < value.length; i++) {
+                        sb.append(value[i]);
+                        if(i<value.length-1) {
+                            sb.append(",");
+                        }
+                    }
+                    Log.println(this,"Request parameter: "+entry.getKey()+"="+sb.toString());
+                }
+            }
+            Log.println(this,"Parameter: "+mapping.getParameter());
+        }
 
         // Check for precondition errors; fail if found
         preProcess(mapping, form, request, response);
