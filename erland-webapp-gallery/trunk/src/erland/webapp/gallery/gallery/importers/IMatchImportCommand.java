@@ -190,12 +190,12 @@ public class IMatchImportCommand implements CommandInterface {
                 title = picture;
             }
             if(cutLongPictureTitles.booleanValue()) {
-                if(title.length()>30) {
+                if(title!=null && title.length()>30) {
                     title = "..."+title.substring(title.length()-27);
                 }
             }
             entity.setTitle(title);
-            if((description==null || description.length()==0) && filenameAsPictureDescription!=null) {
+            if((description==null || description.length()==0) && filenameAsPictureDescription!=null && filenameAsPictureDescription.booleanValue()) {
                 description = picture;
             }
             entity.setDescription(description);
