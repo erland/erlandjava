@@ -1,11 +1,11 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
                                 erland.webapp.dirgallery.gallery.ViewGalleryInterface,
                                 erland.webapp.dirgallery.gallery.GalleryInterface,
-                                erland.webapp.dirgallery.HTMLEncoder,
                                 erland.webapp.dirgallery.account.ViewUserAccountInterface,
                                 erland.webapp.dirgallery.account.UserAccount,
                                 erland.webapp.dirgallery.gallery.ViewGalleriesInterface,
-                                erland.webapp.common.ServletParameterHelper"%>
+                                erland.webapp.common.ServletParameterHelper,
+                                erland.webapp.common.html.HTMLEncoder"%>
 
 
 <%
