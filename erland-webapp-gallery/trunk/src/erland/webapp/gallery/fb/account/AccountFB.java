@@ -1,6 +1,10 @@
 package erland.webapp.gallery.fb.account;
 
-import org.apache.struts.validator.ValidatorForm;
+import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.common.fb.BaseFB;
+import org.apache.struts.action.ActionMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -21,7 +25,7 @@ import org.apache.struts.validator.ValidatorForm;
  * 
  */
 
-public class AccountFB extends ValidatorForm {
+public class AccountFB extends BaseFB {
     private String username;
     private String firstName;
     private String lastName;
@@ -107,11 +111,11 @@ public class AccountFB extends ValidatorForm {
     }
 
     public String getOfficialDisplay() {
-        return official != null ? official.toString() : Boolean.FALSE.toString();
+        return ServletParameterHelper.asString(official,Boolean.FALSE.toString());
     }
 
     public void setOfficialDisplay(String officialDisplay) {
-        this.official = Boolean.TRUE.toString().equalsIgnoreCase(officialDisplay) ? Boolean.TRUE : Boolean.FALSE;
+        this.official = ServletParameterHelper.asBoolean(officialDisplay,Boolean.FALSE);
     }
 
     public Integer getDefaultGallery() {
@@ -127,11 +131,7 @@ public class AccountFB extends ValidatorForm {
     }
 
     public void setDefaultGalleryDisplay(String defaultGalleryDisplay) {
-        try {
-            this.defaultGallery = Integer.valueOf(defaultGalleryDisplay);
-        } catch (NumberFormatException e) {
-            this.defaultGallery = null;
-        }
+        this.defaultGallery = ServletParameterHelper.asInteger(defaultGalleryDisplay,null);
     }
 
     public String getLogo() {
@@ -140,5 +140,20 @@ public class AccountFB extends ValidatorForm {
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
+        super.reset(actionMapping, httpServletRequest);
+        username = null;
+        firstName = null;
+        lastName = null;
+        password1 = null;
+        password2 = null;
+        welcomeText = null;
+        copyrightText = null;
+        description = null;
+        logo = null;
+        official = null;
+        defaultGallery = null;
     }
 }
