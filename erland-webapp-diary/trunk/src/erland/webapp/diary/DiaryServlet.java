@@ -19,19 +19,17 @@ package erland.webapp.diary;
  */
 
 import erland.webapp.usermgmt.UserMgmtServlet;
-import erland.webapp.common.WebAppEnvironmentInterface;
-import erland.webapp.common.CommandInterface;
 import erland.webapp.common.html.HTMLBasicStringReplace;
 import erland.webapp.common.html.HTMLEncoder;
 import erland.webapp.common.html.HTMLLinkStringReplace;
 import erland.webapp.diary.appendix.AppendixStringReplace;
-import erland.util.Log;
-import erland.util.ParameterStorageString;
-import erland.util.StringStorage;
+import erland.util.*;
 
-import javax.servlet.http.HttpServletRequest;
 
 public class DiaryServlet extends UserMgmtServlet {
+    protected String getApplicationName() {
+        return "diary";
+    }
     public void initEnd() {
         Log.setLogConfig(new ParameterStorageString(new StringStorage(
                 "<log>"+
