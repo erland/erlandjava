@@ -26,7 +26,7 @@
             <tr><td>Copyright text</td><td>
             <input type="text" name="copyright" value="<%=account!=null?account.getCopyrightText():""%>">
             </td></tr>
-            <tr><td>Default gallery</td><td>
+            <tr><td>Standard bildarkiv</td><td>
             <select name="defaultgallery" size="1">
             <option value="" <%=account.getDefaultGallery()==null||account.getDefaultGallery().intValue()==0?"selected":""%>>Ingen</option>
             <%
@@ -40,12 +40,12 @@
             %>
             </select>
             </td></tr>
-            <tr><td>Official page</td><td>
+            <tr><td>Visa på första sidan</td><td>
             <input type="checkbox" name="official" value="true" <%=(account!=null && account.getOfficial().booleanValue())?"checked":""%>>
             </td></tr>
             <tr><td></td><td>
-            <input type="submit" value="Save">
-            <input type="button" value="Cancel" onClick="window.location='portal?do=home'">
+            <input type="submit" value="Spara">
+            <input type="button" value="Avbryt" onClick="window.location='portal?do=home'">
             </td></tr>
             <table>
         </form>
