@@ -182,6 +182,24 @@ abstract class PipeBlock
 	}
 	
 	/**
+     * Get the drawing size for container
+     * @return x drawing size in pixels
+     */
+    public int getDrawingSizeX()
+    {
+    	return getSquareSize()*getSizeX();
+    }
+    
+	/**
+     * Get the drawing size for container
+     * @return x drawing size in pixels
+     */
+    public int getDrawingSizeY()
+    {
+    	return getSquareSize()*getSizeY();
+    }
+	
+	/**
 	 * Draw the pipe block
 	 * @param g Graphics object to draw on
 	 */
