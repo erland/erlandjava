@@ -27,20 +27,23 @@ import erland.webapp.gallery.fb.gallery.GalleryFB;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionForward;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class EditGalleryAction extends BaseAction {
+    private Integer id;
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GalleryFB fb = (GalleryFB) form;
+        id=fb.getId();
         String username = request.getRemoteUser();
         Gallery gallery = (Gallery) getEnvironment().getEntityFactory().create("gallery-gallery");
         gallery.setUsername(username);
         PropertyUtils.copyProperties(gallery, fb);
         getEnvironment().getEntityStorageFactory().getStorage("gallery-gallery").store(gallery);
 
-        if (fb.getReferencedGallery() != null) {
+        if (fb.getReferencedGallery() != null && fb.getReferencedGallery().intValue()!=0) {
             String[] categories = fb.getCategories();
             if (categories != null) {
                 QueryFilter filter = new QueryFilter("allforgallery");
@@ -56,6 +59,14 @@ public class EditGalleryAction extends BaseAction {
                     }
                 }
             }
+        }
+    }
+
+    protected ActionForward findSuccess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        if(id!=null) {
+            return mapping.findForward("success-edit");
+        }else {
+            return mapping.findForward("success-new");
         }
     }
 }
