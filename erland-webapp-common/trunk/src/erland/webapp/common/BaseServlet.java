@@ -97,7 +97,8 @@ public abstract class BaseServlet extends HttpServlet implements WebAppEnvironme
 
     protected StorageInterface getStorage() {
         if(storage==null) {
-            storage = new FileStorage(getServletContext().getRealPath("/")+"resources.xml");
+            Log.println(this,"Loading configuration from: "+getServletContext().getRealPath("/")+"WEB-INF/resources.xml");
+            storage = new FileStorage(getServletContext().getRealPath("/")+"WEB-INF/resources.xml");
         }
         return storage;
     }
