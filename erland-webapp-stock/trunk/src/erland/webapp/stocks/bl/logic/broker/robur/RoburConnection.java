@@ -19,8 +19,11 @@ package erland.webapp.stocks.bl.logic.broker.robur;
  */
 
 import erland.webapp.stocks.bl.logic.broker.BrokerConnectionInterface;
-import erland.webapp.stocks.bl.logic.broker.BrokersStockEntry;
+import erland.webapp.stocks.bl.entity.BrokerStockEntry;
+import erland.webapp.stocks.bl.entity.BrokerStockEntry;
 import erland.webapp.common.WebAppEnvironmentInterface;
+import erland.webapp.common.QueryFilter;
+import erland.webapp.common.EntityInterface;
 
 import java.io.DataOutputStream;
 import java.io.BufferedReader;
@@ -29,89 +32,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Vector;
 import java.util.Iterator;
+import java.util.Arrays;
 
 public class RoburConnection implements BrokerConnectionInterface {
     private WebAppEnvironmentInterface environment;
-	private final static BrokersStockEntry[] availableStocks = new BrokersStockEntry[] {
-        new BrokersStockEntry("AKT","AKTIA CAPITAL"),
-        new BrokersStockEntry("AFP","AKTIEFOND PENSION"),
-        new BrokersStockEntry("AL1","ALLEMANSFOND I"),
-        new BrokersStockEntry("AL2","ALLEMANSFOND II"),
-        new BrokersStockEntry("RA3","ALLEMANSFOND III"),
-        new BrokersStockEntry("RA4","ALLEMANSFOND IV"),
-        new BrokersStockEntry("RA5","ALLEMANSFOND V"),
-        new BrokersStockEntry("AME","AMERICAN EQUITY FUND"),
-        new BrokersStockEntry("SAM","AMERIKAFONDEN"),
-        new BrokersStockEntry("BSF","BOSPARFONDEN"),
-        new BrokersStockEntry("COM","COMMUNICATION EQUITY FUND"),
-        new BrokersStockEntry("CON","CONTURA"),
-        new BrokersStockEntry("EGM","ETIKFOND GLOBAL MEGA"),
-        new BrokersStockEntry("ETM","ETIKFOND SVERIGE MEGA"),
-        new BrokersStockEntry("EUB","EURO BOND FUND"),
-        new BrokersStockEntry("EUS","EURO SAFE FUND"),
-        new BrokersStockEntry("EUM","EUROPAFOND MEGA"),
-        new BrokersStockEntry("SEU","EUROPAFONDEN"),
-        new BrokersStockEntry("EUR","EUROPEAN EQUITY FUND"),
-        new BrokersStockEntry("EXA","EXACTA MARS"),
-        new BrokersStockEntry("EXS","EXACTA SEPT"),
-        new BrokersStockEntry("EXP","EXPORTFONDEN"),
-        new BrokersStockEntry("FIN","FINANSFONDEN"),
-        new BrokersStockEntry("GVF","GÅVOFONDEN"),
-        new BrokersStockEntry("BON","GLOBAL BOND FUND"),
-        new BrokersStockEntry("GLO","GLOBAL EQUITY FUND"),
-        new BrokersStockEntry("HOC","HOCKEYFONDEN"),
-        new BrokersStockEntry("IPA","IP AKTIEFOND"),
-        new BrokersStockEntry("IPR","IP RÄNTEFOND"),
-        new BrokersStockEntry("JAP","JAPANFONDEN"),
-        new BrokersStockEntry("JMB","JM BOFOND"),
-        new BrokersStockEntry("KPI","KAPITALINVEST"),
-        new BrokersStockEntry("SCO","KOMMUNIKATIONSFONDEN"),
-        new BrokersStockEntry("MED","MEDICA"),
-        new BrokersStockEntry("MJO","MILJÖFONDEN"),
-        new BrokersStockEntry("FMX","MIX INDEXFOND"),
-        new BrokersStockEntry("SIM","MIXFOND MEGA"),
-        new BrokersStockEntry("MFP","MIXFOND PENSION"),
-        new BrokersStockEntry("MIX","MIXFONDEN"),
-        new BrokersStockEntry("SNO","NORDENFONDEN"),
-        new BrokersStockEntry("NOR","NORDIC EQUITY FUND"),
-        new BrokersStockEntry("NOM","NORRMIX"),
-        new BrokersStockEntry("SIO","OBLIGATIONSFOND MEGA"),
-        new BrokersStockEntry("OBL","OBLIGATIONSFONDEN"),
-        new BrokersStockEntry("OST","ÖSTEUROPAFONDEN"),
-        new BrokersStockEntry("PAC","PACIFICFONDEN"),
-        new BrokersStockEntry("SIP","PENNINGMARKNADSFOND MEGA"),
-        new BrokersStockEntry("PMF","PENNINGMARKNADSFONDEN"),
-        new BrokersStockEntry("PRI","PRIVATISERINGSFONDEN"),
-        new BrokersStockEntry("RFE","RÄNTEFOND EUROPA"),
-        new BrokersStockEntry("RFP","RÄNTEFOND PENSION"),
-        new BrokersStockEntry("RFO","RÄNTEFOND SVERIGE"),
-        new BrokersStockEntry("RVF","RÅVARUFONDEN"),
-        new BrokersStockEntry("REA","REALINVEST"),
-        new BrokersStockEntry("RRF","REALRÄNTEFONDEN"),
-        new BrokersStockEntry("RYS","RYSSLANDSFONDEN"),
-        new BrokersStockEntry("SKO","SKOGSFONDEN"),
-        new BrokersStockEntry("SME","SMÅBOLAG EUROPA"),
-        new BrokersStockEntry("SMA","SMÅBOLAG NORDEN"),
-        new BrokersStockEntry("SMS","SMÅBOLAG SVERIGE"),
-        new BrokersStockEntry("SPF","STATSPAPPERSFOND MEGA"),
-        new BrokersStockEntry("SVX","STATSSKULDVÄXELFOND MEGA"),
-        new BrokersStockEntry("IKA","SVENSKA KYRKANS AKTIEFOND MEGA"),
-        new BrokersStockEntry("TAL","SVENSKA KYRKANS MILJÖFOND TALENTEN"),
-        new BrokersStockEntry("SKM","SVENSKA KYRKANS MIXFOND MEGA"),
-        new BrokersStockEntry("SKR","SVENSKA KYRKANS RÄNTEFOND"),
-        new BrokersStockEntry("IKR","SVENSKA KYRKANS RÄNTEFOND MEGA"),
-        new BrokersStockEntry("SKV","SVENSKA KYRKANS VÄRDEPAPPERSFOND"),
-        new BrokersStockEntry("SWL","SVENSKA LIKVIDITETSFONDEN"),
-        new BrokersStockEntry("SSM","SVENSKA LIKVIDITETSFONDEN MEGA"),
-        new BrokersStockEntry("SWE","SVENSKA OBLIGATIONSFONDEN"),
-        new BrokersStockEntry("SBM","SVENSKA OBLIGATIONSFONDEN MEGA"),
-        new BrokersStockEntry("SIA","SVERIGEFOND MEGA"),
-        new BrokersStockEntry("SVF","SVERIGEFONDEN"),
-        new BrokersStockEntry("FTI","TILLVÄXTFONDEN"),
-        new BrokersStockEntry("SIU","UTLANDSFOND MEGA"),
-        new BrokersStockEntry("UTL","UTLANDSFONDEN"),
-        new BrokersStockEntry("VAS","VASALOPPSFONDEN")
-    };
 
     public void init(WebAppEnvironmentInterface environment) {
         this.environment = environment;
@@ -145,8 +69,11 @@ public class RoburConnection implements BrokerConnectionInterface {
         }
     }
 
-    public BrokersStockEntry[] getAvailableStocks() {
-        return availableStocks;
+    public BrokerStockEntry[] getAvailableStocks() {
+        QueryFilter filter = new QueryFilter("allforbroker");
+        filter.setAttribute("broker","robur");
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("stock-brokerstockentry").search(filter);
+        return (BrokerStockEntry[]) Arrays.asList(entities).toArray(new BrokerStockEntry[0]);
     }
 
     public String getName() {
