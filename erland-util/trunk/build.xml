@@ -1,91 +1,55 @@
-<project name="util" default="dist" basedir=".">
+<project name="util" default="Build Application" basedir=".">
+    <!-- set global properties for this build -->
+    <property file="C:/Program Files/Java/build.properties"/>
 
-  <!-- set global properties for this build -->
-  <property name="src" value="src"/>
-  <property name="build" value="classes"/>
-  <property name="dist"  value="lib"/>
-  <property name="docs" value="docs/api"/>
-  <property file="C:/Program Files/Java/build.properties"/>
+    <target name="buildlibraries">
+    </target>
+    <target name="copylibraries">
+        <copy file="${java.home.jdklinkedlist}" todir="${dist}"/>
+        <copy file="${java.home.netscapejavascript}" todir="${dist}"/>
+    </target>
 
-  <target name="init">
-    <!-- Create the time stamp -->
-    <tstamp/>
-    <!-- Create the build directory structure used by compile -->
-    <mkdir dir="${build}"/>
-  </target>
+    <target name="Build Applet">
+        <property name="compilemsapplet" value="true"/>
+        <property name="nojarsign" value="true"/>
+        <antcall target="Build Application"/>
+    </target>
+    <target name="Build Applet (Debug)">
+        <property name="debug" value="true"/>
+        <property name="nojarsign" value="true"/>
+        <antcall target="Build Applet"/>
+    </target>
+    <target name="Build Application">
+        <antcall target="buildlibraries"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="dist">
+            <property name="currentproject" value="${ant.project.name}"/>
+            <property name="currentpackage" value="erland.util"/>
+            <property name="projectclasspath" value="${java.home.netscapejavascript}"/>
+        </ant>
+        <antcall target="copylibraries"/>
+    </target>
+    <target name="Build Application (Debug)">
+        <property name="debug" value="true"/>
+        <antcall target="Build Application"/>
+    </target>
 
-  <target name="compile" depends="init">
-    <!-- Compile the java code from ${src} into ${build} -->
+    <target name="Documentation">
+        <ant dir="${basedir}" antfile="${buildutil}" target="doc">
+            <property name="currentproject" value="${ant.project.name}"/>
+            <property name="currentpackage" value="erland.util"/>
+            <property name="projectclasspath" value="${java.home.netscapejavascript}"/>
+        </ant>
+    </target>
+    <target name="Public Documentation">
+        <ant dir="${basedir}" antfile="${buildutil}" target="docpublic">
+            <property name="currentproject" value="${ant.project.name}"/>
+            <property name="currentpackage" value="erland.util"/>
+            <property name="projectclasspath" value="${java.home.netscapejavascript}"/>
+        </ant>
+    </target>
 
-    <javac srcdir="${src}" destdir="${build}">
-	    <classpath path="${classpath};${java.home.netscapejavascript}"/>
-    </javac>
-  </target>
-
-  <target name="compiledebug" depends="init">
-    <!-- Compile the java code from ${src} into ${build} -->
-
-    <javac srcdir="${src}" destdir="${build}" debug="on">
-	    <classpath path="${classpath};${java.home.netscapejavascript}"/>
-    </javac>
-  </target>
-
-  <target name="dist" depends="compile">
-    <!-- Create the distribution directory -->
-    <mkdir dir="${dist}"/>
-
-    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/${ant.project.name}.jar" basedir="${build}"/>
-    
-    <!-- Copy html-file to distribution dir -->
-    <copy todir="${dist}">
-	    <fileset dir="." >
-	      <include name="*.html"/>
-	    </fileset>
-    </copy>
-    
-    <!-- Copy required libraries to distribution dir -->
-    <copy file="${java.home.netscapejavascript}" todir="${dist}"/>
-  </target>
-
-  <target name="doc">
-    <mkdir dir="${docs}"/>
-	<javadoc sourcepath="${src}"
-		packagenames="erland.${ant.project.name}"
-		destdir="${docs}"
-		package="true"
-		author="true"
-		version="true"
-		use="true"
-		windowtitle="${ant.project.name} API"
-		doctitle="${ant.project.name}"
-		classpath="${java.home.netscapejavascript}"
-		bottom="Copyright &#169; 2000 Erland Isaksson. All Rights Reserved.">
-    <link offline="true" href="file://${java.home.jdk.docs.local}" packagelistLoc="${java.home.jdk.docs.local}"/>
-	</javadoc>
-  </target>
-  <target name="docpublic">
-    <mkdir dir="${docs}"/>
-	<javadoc sourcepath="${src}"
-		packagenames="erland.${ant.project.name}"
-		destdir="${docs}"
-		public="true"
-		author="true"
-		version="true"
-		use="true"
-		windowtitle="${ant.project.name} API"
-		doctitle="${ant.project.name}"
-		classpath="${java.home.netscapejavascript}"
-		bottom="Copyright &#169; 2000 Erland Isaksson. All Rights Reserved.">
-    <link offline="true" href="file://${java.home.jdk.docs.local}" packagelistLoc="${java.home.jdk.docs.local}"/>
-	</javadoc>
-  </target>
-
-  <target name="clean">
-    <!-- Delete the ${build} and ${dist} directory trees -->
-    <delete dir="${build}"/>
-    <delete dir="${dist}"/>
-    <delete dir="${docs}"/>
-    <delete dir="${docs}/.."/>
-  </target>
+    <target name="Clean All" depends="Clean This"/>
+    <target name="Clean This">
+        <ant dir="${basedir}" antfile="${buildutil}" target="clean"/>
+    </target>
 </project>
