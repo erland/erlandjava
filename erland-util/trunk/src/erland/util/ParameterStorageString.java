@@ -1,6 +1,5 @@
 package erland.util;
-import java.io.*;
-import java.util.*;
+
 
 /**
  * Get, set or delete parameters stored in a file
@@ -20,61 +19,77 @@ public class ParameterStorageString
 	 */
 	protected XMLNode data;
 
-	/** String which parameters are accessed in */
-	protected String dataStr;
-	
-	
-	/**
-	 * Creates an empty unusable instance, you have to call the init method
-	 * before you start using this
-	 */
-	protected ParameterStorageString()
-	{
-		data = null;
-		dataStr = null;
-	}
-	
+	/** Storage which parameters are accessed in */
+	protected StorageInterface storage;
+
+    /** Indicates that this ParameterStorageString is just a part of a bigger ParameterValueStorageInterface object */
+    protected boolean part;
+
     /**
-     * @param data The String object which the parameters should be accessed from
+     * @param data The storage object which the parameters should be accessed from
      */
-	public ParameterStorageString(String data)
+	public ParameterStorageString(StorageInterface storage)
 	{
-		init(data,"parameters");
+		init(storage,"parameters",false);
 	}
 
     /**
-     * @param data The String object which the parameters should be
+     * @param data The storage object which the parameters should be accessed from
+     * @param part Indicates that this ParameterStorageString is just a part of a bigger ParameterValueStorageInterface object
+     */
+	public ParameterStorageString(StorageInterface storage,boolean part)
+	{
+		init(storage,"parameters",part);
+	}
+
+    /**
+     * @param storage The String object which the parameters should be
      *             accessed from
-     * @param documentName The name of the section in the file where parameters
+     * @param documentName The name of the section in the storage where parameters
      *                     are stored
      */
-	public ParameterStorageString(String data, String documentName)
+	public ParameterStorageString(StorageInterface storage, String documentName)
 	{
-		this.dataStr = data;
-		init(data,documentName);
+		init(storage,documentName,false);
+	}
+
+    /**
+     * @param storage The String object which the parameters should be
+     *             accessed from
+     * @param documentName The name of the section in the storage where parameters
+     *                     are stored
+     * @param part Indicates that this ParameterStorageString is just a part of a bigger ParameterValueStorageInterface object
+     */
+	public ParameterStorageString(StorageInterface storage, String documentName,boolean part)
+	{
+		init(storage,documentName,part);
 	}
 	
 	/**
 	 * Initialize this object
-     * @param data The String object which the parameters should be
+     * @param storage The storage object which the parameters should be
      *             accessed from
      * @param documentName The name of the section in the file where parameters
      *                     are stored
+     * @param part Indicates that this ParameterStorageString is just a part of a bigger ParameterValueStorageInterface object
 	 */
-	protected void init(String dataStr, String documentName)
+	protected void init(StorageInterface storage, String documentName,boolean part)
 	{
 		this.documentName = documentName;
+        this.storage = storage;
+        this.part = part;
 		data = null;
-		if(dataStr!=null && dataStr.length()>0) {
-			data = new XMLNode();
-			if(!data.parse(dataStr)) {
-				data = null;
-			}else {
-				Log.println(this,"*******************");
-				Log.println(this,data);
-				Log.println(this,"*******************");
-			}
-		}
+        String s = storage.load();
+        if(s!=null && s.length()>0) {
+            data = new XMLNode(!part);
+            if(!data.parse(s)) {
+                data = null;
+            }else {
+                Log.println(this,"*******************");
+                Log.println(this,data);
+                Log.println(this,"*******************");
+            }
+        }
 	}
 
 	
@@ -148,7 +163,7 @@ public class ParameterStorageString
 	{
 		Log.println(this,"set: " +name + " = "+ value);
 		if(data==null) {
-			data = new XMLNode(documentName,null,null,null,null);
+			data = new XMLNode(documentName,null,null,null,null,!part);
 		}
 		String mainname = data.getName();
 		if(mainname.equalsIgnoreCase(documentName)) {
@@ -205,13 +220,18 @@ public class ParameterStorageString
 	}
 
 	/**
-	 * Save the parameters in {@link #data data} to file.
+	 * Save the parameters in {@link #data data} to a storage.
 	 * This will be automatically called in all the parameter access methods
 	 */
 	protected void save() 
 	{
 		if(data!=null) {
-			dataStr = data.toString();
+			storage.save(data.toString());
 		}
 	}
+
+    public String toString()
+    {
+        return data.toString();
+    }
 }
