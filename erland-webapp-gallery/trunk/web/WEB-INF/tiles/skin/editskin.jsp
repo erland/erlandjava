@@ -36,6 +36,9 @@
     <tr><td><bean:message key="gallery.skin.edit.viewpictures"/></td><td>
     <html:text property="viewPictures" size="80"/>
     </td></tr>
+    <tr><td><bean:message key="gallery.skin.edit.stylesheet"/></td><td>
+    <html:text property="stylesheet" size="80"/>
+    </td></tr>
     <tr><td></td><td>
     <html:submit><bean:message key="gallery.buttons.save"/></html:submit>
     </td></tr>
