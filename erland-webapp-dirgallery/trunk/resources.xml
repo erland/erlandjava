@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<resources>
+    <commands>
+        <command id="default">
+            <class>erland.webapp.common.DefaultCommand</class>
+        </command>
+        <command id="home">
+            <class>erland.webapp.usermgmt.LoginStatusCommand</class>
+        </command>
+        <command id="login">
+            <class>erland.webapp.usermgmt.LoginCommand</class>
+        </command>
+        <command id="logout">
+            <class>erland.webapp.usermgmt.LogoutCommand</class>
+        </command>
+        <command id="searchofficialuseraccounts">
+            <class>erland.webapp.dirgallery.account.SearchOfficialUserAccountsCommand</class>
+        </command>
+        <command id="searchuseraccounts">
+            <class>erland.webapp.dirgallery.account.SearchUserAccountsCommand</class>
+            <role>manager</role>
+        </command>
+        <command id="viewuseraccount">
+            <class>erland.webapp.dirgallery.account.ViewUserAccountCommand</class>
+            <role>user</role>
+        </command>
+        <command id="edituseraccount">
+            <class>erland.webapp.dirgallery.account.EditUserAccountCommand</class>
+            <role>user</role>
+        </command>
+        <command id="removeuseraccount">
+            <class>erland.webapp.dirgallery.account.RemoveUserAccountCommand</class>
+            <role>manager</role>
+        </command>
+        <command id="viewwelcometext">
+            <class>erland.webapp.dirgallery.account.ViewUserAccountCommand</class>
+        </command>
+        <command id="newuseraccount">
+            <class>erland.webapp.dirgallery.account.NewUserAccountCommand</class>
+            <role>manager</role>
+        </command>
+        <command id="registernewuseraccount">
+            <class>erland.webapp.common.NoneCommand</class>
+            <role>manager</role>
+        </command>
+        <command id="editgallery">
+            <class>erland.webapp.dirgallery.gallery.EditGalleryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="newgallery">
+            <class>erland.webapp.dirgallery.gallery.ViewGalleryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="removegallery">
+            <class>erland.webapp.dirgallery.gallery.RemoveGalleryCommand</class>
+            <role>user</role>
+        </command>
+        <command id="searchgalleries">
+            <class>erland.webapp.dirgallery.gallery.SearchGalleriesCommand</class>
+            <role>user</role>
+            <save type="session">menugalleries</save>
+        </command>
+        <command id="searchgalleriesviewdefaultgallery">
+            <class>erland.webapp.dirgallery.gallery.SearchGalleriesCommand</class>
+            <role>user</role>
+            <save type="session">menugalleries</save>
+        </command>
+        <command id="searchgalleriesguest">
+            <class>erland.webapp.dirgallery.gallery.SearchOfficialGalleriesCommand</class>
+            <save type="session">menugalleries</save>
+        </command>
+        <command id="searchgalleriesguestviewdefaultgallery">
+            <class>erland.webapp.dirgallery.gallery.SearchOfficialGalleriesCommand</class>
+            <save type="session">menugalleries</save>
+        </command>
+        <command id="searchgalleryentries">
+            <class>erland.webapp.dirgallery.gallery.picture.SearchPicturesCommand</class>
+            <role>user</role>
+            <save type="request">prevnext</save>
+            <saveparameters type="request">cmdparameters</saveparameters>
+        </command>
+        <command id="searchgalleryentriesguest">
+            <class>erland.webapp.dirgallery.gallery.picture.SearchPicturesCommand</class>
+            <save type="request">prevnext</save>
+            <saveparameters type="request">cmdparameters</saveparameters>
+        </command>
+        <command id="viewgallery">
+            <class>erland.webapp.dirgallery.gallery.SearchOfficialFriendGalleriesCommand</class>
+            <save type="request">galleriescmd</save>
+            <saveparameters type="request">cmdparameters</saveparameters>
+        </command>
+        <command id="viewgallerysearchgalleryentries">
+            <class>erland.webapp.dirgallery.gallery.picture.SearchPicturesCommand</class>
+            <save type="request">prevnext</save>
+        </command>
+        <command id="viewpicture">
+            <class>erland.webapp.dirgallery.loader.LoadMetadataCommand</class>
+            <saveparameters type="request">cmdparameters</saveparameters>
+        </command>
+        <command id="viewpictureguest">
+            <class>erland.webapp.dirgallery.loader.LoadMetadataCommand</class>
+            <saveparameters type="request">cmdparameters</saveparameters>
+        </command>
+        <command id="loadthumbnail">
+            <class>erland.webapp.dirgallery.loader.LoadThumbnailCommand</class>
+        </command>
+        <command id="loadmoviethumbnail">
+            <class>erland.webapp.dirgallery.loader.LoadMovieThumbnailCommand</class>
+        </command>
+        <command id="loadimage">
+            <class>erland.webapp.dirgallery.loader.LoadImageCommand</class>
+        </command>
+        <command id="viewdefaultgalleryguest">
+            <class>erland.webapp.dirgallery.account.ViewUserAccountCommand</class>
+        </command>
+        <command id="viewdefaultgallery">
+            <class>erland.webapp.dirgallery.account.ViewUserAccountCommand</class>
+            <role>user</role>
+        </command>
+        <command id="editpicturecomment">
+            <class>erland.webapp.dirgallery.gallery.picture.EditPictureCommentCommand</class>
+            <role>user</role>
+        </command>
+        <command id="newpicturecomment">
+            <class>erland.webapp.dirgallery.gallery.picture.ViewPictureCommentCommand</class>
+            <role>user</role>
+        </command>
+    </commands>
+    <entities>
+        <entity id="user">
+            <class>erland.webapp.usermgmt.User</class>
+            <data id="storage">
+                <class>erland.webapp.common.GenericEntityStorage</class>
+                <name>sql</name>
+            </data>
+            <data id="sql">
+                <datasource>jdbc/users</datasource>
+                <table>users</table>
+                <fields>
+                    <field id="username">
+                        <column>username</column>
+                        <type>String</type>
+                        <identity>true</identity>
+                    </field>
+                    <field id="firstName">
+                        <column>firstname</column>
+                        <type>String</type>
+                    </field>
+                    <field id="lastName">
+                        <column>lastname</column>
+                        <type>String</type>
+                    </field>
+                    <field id="password">
+                        <column>password</column>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </data>
+        </entity>
+        <entity id="userapplicationrole">
+            <class>erland.webapp.usermgmt.UserApplicationRole</class>
+            <data id="storage">
+                <class>erland.webapp.common.GenericEntityStorage</class>
+                <name>sql</name>
+            </data>
+            <data id="sql">
+                <datasource>jdbc/users</datasource>
+                <table>userapplicationroles</table>
+                <fields>
+                    <field id="username">
+                        <column>username</column>
+                        <type>String</type>
+                        <identity>true</identity>
+                    </field>
+                    <field id="application">
+                        <column>application</column>
+                        <type>String</type>
+                        <identity>true</identity>
+                    </field>
+                    <field id="role">
+                        <column>role</column>
+                        <type>String</type>
+                        <identity>true</identity>
+                    </field>
+                </fields>
+                <queries>
+                    <query id="allforuserandapplication">
+                        <querystring>username=? and application=?</querystring>
+                        <fields>
+                            <field id="1">
+                                <field>username</field>
+                                <type>String</type>
+                            </field>
+                            <field id="2">
+                                <field>application</field>
+                                <type>String</type>
+                            </field>
+                        </fields>
+                    </query>
+                </queries>
+            </data>
+        </entity>
+        <entity id="userinfo">
+            <class>erland.webapp.usermgmt.User</class>
+            <data id="storage">
+                <class>erland.webapp.common.GenericEntityStorage</class>
+                <name>sql</name>
+            </data>
+            <data id="sql">
+                <datasource>jdbc/users</datasource>
+                <table>users</table>
+                <fields>
+                    <field id="username">
+                        <column>username</column>
+                        <type>String</type>
+                        <identity>true</identity>
+                    </field>
+                    <field id="firstName">
+                        <column>firstname</column>
+                        <type>String</type>
+                    </field>
+                    <field id="lastName">
+                        <column>lastname</column>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </data>
+        </entity>
+        <entity id="dirgalleryuseraccount">
+            <class>erland.webapp.dirgallery.account.UserAccount</class>
+            <data id="storage">
+                <class>erland.webapp.common.GenericEntityStorage</class>
+                <name>sql</name>
+            </data>
+            <data id="sql">
+                <datasource>jdbc/dirgallery</datasource>
+                <table>useraccounts</table>
+                <fields>
+                    <field id="username">
+                        <column>username</column>
+                        <type>String</type>
+                        <identity>true</identity>
+                    </field>
+                    <field id="welcomeText">
+                        <column>welcometext</column>
+                        <type>String</type>
+                    </field>
+                    <field id="description">
+                        <column>description</column>
+                        <type>String</type>
+                    </field>
+                    <field id="logo">
+                        <column>logo</column>
+                        <type>String</type>
+                    </field>
+                    <field id="defaultGallery">
+                        <column>defaultGallery</column>
+                        <type>Integer</type>
+                    </field>
+                    <field id="official">
+                        <column>official</column>
+                        <type>Boolean</type>
+                    </field>
+                    <field id="copyrightText">
+                        <column>copyright</column>
+                        <type>String</type>
+                    </field>
+                </fields>
+                <queries>
+                    <query id="all">
+                        <querystring/>
+                    </query>
+                    <query id="allofficial">
+                        <querystring>official=1</querystring>
+                    </query>
+                </queries>
+            </data>
+        </entity>
+        <entity id="gallery">
+            <class>erland.webapp.dirgallery.gallery.Gallery</class>
+            <data id="storage">
+                <class>erland.webapp.common.GenericEntityStorage</class>
+                <name>sql</name>
+            </data>
+            <data id="sql">
+                <datasource>jdbc/dirgallery</datasource>
+                <table>galleries</table>
+                <fields>
+                    <field id="id">
+                        <column>id</column>
+                        <type>Integer</type>
+                        <identity>true</identity>
+                        <auto>true</auto>
+                    </field>
+                    <field id="username">
+                        <column>username</column>
+                        <type>String</type>
+                    </field>
+                    <field id="title">
+                        <column>title</column>
+                        <type>String</type>
+                    </field>
+                    <field id="description">
+                        <column>description</column>
+                        <type>String</type>
+                    </field>
+                    <field id="official">
+                        <column>official</column>
+                        <type>Boolean</type>
+                    </field>
+                    <field id="originalDownloadable">
+                        <column>originaldownloadable</column>
+                        <type>Boolean</type>
+                    </field>
+                    <field id="directory">
+                        <column>directory</column>
+                        <type>String</type>
+                    </field>
+                    <field id="includeSubDirectories">
+                        <column>includesubdirs</column>
+                        <type>Boolean</type>
+                    </field>
+                    <field id="numberOfThumbnailsPerRow">
+                        <column>noofthumbnail</column>
+                        <type>Integer</type>
+                    </field>
+                    <field id="thumbnailWidth">
+                        <column>thumbnailwidth</column>
+                        <type>Integer</type>
+                    </field>
+                    <field id="showLogoInGalleryPage">
+                        <column>showlogo</column>
+                        <type>Boolean</type>
+                    </field>
+                    <field id="showDownloadLinks">
+                        <column>showdownloadlinks</column>
+                        <type>Boolean</type>
+                    </field>
+                    <field id="showPictureNames">
+                        <column>showpicturenames</column>
+                        <type>Boolean</type>
+                    </field>
+                    <field id="maxNumberOfThumbnailRows">
+                        <column>maxnoofrows</column>
+                        <type>Integer</type>
+                    </field>
+                    <field id="logo">
+                        <column>logo</column>
+                        <type>String</type>
+                    </field>
+                    <field id="logoLink">
+                        <column>logolink</column>
+                        <type>String</type>
+                    </field>
+                    <field id="useLogoSeparator">
+                        <column>uselogoseparator</column>
+                        <type>Boolean</type>
+                    </field>
+                    <field id="logoSeparatorColor">
+                        <column>logoseparatorcolor</column>
+                        <type>String</type>
+                    </field>
+                    <field id="logoSeparatorHeight">
+                        <column>logoseparatorheight</column>
+                        <type>Integer</type>
+                    </field>
+                    <field id="useShortPictureNames">
+                        <column>useshortpicturenames</column>
+                        <type>Boolean</type>
+                    </field>
+                    <field id="orderNumber">
+                        <column>ordernumber</column>
+                        <type>Integer</type>
+                    </field>
+                    <field id="thumbnailCompression">
+                        <column>thumbnailcompression</column>
+                        <type>Double</type>
+                    </field>
+                    <field id="useThumbnailCache">
+                        <column>usethumbnailcache</column>
+                        <type>Boolean</type>
+                    </field>
+                    <field id="typeOfFiles">
+                        <column>typeoffiles</column>
+                        <type>Integer</type>
+                    </field>
+                    <field id="numberOfMovieThumbnailColumns">
+                        <column>noofmoviecolumns</column>
+                        <type>Integer</type>
+                    </field>
+                    <field id="numberOfMovieThumbnailRows">
+                        <column>noofmovierows</column>
+                        <type>Integer</type>
+                    </field>
+                    <field id="maxPictureNameLength">
+                        <column>maxpicturenamelength</column>
+                        <type>Integer</type>
+                    </field>
+                    <field id="showPictureNameInTooltip">
+                        <column>showpicturenameintooltip</column>
+                        <type>Boolean</type>
+                    </field>
+                    <field id="useTooltip">
+                        <column>usetooltip</column>
+                        <type>Boolean</type>
+                    </field>
+                    <field id="menuName">
+                        <column>menuname</column>
+                        <type>String</type>
+                    </field>
+                </fields>
+                <queries>
+                    <query id="allforuser">
+                        <querystring>username=?</querystring>
+                        <orderstring>order by ordernumber asc,title asc</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>username</field>
+                                <type>String</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allofficialforuser">
+                        <querystring>username=? and official=1</querystring>
+                        <orderstring>order by ordernumber asc,title asc</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>username</field>
+                                <type>String</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allforgallerylist">
+                        <querystring>id in ({1})</querystring>
+                        <orderstring>order by ordernumber asc,title asc</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>galleries</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allofficialforgallerylist">
+                        <querystring>official=1 and id in ({1})</querystring>
+                        <orderstring>order by ordernumber asc,title asc</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>galleries</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                </queries>
+            </data>
+        </entity>
+        <entity id="friendgallery">
+            <class>erland.webapp.dirgallery.gallery.FriendGallery</class>
+            <data id="storage">
+                <class>erland.webapp.common.GenericEntityStorage</class>
+                <name>sql</name>
+            </data>
+            <data id="sql">
+                <datasource>jdbc/dirgallery</datasource>
+                <table>galleryfriends</table>
+                <fields>
+                    <field id="gallery">
+                        <column>gallery</column>
+                        <type>Integer</type>
+                        <identity>true</identity>
+                    </field>
+                    <field id="friendGallery">
+                        <column>friendgallery</column>
+                        <type>Integer</type>
+                        <identity>true</identity>
+                    </field>
+                </fields>
+                <queries>
+                    <query id="allforgallery">
+                        <querystring>gallery=?</querystring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                </queries>
+            </data>
+        </entity>
+        <entity id="picturecomment">
+            <class>erland.webapp.dirgallery.gallery.picture.PictureComment</class>
+            <data id="storage">
+                <class>erland.webapp.common.GenericEntityStorage</class>
+                <name>sql</name>
+            </data>
+            <data id="sql">
+                <datasource>jdbc/dirgallery</datasource>
+                <table>picturecomments</table>
+                <fields>
+                    <field id="id">
+                        <column>id</column>
+                        <type>String</type>
+                        <identity>true</identity>
+                    </field>
+                    <field id="comment">
+                        <column>comment</column>
+                        <type>String</type>
+                    </field>
+                </fields>
+                <queries>
+                    <query id="allforcommentlist">
+                        <querystring>id in ({1})</querystring>
+                        <fields>
+                            <field id="1">
+                                <field>comments</field>
+                                <type>String</type>
+                            </field>
+                        </fields>
+                    </query>
+                </queries>
+            </data>
+        </entity>
+        <entity id="metadatafielddescription">
+            <class>erland.webapp.dirgallery.DescriptionTag</class>
+            <data id="storage">
+                <class>erland.webapp.common.GenericEntityStorage</class>
+                <name>sql</name>
+            </data>
+            <data id="sql">
+                <datasource>jdbc/gallery</datasource>
+                <table>descriptiontags</table>
+                <fields>
+                    <field id="type">
+                        <column>type</column>
+                        <type>String</type>
+                        <identity>true</identity>
+                    </field>
+                    <field id="tag">
+                        <column>tag</column>
+                        <type>String</type>
+                        <identity>true</identity>
+                    </field>
+                    <field id="description">
+                        <column>description</column>
+                        <type>String</type>
+                    </field>
+                </fields>
+                <queries>
+                    <query id="allfortype">
+                        <querystring>type=?</querystring>
+                        <fields>
+                            <field id="1">
+                                <field>type</field>
+                                <type>String</type>
+                            </field>
+                        </fields>
+                    </query>
+                </queries>
+            </data>
+        </entity>
+        <entity id="picture">
+            <class>erland.webapp.dirgallery.gallery.picture.Picture</class>
+            <data id="storage">
+                <class>erland.webapp.common.FileEntityStorage</class>
+                <name>file</name>
+            </data>
+            <data id="file">
+                <fields>
+                    <field id="id">
+                        <attribute>path</attribute>
+                        <type>String</type>
+                        <identity>true</identity>
+                    </field>
+                    <field id="shortName">
+                        <attribute>name</attribute>
+                        <type>String</type>
+                    </field>
+                    <field id="fullPath">
+                        <attribute>path</attribute>
+                        <type>String</type>
+                    </field>
+                    <field id="directory">
+                        <attribute>directory</attribute>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </data>
+        </entity>
+    </entities>
+    <pages>
+        <page id="login">
+            <page id="success">
+                <forward>portal?do=home</forward>
+                <page id="main">index.jsp</page>
+                <page id="header">welcome.jsp</page>
+            </page>
+            <page id="failure">
+                <forward>portal?do=default</forward>
+            </page>
+        </page>
+        <page id="logout">
+            <forward>portal?do=default</forward>
+        </page>
+        <page id="removeuseraccount">
+            <forward>portal?do=home</forward>
+        </page>
+        <page id="viewuseraccount">
+            <page>edituseraccount.jsp</page>
+        </page>
+        <page id="viewwelcometext">
+            <page>viewwelcometext.jsp</page>
+        </page>
+        <page id="edituseraccount">
+            <forward>portal?do=home</forward>
+        </page>
+        <page id="searchofficialuseraccounts">
+            <page>login.jsp</page>
+        </page>
+        <page id="searchuseraccounts">
+            <page>viewuseraccounts.jsp</page>
+        </page>
+        <page id="newuseraccount">
+            <page id="success">
+                <page>newuseraccountsuccess.jsp</page>
+            </page>
+            <page id="failure">
+                <page>newuseraccount.jsp</page>
+            </page>
+        </page>
+        <page id="registernewuseraccount">
+            <page>newuseraccount.jsp</page>
+        </page>
+        <page id="newgallery">
+            <page>editgallery.jsp</page>
+        </page>
+        <page id="editgallery">
+            <forward>portal?do=searchgalleries</forward>
+        </page>
+        <page id="removegallery">
+            <forward>portal?do=searchgalleries</forward>
+        </page>
+        <page id="searchgalleryentries">
+            <page>viewgallery.jsp</page>
+        </page>
+        <page id="searchgalleryentriesguest">
+            <page>viewgalleryguest.jsp</page>
+        </page>
+        <page id="viewgallery">
+            <forward>portal?do=viewgallerysearchgalleryentries</forward>
+            <page id="main" type="request">indexempty.jsp</page>
+        </page>
+        <page id="viewgallerysearchgalleryentries">
+            <page>viewgalleryguest.jsp</page>
+            <page id="main" type="request">indexempty.jsp</page>
+        </page>
+        <page id="removegallery">
+            <forward>portal?do=searchstorages</forward>
+        </page>
+        <page id="viewpicture">
+            <page type="request">viewpicture.jsp</page>
+            <page id="main" type="request">indexempty.jsp</page>
+        </page>
+        <page id="viewpictureguest">
+            <page type="request">viewpictureguest.jsp</page>
+            <page id="main" type="request">indexempty.jsp</page>
+        </page>
+        <page id="searchgalleriesviewdefaultgallery">
+            <forward>portal?do=searchgalleryentries</forward>
+        </page>
+        <page id="searchgalleriesguestviewdefaultgallery">
+            <forward>portal?do=searchgalleryentriesguest</forward>
+        </page>
+        <page id="searchgalleries">
+            <forward>portal?do=viewwelcometext</forward>
+        </page>
+        <page id="newpicturecomment">
+            <page>editpicturecomment.jsp</page>
+        </page>
+        <page id="editpicturecomment">
+            <forward>portal?do=searchgalleries</forward>
+        </page>
+        <page id="viewdefaultgallery">
+            <page id="withdefaultgallery">
+                <forward>portal?do=searchgalleriesviewdefaultgallery&amp;gallery={defaultgallery}</forward>
+            </page>
+            <page id="withoutdefaultgallery">
+                <forward>portal?do=viewwelcometext&amp;withdifferentpages=0</forward>
+            </page>
+        </page>
+        <page id="viewdefaultgalleryguest">
+            <page id="withdefaultgallery">
+                <forward>portal?do=searchgalleriesguestviewdefaultgallery&amp;gallery={defaultgallery}</forward>
+            </page>
+            <page id="withoutdefaultgallery">
+                <forward>portal?do=viewwelcometext&amp;withdifferentpages=0</forward>
+            </page>
+        </page>
+        <page id="home">
+            <page id="user">
+                <forward>portal?do=viewdefaultgallery&amp;withdifferentpages=1</forward>
+                <page id="menu">menu.jsp</page>
+            </page>
+            <page id="guest">
+                <forward>portal?do=viewdefaultgalleryguest&amp;withdifferentpages=1</forward>
+                <page id="main">index.jsp</page>
+                <page id="header">welcomeguest.jsp</page>
+                <page id="menu">menuguest.jsp</page>
+            </page>
+            <page id="none">
+                <forward>portal?do=default</forward>
+            </page>
+        </page>
+        <page id="default">
+            <forward>portal?do=searchofficialuseraccounts</forward>
+            <page id="main">index.jsp</page>
+            <page id="header">welcomelogin.jsp</page>
+            <page id="menu"/>
+        </page>
+        <page id="accessdenied">
+            <page>accessdenied.jsp</page>
+        </page>
+        <page id="notallowed">
+            <forward>portal?do=default</forward>
+        </page>
+        <page id="error">
+            <page>error.jsp</page>
+        </page>
+    </pages>
+    <data id="thumbnail">
+        <directory id="cache">D:\users\erland\thumbnails2</directory>
+    </data>
+</resources>

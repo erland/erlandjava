@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4" relativePaths="false">
+  <component name="LvcsConfiguration">
+    <option name="LOCAL_VCS_ENABLED" value="true" />
+    <option name="LOCAL_VCS_PURGING_PERIOD" value="259200000" />
+    <option name="MARK_EXTERNAL_CHANGES_AS_UP_TO_DATE" value="true" />
+  </component>
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/lib" />
+    </content>
+    <orderEntry type="jdk" jdkName="java version &quot;1.4.2&quot;" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="j2ee 1.3.1" level="application" />
+    <orderEntry type="library" name="Erland WebCommon" level="application" />
+    <orderEntry type="library" name="Erland UserMgmt" level="application" />
+    <orderEntry type="library" name="Erland util" level="application" />
+    <orderEntry type="library" name="commons-beanutils" level="application" />
+    <orderEntry type="library" name="j2ee 1.3.1" level="application" />
+    <orderEntry type="library" name="metadata-extractor-2.1" level="application" />
+    <orderEntry type="library" name="JMF 2.1.1e" level="application" />
+  </component>
+  <component name="ModuleRootManager" />
+</module>
+
