@@ -28,6 +28,7 @@ public class MenuItemPB extends BasePB {
     private String nameKey;
     private String path;
     private String user;
+    private Integer orderNo;
     private MenuItemPB[] childs;
 
     public Integer getId() {
@@ -84,5 +85,13 @@ public class MenuItemPB extends BasePB {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public Integer getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(Integer orderNo) {
+        this.orderNo = orderNo;
     }
 }
