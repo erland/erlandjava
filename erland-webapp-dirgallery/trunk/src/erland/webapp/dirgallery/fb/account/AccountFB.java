@@ -2,6 +2,7 @@ package erland.webapp.dirgallery.fb.account;
 
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.fb.BaseFB;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -111,11 +112,11 @@ public class AccountFB extends BaseFB {
     }
 
     public String getOfficialDisplay() {
-        return ServletParameterHelper.asString(official, null);
+        return StringUtil.asString(official, null);
     }
 
     public void setOfficialDisplay(String officialDisplay) {
-        this.official = ServletParameterHelper.asBoolean(officialDisplay, Boolean.FALSE);
+        this.official = StringUtil.asBoolean(officialDisplay, Boolean.FALSE);
     }
 
     public Integer getDefaultGallery() {
@@ -127,11 +128,11 @@ public class AccountFB extends BaseFB {
     }
 
     public String getDefaultGalleryDisplay() {
-        return ServletParameterHelper.asString(defaultGallery, null);
+        return StringUtil.asString(defaultGallery, null);
     }
 
     public void setDefaultGalleryDisplay(String defaultGalleryDisplay) {
-        this.defaultGallery = ServletParameterHelper.asInteger(defaultGalleryDisplay, null);
+        this.defaultGallery = StringUtil.asInteger(defaultGalleryDisplay, null);
     }
 
     public String getCopyrightText() {

@@ -2,6 +2,7 @@ package erland.webapp.dirgallery.fb.loader;
 
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.fb.BasePB;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,11 +51,11 @@ public class MetadataCollectionPB extends BasePB {
     }
 
     public String getShowAllDisplay() {
-        return ServletParameterHelper.asString(showAll, null);
+        return StringUtil.asString(showAll, null);
     }
 
     public void setShowAllDisplay(String showAllDisplay) {
-        this.showAll = ServletParameterHelper.asBoolean(showAllDisplay, Boolean.FALSE);
+        this.showAll = StringUtil.asBoolean(showAllDisplay, Boolean.FALSE);
     }
 
     public Boolean getShowSelected() {
@@ -66,11 +67,11 @@ public class MetadataCollectionPB extends BasePB {
     }
 
     public String getShowSelectedDisplay() {
-        return ServletParameterHelper.asString(showSelected, null);
+        return StringUtil.asString(showSelected, null);
     }
 
     public void setShowSelectedDisplay(String showSelectedDisplay) {
-        this.showSelected = ServletParameterHelper.asBoolean(showSelectedDisplay, Boolean.FALSE);
+        this.showSelected = StringUtil.asBoolean(showSelectedDisplay, Boolean.FALSE);
     }
 
     public String getShowSelectedLink() {

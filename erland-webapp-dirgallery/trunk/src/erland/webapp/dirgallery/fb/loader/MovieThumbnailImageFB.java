@@ -1,6 +1,7 @@
 package erland.webapp.dirgallery.fb.loader;
 
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,11 +38,11 @@ public class MovieThumbnailImageFB extends ThumbnailImageFB {
     }
 
     public String getColsDisplay() {
-        return ServletParameterHelper.asString(cols, null);
+        return StringUtil.asString(cols, null);
     }
 
     public void setColsDisplay(String colsDisplay) {
-        this.cols = ServletParameterHelper.asInteger(colsDisplay, null);
+        this.cols = StringUtil.asInteger(colsDisplay, null);
     }
 
     public Integer getRows() {
@@ -53,11 +54,11 @@ public class MovieThumbnailImageFB extends ThumbnailImageFB {
     }
 
     public String getRowsDisplay() {
-        return ServletParameterHelper.asString(rows, null);
+        return StringUtil.asString(rows, null);
     }
 
     public void setRowsDisplay(String rowsDisplay) {
-        this.rows = ServletParameterHelper.asInteger(rowsDisplay, null);
+        this.rows = StringUtil.asInteger(rowsDisplay, null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

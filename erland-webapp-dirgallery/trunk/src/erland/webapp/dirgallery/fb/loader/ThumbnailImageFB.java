@@ -1,6 +1,7 @@
 package erland.webapp.dirgallery.fb.loader;
 
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,11 +39,11 @@ public class ThumbnailImageFB extends ImageFB {
     }
 
     public String getUseCacheDisplay() {
-        return ServletParameterHelper.asString(useCache, null);
+        return StringUtil.asString(useCache, null);
     }
 
     public void setUseCacheDisplay(String useCacheDisplay) {
-        this.useCache = ServletParameterHelper.asBoolean(useCacheDisplay, Boolean.TRUE);
+        this.useCache = StringUtil.asBoolean(useCacheDisplay, Boolean.TRUE);
     }
 
     public Float getCompression() {
@@ -54,11 +55,11 @@ public class ThumbnailImageFB extends ImageFB {
     }
 
     public String getCompressionDisplay() {
-        return ServletParameterHelper.asString(compression, null);
+        return StringUtil.asString(compression, null);
     }
 
     public void setCompressionDisplay(String compressionDisplay) {
-        this.compression = ServletParameterHelper.asFloat(compressionDisplay, null);
+        this.compression = StringUtil.asFloat(compressionDisplay, null);
     }
 
     public Integer getWidth() {
@@ -70,11 +71,11 @@ public class ThumbnailImageFB extends ImageFB {
     }
 
     public String getWidthDisplay() {
-        return ServletParameterHelper.asString(width, null);
+        return StringUtil.asString(width, null);
     }
 
     public void setWidthDisplay(String widthDisplay) {
-        this.width = ServletParameterHelper.asInteger(widthDisplay, null);
+        this.width = StringUtil.asInteger(widthDisplay, null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

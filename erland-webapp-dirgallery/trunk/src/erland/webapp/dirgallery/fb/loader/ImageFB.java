@@ -2,6 +2,7 @@ package erland.webapp.dirgallery.fb.loader;
 
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.fb.BaseFB;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,11 +47,11 @@ public class ImageFB extends BaseFB {
     }
 
     public String getGalleryDisplay() {
-        return ServletParameterHelper.asString(gallery, null);
+        return StringUtil.asString(gallery, null);
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        gallery = ServletParameterHelper.asInteger(galleryDisplay, null);
+        gallery = StringUtil.asInteger(galleryDisplay, null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

@@ -3,6 +3,7 @@ package erland.webapp.dirgallery.fb.gallery.picture;
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.fb.BasePB;
 import erland.webapp.dirgallery.entity.gallery.picture.Picture;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -63,11 +64,11 @@ public class PicturePB extends BasePB {
     }
 
     public String getGalleryDisplay() {
-        return ServletParameterHelper.asString(gallery, null);
+        return StringUtil.asString(gallery, null);
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        this.gallery = ServletParameterHelper.asInteger(galleryDisplay, null);
+        this.gallery = StringUtil.asInteger(galleryDisplay, null);
     }
 
     public String getName() {
@@ -87,11 +88,11 @@ public class PicturePB extends BasePB {
     }
 
     public String getFileSizeDisplay() {
-        return ServletParameterHelper.asString(fileSize, null);
+        return StringUtil.asString(fileSize, null);
     }
 
     public void setFileSizeDisplay(String fileSizeDisplay) {
-        this.fileSize = ServletParameterHelper.asLong(fileSizeDisplay, null);
+        this.fileSize = StringUtil.asLong(fileSizeDisplay, null);
     }
 
     public String getFileSizeText() {
