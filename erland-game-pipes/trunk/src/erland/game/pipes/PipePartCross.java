@@ -20,6 +20,8 @@ package erland.game.pipes;
 import java.awt.*;
 import erland.util.*;
 import erland.game.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Implements a pipe part with two separate pipes one from left to right
@@ -27,6 +29,8 @@ import erland.game.*;
  */
 class PipePartCross extends PipePart
 {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(PipePartCross.class);
 	/** Background image of part */
 	protected Image baseImage;
 	/** Water forground image when only up/down pipe contains water */
@@ -118,10 +122,10 @@ class PipePartCross extends PipePart
 	}
 	public boolean initWater(int direction)
 	{
-		Log.println(this,toString() + ":initWater : " + direction);
+		LOG.debug(toString() + ":initWater : " + direction);
 		if(isOpen(direction) && !hasWater(direction)) {
 			if(direction==Direction.LEFT || direction==Direction.RIGHT) {
-				Log.println(this,toString() + ":initWater2: " + direction);
+				LOG.debug(toString() + ":initWater2: " + direction);
 				waterEntryLeftRight = direction;
 				waterInPartLeftRight = true;
 				waterInPart = true;
@@ -138,9 +142,9 @@ class PipePartCross extends PipePart
 
 	public boolean hasWater(int direction)
 	{
-		Log.println(this,toString() + ":hasWater : " + direction);
+		LOG.debug(toString() + ":hasWater : " + direction);
 		if(direction==Direction.LEFT || direction==Direction.RIGHT) {
-			Log.println(this,toString() + ":hasWater : " + direction + ", " + waterInPartLeftRight);
+			LOG.debug(toString() + ":hasWater : " + direction + ", " + waterInPartLeftRight);
 			return waterInPartLeftRight;
 		}else {
 			return waterInPartUpDown;
@@ -164,7 +168,7 @@ class PipePartCross extends PipePart
 	}
 	public boolean moveWater()
 	{
-		Log.println(this,toString() + ":moveWater : " + waterInPartLeftRight + ", " + waterInPartUpDown);
+		LOG.debug(toString() + ":moveWater : " + waterInPartLeftRight + ", " + waterInPartUpDown);
 		if(waterInPartLeftRight && waterProgressLeftRight<cont.getSquareSize()) {
 			waterProgressLeftRight++;
 			if(waterProgressLeftRight>=cont.getSquareSize()) {

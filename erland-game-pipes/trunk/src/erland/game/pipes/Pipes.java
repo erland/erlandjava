@@ -31,7 +31,6 @@ public class Pipes extends GamePanelHandlerForApplication implements GamePanelHa
     private ImageHandlerInterface images;
 
     public static void main(String[] args) {
-        Log.setLog("pipeslog.xml");
         Pipes game = new Pipes();
         GamePanelHandler.run(game,game);
         System.exit(-1);

@@ -20,12 +20,16 @@ package erland.game.pipes;
 import java.awt.*;
 import erland.util.*;
 import erland.game.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Implements a pipe part this is configurable
  */
 class PipePartSimple extends PipePart
 {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(PipePartSimple.class);
 	/** Background image */
 	protected Image baseImage;
 	/** Water foreground image */
@@ -70,7 +74,7 @@ class PipePartSimple extends PipePart
 	{
 		super.init(cont,
 			x,y);
-		Log.println(this,toString() + " :init:" + x+","+y+":"+openLeft + openRight + openUp + openDown);
+		LOG.debug(toString() + " :init:" + x+","+y+":"+openLeft + openRight + openUp + openDown);
 		if(openLeft) {
 			openParts[Direction.LEFT] = true;
 		}

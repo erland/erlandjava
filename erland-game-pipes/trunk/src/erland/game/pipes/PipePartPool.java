@@ -20,6 +20,8 @@ package erland.game.pipes;
 import java.awt.*;
 import erland.util.*;
 import erland.game.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Implements a pipe part with openings on all sides.
@@ -27,6 +29,8 @@ import erland.game.*;
  */
 class PipePartPool extends PipePart
 {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(PipePartPool.class);
 	/** Background image */
 	protected Image baseImage;
 	/** Water foreground image */
@@ -85,7 +89,7 @@ class PipePartPool extends PipePart
 	{
 		if(waterInPart && waterProgress<cont.getSquareSize()) {
 			waterProgress++;
-			Log.println(this,toString() + ": " + waterProgress);
+			LOG.debug(toString() + ": " + waterProgress);
 			if(waterProgress>=cont.getSquareSize()) {
 				levelsFilled++;
 				waterProgress=0;

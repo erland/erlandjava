@@ -20,12 +20,16 @@ package erland.game.pipes;
 import java.awt.*;
 import erland.game.*;
 import erland.util.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Represents a pipe part
  */
 abstract class PipePart
 {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(PipePart.class);
 	/**
 	 * Array which entries indicates which side of the pipe part that is open 
 	 * and can receive/spill water.
@@ -64,7 +68,7 @@ abstract class PipePart
 	    this.cont = cont;
 	    this.x = x;
 	    this.y = y;
-	    Log.println(this,toString() + ":init: " + x + ", " + y);
+	    LOG.debug(toString() + ":init: " + x + ", " + y);
 	}
 
 	/**
@@ -109,9 +113,9 @@ abstract class PipePart
 	 */
 	public boolean initWater(int direction)
 	{
-		Log.println(this,toString() + ":part.initWater : " + x + ", " + y + ", " + direction);
+		LOG.debug(toString() + ":part.initWater : " + x + ", " + y + ", " + direction);
 		if(isOpen(direction) && !hasWater(direction)) {
-			Log.println(this,toString() + ":part.initWater2 : " + x + ", " + y + ", " + direction);
+			LOG.debug(toString() + ":part.initWater2 : " + x + ", " + y + ", " + direction);
 			waterEntry=direction;
 			waterInPart=true;
 			return true;
@@ -139,7 +143,7 @@ abstract class PipePart
 	 */
 	public int getXPosition()
 	{
-		Log.println(this,toString() + ":getXPosition : "+ x );
+		LOG.debug(toString() + ":getXPosition : "+ x );
 		return x;
 	}
 	/**
@@ -148,7 +152,7 @@ abstract class PipePart
 	 */
 	public int getYPosition()
 	{
-		Log.println(this,toString() + ":getYPosition : "+ y );
+		LOG.debug(toString() + ":getYPosition : "+ y );
 		return y;
 	}
 
@@ -174,10 +178,10 @@ abstract class PipePart
 	 */
 	public boolean moveWater()
 	{
-		Log.println(this,toString() + ": moveWater" + x + ", "+ y);
+		LOG.debug(toString() + ": moveWater" + x + ", "+ y);
 		if(waterInPart && waterProgress<cont.getSquareSize()) {
 			waterProgress++;
-			Log.println(this,toString() + ": " + waterProgress);
+			LOG.debug(toString() + ": " + waterProgress);
 			if(waterProgress>=cont.getSquareSize()) {
 				return false;
 			}

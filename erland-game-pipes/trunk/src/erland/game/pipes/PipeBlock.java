@@ -21,12 +21,16 @@ import java.awt.Graphics;
 import java.util.*;
 import erland.game.*;
 import erland.util.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 /**
  * Represents a block with a number of pipe parts
  */
 abstract class PipeBlock
 	implements BlockContainerInterface
 {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(PipeBlock.class);
 	/** Pipe parts in this pipe block */
 	protected PipePart parts[][];
 	/** X position of pipe block (Block coordinate) */
@@ -294,7 +298,7 @@ abstract class PipeBlock
 		ListIterator it = addPartsWithMovingWater.listIterator();
 		while(it.hasNext()) {
 			PipePart part = (PipePart)(it.next());
-			Log.println(this,"addBlock: " + part.toString());
+			LOG.debug("addBlock: " + part.toString());
 			partsWithMovingWater.add(part);
 			setRedraw(true);
 		}
@@ -302,7 +306,7 @@ abstract class PipeBlock
 		it = delPartsWithMovingWater.listIterator();
 		while(it.hasNext()) {
 			PipePart part = (PipePart)(it.next());
-			Log.println(this,"delBlock: " + part.toString());
+			LOG.debug("delBlock: " + part.toString());
 			partsWithMovingWater.remove(part);
 			setRedraw(true);
 		}
@@ -393,44 +397,44 @@ abstract class PipeBlock
 			}
 			if(part.leakWater(Direction.LEFT)) {
 				if(part.getXPosition()>0) {
-					Log.println(this,toString() + ":initWater Left");
+					LOG.debug(toString() + ":initWater Left");
 					initWater(part.getXPosition()-1,part.getYPosition(),Direction.RIGHT);
 				}else {
 					if(x>0) {
-						Log.println(this,toString() + ":addWater Left:" + x + "," + y + ": " + part.getXPosition() + ", " + part.getYPosition());
+						LOG.debug(toString() + ":addWater Left:" + x + "," + y + ": " + part.getXPosition() + ", " + part.getYPosition());
 						container.addWater(this.x-1,this.y,parts.length-1,part.getYPosition(),Direction.RIGHT);
 					}
 				}
 			}
 			if(part.leakWater(Direction.RIGHT)) {
 				if(part.getXPosition()<(parts.length-1)) {
-					Log.println(this,toString() + ":initWater Right");
+					LOG.debug(toString() + ":initWater Right");
 					initWater(part.getXPosition()+1,part.getYPosition(),Direction.LEFT);
 				}else {
 					if(x<(cont.getSizeX()-1)) {
-						Log.println(this,toString() + ":addWater Right:" + x + "," + y + ": " + part.getXPosition() + ", " + part.getYPosition());
+						LOG.debug(toString() + ":addWater Right:" + x + "," + y + ": " + part.getXPosition() + ", " + part.getYPosition());
 						container.addWater(this.x+1,this.y,0,part.getYPosition(),Direction.LEFT);
 					}
 				}
 			}
 			if(part.leakWater(Direction.UP)) {
 				if(part.getYPosition()>0) {
-					Log.println(this,toString() + ":initWater Up");
+					LOG.debug(toString() + ":initWater Up");
 					initWater(part.getXPosition(),part.getYPosition()-1,Direction.DOWN);
 				}else {
 					if(y>0) {
-						Log.println(this,toString() + ":addWater Up:" + x + "," + y + ": " + part.getXPosition() + ", " + part.getYPosition());
+						LOG.debug(toString() + ":addWater Up:" + x + "," + y + ": " + part.getXPosition() + ", " + part.getYPosition());
 						container.addWater(this.x,this.y-1,part.getXPosition(),parts[0].length-1,Direction.DOWN);
 					}
 				}
 			}
 			if(part.leakWater(Direction.DOWN)) {
 				if(part.getYPosition()<(parts[0].length-1)) {
-					Log.println(this,toString() + ":initWater Down");
+					LOG.debug(toString() + ":initWater Down");
 					initWater(part.getXPosition(),part.getYPosition()+1,Direction.UP);
 				}else {
 					if(y<(cont.getSizeY()-1)) {
-						Log.println(this,toString() + ":addWater Down:" + x + "," + y + ": " + part.getXPosition() + ", " + part.getYPosition());
+						LOG.debug(toString() + ":addWater Down:" + x + "," + y + ": " + part.getXPosition() + ", " + part.getYPosition());
 						container.addWater(this.x,this.y+1,part.getXPosition(),0,Direction.UP);
 					}
 				}
