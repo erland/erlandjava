@@ -82,6 +82,7 @@ Table upgrade scripts:
 Data scripts:
 - common_data.sql
   Setup thumbnail cache dir to "D:\users\erland\thumbnails" (You probably want to change this)
+  Setup cache manager to make sure "D:\users\erland\thumbnails" never contains more than 100MB (You probably want to change this)
   Setup text to show on first page (You might want to change this)
   Setup the native language code to sv (swedish)
   Setup the path to the online help
