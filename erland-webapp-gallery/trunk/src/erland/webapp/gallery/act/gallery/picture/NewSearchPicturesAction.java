@@ -39,6 +39,7 @@ public class NewSearchPicturesAction extends BaseAction {
         SearchPictureFB fb = (SearchPictureFB) form;
 
         fb.setAllCategories(Boolean.TRUE);
+        fb.setStart(new Integer(0));
 
         Integer gallery = GalleryHelper.getGalleryId(getEnvironment(), fb.getGallery());
         Integer virtualGalleryId = fb.getGallery();
