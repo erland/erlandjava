@@ -40,25 +40,12 @@
       <useEmacsModeOutput value="true" />
       <useCustomJdk value="false" />
       <treeView value="true" />
-      <customJdkName value="java version &quot;1.4.2&quot;" />
       <useJavaw value="false" />
       <verbose value="true" />
       <includeProjectClasspath value="false" />
       <includeParser value="true" />
       <maximumHeapSize value="128" />
       <viewClosedWhenNoErrors value="false" />
-      <targetFilters>
-        <filter targetName="buildlibraries" isVisible="false" />
-        <filter targetName="copylibraries" isVisible="false" />
-        <filter targetName="Build Application" isVisible="false" />
-        <filter targetName="Install and Build Application (Debug)" isVisible="true" />
-        <filter targetName="Install and Build Application" isVisible="false" />
-        <filter targetName="Build Application (Debug)" isVisible="false" />
-        <filter targetName="Documentation" isVisible="false" />
-        <filter targetName="Public Documentation" isVisible="false" />
-        <filter targetName="Clean All" isVisible="false" />
-        <filter targetName="Clean This" isVisible="false" />
-      </targetFilters>
     </buildFile>
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
