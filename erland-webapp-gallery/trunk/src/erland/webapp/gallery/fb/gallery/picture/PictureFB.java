@@ -37,6 +37,7 @@ public class PictureFB extends BaseFB {
     private Boolean official;
     private Boolean officialGuest;
     private Date date;
+    private Long orderNo;
 
     public Integer getGallery() {
         return gallery;
@@ -150,6 +151,22 @@ public class PictureFB extends BaseFB {
         this.date = ServletParameterHelper.asDate(dateDisplay,null);
     }
 
+    public Long getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(Long orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public String getOrderNoDisplay() {
+        return ServletParameterHelper.asString(orderNo,null);
+    }
+
+    public void setOrderNoDisplay(String orderNoDisplay) {
+        this.orderNo = ServletParameterHelper.asLong(orderNoDisplay,null);
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         gallery = null;
@@ -161,5 +178,6 @@ public class PictureFB extends BaseFB {
         official = Boolean.FALSE;
         officialGuest = Boolean.FALSE;
         date = null;
+        orderNo = null;
     }
 }
