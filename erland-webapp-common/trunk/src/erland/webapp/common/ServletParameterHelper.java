@@ -31,8 +31,6 @@ import java.text.ParseException;
  */
 
 public class ServletParameterHelper {
-    private final static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
     public static String replaceDynamicParameters(String address, Map parameters) {
         return replaceDynamicParameters(address,new ObjectStorageMap(parameters));
     }
@@ -246,103 +244,5 @@ public class ServletParameterHelper {
                 return null;
             }
         }
-    }
-
-    public static Boolean asBoolean(String value,Boolean defaultValue) {
-        Boolean booleanValue = defaultValue;
-        if(value!=null && value.equalsIgnoreCase("true")) {
-            booleanValue = Boolean.TRUE;
-        }else if(value!=null && value.equalsIgnoreCase("false")) {
-            booleanValue = Boolean.FALSE;
-        }
-        return booleanValue;
-    }
-
-    public static Integer asInteger(String value,Integer defaultValue) {
-        Integer integerValue = defaultValue;
-        if(value!=null && value.length()>0) {
-            try {
-                integerValue = Integer.valueOf(value);
-            } catch (NumberFormatException e) {
-            }
-        }
-        return integerValue;
-    }
-
-    public static Long asLong(String value, Long defaultValue) {
-        Long longValue = defaultValue;
-        if(value!=null && value.length()>0) {
-            try {
-                longValue = Long.valueOf(value);
-            } catch (NumberFormatException e) {
-            }
-        }
-        return longValue;
-    }
-
-    public static Double asDouble(String value, Double defaultValue) {
-        Double doubleValue = defaultValue;
-        if(value!=null && value.length()>0) {
-            try {
-                doubleValue = Double.valueOf(value);
-            } catch (NumberFormatException e) {
-            }
-        }
-        return doubleValue;
-    }
-
-    public static Float asFloat(String value, Float defaultValue) {
-        Float floatValue = defaultValue;
-        if(value!=null && value.length()>0) {
-            try {
-                floatValue = Float.valueOf(value);
-            } catch (NumberFormatException e) {
-            }
-        }
-        return floatValue;
-    }
-
-    public static Date asDate(String value, Date defaultValue) {
-        Date dateValue = defaultValue;
-        if(value!=null) {
-            try {
-                dateValue = dateFormat.parse(value);
-            } catch (ParseException e) {
-            }
-        }
-        return dateValue;
-    }
-
-    public static Date asDate(String value, Date defaultValue, Locale locale) {
-        Date dateValue = defaultValue;
-        if(value!=null) {
-            try {
-                dateValue = DateFormat.getDateInstance(DateFormat.SHORT,locale).parse(value);
-            } catch (ParseException e) {
-            }
-        }
-        return dateValue;
-    }
-
-    public static String asString(Integer value, String defaultValue) {
-        return value!=null?value.toString():defaultValue;
-    }
-    public static String asString(Long value, String defaultValue) {
-        return value!=null?value.toString():defaultValue;
-    }
-    public static String asString(Boolean value, String defaultValue) {
-        return value!=null?value.toString():defaultValue;
-    }
-    public static String asString(Float value, String defaultValue) {
-        return value!=null?value.toString():defaultValue;
-    }
-    public static String asString(Double value, String defaultValue) {
-        return value!=null?value.toString():defaultValue;
-    }
-    public static String asString(Date value, String defaultValue) {
-        return value!=null?dateFormat.format(value):defaultValue;
-    }
-    public static String asString(Date value, String defaultValue, Locale locale) {
-        return value!=null?DateFormat.getDateInstance(DateFormat.SHORT,locale).format(value):defaultValue;
     }
 }
