@@ -1,5 +1,6 @@
 package erland.game.crackout;
 import erland.game.*;
+import erland.util.*;
 import java.awt.*;
 
 /**
@@ -9,6 +10,8 @@ class BlockMonster extends BlockSimple
 {
 	/** Type of monster to create when the block is hit, see {@link Monster.MonsterType} */
 	protected int monster;
+	/** Image for the monster */
+	Image img;
 	
 	/**
 	 * Create a new instance of the block
@@ -45,9 +48,11 @@ class BlockMonster extends BlockSimple
 		switch(monster) {
 			case Monster.MonsterType.bounceBlock:
 				description+="Bounce";
+				img = images.getImage("monster_bounceblock.gif");
 				break;
 			case Monster.MonsterType.bounceOnceBlock:
 				description+="Bounce once";
+				img = images.getImage("monster_bounceonceblock.gif");
 				break;
 			default:
 				break;
@@ -71,18 +76,6 @@ class BlockMonster extends BlockSimple
 			//g.fillRect(offsetX+posX*squareSize+(squareSize*sizeX)/2-squareSize/4-2,offsetY+posY*squareSize+squareSize/2-squareSize/4-2,squareSize/2+4,squareSize/2+4);
 			//g.setColor(Color.black);
 			//g.fillRect(offsetX+posX*squareSize+(squareSize*sizeX)/2-squareSize/4,offsetY+posY*squareSize+squareSize/2-squareSize/4,squareSize/2,squareSize/2);
-			Image img=null;
-			switch(monster) {
-				case Monster.MonsterType.bounceBlock:
-					img = images.getImage(images.MONSTER_BOUNCEBLOCK);
-					break;
-				case Monster.MonsterType.bounceOnceBlock:
-					img = images.getImage(images.MONSTER_BOUNCEONCEBLOCK);
-					break;
-				default:
-					img = images.getImage(images.MONSTER_BOUNCEBLOCK);
-					break;
-			}
 			if(img!=null && active) {
 				g.drawImage(img,offsetX+posX*squareSize+(squareSize*sizeX)/2-squareSize/4-1,offsetY+posY*squareSize+3,null);
 			}

@@ -1,6 +1,7 @@
 package erland.game.crackout;
 
 import erland.game.*;
+import erland.util.*;
 import java.awt.*;
 
 /**
@@ -10,6 +11,8 @@ class BlockFeature extends BlockSimple
 {
 	/** Feature that should be dropped when the ball is hit, see {@link Feature.FeatureType} */
 	protected int feature;
+	/** Image for the feature */
+	protected Image img;
 	
 	/**
 	 * Creates the block
@@ -43,45 +46,59 @@ class BlockFeature extends BlockSimple
 		init(images, cont, sizeX, sizeY, posX, posY,color);
 		feature = featureType;
 		description = "Feature block: ";
+		img = null;
 		switch(feature) {
 			case Feature.FeatureType.decreaseBallSpeed:
 				description += "Decrease ball speed";
+				img = images.getImage("feature_decballspeed.gif");
 				break;			
 			case Feature.FeatureType.decreaseBatSpeed:
 				description += "Decrease bat speed";
+				img = images.getImage("feature_decbatspeed.gif");
 				break;			
 			case Feature.FeatureType.doubleBat:
 				description += "Double bat";
+				img = images.getImage("feature_doublebat.gif");
 				break;			
 			case Feature.FeatureType.extraLife:
 				description += "Extra life";
+				img = images.getImage("feature_extralife.gif");
 				break;			
 			case Feature.FeatureType.increaseBallSpeed:
 				description += "Increase ball speed";
+				img = images.getImage("feature_incballspeed.gif");
 				break;			
 			case Feature.FeatureType.increaseBatSpeed:
 				description += "Increase bat speed";
+				img = images.getImage("feature_incbatspeed.gif");
 				break;			
 			case Feature.FeatureType.lockBat:
 				description += "Lock bat";
+				img = images.getImage("feature_lockbat.gif");
 				break;			
 			case Feature.FeatureType.newBall:
 				description += "New ball";
+				img = images.getImage("feature_newball.gif");
 				break;			
 			case Feature.FeatureType.safetyWall:
 				description += "Safety wall";
+				img = images.getImage("feature_safetywall.gif");
 				break;			
 			case Feature.FeatureType.missile:
 				description += "Missile";
+				img = images.getImage("feature_missile.gif");
 				break;			
 			case Feature.FeatureType.largeBat:
 				description += "Large bat";
+				img = images.getImage("feature_largebat.gif");
 				break;			
 			case Feature.FeatureType.smallBat:
 				description += "Small bat";
+				img = images.getImage("feature_smallbat.gif");
 				break;			
 			case Feature.FeatureType.bomb:
 				description += "Bomb";
+				img = images.getImage("feature_bomb.gif");
 				break;
 			default:
 				break;
@@ -105,50 +122,6 @@ class BlockFeature extends BlockSimple
 			//g.fillOval(offsetX+posX*squareSize+(squareSize*sizeX)/2-squareSize/4-1,offsetY+posY*squareSize+squareSize/2-squareSize/4-1,squareSize/2+2,squareSize/2+2);
 			//g.setColor(Color.black);
 			//g.fillOval(offsetX+posX*squareSize+(squareSize*sizeX)/2-squareSize/4,offsetY+posY*squareSize+squareSize/2-squareSize/4,squareSize/2,squareSize/2);
-			Image img=null;
-			switch(feature) {
-				case Feature.FeatureType.safetyWall:
-					img = images.getImage(ImageHandlerInterface.FEATURE_SAFETYWALL);
-					break;
-				case Feature.FeatureType.newBall:
-					img = images.getImage(ImageHandlerInterface.FEATURE_NEWBALL);
-					break;
-				case Feature.FeatureType.lockBat:
-					img = images.getImage(ImageHandlerInterface.FEATURE_LOCKBAT);
-					break;
-				case Feature.FeatureType.increaseBatSpeed:
-					img = images.getImage(ImageHandlerInterface.FEATURE_INCBATSPEED);
-					break;
-				case Feature.FeatureType.increaseBallSpeed:
-					img = images.getImage(ImageHandlerInterface.FEATURE_INCBALLSPEED);
-					break;
-				case Feature.FeatureType.extraLife:
-					img = images.getImage(ImageHandlerInterface.FEATURE_EXTRALIFE);
-					break;
-				case Feature.FeatureType.doubleBat:
-					img = images.getImage(ImageHandlerInterface.FEATURE_DOUBLEBAT);
-					break;
-				case Feature.FeatureType.decreaseBatSpeed:
-					img = images.getImage(ImageHandlerInterface.FEATURE_DECBATSPEED);
-					break;
-				case Feature.FeatureType.decreaseBallSpeed:
-					img = images.getImage(ImageHandlerInterface.FEATURE_DECBALLSPEED);
-					break;
-				case Feature.FeatureType.missile:
-					img = images.getImage(ImageHandlerInterface.FEATURE_MISSILE);
-					break;
-				case Feature.FeatureType.largeBat:
-					img = images.getImage(ImageHandlerInterface.FEATURE_LARGEBAT);
-					break;
-				case Feature.FeatureType.smallBat:
-					img = images.getImage(ImageHandlerInterface.FEATURE_SMALLBAT);
-					break;
-				case Feature.FeatureType.bomb:
-					img = images.getImage(ImageHandlerInterface.FEATURE_BOMB);
-					break;
-				default:
-					break;
-			}
 			if(img!=null && active) {
 				g.drawImage(img,offsetX+posX*squareSize+(squareSize*sizeX)/2-squareSize/4,offsetY+posY*squareSize+2,null);
 			}

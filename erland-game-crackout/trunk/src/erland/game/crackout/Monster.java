@@ -1,5 +1,5 @@
 package erland.game.crackout;
-
+import erland.util.*;
 import java.awt.*;
 /**
  * Implements a monster that will bounce around the game area
@@ -32,8 +32,8 @@ class Monster
 	protected double direction;
 	/** Type of monster, see {@link MonsterType} */
 	protected int monsterType;
-	/** Image handler object */
-	protected ImageHandlerInterface images;
+	/** Image for the monster */
+	Image img;
 
 	/**
 	 * Specifies all available monster types
@@ -80,7 +80,17 @@ class Monster
 		this.direction = direction;
 		this.monsterType = monsterType;
 		active=true;
-		this.images = images;
+		switch(monsterType) {
+			case MonsterType.bounceBlock:
+				img = images.getImage("monster_bounceblock.gif");
+				break;
+			case MonsterType.bounceOnceBlock:
+				img = images.getImage("monster_bounceonceblock.gif");
+				break;
+			default:
+				img = images.getImage("monster_bounceblock.gif");
+				break;
+		}
 	}
 	public int left()
 	{
@@ -228,19 +238,6 @@ class Monster
 	public void draw(Graphics g)
 	{
 		if(active) {
-			Image img=null;
-			switch(monsterType) {
-				case MonsterType.bounceBlock:
-					img = images.getImage(images.MONSTER_BOUNCEBLOCK);
-					break;
-				case MonsterType.bounceOnceBlock:
-					img = images.getImage(images.MONSTER_BOUNCEONCEBLOCK);
-					break;
-				default:
-					img = images.getImage(images.MONSTER_BOUNCEBLOCK);
-					break;
-			}
-			
 			g.drawImage(img,offsetX+(int)x,offsetY+(int)y,null);
 			//g.setColor(Color.pink);
 			//g.fillRect(offsetX+(int)x,offsetX+(int)y,sizeX, sizeY);

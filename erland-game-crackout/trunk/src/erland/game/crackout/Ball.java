@@ -2,6 +2,7 @@ package erland.game.crackout;
 
 import java.awt.*;
 import java.util.*;
+import erland.util.*;
 
 /**
  * Represents a ball
@@ -28,8 +29,8 @@ class Ball
 	protected int speed;
 	/** Minimum angle that the ball always has to have when it collides with something on the top eller bottom side of the ball */
 	protected static final double MIN_ANGLE=Math.PI/9;
-	/** Referense to image handler object */
-	protected ImageHandlerInterface images;
+	/** Image for the ball */
+	protected Image img;
 			
 	/**
 	 * Initialize the ball
@@ -55,7 +56,7 @@ class Ball
 		this.speed = speed;
 		this.direction = direction;
 		this.ballSize = ballSize;
-		this.images = images;
+		this.img = images.getImage("ball.gif");
 	}
 	
 	/**
@@ -314,7 +315,7 @@ class Ball
 		//g.fillOval((int)(offsetX+x+2),(int)(offsetY+y+2),ballSize-4,ballSize-4);
 		//g.setColor(Color.white);
 		//g.fillOval((int)(offsetX+x+4),(int)(offsetY+y+4),ballSize-8,ballSize-8);
-		g.drawImage(images.getImage(images.BALL),(int)(offsetX+x),(int)(offsetY+y),null);
+		g.drawImage(img,(int)(offsetX+x),(int)(offsetY+y),null);
 		
 	}
 	

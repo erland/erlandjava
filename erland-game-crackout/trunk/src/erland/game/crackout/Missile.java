@@ -1,5 +1,6 @@
 package erland.game.crackout;
 import erland.game.*;
+import erland.util.*;
 import java.util.*;
 import java.awt.*;
 
@@ -19,8 +20,6 @@ class Missile
 	protected double y;
 	/** Speed of the missile */
 	protected int speed;
-	/** Image handler object */
-	protected ImageHandlerInterface images;
 	/** Block container which the missile resides in */
 	protected BlockContainerInterface cont;
 	/** Horisontal drawing offset */
@@ -29,7 +28,9 @@ class Missile
 	protected int offsetY;
 	/** Indicates if the missile is visible(active) or not */
 	protected boolean active;
-	
+	/** Image for the missile */
+	protected Image img;
+		
 	/**
 	 * Creates a new Missile object
 	 */
@@ -51,7 +52,6 @@ class Missile
 	public void init(ImageHandlerInterface images, BlockContainerInterface cont, int x, int y, int missileSizeX, int missileSizeY, int speed)
 	{
 		this.cont = cont;
-		this.images = images;
 		this.offsetX = cont.getOffsetX();
 		this.offsetY = cont.getOffsetY();
 		this.x = x;
@@ -60,6 +60,7 @@ class Missile
 		this.missileSizeY = missileSizeY;
 		this.speed = speed;
 		active = true;
+		img = images.getImage("missile.gif");
 	}
 	
 	/**
@@ -132,7 +133,7 @@ class Missile
 		if(active) {
 			//g.setColor(Color.white);
 			//g.fillRect((int)(offsetX+x),(int)(offsetY+y),missileSizeX,missileSizeY);
-			g.drawImage(images.getImage(images.MISSILE),(int)(offsetX+x),(int)(offsetY+y),null);
+			g.drawImage(img,(int)(offsetX+x),(int)(offsetY+y),null);
 		}
 	}
 	

@@ -208,10 +208,10 @@ public class CrackOut extends Applet
 		this.setBackground(Color.black);
 		String mayScript = null;
 		if(inApplet) {
-			this.images = new ImageHandler(this);
+			this.images = new ImageHandlerForApplet(this,"images/crackout");
 			mayScript = this.getParameter("MAYSCRIPT");
 		}else {
-			this.images = new ImageHandlerForApp(myFrame);
+			this.images = new ImageHandlerForApplication(myFrame,"images/crackout");
 		}
 		if(mayScript!=null) {
 			this.cookies = new CookieHandler(this);

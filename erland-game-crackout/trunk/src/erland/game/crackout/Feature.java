@@ -1,5 +1,6 @@
 package erland.game.crackout;
 import erland.game.*;
+import erland.util.*;
 import java.awt.*;
 
 /**
@@ -32,8 +33,10 @@ class Feature
 	protected int limitY;
 	/** Type of feature, see {@link FeatureType} */
 	protected int featureType;
-	/** Image handler object */
-	protected ImageHandlerInterface images;
+	/** Image for feature */
+	protected Image img;
+	/** Image for feature background */
+	protected Image imgBackground;
 	/** Block container object which the feature resides in */
 	protected BlockContainerInterface cont;
 	
@@ -99,7 +102,51 @@ class Feature
 		this.limitX = cont.getSquareSize()*cont.getSizeX();
 		this.limitY = cont.getSquareSize()*cont.getSizeY();
 		this.featureType = featureType;
-		this.images = images;
+		imgBackground = images.getImage("feature.gif");
+		img = null;
+		switch(featureType) {
+			case Feature.FeatureType.safetyWall:
+				img = images.getImage("feature_safetywall.gif");
+				break;
+			case Feature.FeatureType.newBall:
+				img = images.getImage("feature_newball.gif");
+				break;
+			case Feature.FeatureType.lockBat:
+				img = images.getImage("feature_lockbat.gif");
+				break;
+			case Feature.FeatureType.increaseBatSpeed:
+				img = images.getImage("feature_incbatspeed.gif");
+				break;
+			case Feature.FeatureType.increaseBallSpeed:
+				img = images.getImage("feature_incballspeed.gif");
+				break;
+			case Feature.FeatureType.extraLife:
+				img = images.getImage("feature_extralife.gif");
+				break;
+			case Feature.FeatureType.doubleBat:
+				img = images.getImage("feature_doublebat.gif");
+				break;
+			case Feature.FeatureType.decreaseBatSpeed:
+				img = images.getImage("feature_decbatspeed.gif");
+				break;
+			case Feature.FeatureType.decreaseBallSpeed:
+				img = images.getImage("feature_decballspeed.gif");
+				break;
+			case Feature.FeatureType.missile:
+				img = images.getImage("feature_missile.gif");
+				break;
+			case Feature.FeatureType.largeBat:
+				img = images.getImage("feature_largebat.gif");
+				break;
+			case Feature.FeatureType.smallBat:
+				img = images.getImage("feature_smallbat.gif");
+				break;
+			case Feature.FeatureType.bomb:
+				img = images.getImage("feature_bomb.gif");
+				break;
+			default:
+				break;
+		}
 	}
 	public int left()
 	{
@@ -213,51 +260,7 @@ class Feature
 	public void draw(Graphics g)
 	{
 		if(active) {
-			Image img=null;
-			switch(featureType) {
-				case Feature.FeatureType.safetyWall:
-					img = images.getImage(ImageHandlerInterface.FEATURE_SAFETYWALL);
-					break;
-				case Feature.FeatureType.newBall:
-					img = images.getImage(ImageHandlerInterface.FEATURE_NEWBALL);
-					break;
-				case Feature.FeatureType.lockBat:
-					img = images.getImage(ImageHandlerInterface.FEATURE_LOCKBAT);
-					break;
-				case Feature.FeatureType.increaseBatSpeed:
-					img = images.getImage(ImageHandlerInterface.FEATURE_INCBATSPEED);
-					break;
-				case Feature.FeatureType.increaseBallSpeed:
-					img = images.getImage(ImageHandlerInterface.FEATURE_INCBALLSPEED);
-					break;
-				case Feature.FeatureType.extraLife:
-					img = images.getImage(ImageHandlerInterface.FEATURE_EXTRALIFE);
-					break;
-				case Feature.FeatureType.doubleBat:
-					img = images.getImage(ImageHandlerInterface.FEATURE_DOUBLEBAT);
-					break;
-				case Feature.FeatureType.decreaseBatSpeed:
-					img = images.getImage(ImageHandlerInterface.FEATURE_DECBATSPEED);
-					break;
-				case Feature.FeatureType.decreaseBallSpeed:
-					img = images.getImage(ImageHandlerInterface.FEATURE_DECBALLSPEED);
-					break;
-				case Feature.FeatureType.missile:
-					img = images.getImage(ImageHandlerInterface.FEATURE_MISSILE);
-					break;
-				case Feature.FeatureType.largeBat:
-					img = images.getImage(ImageHandlerInterface.FEATURE_LARGEBAT);
-					break;
-				case Feature.FeatureType.smallBat:
-					img = images.getImage(ImageHandlerInterface.FEATURE_SMALLBAT);
-					break;
-				case Feature.FeatureType.bomb:
-					img = images.getImage(ImageHandlerInterface.FEATURE_BOMB);
-					break;
-				default:
-					break;
-			}
-			g.drawImage(images.getImage(ImageHandlerInterface.FEATURE),offsetX+(int)x,offsetY+(int)y,null);
+			g.drawImage(imgBackground,offsetX+(int)x,offsetY+(int)y,null);
 			if(img!=null) {
 				g.drawImage(img,offsetX+(int)x+5,offsetY+(int)y+5,null);
 			}

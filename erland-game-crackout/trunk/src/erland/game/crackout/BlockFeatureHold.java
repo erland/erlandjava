@@ -1,6 +1,7 @@
 package erland.game.crackout;
 
 import erland.game.*;
+import erland.util.*;
 import java.awt.*;
 
 /**

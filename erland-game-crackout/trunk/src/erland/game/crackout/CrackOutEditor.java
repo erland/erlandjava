@@ -100,13 +100,13 @@ class CrackOutEditor
 		int rightColumnX = sizeX*squareSize+20;
 		int rightColumnY = 0;
 		rightColumnX+=60;
-		buttons[0] = new ImageObject(images.getImage(images.BUTTON_ARROWUP),offsetX,offsetY,rightColumnX,rightColumnY,14,14,true,Color.lightGray);
+		buttons[0] = new ImageObject(images.getImage("button_arrowup.gif"),offsetX,offsetY,rightColumnX,rightColumnY,14,14,true,Color.lightGray);
 		rightColumnY+=17;
-		buttons[1] = new ImageObject(images.getImage(images.BUTTON_ARROWDOWN),offsetX,offsetY,rightColumnX,rightColumnY,14,14,true,Color.lightGray);
+		buttons[1] = new ImageObject(images.getImage("button_arrowdown.gif"),offsetX,offsetY,rightColumnX,rightColumnY,14,14,true,Color.lightGray);
 		rightColumnY+=22;
-		buttons[2] = new ImageObject(images.getImage(images.BUTTON_ARROWUP),offsetX,offsetY,rightColumnX,rightColumnY,14,14,true,Color.lightGray);
+		buttons[2] = new ImageObject(images.getImage("button_arrowup.gif"),offsetX,offsetY,rightColumnX,rightColumnY,14,14,true,Color.lightGray);
 		rightColumnY+=17;
-		buttons[3] = new ImageObject(images.getImage(images.BUTTON_ARROWDOWN),offsetX,offsetY,rightColumnX,rightColumnY,14,14,true,Color.lightGray);
+		buttons[3] = new ImageObject(images.getImage("button_arrowdown.gif"),offsetX,offsetY,rightColumnX,rightColumnY,14,14,true,Color.lightGray);
 
 		realButtons = new Button[7];
 		rightColumnX = sizeX*squareSize+160;
