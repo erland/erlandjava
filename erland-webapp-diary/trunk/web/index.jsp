@@ -16,7 +16,7 @@
 <table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
 <tr>
 <td colspan="2" width="100%" height="80" valign="center" align="center">
-<a href="portal?do=logout"><img src="logo.gif" border="0"></img></a>
+<a href="portal?do=logout"><img src="images/logo.gif" border="0"></img></a>
 <%
 String p = (String) request.getAttribute("header");
 if(p!=null) {
