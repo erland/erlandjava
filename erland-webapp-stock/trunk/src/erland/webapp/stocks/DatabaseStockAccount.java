@@ -31,7 +31,7 @@ public class DatabaseStockAccount extends StockAccount {
     private Integer getAccountId() {
         QueryFilter filter = new QueryFilter("allforuser");
         filter.setAttribute("username",getUsername());
-        EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("account").search(filter);
+        EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("stock-account").search(filter);
         if(entities.length>0) {
             return ((Account)entities[0]).getAccountId();
         }else {
@@ -46,7 +46,7 @@ public class DatabaseStockAccount extends StockAccount {
         Integer accountId = getAccountId();
         if(accountId!=null) {
             try {
-                Transaction transaction = (Transaction) getEnvironment().getEntityFactory().create("transaction");
+                Transaction transaction = (Transaction) getEnvironment().getEntityFactory().create("stock-transaction");
                 transaction.setAccountId(accountId);
                 transaction.setBrokerId(broker);
                 transaction.setDate(dateFormat.parse(date));
@@ -54,7 +54,7 @@ public class DatabaseStockAccount extends StockAccount {
                 transaction.setStockId(stock);
                 transaction.setPrice(new Double(price));
                 transaction.setValue(new Double(value));
-                getEnvironment().getEntityStorageFactory().getStorage("transaction").store(transaction);
+                getEnvironment().getEntityStorageFactory().getStorage("stock-transaction").store(transaction);
                 return true;
             } catch (ParseException e) {
                 e.printStackTrace();  //To change body of catch statement use Options | File Templates.
@@ -93,7 +93,7 @@ public class DatabaseStockAccount extends StockAccount {
         if(accountId!=null) {
             QueryFilter filter = new QueryFilter(query);
             filter.setAttribute("accountid",accountId);
-            EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("transaction").search(filter);
+            EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("stock-transaction").search(filter);
             for (int i = 0; i < entities.length; i++) {
                 Transaction transaction = (Transaction) entities[i];
                 result.addTransaction(transaction.getBrokerId(),transaction.getStockId(),dateFormat.format(transaction.getDate()),transaction.getPrice().doubleValue(),transaction.getValue().doubleValue());
@@ -105,7 +105,7 @@ public class DatabaseStockAccount extends StockAccount {
         Integer accountId = getAccountId();
         if(accountId!=null) {
             try {
-                Transaction template = (Transaction) getEnvironment().getEntityFactory().create("transaction");
+                Transaction template = (Transaction) getEnvironment().getEntityFactory().create("stock-transaction");
                 template.setAccountId(accountId);
                 template.setType(new Integer(type));
                 template.setBrokerId(broker);
@@ -163,7 +163,7 @@ public class DatabaseStockAccount extends StockAccount {
         if(accountId!=null) {
             QueryFilter filter = new QueryFilter("uniquestocksforaccountid");
             filter.setAttribute("accountid",accountId);
-            EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("stockaccountstockentry").search(filter);
+            EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("stock-stockaccountstockentry").search(filter);
             for (int i = 0; i < entities.length; i++) {
                 StockAccountStockEntry entry = (StockAccountStockEntry) entities[i];
                 result.addStock(entry);

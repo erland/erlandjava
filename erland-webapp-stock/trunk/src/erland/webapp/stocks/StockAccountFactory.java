@@ -37,7 +37,7 @@ public class StockAccountFactory implements StockAccountFactoryInterface {
         if(account==null) {
             User user = (User) session.getAttribute("user");
             if(user!=null && user.isValid()) {
-                account = (StockAccount)environment.getEntityFactory().create("stockaccount");
+                account = (StockAccount)environment.getEntityFactory().create("stock-stockaccount");
                 account.init(user.getUsername(), StockStorage.getInstance(environment));
                 session.setAttribute("stockaccount",account);
             }
