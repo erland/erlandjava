@@ -17,6 +17,9 @@
     <bean:write name="issue" property="assignedTo" />
     </td>
     <td nowrap>
+    <bean:write name="issue" property="applicationTitle" />
+    </td>
+    <td nowrap>
     <erland-common:beanlink name="issue" property="viewLink" style="propertypage-button"><bean:write name="issue" property="title" /></erland-common:beanlink>
     </td>
     </tr>
