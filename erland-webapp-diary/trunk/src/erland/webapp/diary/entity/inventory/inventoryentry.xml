@@ -46,6 +46,10 @@
                 <column>type</column>
                 <type>Integer</type>
             </field>
+            <field id="sex">
+                <column>sex</column>
+                <type>Integer</type>
+            </field>
         </fields>
         <queries>
             <query id="allforuser">
@@ -55,6 +59,20 @@
                     <field id="1">
                         <field>username</field>
                         <type>String</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allcurrentforuserandcontainer">
+                <completequerystring>select entry.* from inventoryentries entry left join inventoryentryhistory event on entry.id=event.id and username=? left join inventoryentryhistory lastevent on event.id=lastevent.id and event.eventid&lt;lastevent.eventid where event.eventid is not null and lastevent.eventid is null and event.container=? and event.description in (1,5,6,7,8,9)</completequerystring>
+                <orderstring>order by id desc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>username</field>
+                        <type>String</type>
+                    </field>
+                    <field id="2">
+                        <field>container</field>
+                        <type>Integer</type>
                     </field>
                 </fields>
             </query>

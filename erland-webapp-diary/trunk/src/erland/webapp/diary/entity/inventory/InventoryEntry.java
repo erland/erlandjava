@@ -25,6 +25,7 @@ public class InventoryEntry extends BaseEntity {
     private Integer id;
     private String username;
     private Integer type;
+    private Integer sex;
     private String name;
     private String description;
     private String image;
@@ -102,5 +103,13 @@ public class InventoryEntry extends BaseEntity {
 
     public void setLargeImage(String largeImage) {
         this.largeImage = largeImage;
+    }
+
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
     }
 }
