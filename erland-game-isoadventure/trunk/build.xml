@@ -1,6 +1,7 @@
 <project name="IsoAdventure" default="Build Application" basedir=".">
     <!-- set global properties for this build -->
-    <property file="C:/Program Files/Java/build.properties"/>
+	<property environment="env"/>
+    <property file="${env.ERLAND_ANT_BUILD_PROPERTIES}"/>
 
     <target name="buildlibraries" unless="nolibraries" >
         <!-- Make sure to build other project this depend on -->
