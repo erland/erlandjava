@@ -30,6 +30,8 @@ public class UserAccount extends BaseEntity {
     private String stylesheet;
     private String skin;
     private Boolean mailNotification;
+    private String jabberId;
+    private Boolean jabberNotification;
 
     public String getUsername() {
         return username;
@@ -93,5 +95,21 @@ public class UserAccount extends BaseEntity {
 
     public void setMailNotification(Boolean mailNotification) {
         this.mailNotification = mailNotification;
+    }
+
+    public Boolean getJabberNotification() {
+        return jabberNotification;
+    }
+
+    public void setJabberNotification(Boolean jabberNotification) {
+        this.jabberNotification = jabberNotification;
+    }
+
+    public String getJabberId() {
+        return jabberId;
+    }
+
+    public void setJabberId(String jabberId) {
+        this.jabberId = jabberId;
     }
 }

@@ -30,6 +30,12 @@
     <tr><td><bean:message key="tvguide.account.edit.mailnotification"/></td><td>
     <html:checkbox property="mailNotificationDisplay" value="true"/>
     </td></tr>
+    <tr><td><bean:message key="tvguide.account.edit.jabbernotification"/></td><td>
+    <html:checkbox property="jabberNotificationDisplay" value="true"/>
+    </td></tr>
+    <tr><td><bean:message key="tvguide.account.edit.jabberid"/></td><td>
+    <html:text property="jabberId" />
+    </td></tr>
     <tr><td><bean:message key="tvguide.account.edit.official"/></td><td>
     <html:checkbox property="officialDisplay" value="true"/>
     </td></tr>

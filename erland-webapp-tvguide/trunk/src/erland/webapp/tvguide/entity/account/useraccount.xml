@@ -41,6 +41,14 @@
                 <column>mailnotification</column>
                 <type>Boolean</type>
             </field>
+            <field id="jabberId">
+                <column>jabberid</column>
+                <type>String</type>
+            </field>
+            <field id="jabberNotification">
+                <column>jabbernotification</column>
+                <type>Boolean</type>
+            </field>
         </fields>
         <queries>
             <query id="all">

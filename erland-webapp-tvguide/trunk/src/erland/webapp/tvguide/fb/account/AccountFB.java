@@ -38,6 +38,8 @@ public class AccountFB extends BaseFB {
     private String stylesheet;
     private String skin;
     private String mailNotificationDisplay;
+    private String jabberNotificationDisplay;
+    private String jabberId;
 
     public String getUsername() {
         return username;
@@ -151,6 +153,30 @@ public class AccountFB extends BaseFB {
         this.mailNotificationDisplay = mailNotificationDisplay;
     }
 
+    public Boolean getJabberNotification() {
+        return StringUtil.asBoolean(jabberNotificationDisplay,Boolean.FALSE);
+    }
+
+    public void setJabberNotification(Boolean jabberNotification) {
+        this.jabberNotificationDisplay = StringUtil.asString(jabberNotification, null);
+    }
+
+    public String getJabberNotificationDisplay() {
+        return jabberNotificationDisplay;
+    }
+
+    public void setJabberNotificationDisplay(String jabberNotificationDisplay) {
+        this.jabberNotificationDisplay = jabberNotificationDisplay;
+    }
+
+    public String getJabberId() {
+        return jabberId;
+    }
+
+    public void setJabberId(String jabberId) {
+        this.jabberId = jabberId;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         username = null;
@@ -165,5 +191,7 @@ public class AccountFB extends BaseFB {
         stylesheet = null;
         skin = null;
         mailNotificationDisplay = null;
+        jabberNotificationDisplay = null;
+        jabberId = null;
     }
 }
