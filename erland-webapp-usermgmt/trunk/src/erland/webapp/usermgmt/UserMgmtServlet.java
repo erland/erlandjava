@@ -19,12 +19,16 @@ package erland.webapp.usermgmt;
  */
 
 import erland.webapp.common.BaseServlet;
-import erland.util.Log;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public abstract class UserMgmtServlet extends BaseServlet {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(UserMgmtServlet.class);
     protected boolean isCommandAllowed(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         String cmd = getCommandClassName(request);
@@ -33,21 +37,21 @@ public abstract class UserMgmtServlet extends BaseServlet {
             if(user!=null && user.isValid()) {
                 String role = getEnvironment().getResources().getParameter("commands."+cmd+".role");
                 if(role==null || user.hasRole(role)) {
-                    Log.println(this,"isCommandAllowed: allowed user and role is valid");
+                    LOG.debug("isCommandAllowed: allowed user and role is valid");
                     return true;
                 }else {
-                    Log.println(this,"isCommandAllowed: not allowed role is not valid");
+                    LOG.debug("isCommandAllowed: not allowed role is not valid");
                     return false;
                 }
             }
         }else {
-            Log.println(this,"isCommandAllowed: no session");
+            LOG.debug("isCommandAllowed: no session");
         }
         if(getEnvironment().getResources().getParameter("commands."+cmd+".role")==null) {
-            Log.println(this,"isCommandAllowed: command is valid"+cmd);
+            LOG.debug("isCommandAllowed: command is valid"+cmd);
             return true;
         }
-        Log.println(this,"isCommandAllowed: command is not valid "+cmd);
+        LOG.debug("isCommandAllowed: command is not valid "+cmd);
         return false;
     }
 

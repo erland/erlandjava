@@ -21,13 +21,17 @@ package erland.webapp.usermgmt;
 import erland.webapp.common.CommandInterface;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.CommandOptionsInterface;
-import erland.util.Log;
 import erland.util.ParameterValueStorageExInterface;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class LoginCommand implements CommandInterface, CommandOptionsInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(LoginCommand.class);
     private WebAppEnvironmentInterface environment;
     private ParameterValueStorageExInterface options;
     public void init(WebAppEnvironmentInterface environment) {
@@ -42,9 +46,9 @@ public class LoginCommand implements CommandInterface, CommandOptionsInterface {
         User user = (User)environment.getEntityFactory().create("usermgmt-user");
         user.setUsername(req.getParameter("name"));
         user.setPassword(req.getParameter("password"));
-        Log.println(this,"Trying to login as "+user.getUsername()+","+user.getPassword());
+        LOG.debug("Trying to login as "+user.getUsername()+","+user.getPassword());
         if(user.login(req.getParameter("application"))) {
-            Log.println(this,"Successfully login as "+user.getUsername());
+            LOG.debug("Successfully login as "+user.getUsername());
             String userAttribute = options.getParameter("userattribute");
             if(userAttribute==null) {
                 userAttribute = "user";
@@ -52,7 +56,7 @@ public class LoginCommand implements CommandInterface, CommandOptionsInterface {
             session.setAttribute(userAttribute,user);
             return "success";
         }else {
-            Log.println(this,"Fail to login as "+user.getUsername());
+            LOG.debug("Fail to login as "+user.getUsername());
             return "failure";
         }
     }

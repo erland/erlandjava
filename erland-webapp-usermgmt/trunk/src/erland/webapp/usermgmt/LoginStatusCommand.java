@@ -21,7 +21,6 @@ package erland.webapp.usermgmt;
 import erland.webapp.common.CommandInterface;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.CommandOptionsInterface;
-import erland.util.Log;
 import erland.util.ParameterValueStorageExInterface;
 
 import javax.servlet.http.HttpServletRequest;

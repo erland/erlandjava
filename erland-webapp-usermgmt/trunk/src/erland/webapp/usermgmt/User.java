@@ -22,14 +22,17 @@ import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.common.EntityStorageInterface;
 import erland.webapp.common.QueryFilter;
-import erland.util.Log;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.HashSet;
 
 public class User implements EntityInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(User.class);
     private String username;
     private String password;
     private String firstName;
@@ -64,16 +67,16 @@ public class User implements EntityInterface {
 
     public boolean login(String application) {
         try {
-            Log.println(this,"Connecting to user management database");
+            LOG.debug("Connecting to user management database");
             EntityStorageInterface storage = getEnvironment().getEntityStorageFactory().getStorage("usermgmt-user");
             User user = (User) storage.load(this);
             if(user!=null) {
                 roles = user.getApplicationRoleList(application);
-                Log.println(this,"Got "+roles.size()+" roles");
+                LOG.debug("Got "+roles.size()+" roles");
                 if(roles.size()>0) {
-                    Log.println(this,"Got password "+user.getPassword());
+                    LOG.debug("Got password "+user.getPassword());
                     if(user.getPassword() != null) {
-                        Log.println(this,"Comparing password with "+getPassword());
+                        LOG.debug("Comparing password with "+getPassword());
                         if(user.getPassword().equals(getPassword())) {
                             PropertyUtils.copyProperties(this,user);
                             setValid(true);

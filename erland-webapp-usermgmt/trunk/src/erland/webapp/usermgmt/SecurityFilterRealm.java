@@ -1,11 +1,12 @@
 package erland.webapp.usermgmt;
 
 import org.securityfilter.realm.SecurityRealmInterface;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.security.Principal;
 
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
-import erland.util.Log;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -27,18 +28,20 @@ import erland.util.Log;
  */
 
 public class SecurityFilterRealm implements SecurityRealmInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(SecurityFilterRealm.class);
     private String application;
 
     public Principal authenticate(String username, String password) {
         User user = (User)WebAppEnvironmentPlugin.getEnvironment().getEntityFactory().create("usermgmt-user");
         user.setUsername(username);
         user.setPassword(password);
-        Log.println(this,"Trying to login as "+user.getUsername()+","+user.getPassword());
+        LOG.debug("Trying to login as "+user.getUsername()+","+user.getPassword());
         if(user.login(application)) {
-            Log.println(this,"Successfully login as "+user.getUsername());
+            LOG.debug("Successfully login as "+user.getUsername());
             return user.createPrincial();
         }else {
-            Log.println(this,"Fail to login as "+user.getUsername());
+            LOG.debug("Fail to login as "+user.getUsername());
             return null;
         }
     }
