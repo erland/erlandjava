@@ -46,6 +46,7 @@
     <orderEntry type="module" module-name="WebCommon" />
     <orderEntry type="module" module-name="util" />
     <orderEntry type="library" name="Servletapi" level="application" />
+    <orderEntry type="library" name="commons-logging" level="application" />
   </component>
 </module>
 

@@ -18,7 +18,8 @@ package erland.webapp.diagram;
  *
  */
 
-import erland.util.Log;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -29,6 +30,8 @@ import java.text.NumberFormat;
 import java.text.DecimalFormat;
 
 public class DateValueDiagram {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(DateValueDiagram.class);
     private double maxValue;
     private Date minDate;
     private Date maxDate;
@@ -118,7 +121,7 @@ public class DateValueDiagram {
         }
     }
     private double getValueLabelInterval(int size, int minInterval, double maxValue) {
-        Log.println(this,"getValueLabelInterval "+size+" "+minInterval+" "+maxValue);
+        LOG.debug("getValueLabelInterval "+size+" "+minInterval+" "+maxValue);
         if(maxValue>0) {
             int noOfLabels=size/minInterval;
             if(noOfLabels>0) {
@@ -130,19 +133,19 @@ public class DateValueDiagram {
                     multiplier*=10.0;
                 }
                 double val = Math.floor(maxValue*multiplier/noOfLabels)/multiplier;
-                Log.println(this,"getValueLabelInterval(...)="+val);
+                LOG.debug("getValueLabelInterval(...)="+val);
                 return val;
             }else {
                 return maxValue;
             }
         }else {
-            Log.println(this,"getValueLabelInterval(...)="+size);
+            LOG.debug("getValueLabelInterval(...)="+size);
             return maxValue;
         }
     }
     private DateInterval getDateLabelInterval(int size,int minInterval, Date minDate, Date maxDate) {
         int noOfLabels = size/minInterval;
-        Log.println(this,"noOfDateLabels = "+noOfLabels);
+        LOG.debug("noOfDateLabels = "+noOfLabels);
         return DateInterval.calculateInterval(minDate,maxDate,noOfLabels);
     }
     private int getMaxPlotLabelWidth(Graphics g, int height) {
@@ -183,9 +186,9 @@ public class DateValueDiagram {
 
 
         double verticalLabelInterval = getValueLabelInterval(height,25,maxValue);
-        Log.println(this,"verticalLabelInterval="+verticalLabelInterval);
+        LOG.debug("verticalLabelInterval="+verticalLabelInterval);
         int noOfVerticalLabels = (int)Math.floor(maxValue/verticalLabelInterval);
-        Log.println(this,"noOfVerticalLabels="+noOfVerticalLabels);
+        LOG.debug("noOfVerticalLabels="+noOfVerticalLabels);
 
         x=0;
         // Calculate max label width
@@ -193,7 +196,7 @@ public class DateValueDiagram {
         NumberFormat numberFormat = new DecimalFormat("0.##");
         for(int i=0;i<noOfVerticalLabels;i++) {
             y=(i+1)*verticalLabelInterval*dy;
-            Log.println(this,"verticalLabel="+y);
+            LOG.debug("verticalLabel="+y);
             String label = numberFormat.format(y/dy);
             Rectangle2D rc = g.getFontMetrics().getStringBounds(label,g);
             int labelWidth = (int) rc.getWidth();
@@ -206,12 +209,12 @@ public class DateValueDiagram {
         int width = right-left;
         double dx=(double)width/(maxDate.getTime()-minDate.getTime());
         DateInterval horizontalLabelInterval = getDateLabelInterval(width,60,minDate,maxDate);
-        Log.println(this,"horizontalLabelInterval="+horizontalLabelInterval);
+        LOG.debug("horizontalLabelInterval="+horizontalLabelInterval);
 
         // Draw vertical labels
         for(int i=0;i<noOfVerticalLabels;i++) {
             y=(i+1)*verticalLabelInterval*dy;
-            Log.println(this,"verticalLabel="+y);
+            LOG.debug("verticalLabel="+y);
             g.setColor(Color.lightGray);
             g.drawLine(left-LABEL_MARK_SIZE,bottom-(int)y,right,bottom-(int)y);
             g.setColor(Color.black);
@@ -233,7 +236,7 @@ public class DateValueDiagram {
         Date currentDate = horizontalLabelInterval.next(minDate);
         while(currentDate.getTime()<=maxDate.getTime()) {
             x=(currentDate.getTime()-minDate.getTime())*dx;
-            Log.println(this,"horizontalLabel="+x);
+            LOG.debug("horizontalLabel="+x);
             g.setColor(Color.lightGray);
             g.drawLine(left+(int)x,top,left+(int)x,bottom+LABEL_MARK_SIZE);
             g.setColor(Color.black);

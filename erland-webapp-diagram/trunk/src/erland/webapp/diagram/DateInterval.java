@@ -18,8 +18,6 @@ package erland.webapp.diagram;
  *
  */
 
-import erland.util.Log;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.text.DateFormat;
