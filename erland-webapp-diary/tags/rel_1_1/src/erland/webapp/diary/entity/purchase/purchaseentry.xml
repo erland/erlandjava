@@ -1,0 +1,55 @@
+<entity id="purchaseentry">
+    <class>erland.webapp.diary.entity.purchase.PurchaseEntry</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/diary</datasource>
+        <table>purchaseentries</table>
+        <fields>
+            <field id="id">
+                <column>id</column>
+                <type>Integer</type>
+                <identity>true</identity>
+                <auto>true</auto>
+            </field>
+            <field id="username">
+                <column>username</column>
+                <type>String</type>
+            </field>
+            <field id="date">
+                <column>date</column>
+                <type>Date</type>
+            </field>
+            <field id="description">
+                <column>description</column>
+                <type>String</type>
+            </field>
+            <field id="store">
+                <column>store</column>
+                <type>String</type>
+            </field>
+            <field id="category">
+                <column>category</column>
+                <type>Integer</type>
+            </field>
+            <field id="price">
+                <column>price</column>
+                <type>Double</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allforuser">
+                <querystring>username=?</querystring>
+                <orderstring>order by date desc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>username</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
