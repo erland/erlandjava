@@ -59,6 +59,8 @@ class BoulderDashMain
 	protected LevelFactory levelFactory;
 	/** Indicates the number of diamonds that has been collected */
 	protected int diamonds;
+	/** Indicates the number of diamonds that should be collected on this level */
+	protected int diamondsToCollect;
 	/** Indicates if one of the arrow keys are pressed down */
 	protected boolean moving;
 	/** Indicates which of the arrow keys that are pressed down, see {@link erland.game#Direction} */
@@ -69,6 +71,8 @@ class BoulderDashMain
 	protected int scrollX;
 	/** Y scrolling position */
 	protected int scrollY;
+	/** Indicates if the Exit button has been pressed */
+	protected boolean bExit;
 		
 		
 	class ChangeableBlockContainerData extends BlockContainerData
@@ -114,14 +118,13 @@ class BoulderDashMain
 		cheatMode = false;
 		cont = new ChangeableBlockContainerData(offsetX, offsetY, 20,20,20);
 		contVisible = new BlockContainerData(offsetX, offsetY, 20,20,20);
-		levelFactory = new LevelFactory(this,images,cont);
+		levelFactory = new LevelFactory(this,cookies,images,cont);
 		player = new Player();
-		// TODO: initiate all buttons
-		// buttons = new Button[2];
-		// buttons[0] = new Button("Button1");
-		// buttons[0].setBounds(offsetX + 10,offsetY + 10,73,25);
-		// buttons[1] = new Button("Button2");
-		// buttons[2].setBounds(offsetX + 10,offsetY + 40,73,25);
+
+		buttons = new Button[1];
+		buttons[0] = new Button("Exit");
+		buttons[0].setBounds(contVisible.getDrawingPositionX(contVisible.getSizeX())+10,
+							contVisible.getDrawingPositionX(contVisible.getSizeX())+10,73,25);
 		if(buttons!=null) {
 			for(int i=0;i<buttons.length;i++) {
 				buttons[i].addActionListener(this);
@@ -176,6 +179,7 @@ class BoulderDashMain
 	{
 		diamonds=0;
 		blocks = levelFactory.getLevel(level,player);
+		diamondsToCollect = levelFactory.getDiamonds(blocks);
 		allocated = new boolean[blocks.length][blocks[0].length];
 		for(int x=0;x<blocks.length;x++) {
 			for(int y=0;y<blocks[0].length;y++) {
@@ -192,11 +196,20 @@ class BoulderDashMain
 	 */
 	protected void exit()
 	{
+		bExit = true;
 		if(buttons!=null) {
 			for(int i=0;i<buttons.length;i++) {
 				container.remove(buttons[i]);
 			}
 		}
+	}
+	/**
+	 * Indicates if the Exit button has been pressed
+	 * @return true/false (Pressed/Not pressed)
+	 */
+	protected boolean isExit()
+	{
+		return bExit;
 	}
 
 	/**
@@ -207,7 +220,7 @@ class BoulderDashMain
 	protected boolean newLevel()
 	{	
 		level++;
-		if(level<levelFactory.getLastLevel()) {
+		if(level<=levelFactory.getLastLevel()) {
 			if(level>1) {
 				score+=level*100;
 			}
@@ -274,10 +287,7 @@ class BoulderDashMain
 		g.drawString("Diamonds: "+String.valueOf(diamonds),rightColumnX, rightColumnY);
 		rightColumnY+=20;
 		if(cheatMode) {
-			//g.drawString("*** Cheatmode *** FPS=" + fps,rightColumnX,rightColumnY);
-			if(player.moveCompleted()>0.1f && player.moveCompleted()<1.0f) {
-				g.drawString(String.valueOf(player.moveCompleted())+":"+String.valueOf(isDestroyable(player.getPosX(),player.getPosY())),rightColumnX,rightColumnY);
-			}
+			g.drawString("*** Cheatmode *** FPS=" + fps,rightColumnX,rightColumnY);
 		}
 		rightColumnY+=20;
 		if(bEnd) {
@@ -357,7 +367,7 @@ class BoulderDashMain
 			adjustScrollingOffset();	
 			if(!player.isAlive()) {
 					handleDeath();
-			}else if(levelFactory.getNumberOfDiamonds(level)==diamonds) {
+			}else if(diamondsToCollect==diamonds) {
 				if(!newLevel()) {
 					bEnd=true;
 					bStarted=false;
@@ -462,6 +472,16 @@ class BoulderDashMain
 	{
 		// TODO: Handle a mouse release
 	}
+	/**
+	 * Called when the mouse has been dragged with the left 
+	 * mouse button has been pressed down
+	 * @param x X position of the mouse pointer
+	 * @param y Y position of the mouse pointer
+	 */
+	public void handleLeftMouseDragged(int x, int y)
+	{
+		// TODO: Handle mouse drag
+	}
 
 	/**
 	 * Activate or deactivate cheatmode
@@ -481,7 +501,13 @@ class BoulderDashMain
 		if(buttons!=null) {
 			for(int i=0;i<buttons.length;i++) {
 				if(e.getSource()==buttons[i]) {
-					// TODO: Handle click on buttons[i]
+					switch(i) {
+						case 0:
+							exit();
+							break;
+						default:
+							break;
+					}
 				}
 			}
 		}
