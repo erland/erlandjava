@@ -1,14 +1,14 @@
 package erland.webapp.common.act;
 
-import org.apache.struts.action.Action;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import erland.webapp.common.fb.MenuExpandCollapseFB;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -29,45 +29,56 @@ import erland.webapp.common.fb.MenuExpandCollapseFB;
  * 
  */
 
-public class MenuExpandCollapseAction extends Action {
-    public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        MenuExpandCollapseFB fb = (MenuExpandCollapseFB) actionForm;
-        if(fb.getMenuName()!=null) {
-            String menuObj = (String) httpServletRequest.getSession().getAttribute(fb.getMenuName());
-            if(menuObj!=null && menuObj.equals(fb.getMenuItemId())) {
-                String id = fb.getMenuItemId();
-                int pos = fb.getMenuItemId().lastIndexOf("-");
-                if(pos>0) {
-                    id = id.substring(0,pos);
-                }else {
-                    id = "";
-                }
-                httpServletRequest.getSession().setAttribute(fb.getMenuName(),id);
-            }else if(menuObj!=null && menuObj.startsWith(fb.getMenuItemId())) {
-                httpServletRequest.getSession().setAttribute(fb.getMenuName(),fb.getMenuItemId());
-            }else {
-                httpServletRequest.getSession().setAttribute(fb.getMenuName(),fb.getMenuItemId());
-            }
-            String id=fb.getMenuItemId();
-            ActionForward forward = actionMapping.findForward(fb.getMenuName()+"-"+id);
-            while(forward==null && id.length()>0) {
-                int pos = id.lastIndexOf("-");
-                if(pos>0) {
-                    id = id.substring(0,pos);
-                    forward = actionMapping.findForward(fb.getMenuName()+"-"+id);
-                }else {
-                    id="";
-                }
-            }
-            if(forward==null) {
-                forward = actionMapping.findForward(fb.getMenuName());
-            }
-            if(forward==null) {
-                forward = actionMapping.findForward("success");
-            }
-            return forward;
-        }else {
-            return actionMapping.findForward("failure");
+public class MenuExpandCollapseAction extends BaseAction {
+    protected void preProcess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        MenuExpandCollapseFB fb = (MenuExpandCollapseFB) form;
+        if(fb.getMenuName()==null) {
+            saveErrors(request,Arrays.asList(new String[] {"errors.invalid-parameter","menuName"}));
         }
+        if(fb.getMenuItemId()==null) {
+            saveErrors(request,Arrays.asList(new String[] {"errors.invalid-parameter","menuId"}));
+        }
+    }
+
+    protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        MenuExpandCollapseFB fb = (MenuExpandCollapseFB) form;
+        String menuObj = (String) request.getSession().getAttribute(fb.getMenuName());
+        System.out.println(fb.getMenuName()+" Current: "+menuObj);
+        if(menuObj!=null && menuObj.startsWith(fb.getMenuItemId())) {
+            String id = fb.getMenuItemId();
+            int pos = id.lastIndexOf("-");
+            if(pos>0) {
+                id = id.substring(0,pos);
+            }else {
+                id = "";
+            }
+            System.out.println(fb.getMenuName()+" New: "+id);
+            request.getSession().setAttribute(fb.getMenuName(),id);
+        }else {
+            System.out.println(fb.getMenuName()+" New: "+fb.getMenuItemId());
+            request.getSession().setAttribute(fb.getMenuName(),fb.getMenuItemId());
+        }
+    }
+
+    protected ActionForward findSuccess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        MenuExpandCollapseFB fb = (MenuExpandCollapseFB) form;
+        String id=fb.getMenuItemId();
+        ActionForward forward = mapping.findForward(fb.getMenuName()+"-"+id);
+        while(forward==null && id.length()>0) {
+            int pos = id.lastIndexOf("-");
+            if(pos>0) {
+                id = id.substring(0,pos);
+                forward = mapping.findForward(fb.getMenuName()+"-"+id);
+            }else {
+                id="";
+            }
+        }
+        if(forward==null) {
+            forward = mapping.findForward(fb.getMenuName());
+        }
+        if(forward==null) {
+            forward = mapping.findForward(FORWARD_SUCCESS);
+        }
+        return forward;
     }
 }
