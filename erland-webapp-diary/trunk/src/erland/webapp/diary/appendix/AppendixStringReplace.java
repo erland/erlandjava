@@ -21,8 +21,7 @@ package erland.webapp.diary.appendix;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.common.QueryFilter;
-import erland.webapp.diary.appendix.AppendixEntry;
-import erland.webapp.diary.StringReplaceInterface;
+import erland.webapp.common.html.StringReplaceInterface;
 import erland.util.Log;
 
 public class AppendixStringReplace implements StringReplaceInterface {
