@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Arrays;
 
 public class EditCategoryAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -42,36 +43,54 @@ public class EditCategoryAction extends BaseAction {
         template.setGallery(gallery);
         template.setCategory(fb.getCategory());
         Category entity = (Category) getEnvironment().getEntityStorageFactory().getStorage("gallery-category").load(template);
-        if (entity != null && !fb.getName().equals(entity.getName())) {
-            entity.setName(fb.getName());
-            getEnvironment().getEntityStorageFactory().getStorage("gallery-category").store(entity);
+        if (entity == null) {
+            saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.category.edit.category-dont-exist"}));
+            return;
         }
-        if (entity != null && (fb.getForcedOfficial().booleanValue() || !entity.getOfficial().equals(fb.getOfficial())) || !entity.getOfficialAlways().equals(fb.getOfficialAlways()) || !entity.getOfficialVisible().equals(fb.getOfficialVisible())) {
-            QueryFilter filter = new QueryFilter("allforgalleryandcategorytree");
-            filter.setAttribute("gallery", gallery);
-            filter.setAttribute("category", fb.getCategory());
-            EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-category").search(filter);
-            Collection categories = new ArrayList(entities.length);
-            for (int i = 0; i < entities.length; i++) {
-                categories.add(((Category) entities[i]).getCategory());
-            }
-            filter = new QueryFilter("allforgalleryandcategorylist");
-            filter.setAttribute("gallery", gallery);
-            filter.setAttribute("categories", categories);
-            entity = (Category) getEnvironment().getEntityFactory().create("gallery-category");
-            entity.setOfficial(fb.getOfficial());
-            entity.setOfficialAlways(fb.getOfficialAlways());
-            entity.setOfficialVisible(fb.getOfficialVisible());
-            getEnvironment().getEntityStorageFactory().getStorage("gallery-category").update(filter, entity);
+        entity.setName(fb.getName());
+        getEnvironment().getEntityStorageFactory().getStorage("gallery-category").store(entity);
 
-            filter = new QueryFilter("calculateofficialforgallery");
-            filter.setAttribute("gallery", gallery);
-            updatePictures(filter, gallery, Boolean.TRUE);
-
-            filter = new QueryFilter("calculateunofficialforgallery");
-            filter.setAttribute("gallery", gallery);
-            updatePictures(filter, gallery, Boolean.FALSE);
+        Boolean official = Boolean.FALSE;
+        Boolean officialNever = Boolean.FALSE;
+        if(Boolean.TRUE.equals(fb.getOfficial())) {
+            official = Boolean.TRUE;
+        }else if(!Boolean.TRUE.equals(fb.getOfficial()) && !Boolean.TRUE.equals(fb.getOfficialGuest())) {
+            officialNever = Boolean.TRUE;
         }
+
+        QueryFilter filter = new QueryFilter("allforgalleryandcategorytree");
+        filter.setAttribute("gallery", gallery);
+        filter.setAttribute("category", fb.getCategory());
+        EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-category").search(filter);
+        Collection categories = new ArrayList(entities.length);
+        for (int i = 0; i < entities.length; i++) {
+            categories.add(((Category) entities[i]).getCategory());
+        }
+        filter = new QueryFilter("allforgalleryandcategorylist");
+        filter.setAttribute("gallery", gallery);
+        filter.setAttribute("categories", categories);
+        entity = (Category) getEnvironment().getEntityFactory().create("gallery-category");
+        entity.setOfficial(official);
+        entity.setOfficialAlways(fb.getOfficialAlways());
+        entity.setOfficialVisible(fb.getOfficialVisible());
+        entity.setOfficialNever(officialNever);
+        getEnvironment().getEntityStorageFactory().getStorage("gallery-category").update(filter, entity);
+
+        filter = new QueryFilter("calculateofficialforgallery");
+        filter.setAttribute("gallery", gallery);
+        updatePictures(filter, gallery, Boolean.TRUE);
+
+        filter = new QueryFilter("calculateunofficialforgallery");
+        filter.setAttribute("gallery", gallery);
+        updatePictures(filter, gallery, Boolean.FALSE);
+
+        filter = new QueryFilter("calculateofficialguestforgallery");
+        filter.setAttribute("gallery", gallery);
+        updatePicturesGuest(filter, gallery, Boolean.TRUE);
+
+        filter = new QueryFilter("calculateunofficialguestforgallery");
+        filter.setAttribute("gallery", gallery);
+        updatePicturesGuest(filter, gallery, Boolean.FALSE);
     }
 
 
@@ -79,6 +98,17 @@ public class EditCategoryAction extends BaseAction {
         Picture entity = (Picture) getEnvironment().getEntityFactory().create("gallery-picture");
         entity.setOfficial(official);
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").search(filter);
+        updatePictures(entities, gallery, entity);
+    }
+
+    private void updatePicturesGuest(QueryFilter filter, Integer gallery, Boolean official) {
+        Picture entity = (Picture) getEnvironment().getEntityFactory().create("gallery-picture");
+        entity.setOfficialGuest(official);
+        EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").search(filter);
+        updatePictures(entities, gallery, entity);
+    }
+
+    private void updatePictures(EntityInterface[] entities, Integer gallery, Picture picture) {
         Collection pictures = new ArrayList(entities.length);
         for (int i = 0; i < entities.length; i++) {
             pictures.add(((Picture) entities[i]).getId());
@@ -86,6 +116,6 @@ public class EditCategoryAction extends BaseAction {
         QueryFilter pictureFilter = new QueryFilter("allforgalleryandpicturelist");
         pictureFilter.setAttribute("gallery", gallery);
         pictureFilter.setAttribute("pictures", pictures);
-        getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").update(pictureFilter, entity);
+        getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").update(pictureFilter, picture);
     }
 }

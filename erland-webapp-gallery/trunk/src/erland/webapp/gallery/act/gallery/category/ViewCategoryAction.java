@@ -41,6 +41,16 @@ public class ViewCategoryAction extends BaseAction {
         if (category != null) {
             category.setGallery(fb.getGallery());
             PropertyUtils.copyProperties(fb, category);
+            if(Boolean.TRUE.equals(category.getOfficial()) && !Boolean.TRUE.equals(category.getOfficialNever())) {
+                fb.setOfficial(Boolean.TRUE);
+                fb.setOfficialGuest(Boolean.TRUE);
+            }else if(Boolean.TRUE.equals(category.getOfficialNever())) {
+                fb.setOfficial(Boolean.FALSE);
+                fb.setOfficialGuest(Boolean.FALSE);
+            }else {
+                fb.setOfficial(Boolean.FALSE);
+                fb.setOfficialGuest(Boolean.TRUE);
+            }
         }
     }
 }
