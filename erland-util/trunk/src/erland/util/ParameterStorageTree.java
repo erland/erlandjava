@@ -18,9 +18,7 @@ package erland.util;
  *
  */
 
-import java.util.StringTokenizer;
-import java.util.Iterator;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * Get parameters from an XML document
@@ -31,14 +29,20 @@ public class ParameterStorageTree implements ParameterValueStorageExInterface {
     private XMLNode resources = null;
     /** XML Parser implementation */
     private SimpleXMLParserHandler handler = new SimpleXMLParserHandler();
+    /** Sub storage factory */
+    private StorageFactoryInterface subStorageFactory;
 
     /**
      * Create an instance which accesses data in the specified storage
      * @param storage The storage object
+     * @param subStorageFactory A storage factory that should be used when creating new sub storages
      */
-    public ParameterStorageTree(StorageInterface storage) {
-        if(XMLParser.getInstance().parse(storage.load(),handler)) {
+    public ParameterStorageTree(StorageInterface storage, StorageFactoryInterface subStorageFactory) {
+        this.subStorageFactory = subStorageFactory;
+        String data = storage.load();
+        if(data!=null && XMLParser.getInstance().parse(data,handler)) {
             resources = handler.getData();
+            resources = loadAllExternalData(resources);
         }else {
             resources = null;
         }
@@ -89,7 +93,11 @@ public class ParameterStorageTree implements ParameterValueStorageExInterface {
                         }
                     }
                     if(element.getAttributeValue("id")!=null && element.getAttributeValue("id").equals(token)) {
-                        return getParameter(tokenizer,element.getChilds());
+                        if(tokenizer.hasMoreTokens()) {
+                            return getParameter(tokenizer,element.getChilds());
+                        }else {
+                            return element;
+                        }
                     }
                 }else if(element.getAttributeValue("id")!=null && element.getAttributeValue("id").equals(token)) {
                     if(tokenizer.hasMoreTokens()) {
@@ -158,6 +166,55 @@ public class ParameterStorageTree implements ParameterValueStorageExInterface {
             return new XMLStorage(node);
         }else {
             return null;
+        }
+    }
+
+    private XMLNode loadAllExternalData(XMLNode element) {
+        String value = element.getValue();
+        if(value!=null && value.length()==0) {
+            value=null;
+        }
+        String reference = element.getAttributeValue("reference");
+        if(reference!=null && reference.length()==0) {
+            reference=null;
+        }
+        Iterator childs = element.getChilds();
+        if(reference!=null) {
+            String[] refData = reference.split(":");
+            if(refData.length>=2) {
+                StorageInterface storage = subStorageFactory.create(refData[1]);
+                if(storage!=null) {
+                    ParameterStorageTree subTree = new ParameterStorageTree(storage,subStorageFactory);
+                    element = subTree.getParameterNode(refData[0]);
+                }
+            }
+        }else if(childs!=null) {
+            Map replaced = new HashMap();
+            while(childs.hasNext()) {
+                XMLNode child = (XMLNode) childs.next();
+                XMLNode newChild = loadAllExternalData(child);
+                if(newChild!=null && child!=newChild) {
+                    for(Iterator it=child.getAttributes();it.hasNext();) {
+                        String attribute = (String)it.next();
+                        if(!attribute.equals("reference")) {
+                            newChild.setAttributeValue(attribute,child.getAttributeValue(attribute));
+                        }
+                    }
+                    replaced.put(child,newChild);
+                }
+            }
+            for(Iterator it=replaced.entrySet().iterator();it.hasNext();) {
+                Map.Entry entry = (Map.Entry) it.next();
+                element.replaceChild((XMLNode)entry.getKey(),(XMLNode)entry.getValue());
+            }
+        }
+        return element;
+    }
+    public String toString() {
+        if(resources!=null) {
+            return resources.toString(true);
+        }else {
+            return "";
         }
     }
 }
