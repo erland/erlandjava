@@ -13,8 +13,14 @@
     <tr><td><bean:message key="gallery.gallery.edit.title"/></td><td>
     <html:text property="title"/> 
     </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.title-english"/></td><td>
+    <html:text property="titleEnglish"/>
+    </td></tr>
     <tr><td><bean:message key="gallery.gallery.edit.description"/></td><td>
     <html:textarea property="description" cols="80" rows="15" />
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.description-english"/></td><td>
+    <html:textarea property="descriptionEnglish" cols="80" rows="15" />
     </td></tr>
     <logic:notEmpty name="galleryFB" property="id">
         <tr><td><bean:message key="gallery.gallery.edit.top-category"/></td><td>
@@ -83,8 +89,23 @@
     <tr><td><bean:message key="gallery.gallery.edit.showpicturetitle"/></td><td>
     <html:checkbox property="showPictureTitleDisplay" value="true"/>
     </td></tr>
-    <tr><td><bean:message key="gallery.gallery.edit.showpicturedescription"/></td><td>
-    <html:checkbox property="showPictureDescriptionDisplay" value="true"/>
+    <tr><td><bean:message key="gallery.gallery.edit.thumbnail-picture-title"/></td><td>
+    <html:textarea property="thumbnailPictureTitle" cols="60" rows="2" />
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.picture-title"/></td><td>
+    <html:textarea property="pictureTitle" cols="60" rows="2" />
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.thumbnail-row-1"/></td><td>
+    <html:textarea property="thumbnailRow1" cols="60" rows="2" />
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.thumbnail-row-2"/></td><td>
+    <html:textarea property="thumbnailRow2" cols="60" rows="2" />
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.thumbnail-row-3"/></td><td>
+    <html:textarea property="thumbnailRow3" cols="60" rows="2" />
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.copyright-text"/></td><td>
+    <html:text property="copyrightText"/>
     </td></tr>
     <tr><td><bean:message key="gallery.gallery.edit.official"/></td><td>
     <html:checkbox property="official" value="true"/>
@@ -114,6 +135,9 @@
             <html:options collection="categoriesPB" property="categoryDisplay" labelProperty="name" />
         </html:select>
         </td></tr>
+        <tr><td><bean:message key="gallery.gallery.edit.forcepictureupdate"/></td><td>
+        <html:checkbox property="forcePictureUpdateDisplay" value="true"/>
+        </td></tr>
     </logic:equal>
     <logic:notEmpty name="galleryFB" property="referencedGallery">
         <logic:notEqual name="galleryFB" property="referencedGallery" value="0">
@@ -124,9 +148,6 @@
             </td></tr>
         </logic:notEqual>
     </logic:notEmpty>
-    <tr><td><bean:message key="gallery.gallery.edit.forcepictureupdate"/></td><td>
-    <html:checkbox property="forcePictureUpdateDisplay" value="true"/>
-    </td></tr>
     <tr><td></td><td>
     <html:submit><bean:message key="gallery.buttons.save"/></html:submit>
     </td></tr>
