@@ -249,7 +249,7 @@
             <forward name="picture-image" path="/do/user/loadimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]"/>
             <forward name="picture-resolution-image" path="/do/user/loadresolutionimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]&amp;useCache=false"/>
             <forward name="success" path=".user.viewimage"/>
-            <forward name="failure" path="/images/thumbnailna.gif"/>
+            <forward name="failure" path="/images/imagena.gif"/>
         </action>
 
         <action
@@ -264,7 +264,7 @@
             <forward name="picture-image" path="/do/guest/loadimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]"/>
             <forward name="picture-resolution-image" path="/do/guest/loadresolutionimage?gallery={gallery}&amp;image={picture}[width,&amp;width={width}]&amp;useCache=false"/>
             <forward name="success" path=".guest.viewimage"/>
-            <forward name="failure" path="/images/thumbnailna.gif"/>
+            <forward name="failure" path="/images/imagena.gif"/>
         </action>
 
         <action
@@ -279,7 +279,7 @@
             <forward name="picture-image" path="/do/user/loadmovieresolutionimage?gallery={gallery}&amp;image={picture}[movieRows,&amp;rows={movieRows}][movieCols,&amp;cols={movieCols}][width,&amp;width={width}]"/>
             <forward name="picture-resolution-image" path="/do/user/loadmovieresolutionimage?gallery={gallery}&amp;image={picture}[movieRows,&amp;rows={movieRows}][movieCols,&amp;cols={movieCols}][width,&amp;width={width}]"/>
             <forward name="success" path=".user.viewimage"/>
-            <forward name="failure" path="/images/thumbnailna.gif"/>
+            <forward name="failure" path="/images/imagena.gif"/>
         </action>
 
         <action
@@ -294,7 +294,7 @@
             <forward name="picture-image" path="/do/guest/loadmovieresolutionimage?gallery={gallery}&amp;image={picture}[movieRows,&amp;rows={movieRows}][movieCols,&amp;cols={movieCols}][width,&amp;width={width}]"/>
             <forward name="picture-resolution-image" path="/do/guest/loadmovieresolutionimage?gallery={gallery}&amp;image={picture}[movieRows,&amp;rows={movieRows}][movieCols,&amp;cols={movieCols}][width,&amp;width={width}]"/>
             <forward name="success" path=".guest.viewimage"/>
-            <forward name="failure" path="/images/thumbnailna.gif"/>
+            <forward name="failure" path="/images/imagena.gif"/>
         </action>
 
         <action
@@ -304,7 +304,7 @@
             validate="false"
             scope="request">
             <forward name="forward-to-thumbnail" path="/do/user/loadresolutionimage?useCache=false"/>
-            <forward name="failure" path="/images/thumbnailna.gif"/>
+            <forward name="failure" path="/images/imagena.gif"/>
         </action>
 
         <action
@@ -314,7 +314,7 @@
             validate="false"
             scope="request">
             <forward name="forward-to-thumbnail" path="/do/guest/loadresolutionimage?useCache=false"/>
-            <forward name="failure" path="/images/thumbnailna.gif"/>
+            <forward name="failure" path="/images/imagena.gif"/>
         </action>
 
         <action
@@ -324,7 +324,7 @@
             validate="false"
             scope="request">
             <forward name="forward-to-thumbnail" path="/do/user/viewmovie"/>
-            <forward name="failure" path="/images/thumbnailna.gif"/>
+            <forward name="failure" path="/images/imagena.gif"/>
         </action>
 
         <action
@@ -334,7 +334,7 @@
             validate="false"
             scope="request">
             <forward name="forward-to-thumbnail" path="/do/guest/viewmovie"/>
-            <forward name="failure" path="/images/thumbnailna.gif"/>
+            <forward name="failure" path="/images/imagena.gif"/>
         </action>
 
         <action
@@ -343,7 +343,7 @@
             name="resolutionImageFB"
             validate="false"
             scope="request">
-            <forward name="failure" path="/images/thumbnailna.gif"/>
+            <forward name="failure" path="/images/imagena.gif"/>
         </action>
 
         <action
@@ -352,7 +352,7 @@
             name="resolutionImageFB"
             validate="false"
             scope="request">
-            <forward name="failure" path="/images/thumbnailna.gif"/>
+            <forward name="failure" path="/images/imagena.gif"/>
         </action>
 
         <action
@@ -361,7 +361,7 @@
             name="resolutionMovieImageFB"
             validate="false"
             scope="request">
-            <forward name="failure" path="/images/thumbnailna.gif"/>
+            <forward name="failure" path="/images/imagena.gif"/>
         </action>
 
         <action
@@ -370,7 +370,7 @@
             name="resolutionMovieImageFB"
             validate="false"
             scope="request">
-            <forward name="failure" path="/images/thumbnailna.gif"/>
+            <forward name="failure" path="/images/imagena.gif"/>
         </action>
 
         <action
