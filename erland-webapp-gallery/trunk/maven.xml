@@ -21,8 +21,8 @@
 	    </ant:copy>
 
         <!-- Copy Misc Files -->
-        <ant:mkdir dir="${maven.dist.src.assembly.dir}/${maven.misc.src}"/>
-        <ant:copy todir="${maven.dist.src.assembly.dir}/${maven.misc.src}">
+        <ant:mkdir dir="${maven.dist.bin.assembly.dir}/${maven.misc.src}"/>
+        <ant:copy todir="${maven.dist.bin.assembly.dir}/${maven.misc.src}">
           <ant:fileset dir="${maven.misc.src}" />
         </ant:copy>
 	</postGoal>
