@@ -1,0 +1,52 @@
+<entity id="categorymembership">
+    <class>erland.webapp.gallery.entity.gallery.category.CategoryMembership</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/gallery</datasource>
+        <table>categorymembers</table>
+        <fields>
+            <field id="category">
+                <column>category</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+            <field id="gallery">
+                <column>gallery</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+            <field id="memberCategory">
+                <column>member</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+        </fields>
+        <queries>
+            <query id="allforgallery">
+                <querystring>gallery=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforgallerywithmember">
+                <querystring>gallery=? and member=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>member</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>

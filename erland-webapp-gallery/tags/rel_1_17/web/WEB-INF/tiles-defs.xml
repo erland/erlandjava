@@ -1,0 +1,184 @@
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+
+<!-- Definitions for Tiles documentation   -->
+<tiles-definitions>
+
+    <!-- ========================================================== -->
+    <!-- Master definition                                          -->
+    <!-- ========================================================== -->
+    <!-- Main page layout used as a root for other page definitions -->
+
+    <definition name=".mainLayout" path="/WEB-INF/layouts/classicLayout.jsp">
+        <put name="title" value="Bildarkivet"/>
+        <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
+    </definition>
+
+    <definition name=".mainLayoutNoMenu" path="/WEB-INF/layouts/classicLayoutNoMenu.jsp">
+        <put name="title" value="Bildarkivet"/>
+        <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
+    </definition>
+
+    <definition name=".mainLayoutEmpty" path="/WEB-INF/layouts/classicLayoutEmpty.jsp">
+        <put name="title" value="Bildarkivet"/>
+    </definition>
+
+    <!-- ========================================================== -->
+    <!-- Index page definition                                      -->
+    <!-- ========================================================== -->
+    <!-- This definition inherits from the main definition.
+	  It overloads the page title and the body used.
+	  Use the same mechanism to define new pages sharing common
+	  properties (here header, menu, footer, layout)
+	-->
+
+    <definition name=".index" extends=".login"/>
+
+    <definition name=".login" extends=".mainLayoutNoMenu">
+        <put name="body" value="/WEB-INF/tiles/common/login.jsp"/>
+    </definition>
+
+    <definition name=".guest.newuseraccount" extends=".mainLayoutNoMenu">
+        <put name="body" value="/WEB-INF/tiles/account/newuseraccount.jsp"/>
+    </definition>
+    <definition name=".guest.newuseraccount.success" extends=".mainLayoutNoMenu">
+        <put name="body" value="/WEB-INF/tiles/account/newuseraccountsuccess.jsp"/>
+    </definition>
+
+    <definition name=".user.empty" extends=".mainLayoutEmpty"/>
+
+    <definition name=".user.index" extends=".mainLayout">
+        <put name="menu" value="/WEB-INF/tiles/common/usermenu.jsp"/>
+    </definition>
+    <definition name=".user.edituseraccount" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/account/edituseraccount.jsp"/>
+    </definition>
+    <definition name=".user.viewuseraccounts" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/account/viewuseraccounts.jsp"/>
+    </definition>
+    <definition name=".user.viewguestaccounts" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/guestaccount/viewguestaccounts.jsp"/>
+    </definition>
+    <definition name=".user.editguestaccount" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/guestaccount/editguestaccount.jsp"/>
+    </definition>
+    <definition name=".user.viewpicturestorages" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/picturestorages/viewstorages.jsp"/>
+    </definition>
+    <definition name=".user.editpicturestorage" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/picturestorages/editstorage.jsp"/>
+    </definition>
+    <definition name=".user.viewskins" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/skin/viewskins.jsp"/>
+    </definition>
+    <definition name=".user.editskin" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/skin/editskin.jsp"/>
+    </definition>
+    <definition name=".user.edittasks" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/tasks/edittasks.jsp"/>
+    </definition>
+    <definition name=".user.viewtaskstatus" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/tasks/viewtasks.jsp"/>
+    </definition>
+    <definition name=".user.viewusertaskstatus" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/tasks/viewusertasks.jsp"/>
+    </definition>
+    <definition name=".user.viewfilters" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/filter/viewfilters.jsp"/>
+    </definition>
+    <definition name=".user.editfilter" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/filter/editfilter.jsp"/>
+    </definition>
+    <definition name=".user.viewgalleryfilters" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/filter/viewgalleryfilters.jsp"/>
+    </definition>
+    <definition name=".user.editgalleryfilter" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/filter/editgalleryfilter.jsp"/>
+    </definition>
+    <definition name=".user.viewpictures" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/gallerycategorymenu.jsp"/>
+    </definition>
+    <definition name=".user.viewguestpictures" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/viewpictures.jsp"/>
+    </definition>
+    <definition name=".guest.viewpictures" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/viewpictures.jsp"/>
+    </definition>
+    <definition name=".user.editsearch" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/editsearch.jsp"/>
+    </definition>
+    <definition name=".user.editguestsearch" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/editguestsearch.jsp"/>
+    </definition>
+    <definition name=".guest.editsearch" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/editsearchguest.jsp"/>
+    </definition>
+    <definition name=".user.editgallery" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/editgallery.jsp"/>
+    </definition>
+    <definition name=".user.quicksetup1" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/quicksetup1.jsp"/>
+    </definition>
+    <definition name=".user.quicksetup2notpublish" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/quicksetup2notpublish.jsp"/>
+    </definition>
+    <definition name=".user.quicksetup2publish" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/quicksetup2publish.jsp"/>
+    </definition>
+    <definition name=".user.quicksetup3" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/quicksetup3.jsp"/>
+    </definition>
+    <definition name=".user.editcategory" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/category/editcategory.jsp"/>
+    </definition>
+    <definition name=".user.editpicture" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/picture/editpicture.jsp"/>
+    </definition>
+    <definition name=".user.importpictures" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/importers/importgallery.jsp"/>
+    </definition>
+    <definition name=".user.viewimage" extends=".user.empty">
+        <put name="body" value="/WEB-INF/tiles/loader/viewimage.jsp"/>
+    </definition>
+    <definition name=".user.viewresolutionimage" extends=".user.empty">
+        <put name="body" value="/WEB-INF/tiles/loader/viewimage.jsp"/>
+    </definition>
+    <definition name=".guest.viewimage" extends=".guest.empty">
+        <put name="body" value="/WEB-INF/tiles/loader/viewimage.jsp"/>
+    </definition>
+    <definition name=".guest.empty" extends=".mainLayoutEmpty"/>
+    <definition name=".guest.index" extends=".mainLayout">
+        <put name="menu" value="/WEB-INF/tiles/common/guestmenu.jsp"/>
+    </definition>
+
+    <definition name=".mainSkinLayout" path="/WEB-INF/tiles/skin/layout.jsp">
+        <put name="title" value="Bildarkivet"/>
+        <put name="header" value="/WEB-INF/tiles/skin/header.jsp"/>
+    </definition>
+    <definition name=".mainSkinLayoutEmpty" path="/WEB-INF/tiles/skin/layoutSingle.jsp">
+        <put name="title" value="Bildarkivet"/>
+    </definition>
+    <definition name=".skin.viewimage" extends=".skin.empty">
+        <put name="body" value="/WEB-INF/tiles/skin/viewpicture.jsp"/>
+    </definition>
+    <definition name=".skin.viewpictures" extends=".skin.index">
+        <put name="body" value="/WEB-INF/tiles/skin/viewpictures.jsp"/>
+    </definition>
+    <definition name=".skin.editsearch" extends=".skin.index">
+        <put name="body" value="/WEB-INF/tiles/skin/search.jsp"/>
+    </definition>
+    <definition name=".skin.index" extends=".mainSkinLayout">
+        <put name="menu" value="/WEB-INF/tiles/skin/menu.jsp"/>
+    </definition>
+    <definition name=".skin.empty" extends=".mainSkinLayoutEmpty"/>
+
+    <definition name=".ws.getgalleries" path="/WEB-INF/ws/getgalleries.jsp">
+    </definition>
+    <definition name=".ws.getcategories" path="/WEB-INF/ws/getcategories.jsp">
+    </definition>
+    <definition name=".ws.getpicturesforgallery" path="/WEB-INF/ws/getpicturesforgallery.jsp">
+    </definition>
+    <definition name=".ws.getpicturesforcategory" path="/WEB-INF/ws/getpicturesforcategory.jsp">
+    </definition>
+</tiles-definitions>
