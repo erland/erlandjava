@@ -39,11 +39,7 @@ public class LoadImageCommand implements CommandInterface, CommandResponseInterf
     private String username;
 
     public String execute(HttpServletRequest request) {
-        String imageString = request.getParameter("image");
-        Integer image = null;
-        if (imageString != null && imageString.length() > 0) {
-            image = Integer.valueOf(imageString);
-        }
+        Integer image = ServletParameterHelper.asInteger(request.getParameter("image"),null);
         Integer gallery = getGalleryId(request);
         if (image != null && gallery != null) {
             Picture template = (Picture) getEnvironment().getEntityFactory().create("gallery-picture");
