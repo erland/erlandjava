@@ -43,6 +43,8 @@ import java.util.ArrayList;
 
 
 public class LoadThumbnailAction extends LoadImageAction {
+    private static final int THUMBNAIL_WIDTH = 150;
+
     protected String getImageFileName(Picture picture) {
         return picture.getImage().substring(1, picture.getImage().length() - 1);
     }
@@ -55,9 +57,23 @@ public class LoadThumbnailAction extends LoadImageAction {
 
            width = gallery.getMaxWidth();
         }
+        Float compression = fb.getCompression();
+        if(compression==null || compression.floatValue()==0.0f) {
+            if(width==null || width.floatValue()<=THUMBNAIL_WIDTH) {
+                compression = gallery.getThumbnailCompression();
+            }else {
+                compression = gallery.getCompression();
+            }
+        }
+        Boolean antialias = null;
+        if(width==null || width.floatValue()<=THUMBNAIL_WIDTH) {
+            antialias = gallery.getThumbnailAntialias();
+        }else {
+            antialias = gallery.getAntialias();
+        }
         try {
             response.setContentType("image/jpeg");
-            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, fb.getUseCache(), fb.getCompression(), getUsername(request), getImageFile(request), getCopyrightText(getUsername(request)), new ImageThumbnail(), gallery.getId().toString(),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_PREFILTER),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_POSTFILTER),response.getOutputStream())) {
+            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), width, fb.getUseCache(), compression , getUsername(request), getImageFile(request), getCopyrightText(getUsername(request)), new ImageThumbnail(antialias), gallery.getId().toString(),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_PREFILTER),new FilterContainer(gallery.getId(),GalleryFilter.TYPE_POSTFILTER),gallery.getCacheDate(),response.getOutputStream())) {
                 return findFailure(mapping,form,request,response);
             }
         } catch (IOException e) {
