@@ -22,9 +22,13 @@ package erland.webapp.gallery.act.gallery.picture;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.common.image.MetadataHandlerInterface;
+import erland.webapp.common.image.JPEGMetadataHandler;
+import erland.webapp.common.image.FileMetadataHandler;
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.gallery.act.gallery.GalleryHelper;
 import erland.webapp.gallery.act.skin.SkinHelper;
+import erland.webapp.gallery.act.loader.PictureParameterStorage;
 import erland.webapp.gallery.entity.gallery.category.Category;
 import erland.webapp.gallery.entity.gallery.picturestorage.PictureStorage;
 import erland.webapp.gallery.entity.gallery.picture.Resolution;
@@ -37,6 +41,8 @@ import erland.webapp.gallery.fb.gallery.GalleryPB;
 import erland.webapp.gallery.fb.skin.SkinFB;
 import erland.util.Log;
 import erland.util.StringUtil;
+import erland.util.ParameterValueStorageInterface;
+import erland.util.ObjectStorageInterface;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -62,6 +68,7 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
             saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.gallery-not-found"}));
             return;
         }
+        boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
         Integer galleryId = GalleryHelper.getGalleryId(gallery);
         setGalleryId(request,galleryId);
         Integer categoryId = fb.getCategory();
@@ -176,9 +183,33 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         if(gallery.getThumbnailHeight()!=null && gallery.getThumbnailHeight().intValue()>0) {
             pictureParameters.put("thumbnailheight",gallery.getThumbnailHeight());
         }
+        List thumbnailInfoList = new ArrayList();
+        if(StringUtil.asNull(gallery.getThumbnailRow1())!=null) {
+            thumbnailInfoList.add(gallery.getThumbnailRow1());
+        }
+        if(StringUtil.asNull(gallery.getThumbnailRow2())!=null) {
+            thumbnailInfoList.add(gallery.getThumbnailRow2());
+        }
+        if(StringUtil.asNull(gallery.getThumbnailRow3())!=null) {
+            thumbnailInfoList.add(gallery.getThumbnailRow3());
+        }
+        String[] thumbnailInfo = (String[]) thumbnailInfoList.toArray(new String[0]);
+        JPEGMetadataHandler jpegHandler = new JPEGMetadataHandler(false);
+        FileMetadataHandler fileHandler = new FileMetadataHandler(false);
+
         for (int i = 0; i < entities.length; i++) {
             picturesPB[i] = new PicturePB();
+            Picture picture = (Picture) entities[i];
+            if(StringUtil.asNull(picture.getFile())!=null) {
+                picture.setFile(getImagePath(storageEntities, picture.getFile()));
+            }
             PropertyUtils.copyProperties(picturesPB[i], entities[i]);
+            if(useEnglish && StringUtil.asNull(picture.getTitleEnglish())!=null) {
+                picturesPB[i].setTitle(picture.getTitleEnglish());
+            }
+            if(useEnglish && StringUtil.asNull(picture.getDescriptionEnglish())!=null) {
+                picturesPB[i].setDescription(picture.getDescriptionEnglish());
+            }
             pictureParameters.put("gallery",virtualGalleryId);
             pictureParameters.put("picture",picturesPB[i].getId());
             if (picturesPB[i].getImage().startsWith("{")) {
@@ -231,10 +262,22 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
             if(picturesPB[i].getTitle()!=null && gallery.getUseShortPictureNames()!=null && gallery.getUseShortPictureNames().booleanValue()) {
                 picturesPB[i].setTitle(((Picture)entities[i]).getShortTitle());
             }
+            if(StringUtil.asNull(gallery.getThumbnailPictureTitle())!=null) {
+                picturesPB[i].setTitle(getPictureInfo(gallery.getThumbnailPictureTitle(),picture,picturesPB[i],jpegHandler,fileHandler));
+            }
             if(picturesPB[i].getTitle()!=null && gallery.getCutLongPictureTitles()!=null && gallery.getCutLongPictureTitles().booleanValue()) {
                 if (picturesPB[i].getTitle() != null && picturesPB[i].getTitle().length() > 30) {
                     picturesPB[i].setTitle("..." + picturesPB[i].getTitle().substring(picturesPB[i].getTitle().length() - 27));
                 }
+            }
+            if(thumbnailInfo.length>0) {
+                picturesPB[i].setRow1Info(getPictureInfo(thumbnailInfo[0],picture,picturesPB[i],jpegHandler,fileHandler));
+            }
+            if(thumbnailInfo.length>1) {
+                picturesPB[i].setRow2Info(getPictureInfo(thumbnailInfo[1],picture,picturesPB[i],jpegHandler,fileHandler));
+            }
+            if(thumbnailInfo.length>2) {
+                picturesPB[i].setRow3Info(getPictureInfo(thumbnailInfo[2],picture,picturesPB[i],jpegHandler,fileHandler));
             }
         }
         PictureCollectionPB pb = new PictureCollectionPB();
@@ -281,6 +324,12 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
 
         GalleryPB galleryPB = new GalleryPB();
         PropertyUtils.copyProperties(galleryPB,gallery);
+        if(useEnglish && StringUtil.asNull(gallery.getTitleEnglish())!=null) {
+            galleryPB.setTitle(gallery.getTitleEnglish());
+        }
+        if(useEnglish && StringUtil.asNull(gallery.getDescriptionEnglish())!=null) {
+            galleryPB.setDescription(gallery.getDescriptionEnglish());
+        }
         galleryPB.setVirtual(Boolean.valueOf(!virtualGalleryId.equals(galleryId)));
         if(galleryPB.getNoOfCols()!=null && galleryPB.getNoOfCols().intValue()<=0) {
             galleryPB.setNoOfCols(null);
@@ -292,12 +341,8 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
           (gallery.getNoOfCols()!=null && gallery.getNoOfRows()!=null && (gallery.getNoOfRows().intValue()*gallery.getNoOfCols().intValue())<max.intValue())) {
             galleryPB.setNoOfRows(null);
         }
+        galleryPB.setNoOfThumnailInfoRows(thumbnailInfo.length>0?new Integer(thumbnailInfo.length+1):new Integer(1));
         request.setAttribute("galleryPB",galleryPB);
-        if(gallery!=null&&gallery.getStylesheet()!=null&&gallery.getStylesheet().length()>0) {
-            request.setAttribute("stylesheetPB",gallery.getStylesheet());
-        }else {
-            request.removeAttribute("stylesheetPB");
-        }
         String skin = gallery.getSkin();
         if(StringUtil.asNull(fb.getSkin())!=null) {
             skin = fb.getSkin();
@@ -314,6 +359,16 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
                 SkinFB pbSkin = SkinHelper.loadSkin(mapping,skin);
                 request.getSession().setAttribute("skinPB",pbSkin);
             }
+        }
+        SkinFB pbSkin = (SkinFB) request.getSession().getAttribute("skinPB");
+        if(pbSkin==null || StringUtil.asNull(pbSkin.getStylesheet())==null) {
+            if(gallery!=null&&gallery.getStylesheet()!=null&&gallery.getStylesheet().length()>0) {
+                request.getSession().setAttribute("stylesheetPB",gallery.getStylesheet());
+            }else {
+                request.getSession().removeAttribute("stylesheetPB");
+            }
+        }else {
+            request.getSession().setAttribute("stylesheetPB",pbSkin.getStylesheet());
         }
     }
 
@@ -408,5 +463,9 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
             } catch (NoSuchMethodException e) {
             }
         }
+    }
+
+    private String getPictureInfo(String parameter, Picture picture, PicturePB pb,JPEGMetadataHandler jpegHandler, FileMetadataHandler fileHandler) {
+        return ServletParameterHelper.replaceDynamicParameters(parameter, new PictureParameterStorage(picture.getFile(),picture,pb,jpegHandler,fileHandler));
     }
 }
