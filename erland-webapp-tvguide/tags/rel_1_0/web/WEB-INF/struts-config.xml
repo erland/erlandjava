@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE struts-config PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+    "http://struts.apache.org/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+    <form-beans>
+        <form-bean name="menuFB" type="erland.webapp.tvguide.fb.account.SelectUserFB"/>
+        <form-bean name="mainMenuFB" type="erland.webapp.common.fb.MenuExpandCollapseFB"/>
+        <form-bean name="selectUserFB" type="erland.webapp.tvguide.fb.account.SelectUserFB"/>
+        <form-bean name="newUserAccountFB" type="erland.webapp.tvguide.fb.account.AccountFB"/>
+        <form-bean name="userAccountFB" type="erland.webapp.tvguide.fb.account.AccountFB"/>
+        <form-bean name="editChannelFB" type="erland.webapp.tvguide.fb.channel.ChannelFB"/>
+        <form-bean name="removeChannelFB" type="erland.webapp.tvguide.fb.channel.ChannelFB"/>
+        <form-bean name="selectChannelFB" type="erland.webapp.tvguide.fb.channel.SelectChannelFB"/>
+        <form-bean name="editFavoriteFB" type="erland.webapp.tvguide.fb.favorite.FavoriteFB"/>
+        <form-bean name="removeFavoriteFB" type="erland.webapp.tvguide.fb.favorite.FavoriteFB"/>
+        <form-bean name="selectServiceFB" type="erland.webapp.tvguide.fb.service.SelectServiceFB"/>
+        <form-bean name="editServiceFB" type="erland.webapp.tvguide.fb.service.ServiceFB"/>
+        <form-bean name="removeServiceFB" type="erland.webapp.tvguide.fb.service.ServiceFB"/>
+        <form-bean name="searchProgramFB" type="erland.webapp.tvguide.fb.program.SearchProgramFB"/>
+        <form-bean name="editSubscriptionFB" type="erland.webapp.tvguide.fb.subscription.SubscriptionFB"/>
+        <form-bean name="removeSubscriptionFB" type="erland.webapp.tvguide.fb.subscription.SubscriptionFB"/>
+        <form-bean name="selectSubscriptionFB" type="erland.webapp.tvguide.fb.subscription.SelectSubscriptionFB"/>
+        <form-bean name="searchSubscriptionFB" type="erland.webapp.tvguide.fb.account.SelectUserFB"/>
+    </form-beans>
+
+    <global-forwards>
+        <forward name="index" path="/do/index"/>
+    </global-forwards>
+
+    <action-mappings>
+        <action
+            path="/index"
+            type="erland.webapp.tvguide.act.account.SearchOfficialUserAccountsAction">
+
+            <forward name="success" path=".index"/>
+        </action>
+
+        <action
+            path="/guest/registeruser"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter=".guest.newuseraccount">
+        </action>
+
+        <action
+            path="/user/newuseraccount"
+            type="erland.webapp.tvguide.act.account.NewUserAccountAction"
+            input=".guest.newuseraccount"
+            name="newUserAccountFB"
+            validate="true">
+
+            <forward name="success" path=".guest.newuseraccount.success"/>
+        </action>
+        <action
+            path="/user/home"
+            type="erland.webapp.tvguide.act.favorite.LoadMenuAction">
+
+            <forward name="channel" path="/do/user/menuviewchannel?channel={idDisplay}&amp;menuItemId={menuItemId}"/>
+            <forward name="success" path="/do/user/loadmenu"/>
+        </action>
+        <action
+            path="/guest/home"
+            type="erland.webapp.tvguide.act.favorite.LoadMenuAction">
+
+            <forward name="channel" path="/do/guest/menuviewchannel?user={user}&amp;channel={idDisplay}&amp;menuItemId={menuItemId}"/>
+            <forward name="success" path="/do/guest/loadmenu"/>
+        </action>
+        <action
+            path="/user/loadmenu"
+            type="erland.webapp.tvguide.act.channel.LoadMenuAction"
+            name="menuFB">
+
+            <forward name="channel" path="/do/user/menuviewchannel?channel={idDisplay}&amp;menuItemId={menuItemId}"/>
+            <forward name="success" path="/do/user/searchprograms"/>
+        </action>
+        <action
+            path="/guest/loadmenu"
+            type="erland.webapp.tvguide.act.channel.LoadMenuAction"
+            name="menuFB">
+
+            <forward name="channel" path="/do/guest/menuviewchannel?user={user}&amp;channel={idDisplay}&amp;menuItemId={menuItemId}"/>
+            <forward name="success" path="/do/guest/searchprograms"/>
+        </action>
+        <action
+            path="/guest/menu"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="mainMenu-today" path="/do/guest/searchprograms?user={user}"/>
+            <forward name="mainMenu-subscribed" path="/do/guest/searchsubscribedprograms?user={user}"/>
+            <forward name="mainMenu-subscriptions" path="/do/guest/viewsubscriptions?user={user}"/>
+            <forward name="success" path=".guest.index"/>
+        </action>
+        <action
+            path="/user/menu"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="mainMenu-today" path="/do/user/searchprograms"/>
+            <forward name="mainMenu-newfavorite" path="/do/user/newfavorite"/>
+            <forward name="mainMenu-subscribed" path="/do/user/searchsubscribedprograms"/>
+            <forward name="mainMenu-subscriptions" path="/do/user/viewsubscriptions"/>
+            <forward name="mainMenu-subscriptions-new" path="/do/user/newsubscription"/>
+            <forward name="mainMenu-services" path="/do/user/viewservices"/>
+            <forward name="mainMenu-services-new" path="/do/user/newservice"/>
+            <forward name="mainMenu-channels-new" path="/do/user/newchannel"/>
+            <forward name="mainMenu-preferences" path="/do/user/viewuseraccount"/>
+            <forward name="mainMenu-users" path="/do/user/viewuseraccounts"/>
+            <forward name="mainMenu-logout" path="/do/logout"/>
+            <forward name="success" path=".user.index"/>
+        </action>
+        <action
+            path="/user/menuviewchannel"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path="/do/user/viewchannelinfo?channel={channel}"/>
+        </action>
+        <action
+            path="/guest/menuviewchannel"
+            type="erland.webapp.common.act.MenuExpandAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu">
+
+            <forward name="success" path="/do/guest/viewchannel"/>
+        </action>
+
+        <action
+            path="/user/viewuseraccount"
+            type="erland.webapp.tvguide.act.account.ViewUserAccountAction"
+            name="userAccountFB"
+            validate="false">
+
+            <forward name="success" path=".user.edituseraccount"/>
+        </action>
+
+        <action
+            path="/user/viewotheruseraccount"
+            type="erland.webapp.tvguide.act.account.ViewOtherUserAccountAction"
+            name="userAccountFB"
+            validate="false">
+
+            <forward name="success" path=".user.edituseraccount"/>
+        </action>
+
+        <action
+            path="/user/edituseraccount"
+            type="erland.webapp.tvguide.act.account.EditUserAccountAction"
+            name="userAccountFB"
+            input=".user.edituseraccount"
+            validate="true">
+
+            <forward name="success" path=".user.index"/>
+        </action>
+
+        <action
+            path="/user/viewuseraccounts"
+            type="erland.webapp.tvguide.act.account.SearchUserAccountsAction">
+
+            <forward name="success" path=".user.viewuseraccounts"/>
+        </action>
+
+        <action
+            path="/user/newchannel"
+            type="erland.webapp.tvguide.act.channel.NewChannelAction"
+            validate="false"
+            name="editChannelFB">
+            <forward name="success" path=".user.editchannel"/>
+        </action>
+        <action
+            path="/user/editchannel"
+            type="erland.webapp.tvguide.act.channel.EditChannelAction"
+            name="editChannelFB"
+            input=".user.editchannel">
+            <forward name="failure" path=".user.editchannel"/>
+            <forward name="success" path="/do/user/loadmenu"/>
+        </action>
+        <action
+            path="/user/viewchannelinfo"
+            type="erland.webapp.tvguide.act.channel.ViewChannelInfoAction"
+            name="selectChannelFB">
+
+            <forward name="update-channel-link" path="/do/user/viewchannel?idDisplay={channel}"/>
+            <forward name="remove-channel-link" path="/do/user/removechannel?idDisplay={channel}"/>
+            <forward name="prev-view-link" path="/do/user/viewchannelinfo?channel={channel}&amp;dateDisplay={date}"/>
+            <forward name="current-view-link" path="/do/user/viewchannelinfo?channel={channel}&amp;dateDisplay={date}"/>
+            <forward name="next-view-link" path="/do/user/viewchannelinfo?channel={channel}&amp;dateDisplay={date}"/>
+            <forward name="add-subscription-link" path="/do/user/addsubscription?name={programName}"/>
+
+            <forward name="success" path=".user.viewchannel"/>
+        </action>
+        <action
+            path="/guest/viewchannel"
+            type="erland.webapp.tvguide.act.channel.ViewChannelInfoAction"
+            name="selectChannelFB">
+
+            <forward name="prev-view-link" path="/do/guest/viewchannel?user={user}&amp;channel={channel}&amp;dateDisplay={date}"/>
+            <forward name="current-view-link" path="/do/guest/viewchannel?user={user}&amp;channel={channel}&amp;dateDisplay={date}"/>
+            <forward name="next-view-link" path="/do/guest/viewchannel?user={user}&amp;channel={channel}&amp;dateDisplay={date}"/>
+
+            <forward name="success" path=".guest.viewchannel"/>
+        </action>
+        <action
+            path="/user/viewchannel"
+            type="erland.webapp.tvguide.act.channel.ViewChannelAction"
+            validate="false"
+            name="editChannelFB">
+            <forward name="success" path=".user.editchannel"/>
+        </action>
+        <action
+            path="/user/removechannel"
+            type="erland.webapp.tvguide.act.channel.RemoveChannelAction"
+            name="removeChannelFB">
+            <forward name="success" path="/do/user/home"/>
+        </action>
+
+
+        <action
+            path="/user/newsubscription"
+            type="erland.webapp.tvguide.act.subscription.NewSubscriptionAction"
+            validate="false"
+            name="editSubscriptionFB">
+            <forward name="success" path=".user.editsubscription"/>
+        </action>
+        <action
+            path="/user/addsubscription"
+            type="erland.webapp.tvguide.act.subscription.AddSubscriptionAction"
+            validate="false"
+            name="editSubscriptionFB">
+            <forward name="success" path=".user.editsubscription"/>
+        </action>
+        <action
+            path="/user/editsubscription"
+            type="erland.webapp.tvguide.act.subscription.EditSubscriptionAction"
+            name="editSubscriptionFB"
+            input=".user.editsubscription">
+            <forward name="failure" path=".user.editsubscription"/>
+            <forward name="success" path="/do/user/viewsubscriptioninfo?subscription={id}"/>
+        </action>
+        <action
+            path="/user/viewsubscriptioninfo"
+            type="erland.webapp.tvguide.act.subscription.ViewSubscriptionInfoAction"
+            name="selectSubscriptionFB">
+
+            <forward name="update-subscription-link" path="/do/user/viewsubscription?idDisplay={subscription}"/>
+            <forward name="remove-subscription-link" path="/do/user/removesubscription?idDisplay={subscription}"/>
+
+            <forward name="success" path=".user.viewsubscription"/>
+        </action>
+        <action
+            path="/guest/viewsubscription"
+            type="erland.webapp.tvguide.act.subscription.ViewSubscriptionInfoAction"
+            name="selectSubscriptionFB">
+
+            <forward name="success" path=".guest.viewsubscription"/>
+        </action>
+        <action
+            path="/user/viewsubscription"
+            type="erland.webapp.tvguide.act.subscription.ViewSubscriptionAction"
+            validate="false"
+            name="editSubscriptionFB">
+            <forward name="success" path=".user.editsubscription"/>
+        </action>
+        <action
+            path="/user/removesubscription"
+            type="erland.webapp.tvguide.act.subscription.RemoveSubscriptionAction"
+            name="removeSubscriptionFB">
+            <forward name="success" path="/do/user/viewsubscriptions"/>
+        </action>
+        <action
+            path="/user/viewsubscriptions"
+            type="erland.webapp.tvguide.act.subscription.SearchSubscriptionsAction"
+            name="searchSubscriptionFB">
+            <forward name="view-subscription-link" path="/do/user/viewsubscriptioninfo?subscription={subscription}"/>
+            <forward name="update-subscription-link" path="/do/user/viewsubscription?idDisplay={subscription}"/>
+            <forward name="remove-subscription-link" path="/do/user/removesubscription?idDisplay={subscription}"/>
+            <forward name="success" path=".user.viewsubscriptions"/>
+        </action>
+        <action
+            path="/guest/viewsubscriptions"
+            type="erland.webapp.tvguide.act.subscription.SearchSubscriptionsAction"
+            name="searchSubscriptionFB">
+            <forward name="view-subscription-link" path="/do/guest/viewsubscription?user={user}&amp;subscription={subscription}"/>
+            <forward name="success" path=".guest.viewsubscriptions"/>
+        </action>
+
+
+        <action
+            path="/user/searchprograms"
+            type="erland.webapp.tvguide.act.program.SearchProgramsAction"
+            name="searchProgramFB">
+
+            <forward name="prev-view-link" path="/do/user/searchprograms?dateDisplay={date}"/>
+            <forward name="current-view-link" path="/do/user/searchprograms?dateDisplay={date}"/>
+            <forward name="next-view-link" path="/do/user/searchprograms?dateDisplay={date}"/>
+            <forward name="add-subscription-link" path="/do/user/addsubscription?name={programName}"/>
+
+            <forward name="success" path=".user.viewprograms"/>
+        </action>
+        <action
+            path="/guest/searchprograms"
+            type="erland.webapp.tvguide.act.program.SearchProgramsAction"
+            name="searchProgramFB">
+
+            <forward name="prev-view-link" path="/do/guest/searchprograms?user={user}&amp;dateDisplay={date}"/>
+            <forward name="current-view-link" path="/do/guest/searchprograms?user={user}&amp;dateDisplay={date}"/>
+            <forward name="next-view-link" path="/do/guest/searchprograms?user={user}&amp;dateDisplay={date}"/>
+
+            <forward name="success" path=".guest.viewprograms"/>
+        </action>
+
+        <action
+            path="/user/searchsubscribedprograms"
+            type="erland.webapp.tvguide.act.program.SearchSubscribedProgramsAction"
+            name="searchProgramFB">
+
+            <forward name="add-subscription-link" path="/do/user/addsubscription?name={programName}"/>
+            <forward name="view-subscription-link" path="/do/user/viewsubscriptioninfo?subscription={subscription}"/>
+
+            <forward name="success" path=".user.viewsubscribedprograms"/>
+        </action>
+        <action
+            path="/guest/searchsubscribedprograms"
+            type="erland.webapp.tvguide.act.program.SearchSubscribedProgramsAction"
+            name="searchProgramFB">
+
+            <forward name="view-subscription-link" path="/do/guest/viewsubscription?user={user}&amp;subscription={subscription}"/>
+
+            <forward name="success" path=".guest.viewsubscribedprograms"/>
+        </action>
+
+
+        <action
+            path="/user/newfavorite"
+            type="erland.webapp.tvguide.act.favorite.NewFavoriteAction"
+            validate="false"
+            name="editFavoriteFB">
+            <forward name="success" path=".user.editfavorite"/>
+        </action>
+        <action
+            path="/user/editfavorite"
+            type="erland.webapp.tvguide.act.favorite.EditFavoriteAction"
+            name="editFavoriteFB"
+            input=".user.editfavorite">
+            <forward name="failure" path=".user.editfavorite"/>
+            <forward name="success" path="/do/user/home"/>
+        </action>
+        <action
+            path="/user/viewfavorite"
+            type="erland.webapp.tvguide.act.favorite.ViewFavoriteAction"
+            validate="false"
+            name="editFavoriteFB">
+            <forward name="success" path=".user.editfavorite"/>
+        </action>
+        <action
+            path="/user/removefavorite"
+            type="erland.webapp.tvguide.act.favorite.RemoveFavoriteAction"
+            name="removeFavoriteFB">
+            <forward name="success" path="/do/user/home"/>
+        </action>
+
+        <action
+            path="/user/newservice"
+            type="erland.webapp.tvguide.act.service.NewServiceAction"
+            validate="false"
+            name="editServiceFB">
+            <forward name="success" path=".user.editservice"/>
+        </action>
+        <action
+            path="/user/editservice"
+            type="erland.webapp.tvguide.act.service.EditServiceAction"
+            name="editServiceFB"
+            input=".user.editservice">
+            <forward name="failure" path=".user.editservice"/>
+            <forward name="success" path="/do/user/viewservices"/>
+        </action>
+        <action
+            path="/user/viewservices"
+            type="erland.webapp.tvguide.act.service.SearchServicesAction">
+            <forward name="update-service-link" path="/do/user/viewservice?idDisplay={service}"/>
+            <forward name="remove-service-link" path="/do/user/removeservice?idDisplay={service}"/>
+            <forward name="success" path=".user.viewservices"/>
+        </action>
+        <action
+            path="/user/viewservice"
+            type="erland.webapp.tvguide.act.service.ViewServiceAction"
+            validate="false"
+            name="editServiceFB">
+            <forward name="success" path=".user.editservice"/>
+        </action>
+        <action
+            path="/user/removeservice"
+            type="erland.webapp.tvguide.act.service.RemoveServiceAction"
+            name="removeServiceFB">
+            <forward name="success" path="/do/user/viewservices"/>
+        </action>
+        <action
+            path="/user/viewserviceinfo"
+            type="erland.webapp.tvguide.act.service.ViewServiceInfoAction"
+            name="selectServiceFB">
+
+            <forward name="success" path=".user.viewservice"/>
+        </action>
+        <action
+            path="/guest/viewserviceinfo"
+            type="erland.webapp.tvguide.act.service.ViewServiceInfoAction"
+            name="selectServiceFB">
+
+            <forward name="success" path=".guest.viewservice"/>
+        </action>
+        <action
+            path="/guest/viewserviceinfofull"
+            type="erland.webapp.tvguide.act.service.ViewServiceInfoAction"
+            name="selectServiceFB">
+
+            <forward name="success" path=".guest.viewservicefull"/>
+        </action>
+
+        <action
+            path="/logout"
+            type="erland.webapp.common.act.InvalidateSessionAction">
+            <forward name="success" path="/do/index"/>
+        </action>
+    </action-mappings>
+
+    <message-resources parameter="erland.webapp.tvguide.resources.message" null="false"/>
+
+    <plug-in className="erland.webapp.common.act.WebAppEnvironmentPlugin">
+        <set-property
+            property="applicationName"
+            value="tvguide"/>
+        <set-property
+            property="xmlParser"
+            value="erland.util.SAXXMLParser"/>
+    </plug-in>
+    <plug-in className="org.apache.struts.tiles.TilesPlugin">
+        <set-property property="definitions-config"
+            value="/WEB-INF/tiles-defs.xml"/>
+    </plug-in>
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property
+            property="pathnames"
+            value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    </plug-in>
+    <plug-in className="erland.webapp.common.act.HtmlEncoderPlugin">
+        <set-property property="replaceRoutines"
+            value="erland.webapp.common.html.HTMLBasicStringReplace,
+                   erland.webapp.common.html.HTMLLinkStringReplace,
+                   erland.webapp.common.html.HTMLBoldLinkStringReplace,
+                   erland.webapp.common.html.HTMLTextStyleStringReplace"/>
+    </plug-in>
+    <plug-in className="erland.webapp.tvguide.act.subscription.SubscriptionPlugin"/>
+</struts-config>
