@@ -1,4 +1,7 @@
 package erland.webapp.common;
+
+import java.util.Map;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -19,6 +22,75 @@ package erland.webapp.common;
  */
 
 public class ServletParameterHelper {
+
+    public static String replaceDynamicParameters(String address, Map parameters) {
+        StringBuffer sb = new StringBuffer(address);
+        int startPos = sb.indexOf("[");
+        while(startPos>=0) {
+            int endPos = sb.indexOf("]",startPos+1);
+            if(endPos>=0) {
+                int attributeEndPos = sb.indexOf(",",startPos+1);
+                if(attributeEndPos>=0 && attributeEndPos<endPos) {
+                    String visibleAttribute = sb.substring(startPos+1,attributeEndPos);
+                    Object visibleValue = parameters.get(visibleAttribute);
+                    if(visibleValue!=null) {
+                        if((visibleValue instanceof Object[] && ((Object[])visibleValue).length>0) ||
+                            visibleValue.toString().length()>0) {
+
+                            String realString = sb.substring(attributeEndPos+1,endPos);
+                            String resultString = "";
+                            if(visibleValue instanceof Object[]) {
+                                Object[] visibleValues = (Object[]) visibleValue;
+                                for (int i = 0; i < visibleValues.length; i++) {
+                                    resultString += internalReplaceDynamicParameters(realString,parameters,i);
+                                }
+                            }else {
+                                resultString = internalReplaceDynamicParameters(realString,parameters,0);
+                            }
+                            if(resultString!=null) {
+                                sb.replace(startPos,endPos+1,resultString);
+                                endPos = startPos+resultString.length();
+                            }else {
+                                sb.replace(startPos,endPos+1,"");
+                                endPos = startPos;
+                            }
+                        }
+                    }
+                }
+                startPos = sb.indexOf("[",endPos);
+            }else {
+                startPos = -1;
+            }
+        }
+        return internalReplaceDynamicParameters(sb.toString(),parameters, 0);
+    }
+
+    private static String internalReplaceDynamicParameters(String address, Map parameters, int index) {
+        StringBuffer sb = new StringBuffer(address);
+        int startPos = sb.indexOf("{");
+        while(startPos>=0) {
+            int endPos = sb.indexOf("}",startPos+1);
+            if(endPos>=0) {
+                String attribute = sb.substring(startPos+1,endPos);
+                Object value = parameters.get(attribute);
+                if(value!=null) {
+                    if(value instanceof Object[]) {
+                        value = ((Object[])value)[index];
+                    }
+                    sb.replace(startPos,endPos+1,value.toString());
+                    endPos = startPos+value.toString().length();
+                }else {
+                    sb.replace(startPos,endPos+1,"");
+                    endPos = startPos;
+                }
+                startPos = sb.indexOf("{",endPos);
+            }else {
+                startPos = -1;
+            }
+        }
+        return sb.toString();
+    }
+
     public static String replaceParameter(String parameterString,String parameter,String value) {
         StringBuffer sb = new StringBuffer(parameterString);
         int startPos = 0;
