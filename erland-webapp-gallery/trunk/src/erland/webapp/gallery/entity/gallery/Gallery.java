@@ -30,6 +30,7 @@ public class Gallery extends BaseEntity implements GalleryInterface {
     private Boolean official;
     private Integer referencedGallery;
     private String defaultResolution;
+    private Integer maxWidth;
 
     public Integer getId() {
         return id;
@@ -93,5 +94,13 @@ public class Gallery extends BaseEntity implements GalleryInterface {
 
     public void setDefaultResolution(String defaultResolution) {
         this.defaultResolution = defaultResolution;
+    }
+
+    public Integer getMaxWidth() {
+        return maxWidth;
+    }
+
+    public void setMaxWidth(Integer maxWidth) {
+        this.maxWidth = maxWidth;
     }
 }

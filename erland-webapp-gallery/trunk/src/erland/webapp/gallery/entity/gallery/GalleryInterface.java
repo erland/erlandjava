@@ -51,4 +51,8 @@ public interface GalleryInterface {
     String getDefaultResolution();
 
     void setDefaultResolution(String defaultResolution);
+
+    Integer getMaxWidth();
+
+    void setMaxWidth(Integer maxWidth);
 }

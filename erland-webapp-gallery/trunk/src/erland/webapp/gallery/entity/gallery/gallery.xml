@@ -42,6 +42,10 @@
                 <column>defaultresolution</column>
                 <type>String</type>
             </field>
+            <field id="maxWidth">
+                <column>maxwidth</column>
+                <type>Integer</type>
+            </field>
         </fields>
         <queries>
             <query id="allforuser">
