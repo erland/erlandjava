@@ -117,6 +117,18 @@
     <definition name=".user.editgallery" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/gallery/editgallery.jsp"/>
     </definition>
+    <definition name=".user.quicksetup1" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/quicksetup1.jsp"/>
+    </definition>
+    <definition name=".user.quicksetup2notpublish" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/quicksetup2notpublish.jsp"/>
+    </definition>
+    <definition name=".user.quicksetup2publish" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/quicksetup2publish.jsp"/>
+    </definition>
+    <definition name=".user.quicksetup3" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/gallery/quicksetup3.jsp"/>
+    </definition>
     <definition name=".user.editcategory" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/gallery/category/editcategory.jsp"/>
     </definition>
