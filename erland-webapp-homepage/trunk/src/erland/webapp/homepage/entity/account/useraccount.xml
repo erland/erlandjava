@@ -13,6 +13,14 @@
                 <type>String</type>
                 <identity>true</identity>
             </field>
+            <field id="title">
+                <column>title</column>
+                <type>String</type>
+            </field>
+            <field id="titleEnglish">
+                <column>title_en</column>
+                <type>String</type>
+            </field>
             <field id="headerText">
                 <column>headertext</column>
                 <type>String</type>

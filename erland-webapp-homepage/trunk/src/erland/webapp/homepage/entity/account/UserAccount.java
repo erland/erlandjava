@@ -23,6 +23,8 @@ import erland.webapp.common.BaseEntity;
 
 public class UserAccount extends BaseEntity {
     private String username;
+    private String title;
+    private String titleEnglish;
     private String headerText;
     private String headerTextEnglish;
     private String description;
@@ -165,5 +167,21 @@ public class UserAccount extends BaseEntity {
 
     public void setShowLogo(Boolean showLogo) {
         this.showLogo = showLogo;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitleEnglish() {
+        return titleEnglish;
+    }
+
+    public void setTitleEnglish(String titleEnglish) {
+        this.titleEnglish = titleEnglish;
     }
 }
