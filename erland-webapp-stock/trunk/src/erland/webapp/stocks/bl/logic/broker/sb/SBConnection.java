@@ -31,6 +31,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Locale;
 import java.util.Arrays;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,7 +64,7 @@ public class SBConnection implements BrokerConnectionInterface {
                     "InstrumentID="+fondPrefix+
                     "&InstrumentType="+getInstrumentType()+
                     "&From=1980-01-01"+
-                    "&todate=2005-01-01");
+                    "&todate="+new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
             URLConnection conn = url.openConnection();
             conn.setDoInput(true);
             conn.setDoOutput(false);
