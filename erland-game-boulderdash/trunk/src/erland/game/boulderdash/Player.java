@@ -89,14 +89,14 @@ class Player
 			movingSpeed = 2;
 			result = true;
 		}else if(c.isMovable(x,y)) {
-			if(c.moveBlock(x,y,direction)) {
+			if(c.moveBlock(x,y,direction,1)) {
 				result = true;
 				movingSpeed = 1;
 			}
 		}else if(c.isDigThrough(x,y)) {
-			if(c.digBlock(x,y,direction)) {
+			if(c.digBlock(x,y,direction,2)) {
 				result = true;
-				movingSpeed = 1;
+				movingSpeed = 2;
 			}
 		}
 		return result;
@@ -327,6 +327,19 @@ class Player
 			}
 		}else {
 			return cont.getDrawingPositionY(y);
+		}
+	}
+	
+	/**
+	 * Get percentage of move that has been completed
+	 * @return Percentage of move that has been completed, a number between 0.0 and 1.0
+	 */
+	public float moveCompleted()
+	{
+		if(moving) {
+			return (float)((float)movingProgress/(float)cont.getSquareSize());
+		}else {
+			return 1;
 		}
 	}
 }

@@ -49,8 +49,20 @@ class LevelFactory
 			Block b = new BlockDiamond();
 			insertAtRandomPos(blocks,b);
 	    }
+	    insertAtRandomPos(blocks,new BlockMonster());
+		for (int i=0; i<100; i++) {
+			insertAtRandomPos(blocks,(Block)null);
+	    }
 	    insertAtRandomPos(blocks,player);
 	    return blocks;
+	}
+	
+	/** 
+	 * Get last level number
+	 */
+	int getLastLevel()
+	{
+		return 100;
 	}
 	
 	/**
@@ -63,7 +75,9 @@ class LevelFactory
 		int randomPosX = (int)(Math.random()*cont.getSizeX());
 		int randomPosY = (int)(Math.random()*cont.getSizeY());
 		blocks[randomPosX][randomPosY] = block;
-		block.init(c,images,cont,randomPosX,randomPosY);
+		if(block!=null) {
+			block.init(c,images,cont,randomPosX,randomPosY);
+		}
 	}
 	 
 	/**

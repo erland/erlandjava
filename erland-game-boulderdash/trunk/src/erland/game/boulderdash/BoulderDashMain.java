@@ -45,8 +45,6 @@ class BoulderDashMain
 	protected long fps=0;
 	/** Container object which all Buttons should be added to */
 	protected Container container;
-	/** Number of levels in the game */
-	protected static final int MAX_LEVEL=3;
 	/** Array with all the buttons */
 	protected Button buttons[];
 	/** Matrix with all the blocks on the game area */
@@ -115,7 +113,7 @@ class BoulderDashMain
 		this.cookies = cookies;
 		cheatMode = false;
 		cont = new ChangeableBlockContainerData(offsetX, offsetY, 20,20,20);
-		contVisible = new BlockContainerData(offsetX, offsetY, 10,10,20);
+		contVisible = new BlockContainerData(offsetX, offsetY, 20,20,20);
 		levelFactory = new LevelFactory(this,images,cont);
 		player = new Player();
 		// TODO: initiate all buttons
@@ -209,7 +207,7 @@ class BoulderDashMain
 	protected boolean newLevel()
 	{	
 		level++;
-		if(level<=MAX_LEVEL) {
+		if(level<levelFactory.getLastLevel()) {
 			if(level>1) {
 				score+=level*100;
 			}
@@ -276,7 +274,10 @@ class BoulderDashMain
 		g.drawString("Diamonds: "+String.valueOf(diamonds),rightColumnX, rightColumnY);
 		rightColumnY+=20;
 		if(cheatMode) {
-			g.drawString("*** Cheatmode *** FPS=" + fps,rightColumnX,rightColumnY);
+			//g.drawString("*** Cheatmode *** FPS=" + fps,rightColumnX,rightColumnY);
+			if(player.moveCompleted()>0.1f && player.moveCompleted()<1.0f) {
+				g.drawString(String.valueOf(player.moveCompleted())+":"+String.valueOf(isDestroyable(player.getPosX(),player.getPosY())),rightColumnX,rightColumnY);
+			}
 		}
 		rightColumnY+=20;
 		if(bEnd) {
@@ -288,7 +289,7 @@ class BoulderDashMain
 			}
 			if(blinkCounter<BLINK_SPEED) {
 				blinkCounter++;
-				if(level==(MAX_LEVEL+1)) {
+				if(level==(levelFactory.getLastLevel()+1)) {
 					g.drawString("CONGRATUALTIONS", rightColumnX, rightColumnY);
 					rightColumnY+=20;
 					g.drawString("You have finished", rightColumnX, rightColumnY);
@@ -574,12 +575,22 @@ class BoulderDashMain
 				if(!player.isAlive()) {
 					return true;
 				}
-				if(player.movingDirection()==Direction.DOWN) {
+				if(player.isMoving() && player.movingDirection()==Direction.DOWN) {
 					if((player.getMovingPosX()!=x || player.getMovingPosY()!=y)) {
 						return true;
 					}
+				}else if(player.isMoving()){
+					if((player.getMovingPosX()!=x || player.getMovingPosY()!=y)) {
+						if(player.getPosX()!=x || player.getPosY()!=y) {
+							return true;
+						}else {
+							if(player.moveCompleted()>0.5f) {
+								return true;
+							}
+						}
+					}
 				}else {
-					if((player.getPosX()!=x || player.getPosY()!=y) && (player.getMovingPosX()!=x || player.getMovingPosY()!=y)) {
+					if(player.getPosX()!=x || player.getPosY()!=y) {
 						return true;
 					}
 				}
@@ -588,13 +599,28 @@ class BoulderDashMain
 		return false;
 	}
 	
-	public boolean isDestroyable(int x, int y, int height)
+	public boolean isKillable(int x, int y)
 	{
 		if(isInside(x,y)) {
 			if(player.isAlive()) {
-				if(height>0 && player.getPosX()==x && player.getPosY()==y) {
+				if(/*height>0 && */player.getPosX()==x && player.getPosY()==y && (!player.isMoving() || player.moveCompleted()<0.5f)) {
 					return true;
-				}else if(height>1 && player.getMovingPosX()==x && player.getMovingPosY()==y) {
+				}else if(/*height>1 && */player.getMovingPosX()==x && player.getMovingPosY()==y) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public boolean isDestroyable(int x, int y)
+	{
+		if(isInside(x,y)) {
+			if(blocks[x][y]!=null) {
+				return blocks[x][y].isDestroyable();
+			}else if(player.isAlive()) {
+				if(/*height>0 && */player.getPosX()==x && player.getPosY()==y && (!player.isMoving() || player.moveCompleted()<0.5f)) {
+					return true;
+				}else if(/*height>1 && */player.getMovingPosX()==x && player.getMovingPosY()==y) {
 					return true;
 				}
 			}
@@ -648,7 +674,9 @@ class BoulderDashMain
 	public boolean destroyBlock(int x, int y, int height)
 	{
 		if(isInside(x,y)) {
-			if(player.isAlive()) {
+			if(blocks[x][y]!=null) {
+				return blocks[x][y].destroy();
+			}else if(player.isAlive()) {
 				if(height>0 && player.getPosX()==x && player.getPosY()==y) {
 					player.destroy();
 					return true;
@@ -660,7 +688,7 @@ class BoulderDashMain
 		}
 		return false;
 	}
-	public boolean moveBlock(int x, int y, int direction)
+	public boolean moveBlock(int x, int y, int direction,float speed)
 	{
 		int dx=x;
 		int dy=y;
@@ -682,7 +710,7 @@ class BoulderDashMain
 		}
 		if(isInside(dx,dy)) {
 			if(!allocated[dx][dy]) {
-				if(blocks[x][y].move(direction)) {
+				if(blocks[x][y].move(direction,speed)) {
 					allocated[dx][dy]=true;
 					return true;
 				}
@@ -691,11 +719,11 @@ class BoulderDashMain
 		return false;
 	}
 
-	public boolean digBlock(int x, int y, int direction)
+	public boolean digBlock(int x, int y, int direction, float speed)
 	{
 		if(isInside(x,y)) {
 			if(blocks[x][y]!=null) {
-				if(blocks[x][y].dig(direction)) {
+				if(blocks[x][y].dig(direction,speed)) {
 					return true;
 				}
 			}
@@ -755,5 +783,21 @@ class BoulderDashMain
 	public void increaseScore(int score)
 	{
 		this.score+=score*level;
+	}
+	
+	public int getPlayerDirection(int x, int y) {
+		if(Math.abs(x-player.getPosX())>Math.abs(y-player.getPosY())) {
+			if((x-player.getPosX())>0) {
+				return Direction.LEFT;
+			}else {
+				return Direction.RIGHT;
+			}
+		}else {
+			if((y-player.getPosY())>0) {
+				return Direction.UP;
+			}else {
+				return Direction.DOWN;
+			}
+		}
 	}
 }

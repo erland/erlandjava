@@ -9,12 +9,14 @@ import erland.game.*;
 class BlockEarth extends Block
 {
 	/** Indicates how far the digging is progressing, 0 indicates that digging has not started yet */
-	protected int digProgress;
+	protected float digProgress;
 	/** Indicates in which direction the digging is done */
 	protected int digDirection;
 	/** Indicates if the block is in progress to be digged through */
 	protected boolean digging;
 	
+	/** The speed the digging id done with */
+	protected float digSpeed;
 	/** Image of the block */
 	protected Image img;
 	
@@ -28,7 +30,7 @@ class BlockEarth extends Block
 	public void update()
 	{
 		if(digging) {
-			digProgress++;
+			digProgress+=digSpeed;
 			if(digProgress>=cont.getSquareSize()) {
 				c.delBlock(this);
 			}
@@ -46,17 +48,17 @@ class BlockEarth extends Block
 			switch(digDirection) {
 				case Direction.LEFT:
 					dx+=cont.getSquareSize()-digProgress;
-					width=digProgress;
+					width=(int)digProgress;
 					break;
 				case Direction.RIGHT:
-					width=digProgress;
+					width=(int)digProgress;
 					break;
 				case Direction.UP:
 					dy+=cont.getSquareSize()-digProgress;
-					height=digProgress;
+					height=(int)digProgress;
 					break;
 				case Direction.DOWN:
-					height=digProgress;
+					height=(int)digProgress;
 					break;
 				default:
 					break;
@@ -74,10 +76,11 @@ class BlockEarth extends Block
 		return true;
 	}
 	
-	public boolean dig(int direction)
+	public boolean dig(int direction, float speed)
 	{
 		if(!digging) {
 			digging = true;
+			digSpeed = speed;
 			digProgress = 0;
 			digDirection = direction;
 			return true;

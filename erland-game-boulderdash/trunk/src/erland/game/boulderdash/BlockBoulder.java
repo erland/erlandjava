@@ -16,13 +16,19 @@ class BlockBoulder extends Block
 	protected int movingDirection;
 	
 	/** Indicates the moving progress in the direction specified in {@link #movingDirection} */
-	protected int movingProgress;
+	protected float movingProgress;
+	
+	/** Indicates the speed the block is moved with */
+	protected float moveSpeed;
 	
 	/** Indicates the fall height when the block is falling down */
 	protected int fallHeight;
 
 	/** Image of the block */
 	protected Image img;
+	
+	/** Falling speed */
+	protected static float FALL_SPEED = 1.5f;
 	
 	public void init(BoulderDashContainerInterface c, ImageHandlerInterface images, BlockContainerInterface cont, int x, int y)
 	{
@@ -33,7 +39,7 @@ class BlockBoulder extends Block
 	public void update()
 	{
 		if(moving) {
-			movingProgress++;
+			movingProgress+=moveSpeed;
 			if(movingProgress>=cont.getSquareSize()) {
 				moving = false;
 				movingProgress=0;
@@ -63,14 +69,14 @@ class BlockBoulder extends Block
 		}
 		if(!moving) {
 			if(c.isFree(x,y+1)) {
-				c.moveBlock(x,y,Direction.DOWN);
-			}else if(c.isDestroyable(x,y+1,fallHeight)) {
+				c.moveBlock(x,y,Direction.DOWN,FALL_SPEED);
+			}else if(fallHeight>0 && c.isDestroyable(x,y+1)) {
 				c.destroyBlock(x,y+1,fallHeight);
-				c.moveBlock(x,y,Direction.DOWN);
+				c.moveBlock(x,y,Direction.DOWN,FALL_SPEED);
 			}else if(c.isFree(x-1,y) && c.isFree(x-1,y+1) && c.isSlippery(x,y+1)) {
-				c.moveBlock(x,y,Direction.LEFT);
+				c.moveBlock(x,y,Direction.LEFT,FALL_SPEED);
 			}else if(c.isFree(x+1,y) && c.isFree(x+1,y+1) && c.isSlippery(x,y+1)) {
-				c.moveBlock(x,y,Direction.RIGHT);
+				c.moveBlock(x,y,Direction.RIGHT,FALL_SPEED);
 			}
 		}
 	}
@@ -107,24 +113,27 @@ class BlockBoulder extends Block
 		return true;	
 	}
 	
-	public boolean move(int direction)
+	public boolean move(int direction,float speed)
 	{
 		if(!moving) {
 			if(direction==Direction.DOWN) {
 				if(c.isFree(x,y+1)) {
 					moving= true;
+					moveSpeed = speed;
 					movingDirection = Direction.DOWN;
 					return true;
 				}
 			}else if(direction==Direction.LEFT) {
 				if(c.isFree(x-1,y)) {
 					moving= true;
+					moveSpeed = speed;
 					movingDirection = Direction.LEFT;
 					return true;
 				}
 			}else if(direction==Direction.RIGHT) { 
 				if(c.isFree(x+1,y)) {
 					moving = true;
+					moveSpeed = speed;
 					movingDirection = Direction.RIGHT;
 					return true;
 				}

@@ -34,11 +34,12 @@ abstract class Block
 	}
 	
 	/**
-	 * Dig through block in specified direction
+	 * Dig through block in specified direction and speed
 	 * @param direction The direction in which the digging is done, see {@link erland.game#Direction}
+	 * @param speed The dig speed
 	 * @return true/false (Success/Failure)
 	 */
-	public boolean dig(int direction)
+	public boolean dig(int direction, float speed)
 	{
 		return false;
 	}
@@ -48,6 +49,15 @@ abstract class Block
 	 * @return true/false (Slippery/Not slippery)
 	 */
 	public boolean isSlippery()
+	{
+		return false;
+	}
+
+	/**
+	 * Checks if the block is possible to destroy
+	 * @return true/false (Destroyable/Not destroyable)
+	 */
+	public boolean isDestroyable()
 	{
 		return false;
 	}
@@ -64,9 +74,19 @@ abstract class Block
 	/**
 	 * Move the block one step in the specified direction
 	 * @param direction Direction to move the block in
+	 * @param speed The speed the moving is done with
 	 * @return true/false (Success/Failure)
 	 */
-	public boolean move(int direction)
+	public boolean move(int direction,float move)
+	{
+		return false;
+	}
+
+	/**
+	 * Destroys the block 
+	 * @return true/false (Success/Failure)
+	 */
+	public boolean destroy()
 	{
 		return false;
 	}
