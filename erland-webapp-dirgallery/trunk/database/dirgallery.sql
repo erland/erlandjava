@@ -64,16 +64,6 @@ CREATE TABLE picturecomments (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'resources'
---
-
-CREATE TABLE resources (
-  id varchar(100) NOT NULL default '',
-  value varchar(255) NOT NULL default '',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
-
---
 -- Table structure for table 'useraccounts'
 --
 

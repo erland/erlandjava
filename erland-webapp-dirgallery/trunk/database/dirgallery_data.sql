@@ -5,12 +5,6 @@
 -- Server version	4.0.13-max-nt
 
 --
--- Dumping data for table 'resources'
---
-
-INSERT INTO resources VALUES ('resources.thumbnail.cache','D%3A%5Cusers%5Cerland%5Cthumbnails2');
-
---
 -- Dumping data for table 'useraccounts'
 --
 
