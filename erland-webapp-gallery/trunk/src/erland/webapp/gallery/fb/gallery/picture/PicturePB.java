@@ -30,6 +30,8 @@ public class PicturePB extends ValidatorForm {
     private String description;
     private String image;
     private String link;
+    private String updateLink;
+    private String removeLink;
 
     public Integer getGallery() {
         return gallery;
@@ -101,5 +103,21 @@ public class PicturePB extends ValidatorForm {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getUpdateLink() {
+        return updateLink;
+    }
+
+    public void setUpdateLink(String updateLink) {
+        this.updateLink = updateLink;
+    }
+
+    public String getRemoveLink() {
+        return removeLink;
+    }
+
+    public void setRemoveLink(String removeLink) {
+        this.removeLink = removeLink;
     }
 }
