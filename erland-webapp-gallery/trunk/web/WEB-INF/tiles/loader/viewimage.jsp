@@ -6,8 +6,7 @@
 <table border="0">
     <tr>
     <td>
-        <bean:define id="image" name="picturePB" property="image" type="String"/>
-        <img src="<html:rewrite page="<%=image%>"/>" border="0"></img>
+        <erland-common:beanimage name="picturePB" property="image" border="0"/>
     </td>
     </tr>
     <tr><td>
