@@ -15,6 +15,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="game" />
     <orderEntry type="module" module-name="util" />
+    <orderEntry type="library" name="commons-logging" level="application" />
     <orderEntry type="module" module-name="network" />
   </component>
 </module>
