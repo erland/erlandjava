@@ -37,12 +37,18 @@ public class BoulderDash extends Applet
 	protected ParameterValueStorageInterface cookies;
 	/** This is the main class that implements the game */
 	protected BoulderDashMain main;
+	/** This is the main class that implements the level editor */
+	protected BoulderDashEditor editor;
+	/** Editor and Game buttons */
+	protected Button buttons[];
 	/** Indicates if cheatmode is active or not */
 	protected boolean bCheatMode;
 	/** Counter that counts the number of characters entered in the secret cheat word */
 	protected int cheatCounter;
 	/** Image handler object */
 	protected ImageHandlerInterface images;
+	/** Handler for the button actions */
+	protected ActionHandler actionHandler;
 
 	/**
 	 * Class that catch all supported keyboard commands
@@ -116,7 +122,9 @@ public class BoulderDash extends Applet
 		{
 			if(main!=null && (e.getModifiers() & e.BUTTON1_MASK)!=0) {
 				main.handleLeftMousePressed(e.getX(),e.getY());
-			}
+			}else if(editor!=null && (e.getModifiers() & e.BUTTON1_MASK)!=0) {
+				editor.handleLeftMousePressed(e.getX(),e.getY());
+			} 
 		}
 		/**
 		 * Called when a mouse button is released
@@ -126,6 +134,8 @@ public class BoulderDash extends Applet
 		{
 			if(main!=null && (e.getModifiers() & e.BUTTON1_MASK)!=0) {
 				main.handleLeftMouseReleased(e.getX(),e.getY());
+			}else if(editor!=null && (e.getModifiers() & e.BUTTON1_MASK)!=0) {
+				editor.handleLeftMouseReleased(e.getX(),e.getY());
 			}
 		}
 		/**
@@ -136,6 +146,63 @@ public class BoulderDash extends Applet
 		{
 			if(main!=null && (e.getModifiers() & e.BUTTON1_MASK)!=0) {
 				main.handleLeftMouseClicked(e.getX(),e.getY());
+			}else if(editor!=null && (e.getModifiers() & e.BUTTON1_MASK)!=0) {
+				editor.handleLeftMouseClicked(e.getX(),e.getY());
+			}
+		}
+	}
+
+	/**
+	 * Class that catch all supported mouse commands
+	 * and propagate them further to the main game class
+	 */
+	class MouseDrag extends MouseMotionAdapter {
+		/**
+		 * Called when the mouse is dragged with a button pressed down
+		 * @param e Information about which mouse button that was pressed down
+		 */
+		public void mouseDragged(MouseEvent e)
+		{
+			if(main!=null && (e.getModifiers() & e.BUTTON1_MASK)!=0) {
+				main.handleLeftMouseDragged(e.getX(),e.getY());
+			}else if(editor!=null && (e.getModifiers() & e.BUTTON1_MASK)!=0) {
+				editor.handleLeftMouseDragged(e.getX(),e.getY());
+			}
+		}
+	}
+	/**
+	 * Handles all clicks on the buttons
+	 */
+	class ActionHandler implements ActionListener {
+		/** Referens to the container of the buttons */
+		Container c;
+		/** 
+		 * Creates a new object 
+		 * @param c The container the buttons resides in
+		 */
+		public ActionHandler(Container c)
+		{
+			this.c = c;
+		}
+		/**
+		 * Performs the correct action when a button has been pressed
+		 * @param e ActionEvent with information about which button that has been pressed
+		 */
+		public void actionPerformed(ActionEvent e) {
+			if(main==null && editor==null) {
+				if(e.getSource()==buttons[0]) {
+					buttons[0].setVisible(false);
+					buttons[1].setVisible(false);
+					main = new BoulderDashMain(c,cookies,images,10,10);
+					requestFocus();
+					editor = null;
+				}else if(e.getSource()==buttons[1]) {
+					buttons[0].setVisible(false);
+					buttons[1].setVisible(false);
+					editor = new BoulderDashEditor(c,cookies,images, 10,10);
+					requestFocus();
+					main = null;
+				}
 			}
 		}
 	}
@@ -144,12 +211,13 @@ public class BoulderDash extends Applet
 	 * Initializes a new game
 	 */
 	public void init() {
-		//Log.setLog("<log><logitem1>erland.game.boulderdash.BoulderDashMain</logitem1></log>");
+		//Log.setLog("<log><logitem1>erland.game.boulderdash.LevelFactory</logitem1><logitem2>erland.game.boulderdash.Level</logitem2></log>");
 		this.setLayout(null);
 		bCheatMode=false;
 		cheatCounter=0;
 		addKeyListener(new Keyboard());
 		addMouseListener(new Mouse());
+		addMouseMotionListener(new MouseDrag());
 		this.setBackground(Color.black);
 		String mayScript = null;
 		if(inApplet) {
@@ -159,11 +227,30 @@ public class BoulderDash extends Applet
 				this.cookies = new CookieHandler(this);
 			}
 		}else {
-			this.cookies = new ParameterStorage("boulderdash.xml","boulderdash");
+			this.cookies = new BoulderDashParameterStorage("boulderdash.xml");
 			images = new ImageHandlerForApplication(this,"images/boulderdash");
 		}
 
-		main = new BoulderDashMain(this,cookies,images,10,10);
+		editor = null;
+		main = null;
+
+
+		buttons = new Button[2];
+		buttons[0] = new Button("Game");
+		buttons[1] = new Button("Editor");
+		buttons[0].setBounds(100,100,73,25);
+		buttons[1].setBounds(100,140,73,25);
+		this.add(buttons[0]);
+		this.add(buttons[1]);
+		actionHandler= new ActionHandler(this);
+		buttons[0].addActionListener(actionHandler);
+		buttons[1].addActionListener(actionHandler);
+
+		if(this.cookies == null) {
+			buttons[0].setVisible(false);
+			buttons[1].setVisible(false);
+			main = new BoulderDashMain(this,cookies,images,10,10);
+		}
 	}
 
 	/**
@@ -183,6 +270,8 @@ public class BoulderDash extends Applet
 		offScreen.setColor(Color.blue);
 		if(main!=null) {
 			main.draw(offScreen);
+		}else if(editor != null) {
+			editor.draw(offScreen);
 		}
 		g.drawImage(imag,0,0,null);
 	}
@@ -226,6 +315,23 @@ public class BoulderDash extends Applet
 				animator.sleep(Math.max(0,time-System.currentTimeMillis()));
 				if(main!=null) {
 					main.update();
+					if(main.isExit()) {
+						buttons[0].setVisible(true);
+						buttons[1].setVisible(true);
+						this.requestFocus();
+						cheatCounter=0;
+						bCheatMode=false;
+						main=null;
+					}
+				}else if(editor!=null) {
+					if(editor.isExit()) {
+						buttons[0].setVisible(true);
+						buttons[1].setVisible(true);
+						this.requestFocus();
+						cheatCounter=0;
+						bCheatMode=false;
+						editor=null;
+					}
 				}
 				repaint();
 			}
