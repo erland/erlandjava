@@ -1,7 +1,5 @@
 package erland.webapp.gallery.account;
 
-import erland.webapp.common.EntityInterface;
-import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.BaseEntity;
 
 public class UserAccount extends BaseEntity {
@@ -11,6 +9,7 @@ public class UserAccount extends BaseEntity {
     private String logo;
     private Boolean official;
     private Integer defaultGallery;
+    private String copyrightText;
 
     public String getUsername() {
         return username;
@@ -58,5 +57,13 @@ public class UserAccount extends BaseEntity {
 
     public void setDefaultGallery(Integer defaultGallery) {
         this.defaultGallery = defaultGallery;
+    }
+
+    public String getCopyrightText() {
+        return copyrightText;
+    }
+
+    public void setCopyrightText(String copyrightText) {
+        this.copyrightText = copyrightText;
     }
 }
