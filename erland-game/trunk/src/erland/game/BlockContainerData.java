@@ -10,47 +10,47 @@ public class BlockContainerData
 	/**
 	 * The X offset in pixels
 	 */
-	protected int offsetX;
+	private int offsetX;
 	
 	/**
 	 * The Y offset in pixels
 	 */
-	protected int offsetY;
+	private int offsetY;
 	
 	/**
 	 * Number of horizontal blocks
 	 */
-	protected int sizeX;
+	private int sizeX;
 	
 	/**
 	 * Number of vertical blocks
 	 */
-	protected int sizeY;
+	private int sizeY;
 
 	/**
 	 * The size of a single block in pixels
 	 */
-	protected int squareSize;
+	private int squareSize;
 
     /**
      * Number of visible horizontal blocks
      */
-    protected int visibleSizeX;
+    private int visibleSizeX;
 
     /**
      * Number of visible vertical blocks
      */
-    protected int visibleSizeY;
+    private int visibleSizeY;
 
     /**
      * Horizontal scrolling offset in pixels
      */
-    protected int scrollingOffsetX;
+    private int scrollingOffsetX;
 
     /**
      * Vertical scrolling offset in pixels
      */
-    protected int scrollingOffsetY;
+    private int scrollingOffsetY;
 
 	/**
 	 * Creates a new object not scrollable
@@ -150,7 +150,7 @@ public class BlockContainerData
     }
 	/**
 	 * Sets the horizontal drawing offset
-	 * @param x The new X drawing offset
+	 * @param offsetX The new X drawing offset
 	 */
 	public void setOffsetX(int offsetX)
 	{
@@ -158,7 +158,7 @@ public class BlockContainerData
 	}
 	/**
 	 * Sets the horizontal drawing offset
-	 * @param y The new Y drawing offset
+	 * @param offsetY The new Y drawing offset
 	 */
 	public void setOffsetY(int offsetY)
 	{
@@ -167,7 +167,7 @@ public class BlockContainerData
 
     /**
 	 * Sets the horizontal scrolling offset
-	 * @param x The new X scrolling offset
+	 * @param offsetX The new X scrolling offset
 	 */
 	public void setScrollingOffsetX(int offsetX)
 	{
@@ -175,7 +175,7 @@ public class BlockContainerData
 	}
 	/**
 	 * Sets the horizontal scrolling offset
-	 * @param y The new Y scrolling offset
+	 * @param offsetY The new Y scrolling offset
 	 */
 	public void setScrollingOffsetY(int offsetY)
 	{
