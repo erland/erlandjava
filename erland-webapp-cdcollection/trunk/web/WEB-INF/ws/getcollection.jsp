@@ -11,7 +11,7 @@
         <media>
             <id><bean:write name="media" property="idDisplay"/></id>
             <artist><bean:write name="media" property="artist"/></artist>
-            <title><bean:write name="media" property="title"/></artist>
+            <title><bean:write name="media" property="title"/></title>
             <cover><bean:write name="media" property="coverLink"/></cover>
         </media>
     </logic:iterate>
