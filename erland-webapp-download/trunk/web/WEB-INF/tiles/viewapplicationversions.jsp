@@ -10,7 +10,7 @@
     <p class="title"><bean:write name="applicationPB" property="title"/></p>
 </logic:empty>
 
-<p class="normal"><bean:write name="applicationPB" property="description"/>
+<p class="normal"><erland-common:expandhtml><bean:write name="applicationPB" property="description"/></erland-common:expandhtml>
 
 <table class="no-border">
     <logic:iterate name="applicationversionsPB" id="item">
