@@ -18,6 +18,10 @@
                 <column>username</column>
                 <type>String</type>
             </field>
+            <field id="species">
+                <column>species</column>
+                <type>Integer</type>
+            </field>
             <field id="name">
                 <column>name</column>
                 <type>String</type>
