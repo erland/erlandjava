@@ -14,13 +14,14 @@
 <table class="no-border">
     <logic:iterate name="applicationversionsPB" id="item">
         <tr>
-        <td>
-        <a class="bold-link" href="/download/do/downloadapplication?name=<bean:write name="item" property="name"/>&filename=<bean:write name="item" property="filename"/>"><bean:write name="item" property="version"/></a>
-        </td>
+        <td valign="top" nowrap><bean:write name="item" property="version"/></td>
         <td width="20">&nbsp;</td>
-        <td>
-        <a class="bold-link" href="/download/do/downloadapplication?name=<bean:write name="item" property="name"/>&filename=<bean:write name="item" property="filename"/>"><bean:write name="item" property="description"/></a>
+        <td valign="top" nowrap><bean:write name="item" property="dateDisplay"/></td>
+        <td width="20">&nbsp;</td>
+        <td valign="top"><a class="bold-link" href="/download/do/downloadapplication?name=<bean:write name="item" property="name"/>&filename=<bean:write name="item" property="filename"/>"><bean:write name="item" property="filename"/></a><br>
+        <bean:write name="item" property="description"/>
         </td>
         </tr>
+        <tr><td>&nbsp;</td></tr>
     </logic:iterate>
 </table>
