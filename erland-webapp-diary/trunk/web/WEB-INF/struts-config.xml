@@ -721,7 +721,7 @@
         <action
             path="/guest/viewimage"
             type="org.apache.struts.actions.ForwardAction"
-            parameter="/do/user/loadimage?width=640&amp;usecache=false">
+            parameter="/do/user/loadimage?width=640&amp;useCache=false">
         </action>
 
         <action
