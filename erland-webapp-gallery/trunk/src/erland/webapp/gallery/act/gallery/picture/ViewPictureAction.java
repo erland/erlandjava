@@ -40,9 +40,9 @@ public class ViewPictureAction extends BaseAction {
         template.setId(fb.getId());
         Picture picture = (Picture) getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").load(template);
         if (picture != null) {
-            PropertyUtils.copyProperties(fb, picture);
             Integer virtualGalleryId = fb.getGallery();
-            picture.setGallery(virtualGalleryId);
+            PropertyUtils.copyProperties(fb, picture);
+            fb.setGallery(virtualGalleryId);
         }
     }
 }
