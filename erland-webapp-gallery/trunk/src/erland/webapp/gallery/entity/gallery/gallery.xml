@@ -183,6 +183,19 @@
                     </field>
                 </fields>
             </query>
+            <query id="allforuserandtitle">
+                <querystring>username=? and title=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>username</field>
+                        <type>String</type>
+                    </field>
+                    <field id="2">
+                        <field>title</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
         </queries>
     </data>
 </entity>
