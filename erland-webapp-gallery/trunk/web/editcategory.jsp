@@ -11,7 +11,7 @@
         %>
         <form name="editEntry" action="portal" method="POST">
             <input type="hidden" name="do" value="editcategory">
-            <input type="hidden" name="gallery" value="<%=category.getGallery()%>">
+            <input type="hidden" name="gallery" value="<%=category!=null?category.getGallery().toString():request.getParameter("gallery")%>">
             <table>
             <%
             if(category!=null && category.getCategory()!=null) {
@@ -42,7 +42,7 @@
             <input type="submit" value="Spara">
             <input type="button" value="Avbryt" onClick="window.location='portal?do=searchgalleryentries<%=category!=null?"&gallery="+category.getGallery():""%><%=category!=null?"&category="+category.getCategory():""%>&start=0&max=9'">
             </td></tr>
-            <table>
+            </table>
         </form>
         <%
     }

@@ -39,7 +39,7 @@ public class SearchCategoriesCommand implements CommandInterface, ViewCategories
         initCommand(request);
         Integer category = null;
         Integer gallery = getGalleryId(request);
-        String categoryString = request.getParameter("gallery-category");
+        String categoryString = request.getParameter("category");
         if(categoryString!=null&&categoryString.length()>0) {
             category = Integer.valueOf(categoryString);
         }

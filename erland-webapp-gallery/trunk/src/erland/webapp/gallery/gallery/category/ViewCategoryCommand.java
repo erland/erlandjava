@@ -34,7 +34,7 @@ public class ViewCategoryCommand implements CommandInterface, ViewCategoryInterf
 
     public String execute(HttpServletRequest request) {
         Integer gallery = getGalleryId(request);
-        String categoryString = request.getParameter("gallery-category");
+        String categoryString = request.getParameter("category");
         Integer categoryId = null;
         if(categoryString!=null && categoryString.length()>0) {
             categoryId = Integer.valueOf(categoryString);
