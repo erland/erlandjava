@@ -12,18 +12,18 @@ public interface ParameterValueStorageInterface
 	 * @return The value of the parameter, will be an
 	 *         empty string if the parameter does not exist
 	 */
-	String getParameter(String name);
+	public String getParameter(String name);
 	
 	/**
 	 * Set a parameter value
 	 * @param name The name of the parameter
 	 * @param value The value of the parameter
 	 */
-	void setParameter(String name, String value);
+	public void setParameter(String name, String value);
 	
 	/**
 	 * Delete a parameter
 	 * @param name The name of the parameter
 	 */
-	void delParameter(String name);
+	public void delParameter(String name);
 }
