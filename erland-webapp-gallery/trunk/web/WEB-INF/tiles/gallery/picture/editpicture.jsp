@@ -14,8 +14,17 @@
         <tr><td><bean:message key="gallery.gallery.picture.edit.title"/></td><td>
         <html:text property="title" size="30"/>
         </td></tr>
+        <tr><td><bean:message key="gallery.gallery.picture.edit.title-english"/></td><td>
+        <html:text property="titleEnglish" size="30"/>
+        </td></tr>
         <tr><td><bean:message key="gallery.gallery.picture.edit.description"/></td><td>
         <html:textarea property="description" cols="80" rows="15"/>
+        </td></tr>
+        <tr><td><bean:message key="gallery.gallery.picture.edit.description-english"/></td><td>
+        <html:textarea property="descriptionEnglish" cols="80" rows="15"/>
+        </td></tr>
+        <tr><td><bean:message key="gallery.gallery.picture.edit.file"/></td><td>
+        <html:text property="file" size="80"/>
         </td></tr>
         <tr><td><bean:message key="gallery.gallery.picture.edit.image"/></td><td>
         <html:text property="image" size="80"/>
