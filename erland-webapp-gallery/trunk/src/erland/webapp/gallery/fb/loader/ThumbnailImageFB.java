@@ -29,6 +29,7 @@ public class ThumbnailImageFB extends ImageFB {
     private Boolean useCache;
     private Float compression;
     private Integer width;
+    private Integer height;
 
     public Boolean getUseCache() {
         return useCache;
@@ -78,10 +79,27 @@ public class ThumbnailImageFB extends ImageFB {
         this.width = ServletParameterHelper.asInteger(widthDisplay,null);
     }
 
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public String getHeightDisplay() {
+        return ServletParameterHelper.asString(height,null);
+    }
+
+    public void setHeightDisplay(String heightDisplay) {
+        this.height = ServletParameterHelper.asInteger(heightDisplay,null);
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         useCache = Boolean.TRUE;
         compression = null;
         width = null;
+        height = null;
     }
 }
