@@ -95,6 +95,14 @@ public class IMatchImportAction extends BaseAction {
                 filter.setAttribute("gallery", fb.getGallery());
                 getEnvironment().getEntityStorageFactory().getStorage("gallery-category").delete(filter);
                 getEnvironment().getEntityStorageFactory().getStorage("gallery-categorymembership").delete(filter);
+                Gallery template = (Gallery) getEnvironment().getEntityFactory().create("gallery-gallery");
+                template.setId(fb.getGallery());
+                Gallery gallery = (Gallery) getEnvironment().getEntityStorageFactory().getStorage("gallery-gallery").load(template);
+                if(gallery!=null) {
+                    gallery.setOfficialCategory(null);
+                    gallery.setOfficialGuestCategory(null);
+                    getEnvironment().getEntityStorageFactory().getStorage("gallery-gallery").store(gallery);
+                }
             }
             if (fb.getClearPictures().booleanValue()) {
                 QueryFilter filter = new QueryFilter("allforgallery");
