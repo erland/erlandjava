@@ -111,24 +111,12 @@ public class LoadImageAction extends BaseAction {
 
     protected ActionForward findSuccess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         try {
+            response.setContentType("image/jpeg");
             if (!ImageWriteHelper.writeImage(getEnvironment(), getImageFile(), response.getOutputStream())) {
-                request.getRequestDispatcher("thumbnailna.gif").forward(request, response);
+                return findFailure(mapping,form,request,response);
             }
-        } catch (ServletException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        return null;
-    }
-
-    protected ActionForward findFailure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        try {
-            request.getRequestDispatcher("thumbnailna.gif").forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
         return null;
     }

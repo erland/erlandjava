@@ -44,11 +44,10 @@ public class LoadThumbnailAction extends LoadImageAction {
         Boolean useCache = ServletParameterHelper.asBoolean(request.getParameter("usecache"), Boolean.TRUE);
         Float requestedCompression = ServletParameterHelper.asFloat(request.getParameter("compression"), null);
         try {
+            response.setContentType("image/jpeg");
             if (!ImageWriteHelper.writeThumbnail(getEnvironment(), requestedWidth, useCache, requestedCompression, getUsername(), getImageFile(), getCopyrightText(), new ImageThumbnail(), response.getOutputStream())) {
-                request.getRequestDispatcher("thumbnailna.gif").forward(request, response);
+                return findFailure(mapping,form,request,response);
             }
-        } catch (ServletException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
