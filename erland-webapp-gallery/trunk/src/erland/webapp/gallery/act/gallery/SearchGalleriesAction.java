@@ -25,6 +25,7 @@ import erland.webapp.common.act.BaseAction;
 import erland.webapp.gallery.fb.gallery.GalleryPB;
 import erland.webapp.gallery.fb.gallery.SelectGalleryFB;
 import erland.webapp.gallery.entity.gallery.Gallery;
+import erland.util.StringUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -36,6 +37,11 @@ public class SearchGalleriesAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SelectGalleryFB fb = (SelectGalleryFB) form;
         String username = request.getRemoteUser();
+        String language = fb.getLanguage();
+        if(StringUtil.asNull(language)==null) {
+            language = request.getLocale().getLanguage();
+        }
+        boolean useEnglish = !language.equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
         if (fb != null) {
             username = fb.getUser();
         }
@@ -44,6 +50,12 @@ public class SearchGalleriesAction extends BaseAction {
         for (int i = 0; i < entities.length; i++) {
             pb[i] = new GalleryPB();
             PropertyUtils.copyProperties(pb[i], entities[i]);
+            if(useEnglish && StringUtil.asNull(entities[i].getTitleEnglish())!=null) {
+                pb[i].setTitle(entities[i].getTitleEnglish());
+            }
+            if(useEnglish && StringUtil.asNull(entities[i].getDescriptionEnglish())!=null) {
+                pb[i].setDescription(entities[i].getDescriptionEnglish());
+            }
         }
         request.setAttribute("galleriesPB", pb);
     }
