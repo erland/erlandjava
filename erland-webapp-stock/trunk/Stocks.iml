@@ -21,7 +21,6 @@
     <orderEntry type="library" name="securityfilter" level="application" />
     <orderEntry type="library" name="commons-beanutils" level="application" />
     <orderEntry type="module" module-name="UserMgmt" />
-    <orderEntry type="library" name="Generic" level="application_server_libraries" />
     <orderEntryProperties />
   </component>
   <component name="WebModuleBuildComponent">
