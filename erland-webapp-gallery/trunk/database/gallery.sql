@@ -58,6 +58,14 @@ CREATE TABLE galleries (
   official tinyint(1) NOT NULL default '0',
   defaultresolution varchar(100) default NULL,
   maxwidth int(11) default NULL,
+  thumbnailcompression float default NULL,
+  compression float default NULL,
+  officialcategory int(11) default NULL,
+  officialguestcategory int(11) default NULL,
+  skin varchar(100) default NULL,
+  thumbnailantialias tinyint(1) NOT NULL default '0',
+  antialias tinyint(1) NOT NULL default '0',
+  cachedate datetime default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -107,8 +115,8 @@ CREATE TABLE pictures (
   date date NOT NULL default '0000-00-00',
   description longtext NOT NULL,
   image varchar(255) NOT NULL default '',
-  link varchar(255) NOT NULL default '',
   official tinyint(1) NOT NULL default '0',
+  link varchar(255) NOT NULL default '',
   officialguest tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (id,gallery)
 ) TYPE=MyISAM;
