@@ -339,14 +339,14 @@
     <first-group selected-file="file://$PROJECT_DIR$/src/erland/webapp/stocks/bl/logic/broker/sb/SBXMLEncoder.java">
       <entry file="file://$PROJECT_DIR$/src/erland/webapp/stocks/bl/logic/broker/sb/SBConnection.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="80" column="51" selection-start="3527" selection-end="3527" vertical-scroll-proportion="0.20116054">
+          <state line="80" column="51" selection-start="3527" selection-end="3527" vertical-scroll-proportion="0.2205029">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://$PROJECT_DIR$/src/erland/webapp/stocks/bl/logic/broker/sb/SBObligationConnection.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="38" column="0" selection-start="1572" selection-end="1572" vertical-scroll-proportion="0.63829786">
+          <state line="38" column="0" selection-start="1572" selection-end="1572" vertical-scroll-proportion="0.7311412">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
@@ -369,7 +369,7 @@
       </entry>
       <entry file="file://$PROJECT_DIR$/src/erland/webapp/stocks/bl/logic/broker/sb/SBXMLEncoder.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="27" column="13" selection-start="995" selection-end="995" vertical-scroll-proportion="0.3326886">
+          <state line="27" column="13" selection-start="995" selection-end="995" vertical-scroll-proportion="0.3500967">
             <folding />
           </state>
         </provider>
@@ -409,18 +409,18 @@
     <expanded_node url="" module="Stocks" type="module" />
   </component>
   <component name="ProjectPane">
-    <expanded_node url="file://$PROJECT_DIR$/web" module="Stocks" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp/stocks/act" module="Stocks" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/src/erland" module="Stocks" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/web/WEB-INF" module="Stocks" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp" module="Stocks" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp/stocks" module="Stocks" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/database" module="Stocks" type="directory" />
     <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp/stocks/bl" module="Stocks" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src/erland" module="Stocks" type="directory" />
     <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp/stocks/resources" module="Stocks" type="directory" />
     <expanded_node url="file://$PROJECT_DIR$" module="Stocks" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/src" module="Stocks" type="directory" />
     <expanded_node url="" module="Stocks" type="module" />
+    <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp/stocks/act" module="Stocks" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/database" module="Stocks" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src" module="Stocks" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp/stocks" module="Stocks" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/web" module="Stocks" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp" module="Stocks" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/web/WEB-INF" module="Stocks" type="directory" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" splitterProportion="0.5">
@@ -538,9 +538,9 @@
     </export>
     <general />
     <databases savePasswords="false" encodePasswords="true">
-      <database name="users" driver="jdbc:mysql" maxReconnects="3" user="erland" db="users" port="3306" host="localhost" initialTimeout="2" />
-      <database name="stock" driver="jdbc:mysql" maxReconnects="3" user="erland" db="stock" port="3306" host="localhost" initialTimeout="2" current="true" />
-      <database name="common" driver="jdbc:mysql" maxReconnects="3" user="erland" db="common" port="3306" host="localhost" initialTimeout="2" />
+      <database name="users" driver="jdbc:mysql" initialTimeout="2" maxReconnects="3" db="users" user="erland" port="3306" host="localhost" />
+      <database name="stock" driver="jdbc:mysql" initialTimeout="2" maxReconnects="3" db="stock" user="erland" port="3306" host="localhost" current="true" />
+      <database name="common" driver="jdbc:mysql" initialTimeout="2" maxReconnects="3" db="common" user="erland" port="3306" host="localhost" />
     </databases>
     <queries projectClassLoader="false" save="false" />
     <results primaryKeyCols="true" saveTableConfig="false">
@@ -599,7 +599,7 @@
       <window_info id="SQL" active="false" anchor="bottom" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.6224832" order="8" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.36554623" order="0" x="20" y="89" width="240" height="600" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.35714287" order="0" x="20" y="89" width="240" height="600" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.32998326" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.24894957" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.39833334" order="8" />
@@ -619,9 +619,9 @@
       <window_info id="ConsoleMavenPlugin" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="App Server" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="4" />
-      <window_info id="Code Logic" active="false" anchor="left" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.94050103" order="3" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="5" />
       <window_info id="Tailed Logs" active="false" anchor="bottom" auto_hide="true" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="5" />
+      <window_info id="Code Logic" active="false" anchor="left" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.94050103" order="3" />
     </layout>
   </component>
   <component name="VCS.FileViewConfiguration">
@@ -768,25 +768,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/stocks/bl/logic/broker/sb/SBObligationConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="0" selection-start="1572" selection-end="1572" vertical-scroll-proportion="0.63829786">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/erland/webapp/stocks/bl/logic/broker/sb/SBConnection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="51" selection-start="3527" selection-end="3527" vertical-scroll-proportion="0.20116054">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/erland/webapp/stocks/bl/logic/broker/sb/SBXMLEncoder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="13" selection-start="995" selection-end="995" vertical-scroll-proportion="0.3326886">
+        <state line="80" column="51" selection-start="3527" selection-end="3527" vertical-scroll-proportion="0.2205029">
           <folding />
         </state>
       </provider>
@@ -794,6 +778,22 @@
     <entry file="file://$PROJECT_DIR$/database/stock_data.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/erland/webapp/stocks/bl/logic/broker/sb/SBObligationConnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="0" selection-start="1572" selection-end="1572" vertical-scroll-proportion="0.7311412">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/erland/webapp/stocks/bl/logic/broker/sb/SBXMLEncoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="13" selection-start="995" selection-end="995" vertical-scroll-proportion="0.3500967">
           <folding />
         </state>
       </provider>
