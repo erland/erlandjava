@@ -1,0 +1,32 @@
+<entity id="picture">
+    <class>erland.webapp.dirgallery.entity.gallery.picture.Picture</class>
+    <data id="storage">
+        <class>erland.webapp.common.FileEntityStorage</class>
+        <name>file</name>
+    </data>
+    <data id="file">
+        <fields>
+            <field id="id">
+                <attribute>path</attribute>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="shortName">
+                <attribute>name</attribute>
+                <type>String</type>
+            </field>
+            <field id="fullPath">
+                <attribute>path</attribute>
+                <type>String</type>
+            </field>
+            <field id="directory">
+                <attribute>directory</attribute>
+                <type>String</type>
+            </field>
+            <field id="fileSize">
+                <attribute>length</attribute>
+                <type>Long</type>
+            </field>
+        </fields>
+    </data>
+</entity>
