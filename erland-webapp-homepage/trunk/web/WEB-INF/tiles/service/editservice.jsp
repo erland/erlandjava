@@ -33,6 +33,9 @@
     <tr><td><bean:message key="homepage.service.edit.transformer-data"/></td><td>
     <html:text property="transformerData"/>
     </td></tr>
+    <tr><td><bean:message key="homepage.service.edit.customized-transformer-data"/></td><td>
+    <html:text property="customizedTransformerData"/>
+    </td></tr>
     <tr><td></td><td>
     <html:submit><bean:message key="homepage.buttons.save"/></html:submit>
     </td></tr>
