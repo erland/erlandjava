@@ -1,1 +1,1 @@
-This is a page that displays errors
+Om denna sida visas så har ett fel uppstått

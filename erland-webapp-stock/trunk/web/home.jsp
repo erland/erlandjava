@@ -12,13 +12,16 @@
         <img src="portal?do=datevaluediagram&dataproducer=xmlkurser&broker=<%=broker%>&stocks=<%=stocklist%>&type=<%=type%>"></img>
 <%  }%>
 <br>
-
+<table>
 <%
     Iterator brokers = environment.getBrokers().getBrokers();
     while(brokers.hasNext()) {
         String brokerCode = (String) brokers.next();
-%>      <h3><%=environment.getBrokers().getBrokerName(brokerCode)%></h3>
+%>      <tr><td nowrap>
+        <p class="title"><%=environment.getBrokers().getBrokerName(brokerCode)%></p>
+        </td></tr>
         <form name="<%=brokerCode%>Form" action="portal" method="POST">
+        <tr><td nowrap>
         <select name="stocks" size="1">
         <%
         Iterator stocks = environment.getBrokers().getStocks(brokerCode);
@@ -31,7 +34,10 @@
         %>
         </select>
         <a class="bold-link" href="javascript: window.location='portal?do=datevaluediagramservices&broker=<%=brokerCode%>&stocks='+<%=brokerCode%>Form.stocks.value">Diagram</a>
+        </td></tr>
+        <tr><td><p class="normal">&nbsp</p></td></tr>
         </form>
 <%
     }
 %>
+</table>

@@ -55,7 +55,7 @@
             StockAccountStockEntry entry = stockList.getStock(i);
             if(broker==null||entry.getBroker().equals(broker)) {
                 %>
-                <tr><td>
+                <tr><td nowrap>
                 <a class="bold-link" href="portal?do=stockaccount&broker=<%=entry.getBroker()%>&stock=<%=entry.getStock()%>&purchasedate=<%=purchaseDate%>&date=<%=date%>&purchasevalues=inköp&stocknumbers=noofstocks&diffvalues=difference"><%=purchaseDate%> - <%=date%> : <%=environment.getBrokers().getBrokerName(entry.getBroker())%> <%=environment.getBrokers().getStockName(entry.getBroker(),entry.getStock())%></a>
                 </td></tr>
                 <%
@@ -70,12 +70,16 @@
 
 <table class="no-border">
 <form name="showAccount" action="portal" method="POST">
+        <tr><td>Första datum</td><td>
         <input type="text" name="purchasedate" value="<%=purchaseDate%>">
+        </td></tr>
+        <tr><td>Sista datum</td><td>
         <input type="text" name="date" value="<%=date%>">
-        <tr><td>
+        </td></tr>
+        <tr><td colspan="2" nowrap>
         <a href="javascript: window.location='portal?do=stockaccount&date='+showAccount.date.value+'&purchasedate='+showAccount.purchasedate.value+'&purchasevalues=inköp&stocknumbers=noofstocks&diffvalues=difference&seriesincluded=all'" class="bold-link">Visa alla</a>
         </td></tr>
-        <tr><td>
+        <tr><td colspan="2" nowrap>
         <a href="javascript: window.location='portal?do=stockaccount&date='+showAccount.date.value+'&purchasedate='+showAccount.purchasedate.value+'&purchasevalues=inköp&seriesincluded=total'" class="bold-link">Visa total</a>
         </td></tr>
         <%
@@ -83,10 +87,10 @@
         while(brokers.hasNext()) {
             String brokerCode = (String) brokers.next();
             %>
-            <tr><td>
+            <tr><td colspan="2" nowrap>
             <a href="javascript: window.location='portal?do=stockaccount&date='+showAccount.date.value+'&purchasedate='+showAccount.purchasedate.value+'&purchasevalues=inköp&stocknumbers=noofstocks&diffvalues=difference&seriesincluded=all&broker=<%=brokerCode%>'" class="bold-link">Visa alla <%=environment.getBrokers().getBrokerName(brokerCode)%></a>
             </td></tr>
-            <tr><td>
+            <tr><td colspan="2" nowrap>
             <a href="javascript: window.location='portal?do=stockaccount&date='+showAccount.date.value+'&purchasedate='+showAccount.purchasedate.value+'&purchasevalues=inköp&seriesincluded=total&broker=<%=brokerCode%>'" class="bold-link">Visa total <%=environment.getBrokers().getBrokerName(brokerCode)%></a>
             </td></tr>
             <%

@@ -1,5 +1,6 @@
 <%@ page session="true" %>
-Logga in för att titta på dina aktiediagram eller för att uppdatera dina aktieinnehav<br><br>
+<p class="normal">Logga in för att titta på dina aktiediagram eller för att uppdatera dina aktieinnehav<br>
+Om du vill ha tillgång till aktiediagramsidan kan du höra av dig till <a class="bold-link" href="mailto:erland.i@telia.com">mig</a><br><br>
 
 <form name="loginForm" action="portal" method="POST">
 <input type="hidden" name="do" value="login">

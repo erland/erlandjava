@@ -8,7 +8,7 @@
 </tr>
 <tr>
 <td class="left-margin"></td>
-<td><a class="bold-link" href="portal?do=stockaccountmgmt&menu=accountservices">Mina aktier</a></td>
+<td nowrap><a class="bold-link" href="portal?do=stockaccountmgmt&menu=accountservices">Mina aktier</a></td>
 </tr>
 <%
     CommandInterface cmd = (CommandInterface) request.getSession().getAttribute("menucmd");
@@ -22,10 +22,10 @@
 %>
 <tr>
 <td class="left-margin"></td>
-<td><a class="bold-link" href="portal?do=stockaccountservices">Mina diagram</a></td>
+<td nowrap><a class="bold-link" href="portal?do=stockaccountservices">Mina diagram</a></td>
 </tr>
 <tr>
 <td class="left-margin"></td>
-<td><a class="bold-link" href="portal?do=logout">Logga ut</a></td>
+<td nowrap><a class="bold-link" href="portal?do=logout">Logga ut</a></td>
 </tr>
 </table>
