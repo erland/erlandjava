@@ -10,8 +10,14 @@
     <tr><td><bean:message key="gallery.account.edit.description"/></td><td>
     <html:textarea property="description" cols="80" rows="5"/>
     </td></tr>
+    <tr><td><bean:message key="gallery.account.edit.description-english"/></td><td>
+    <html:textarea property="descriptionEnglish" cols="80" rows="5"/>
+    </td></tr>
     <tr><td><bean:message key="gallery.account.edit.welcome-text"/></td><td>
     <html:textarea property="welcomeText" cols="80" rows="15"/>
+    </td></tr>
+    <tr><td><bean:message key="gallery.account.edit.welcome-text-english"/></td><td>
+    <html:textarea property="welcomeTextEnglish" cols="80" rows="15"/>
     </td></tr>
     <tr><td><bean:message key="gallery.account.edit.logo"/></td><td>
     <html:text property="logo" size="80"/>
