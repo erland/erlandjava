@@ -71,9 +71,6 @@
             <field property="title" depends="required">
                 <arg0 key="diary.gallery.edit.title"/>
             </field>
-            <field property="description" depends="required">
-                <arg0 key="diary.gallery.edit.description"/>
-            </field>
         </form>
         <form name="editGalleryEntryFB">
             <field property="title" depends="required">
@@ -93,9 +90,6 @@
             <field property="name" depends="required">
                 <arg0 key="diary.inventory.edit.name"/>
             </field>
-            <field property="description" depends="required">
-                <arg0 key="diary.inventory.edit.description"/>
-            </field>
             <field property="eventDate" depends="required">
                 <arg0 key="diary.inventory.edit.event.date"/>
             </field>
@@ -106,9 +100,6 @@
         <form name="editInventoryEntryFB">
             <field property="name" depends="required">
                 <arg0 key="diary.inventory.edit.name"/>
-            </field>
-            <field property="description" depends="required">
-                <arg0 key="diary.inventory.edit.description"/>
             </field>
         </form>
         <form name="editInventoryEntryEventFB">
