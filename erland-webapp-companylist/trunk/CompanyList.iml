@@ -10,6 +10,8 @@
     <output url="file://$APPLICATION_HOME_DIR$/bin" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -20,6 +22,7 @@
     <orderEntry type="module" module-name="util" />
     <orderEntry type="module" module-name="WebCommon" />
     <orderEntry type="module" module-name="UserMgmt" />
+    <orderEntry type="library" name="commons-logging" level="application" />
   </component>
 </module>
 
