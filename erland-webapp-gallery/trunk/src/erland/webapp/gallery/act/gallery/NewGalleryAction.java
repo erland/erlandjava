@@ -50,9 +50,9 @@ public class NewGalleryAction extends BaseAction {
         GalleryFB fb = (GalleryFB) form;
         fb.setCompression(null);
         fb.setThumbnailCompression(null);
-        fb.setAntialias(Boolean.TRUE);
-        fb.setThumbnailAntialias(Boolean.TRUE);
-        
+        fb.setAntialias(Boolean.FALSE);
+        fb.setThumbnailAntialias(Boolean.FALSE);
+
         Gallery[] galleries = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",request.getRemoteUser(),"allrealforuser");
         GalleryPB[] pbGalleries = new GalleryPB[galleries.length];
         for (int i = 0; i < galleries.length; i++) {
