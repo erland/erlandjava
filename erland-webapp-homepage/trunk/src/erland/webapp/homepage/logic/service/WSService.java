@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import erland.util.ParameterValueStorageInterface;
+import erland.util.StringUtil;
 
 public class WSService implements ServiceInterface {
     /** Logging instance */
@@ -44,7 +45,12 @@ public class WSService implements ServiceInterface {
             StringTokenizer tokens = new StringTokenizer(in," ");
             while(tokens.hasMoreElements()) {
                 String token = (String) tokens.nextElement();
-                inParameters.put(token,parameters.getParameter(token));
+                int typeSeparator = token.indexOf(':');
+                if(typeSeparator>=0) {
+                    inParameters.put(token,parameters.getParameter(token.substring(0,typeSeparator)));
+                }else {
+                    inParameters.put(token,parameters.getParameter(token));
+                }
             }
         }
         return execute(parameters.getParameter("wsdl"),
@@ -81,8 +87,31 @@ public class WSService implements ServiceInterface {
                 Object name = it.next();
                 Object value = inParameters.get(name);
                 if(value!=null) {
-                    LOG.debug("Set parameter "+name+"="+value);
-                    input.setObjectPart(name.toString(),value);
+                    String nameString = name.toString();
+                    int typeSeparator = nameString.indexOf(':');
+                    if(typeSeparator>=0) {
+                        String type = nameString.substring(typeSeparator+1);
+                        nameString = nameString.substring(0,typeSeparator);
+                        if(type.equalsIgnoreCase("int")) {
+                            int intValue = StringUtil.asInteger(value.toString(),new Integer(0)).intValue();
+                            LOG.debug("Set int parameter "+nameString+"="+intValue);
+                            input.setIntPart(nameString,intValue);
+                        }else if(type.equalsIgnoreCase("float")) {
+                            float floatValue = StringUtil.asFloat(value.toString(),new Float(0)).floatValue();
+                            LOG.debug("Set float parameter "+nameString+"="+floatValue);
+                            input.setFloatPart(nameString,floatValue);
+                        }else if(type.equalsIgnoreCase("double")) {
+                            double doubleValue = StringUtil.asDouble(value.toString(),new Double(0)).doubleValue();
+                            LOG.debug("Set double parameter "+nameString+"="+doubleValue);
+                            input.setDoublePart(nameString,doubleValue);
+                        }else {
+                            LOG.debug("Set Object parameter "+nameString+"="+value);
+                            input.setObjectPart(nameString,value);
+                        }
+                    }else {
+                        LOG.debug("Set Object parameter "+name+"="+value);
+                        input.setObjectPart(name.toString(),value);
+                    }
                 }
             }
 
