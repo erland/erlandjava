@@ -16,6 +16,27 @@ CREATE TABLE appendixentries (
 ) TYPE=MyISAM;
 
 --
+-- Table structure for table `containers`
+--
+
+CREATE TABLE containers (
+  id int(11) NOT NULL auto_increment,
+  username varchar(100) NOT NULL default '',
+  name varchar(100) NOT NULL default '',
+  model varchar(100) NOT NULL default '',
+  volume int(11) NOT NULL default '0',
+  width int(11) NOT NULL default '0',
+  height int(11) NOT NULL default '0',
+  length int(11) NOT NULL default '0',
+  image varchar(255) default NULL,
+  largeimage varchar(255) default NULL,
+  link varchar(255) default NULL,
+  gallery int(11) default NULL,
+  description longtext,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
 -- Table structure for table `diaries`
 --
 
@@ -76,6 +97,7 @@ CREATE TABLE inventoryentries (
   id int(11) NOT NULL auto_increment,
   username varchar(100) NOT NULL default '',
   type int(11) NOT NULL default '0',
+  sex int(11) NOT NULL default '0',
   description longtext NOT NULL,
   image varchar(255) NOT NULL default '',
   largeimage varchar(255) NOT NULL default '',
@@ -105,7 +127,18 @@ CREATE TABLE inventoryentryhistory (
   date date NOT NULL default '0000-00-00',
   size float(11,1) NOT NULL default '0.0',
   description int(11) NOT NULL default '0',
+  container int(11) NOT NULL default '0',
   PRIMARY KEY  (id,eventid)
+) TYPE=MyISAM;
+
+--
+-- Table structure for table `inventoryentrysexes`
+--
+
+CREATE TABLE inventoryentrysexes (
+  id int(11) NOT NULL default '0',
+  description char(100) NOT NULL default '',
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 --
