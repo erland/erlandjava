@@ -228,7 +228,7 @@ public class Pipes extends Applet
 			}
 		}else {
 			images = new ImageHandlerForApplication(myFrame,"images/pipes");
-			this.cookies = new ParameterStorage("pipes.xml","pipes");
+			this.cookies = new ParameterStorageString(new FileStorage("pipes.xml"),"pipes");
 		}
 
 		int nButtons=3;
