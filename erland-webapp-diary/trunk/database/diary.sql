@@ -1,11 +1,11 @@
--- MySQL dump 9.08
+-- MySQL dump 9.09
 --
 -- Host: localhost    Database: diary
 ---------------------------------------------------------
--- Server version	4.0.13-max-nt
+-- Server version	4.0.15-max-debug
 
 --
--- Table structure for table 'appendixentries'
+-- Table structure for table `appendixentries`
 --
 
 CREATE TABLE appendixentries (
@@ -16,7 +16,7 @@ CREATE TABLE appendixentries (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'diaries'
+-- Table structure for table `diaries`
 --
 
 CREATE TABLE diaries (
@@ -29,7 +29,7 @@ CREATE TABLE diaries (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'diaryentries'
+-- Table structure for table `diaryentries`
 --
 
 CREATE TABLE diaryentries (
@@ -41,7 +41,7 @@ CREATE TABLE diaryentries (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'galleries'
+-- Table structure for table `galleries`
 --
 
 CREATE TABLE galleries (
@@ -55,7 +55,7 @@ CREATE TABLE galleries (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'galleryentries'
+-- Table structure for table `galleryentries`
 --
 
 CREATE TABLE galleryentries (
@@ -69,7 +69,7 @@ CREATE TABLE galleryentries (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'inventoryentries'
+-- Table structure for table `inventoryentries`
 --
 
 CREATE TABLE inventoryentries (
@@ -86,7 +86,7 @@ CREATE TABLE inventoryentries (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'inventoryentryeventtypes'
+-- Table structure for table `inventoryentryeventtypes`
 --
 
 CREATE TABLE inventoryentryeventtypes (
@@ -96,7 +96,7 @@ CREATE TABLE inventoryentryeventtypes (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'inventoryentryhistory'
+-- Table structure for table `inventoryentryhistory`
 --
 
 CREATE TABLE inventoryentryhistory (
@@ -109,7 +109,7 @@ CREATE TABLE inventoryentryhistory (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'inventoryentrytypes'
+-- Table structure for table `inventoryentrytypes`
 --
 
 CREATE TABLE inventoryentrytypes (
@@ -119,7 +119,7 @@ CREATE TABLE inventoryentrytypes (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'purchaseentries'
+-- Table structure for table `purchaseentries`
 --
 
 CREATE TABLE purchaseentries (
@@ -133,17 +133,7 @@ CREATE TABLE purchaseentries (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'resources'
---
-
-CREATE TABLE resources (
-  id varchar(100) NOT NULL default '',
-  value varchar(255) NOT NULL default '',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
-
---
--- Table structure for table 'useraccounts'
+-- Table structure for table `useraccounts`
 --
 
 CREATE TABLE useraccounts (
