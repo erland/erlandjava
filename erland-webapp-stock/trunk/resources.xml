@@ -194,6 +194,28 @@
                 </queries>
             </data>
         </entity>
+        <entity id="resource">
+            <class>erland.webapp.common.Resource</class>
+            <data id="storage">
+                <class>erland.webapp.common.GenericEntityStorage</class>
+                <name>sql</name>
+            </data>
+            <data id="sql">
+                <datasource>jdbc/stock</datasource>
+                <table>resources</table>
+                <fields>
+                    <field id="id">
+                        <column>id</column>
+                        <type>String</type>
+                        <identity>true</identity>
+                    </field>
+                    <field id="value">
+                        <column>value</column>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </data>
+        </entity>
         <entity id="transaction">
             <class>erland.webapp.stocks.Transaction</class>
             <data id="storage">
@@ -372,16 +394,11 @@
     <brokers>
         <broker id="robur">
             <name>Robur</name>
-            <directory id="cache">D:/users/erland/robur</directory>
             <class id="connection">erland.webapp.stocks.robur.RoburConnection</class>
         </broker>
         <broker id="sb">
             <name>Stockholmsbörsen</name>
-            <directory id="cache">D:/users/erland/robur</directory>
             <class id="connection">erland.webapp.stocks.sb.SBConnection</class>
         </broker>
     </brokers>
-    <data id="diagram">
-        <directory id="cache">D:/users/erland/robur</directory>
-    </data>
 </resources>
