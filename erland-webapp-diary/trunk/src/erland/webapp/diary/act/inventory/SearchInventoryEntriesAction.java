@@ -26,10 +26,10 @@ import erland.webapp.common.html.StringReplaceInterface;
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.diary.entity.inventory.InventoryEntry;
 import erland.webapp.diary.entity.inventory.InventoryEntryEvent;
+import erland.webapp.diary.entity.species.Species;
 import erland.webapp.diary.fb.account.SelectUserFB;
-import erland.webapp.diary.fb.inventory.InventoryEntryEventFB;
-import erland.webapp.diary.fb.inventory.SelectInventoryFB;
-import erland.webapp.diary.fb.inventory.InventoryEntryFB;
+import erland.webapp.diary.fb.inventory.*;
+import erland.webapp.diary.fb.species.SpeciesPB;
 import erland.webapp.diary.logic.inventory.DescriptionIdHelper;
 import erland.webapp.diary.logic.appendix.SourceAppendixStringReplace;
 import erland.webapp.usermgmt.User;
@@ -84,9 +84,9 @@ public class SearchInventoryEntriesAction extends BaseAction {
         List result = new ArrayList();
         StringReplaceInterface sourceReplace = new SourceAppendixStringReplace();
         for (int i = 0; i < entities.length; i++) {
-            InventoryEntryEventFB[] events = getEvents(((InventoryEntry) entities[i]).getId(),fb.getDate(),container,forwardUpdateEvent,forwardDeleteEvent);
+            InventoryEntryEventPB[] events = getEvents(((InventoryEntry) entities[i]).getId(),fb.getDate(),container,forwardUpdateEvent,forwardDeleteEvent);
             if(events.length>0 || getAllEvents()) {
-                InventoryEntryFB entry = new InventoryEntryFB();
+                InventoryEntryPB entry = new InventoryEntryPB();
                 PropertyUtils.copyProperties(entry,entities[i]);
                 if(StringUtil.asNull(entry.getLink())!=null) {
                     String link = sourceReplace.replace(entry.getLink());
@@ -97,6 +97,13 @@ public class SearchInventoryEntriesAction extends BaseAction {
                 entry.setEvents(events);
                 entry.setTypeDescription(DescriptionIdHelper.getDescription("diary-inventoryentrytype",entry.getType()));
                 entry.setSexDescription(DescriptionIdHelper.getDescription("diary-inventoryentrysex",entry.getSex()));
+
+                if(entry.getSpecies()!=null && entry.getSpecies().intValue()!=0) {
+                    entry.setSpeciesInfo(getSpecies(request,mapping,username,entry.getSpecies()));
+                }else {
+                    entry.setSpeciesInfo(new SpeciesPB());
+                }
+
                 parameters.put("id",entry.getId());
                 parameters.put("gallery",entry.getGallery());
                 if(events.length>0) {
@@ -127,7 +134,7 @@ public class SearchInventoryEntriesAction extends BaseAction {
         request.getSession().setAttribute("inventoryEntriesPB",result.toArray(new InventoryEntryFB[0]));
     }
 
-    public InventoryEntryEventFB[] getEvents(Integer id, Date date, Integer container, ActionForward forwardUpdateEvent, ActionForward forwardDeleteEvent) {
+    public InventoryEntryEventPB[] getEvents(Integer id, Date date, Integer container, ActionForward forwardUpdateEvent, ActionForward forwardDeleteEvent) {
         QueryFilter filter = new QueryFilter("allforid");
         filter.setAttribute("id", id);
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("diary-inventoryentryevent").search(filter);
@@ -142,7 +149,7 @@ public class SearchInventoryEntriesAction extends BaseAction {
                 }
                 if(getAllEvents() || ((InventoryEntryEvent)entities[i]).isActive()) {
                     if(container==null || container.equals(((InventoryEntryEvent)entities[firstBeforeDate.intValue()]).getContainer())) {
-                        InventoryEntryEventFB event = new InventoryEntryEventFB();
+                        InventoryEntryEventPB event = new InventoryEntryEventPB();
                         try {
                             PropertyUtils.copyProperties(event,entities[i]);
                             if(((InventoryEntryEvent)entities[i]).isSizeRelevant()) {
@@ -167,10 +174,58 @@ public class SearchInventoryEntriesAction extends BaseAction {
                 }
             }
         }
-        return (InventoryEntryEventFB[]) events.toArray(new InventoryEntryEventFB[0]);
+        return (InventoryEntryEventPB[]) events.toArray(new InventoryEntryEventPB[0]);
     }
 
     protected boolean getAllEvents() {
         return true;
+    }
+    private SpeciesPB getSpecies(HttpServletRequest request, ActionMapping mapping, String username,Integer id) {
+        Map allSpecies = (Map) request.getAttribute(getClass()+"SPECIES");
+        if(allSpecies==null) {
+            allSpecies = new HashMap();
+            QueryFilter filter = new QueryFilter("allforuser");
+            filter.setAttribute("username",username);
+            EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("diary-species").search(filter);
+            for (int i = 0; i < entities.length; i++) {
+                Species entity = (Species) entities[i];
+                SpeciesPB pb = new SpeciesPB();
+                try {
+                    PropertyUtils.copyProperties(pb,entity);
+                } catch (IllegalAccessException e) {
+                } catch (InvocationTargetException e) {
+                } catch (NoSuchMethodException e) {
+                }
+
+                Map parameters = new HashMap();
+                parameters.put("gallery",pb.getGallery());
+                String user = request.getRemoteUser();
+                if(user==null) {
+                    user=(String) request.getSession().getAttribute("user");
+                }
+                parameters.put("user",user);
+                parameters.put("species",entity.getId());
+                parameters.put("gallery",entity.getGallery());
+
+                ActionForward forward = mapping.findForward("view-species-gallery-link");
+                if(forward!=null) {
+                    pb.setGalleryLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+                }
+                forward = mapping.findForward("view-species-link");
+                if(forward!=null) {
+                    pb.setViewLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+                }
+
+                if(StringUtil.asNull(pb.getLink())!=null) {
+                    String link = new SourceAppendixStringReplace().replace(pb.getLink());
+                    if(!pb.getLink().equals(link)) {
+                        pb.setLinkSource(link);
+                    }
+                }
+
+                allSpecies.put(entity.getId(),pb);
+            }
+        }
+        return (SpeciesPB) allSpecies.get(id);
     }
 }
