@@ -20,7 +20,6 @@ package erland.webapp.common.image;
  */
 
 import erland.webapp.common.WebAppEnvironmentInterface;
-import erland.util.Log;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -36,7 +35,12 @@ import java.net.URLConnection;
 import java.util.Iterator;
 import java.util.Date;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class ImageWriteHelper {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(ImageWriteHelper.class);
     private static final int THUMBNAIL_WIDTH = 150;
     private static final int COPYRIGHT_WIDTH = 640;
     private static final int COPYRIGHT_HEIGHT = 480;
@@ -51,7 +55,7 @@ public class ImageWriteHelper {
         try {
             if (file != null) {
                 BufferedInputStream input = null;
-                Log.println(getLogInstance(), "Loading image: " + file);
+                LOG.debug( "Loading image: " + file);
                  try {
                     input = new BufferedInputStream(new FileInputStream(file));
                 } catch (FileNotFoundException e) {
@@ -81,7 +85,7 @@ public class ImageWriteHelper {
         return writeThumbnail(environment,width,null,useCache,compression,username,imageFile,copyrightText,thumbnailCreator,null,null,null,null,output);
     }
     public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Integer height, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, String cachePrefix, ImageFilterContainerInterface preFilters, ImageFilterContainerInterface postFilters, Date cacheDate, OutputStream output) {
-        Log.println(getLogInstance(), "Loading thumbnail image: " + imageFile);
+        LOG.debug( "Loading thumbnail image: " + imageFile);
         String cacheDir = environment.getConfigurableResources().getParameter("thumbnail.cache");
         int requestedWidth = width!=null?width.intValue():THUMBNAIL_WIDTH;
         int requestedHeight = height!=null?height.intValue():0;
@@ -125,7 +129,7 @@ public class ImageWriteHelper {
                     if (thumbnail != null) {
                         ImageFilter[] filters = postFilters!=null?postFilters.getFilters():null;
                         if(filters!=null && filters.length>0) {
-                            Log.println(getLogInstance(),"Applying filters",Log.DEBUG);
+                            LOG.trace("Applying filters");
                             ImageProducer prod = thumbnail.getSource();
                             for (int i = 0; i < filters.length; i++) {
                                 ImageFilter postFilter = filters[i];
@@ -136,14 +140,14 @@ public class ImageWriteHelper {
                             Graphics g = thumbnail.createGraphics();
                             g.drawImage(img, 0, 0, null);
                             g.dispose();
-                            Log.println(getLogInstance(),"Filters applied",Log.DEBUG);
+                            LOG.trace("Filters applied");
                         }
                         Graphics2D g2= thumbnail.createGraphics();
                         int finalWidth = thumbnail.getWidth();
                         int finalHeight = thumbnail.getHeight();
                         if (finalWidth >= COPYRIGHT_WIDTH || finalHeight>= COPYRIGHT_HEIGHT) {
                             if (copyrightText != null && copyrightText.length() > 0) {
-                                Log.println(getLogInstance(),"Drawing copyright",Log.DEBUG);
+                                LOG.trace("Drawing copyright");
                                 FontMetrics metrics = g2.getFontMetrics();
                                 Rectangle2D rc = metrics.getStringBounds(copyrightText, g2);
                                 g2.setColor(new Color(1f, 1f, 1f, 0.4f));
@@ -151,18 +155,18 @@ public class ImageWriteHelper {
                                 g2.setColor(Color.black);
                                 g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                                 g2.drawString(copyrightText, finalWidth - (int) rc.getWidth() - COPYRIGHT_OFFSET * 2, finalHeight - COPYRIGHT_OFFSET * 2 - metrics.getDescent());
-                                Log.println(getLogInstance(),"Copyright drawed",Log.DEBUG);
+                                LOG.trace("Copyright drawed");
                             }
                         }
                     }
 
                     if (thumbnail != null) {
                         if(output!=null) {
-                            Log.println(getLogInstance(),"Create thumbnail jpeg",Log.DEBUG);
+                            LOG.trace("Create thumbnail jpeg");
                             ImageOutputStream imageOutput = ImageIO.createImageOutputStream(output);
-                            Log.println(getLogInstance(),"Write thumbnail to response",Log.DEBUG);
+                            LOG.trace("Write thumbnail to response");
                             writeImageToOutput(thumbnail, requestedCompression, imageOutput);
-                            Log.println(getLogInstance(),"Thumbnail written to response",Log.DEBUG);
+                            LOG.trace("Thumbnail written to response");
                             imageOutput.close();
                         }
 
@@ -216,7 +220,7 @@ public class ImageWriteHelper {
 
     private static File getFromCache(String cacheDir,String username, String cachePrefix, int width, String originalFile, long lastModified) {
         String cacheFileName = getCacheFileName(username, cachePrefix, width, originalFile);
-        Log.println(getLogInstance(), "Loading thumbnail from cache: " + cacheDir+"/"+cacheFileName);
+        LOG.debug( "Loading thumbnail from cache: " + cacheDir+"/"+cacheFileName);
         File cachedfile = new File(cacheDir + "/" + cacheFileName);
         if (cachedfile.exists()) {
             if (cachedfile.lastModified() > lastModified) {

@@ -1,4 +1,8 @@
 package erland.webapp.common.html;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -18,11 +22,12 @@ package erland.webapp.common.html;
  *
  */
 
-import erland.util.Log;
 
 public class HTMLBasicStringReplace implements StringReplaceInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(HTMLBasicStringReplace.class);
     public String replace(String str) {
-        Log.println(this,"replacing HTML tags with "+getClass().getName());
+        LOG.debug("replacing HTML tags with "+getClass().getName());
         str = str.replaceAll("<","&lt");
         str = str.replaceAll(">","&gt");
         str = str.replaceAll("\n","<BR>");

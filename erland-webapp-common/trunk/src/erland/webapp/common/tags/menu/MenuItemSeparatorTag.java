@@ -1,6 +1,5 @@
 package erland.webapp.common.tags.menu;
 
-import erland.util.Log;
 import erland.util.StringUtil;
 
 import javax.servlet.jsp.JspException;
@@ -11,6 +10,9 @@ import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.StringTokenizer;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -32,6 +34,8 @@ import java.util.StringTokenizer;
  */
 
 public class MenuItemSeparatorTag extends TagSupport implements MenuItemInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(MenuItemSeparatorTag.class);
     private String id;
     private String style;
     private String styleSelected;
@@ -62,7 +66,7 @@ public class MenuItemSeparatorTag extends TagSupport implements MenuItemInterfac
             }else {
                 itemId = id;
             }
-            Log.println(this,""+id+".getItemId()="+itemId);
+            LOG.debug(""+id+".getItemId()="+itemId);
         }
         return itemId;
     }
@@ -76,7 +80,7 @@ public class MenuItemSeparatorTag extends TagSupport implements MenuItemInterfac
             }else {
                 parentId = "";
             }
-            Log.println(this,""+id+".getParentId()="+parentId);
+            LOG.debug(""+id+".getParentId()="+parentId);
         }
         return parentId;
     }
@@ -146,8 +150,8 @@ public class MenuItemSeparatorTag extends TagSupport implements MenuItemInterfac
 
     public int doStartTag() throws JspException {
         JspWriter out = pageContext.getOut();
-        if(Log.isEnabled(this,Log.DEBUG)) {
-            Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
+        if(LOG.isTraceEnabled()) {
+            LOG.trace(StringUtil.beanToString(this,null,TagSupport.class,true));
         }
         String menuObjName = getMenuId();
         String menuObj = (String) pageContext.getAttribute(menuObjName,PageContext.SESSION_SCOPE);

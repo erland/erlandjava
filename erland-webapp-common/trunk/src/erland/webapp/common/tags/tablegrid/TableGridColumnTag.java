@@ -5,8 +5,9 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import java.io.IOException;
 
-import erland.util.Log;
 import erland.util.StringUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -28,6 +29,8 @@ import erland.util.StringUtil;
  */
 
 public class TableGridColumnTag extends TagSupport {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(TableGridColumnTag.class);
     private String column;
     private String cellStyle;
     private String align;
@@ -120,8 +123,8 @@ public class TableGridColumnTag extends TagSupport {
     public int doStartTag() throws JspException {
         try {
             JspWriter out = pageContext.getOut();
-            if(Log.isEnabled(this,Log.DEBUG)) {
-                Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
+            if(LOG.isTraceEnabled()) {
+                LOG.trace(StringUtil.beanToString(this,null,TagSupport.class,true));
             }
             columnNo=StringUtil.asInteger(column,new Integer(0)).intValue();
             if(columnNo==getTableColumnIndex()) {

@@ -2,7 +2,6 @@ package erland.webapp.common.tags.menu;
 
 import erland.webapp.common.html.HTMLBasicStringReplace;
 import erland.webapp.common.html.StringReplaceInterface;
-import erland.util.Log;
 import erland.util.StringUtil;
 
 import javax.servlet.jsp.JspException;
@@ -12,6 +11,9 @@ import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -33,6 +35,8 @@ import java.io.IOException;
  */
 
 public class MenuTag extends TagSupport implements MenuItemInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(MenuTag.class);
     private String id;
     private String style;
     private String styleSelected;
@@ -101,8 +105,8 @@ public class MenuTag extends TagSupport implements MenuItemInterface {
     }
 
     public int doStartTag() throws JspException {
-        if(Log.isEnabled(this,Log.DEBUG)) {
-            Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
+        if(LOG.isTraceEnabled()) {
+            LOG.trace(StringUtil.beanToString(this,null,TagSupport.class,true));
         }
         try {
             if(menuStyle!=null) {

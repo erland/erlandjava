@@ -19,7 +19,8 @@ package erland.webapp.common.image;
  *
  */
 
-import erland.util.Log;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.imageio.ImageIO;
 import javax.media.*;
@@ -41,6 +42,8 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerListener, DataSinkListener {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(MovieThumbnail.class);
     private static Object sync = new Object();
     private Processor p;
     private Object waitSync = new Object();
@@ -468,7 +471,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
     }
 
     private boolean init(DataSource ds) {
-        Log.println(this, "Opening movie: " + ds.getContentType());
+        LOG.debug( "Opening movie: " + ds.getContentType());
 
         try {
             p = Manager.createProcessor(ds);

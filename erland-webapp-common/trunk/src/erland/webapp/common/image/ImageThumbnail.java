@@ -19,7 +19,8 @@ package erland.webapp.common.image;
  *
  */
 
-import erland.util.Log;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -32,6 +33,8 @@ import java.io.FileOutputStream;
 import java.net.URL;
 
 public class ImageThumbnail implements ThumbnailCreatorInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(ImageThumbnail.class);
     private static Object sync = new Object();
     private Boolean antialias;
 
@@ -44,12 +47,12 @@ public class ImageThumbnail implements ThumbnailCreatorInterface {
     public BufferedImage create(URL url, int requestedWidth, int requestedHeight, ImageFilterContainerInterface filters) throws IOException {
         BufferedImage thumbnail = null;
         synchronized (sync) {
-            Log.println(this,"Opening "+url.getFile());
+            LOG.debug("Opening "+url.getFile());
             BufferedImage image = ImageIO.read(new BufferedInputStream(url.openStream()));
             thumbnail = createThumbnail(image,requestedWidth,requestedHeight,filters);
         }
-        if(Log.isEnabled(this,Log.DEBUG)) {
-            Log.println(this,"Returning thumbnail "+thumbnail,Log.DEBUG);
+        if(LOG.isTraceEnabled()) {
+            LOG.trace("Returning thumbnail "+thumbnail);
         }
         return thumbnail;
     }
@@ -57,13 +60,13 @@ public class ImageThumbnail implements ThumbnailCreatorInterface {
     protected BufferedImage createThumbnail(BufferedImage image, int requestedWidth, int requestedHeight, ImageFilterContainerInterface filters) throws IOException {
         BufferedImage thumbnail = null;
         if (image != null) {
-            if(Log.isEnabled(this,Log.DEBUG)) {
-                Log.println(this,"Opened image "+image,Log.DEBUG);
+            if(LOG.isTraceEnabled()) {
+                LOG.trace("Opened image "+image);
             }
             ImageFilter[] filterList = filters!=null?filters.getFilters():null;
             Toolkit toolkit = Toolkit.getDefaultToolkit();
             if(filterList!=null && filterList.length>0) {
-                Log.println(this,"Applying filters",Log.DEBUG);
+                LOG.trace("Applying filters");
                 ImageProducer prod = image.getSource();
                 for (int i = 0; i < filterList.length; i++) {
                     ImageFilter postFilter = filterList[i];
@@ -71,9 +74,9 @@ public class ImageThumbnail implements ThumbnailCreatorInterface {
                 }
                 Image img = toolkit.createImage(prod);
                 image = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
-                Log.println(this,"Filters applied",Log.DEBUG);
+                LOG.trace("Filters applied");
                 Graphics g = image.createGraphics();
-                Log.println(this,"Draw image",Log.DEBUG);
+                LOG.trace("Draw image");
                 g.drawImage(img, 0, 0, null);
                 g.dispose();
             }
@@ -98,7 +101,7 @@ public class ImageThumbnail implements ThumbnailCreatorInterface {
                 width = origWidth;
                 height = origHeight;
             }
-            Log.println(this,"Creating BufferedImage for thumbnail",Log.DEBUG);
+            LOG.trace("Creating BufferedImage for thumbnail");
             // The next three rows are quite stupid, but it was the only way to get decent performance
             // on images editied in PhotoShop and saved with a ICC profile.
             BufferedImage tempImage = new BufferedImage(origWidth, origHeight, image.getType());
@@ -107,22 +110,22 @@ public class ImageThumbnail implements ThumbnailCreatorInterface {
             image = tempImage;
 
             thumbnail = new BufferedImage(width, height, image.getType());
-            Log.println(this,"Create graphics",Log.DEBUG);
+            LOG.trace("Create graphics");
             Graphics2D g2 = thumbnail.createGraphics();
             g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
             if(antialias.booleanValue()) {
-                Log.println(this,"Creating scaled instance",Log.DEBUG);
+                LOG.trace("Creating scaled instance");
                 Image scaled = image.getScaledInstance(width,height,Image.SCALE_AREA_AVERAGING);
-                Log.println(this,"Drawing thumbnail",Log.DEBUG);
+                LOG.trace("Drawing thumbnail");
                 g2.drawImage(scaled, 0, 0, null);
-                Log.println(this,"Thumbnail drawed",Log.DEBUG);
+                LOG.trace("Thumbnail drawed");
             }else {
-                Log.println(this,"Drawing thumbnail",Log.DEBUG);
+                LOG.trace("Drawing thumbnail");
                 g2.drawImage(image, 0, 0, width, height, 0, 0, origWidth, origHeight, null);
-                Log.println(this,"Thumbnail drawed",Log.DEBUG);
+                LOG.trace("Thumbnail drawed");
             }
             g2.dispose();
-            Log.println(this,"Thumbnail successfully generated",Log.DEBUG);
+            LOG.trace("Thumbnail successfully generated");
         }
         return thumbnail;
     }

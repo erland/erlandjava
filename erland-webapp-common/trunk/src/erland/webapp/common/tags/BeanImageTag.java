@@ -2,7 +2,6 @@ package erland.webapp.common.tags;
 
 import erland.webapp.common.html.HTMLEncoder;
 import erland.webapp.common.ServletParameterHelper;
-import erland.util.Log;
 import erland.util.StringUtil;
 
 import javax.servlet.jsp.tagext.BodyTagSupport;
@@ -18,6 +17,8 @@ import java.net.MalformedURLException;
 import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.util.RequestUtils;
 
 /*
@@ -40,6 +41,8 @@ import org.apache.struts.util.RequestUtils;
  */
 
 public class BeanImageTag extends TagSupport {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(BeanImageTag.class);
     private String name;
     private String property;
     private String border;
@@ -106,8 +109,8 @@ public class BeanImageTag extends TagSupport {
 
     public int doStartTag() throws JspException {
         JspWriter out = pageContext.getOut();
-        if(Log.isEnabled(this,Log.DEBUG)) {
-            Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
+        if(LOG.isTraceEnabled()) {
+            LOG.trace(StringUtil.beanToString(this,null,TagSupport.class,true));
         }
         Object bean = pageContext.findAttribute(name);
         String link = null;

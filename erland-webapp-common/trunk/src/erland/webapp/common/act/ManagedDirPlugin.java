@@ -3,6 +3,8 @@ package erland.webapp.common.act;
 import org.apache.struts.action.PlugIn;
 import org.apache.struts.action.ActionServlet;
 import org.apache.struts.config.ModuleConfig;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.ServletException;
 import java.util.*;
@@ -11,7 +13,6 @@ import java.io.File;
 import java.io.FileFilter;
 
 import erland.util.StringUtil;
-import erland.util.Log;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -33,6 +34,8 @@ import erland.util.Log;
  */
 
 public class ManagedDirPlugin extends BaseTaskPlugin {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(ManagedDirPlugin.class);
 
     private class ManagedDir{
         private String dir;
@@ -58,7 +61,7 @@ public class ManagedDirPlugin extends BaseTaskPlugin {
     private class MainTask implements Runnable {
         public void run() {
             String cacheDirectories = WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("manageddirectories");
-            Log.println(this,"Got directories: "+cacheDirectories);
+            LOG.debug("Got directories: "+cacheDirectories);
             if(StringUtil.asNull(cacheDirectories)!=null) {
                 StringTokenizer tokens = new StringTokenizer(cacheDirectories,",");
                 List dirList = new ArrayList();
@@ -70,7 +73,7 @@ public class ManagedDirPlugin extends BaseTaskPlugin {
                         if(subTokens.hasMoreElements()) {
                             long size = StringUtil.asLong((String) subTokens.nextElement(),new Long(0)).longValue();
                             if(size>0) {
-                                Log.println(this,"Managing directory: "+dir+" Size:"+size+" bytes");
+                                LOG.info("Managing directory: "+dir+" Size:"+size+" bytes");
                                 dirList.add(new ManagedDir(dir,size));
                             }
                         }
@@ -135,7 +138,7 @@ public class ManagedDirPlugin extends BaseTaskPlugin {
                         }
                         files[i] = null;
                     }
-                    Log.println(this,"Deleted "+filesDeleted+ " files from dir: "+dir);
+                    LOG.info("Deleted "+filesDeleted+ " files from dir: "+dir);
 
                 }
             }

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import erland.util.Log;
 import erland.util.ParameterStorageString;
 import erland.util.StreamStorage;
 import erland.webapp.common.html.*;

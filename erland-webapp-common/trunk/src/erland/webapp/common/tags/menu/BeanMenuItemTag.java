@@ -1,6 +1,8 @@
 package erland.webapp.common.tags.menu;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.util.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +22,6 @@ import java.net.URL;
 import java.net.MalformedURLException;
 
 import erland.webapp.common.ServletParameterHelper;
-import erland.util.Log;
 import erland.util.StringUtil;
 
 /*
@@ -43,6 +44,8 @@ import erland.util.StringUtil;
  */
 
 public class BeanMenuItemTag extends TagSupport {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(BeanMenuItemTag.class);
     private String bean;
     private String childs;
     private String page;
@@ -103,7 +106,7 @@ public class BeanMenuItemTag extends TagSupport {
             } else {
                 parentId = "";
             }
-            Log.println(this,"" + id + ".getParentId()=" + parentId);
+            LOG.debug("" + id + ".getParentId()=" + parentId);
         }
         return parentId;
     }
@@ -173,8 +176,8 @@ public class BeanMenuItemTag extends TagSupport {
 
     public int doStartTag() throws JspException {
         JspWriter out = pageContext.getOut();
-        if(Log.isEnabled(this,Log.DEBUG)) {
-            Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
+        if(LOG.isTraceEnabled()) {
+            LOG.trace(StringUtil.beanToString(this,null,TagSupport.class,true));
         }
         String menuObjName = getMenuId();
         String menuObj = (String) pageContext.getAttribute(menuObjName, PageContext.SESSION_SCOPE);

@@ -1,9 +1,10 @@
 package erland.webapp.common.tags.calendar;
 
 import erland.webapp.common.ServletParameterHelper;
-import erland.util.Log;
 import erland.util.StringUtil;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -37,6 +38,8 @@ import java.net.MalformedURLException;
  */
 
 public class CalendarTag extends TagSupport {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(CalendarTag.class);
     private String days;
     private String year;
     private String month;
@@ -158,8 +161,8 @@ public class CalendarTag extends TagSupport {
     public int doStartTag() throws JspException {
         try {
             JspWriter out = pageContext.getOut();
-            if(Log.isEnabled(this,Log.DEBUG)) {
-                Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
+            if(LOG.isTraceEnabled()) {
+                LOG.trace(StringUtil.beanToString(this,null,TagSupport.class,true));
             }
             Calendar cal = Calendar.getInstance();
             String month = this.month;

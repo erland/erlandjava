@@ -23,7 +23,6 @@ import com.drew.imaging.jpeg.JpegMetadataReader;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.ExifDirectory;
-import erland.util.Log;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -31,7 +30,12 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class MetadataImageThumbnail extends ImageThumbnail {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(MetadataImageThumbnail.class);
     private static Object sync = new Object();
     private Boolean scaleMetadataThumbnails;
 
@@ -47,7 +51,7 @@ public class MetadataImageThumbnail extends ImageThumbnail {
     public BufferedImage create(URL url, int requestedWidth, int requestedHeight, ImageFilterContainerInterface filters) throws IOException {
         BufferedImage thumbnail = null;
         synchronized (sync) {
-            Log.println(this, "Opening thumbnail for " + url.getFile());
+            LOG.debug( "Opening thumbnail for " + url.getFile());
             BufferedImage image = getExifThumbnail(url);
             if (image == null) {
                 thumbnail = super.create(url, requestedWidth, requestedHeight, filters);
@@ -57,8 +61,8 @@ public class MetadataImageThumbnail extends ImageThumbnail {
                 thumbnail = image;
             }
         }
-        if (Log.isEnabled(this, Log.DEBUG)) {
-            Log.println(this, "Returning thumbnail " + thumbnail, Log.DEBUG);
+        if (LOG.isTraceEnabled()) {
+            LOG.trace( "Returning thumbnail " + thumbnail);
         }
         return thumbnail;
     }

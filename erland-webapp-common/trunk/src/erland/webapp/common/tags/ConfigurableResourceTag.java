@@ -1,7 +1,6 @@
 package erland.webapp.common.tags;
 
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
-import erland.util.Log;
 import erland.util.StringUtil;
 
 import javax.servlet.jsp.JspException;
@@ -11,6 +10,9 @@ import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -32,6 +34,8 @@ import java.io.IOException;
  */
 
 public class ConfigurableResourceTag extends TagSupport {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(ConfigurableResourceTag.class);
     private String name;
 
     public void setName(String name) {
@@ -39,8 +43,8 @@ public class ConfigurableResourceTag extends TagSupport {
     }
 
     public int doStartTag() throws JspException {
-        if(Log.isEnabled(this,Log.DEBUG)) {
-            Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
+        if(LOG.isTraceEnabled()) {
+            LOG.trace(StringUtil.beanToString(this,null,TagSupport.class,true));
         }
         try {
             // getJspWriter to output content

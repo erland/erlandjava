@@ -9,9 +9,9 @@ import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import erland.util.Log;
 import erland.util.ParameterStorageString;
 import erland.util.StreamStorage;
+import erland.util.Log;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -32,6 +32,9 @@ import erland.util.StreamStorage;
  * 
  */
 
+/**
+ * @deprecated You should use commons-logging classes instead
+ */
 public class LogConfigurationPlugin implements PlugIn {
     private String logConfigurationFile = "debug_log.xml";
     public void destroy() {

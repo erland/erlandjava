@@ -21,12 +21,16 @@ package erland.webapp.common;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.common.QueryFilter;
-import erland.util.Log;
 
 import java.util.Map;
 import java.util.HashMap;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class DescriptionTagHelper {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(DescriptionTagHelper.class);
     private static DescriptionTagHelper me;
     private WebAppEnvironmentInterface environment;
     private Map map = new HashMap();
@@ -90,7 +94,7 @@ public class DescriptionTagHelper {
             tagList = new DescriptionTag[entities.length];
             for (int i = 0; i < entities.length; i++) {
                 tagList[i] = (DescriptionTag) entities[i];
-                Log.println(this,"Load descriptiontag "+tagList[i].getType()+ " " + tagList[i].getTag() + " " + tagList[i].getDescription());
+                LOG.debug("Load descriptiontag "+tagList[i].getType()+ " " + tagList[i].getTag() + " " + tagList[i].getDescription());
             }
             map.put(entity,tagList);
         }

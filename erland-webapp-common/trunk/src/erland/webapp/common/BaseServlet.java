@@ -30,7 +30,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public abstract class BaseServlet extends HttpServlet implements WebAppEnvironmentInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(BaseServlet.class);
     private ParameterValueStorageExInterface resources=null;
     private ParameterValueStorageExInterface configurableResources=null;
     private EntityFactoryInterface entityFactory;
@@ -74,7 +79,7 @@ public abstract class BaseServlet extends HttpServlet implements WebAppEnvironme
         }
 
         public void setPage(String page, String value, String type) {
-            Log.println(this,"setPage "+page+" in "+type+"="+value);
+            LOG.debug("setPage "+page+" in "+type+"="+value);
             if(value!=null) {
                 pages.put(page,value);
                 if(type!=null) {
@@ -97,7 +102,7 @@ public abstract class BaseServlet extends HttpServlet implements WebAppEnvironme
 
     protected StorageInterface getStorage() {
         if(storage==null) {
-            Log.println(this,"Loading configuration from: "+getServletContext().getRealPath("/")+"WEB-INF/resources.xml");
+            LOG.debug("Loading configuration from: "+getServletContext().getRealPath("/")+"WEB-INF/resources.xml");
             storage = new FileStorage(getServletContext().getRealPath("/")+"WEB-INF/resources.xml");
         }
         return storage;
@@ -165,11 +170,6 @@ public abstract class BaseServlet extends HttpServlet implements WebAppEnvironme
         initStart();
         XMLParser.setInstance(new SAXXMLParser());
         initEnd();
-        InputStream input = getClass().getResourceAsStream("/"+getApplicationName()+"_log.xml");
-        if(input!=null) {
-            System.out.println("Loading log configuration from: "+getApplicationName()+"_log.xml");
-            Log.setLogConfig(new ParameterStorageString(new StreamStorage(input,null),null,"log"));
-        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -192,7 +192,7 @@ public abstract class BaseServlet extends HttpServlet implements WebAppEnvironme
                     String type = getEnvironment().getResources().getParameter("commands."+getCommandClassName(request)+".saveparameters.type");
                     saveParameter(request,type,REQUEST,saveParameters,getParameters(request));
                 }
-                Log.println(this,cmd.getClass().getName()+"::execute("+request.getQueryString()+")");
+                LOG.debug(cmd.getClass().getName()+"::execute("+request.getQueryString()+")");
                 if(cmd instanceof CommandOptionsInterface) {
                     ((CommandOptionsInterface)cmd).setOptions(new ParameterStorageChild("commands."+getCommandClassName(request)+".options.",getResources()));
                 }
@@ -240,18 +240,18 @@ public abstract class BaseServlet extends HttpServlet implements WebAppEnvironme
             RequestDispatcher dispatcher =null;
             String main = pages.getPage(pages.getMainPageName());
             if(!pages.isForward() && main!=null && main.length()>0) {
-                Log.println(this,"Opening "+main);
+                LOG.debug("Opening "+main);
                 dispatcher = request.getRequestDispatcher(main);
             }else {
                 String content = pages.getPage(pages.getContentPageName());
-                Log.println(this,"Opening "+content);
+                LOG.debug("Opening "+content);
                 dispatcher = request.getRequestDispatcher(content);
             }
             dispatcher.forward(request,response);
-            Log.println(this,"Opened page");
+            LOG.debug("Opened page");
         }else {
             if(!(cmd instanceof CommandResponseInterface)) {
-                Log.println(this,cmd.getClass().getName()+"::execute -> no page returned for "+page);
+                LOG.debug(cmd.getClass().getName()+"::execute -> no page returned for "+page);
             }
         }
     }
@@ -261,7 +261,7 @@ public abstract class BaseServlet extends HttpServlet implements WebAppEnvironme
             type=defaultType;
         }
         name = decodeParameter(request,name);
-        Log.println(this,"Save "+(value!=null?value.getClass().getName():"null")+" in "+type+" as "+name);
+        LOG.debug("Save "+(value!=null?value.getClass().getName():"null")+" in "+type+" as "+name);
         if(name.length()>0) {
             if(type.equalsIgnoreCase(SESSION)) {
                 if(value!=null) {
@@ -282,17 +282,17 @@ public abstract class BaseServlet extends HttpServlet implements WebAppEnvironme
     private void setPage(HttpServletRequest request, String page, String value, String type) {
         if(value!=null && value.length()>0) {
             if(type==null || type.length()==0 || type.equalsIgnoreCase("session")) {
-                Log.println(this,"Set "+page+"="+value+" in session");
+                LOG.debug("Set "+page+"="+value+" in session");
                 request.getSession().setAttribute(page,value);
             }
-            Log.println(this,"Set "+page+"="+value+" in request");
+            LOG.debug("Set "+page+"="+value+" in request");
             request.setAttribute(page,value);
         }else {
             if(type==null || type.length()==0 || type.equalsIgnoreCase("session")) {
-                Log.println(this,"Remove "+page+"=from session");
+                LOG.debug("Remove "+page+"=from session");
                 request.getSession().removeAttribute(page);
             }
-            Log.println(this,"Remove "+page+"=from request");
+            LOG.debug("Remove "+page+"=from request");
             request.removeAttribute(page);
         }
     }
@@ -331,11 +331,11 @@ public abstract class BaseServlet extends HttpServlet implements WebAppEnvironme
             boolean bForward = true;
             String content = getEnvironment().getResources().getParameter(page+".forward");
             String contentType = getEnvironment().getResources().getParameter(page+".forward.type");
-            Log.println(this,"getPages("+page+".forward,"+contentType+")="+content);
+            LOG.debug("getPages("+page+".forward,"+contentType+")="+content);
             if(content==null) {
                 content = getEnvironment().getResources().getParameter(page+".page");
                 contentType = getEnvironment().getResources().getParameter(page+".page.type");
-                Log.println(this,"getPages("+page+".page,"+contentType+")="+content);
+                LOG.debug("getPages("+page+".page,"+contentType+")="+content);
                 if(content!=null) {
                     content = replaceDynamicParameters(request,content);
                 }
@@ -343,7 +343,7 @@ public abstract class BaseServlet extends HttpServlet implements WebAppEnvironme
             }else {
                 content = replaceDynamicParameters(request,content);
             }
-            Log.println(this,"getPages("+page+","+contentType+")="+content);
+            LOG.debug("getPages("+page+","+contentType+")="+content);
             if(content!=null) {
                 p.setForward(bForward);
                 p.setPage(p.getContentPageName(),"/"+content,contentType);

@@ -18,8 +18,6 @@ package erland.webapp.common;
  *
  */
 
-import erland.util.Log;
-
 import java.sql.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -29,8 +27,12 @@ import java.net.URLDecoder;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class GenericEntityStorage extends EntityStorage {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(GenericEntityStorage.class);
     protected EntityInterface select(Connection conn, EntityInterface template) throws SQLException {
         try {
             EntityInterface entity = getEnvironment().getEntityFactory().create(getEntityName());
@@ -53,7 +55,7 @@ public class GenericEntityStorage extends EntityStorage {
             String table = getTableName();
             sb.append(" from "+table+" where ");
             PreparedStatement stmt = makeWhereStatement(conn,sb,fields,template,1);
-            Log.println(this,"Created prepared statement: "+stmt);
+            LOG.debug("Created prepared statement: "+stmt);
             if(stmt!=null && noOfFields>0) {
                 ResultSet rs = stmt.executeQuery();
                 if(rs.next()) {
@@ -98,12 +100,12 @@ public class GenericEntityStorage extends EntityStorage {
 
     protected EntityInterface[] select(Connection conn, FilterInterface filter) throws SQLException {
         try {
-            Log.println(this,"select called");
+            LOG.debug("select called");
             if(filter instanceof QueryFilter) {
                 EntityInterface template = getEnvironment().getEntityFactory().create(getEntityName());
                 Set fields = PropertyUtils.describe(template).keySet();
-                Log.println(this,"Get class "+template.getClass().getName());
-                Log.println(this,"Number of fields="+fields.size());
+                LOG.debug("Get class "+template.getClass().getName());
+                LOG.debug("Number of fields="+fields.size());
                 StringBuffer sb = null;
                 String completeQueryString = getEnvironment().getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".completequerystring");
                 String dynamicQueryString = getEnvironment().getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".dynamicquerystring");
@@ -121,7 +123,7 @@ public class GenericEntityStorage extends EntityStorage {
                     for(Iterator it=fields.iterator();it.hasNext();) {
                         String field = (String)it.next();
                         String dbField = getColumnName(field);
-                        Log.println(this,"dbField for "+field+" = "+dbField);
+                        LOG.debug("dbField for "+field+" = "+dbField);
                         if(dbField!=null) {
                             if(!bFirst) {
                                 sb.append(",");
@@ -132,9 +134,9 @@ public class GenericEntityStorage extends EntityStorage {
                     }
                     String table = getTableName();
                     sb.append(" from "+table);
-                    Log.println(this,"Get queryString "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".querystring");
+                    LOG.debug("Get queryString "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".querystring");
                     String queryString = getEnvironment().getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".querystring");
-                    Log.println(this,"queryString="+queryString);
+                    LOG.debug("queryString="+queryString);
                     if(queryString!=null) {
                         if(queryString.length()>0) {
                             sb.append(" where "+queryString);
@@ -157,16 +159,16 @@ public class GenericEntityStorage extends EntityStorage {
                     if(orderString!=null && orderString.length()>0) {
                         sb.append(" "+orderString);
                     }
-                    Log.println(this,"select: "+sb.toString());
+                    LOG.debug("select: "+sb.toString());
                     PreparedStatement stmt = conn.prepareStatement(sb.toString());
-                    Log.println(this,"Created prepared statement: "+stmt);
+                    LOG.debug("Created prepared statement: "+stmt);
                     boolean bLastParameter = false;
                     for(int fieldNo=1,queryFieldNo=1;!bLastParameter;queryFieldNo++) {
-                        Log.println(this,"Get queryAttr "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".field");
+                        LOG.debug("Get queryAttr "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".field");
                         String queryAttr = getEnvironment().getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".field");
-                        Log.println(this,"Get queryAttr "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".type");
+                        LOG.debug("Get queryAttr "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".type");
                         String queryType = getEnvironment().getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".type");
-                        Log.println(this,"queryAttr="+queryAttr);
+                        LOG.debug("queryAttr="+queryAttr);
                         if(queryAttr!=null) {
                             Object queryAttrValue = ((QueryFilter)filter).getAttribute(queryAttr);
                             if(queryAttrValue instanceof Collection) {
@@ -214,7 +216,7 @@ public class GenericEntityStorage extends EntityStorage {
                         if(entity instanceof EntityReadUpdateInterface) {
                             ((EntityReadUpdateInterface)entity).postReadUpdate();
                         }
-                        Log.println(this,"Read entry: "+entity);
+                        LOG.debug("Read entry: "+entity);
                         result.add(entity);
                     }
                     return (EntityInterface[])result.toArray(new EntityInterface[0]);
@@ -263,14 +265,14 @@ public class GenericEntityStorage extends EntityStorage {
             }
             sb.append(")");
             if(noOfFields>0) {
-                Log.println(this,"insert:"+sb.toString());
+                LOG.debug("insert:"+sb.toString());
                 PreparedStatement stmt = conn.prepareStatement(sb.toString(),(String[])autoKeys.toArray(new String[0]));
-                Log.println(this,"Created prepared statement: "+stmt);
+                LOG.debug("Created prepared statement: "+stmt);
                 boolean bUseMySQLOldMethod = false;
                 if(stmt==null) {
                     bUseMySQLOldMethod = true;
                     stmt = conn.prepareStatement(sb.toString());
-                    Log.println(this,"Created prepared statement(For old MySQL method): "+stmt);
+                    LOG.debug("Created prepared statement(For old MySQL method): "+stmt);
                 }
                 int fieldNo = 1;
                 for(Iterator it=fields.iterator();it.hasNext();) {
@@ -350,7 +352,7 @@ public class GenericEntityStorage extends EntityStorage {
             }
             sb.append(" where ");
             PreparedStatement stmt = makeWhereStatement(conn,sb,fields,entity,noOfFields+1);
-            Log.println(this,"Created prepared statement: "+stmt);
+            LOG.debug("Created prepared statement: "+stmt);
             if(stmt!=null && noOfFields>0) {
                 int fieldNo=1;
                 for (Iterator it = fields.iterator();it.hasNext();) {
@@ -398,9 +400,9 @@ public class GenericEntityStorage extends EntityStorage {
                         }
                     }
                 }
-                Log.println(this,"Get queryString "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".querystring");
+                LOG.debug("Get queryString "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".querystring");
                 String queryString = getEnvironment().getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".querystring");
-                Log.println(this,"queryString="+queryString);
+                LOG.debug("queryString="+queryString);
                 if(queryString!=null) {
                     if(queryString.length()>0) {
                         sb.append(" where "+queryString);
@@ -410,9 +412,9 @@ public class GenericEntityStorage extends EntityStorage {
                     sb=null;
                 }
                 if(sb!=null) {
-                    Log.println(this,"update: "+sb.toString());
+                    LOG.debug("update: "+sb.toString());
                     PreparedStatement stmt = conn.prepareStatement(sb.toString());
-                    Log.println(this,"Created prepared statement: "+stmt);
+                    LOG.debug("Created prepared statement: "+stmt);
                     if(stmt!=null && noOfFields>0) {
                         int fieldNo=1;
                         for (Iterator it = fields.iterator();it.hasNext();) {
@@ -426,11 +428,11 @@ public class GenericEntityStorage extends EntityStorage {
                         }
                         boolean bLastParameter = false;
                         for(int queryFieldNo=1;!bLastParameter;queryFieldNo++) {
-                            Log.println(this,"Get queryAttr "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".field");
+                            LOG.debug("Get queryAttr "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".field");
                             String queryAttr = getEnvironment().getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".field");
-                            Log.println(this,"Get queryAttr "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".type");
+                            LOG.debug("Get queryAttr "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".type");
                             String queryType = getEnvironment().getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".type");
-                            Log.println(this,"queryAttr="+queryAttr);
+                            LOG.debug("queryAttr="+queryAttr);
                             if(queryAttr!=null) {
                                 Object queryAttrValue = ((QueryFilter)filter).getAttribute(queryAttr);
                                 if(queryAttrValue instanceof Collection) {
@@ -467,7 +469,7 @@ public class GenericEntityStorage extends EntityStorage {
             sb.append(" from "+table+" where ");
             Set fields = PropertyUtils.describe(entity).keySet();
             PreparedStatement stmt = makeWhereStatement(conn,sb,fields,entity,1);
-            Log.println(this,"Created prepared statement: "+stmt);
+            LOG.debug("Created prepared statement: "+stmt);
             if(stmt!=null) {
                 return stmt.execute();
             }
@@ -487,9 +489,9 @@ public class GenericEntityStorage extends EntityStorage {
                 StringBuffer sb = new StringBuffer("delete");
                 String table = getTableName();
                 sb.append(" from "+table);
-                Log.println(this,"Get queryString "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".querystring");
+                LOG.debug("Get queryString "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".querystring");
                 String queryString = getEnvironment().getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".querystring");
-                Log.println(this,"queryString="+queryString);
+                LOG.debug("queryString="+queryString);
                 if(queryString!=null) {
                     if(queryString.length()>0) {
                         sb.append(" where "+queryString);
@@ -499,17 +501,17 @@ public class GenericEntityStorage extends EntityStorage {
                     sb=null;
                 }
                 if(sb!=null) {
-                    Log.println(this,"delete: "+sb.toString());
+                    LOG.debug("delete: "+sb.toString());
                     PreparedStatement stmt = conn.prepareStatement(sb.toString());
-                    Log.println(this,"Created prepared statement: "+stmt);
+                    LOG.debug("Created prepared statement: "+stmt);
                     if(stmt!=null) {
                         boolean bLastParameter = false;
                         for(int queryFieldNo=1,fieldNo=1;!bLastParameter;queryFieldNo++) {
-                            Log.println(this,"Get queryAttr "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".field");
+                            LOG.debug("Get queryAttr "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".field");
                             String queryAttr = getEnvironment().getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".field");
-                            Log.println(this,"Get queryAttr "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".type");
+                            LOG.debug("Get queryAttr "+"entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".type");
                             String queryType = getEnvironment().getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".fields."+queryFieldNo+".type");
-                            Log.println(this,"queryAttr="+queryAttr);
+                            LOG.debug("queryAttr="+queryAttr);
                             if(queryAttr!=null) {
                                 Object queryAttrValue = ((QueryFilter)filter).getAttribute(queryAttr);
                                 if(queryAttrValue instanceof Collection) {
@@ -554,7 +556,7 @@ public class GenericEntityStorage extends EntityStorage {
                     sb.append(dbField+"=?");
                 }
             }
-            Log.println(this,"select: "+sb.toString());
+            LOG.debug("select: "+sb.toString());
             PreparedStatement stmt = conn.prepareStatement(sb.toString());
             int fieldNo=firstParameter;
             for (Iterator it=fields.iterator(); it.hasNext(); ) {
@@ -567,7 +569,7 @@ public class GenericEntityStorage extends EntityStorage {
                             updateStatement(stmt,value,type,fieldNo);
                             fieldNo++;
                         }else {
-                            Log.println(this,"Identity field "+field+" not filled in");
+                            LOG.debug("Identity field "+field+" not filled in");
                             return null;
                         }
                     }
@@ -598,7 +600,7 @@ public class GenericEntityStorage extends EntityStorage {
     protected void updateStatement(PreparedStatement stmt, Object value, String type, int fieldNo) throws SQLException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, UnsupportedEncodingException {
         if(type==null) {
         }else if(type.equals("String")) {
-            Log.println(this,"setString("+fieldNo+","+value+")");
+            LOG.debug("setString("+fieldNo+","+value+")");
             if(value!=null) {
                 value = URLEncoder.encode((String)value,"UTF-8");
             }else {
@@ -606,49 +608,49 @@ public class GenericEntityStorage extends EntityStorage {
             }
             stmt.setString(fieldNo,(String)value);
         }else if(type.equals("Date")) {
-            Log.println(this,"setDate("+fieldNo+","+value+")");
+            LOG.debug("setDate("+fieldNo+","+value+")");
             if(value==null) {
                 value = new Date();
             }
             stmt.setDate(fieldNo,new java.sql.Date(((Date)value).getTime()));
         }else if(type.equals("Time")) {
-            Log.println(this,"setTime("+fieldNo+","+value+")");
+            LOG.debug("setTime("+fieldNo+","+value+")");
             if(value==null) {
                 value = new Date();
             }
             stmt.setTime(fieldNo,new java.sql.Time(((Date)value).getTime()));
         }else if(type.equals("Timestamp")) {
-            Log.println(this,"setTimestamp("+fieldNo+","+value+")");
+            LOG.debug("setTimestamp("+fieldNo+","+value+")");
             if(value==null) {
                 value = new Date();
             }
             stmt.setTimestamp(fieldNo,new java.sql.Timestamp(((Date)value).getTime()));
         }else if(type.equals("Integer")) {
-            Log.println(this,"setInt("+fieldNo+","+value+")");
+            LOG.debug("setInt("+fieldNo+","+value+")");
             if(value==null) {
                 value = new Integer(0);
             }
             stmt.setInt(fieldNo,((Integer)value).intValue());
         }else if(type.equals("Long")) {
-            Log.println(this,"setLong("+fieldNo+","+value+")");
+            LOG.debug("setLong("+fieldNo+","+value+")");
             if(value==null) {
                 value = new Long(0);
             }
             stmt.setLong(fieldNo,((Long)value).longValue());
         }else if(type.equals("Double")) {
-            Log.println(this,"setDouble("+fieldNo+","+value+")");
+            LOG.debug("setDouble("+fieldNo+","+value+")");
             if(value==null) {
                 value = new Double(0);
             }
             stmt.setDouble(fieldNo,((Double)value).doubleValue());
         }else if(type.equals("Float")) {
-            Log.println(this,"setFloat("+fieldNo+","+value+")");
+            LOG.debug("setFloat("+fieldNo+","+value+")");
             if(value==null) {
                 value = new Float(0);
             }
             stmt.setFloat(fieldNo,((Float)value).floatValue());
         }else if(type.equals("Boolean")) {
-            Log.println(this,"setBoolean("+fieldNo+","+value+")");
+            LOG.debug("setBoolean("+fieldNo+","+value+")");
             if(value==null) {
                 value = new Boolean(false);
             }
@@ -663,42 +665,42 @@ public class GenericEntityStorage extends EntityStorage {
             if(type==null) {
             }else if(type.equals("String")) {
                 String value = rs.getString(dbField);
-                Log.println(this,"entity.set"+field+"("+value+")");
+                LOG.debug("entity.set"+field+"("+value+")");
                 if(value!=null) {
                     value = URLDecoder.decode(value,"UTF-8");
                 }
                 PropertyUtils.setProperty(object,field,value);
             }else if(type.equals("Date")) {
                 Date value = rs.getDate(dbField);
-                Log.println(this,"entity.set"+field+"("+value+")");
+                LOG.debug("entity.set"+field+"("+value+")");
                 PropertyUtils.setProperty(object,field,value);
             }else if(type.equals("Time")) {
                 Date value = rs.getTime(dbField);
-                Log.println(this,"entity.set"+field+"("+value+")");
+                LOG.debug("entity.set"+field+"("+value+")");
                 PropertyUtils.setProperty(object,field,value);
             }else if(type.equals("Timestamp")) {
                 Date value = rs.getTimestamp(dbField);
-                Log.println(this,"entity.set"+field+"("+value+")");
+                LOG.debug("entity.set"+field+"("+value+")");
                 PropertyUtils.setProperty(object,field,value);
             }else if(type.equals("Integer")) {
                 Integer value = new Integer(rs.getInt(dbField));
-                Log.println(this,"entity.set"+field+"("+value+")");
+                LOG.debug("entity.set"+field+"("+value+")");
                 PropertyUtils.setProperty(object,field,value);
             }else if(type.equals("Long")) {
                 Long value = new Long(rs.getLong(dbField));
-                Log.println(this,"entity.set"+field+"("+value+")");
+                LOG.debug("entity.set"+field+"("+value+")");
                 PropertyUtils.setProperty(object,field,value);
             }else if(type.equals("Double")) {
                 Double value = new Double(rs.getDouble(dbField));
-                Log.println(this,"entity.set"+field+"("+value+")");
+                LOG.debug("entity.set"+field+"("+value+")");
                 PropertyUtils.setProperty(object,field,value);
             }else if(type.equals("Float")) {
                 Float value = new Float(rs.getFloat(dbField));
-                Log.println(this,"entity.set"+field+"("+value+")");
+                LOG.debug("entity.set"+field+"("+value+")");
                 PropertyUtils.setProperty(object,field,value);
             }else if(type.equals("Boolean")) {
                 Boolean value = Boolean.valueOf(rs.getBoolean(dbField));
-                Log.println(this,"entity.set"+field+"("+value+")");
+                LOG.debug("entity.set"+field+"("+value+")");
                 PropertyUtils.setProperty(object,field,value);
             }
         }
@@ -709,42 +711,42 @@ public class GenericEntityStorage extends EntityStorage {
         if(type==null) {
         }else if(type.equals("String")) {
             String value = rs.getString(fieldNo);
-            Log.println(this,"entity.set"+field+"("+value+")");
+            LOG.debug("entity.set"+field+"("+value+")");
             if(value!=null) {
                 value = URLDecoder.decode(value,"UTF-8");
             }
             PropertyUtils.setProperty(object,field,value);
         }else if(type.equals("Date")) {
             Date value = rs.getDate(fieldNo);
-            Log.println(this,"entity.set"+field+"("+value+")");
+            LOG.debug("entity.set"+field+"("+value+")");
             PropertyUtils.setProperty(object,field,value);
         }else if(type.equals("Time")) {
             Date value = rs.getTime(fieldNo);
-            Log.println(this,"entity.set"+field+"("+value+")");
+            LOG.debug("entity.set"+field+"("+value+")");
             PropertyUtils.setProperty(object,field,value);
         }else if(type.equals("Timestamp")) {
             Date value = rs.getTimestamp(fieldNo);
-            Log.println(this,"entity.set"+field+"("+value+")");
+            LOG.debug("entity.set"+field+"("+value+")");
             PropertyUtils.setProperty(object,field,value);
         }else if(type.equals("Integer")) {
             Integer value = new Integer(rs.getInt(fieldNo));
-            Log.println(this,"entity.set"+field+"("+value+")");
+            LOG.debug("entity.set"+field+"("+value+")");
             PropertyUtils.setProperty(object,field,value);
         }else if(type.equals("Long")) {
             Long value = new Long(rs.getLong(fieldNo));
-            Log.println(this,"entity.set"+field+"("+value+")");
+            LOG.debug("entity.set"+field+"("+value+")");
             PropertyUtils.setProperty(object,field,value);
         }else if(type.equals("Double")) {
             Double value = new Double(rs.getDouble(fieldNo));
-            Log.println(this,"entity.set"+field+"("+value+")");
+            LOG.debug("entity.set"+field+"("+value+")");
             PropertyUtils.setProperty(object,field,value);
         }else if(type.equals("Float")) {
             Float value = new Float(rs.getFloat(fieldNo));
-            Log.println(this,"entity.set"+field+"("+value+")");
+            LOG.debug("entity.set"+field+"("+value+")");
             PropertyUtils.setProperty(object,field,value);
         }else if(type.equals("Boolean")) {
             Boolean value = Boolean.valueOf(rs.getBoolean(fieldNo));
-            Log.println(this,"entity.set"+field+"("+value+")");
+            LOG.debug("entity.set"+field+"("+value+")");
             PropertyUtils.setProperty(object,field,value);
         }
     }

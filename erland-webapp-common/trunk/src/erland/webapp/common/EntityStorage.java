@@ -20,7 +20,6 @@ package erland.webapp.common;
 
 import erland.webapp.common.EntityInterface;
 import erland.webapp.common.WebAppEnvironmentInterface;
-import erland.util.Log;
 
 import javax.sql.DataSource;
 import javax.naming.Context;
@@ -31,7 +30,12 @@ import java.text.SimpleDateFormat;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public abstract class EntityStorage implements EntityStorageInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(EntityStorage.class);
     private WebAppEnvironmentInterface environment;
     private DataSource pool;
     private String entityName;
@@ -42,11 +46,11 @@ public abstract class EntityStorage implements EntityStorageInterface {
           try {
             Context env = (Context) new InitialContext().lookup("java:comp/env");
             String resourceName = "entities."+getEntityName()+"."+getResourceName()+".datasource";
-            Log.println(this,"Getting name of pool from: "+resourceName);
+            LOG.debug("Getting name of pool from: "+resourceName);
             String resource = environment.getResources().getParameter(resourceName);
-            Log.println(this,"Looking up pool "+resource);
+            LOG.debug("Looking up pool "+resource);
             pool = (DataSource) env.lookup(resource);
-            Log.println(this,"Got pool: "+pool);
+            LOG.debug("Got pool: "+pool);
           } catch (NamingException e) {
               e.printStackTrace();
             return null;
@@ -69,7 +73,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
             e.printStackTrace();
             return null;
         } finally {
-            if(Log.isEnabled(this)) Log.println(this,"load: "+template+" ("+(System.currentTimeMillis()-startTime)+" ms)");
+            if(LOG.isDebugEnabled()) LOG.debug("load: "+template+" ("+(System.currentTimeMillis()-startTime)+" ms)");
             if(conn!=null) {
                 try {
                     conn.close();
@@ -93,7 +97,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if(Log.isEnabled(this)) Log.println(this,"store: "+entity+" ("+(System.currentTimeMillis()-startTime)+" ms)");
+            if(LOG.isDebugEnabled()) LOG.debug("store: "+entity+" ("+(System.currentTimeMillis()-startTime)+" ms)");
             if(conn!=null) {
                 try {
                     conn.close();
@@ -114,7 +118,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         } finally {
-            if(Log.isEnabled(this)) Log.println(this,"delete: "+entity+" ("+(System.currentTimeMillis()-startTime)+" ms)");
+            if(LOG.isDebugEnabled()) LOG.debug("delete: "+entity+" ("+(System.currentTimeMillis()-startTime)+" ms)");
             if(conn!=null) {
                 try {
                     conn.close();
@@ -135,7 +139,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         } finally {
-            if(Log.isEnabled(this)) Log.println(this,"delete: "+filter+" ("+(System.currentTimeMillis()-startTime)+" ms)");
+            if(LOG.isDebugEnabled()) LOG.debug("delete: "+filter+" ("+(System.currentTimeMillis()-startTime)+" ms)");
             if(conn!=null) {
                 try {
                     conn.close();
@@ -156,7 +160,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if(Log.isEnabled(this)) Log.println(this,"search: "+filter+" ("+(System.currentTimeMillis()-startTime)+" ms)");
+            if(LOG.isDebugEnabled()) LOG.debug("search: "+filter+" ("+(System.currentTimeMillis()-startTime)+" ms)");
             if(conn!=null) {
                 try {
                     conn.close();
@@ -177,7 +181,7 @@ public abstract class EntityStorage implements EntityStorageInterface {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if(Log.isEnabled(this)) Log.println(this,"update: "+filter+" "+entity+" ("+(System.currentTimeMillis()-startTime)+" ms)");
+            if(LOG.isDebugEnabled()) LOG.debug("update: "+filter+" "+entity+" ("+(System.currentTimeMillis()-startTime)+" ms)");
             if(conn!=null) {
                 try {
                     conn.close();

@@ -31,7 +31,12 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class ForwardServlet extends HttpServlet {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(ForwardServlet.class);
     private ParameterValueStorageExInterface resources=null;
     private StorageInterface storage;
 
@@ -40,7 +45,7 @@ public class ForwardServlet extends HttpServlet {
     }
     protected StorageInterface getStorage() {
         if(storage==null) {
-            Log.println(this,"Loading configuration from: "+getServletContext().getRealPath("/")+"WEB-INF/resources.xml");
+            LOG.info("Loading configuration from: "+getServletContext().getRealPath("/")+"WEB-INF/resources.xml");
             storage = new FileStorage(getServletContext().getRealPath("/")+"WEB-INF/resources.xml");
         }
         return storage;
@@ -56,14 +61,14 @@ public class ForwardServlet extends HttpServlet {
         int i = 1;
         while(!bEnd) {
             String pattern = getResources().getParameter("forwards."+i+".pattern");
-            Log.println(this,"Checking forward "+i+" "+pattern);
+            LOG.debug("Checking forward "+i+" "+pattern);
             String queryString = request.getQueryString();
             if(pattern!=null && Pattern.matches(pattern,request.getPathInfo()+(queryString!=null?"?"+queryString:""))) {
-                Log.println(this,"Checking forward "+i+" matched");
+                LOG.debug("Checking forward "+i+" matched");
                 String path = getResources().getParameter("forwards."+i+".path");
                 path = ServletParameterHelper.replaceDynamicParameters(path,request.getParameterMap());
                 RequestDispatcher dispatcher = request.getRequestDispatcher(path);
-                Log.println(this,"Forwarding to:"+path);
+                LOG.debug("Forwarding to:"+path);
                 dispatcher.forward(request,response);
                 return;
             }
@@ -72,6 +77,6 @@ public class ForwardServlet extends HttpServlet {
             }
             i++;
         }
-        Log.println(this,"No forward pattern matched request");
+        LOG.info("No forward pattern matched request");
     }
 }

@@ -1,4 +1,8 @@
 package erland.webapp.common.html;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -18,16 +22,17 @@ package erland.webapp.common.html;
  *
  */
 
-import erland.util.Log;
 
 public class HTMLBoldLinkStringReplace implements StringReplaceInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(HTMLBoldLinkStringReplace.class);
     public String replace(String str) {
-        Log.println(this,"Before: "+str);
+        LOG.debug("Before: "+str);
         str = str.replaceAll("\\[boldlinksamewindow=([^\\]]*),([^\\]]*)\\]","<a class=\"bold-link\" href=\"$2\">$1</a>");
-        Log.println(this,"After : "+str);
-        Log.println(this,"Before: "+str);
+        LOG.debug("After : "+str);
+        LOG.debug("Before: "+str);
         str = str.replaceAll("\\[boldlink=([^\\]]*),([^\\]]*)\\]","<a class=\"bold-link\" href=\"$2\" target=\"_blank\">$1</a>");
-        Log.println(this,"After : "+str);
+        LOG.debug("After : "+str);
         return str;
     }
 }

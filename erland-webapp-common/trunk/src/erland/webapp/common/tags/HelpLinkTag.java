@@ -1,6 +1,5 @@
 package erland.webapp.common.tags;
 
-import erland.util.Log;
 import erland.util.StringUtil;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
 import erland.webapp.common.ServletParameterHelper;
@@ -11,6 +10,8 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.util.RequestUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
@@ -37,6 +38,8 @@ import java.util.Map;
  */
 
 public class HelpLinkTag extends TagSupport {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(HelpLinkTag.class);
     private String style;
     private String target;
     private String onClickMessage;
@@ -75,8 +78,8 @@ public class HelpLinkTag extends TagSupport {
     }
     public int doStartTag() throws JspException {
         JspWriter out = pageContext.getOut();
-        if(Log.isEnabled(this,Log.DEBUG)) {
-            Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
+        if(LOG.isTraceEnabled()) {
+            LOG.trace(StringUtil.beanToString(this,null,TagSupport.class,true));
         }
         link=WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("helppath");
 

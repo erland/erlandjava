@@ -18,8 +18,9 @@ package erland.webapp.common;
  *
  */
 
-import erland.util.Log;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.io.File;
@@ -27,6 +28,8 @@ import java.io.FileFilter;
 import java.util.*;
 
 public class FileEntityStorage implements EntityStorageInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(FileEntityStorage.class);
     private WebAppEnvironmentInterface environment;
     private String entityName;
     private final FileDirectoryFilter directoryFilter = new FileDirectoryFilter();
@@ -105,7 +108,7 @@ public class FileEntityStorage implements EntityStorageInterface {
     public EntityInterface load(EntityInterface template) {
         EntityInterface entity = null;
         try {
-            Log.println(this,"load called");
+            LOG.debug("load called");
             Set fields = PropertyUtils.describe(template).keySet();
             File file = null;
             EntityInterface temp = environment.getEntityFactory().create(entityName);
@@ -116,9 +119,9 @@ public class FileEntityStorage implements EntityStorageInterface {
             for(Iterator it=fields.iterator();it.hasNext();) {
                 String field = (String) it.next();
                 if(isFieldIdentity(field)) {
-                    Log.println(this, "Loading file "+(String)PropertyUtils.getProperty(template,field));
+                    LOG.debug( "Loading file "+(String)PropertyUtils.getProperty(template,field));
                     file = new File((String)PropertyUtils.getProperty(temp,field));
-                    Log.println(this, "Loaded file "+file+" and "+(file!=null?file.exists():false));
+                    LOG.debug( "Loaded file "+file+" and "+(file!=null?file.exists():false));
                     break;
                 }
             }
@@ -148,9 +151,9 @@ public class FileEntityStorage implements EntityStorageInterface {
                 if(entity instanceof EntityReadUpdateInterface) {
                     ((EntityReadUpdateInterface)entity).postReadUpdate();
                 }
-                Log.println(this,"Read entry: "+entity);
+                LOG.debug("Read entry: "+entity);
             }else {
-                Log.println(this,"File does not exist");
+                LOG.debug("File does not exist");
                 entity = null;
             }
         } catch (IllegalAccessException e) {
@@ -176,7 +179,7 @@ public class FileEntityStorage implements EntityStorageInterface {
     public EntityInterface[] search(FilterInterface filter) {
         EntityInterface[] entities=new EntityInterface[0];
         try {
-            Log.println(this,"search called");
+            LOG.debug("search called");
             if(filter instanceof QueryFilter) {
                 EntityInterface entity=environment.getEntityFactory().create(entityName);
                 Set fields = PropertyUtils.describe(entity).keySet();
@@ -192,7 +195,7 @@ public class FileEntityStorage implements EntityStorageInterface {
                 }
 
                 String directory = (String)((QueryFilter)filter).getAttribute("directory");
-                Log.println(this,"directory="+directory);
+                LOG.debug("directory="+directory);
                 if(directory!=null && directory.length()>0) {
                     File dir = new File(directory);
                     if(dir.exists() && dir.isDirectory()) {
@@ -201,15 +204,15 @@ public class FileEntityStorage implements EntityStorageInterface {
                         if(extensions!=null && extensions.length()>0) {
                             fileFilter= new FileExtensionFilter(extensions);
                         }
-                        Log.println(this,"extensions="+extensions);
+                        LOG.debug("extensions="+extensions);
                         Boolean tree =  (Boolean)((QueryFilter)filter).getAttribute("tree");
                         if(tree==null) {
                             tree = Boolean.FALSE;
                         }
-                        Log.println(this,"tree="+tree);
+                        LOG.debug("tree="+tree);
 
                         Boolean directoriesOnly = (Boolean) ((QueryFilter)filter).getAttribute("directoriesonly");
-                        Log.println(this,"directoriesonly="+directoriesOnly);
+                        LOG.debug("directoriesonly="+directoriesOnly);
                         if(directoriesOnly!=null && directoriesOnly.booleanValue()) {
                             if(fileFilter!=null) {
                                 fileFilter = new FileMultipleAndFilter(fileFilter,new FileDirectoryFilter());
@@ -224,7 +227,7 @@ public class FileEntityStorage implements EntityStorageInterface {
                             }
                         }
                         File[] files = getFilesInDir(dir,fileFilter,tree.booleanValue());
-                        Log.println(this,"Got "+(files.length)+" files/directories");
+                        LOG.debug("Got "+(files.length)+" files/directories");
                         Arrays.sort(files,orderByDate);
                         entities = new EntityInterface[files.length];
                         for (int i = 0; i < files.length; i++) {
@@ -245,10 +248,10 @@ public class FileEntityStorage implements EntityStorageInterface {
                                 ((EntityReadUpdateInterface)entity).postReadUpdate();
                             }
                             entities[i]=entity;
-                            Log.println(this,"Read entry: "+entity);
+                            LOG.debug("Read entry: "+entity);
                         }
                     }else {
-                        Log.println(this,"directory does not exist");
+                        LOG.debug("directory does not exist");
                     }
                 }
             }
@@ -323,7 +326,7 @@ public class FileEntityStorage implements EntityStorageInterface {
             if(type==null) {
             }else if(type.equals("String")) {
                 String value = (String) getAttribute(file, directory, attributeName);
-                Log.println(this,"entity.set"+field+"("+value+")");
+                LOG.debug("entity.set"+field+"("+value+")");
                 PropertyUtils.setProperty(object,field,value);
             }else if(type.equals("Date") || type.equals("Time") || type.equals("Timestamp")) {
                 Object value = getAttribute(file, directory, attributeName);
@@ -331,7 +334,7 @@ public class FileEntityStorage implements EntityStorageInterface {
                 if(value instanceof Long) {
                     dateValue = new Date(((Long)value).longValue());
                 }
-                Log.println(this,"entity.set"+field+"("+dateValue+")");
+                LOG.debug("entity.set"+field+"("+dateValue+")");
                 PropertyUtils.setProperty(object,field,dateValue);
             }else if(type.equals("Integer")) {
                 Object value = getAttribute(file, directory, attributeName);
@@ -339,7 +342,7 @@ public class FileEntityStorage implements EntityStorageInterface {
                 if(value instanceof Number) {
                     intValue = new Integer((((Number)value).intValue()));
                 }
-                Log.println(this,"entity.set"+field+"("+intValue+")");
+                LOG.debug("entity.set"+field+"("+intValue+")");
                 PropertyUtils.setProperty(object,field,intValue);
             }else if(type.equals("Long")) {
                 Object value = getAttribute(file, directory, attributeName);
@@ -347,7 +350,7 @@ public class FileEntityStorage implements EntityStorageInterface {
                 if(value instanceof Number) {
                     longValue = new Long((((Number)value).longValue()));
                 }
-                Log.println(this,"entity.set"+field+"("+longValue+")");
+                LOG.debug("entity.set"+field+"("+longValue+")");
                 PropertyUtils.setProperty(object,field,longValue);
             }else if(type.equals("Double")) {
                 Object value = getAttribute(file, directory, attributeName);
@@ -355,7 +358,7 @@ public class FileEntityStorage implements EntityStorageInterface {
                 if(value instanceof Number) {
                     doubleValue = new Double((((Number)value).doubleValue()));
                 }
-                Log.println(this,"entity.set"+field+"("+doubleValue+")");
+                LOG.debug("entity.set"+field+"("+doubleValue+")");
                 PropertyUtils.setProperty(object,field,doubleValue);
             }else if(type.equals("Boolean")) {
                 Object value = getAttribute(file, directory, attributeName);
@@ -363,7 +366,7 @@ public class FileEntityStorage implements EntityStorageInterface {
                 if(value instanceof Boolean) {
                     booleanValue = (Boolean)value;
                 }
-                Log.println(this,"entity.set"+field+"("+booleanValue+")");
+                LOG.debug("entity.set"+field+"("+booleanValue+")");
                 PropertyUtils.setProperty(object,field,booleanValue);
             }
         }

@@ -3,7 +3,6 @@ package erland.webapp.common.tags.menu;
 import erland.webapp.common.html.HTMLBasicStringReplace;
 import erland.webapp.common.html.StringReplaceInterface;
 import erland.webapp.common.ServletParameterHelper;
-import erland.util.Log;
 import erland.util.StringUtil;
 
 import javax.servlet.jsp.JspException;
@@ -27,6 +26,8 @@ import java.net.MalformedURLException;
 
 import org.apache.struts.util.RequestUtils;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -48,6 +49,8 @@ import org.apache.commons.beanutils.PropertyUtils;
  */
 
 public class MenuItemTag extends TagSupport implements MenuItemInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(MenuItemTag.class);
     private String page;
     private String titleKey;
     private String id;
@@ -175,8 +178,8 @@ public class MenuItemTag extends TagSupport implements MenuItemInterface {
 
     public int doStartTag() throws JspException {
         JspWriter out = pageContext.getOut();
-        if(Log.isEnabled(this,Log.DEBUG)) {
-            Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
+        if(LOG.isTraceEnabled()) {
+            LOG.trace(StringUtil.beanToString(this,null,TagSupport.class,true));
         }
         String menuObjName = getMenuId();
         String menuObj = (String) pageContext.getAttribute(menuObjName,PageContext.SESSION_SCOPE);
