@@ -1,0 +1,39 @@
+<entity id="brokerstockentry">
+    <class>erland.webapp.stocks.bl.entity.BrokerStockEntry</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/stock</datasource>
+        <table>brokerstocks</table>
+        <fields>
+            <field id="broker">
+                <column>broker</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="code">
+                <column>code</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="name">
+                <column>name</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allforbroker">
+                <querystring>broker=?</querystring>
+                <orderstring>order by name</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>broker</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
