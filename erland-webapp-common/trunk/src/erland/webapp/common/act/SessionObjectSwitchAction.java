@@ -36,6 +36,7 @@ public class SessionObjectSwitchAction extends BaseAction {
         if(parameter==null) {
             parameter = mapping.getParameter();
         }
+        parameter = ServletParameterHelper.replaceDynamicParameters(parameter,request.getParameterMap());
         Object obj = request.getSession().getAttribute(parameter);
         ActionForward forward = null;
         if((obj instanceof String) || (obj instanceof Number) || (obj instanceof Boolean)) {
