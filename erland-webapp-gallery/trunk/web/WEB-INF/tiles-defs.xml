@@ -69,6 +69,12 @@
     <definition name=".user.editpicturestorage" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/gallery/picturestorages/editstorage.jsp"/>
     </definition>
+    <definition name=".user.viewskins" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/skin/viewskins.jsp"/>
+    </definition>
+    <definition name=".user.editskin" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/skin/editskin.jsp"/>
+    </definition>
     <definition name=".user.viewfilters" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/gallery/filter/viewfilters.jsp"/>
     </definition>
@@ -124,4 +130,25 @@
     <definition name=".guest.index" extends=".mainLayout">
         <put name="menu" value="/WEB-INF/tiles/common/guestmenu.jsp"/>
     </definition>
+
+    <definition name=".mainSkinLayout" path="/WEB-INF/tiles/skin/layout.jsp">
+        <put name="title" value="Bildarkivet"/>
+        <put name="header" value="/WEB-INF/tiles/skin/header.jsp"/>
+    </definition>
+    <definition name=".mainSkinLayoutEmpty" path="/WEB-INF/tiles/skin/layoutSingle.jsp">
+        <put name="title" value="Bildarkivet"/>
+    </definition>
+    <definition name=".skin.viewimage" extends=".skin.empty">
+        <put name="body" value="/WEB-INF/tiles/skin/viewpicture.jsp"/>
+    </definition>
+    <definition name=".skin.viewpictures" extends=".skin.index">
+        <put name="body" value="/WEB-INF/tiles/skin/viewpictures.jsp"/>
+    </definition>
+    <definition name=".skin.editsearch" extends=".skin.index">
+        <put name="body" value="/WEB-INF/tiles/skin/search.jsp"/>
+    </definition>
+    <definition name=".skin.index" extends=".mainSkinLayout">
+        <put name="menu" value="/WEB-INF/tiles/skin/menu.jsp"/>
+    </definition>
+    <definition name=".skin.empty" extends=".mainSkinLayoutEmpty"/>
 </tiles-definitions>
