@@ -48,6 +48,7 @@ public class DirGalleryServlet extends UserMgmtServlet {
                 "<logitem8>erland.webapp.dirgallery.HTMLLinkStringReplaceDisabled</logitem8>" +
                 "<logitem9>erland.webapp.dirgallery.loader.LoadThumbnailCommandDisabled</logitem9>" +
                 "<logitem10>erland.webapp.common.FileEntityStorageDisabled</logitem10>" +
+                "<logitem11>erland.webapp.common.image.ImageWriteHelperDisabled</logitem11>" +
                 "</log>"), null, "log"));
         HTMLEncoder.addReplaceRoutine(new HTMLBasicStringReplace());
         HTMLEncoder.addReplaceRoutine(new HTMLLinkStringReplace());
