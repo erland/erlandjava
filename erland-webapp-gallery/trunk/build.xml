@@ -17,7 +17,7 @@
                 <include name="*.jar"/>
             </fileset>
             <fileset dir="../../common/util/${dist}">
-                <include name="*.jar"/>
+                <include name="util.jar"/>
             </fileset>
             <fileset file="${java.home.metadata-extractor}"/>
             <fileset file="resources.xml"/>
@@ -30,6 +30,29 @@
                 <include name="*.gif"/>
             </fileset>
         </copy>
+    </target>
+
+    <target name="Make archive">
+        <antcall target="Clean All"/>
+        <antcall target="Build Application"/>
+        <zip file="${dist}/dirgallery.zip">
+            <fileset file="readme.txt"/>
+            <fileset dir="." >
+                <include name="database/*"/>
+            </fileset>
+            <fileset file="${dist}/${ant.project.name}.war"/>
+        </zip>
+    </target>
+    <target name="Make archive (Debug)">
+        <antcall target="Clean All"/>
+        <antcall target="Build Application (Debug)"/>
+        <zip file="${dist}/dirgallery.zip">
+            <fileset file="readme.txt"/>
+            <fileset dir="database">
+                <include name="*"/>
+            </fileset>
+            <fileset file="${dist}/${ant.project.name}.war"/>
+        </zip>
     </target>
 
     <target name="Build Application">
