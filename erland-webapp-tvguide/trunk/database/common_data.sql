@@ -12,7 +12,6 @@ INSERT INTO resources VALUES ('tvguide','resources.welcometext','Login to update
 INSERT INTO resources VALUES ('tvguide','resources.welcometext_sv','Logga in för att uppdatera din TV-Guide, för att registrera din egen TV-Guide måste du kontakta [boldlinksamewindow=mig,mailto:erland_i@hotmail.com]\r\n\r\n');
 INSERT INTO resources VALUES ('tvguide','resources.nativelanguage','sv');
 INSERT INTO resources VALUES ('tvguide','resources.helppath','http://erland.homeip.net/help/do/guest/home?application=tvguide[context,&chapter={context}]');
-INSERT INTO resources VALUES ('tvguide','resources.nativelanguage','sv');
 INSERT INTO resources VALUES ('tvguide','resources.smtp.server','');
 INSERT INTO resources VALUES ('tvguide','resources.smtp.from','');
 INSERT INTO resources VALUES ('tvguide','resources.smtp.subject','TV-program {date}');
