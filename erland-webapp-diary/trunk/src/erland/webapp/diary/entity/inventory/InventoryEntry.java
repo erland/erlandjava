@@ -26,6 +26,7 @@ public class InventoryEntry extends BaseEntity {
     private String username;
     private Integer type;
     private Integer sex;
+    private Integer species;
     private String name;
     private String description;
     private String image;
@@ -47,6 +48,14 @@ public class InventoryEntry extends BaseEntity {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Integer getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(Integer species) {
+        this.species = species;
     }
 
     public Integer getType() {
