@@ -237,6 +237,10 @@
             <name>width</name>
             <required>false</required>
         </attribute>
+        <attribute>
+            <name>height</name>
+            <required>false</required>
+        </attribute>
     </tag>
     <tag>
         <name>beancalendar</name>
