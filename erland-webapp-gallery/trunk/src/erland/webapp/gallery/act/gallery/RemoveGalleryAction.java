@@ -22,6 +22,7 @@ package erland.webapp.gallery.act.gallery;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.gallery.entity.gallery.Gallery;
+import erland.webapp.gallery.entity.account.UserAccount;
 import erland.webapp.gallery.fb.gallery.GalleryFB;
 import erland.webapp.usermgmt.User;
 import org.apache.struts.action.ActionForm;
@@ -46,6 +47,13 @@ public class RemoveGalleryAction extends BaseAction {
             getEnvironment().getEntityStorageFactory().getStorage("gallery-categorymembership").delete(filter);
             getEnvironment().getEntityStorageFactory().getStorage("gallery-category").delete(filter);
             getEnvironment().getEntityStorageFactory().getStorage("gallery-gallerycategoryassociation").delete(filter);
+            UserAccount template = (UserAccount) getEnvironment().getEntityFactory().create("gallery-useraccount");
+            template.setUsername(username);
+            UserAccount account = (UserAccount) getEnvironment().getEntityStorageFactory().getStorage("gallery-useraccount").load(template);
+            if(account.getDefaultGallery().equals(fb.getId())) {
+                account.setDefaultGallery(new Integer(0));
+                getEnvironment().getEntityStorageFactory().getStorage("gallery-useraccount").store(account);
+            }
         }
     }
 }
