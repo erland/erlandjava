@@ -158,6 +158,20 @@
       <version>2.3</version>
       <type>jar</type>
     </dependency>
+	<dependency>
+      <url>http://jakarta.apache.org/tomcat</url>
+      <groupId>tomcat</groupId>
+      <artifactId>jasper-compiler</artifactId>
+      <version>4.0.4</version>
+      <type>jar</type>
+    </dependency>
+	<dependency>
+      <url>http://jakarta.apache.org/tomcat</url>
+      <groupId>tomcat</groupId>
+      <artifactId>jasper-runtime</artifactId>
+      <version>4.0.4</version>
+      <type>jar</type>
+    </dependency>
   </dependencies>
   
   <!-- build information for the project -->
