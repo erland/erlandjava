@@ -1,13 +1,45 @@
 package erland.game;
 
+/**
+ * Represents a container for blocks
+ * @author Erland Isaksson
+ */
 public class BlockContainerData
 	implements BlockContainerInterface
 {
-	int offsetX;
-	int offsetY;
-	int sizeX;
-	int sizeY;
-	int squareSize;
+	/**
+	 * The X offset in pixels
+	 */
+	protected int offsetX;
+	
+	/**
+	 * The Y offset in pixels
+	 */
+	protected int offsetY;
+	
+	/**
+	 * Number of horizontal blocks
+	 */
+	protected int sizeX;
+	
+	/**
+	 * Number of vertical blocks
+	 */
+	protected int sizeY;
+
+	/**
+	 * The size of a single block in pixels
+	 */
+	protected int squareSize;
+
+	/**
+	 * Creates a new object
+	 * @param offsetX The X offset in pixels
+	 * @param offsetY The Y offset in pixels
+	 * @param sizeX Number of horizontal blocks
+	 * @param sizeY Number of vertical blocks
+	 * @param squareSize Size of a single block in pixels
+	 */
 	public BlockContainerData(int offsetX, int offsetY, int sizeX, int sizeY, int squareSize)
 	{
 		this.offsetX = offsetX;
