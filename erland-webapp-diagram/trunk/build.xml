@@ -8,6 +8,11 @@
     </target>
     <target name="copylibraries">
         <!-- Copy required libraries to distribution dir -->
+        <copy todir="${dist}">
+            <fileset dir="../Common/${dist}">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
     </target>
 
     <target name="Make archive">
