@@ -46,77 +46,83 @@ public class ImageThumbnail implements ThumbnailCreatorInterface {
         synchronized (sync) {
             Log.println(this,"Opening "+url.getFile());
             BufferedImage image = ImageIO.read(new BufferedInputStream(url.openStream()));
-            if(Log.isEnabled(this,Log.DEBUG)) {
-                Log.println(this,"Opened image "+image,Log.DEBUG);
-            }
-            if (image != null) {
-                ImageFilter[] filterList = filters!=null?filters.getFilters():null;
-                Toolkit toolkit = Toolkit.getDefaultToolkit();
-                if(filterList!=null && filterList.length>0) {
-                    Log.println(this,"Applying filters",Log.DEBUG);
-                    ImageProducer prod = image.getSource();
-                    for (int i = 0; i < filterList.length; i++) {
-                        ImageFilter postFilter = filterList[i];
-                        prod = new FilteredImageSource(prod,postFilter);
-                    }
-                    Image img = toolkit.createImage(prod);
-                    image = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
-                    Log.println(this,"Filters applied",Log.DEBUG);
-                    Graphics g = image.createGraphics();
-                    Log.println(this,"Draw image",Log.DEBUG);
-                    g.drawImage(img, 0, 0, null);
-                    g.dispose();
-                }
-                int width = requestedWidth;
-                int height = requestedHeight;
-                int origWidth = image.getWidth();
-                int origHeight = image.getHeight();
-                if(height==0) {
-                    height = width * origHeight / origWidth;
-                    if (((double) origWidth / origHeight) < ((double) 1600 / 1200)) {
-                        height = width * 1200 / 1600;
-                        width = height * origWidth / origHeight;
-                    }
-                }else {
-                    if (((double) origWidth / origHeight < ((double) width/height))) {
-                        width = height * origWidth / origHeight;
-                    }else {
-                        height = width * origHeight / origWidth;
-                    }
-                }
-                if (width > origWidth || height > origHeight) {
-                    width = origWidth;
-                    height = origHeight;
-                }
-                Log.println(this,"Creating BufferedImage for thumbnail",Log.DEBUG);
-                // The next three rows are quite stupid, but it was the only way to get decent performance
-                // on images editied in PhotoShop and saved with a ICC profile.
-                BufferedImage tempImage = new BufferedImage(origWidth, origHeight, image.getType());
-                //tempImage.setData(image.getRaster());
-                tempImage.getGraphics().drawImage(image,0,0,null);
-                image = tempImage;
-
-                thumbnail = new BufferedImage(width, height, image.getType());
-                Log.println(this,"Create graphics",Log.DEBUG);
-                Graphics2D g2 = thumbnail.createGraphics();
-                g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-                if(antialias.booleanValue()) {
-                    Log.println(this,"Creating scaled instance",Log.DEBUG);
-                    Image scaled = image.getScaledInstance(width,height,Image.SCALE_AREA_AVERAGING);
-                    Log.println(this,"Drawing thumbnail",Log.DEBUG);
-                    g2.drawImage(scaled, 0, 0, null);
-                    Log.println(this,"Thumbnail drawed",Log.DEBUG);
-                }else {
-                    Log.println(this,"Drawing thumbnail",Log.DEBUG);
-                    g2.drawImage(image, 0, 0, width, height, 0, 0, origWidth, origHeight, null);
-                    Log.println(this,"Thumbnail drawed",Log.DEBUG);
-                }
-                g2.dispose();
-                Log.println(this,"Thumbnail successfully generated",Log.DEBUG);
-            }
+            thumbnail = createThumbnail(image,requestedWidth,requestedHeight,filters);
         }
         if(Log.isEnabled(this,Log.DEBUG)) {
             Log.println(this,"Returning thumbnail "+thumbnail,Log.DEBUG);
+        }
+        return thumbnail;
+    }
+
+    protected BufferedImage createThumbnail(BufferedImage image, int requestedWidth, int requestedHeight, ImageFilterContainerInterface filters) throws IOException {
+        BufferedImage thumbnail = null;
+        if (image != null) {
+            if(Log.isEnabled(this,Log.DEBUG)) {
+                Log.println(this,"Opened image "+image,Log.DEBUG);
+            }
+            ImageFilter[] filterList = filters!=null?filters.getFilters():null;
+            Toolkit toolkit = Toolkit.getDefaultToolkit();
+            if(filterList!=null && filterList.length>0) {
+                Log.println(this,"Applying filters",Log.DEBUG);
+                ImageProducer prod = image.getSource();
+                for (int i = 0; i < filterList.length; i++) {
+                    ImageFilter postFilter = filterList[i];
+                    prod = new FilteredImageSource(prod,postFilter);
+                }
+                Image img = toolkit.createImage(prod);
+                image = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
+                Log.println(this,"Filters applied",Log.DEBUG);
+                Graphics g = image.createGraphics();
+                Log.println(this,"Draw image",Log.DEBUG);
+                g.drawImage(img, 0, 0, null);
+                g.dispose();
+            }
+            int width = requestedWidth;
+            int height = requestedHeight;
+            int origWidth = image.getWidth();
+            int origHeight = image.getHeight();
+            if(height==0) {
+                height = width * origHeight / origWidth;
+                if (((double) origWidth / origHeight) < ((double) 1600 / 1200)) {
+                    height = width * 1200 / 1600;
+                    width = height * origWidth / origHeight;
+                }
+            }else {
+                if (((double) origWidth / origHeight < ((double) width/height))) {
+                    width = height * origWidth / origHeight;
+                }else {
+                    height = width * origHeight / origWidth;
+                }
+            }
+            if (width > origWidth || height > origHeight) {
+                width = origWidth;
+                height = origHeight;
+            }
+            Log.println(this,"Creating BufferedImage for thumbnail",Log.DEBUG);
+            // The next three rows are quite stupid, but it was the only way to get decent performance
+            // on images editied in PhotoShop and saved with a ICC profile.
+            BufferedImage tempImage = new BufferedImage(origWidth, origHeight, image.getType());
+            //tempImage.setData(image.getRaster());
+            tempImage.getGraphics().drawImage(image,0,0,null);
+            image = tempImage;
+
+            thumbnail = new BufferedImage(width, height, image.getType());
+            Log.println(this,"Create graphics",Log.DEBUG);
+            Graphics2D g2 = thumbnail.createGraphics();
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            if(antialias.booleanValue()) {
+                Log.println(this,"Creating scaled instance",Log.DEBUG);
+                Image scaled = image.getScaledInstance(width,height,Image.SCALE_AREA_AVERAGING);
+                Log.println(this,"Drawing thumbnail",Log.DEBUG);
+                g2.drawImage(scaled, 0, 0, null);
+                Log.println(this,"Thumbnail drawed",Log.DEBUG);
+            }else {
+                Log.println(this,"Drawing thumbnail",Log.DEBUG);
+                g2.drawImage(image, 0, 0, width, height, 0, 0, origWidth, origHeight, null);
+                Log.println(this,"Thumbnail drawed",Log.DEBUG);
+            }
+            g2.dispose();
+            Log.println(this,"Thumbnail successfully generated",Log.DEBUG);
         }
         return thumbnail;
     }
