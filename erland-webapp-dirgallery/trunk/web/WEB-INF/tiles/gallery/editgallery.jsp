@@ -82,6 +82,9 @@
     <tr><td><bean:message key="dirgallery.gallery.edit.use-thumbnail-cache"/></td><td>
     <html:checkbox property="useThumbnailCacheDisplay" value="true"/>
     </td></tr>
+    <tr><td><bean:message key="dirgallery.gallery.edit.use-large-cache"/></td><td>
+    <html:checkbox property="useCacheLargeImagesDisplay" value="true"/>
+    </td></tr>
     <tr><td><bean:message key="dirgallery.gallery.edit.logo"/></td><td>
     <html:text property="logo"/>
     </td></tr>
@@ -111,6 +114,22 @@
     </td></tr>
     <tr><td><bean:message key="dirgallery.gallery.edit.use-tooltip"/></td><td>
     <html:checkbox property="useTooltipDisplay" value="true"/>
+    </td></tr>
+    <tr><td><bean:message key="dirgallery.gallery.edit.copyright-text"/></td><td>
+    <html:text property="copyrightText"/>
+    </td></tr>
+    <tr><td><bean:message key="dirgallery.gallery.edit.copyright-transparency"/></td><td>
+    <html:text property="copyrightTransparencyDisplay"/>
+    </td></tr>
+    <tr><td><bean:message key="dirgallery.gallery.edit.copyright-position"/></td><td>
+    <html:select property="copyrightPositionDisplay" size="1">
+        <html:option value="0" key="dirgallery.gallery.edit.copyright-position.top-left"/>
+        <html:option value="1" key="dirgallery.gallery.edit.copyright-position.top-right"/>
+        <html:option value="2" key="dirgallery.gallery.edit.copyright-position.bottom-left"/>
+        <html:option value="3" key="dirgallery.gallery.edit.copyright-position.bottom-right"/>
+    </html:select>
+    <tr><td><bean:message key="dirgallery.gallery.edit.use-copyright"/></td><td>
+    <html:checkbox property="useCopyrightDisplay" value="true"/>
     </td></tr>
     <tr><td><bean:message key="dirgallery.gallery.edit.friend-galleries"/></td><td>
     <html:select property="friendGalleries" size="10" multiple="true" >
