@@ -1,5 +1,6 @@
 <%@ page import="erland.webapp.common.CommandInterface,
-                 erland.webapp.gallery.loader.ViewMetadataInterface"%>
+                 erland.webapp.gallery.loader.ViewMetadataInterface,
+                 erland.webapp.common.ServletParameterHelper"%>
 <%
     CommandInterface cmd = (CommandInterface) request.getAttribute("cmd");
     if(cmd instanceof ViewMetadataInterface) {
@@ -26,6 +27,18 @@
         }
         %>
         </table>
+        <%
+        String showAll = request.getParameter("showall");
+        if(showAll!=null && showAll.equalsIgnoreCase("true")) {
+            %>
+            <br><a class="bold-link" href="portal?<%=ServletParameterHelper.removeParameter(request.getAttribute("cmdparameters").toString(),"showall")%>">Some only selected metadata</a>
+            <%
+        }else {
+            %>
+            <br><a class="bold-link" href="portal?<%=ServletParameterHelper.replaceParameter(request.getAttribute("cmdparameters").toString(),"showall","true")%>">Show all metadata</a>
+            <%
+        }
+        %>
         <%
     }
 %>
