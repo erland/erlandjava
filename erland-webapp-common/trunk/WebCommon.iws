@@ -339,35 +339,35 @@
     <first-group selected-file="file://$PROJECT_DIR$/README.txt">
       <entry file="file://$PROJECT_DIR$/src/erland/webapp/common/act/BaseAction.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="398" column="29" selection-start="12665" selection-end="12665" vertical-scroll-proportion="0.03269231">
+          <state line="398" column="29" selection-start="12665" selection-end="12665" vertical-scroll-proportion="0.032882012">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://$PROJECT_DIR$/LICENSE.txt" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="3" column="34" selection-start="160" selection-end="160" vertical-scroll-proportion="0.098076925">
+          <state line="3" column="34" selection-start="160" selection-end="160" vertical-scroll-proportion="0.09864604">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://$PROJECT_DIR$/README.txt" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="80" column="0" selection-start="2449" selection-end="2875" vertical-scroll-proportion="0.9346154">
+          <state line="59" column="16" selection-start="2216" selection-end="2216" vertical-scroll-proportion="0.11218569">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://$PROJECT_DIR$/maven.xml" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="4" column="17" selection-start="125" selection-end="125" vertical-scroll-proportion="0.03269231">
+          <state line="4" column="17" selection-start="125" selection-end="125" vertical-scroll-proportion="0.032882012">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://$PROJECT_DIR$/project.xml" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="132" column="0" selection-start="3651" selection-end="3651" vertical-scroll-proportion="0.77757007">
+          <state line="132" column="0" selection-start="3651" selection-end="3651" vertical-scroll-proportion="0.7763158">
             <folding />
           </state>
         </provider>
@@ -404,14 +404,16 @@
     <option name="ADD_LABEL_ON_UNIT_TEST_FAILED" value="true" />
   </component>
   <component name="PackagesPane">
-    <expanded_node url="erland.webapp" module="WebCommon" type="package" />
     <expanded_node url="" module="WebCommon" type="module" />
-    <expanded_node url="erland.webapp.common" module="WebCommon" type="package" />
-    <expanded_node url="erland" module="WebCommon" type="package" />
   </component>
   <component name="ProjectPane">
+    <expanded_node url="file://$PROJECT_DIR$/src/erland" module="WebCommon" type="directory" />
     <expanded_node url="" module="WebCommon" type="module" />
+    <expanded_node url="file://$PROJECT_DIR$/src" module="WebCommon" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp/common" module="WebCommon" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp/common/tags" module="WebCommon" type="directory" />
     <expanded_node url="file://$PROJECT_DIR$" module="WebCommon" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src/erland/webapp" module="WebCommon" type="directory" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" splitterProportion="0.5">
@@ -527,7 +529,7 @@
     <general />
     <databases savePasswords="false" encodePasswords="true" />
     <queries save="false" />
-    <results primaryKeyCols="true" datesWithTime="true">
+    <results primaryKeyCols="true" saveTableConfig="false">
       <rowLimit enabled="true" value="1000" />
       <resizeColumns toHeader="true" toContent="true" />
     </results>
@@ -578,11 +580,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="3" width="1004" height="728" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.33" order="8" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.36554623" order="0" x="35" y="79" width="397" height="600" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.3539916" order="0" x="35" y="79" width="397" height="600" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.02" order="8" />
@@ -593,7 +596,6 @@
       <window_info id="CVS File View" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.68907565" order="3" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="3" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.4" order="0" />
-      <window_info id="SQL" active="false" anchor="bottom" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.33" order="8" />
       <window_info id="PsiViewer" active="false" anchor="right" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.33" order="3" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="0" />
@@ -756,35 +758,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/erland/webapp/common/act/BaseAction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="398" column="29" selection-start="12665" selection-end="12665" vertical-scroll-proportion="0.03269231">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="0" selection-start="2449" selection-end="2875" vertical-scroll-proportion="0.9346154">
+        <state line="398" column="29" selection-start="12665" selection-end="12665" vertical-scroll-proportion="0.032882012">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LICENSE.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="34" selection-start="160" selection-end="160" vertical-scroll-proportion="0.098076925">
+        <state line="3" column="34" selection-start="160" selection-end="160" vertical-scroll-proportion="0.09864604">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project.xml">
+    <entry file="file://$PROJECT_DIR$/README.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="132" column="0" selection-start="3651" selection-end="3651" vertical-scroll-proportion="0.77757007">
+        <state line="59" column="16" selection-start="2216" selection-end="2216" vertical-scroll-proportion="0.11218569">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/maven.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="17" selection-start="125" selection-end="125" vertical-scroll-proportion="0.03269231">
+        <state line="4" column="17" selection-start="125" selection-end="125" vertical-scroll-proportion="0.032882012">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="132" column="0" selection-start="3651" selection-end="3651" vertical-scroll-proportion="0.7763158">
           <folding />
         </state>
       </provider>
