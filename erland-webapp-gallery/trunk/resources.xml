@@ -413,6 +413,28 @@
                 </queries>
             </data>
         </entity>
+        <entity id="resource">
+            <class>erland.webapp.common.Resource</class>
+            <data id="storage">
+                <class>erland.webapp.common.GenericEntityStorage</class>
+                <name>sql</name>
+            </data>
+            <data id="sql">
+                <datasource>jdbc/gallery</datasource>
+                <table>resources</table>
+                <fields>
+                    <field id="id">
+                        <column>id</column>
+                        <type>String</type>
+                        <identity>true</identity>
+                    </field>
+                    <field id="value">
+                        <column>value</column>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </data>
+        </entity>
         <entity id="gallery">
             <class>erland.webapp.gallery.gallery.Gallery</class>
             <data id="storage">
@@ -2127,7 +2149,4 @@
             <page>error.jsp</page>
         </page>
     </pages>
-    <data id="thumbnail">
-        <directory id="cache">D:\users\erland\thumbnails</directory>
-    </data>
 </resources>
