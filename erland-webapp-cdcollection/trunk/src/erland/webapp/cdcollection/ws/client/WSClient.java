@@ -32,7 +32,7 @@ import java.io.BufferedReader;
 public class WSClient {
     public static void main(String[] args) {
         String url = null;
-        if(args.length<0) {
+        if(args.length<1) {
             System.out.println("Parameters: <importDisc|importMedia> <hostname> <username> <password> [collectionId]");
             return;
         }else if(args[0].equals("importMedia")) {
@@ -40,13 +40,13 @@ public class WSClient {
                 System.out.println("Parameters: importMedia <hostname> <username> <password>");
                 return;
             }
-            url = "http://"+args[1]+"/cdcollection/services/CDCollection?method=importMedia&username="+args[1]+"&password="+args[2];
+            url = "http://"+args[1]+"/cdcollection/services/CDCollection?method=importMedia&username="+args[2]+"&password="+args[3];
         }else if(args[0].equals("importDisc")) {
             if(args.length<4) {
                 System.out.println("Parameters: importDisc <hostname> <username> <password> <collectionId>");
                 return;
             }
-            url = "http://"+args[1]+"/cdcollection/services/CDCollection?method=importDisc&username="+args[1]+"&password="+args[2]+"&mediaId="+args[3];
+            url = "http://"+args[1]+"/cdcollection/services/CDCollection?method=importDisc&username="+args[2]+"&password="+args[3]+"&mediaId="+args[4];
         }else {
             System.out.println("Parameters: <importDisc|importMedia> <hostname> <username> <password> <collectionId>");
             return;
