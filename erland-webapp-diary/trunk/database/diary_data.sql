@@ -45,6 +45,8 @@ INSERT INTO purchaseentrycategories VALUES (4,'Akvarium');
 INSERT INTO purchaseentrycategories VALUES (5,'Tillbeh%C3%B6r');
 INSERT INTO purchaseentrycategories VALUES (6,'Inredning');
 INSERT INTO purchaseentrycategories VALUES (7,'Preparat');
+INSERT INTO purchaseentrycategories VALUES (8,'Medicin');
+INSERT INTO purchaseentrycategories VALUES (9,'V%C3%A4xtn%C3%A4ring');
 
 --
 -- Dumping data for table `useraccounts`
