@@ -31,7 +31,7 @@
     <copy todir="${build}/${img}">
     	<fileset dir="${img}"/>
     </copy>
-    <zip zipfile="${dist}/images.zip">
+    <zip zipfile="${dist}/${ant.project.name}Images.zip">
 	<fileset dir=".">
 		<include name="${img}/**"/>
 	</fileset>
