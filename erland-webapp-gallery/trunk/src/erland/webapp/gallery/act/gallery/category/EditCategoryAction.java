@@ -25,6 +25,7 @@ import erland.webapp.common.act.BaseAction;
 import erland.webapp.gallery.act.gallery.GalleryHelper;
 import erland.webapp.gallery.entity.gallery.category.Category;
 import erland.webapp.gallery.entity.gallery.picture.Picture;
+import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.fb.gallery.category.CategoryFB;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -38,7 +39,8 @@ import java.util.Arrays;
 public class EditCategoryAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CategoryFB fb = (CategoryFB) form;
-        Integer gallery = GalleryHelper.getGalleryId(getEnvironment(), fb.getGallery());
+        Gallery galleryEntity = GalleryHelper.getGallery(getEnvironment(), fb.getGallery());
+        Integer gallery = GalleryHelper.getGalleryId(galleryEntity);
         Category template = (Category) getEnvironment().getEntityFactory().create("gallery-category");
         template.setGallery(gallery);
         template.setCategory(fb.getCategory());
@@ -83,6 +85,18 @@ public class EditCategoryAction extends BaseAction {
         filter = new QueryFilter("calculateunofficialforgallery");
         filter.setAttribute("gallery", gallery);
         updatePictures(filter, gallery, Boolean.FALSE);
+        if(galleryEntity.getOfficialCategory()!=null && galleryEntity.getOfficialCategory().intValue()!=0) {
+            filter = new QueryFilter("calculateallwithoutcategory");
+            filter.setAttribute("gallery",gallery);
+            filter.setAttribute("category", galleryEntity.getOfficialCategory());
+            updatePictures(filter, gallery, Boolean.FALSE);
+        }
+        if(galleryEntity.getOfficialGuestCategory()!=null && galleryEntity.getOfficialGuestCategory().intValue()!=0) {
+            filter = new QueryFilter("calculateallwithcategory");
+            filter.setAttribute("gallery",gallery);
+            filter.setAttribute("category", galleryEntity.getOfficialGuestCategory());
+            updatePictures(filter, gallery, Boolean.FALSE);
+        }
 
         filter = new QueryFilter("calculateofficialguestforgallery");
         filter.setAttribute("gallery", gallery);
@@ -91,6 +105,13 @@ public class EditCategoryAction extends BaseAction {
         filter = new QueryFilter("calculateunofficialguestforgallery");
         filter.setAttribute("gallery", gallery);
         updatePicturesGuest(filter, gallery, Boolean.FALSE);
+
+        if(galleryEntity.getOfficialGuestCategory()!=null && galleryEntity.getOfficialGuestCategory().intValue()!=0) {
+            filter = new QueryFilter("calculateallunofficialorwithoutcategory");
+            filter.setAttribute("gallery",gallery);
+            filter.setAttribute("category", galleryEntity.getOfficialGuestCategory());
+            updatePicturesGuest(filter, gallery, Boolean.FALSE);
+        }
     }
 
 

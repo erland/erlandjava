@@ -27,7 +27,9 @@ import erland.webapp.gallery.entity.gallery.category.Category;
 import erland.webapp.gallery.entity.gallery.category.CategoryMembership;
 import erland.webapp.gallery.entity.gallery.category.CategoryPictureAssociation;
 import erland.webapp.gallery.entity.gallery.picture.Picture;
+import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.fb.gallery.importers.ImportFB;
+import erland.webapp.gallery.act.gallery.GalleryHelper;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 
@@ -124,6 +126,23 @@ public class IMatchImportAction extends BaseAction {
                 filter.setAttribute("gallery", fb.getGallery());
                 updatePictures(filter, fb.getGallery(), Boolean.FALSE);
 
+                Gallery galleryEntity = GalleryHelper.getGallery(getEnvironment(),fb.getGallery());
+                Collection categoryList = new ArrayList();
+                if(galleryEntity.getOfficialCategory()!=null && galleryEntity.getOfficialCategory().intValue()!=0) {
+                    categoryList.add(galleryEntity.getOfficialCategory());
+                    filter = new QueryFilter("calculateallwithoutcategory");
+                    filter.setAttribute("gallery",fb.getGallery());
+                    filter.setAttribute("category", galleryEntity.getOfficialCategory());
+                    updatePictures(filter, fb.getGallery(), Boolean.FALSE);
+                }
+                if(galleryEntity.getOfficialGuestCategory()!=null && galleryEntity.getOfficialGuestCategory().intValue()!=0) {
+                    categoryList.add(galleryEntity.getOfficialGuestCategory());
+                    filter = new QueryFilter("calculateallwithcategory");
+                    filter.setAttribute("gallery",fb.getGallery());
+                    filter.setAttribute("category", galleryEntity.getOfficialGuestCategory());
+                    updatePictures(filter, fb.getGallery(), Boolean.FALSE);
+                }
+
                 filter = new QueryFilter("calculateofficialguestforgallery");
                 filter.setAttribute("gallery", fb.getGallery());
                 updatePicturesGuest(filter, fb.getGallery(), Boolean.TRUE);
@@ -131,6 +150,13 @@ public class IMatchImportAction extends BaseAction {
                 filter = new QueryFilter("calculateunofficialguestforgallery");
                 filter.setAttribute("gallery", fb.getGallery());
                 updatePicturesGuest(filter, fb.getGallery(), Boolean.FALSE);
+
+                if(galleryEntity.getOfficialGuestCategory()!=null && galleryEntity.getOfficialGuestCategory().intValue()!=0) {
+                    filter = new QueryFilter("calculateallunofficialorwithoutcategory");
+                    filter.setAttribute("gallery",fb.getGallery());
+                    filter.setAttribute("category", galleryEntity.getOfficialGuestCategory());
+                    updatePicturesGuest(filter, fb.getGallery(), Boolean.FALSE);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
