@@ -3,11 +3,12 @@
                  erland.webapp.common.CommandInterface,
                  erland.webapp.gallery.gallery.ViewGalleryInterface,
                  erland.webapp.gallery.gallery.Gallery,
-                 erland.webapp.common.ServletParameterHelper"%>
+                 erland.webapp.common.ServletParameterHelper,
+                 erland.webapp.gallery.gallery.GalleryInterface"%>
  <%
     CommandInterface cmd = (CommandInterface) request.getAttribute("cmd");
     if(cmd instanceof ViewGalleryInterface) {
-        Gallery gallery = ((ViewGalleryInterface)cmd).getGallery();
+        GalleryInterface gallery = ((ViewGalleryInterface)cmd).getGallery();
         if(gallery!=null) {
             if(cmd instanceof ViewPicturesInterface) {
                 String user = request.getParameter("user");
@@ -49,7 +50,7 @@
                             link = "portal?"+withBack;
                         }
                     %>
-                    <a class="bold-link" href="<%=link%>" title="<%=entry.getDescription()!=null?entry.getDescription():""%>"><img src="<%=image%>" border="0" width="150"></img><br><div align="center"><%=entry.getTitle()!=null?entry.getTitle():""%></div></a>
+                    <a class="bold-link" href="<%=link%>" title="<%=entry.getDescription()!=null?entry.getDescription():""%>"><img src="<%=image%>" border="0"></img><br><div align="center"><%=entry.getTitle()!=null?entry.getTitle():""%></div></a>
                     </td>
                     <%
                     if(i%3==2 || i==entries.length-1) {
