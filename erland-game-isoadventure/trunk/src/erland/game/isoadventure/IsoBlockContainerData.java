@@ -142,19 +142,25 @@ public class IsoBlockContainerData implements IrregularBlockContainerInterface {
     }
     public int getPositionX(int x, int y, int z)
     {
-    	return (getSquareSizeX()*getSizeX()/2)+(getSquareSizeX()/2)*x-(getSquareSizeX()/2)*y;
+    	return (getSquareSizeX()*getSizeX()/2)+getRelativePositionX(x,y,z);
     }
     public int getPositionY(int x, int y, int z)
     {
-        return (getSquareSizeY()/2)*x+(getSquareSizeY()/2)*y-getSquareSizeZ()*z;
+        return getRelativePositionY(x,y,z);
+    }
+    private int getRelativePositionX(float dx, float dy, float dz) {
+        return (int)((getSquareSizeX()/2)*dx-(getSquareSizeX()/2)*dy);
+    }
+    private int getRelativePositionY(float dx, float dy, float dz) {
+        return (int)((getSquareSizeY()/2)*dx+(getSquareSizeY()/2)*dy-getSquareSizeZ()*dz);
     }
     public int getPositionX(int x, int y, int z, float dx, float dy, float dz)
     {
-    	return getPositionX(x,y,z)+getPositionX((int)(dx*100),(int)(dy*100),(int)(dz*100))/100;
+    	return getPositionX(x,y,z)+getRelativePositionX(dx,dy,dz);
     }
     public int getPositionY(int x, int y, int z, float dx, float dy, float dz)
     {
-        return getPositionY(x,y,z)+getPositionY((int)(dx*100),(int)(dy*100),(int)(dz*100))/100;
+        return getPositionY(x,y,z)+getRelativePositionY(dx,dy,dz);
     }
     public int getDrawingSizeX()
     {
