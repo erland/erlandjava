@@ -19,6 +19,7 @@
         <form-bean name="removeChapterAttributeFB" type="erland.webapp.help.fb.chapter.ChapterAttributeFB"/>
         <form-bean name="selectChapterFB" type="erland.webapp.help.fb.chapter.SelectChapterFB"/>
         <form-bean name="startSelectChapterFB" type="erland.webapp.help.fb.chapter.SelectChapterFB"/>
+        <form-bean name="optionalSelectChapterFB" type="erland.webapp.help.fb.chapter.SelectChapterFB"/>
     </form-beans>
 
     <global-forwards>
@@ -59,13 +60,16 @@
         </action>
         <action
             path="/user/loadmenu"
-            type="erland.webapp.help.act.application.LoadMenuAction">
+            type="erland.webapp.help.act.application.LoadMenuAction"
+            validate="false"
+            name="optionalSelectChapterFB">
 
             <forward name="view-application" path="/do/user/menuviewapplication?menuId={menuItemId}&amp;name={application}"/>
             <forward name="view-applicationversion" path="/do/user/menuviewapplicationversion?menuId={menuItemId}&amp;application={application}&amp;version={version}"/>
             <forward name="view-chapter" path="/do/user/menuviewchapter?menuId={menuItemId}&amp;application={application}&amp;version={version}&amp;chapter={chapter}"/>
             <forward name="new-applicationversion" path="/do/user/newapplicationversion?application={application}"/>
             <forward name="new-chapter" path="/do/user/newchapter?application={application}&amp;version={version}"/>
+            <forward name="success-chapter" path="/do/user/menuviewchapter?menuId=applications-{application}-{version}-{chapter}&amp;application={application}&amp;version={version}&amp;chapter={chapter}"/>
             <forward name="success" path=".user.index"/>
         </action>
         <action
