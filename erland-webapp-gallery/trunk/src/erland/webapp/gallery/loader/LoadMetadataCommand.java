@@ -7,7 +7,7 @@ import erland.webapp.common.EntityInterface;
 import erland.webapp.gallery.gallery.picture.Picture;
 import erland.webapp.gallery.gallery.picture.ViewPictureInterface;
 import erland.webapp.gallery.gallery.picturestorage.PictureStorage;
-import erland.webapp.gallery.DescriptionTag;
+import erland.webapp.gallery.gallery.GalleryHelper;
 import erland.webapp.gallery.DescriptionTagHelper;
 import erland.webapp.usermgmt.User;
 
@@ -32,6 +32,7 @@ public class LoadMetadataCommand implements CommandInterface, ViewMetadataInterf
     private Metadata metaData;
     private Picture picture;
     private Map metaDataMap = new HashMap();
+    private Boolean showAllMetadata;
 
     public void init(WebAppEnvironmentInterface environment) {
         this.environment = environment;
@@ -39,15 +40,16 @@ public class LoadMetadataCommand implements CommandInterface, ViewMetadataInterf
 
     public String execute(HttpServletRequest request) {
         String imageString = request.getParameter("image");
-        String galleryString = request.getParameter("gallery");
         Integer image = null;
-        Integer gallery = null;
         if(imageString!=null && imageString.length()>0) {
             image = Integer.valueOf(imageString);
         }
-        if(galleryString!=null && galleryString.length()>0) {
-            gallery = Integer.valueOf(galleryString);
+        String showAllMetadataString = request.getParameter("showall");
+        showAllMetadata = Boolean.FALSE;
+        if(showAllMetadataString!=null && showAllMetadataString.equalsIgnoreCase("true")) {
+            showAllMetadata = Boolean.TRUE;
         }
+        Integer gallery = getGalleryId(request);
         if(image!=null && gallery!=null) {
             Picture template = (Picture) environment.getEntityFactory().create("picture");
             template.setGallery(gallery);
@@ -75,6 +77,10 @@ public class LoadMetadataCommand implements CommandInterface, ViewMetadataInterf
             }
         }
         return null;
+    }
+
+    protected Integer getGalleryId(HttpServletRequest request) {
+        return GalleryHelper.getGalleryId(environment,request);
     }
 
     protected String getImageFileName(Picture picture) {
@@ -111,8 +117,8 @@ public class LoadMetadataCommand implements CommandInterface, ViewMetadataInterf
                 for(Iterator tagsIt = directory.getTagIterator();tagsIt.hasNext();) {
                     Tag tag = (Tag) tagsIt.next();
                     try {
-                        if(DescriptionTagHelper.getInstance().getDescription("metadatafielddescription",tag.getDirectoryName()+tag.getTagName())!=null) {
-                            metaDataMap.put(tag.getDirectoryName()+tag.getTagName(),tag.getDescription());
+                        if(showAllMetadata.booleanValue() || DescriptionTagHelper.getInstance().getDescription("metadatafielddescription",tag.getDirectoryName()+" "+tag.getTagName())!=null) {
+                            metaDataMap.put(tag.getDirectoryName()+" "+tag.getTagName(),tag.getDescription());
                         }
                     } catch (MetadataException e) {
                         e.printStackTrace();
@@ -131,10 +137,18 @@ public class LoadMetadataCommand implements CommandInterface, ViewMetadataInterf
     }
 
     public String getMetadataDescription(String name) {
-        return DescriptionTagHelper.getInstance().getDescription("metadatafielddescription",name);
+        String description = DescriptionTagHelper.getInstance().getDescription("metadatafielddescription",name);
+        if(showAllMetadata.booleanValue() && description==null) {
+            return name;
+        }
+        return description;
     }
 
     public Picture getPicture() {
         return picture;
+    }
+
+    public WebAppEnvironmentInterface getEnvironment() {
+        return environment;
     }
 }
