@@ -47,7 +47,7 @@ public class EditPictureCommentCommand implements CommandInterface {
             User user = (User) request.getSession().getAttribute("user");
             if (galleryEntity != null && user != null && user.getUsername().equals(galleryEntity.getUsername())) {
                 Picture pictureTemplate = (Picture) environment.getEntityFactory().create("dirgallery-picture");
-                pictureTemplate.setDirectory(galleryEntity.getDirectory());
+                pictureTemplate.setDirectory(environment.getConfigurableResources().getParameter("basedirectory")+"/"+galleryEntity.getUsername()+"/"+galleryEntity.getDirectory());
                 pictureTemplate.setGallery(galleryEntity.getId());
                 pictureTemplate.setId(id);
                 Picture picture = (Picture) environment.getEntityStorageFactory().getStorage("dirgallery-picture").load(pictureTemplate);

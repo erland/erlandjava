@@ -56,7 +56,7 @@ public class LoadMetadataCommand implements CommandInterface, ViewMetadataInterf
             if (entityGallery != null) {
                 Picture template = (Picture) environment.getEntityFactory().create("dirgallery-picture");
                 template.setGallery(gallery);
-                template.setDirectory(entityGallery.getDirectory());
+                template.setDirectory(environment.getConfigurableResources().getParameter("basedirectory")+"/"+entityGallery.getUsername()+"/"+entityGallery.getDirectory());
                 template.setId(image);
                 picture = (Picture) environment.getEntityStorageFactory().getStorage("dirgallery-picture").load(template);
                 if (picture != null) {

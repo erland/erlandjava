@@ -62,7 +62,7 @@ public class SearchPicturesCommand implements CommandInterface, ViewPicturesInte
                 }
                 max = new Integer(gallery.getMaxNumberOfThumbnailRows().intValue() * thumbnailsPerRow);
                 QueryFilter filter = new QueryFilter("allfordirectoryandextensions");
-                filter.setAttribute("directory", gallery.getDirectory());
+                filter.setAttribute("directory", environment.getConfigurableResources().getParameter("basedirectory")+"/"+gallery.getUsername()+"/"+gallery.getDirectory());
                 if (gallery.getTypeOfFiles().intValue() == GalleryInterface.PICTUREFILES) {
                     filter.setAttribute("extensions", ".jpg,.jpeg");
                 } else if (gallery.getTypeOfFiles().intValue() == GalleryInterface.MOVIEFILES) {

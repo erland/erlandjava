@@ -55,7 +55,7 @@ public class LoadImageCommand implements CommandInterface, CommandResponseInterf
             username = entity.getUsername();
             Picture template = (Picture) environment.getEntityFactory().create("dirgallery-picture");
             template.setGallery(gallery);
-            template.setDirectory(entity.getDirectory());
+            template.setDirectory(environment.getConfigurableResources().getParameter("basedirectory")+"/"+entity.getUsername()+"/"+entity.getDirectory());
             template.setId(image);
             Picture picture = (Picture) environment.getEntityStorageFactory().getStorage("dirgallery-picture").load(template);
             if (picture != null) {

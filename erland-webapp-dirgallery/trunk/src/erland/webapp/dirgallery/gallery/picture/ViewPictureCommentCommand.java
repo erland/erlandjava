@@ -45,7 +45,7 @@ public class ViewPictureCommentCommand implements CommandInterface, ViewPictureC
             GalleryInterface galleryEntity = (GalleryInterface) environment.getEntityStorageFactory().getStorage("dirgallery-gallery").load(template);
             if (galleryEntity != null) {
                 Picture pictureTemplate = (Picture) environment.getEntityFactory().create("dirgallery-picture");
-                pictureTemplate.setDirectory(galleryEntity.getDirectory());
+                pictureTemplate.setDirectory(environment.getConfigurableResources().getParameter("basedirectory")+"/"+galleryEntity.getUsername()+"/"+galleryEntity.getDirectory());
                 pictureTemplate.setGallery(galleryEntity.getId());
                 pictureTemplate.setId(id);
                 Picture picture = (Picture) environment.getEntityStorageFactory().getStorage("dirgallery-picture").load(pictureTemplate);
