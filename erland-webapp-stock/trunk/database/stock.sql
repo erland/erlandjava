@@ -15,6 +15,17 @@ CREATE TABLE accounts (
 ) TYPE=MyISAM;
 
 --
+-- Table structure for table `brokerstocks`
+--
+
+CREATE TABLE brokerstocks (
+  broker varchar(100) NOT NULL default '',
+  code varchar(100) NOT NULL default '',
+  name varchar(255) NOT NULL default '',
+  PRIMARY KEY  (broker,code)
+) TYPE=MyISAM;
+
+--
 -- Table structure for table `transactions`
 --
 
