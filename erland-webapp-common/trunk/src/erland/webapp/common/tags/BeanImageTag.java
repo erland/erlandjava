@@ -1,6 +1,8 @@
 package erland.webapp.common.tags;
 
 import erland.webapp.common.html.HTMLEncoder;
+import erland.util.Log;
+import erland.util.StringUtil;
 
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.BodyContent;
@@ -94,9 +96,12 @@ public class BeanImageTag extends TagSupport {
 
     public int doStartTag() throws JspException {
         JspWriter out = pageContext.getOut();
+        if(Log.isEnabled(this,Log.DEBUG)) {
+            Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
+        }
         Object bean = pageContext.findAttribute(name);
         String link = null;
-        if(property!=null) {
+        if(bean!=null && property!=null) {
             try {
                 link = (String) PropertyUtils.getProperty(bean,property);
             } catch (IllegalAccessException e) {
@@ -109,7 +114,7 @@ public class BeanImageTag extends TagSupport {
         }else {
             link=(String) bean;
         }
-        if(link!=null) {
+        if(link!=null && link.length()>0) {
             try {
                 out.write("<img src=\""+addContextPath(link)+"\" "+(style!=null?"class=\""+style+"\" ":"")+" "+(border!=null?" border=\""+border+"\"":"")+(width!=null?" width=\""+width+"\"":"")+(height!=null?" height=\""+height+"\"":"")+"></img>");
             } catch (IOException e) {

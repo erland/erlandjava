@@ -1,6 +1,8 @@
 package erland.webapp.common.tags;
 
 import erland.webapp.common.html.HTMLEncoder;
+import erland.util.Log;
+import erland.util.StringUtil;
 
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.BodyContent;
@@ -167,12 +169,15 @@ public class BeanLinkTag extends TagSupport {
 
     public int doStartTag() throws JspException {
         JspWriter out = pageContext.getOut();
+        if(Log.isEnabled(this,Log.DEBUG)) {
+            Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
+        }
         Object bean = pageContext.findAttribute(name);
         Object beanSelected = bean;
         if(styleSelected!=null && nameSelected!=null) {
             beanSelected = pageContext.findAttribute(nameSelected);
         }
-        if(property!=null) {
+        if(bean!=null && property!=null) {
             try {
                 link = (String) PropertyUtils.getProperty(bean,property);
             } catch (IllegalAccessException e) {
@@ -186,7 +191,7 @@ public class BeanLinkTag extends TagSupport {
             link=(String) bean;
         }
         Object selected = null;
-        if(styleSelected!=null) {
+        if(beanSelected!=null && styleSelected!=null) {
             if(propertySelected!=null) {
                 try {
                     selected = PropertyUtils.getProperty(beanSelected,propertySelected);
@@ -221,7 +226,7 @@ public class BeanLinkTag extends TagSupport {
         if(title==null && titleKey!=null) {
             title = RequestUtils.message(pageContext,null,null,titleKey);
         }
-        if(title==null && propertyTitle!=null) {
+        if(bean!=null && title==null && propertyTitle!=null) {
             try {
                 Object value = PropertyUtils.getProperty(bean,propertyTitle);
                 if(value!=null) {
@@ -235,7 +240,7 @@ public class BeanLinkTag extends TagSupport {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
-        if(title==null && propertyTitleKey!=null) {
+        if(bean!=null && title==null && propertyTitleKey!=null) {
             try {
                 Object key = PropertyUtils.getProperty(bean,propertyTitleKey);
                 if(key!=null) {
@@ -249,7 +254,7 @@ public class BeanLinkTag extends TagSupport {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
-        if(link!=null) {
+        if(link!=null && link.length()>0) {
             try {
                 out.write("<a href=\""+addContextPath(link)+"\" "+(style!=null?"class=\""+style+"\" ":"")+" "+(target!=null?" target=\""+target+"\"":"")+(onClickMessage!=null?" onClick=\"return confirm('"+onClickMessage+"')\"":"")+(title!=null?" title=\""+title+"\" ":"")+">");
                 return EVAL_BODY_INCLUDE;
