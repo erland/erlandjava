@@ -210,19 +210,28 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         Integer prevStart = getPreviousPage(fb.getStart(), fb.getMax());
         if(prevStart!=null) {
             parameters.put("start",prevStart.toString());
-            pb.setPrevLink(ServletParameterHelper.replaceDynamicParameters(mapping.findForward("previous-link").getPath(),parameters));
+            ActionForward forward = mapping.findForward("previous-link");
+            if(forward!=null) {
+                pb.setPrevLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+            }
         }else {
             pb.setPrevLink(null);
         }
         Integer nextStart = getNextPage(fb.getStart(),fb.getMax(),picturesPB.length);
         if(nextStart!=null) {
             parameters.put("start",nextStart.toString());
-            pb.setNextLink(ServletParameterHelper.replaceDynamicParameters(mapping.findForward("next-link").getPath(),parameters));
+            ActionForward forward = mapping.findForward("next-link");
+            if(forward!=null) {
+                pb.setNextLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+            }
         }else {
             pb.setNextLink(null);
         }
         parameters.put("start","0");
-        pb.setSearchLink(ServletParameterHelper.replaceDynamicParameters(mapping.findForward("search-link").getPath(),parameters));
+        ActionForward forward = mapping.findForward("search-link");
+        if(forward!=null) {
+            pb.setSearchLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+        }
         request.setAttribute("picturesPB", pb);
 
         GalleryPB galleryPB = new GalleryPB();
