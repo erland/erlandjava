@@ -234,6 +234,7 @@
             name="selectChapterFB"
             validate="false">
 
+            <forward name="failure" path=".guest.index"/>
             <forward name="success" path=".guest.viewchapter"/>
         </action>
 
