@@ -109,6 +109,9 @@ public class Application extends BaseEntity implements EntityReadUpdateInterface
                 while(line!=null) {
                     description.append(line);
                     line = reader.readLine();
+                    if(line!=null) {
+                        description.append("\n");
+                    }
                 }
                 setDescription(description.toString());
             } catch (IOException e) {
