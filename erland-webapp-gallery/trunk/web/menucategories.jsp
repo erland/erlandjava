@@ -48,7 +48,7 @@
                 }
             }
             %>
-            <td>
+            <td nowrap>
             <a href="portal?do=<%=command%>&gallery=<%=category.getGallery()%>&category=<%=category.getCategory()%>&indent=<%=(indent+1)%><%=user!=null?"&user="+user:""%>&start=0&max=9" class="<%=linkType%>"><%=category.getName()%></a>
             </td>
             </tr>

@@ -22,7 +22,7 @@ if(cmd instanceof ViewGalleriesInterface) {
             <%
         }
         %>
-        <td colspan="8">
+        <td colspan="8" nowrap>
         <a href="portal?do=<%=command%>&gallery=<%=gallery.getId()%><%=user!=null?"&user="+user:""%>&start=0&max=9" class="bold-link"><%=gallery.getTitle()%></a>
         </td>
         </tr>

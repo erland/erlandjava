@@ -2,7 +2,7 @@ a.bold-link {
 font-family:arial;
 font-size:12px;
 font-weight:bold;
-color:#4477dd;
+color:#397AC0;
 text-decoration:none;
 }
 
@@ -37,7 +37,7 @@ color:#000000;
 
 a:hover.link {
 font-family:arial;
-color:#4477dd;
+color:#397AC0;
 }
 
 p.normal {
@@ -66,6 +66,14 @@ text-decoration:none;
 p.big-title {
 font-family:arial;
 font-size:18px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+font.title {
+font-family:arial;
+font-size:14px;
 font-weight:bold;
 color:#000000;
 text-decoration:none;

@@ -11,8 +11,6 @@
             %>
             <table>
             <tr><td>
-            <p class="title"><%=picture.getTitle()%></p>
-            <p class="normal"><%=picture.getDescription()%></p>
             <a class="bold-link<%=width.equals("640")?"-selected":""%>" href="portal?<%=ServletParameterHelper.replaceParameter((String)request.getAttribute("cmdparameters"),"width","640")%>" title="640 x 480">640</a>
             <a class="bold-link<%=width.equals("800")?"-selected":""%>" href="portal?<%=ServletParameterHelper.replaceParameter((String)request.getAttribute("cmdparameters"),"width","800")%>" title="800 x 600">800</a>
             <a class="bold-link<%=width.equals("1024")?"-selected":""%>" href="portal?<%=ServletParameterHelper.replaceParameter((String)request.getAttribute("cmdparameters"),"width","1024")%>" title="1024 x 768">1024</a>
@@ -28,6 +26,10 @@
                 }
             %>
             <br><img src="portal?do=loadthumbnail&usecache=false&gallery=<%=picture.getGallery()%>&image=<%=picture.getId()%><%=(user!=null?"&user="+user:"")%><%=compression!=null?"&compression="+compression:""%>&width=<%=request.getParameter("width")%>" align="center" border="0"></img>
+            </td></tr>
+            <tr><td>
+            <p class="title"><%=picture.getTitle()%></p>
+            <p class="normal"><%=picture.getDescription()%></p>
             </td></tr>
             <%
             String showMetadata = request.getParameter("showmetadata");

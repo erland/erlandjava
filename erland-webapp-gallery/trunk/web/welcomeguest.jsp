@@ -7,5 +7,4 @@
     template.setUsername(username);
     User user = (User)env.getEntityStorageFactory().getStorage("user").load(template);
 %>
-<p class="title">Välkommen till ett bildarkiv av<br>
-<font class="big-title"><%=user.getFirstName()%> <%=user.getLastName()%></font></p>
+<div class="bold">Välkommen till <font class="title"><%=user.getFirstName()%> <%=user.getLastName()%>'s</font> bildarkiv</div>

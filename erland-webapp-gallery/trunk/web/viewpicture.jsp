@@ -12,7 +12,7 @@
         %>
         <tr><td align="center" colspan="2">
         <a align="center" class="bold-link" href="portal?do=loadimage&gallery=<%=request.getParameter("gallery")%>&image=<%=request.getParameter("image")%><%=(user!=null?"&user="+user:"")%>" target="_blank"><img src="portal?do=loadimage&gallery=<%=request.getParameter("gallery")%>&image=<%=request.getParameter("image")%><%=(user!=null?"&user="+user:"")%>" width="400" align="center" border="0" galleryimg="no"></img><br><div align="center"><%=entry.getTitle()!=null?entry.getTitle():""%></div></a>
-        </td><td halign="left" valign="top">
+        </td><td halign="left" valign="top" nowrap>
         Ladda ned i storlek:
         <br><a halign="left" valign="top" class="bold-link" href="portal?do=loadimage&gallery=<%=request.getParameter("gallery")%>&image=<%=request.getParameter("image")%><%=(user!=null?"&user="+user:"")%>" target="_blank">Original</a>
         <br><a halign="left" valign="top" class="bold-link" href="portal?do=loadthumbnail&width=1280&usecache=false&gallery=<%=request.getParameter("gallery")%>&image=<%=request.getParameter("image")%><%=(user!=null?"&user="+user:"")%>" target="_blank">1280x1024</a>
