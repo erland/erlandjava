@@ -15,6 +15,11 @@
        1.1, 1.2, 2.0-SNAPSHOT -->
   <currentVersion>SNAPSHOT</currentVersion>
   
+  <organization>
+        <name>Erland Isaksson</name>
+        <url>http://erland.homeip.net</url>
+  </organization>
+
   <!-- the year the project started -->
   <inceptionYear>2003</inceptionYear>
   <package>erland.game.tetris</package>
@@ -49,6 +54,7 @@
 	  <properties>
         <jnlp.jar>true</jnlp.jar>
         <dist.bin.bundle>true</dist.bin.bundle>
+        <jar.manifest.classpath>true</jar.manifest.classpath>
       </properties>
     </dependency>
 
@@ -61,6 +67,7 @@
 	  <properties>
         <jnlp.jar>true</jnlp.jar>
         <dist.bin.bundle>true</dist.bin.bundle>
+        <jar.manifest.classpath>true</jar.manifest.classpath>
       </properties>
     </dependency>
   
@@ -73,6 +80,7 @@
 	  <properties>
         <jnlp.jar>true</jnlp.jar>
         <dist.bin.bundle>true</dist.bin.bundle>
+        <jar.manifest.classpath>true</jar.manifest.classpath>
       </properties>
     </dependency>
   </dependencies>
