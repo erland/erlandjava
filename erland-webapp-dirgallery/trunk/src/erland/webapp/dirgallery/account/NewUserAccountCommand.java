@@ -51,23 +51,23 @@ public class NewUserAccountCommand implements CommandInterface, ViewUserAccountI
                 password2 != null && password2.length() > 0) {
 
             if (password1.equals(password2)) {
-                User template = (User) environment.getEntityFactory().create("user");
+                User template = (User) environment.getEntityFactory().create("usermgmt-user");
                 template.setUsername(username);
-                User user = (User) environment.getEntityStorageFactory().getStorage("user").load(template);
+                User user = (User) environment.getEntityStorageFactory().getStorage("usermgmt-user").load(template);
                 if (user == null) {
                     template.setFirstName(firstname);
                     template.setLastName(lastname);
                     template.setPassword(password1);
-                    environment.getEntityStorageFactory().getStorage("user").store(template);
-                    UserApplicationRole templateRole = (UserApplicationRole) environment.getEntityFactory().create("userapplicationrole");
+                    environment.getEntityStorageFactory().getStorage("usermgmt-user").store(template);
+                    UserApplicationRole templateRole = (UserApplicationRole) environment.getEntityFactory().create("usermgmt-userapplicationrole");
                     templateRole.setUsername(username);
                     templateRole.setApplication("dirgallery");
                     templateRole.setRole("user");
-                    environment.getEntityStorageFactory().getStorage("userapplicationrole").store(templateRole);
-                    UserAccount templateAccount = (UserAccount) environment.getEntityFactory().create("dirgalleryuseraccount");
+                    environment.getEntityStorageFactory().getStorage("usermgmt-userapplicationrole").store(templateRole);
+                    UserAccount templateAccount = (UserAccount) environment.getEntityFactory().create("dirgallery-useraccount");
                     templateAccount.setUsername(username);
                     templateAccount.setWelcomeText(welcomeText);
-                    environment.getEntityStorageFactory().getStorage("dirgalleryuseraccount").store(templateAccount);
+                    environment.getEntityStorageFactory().getStorage("dirgallery-useraccount").store(templateAccount);
                     account = templateAccount;
                     return "success";
                 }
@@ -81,9 +81,9 @@ public class NewUserAccountCommand implements CommandInterface, ViewUserAccountI
     }
 
     public User getUser() {
-        User template = (User) environment.getEntityFactory().create("userinfo");
+        User template = (User) environment.getEntityFactory().create("usermgmt-userinfo");
         template.setUsername(account.getUsername());
-        User user = (User) environment.getEntityStorageFactory().getStorage("userinfo").load(template);
+        User user = (User) environment.getEntityStorageFactory().getStorage("usermgmt-userinfo").load(template);
         return user;
     }
 
@@ -91,7 +91,7 @@ public class NewUserAccountCommand implements CommandInterface, ViewUserAccountI
         if (galleries == null) {
             QueryFilter filter = new QueryFilter("allforuser");
             filter.setAttribute("username", account.getUsername());
-            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery").search(filter);
+            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("dirgallery-gallery").search(filter);
             galleries = new GalleryInterface[entities.length];
             for (int i = 0; i < entities.length; i++) {
                 galleries[i] = (GalleryInterface) entities[i];

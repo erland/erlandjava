@@ -46,9 +46,9 @@ public class EditUserAccountCommand implements CommandInterface {
             String copyright = request.getParameter("copyright");
             String description = request.getParameter("description");
             String logo = request.getParameter("logo");
-            Boolean official = ServletParameterHelper.asBoolean(request.getParameter("official"));
-            Integer defaultGallery = ServletParameterHelper.asInteger(request.getParameter("defaultgallery"));
-            UserAccount account = (UserAccount) environment.getEntityFactory().create("dirgalleryuseraccount");
+            Boolean official = ServletParameterHelper.asBoolean(request.getParameter("official"),Boolean.FALSE);
+            Integer defaultGallery = ServletParameterHelper.asInteger(request.getParameter("defaultgallery"),null);
+            UserAccount account = (UserAccount) environment.getEntityFactory().create("dirgallery-useraccount");
             account.setUsername(username);
             account.setWelcomeText(welcomeText);
             account.setDescription(description);
@@ -56,7 +56,7 @@ public class EditUserAccountCommand implements CommandInterface {
             account.setOfficial(official);
             account.setDefaultGallery(defaultGallery);
             account.setCopyrightText(copyright);
-            environment.getEntityStorageFactory().getStorage("dirgalleryuseraccount").store(account);
+            environment.getEntityStorageFactory().getStorage("dirgallery-useraccount").store(account);
         }
         return null;
     }

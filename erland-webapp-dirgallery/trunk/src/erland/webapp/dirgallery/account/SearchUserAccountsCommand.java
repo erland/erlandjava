@@ -36,7 +36,7 @@ public class SearchUserAccountsCommand implements CommandInterface, ViewUserAcco
 
     public String execute(HttpServletRequest request) {
         QueryFilter filter = new QueryFilter(getQueryFilter());
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("dirgalleryuseraccount").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("dirgallery-useraccount").search(filter);
         accounts = new UserAccount[entities.length];
         for (int i = 0; i < entities.length; i++) {
             accounts[i] = (UserAccount) entities[i];
@@ -49,9 +49,9 @@ public class SearchUserAccountsCommand implements CommandInterface, ViewUserAcco
     }
 
     public User getUser(UserAccount account) {
-        User template = (User) environment.getEntityFactory().create("userinfo");
+        User template = (User) environment.getEntityFactory().create("usermgmt-userinfo");
         template.setUsername(account.getUsername());
-        User user = (User) environment.getEntityStorageFactory().getStorage("userinfo").load(template);
+        User user = (User) environment.getEntityStorageFactory().getStorage("usermgmt-userinfo").load(template);
         return user;
     }
 

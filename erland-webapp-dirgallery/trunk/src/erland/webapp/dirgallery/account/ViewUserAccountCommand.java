@@ -48,9 +48,9 @@ public class ViewUserAccountCommand implements CommandInterface, ViewUserAccount
                 }
             }
         }
-        UserAccount template = (UserAccount) environment.getEntityFactory().create("dirgalleryuseraccount");
+        UserAccount template = (UserAccount) environment.getEntityFactory().create("dirgallery-useraccount");
         template.setUsername(username);
-        account = (UserAccount) environment.getEntityStorageFactory().getStorage("dirgalleryuseraccount").load(template);
+        account = (UserAccount) environment.getEntityStorageFactory().getStorage("dirgallery-useraccount").load(template);
         String differentPages = request.getParameter("withdifferentpages");
         if (differentPages != null && differentPages.equals("1")) {
             if (account != null && account.getDefaultGallery().intValue() != 0) {
@@ -68,9 +68,9 @@ public class ViewUserAccountCommand implements CommandInterface, ViewUserAccount
     }
 
     public User getUser() {
-        User template = (User) environment.getEntityFactory().create("userinfo");
+        User template = (User) environment.getEntityFactory().create("usermgmt-userinfo");
         template.setUsername(account.getUsername());
-        User user = (User) environment.getEntityStorageFactory().getStorage("userinfo").load(template);
+        User user = (User) environment.getEntityStorageFactory().getStorage("usermgmt-userinfo").load(template);
         return user;
     }
 
@@ -78,7 +78,7 @@ public class ViewUserAccountCommand implements CommandInterface, ViewUserAccount
         if (galleries == null) {
             QueryFilter filter = new QueryFilter("allforuser");
             filter.setAttribute("username", account.getUsername());
-            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("gallery").search(filter);
+            EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("dirgallery-gallery").search(filter);
             galleries = new GalleryInterface[entities.length];
             for (int i = 0; i < entities.length; i++) {
                 galleries[i] = (GalleryInterface) entities[i];
