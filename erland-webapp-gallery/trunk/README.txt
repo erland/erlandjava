@@ -83,6 +83,8 @@ Data scripts:
 - common_data.sql
   Setup thumbnail cache dir to "D:\users\erland\thumbnails" (You probably want to change this)
   Setup text to show on first page (You might want to change this)
+  Setup the native language code to sv (swedish)
+  Setup the path to the online help
   Setup default path for import file when importing pictures from IMatch (You might want to change this)
   Creates a row for all exif parameters that should be shown when showing picture information
 - users_data.sql
