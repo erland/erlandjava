@@ -4,6 +4,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
+<jsp:include page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <html:form action="/user/editgallery" method="POST">
     <logic:notEmpty name="galleryFB" property="id">
         <html:hidden property="id"/>
@@ -23,6 +24,15 @@
         </html:select>
         </td></tr>
     </logic:notEmpty>
+    <tr><td><bean:message key="gallery.gallery.edit.max-width"/></td><td>
+    <html:text property="maxWidthDisplay"/>
+    </td></tr>
+    <tr><td><bean:message key="gallery.gallery.edit.default-resolution"/></td><td>
+    <html:select property="defaultResolution" size="1">
+        <html:option value="" key="gallery.gallery.edit.default-resolution.none"/>
+        <html:options collection="resolutionsPB" property="id" labelProperty="id" />
+    </html:select>
+    </td></tr>
     <tr><td><bean:message key="gallery.gallery.edit.official"/></td><td>
     <html:checkbox property="official" value="true"/>
     </td></tr>
