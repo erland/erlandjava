@@ -1,0 +1,61 @@
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+
+<!-- Definitions for Tiles documentation   -->
+<tiles-definitions>
+
+    <!-- ========================================================== -->
+    <!-- Master definition                                          -->
+    <!-- ========================================================== -->
+    <!-- Main page layout used as a root for other page definitions -->
+
+    <definition name=".mainLayout" path="/WEB-INF/layouts/classicLayout.jsp">
+        <put name="title" value="Foretagslista"/>
+        <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
+    </definition>
+
+    <definition name=".mainLayoutNoMenu" path="/WEB-INF/layouts/classicLayoutNoMenu.jsp">
+        <put name="title" value="Foretagslistan"/>
+        <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
+    </definition>
+
+    <!-- ========================================================== -->
+    <!-- Index page definition                                      -->
+    <!-- ========================================================== -->
+    <!-- This definition inherits from the main definition.
+	  It overloads the page title and the body used.
+	  Use the same mechanism to define new pages sharing common
+	  properties (here header, menu, footer, layout)
+	-->
+
+    <definition name=".index" extends=".login"/>
+
+    <definition name=".user.index" extends=".mainLayout">
+        <put name="menu" value="/WEB-INF/tiles/common/usermenu.jsp"/>
+    </definition>
+
+    <definition name=".user.editcompany" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/company/editcompany.jsp"/>
+    </definition>
+
+    <definition name=".user.listcompanies" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/company/listeditablecompanies.jsp"/>
+    </definition>
+
+    <definition name=".manager.listcompanies" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/company/listeditablecompanies.jsp"/>
+    </definition>
+
+    <definition name=".listcompanies" extends=".index">
+        <put name="body" value="/WEB-INF/tiles/company/listcompanies.jsp"/>
+    </definition>
+
+    <definition name=".viewcompany" extends=".index">
+        <put name="body" value="/WEB-INF/tiles/company/viewcompany.jsp"/>
+    </definition>
+
+    <definition name=".login" extends=".mainLayoutNoMenu">
+        <put name="body" value="/WEB-INF/tiles/common/login.jsp"/>
+    </definition>
+</tiles-definitions>
