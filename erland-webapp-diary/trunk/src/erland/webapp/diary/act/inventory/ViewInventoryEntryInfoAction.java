@@ -26,9 +26,11 @@ import erland.webapp.common.act.BaseAction;
 import erland.webapp.diary.entity.inventory.InventoryEntry;
 import erland.webapp.diary.entity.inventory.InventoryEntryEvent;
 import erland.webapp.diary.fb.inventory.*;
+import erland.webapp.diary.fb.species.SpeciesPB;
 import erland.webapp.diary.logic.inventory.DescriptionIdHelper;
 import erland.webapp.diary.entity.inventory.DescriptionId;
 import erland.webapp.diary.entity.container.Container;
+import erland.webapp.diary.entity.species.Species;
 import erland.webapp.diary.logic.inventory.DescriptionIdHelper;
 import erland.webapp.diary.logic.appendix.SourceAppendixStringReplace;
 import erland.util.StringUtil;
@@ -54,7 +56,7 @@ public class ViewInventoryEntryInfoAction extends BaseAction {
         InventoryEntry template = (InventoryEntry) getEnvironment().getEntityFactory().create("diary-inventoryentry");
         template.setId(fb.getId());
         InventoryEntry entry = (InventoryEntry) getEnvironment().getEntityStorageFactory().getStorage("diary-inventoryentry").load(template);
-        InventoryEntryFB pb = new InventoryEntryFB();
+        InventoryEntryPB pb = new InventoryEntryPB();
         PropertyUtils.copyProperties(pb,entry);
 
         if(StringUtil.asNull(pb.getLink())!=null) {
@@ -84,9 +86,9 @@ public class ViewInventoryEntryInfoAction extends BaseAction {
         QueryFilter filter = new QueryFilter("allforid");
         filter.setAttribute("id", entry.getId());
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("diary-inventoryentryevent").search(filter);
-        InventoryEntryEventFB[] pbEvents = new InventoryEntryEventFB[entities.length];
+        InventoryEntryEventPB[] pbEvents = new InventoryEntryEventPB[entities.length];
         for (int i = entities.length-1; i >= 0; i--) {
-            pbEvents[i] = new InventoryEntryEventFB();
+            pbEvents[i] = new InventoryEntryEventPB();
             try {
                 PropertyUtils.copyProperties(pbEvents[i],entities[entities.length-1-i]);
             } catch (IllegalAccessException e) {
@@ -122,6 +124,13 @@ public class ViewInventoryEntryInfoAction extends BaseAction {
             }
             pb.setCurrentSizeText(pbEvents[pbEvents.length-1].getSize()+ " cm");
         }
+
+        if(entry.getSpecies()!=null && entry.getSpecies().intValue()!=0) {
+            pb.setSpeciesInfo(getSpecies(request,mapping,username,entry.getSpecies()));
+        }else {
+            pb.setSpeciesInfo(new SpeciesPB());
+        }
+
         forward = mapping.findForward("new-event-link");
         if(forward!=null) {
             pb.setNewEventLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
@@ -132,5 +141,44 @@ public class ViewInventoryEntryInfoAction extends BaseAction {
         }
 
         request.setAttribute("inventoryEntryPB",pb);
+    }
+
+    private SpeciesPB getSpecies(HttpServletRequest request, ActionMapping mapping, String username,Integer id) {
+        Species templateSpecies = (Species) getEnvironment().getEntityFactory().create("diary-species");
+        templateSpecies.setId(id);
+        templateSpecies.setUsername(username);
+        Species species = (Species) getEnvironment().getEntityStorageFactory().getStorage("diary-species").load(templateSpecies);
+        SpeciesPB pb = null;
+        if(species!=null) {
+            pb = new SpeciesPB();
+            try {
+                PropertyUtils.copyProperties(pb,species);
+            } catch (IllegalAccessException e) {
+            } catch (InvocationTargetException e) {
+            } catch (NoSuchMethodException e) {
+            }
+
+            Map parameters = new HashMap();
+            parameters.put("user",username);
+            parameters.put("species",species.getId());
+            parameters.put("gallery",species.getGallery());
+
+            ActionForward forward = mapping.findForward("view-species-gallery-link");
+            if(forward!=null) {
+                pb.setGalleryLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+            }
+            forward = mapping.findForward("view-species-link");
+            if(forward!=null) {
+                pb.setViewLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+            }
+
+            if(StringUtil.asNull(pb.getLink())!=null) {
+                String link = new SourceAppendixStringReplace().replace(pb.getLink());
+                if(!pb.getLink().equals(link)) {
+                    pb.setLinkSource(link);
+                }
+            }
+        }
+        return pb;
     }
 }
