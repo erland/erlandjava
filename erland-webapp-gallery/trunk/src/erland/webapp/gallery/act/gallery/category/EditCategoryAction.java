@@ -46,7 +46,7 @@ public class EditCategoryAction extends BaseAction {
             entity.setName(fb.getName());
             getEnvironment().getEntityStorageFactory().getStorage("gallery-category").store(entity);
         }
-        if (entity != null && (fb.getForcedOfficial().booleanValue() || !entity.getOfficial().equals(fb.getOfficial())) || !entity.getOfficialAlways().equals(fb.getOfficialAlways()) || !entity.getOfficialVisible().equals(fb.getVisible())) {
+        if (entity != null && (fb.getForcedOfficial().booleanValue() || !entity.getOfficial().equals(fb.getOfficial())) || !entity.getOfficialAlways().equals(fb.getOfficialAlways()) || !entity.getOfficialVisible().equals(fb.getOfficialVisible())) {
             QueryFilter filter = new QueryFilter("allforgalleryandcategorytree");
             filter.setAttribute("gallery", gallery);
             filter.setAttribute("category", fb.getCategory());
@@ -61,7 +61,7 @@ public class EditCategoryAction extends BaseAction {
             entity = (Category) getEnvironment().getEntityFactory().create("gallery-category");
             entity.setOfficial(fb.getOfficial());
             entity.setOfficialAlways(fb.getOfficialAlways());
-            entity.setOfficialVisible(fb.getVisible());
+            entity.setOfficialVisible(fb.getOfficialVisible());
             getEnvironment().getEntityStorageFactory().getStorage("gallery-category").update(filter, entity);
 
             filter = new QueryFilter("calculateofficialforgallery");
