@@ -13,7 +13,7 @@
   
   <!-- The version of the project under development, e.g.
        1.1, 1.2, 2.0-SNAPSHOT -->
-  <currentVersion>1.14.2</currentVersion>
+  <currentVersion>1.15</currentVersion>
   
   <!-- the year the project started -->
   <inceptionYear>2003</inceptionYear>
@@ -56,7 +56,7 @@
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-webapp-common</artifactId>
-      <version>1.15</version>
+      <version>1.16</version>
       <type>jar</type>
       <properties>
 	      <war.bundle>true</war.bundle>
