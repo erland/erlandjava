@@ -64,7 +64,7 @@ public class User implements EntityInterface {
     public boolean login(String application) {
         try {
             Log.println(this,"Connecting to user management database");
-            EntityStorageInterface storage = getEnvironment().getEntityStorageFactory().getStorage("user");
+            EntityStorageInterface storage = getEnvironment().getEntityStorageFactory().getStorage("usermgmt-user");
             User user = (User) storage.load(this);
             if(user!=null) {
                 roles = user.getApplicationRoleList(application);
@@ -117,7 +117,7 @@ public class User implements EntityInterface {
     }
 
     private Set getApplicationRoleList(String application) {
-        EntityStorageInterface storage = environment.getEntityStorageFactory().getStorage("userapplicationrole");
+        EntityStorageInterface storage = environment.getEntityStorageFactory().getStorage("usermgmt-userapplicationrole");
         QueryFilter filter = new QueryFilter("allforuserandapplication");
         filter.setAttribute("username",getUsername());
         filter.setAttribute("application",application);

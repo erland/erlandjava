@@ -39,7 +39,7 @@ public class LoginCommand implements CommandInterface, CommandOptionsInterface {
     }
     public String execute(HttpServletRequest req) {
         HttpSession session = req.getSession(true);
-        User user = (User)environment.getEntityFactory().create("user");
+        User user = (User)environment.getEntityFactory().create("usermgmt-user");
         user.setUsername(req.getParameter("name"));
         user.setPassword(req.getParameter("password"));
         Log.println(this,"Trying to login as "+user.getUsername()+","+user.getPassword());
