@@ -20,10 +20,13 @@ package erland.webapp.gallery.act.account;
  */
 
 import erland.webapp.common.act.BaseAction;
+import erland.webapp.common.EntityInterface;
+import erland.webapp.common.QueryFilter;
 import erland.webapp.gallery.entity.account.UserAccount;
 import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.fb.account.AccountFB;
 import erland.webapp.gallery.fb.gallery.GalleryPB;
+import erland.webapp.gallery.fb.skin.SkinFB;
 import erland.webapp.gallery.act.gallery.GalleryHelper;
 import erland.webapp.usermgmt.User;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -51,6 +54,14 @@ public class ViewUserAccountAction extends BaseAction {
             PropertyUtils.copyProperties(pb[i], entities[i]);
         }
         request.getSession().setAttribute("galleriesPB", pb);
+
+        EntityInterface[] skins = getEnvironment().getEntityStorageFactory().getStorage("gallery-skin").search(new QueryFilter("all"));
+        SkinFB[] pbSkins = new SkinFB[skins.length];
+        for (int i = 0; i < pbSkins.length; i++) {
+            pbSkins[i] = new SkinFB();
+            PropertyUtils.copyProperties(pbSkins[i], skins[i]);
+        }
+        request.getSession().setAttribute("skinsPB",pbSkins);
     }
 
     protected String getUsername(HttpServletRequest request, AccountFB fb) {
