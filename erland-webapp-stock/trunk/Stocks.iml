@@ -18,6 +18,8 @@
     <orderEntry type="library" name="Erland Diagram" level="application" />
     <orderEntry type="library" name="Erland UserMgmt" level="application" />
     <orderEntry type="library" name="j2ee 1.3.1" level="application" />
+    <orderEntry type="library" name="Erland util" level="application" />
+    <orderEntry type="library" name="Erland WebCommon" level="application" />
   </component>
   <component name="ModuleRootManager">
     <jdk name="java version &quot;1.4.1&quot;" />
