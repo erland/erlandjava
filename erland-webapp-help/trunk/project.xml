@@ -31,6 +31,7 @@
     A web application for making dynamic online help
   </shortDescription>
 
+  <siteDirectory>\\xp2500\erland/public_html/java/erland-webapp-help</siteDirectory>
   <!-- any mailing lists for the project -->
   <mailingLists/>
   
