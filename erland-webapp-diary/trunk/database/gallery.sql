@@ -1,11 +1,11 @@
--- MySQL dump 9.08
+-- MySQL dump 9.09
 --
 -- Host: localhost    Database: gallery
 ---------------------------------------------------------
--- Server version	4.0.13-max-nt
+-- Server version	4.0.15-max-debug
 
 --
--- Table structure for table 'categories'
+-- Table structure for table `categories`
 --
 
 CREATE TABLE categories (
@@ -20,7 +20,7 @@ CREATE TABLE categories (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'categorymembers'
+-- Table structure for table `categorymembers`
 --
 
 CREATE TABLE categorymembers (
@@ -31,18 +31,7 @@ CREATE TABLE categorymembers (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'descriptiontags'
---
-
-CREATE TABLE descriptiontags (
-  type varchar(100) NOT NULL default '',
-  tag varchar(100) NOT NULL default '',
-  description varchar(100) NOT NULL default '',
-  PRIMARY KEY  (type,tag)
-) TYPE=MyISAM;
-
---
--- Table structure for table 'galleries'
+-- Table structure for table `galleries`
 --
 
 CREATE TABLE galleries (
@@ -53,11 +42,13 @@ CREATE TABLE galleries (
   topcategory int(11) NOT NULL default '0',
   referencedgallery int(11) NOT NULL default '0',
   official tinyint(1) NOT NULL default '0',
+  defaultresolution varchar(100) default NULL,
+  maxwidth int(11) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'gallerycategories'
+-- Table structure for table `gallerycategories`
 --
 
 CREATE TABLE gallerycategories (
@@ -67,7 +58,7 @@ CREATE TABLE gallerycategories (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'picturecategories'
+-- Table structure for table `picturecategories`
 --
 
 CREATE TABLE picturecategories (
@@ -78,7 +69,7 @@ CREATE TABLE picturecategories (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'pictures'
+-- Table structure for table `pictures`
 --
 
 CREATE TABLE pictures (
@@ -94,7 +85,7 @@ CREATE TABLE pictures (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'picturestorages'
+-- Table structure for table `picturestorages`
 --
 
 CREATE TABLE picturestorages (
@@ -106,17 +97,18 @@ CREATE TABLE picturestorages (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'resources'
+-- Table structure for table `resolutions`
 --
 
-CREATE TABLE resources (
+CREATE TABLE resolutions (
   id varchar(100) NOT NULL default '',
-  value varchar(255) NOT NULL default '',
+  description varchar(100) NOT NULL default '',
+  width int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'useraccounts'
+-- Table structure for table `useraccounts`
 --
 
 CREATE TABLE useraccounts (
@@ -131,7 +123,7 @@ CREATE TABLE useraccounts (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'userguests'
+-- Table structure for table `userguests`
 --
 
 CREATE TABLE userguests (
