@@ -6,4 +6,6 @@ You can register your own gallery by clicking <a class="bold-link" href="portal?
 <jsp:include page="viewuseraccountsguest.jsp">
     <jsp:param name="viewusercmd" value="home" />
 </jsp:include>
-<jsp:include page="loginform.jsp"/>
+<jsp:include page="loginform.jsp">
+    <jsp:param name="logincmd" value="login"/>
+</jsp:include>
