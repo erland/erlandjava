@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import erland.webapp.common.fb.BaseFB;
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.gallery.fb.account.SelectUserFB;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -48,11 +49,11 @@ public class SelectGalleryFB extends SelectUserFB {
     }
 
     public String getGalleryDisplay() {
-        return ServletParameterHelper.asString(gallery,null);
+        return StringUtil.asString(gallery,null);
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        this.gallery = ServletParameterHelper.asInteger(galleryDisplay,null);
+        this.gallery = StringUtil.asInteger(galleryDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest servletRequest) {

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import erland.webapp.common.fb.BaseFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -61,11 +62,11 @@ public class CategoryFB extends BaseFB {
     }
 
     public String getOfficialAlwaysDisplay() {
-        return ServletParameterHelper.asString(officialAlways,null);
+        return StringUtil.asString(officialAlways,null);
     }
 
     public void setOfficialAlwaysDisplay(String officialAlwaysDisplay) {
-        this.officialAlways = ServletParameterHelper.asBoolean(officialAlwaysDisplay,Boolean.FALSE);
+        this.officialAlways = StringUtil.asBoolean(officialAlwaysDisplay,Boolean.FALSE);
     }
 
     public Boolean getOfficialGuest() {
@@ -77,11 +78,11 @@ public class CategoryFB extends BaseFB {
     }
 
     public String getOfficialGuestDisplay() {
-        return ServletParameterHelper.asString(officialGuest,null);
+        return StringUtil.asString(officialGuest,null);
     }
 
     public void setOfficialGuestDisplay(String officialGuestDisplay) {
-        this.officialGuest = ServletParameterHelper.asBoolean(officialGuestDisplay,Boolean.FALSE);
+        this.officialGuest = StringUtil.asBoolean(officialGuestDisplay,Boolean.FALSE);
     }
 
     public Boolean getOfficialVisible() {
@@ -93,11 +94,11 @@ public class CategoryFB extends BaseFB {
     }
 
     public String getOfficialVisibleDisplay() {
-        return ServletParameterHelper.asString(officialVisible,null);
+        return StringUtil.asString(officialVisible,null);
     }
 
     public void setOfficialVisibleDisplay(String officialVisibleDisplay) {
-        this.officialVisible = ServletParameterHelper.asBoolean(officialVisibleDisplay,Boolean.FALSE);
+        this.officialVisible = StringUtil.asBoolean(officialVisibleDisplay,Boolean.FALSE);
     }
 
     public Integer getCategory() {
@@ -109,11 +110,11 @@ public class CategoryFB extends BaseFB {
     }
 
     public String getCategoryDisplay() {
-        return ServletParameterHelper.asString(category,null);
+        return StringUtil.asString(category,null);
     }
 
     public void setCategoryDisplay(String categoryDisplay) {
-        this.category = ServletParameterHelper.asInteger(categoryDisplay,null);
+        this.category = StringUtil.asInteger(categoryDisplay,null);
     }
 
     public Integer getGallery() {
@@ -125,11 +126,11 @@ public class CategoryFB extends BaseFB {
     }
 
     public String getGalleryDisplay() {
-        return ServletParameterHelper.asString(gallery,null);
+        return StringUtil.asString(gallery,null);
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        this.gallery = ServletParameterHelper.asInteger(galleryDisplay,null);
+        this.gallery = StringUtil.asInteger(galleryDisplay,null);
     }
 
     public String getName() {

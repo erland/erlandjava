@@ -5,6 +5,7 @@ import org.apache.struts.action.ActionMapping;
 import javax.servlet.http.HttpServletRequest;
 
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -40,11 +41,11 @@ public class ThumbnailImageFB extends ImageFB {
     }
 
     public String getUseCacheDisplay() {
-        return ServletParameterHelper.asString(useCache,null);
+        return StringUtil.asString(useCache,null);
     }
 
     public void setUseCacheDisplay(String useCacheDisplay) {
-        this.useCache = ServletParameterHelper.asBoolean(useCacheDisplay,Boolean.TRUE);
+        this.useCache = StringUtil.asBoolean(useCacheDisplay,Boolean.TRUE);
     }
 
     public Float getCompression() {
@@ -56,11 +57,11 @@ public class ThumbnailImageFB extends ImageFB {
     }
 
     public String getCompressionDisplay() {
-        return ServletParameterHelper.asString(compression,null);
+        return StringUtil.asString(compression,null);
     }
 
     public void setCompressionDisplay(String compressionDisplay) {
-        this.compression = ServletParameterHelper.asFloat(compressionDisplay,null);
+        this.compression = StringUtil.asFloat(compressionDisplay,null);
     }
 
     public Integer getWidth() {
@@ -72,11 +73,11 @@ public class ThumbnailImageFB extends ImageFB {
     }
 
     public String getWidthDisplay() {
-        return ServletParameterHelper.asString(width,null);
+        return StringUtil.asString(width,null);
     }
 
     public void setWidthDisplay(String widthDisplay) {
-        this.width = ServletParameterHelper.asInteger(widthDisplay,null);
+        this.width = StringUtil.asInteger(widthDisplay,null);
     }
 
     public Integer getHeight() {
@@ -88,11 +89,11 @@ public class ThumbnailImageFB extends ImageFB {
     }
 
     public String getHeightDisplay() {
-        return ServletParameterHelper.asString(height,null);
+        return StringUtil.asString(height,null);
     }
 
     public void setHeightDisplay(String heightDisplay) {
-        this.height = ServletParameterHelper.asInteger(heightDisplay,null);
+        this.height = StringUtil.asInteger(heightDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

@@ -3,6 +3,7 @@ package erland.webapp.gallery.fb.gallery;
 import erland.webapp.gallery.fb.gallery.category.CategoryPB;
 import erland.webapp.common.fb.BasePB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -36,11 +37,11 @@ public class GalleryPB extends GalleryFB {
     }
 
     public String getVirtualDisplay() {
-        return ServletParameterHelper.asString(virtual,null);
+        return StringUtil.asString(virtual,null);
     }
 
     public void setVirtualDisplay(String virtualDisplay) {
-        this.virtual = ServletParameterHelper.asBoolean(virtualDisplay,Boolean.FALSE);
+        this.virtual = StringUtil.asBoolean(virtualDisplay,Boolean.FALSE);
     }
 
     public Integer getNoOfThumnailInfoRows() {
@@ -52,10 +53,10 @@ public class GalleryPB extends GalleryFB {
     }
 
     public String getNoOfThumnailInfoRowsDisplay() {
-        return ServletParameterHelper.asString(noOfThumnailInfoRows,null);
+        return StringUtil.asString(noOfThumnailInfoRows,null);
     }
 
     public void setNoOfThumnailInfoRowsDisplay(String noOfThumnailInfoRowsDisplay) {
-        this.noOfThumnailInfoRows = ServletParameterHelper.asInteger(noOfThumnailInfoRowsDisplay,null);
+        this.noOfThumnailInfoRows = StringUtil.asInteger(noOfThumnailInfoRowsDisplay,null);
     }
 }

@@ -2,6 +2,7 @@ package erland.webapp.gallery.fb.tasks;
 
 import erland.webapp.common.fb.BaseFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,11 +40,11 @@ public class TasksFB extends BaseFB {
     }
 
     public String getImportPicturesDisplay() {
-        return ServletParameterHelper.asString(importPictures,null);
+        return StringUtil.asString(importPictures,null);
     }
 
     public void setImportPicturesDisplay(String importPicturesDisplay) {
-        this.importPictures = ServletParameterHelper.asBoolean(importPicturesDisplay,Boolean.FALSE);
+        this.importPictures = StringUtil.asBoolean(importPicturesDisplay,Boolean.FALSE);
     }
 
     public Boolean getExternalImportPictures() {
@@ -55,11 +56,11 @@ public class TasksFB extends BaseFB {
     }
 
     public String getExternalImportPicturesDisplay() {
-        return ServletParameterHelper.asString(externalImportPictures,null);
+        return StringUtil.asString(externalImportPictures,null);
     }
 
     public void setExternalImportPicturesDisplay(String externalImportPicturesDisplay) {
-        this.externalImportPictures = ServletParameterHelper.asBoolean(externalImportPicturesDisplay,Boolean.FALSE);
+        this.externalImportPictures = StringUtil.asBoolean(externalImportPicturesDisplay,Boolean.FALSE);
     }
 
     public Boolean getThumbnailGeneration() {
@@ -71,11 +72,11 @@ public class TasksFB extends BaseFB {
     }
 
     public String getThumbnailGenerationDisplay() {
-        return ServletParameterHelper.asString(thumbnailGeneration,null);
+        return StringUtil.asString(thumbnailGeneration,null);
     }
 
     public void setThumbnailGenerationDisplay(String thumbnailGenerationDisplay) {
-        this.thumbnailGeneration = ServletParameterHelper.asBoolean(thumbnailGenerationDisplay,Boolean.FALSE);
+        this.thumbnailGeneration = StringUtil.asBoolean(thumbnailGenerationDisplay,Boolean.FALSE);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

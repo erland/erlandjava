@@ -2,6 +2,7 @@ package erland.webapp.gallery.fb.gallery;
 
 import erland.webapp.common.fb.BaseFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -47,11 +48,11 @@ public class MenuItemPB extends BaseFB {
     }
 
     public String getIdDisplay() {
-        return ServletParameterHelper.asString(id,"");
+        return StringUtil.asString(id,"");
     }
 
     public void setIdDisplay(String idDisplay) {
-        this.id = ServletParameterHelper.asInteger(idDisplay,null);
+        this.id = StringUtil.asInteger(idDisplay,null);
     }
 
     public String getName() {

@@ -2,6 +2,7 @@ package erland.webapp.gallery.fb.gallery.category;
 
 import erland.webapp.common.fb.BasePB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -37,11 +38,11 @@ public class CategoryPB extends BasePB {
     }
 
     public String getCategoryDisplay() {
-        return ServletParameterHelper.asString(category,null);
+        return StringUtil.asString(category,null);
     }
 
     public void setCategoryDisplay(String categoryDisplay) {
-        this.category = ServletParameterHelper.asInteger(categoryDisplay,null);
+        this.category = StringUtil.asInteger(categoryDisplay,null);
     }
 
     public Integer getGallery() {
@@ -53,11 +54,11 @@ public class CategoryPB extends BasePB {
     }
 
     public String getGalleryDisplay() {
-        return ServletParameterHelper.asString(gallery,null);
+        return StringUtil.asString(gallery,null);
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        ServletParameterHelper.asInteger(galleryDisplay,null);
+        this.gallery = StringUtil.asInteger(galleryDisplay,null);
     }
 
     public String getName() {

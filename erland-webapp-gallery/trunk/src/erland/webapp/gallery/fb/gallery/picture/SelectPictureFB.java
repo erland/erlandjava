@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import erland.webapp.gallery.fb.gallery.category.SelectCategoryFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -40,11 +41,11 @@ public class SelectPictureFB extends SelectCategoryFB {
     }
 
     public String getIdDisplay() {
-        return ServletParameterHelper.asString(id,null);
+        return StringUtil.asString(id,null);
     }
 
     public void setIdDisplay(String idDisplay) {
-        this.id = ServletParameterHelper.asInteger(idDisplay,null);
+        this.id = StringUtil.asInteger(idDisplay,null);
     }
 
     public Integer getStart() {
@@ -56,11 +57,11 @@ public class SelectPictureFB extends SelectCategoryFB {
     }
 
     public String getStartDisplay() {
-        return ServletParameterHelper.asString(start,null);
+        return StringUtil.asString(start,null);
     }
 
     public void setStartDisplay(String startDisplay) {
-        this.start=ServletParameterHelper.asInteger(startDisplay,null);
+        this.start=StringUtil.asInteger(startDisplay,null);
     }
 
     public Integer getMax() {
@@ -72,11 +73,11 @@ public class SelectPictureFB extends SelectCategoryFB {
     }
 
     public String getMaxDisplay() {
-        return ServletParameterHelper.asString(max,null);
+        return StringUtil.asString(max,null);
     }
 
     public void setMaxDisplay(String maxDisplay) {
-        this.max = ServletParameterHelper.asInteger(maxDisplay,null);
+        this.max = StringUtil.asInteger(maxDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

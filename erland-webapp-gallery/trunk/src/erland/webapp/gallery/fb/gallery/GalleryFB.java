@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import erland.webapp.common.fb.BaseFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -75,11 +76,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getIdDisplay() {
-        return ServletParameterHelper.asString(id,null);
+        return StringUtil.asString(id,null);
     }
 
     public void setIdDisplay(String idDisplay) {
-        this.id = ServletParameterHelper.asInteger(idDisplay,null);
+        this.id = StringUtil.asInteger(idDisplay,null);
     }
 
     public String getTitle() {
@@ -123,11 +124,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getOfficialDisplay() {
-        return ServletParameterHelper.asString(official,null);
+        return StringUtil.asString(official,null);
     }
 
     public void setOfficialDisplay(String officialDisplay) {
-        this.official = ServletParameterHelper.asBoolean(officialDisplay,Boolean.FALSE);
+        this.official = StringUtil.asBoolean(officialDisplay,Boolean.FALSE);
     }
 
     public Integer getTopCategory() {
@@ -139,11 +140,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getTopCategoryDisplay() {
-        return ServletParameterHelper.asString(topCategory,null);
+        return StringUtil.asString(topCategory,null);
     }
 
     public void setTopCategoryDisplay(String topCategoryDisplay) {
-        this.topCategory = ServletParameterHelper.asInteger(topCategoryDisplay,null);
+        this.topCategory = StringUtil.asInteger(topCategoryDisplay,null);
     }
 
     public Integer getReferencedGallery() {
@@ -155,11 +156,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getReferencedGalleryDisplay() {
-        return ServletParameterHelper.asString(referencedGallery,null);
+        return StringUtil.asString(referencedGallery,null);
     }
 
     public void setReferencedGalleryDisplay(String referencedGalleryDisplay) {
-        this.referencedGallery = ServletParameterHelper.asInteger(referencedGalleryDisplay,null);
+        this.referencedGallery = StringUtil.asInteger(referencedGalleryDisplay,null);
     }
 
     public Integer getMaxWidth() {
@@ -171,11 +172,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getMaxWidthDisplay() {
-        return ServletParameterHelper.asString(maxWidth,null);
+        return StringUtil.asString(maxWidth,null);
     }
 
     public void setMaxWidthDisplay(String maxWidthDisplay) {
-        this.maxWidth = ServletParameterHelper.asInteger(maxWidthDisplay,null);
+        this.maxWidth = StringUtil.asInteger(maxWidthDisplay,null);
     }
 
     public String getDefaultResolution() {
@@ -198,7 +199,7 @@ public class GalleryFB extends BaseFB {
         if(categories!=null) {
             String[] result = new String[categories.length];
             for (int i = 0; i < categories.length; i++) {
-                result[i] = ServletParameterHelper.asString(categories[i],null);
+                result[i] = StringUtil.asString(categories[i],null);
             }
             return result;
         }else {
@@ -209,7 +210,7 @@ public class GalleryFB extends BaseFB {
         if(categoriesDisplay!=null) {
             this.categories = new Integer[categoriesDisplay.length];
             for (int i = 0; i < categoriesDisplay.length; i++) {
-                this.categories[i] = ServletParameterHelper.asInteger(categoriesDisplay[i],null);
+                this.categories[i] = StringUtil.asInteger(categoriesDisplay[i],null);
             }
         }else {
             this.categories = null;
@@ -225,11 +226,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getThumbnailCompressionDisplay() {
-        return ServletParameterHelper.asString(thumbnailCompression,null);
+        return StringUtil.asString(thumbnailCompression,null);
     }
 
     public void setThumbnailCompressionDisplay(String thumbnailCompressionDisplay) {
-        this.thumbnailCompression = ServletParameterHelper.asFloat(thumbnailCompressionDisplay,null);
+        this.thumbnailCompression = StringUtil.asFloat(thumbnailCompressionDisplay,null);
     }
 
     public Float getCompression() {
@@ -241,11 +242,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getCompressionDisplay() {
-        return ServletParameterHelper.asString(compression,null);
+        return StringUtil.asString(compression,null);
     }
 
     public void setCompressionDisplay(String compressionDisplay) {
-        this.compression = ServletParameterHelper.asFloat(compressionDisplay,null);
+        this.compression = StringUtil.asFloat(compressionDisplay,null);
     }
 
     public Integer getOfficialCategory() {
@@ -257,11 +258,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getOfficialCategoryDisplay() {
-        return ServletParameterHelper.asString(officialCategory,null);
+        return StringUtil.asString(officialCategory,null);
     }
 
     public void setOfficialCategoryDisplay(String officialCategoryDisplay) {
-        this.officialCategory = ServletParameterHelper.asInteger(officialCategoryDisplay,null);
+        this.officialCategory = StringUtil.asInteger(officialCategoryDisplay,null);
     }
 
     public Integer getOfficialGuestCategory() {
@@ -273,11 +274,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getOfficialGuestCategoryDisplay() {
-        return ServletParameterHelper.asString(officialGuestCategory,null);
+        return StringUtil.asString(officialGuestCategory,null);
     }
 
     public void setOfficialGuestCategoryDisplay(String officialGuestCategoryDisplay) {
-        this.officialGuestCategory = ServletParameterHelper.asInteger(officialGuestCategoryDisplay,null);
+        this.officialGuestCategory = StringUtil.asInteger(officialGuestCategoryDisplay,null);
     }
 
     public String getSkin() {
@@ -297,11 +298,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getAntialiasDisplay() {
-        return ServletParameterHelper.asString(antialias,null);
+        return StringUtil.asString(antialias,null);
     }
 
     public void setAntialiasDisplay(String antialiasDisplay) {
-        this.antialias = ServletParameterHelper.asBoolean(antialiasDisplay,Boolean.FALSE);
+        this.antialias = StringUtil.asBoolean(antialiasDisplay,Boolean.FALSE);
     }
 
     public Boolean getThumbnailAntialias() {
@@ -313,11 +314,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getThumbnailAntialiasDisplay() {
-        return ServletParameterHelper.asString(thumbnailAntialias,null);
+        return StringUtil.asString(thumbnailAntialias,null);
     }
 
     public void setThumbnailAntialiasDisplay(String thumbnailAntialiasDisplay) {
-        this.thumbnailAntialias = ServletParameterHelper.asBoolean(thumbnailAntialiasDisplay,Boolean.FALSE);
+        this.thumbnailAntialias = StringUtil.asBoolean(thumbnailAntialiasDisplay,Boolean.FALSE);
     }
 
     public String getStylesheet() {
@@ -337,11 +338,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getThumbnailWidthDisplay() {
-        return ServletParameterHelper.asString(thumbnailWidth,null);
+        return StringUtil.asString(thumbnailWidth,null);
     }
 
     public void setThumbnailWidthDisplay(String thumbnailWidthDisplay) {
-        this.thumbnailWidth = ServletParameterHelper.asInteger(thumbnailWidthDisplay,null);
+        this.thumbnailWidth = StringUtil.asInteger(thumbnailWidthDisplay,null);
     }
 
     public String getSortOrder() {
@@ -361,11 +362,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getNoOfRowsDisplay() {
-        return ServletParameterHelper.asString(noOfRows,null);
+        return StringUtil.asString(noOfRows,null);
     }
 
     public void setNoOfRowsDisplay(String noOfRowsDisplay) {
-        this.noOfRows = ServletParameterHelper.asInteger(noOfRowsDisplay,null);
+        this.noOfRows = StringUtil.asInteger(noOfRowsDisplay,null);
     }
 
     public Integer getNoOfCols() {
@@ -377,11 +378,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getNoOfColsDisplay() {
-        return ServletParameterHelper.asString(noOfCols,null);
+        return StringUtil.asString(noOfCols,null);
     }
 
     public void setNoOfColsDisplay(String noOfColsDisplay) {
-        this.noOfCols = ServletParameterHelper.asInteger(noOfColsDisplay,null);
+        this.noOfCols = StringUtil.asInteger(noOfColsDisplay,null);
     }
 
     public Boolean getAllowSearch() {
@@ -393,11 +394,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getAllowSearchDisplay() {
-        return ServletParameterHelper.asString(allowSearch,null);
+        return StringUtil.asString(allowSearch,null);
     }
 
     public void setAllowSearchDisplay(String allowSearchDisplay) {
-        this.allowSearch = ServletParameterHelper.asBoolean(allowSearchDisplay,Boolean.FALSE);
+        this.allowSearch = StringUtil.asBoolean(allowSearchDisplay,Boolean.FALSE);
     }
 
     public Boolean getCutLongPictureTitles() {
@@ -409,11 +410,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getCutLongPictureTitlesDisplay() {
-        return ServletParameterHelper.asString(cutLongPictureTitles,null);
+        return StringUtil.asString(cutLongPictureTitles,null);
     }
 
     public void setCutLongPictureTitlesDisplay(String cutLongPictureTitlesDisplay) {
-        this.cutLongPictureTitles = ServletParameterHelper.asBoolean(cutLongPictureTitlesDisplay,Boolean.FALSE);
+        this.cutLongPictureTitles = StringUtil.asBoolean(cutLongPictureTitlesDisplay,Boolean.FALSE);
     }
 
     public Boolean getUseShortPictureNames() {
@@ -425,11 +426,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getUseShortPictureNamesDisplay() {
-        return ServletParameterHelper.asString(useShortPictureNames,null);
+        return StringUtil.asString(useShortPictureNames,null);
     }
 
     public void setUseShortPictureNamesDisplay(String useShortPictureNamesDisplay) {
-        this.useShortPictureNames = ServletParameterHelper.asBoolean(useShortPictureNamesDisplay,Boolean.FALSE);
+        this.useShortPictureNames = StringUtil.asBoolean(useShortPictureNamesDisplay,Boolean.FALSE);
     }
 
     public Boolean getShowPictureTitle() {
@@ -441,11 +442,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getShowPictureTitleDisplay() {
-        return ServletParameterHelper.asString(showPictureTitle,null);
+        return StringUtil.asString(showPictureTitle,null);
     }
 
     public void setShowPictureTitleDisplay(String showPictureTitleDisplay) {
-        this.showPictureTitle = ServletParameterHelper.asBoolean(showPictureTitleDisplay,Boolean.FALSE);
+        this.showPictureTitle = StringUtil.asBoolean(showPictureTitleDisplay,Boolean.FALSE);
     }
 
     public Boolean getShowResolutionLinks() {
@@ -457,11 +458,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getShowResolutionLinksDisplay() {
-        return ServletParameterHelper.asString(showResolutionLinks,null);
+        return StringUtil.asString(showResolutionLinks,null);
     }
 
     public void setShowResolutionLinksDisplay(String showResolutionLinksDisplay) {
-        this.showResolutionLinks = ServletParameterHelper.asBoolean(showResolutionLinksDisplay,Boolean.FALSE);
+        this.showResolutionLinks = StringUtil.asBoolean(showResolutionLinksDisplay,Boolean.FALSE);
     }
 
     public Boolean getForcePictureUpdate() {
@@ -473,11 +474,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getForcePictureUpdateDisplay() {
-        return ServletParameterHelper.asString(forcePictureUpdate,null);
+        return StringUtil.asString(forcePictureUpdate,null);
     }
 
     public void setForcePictureUpdateDisplay(String forcePictureUpdateDisplay) {
-        this.forcePictureUpdate = ServletParameterHelper.asBoolean(forcePictureUpdateDisplay,Boolean.FALSE);
+        this.forcePictureUpdate = StringUtil.asBoolean(forcePictureUpdateDisplay,Boolean.FALSE);
     }
 
     public Integer getThumbnailHeight() {
@@ -489,11 +490,11 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getThumbnailHeightDisplay() {
-        return ServletParameterHelper.asString(thumbnailHeight,null);
+        return StringUtil.asString(thumbnailHeight,null);
     }
 
     public void setThumbnailHeightDisplay(String thumbnailHeightDisplay) {
-        this.thumbnailHeight = ServletParameterHelper.asInteger(thumbnailHeightDisplay,null);
+        this.thumbnailHeight = StringUtil.asInteger(thumbnailHeightDisplay,null);
     }
 
     public String getThumbnailPictureTitle() {
@@ -561,19 +562,19 @@ public class GalleryFB extends BaseFB {
     }
 
     public String getUseExifThumbnailsDisplay() {
-        return ServletParameterHelper.asString(useExifThumbnails,null);
+        return StringUtil.asString(useExifThumbnails,null);
     }
 
     public void setUseExifThumbnailsDisplay(String useExifThumbnailsDisplay) {
-        this.useExifThumbnails = ServletParameterHelper.asBoolean(useExifThumbnailsDisplay,Boolean.FALSE);
+        this.useExifThumbnails = StringUtil.asBoolean(useExifThumbnailsDisplay,Boolean.FALSE);
     }
 
     public String getScaleExifThumbnailsDisplay() {
-        return ServletParameterHelper.asString(scaleExifThumbnails,null);
+        return StringUtil.asString(scaleExifThumbnails,null);
     }
 
     public void setScaleExifThumbnailsDisplay(String scaleExifThumbnailsDisplay) {
-        this.scaleExifThumbnails = ServletParameterHelper.asBoolean(scaleExifThumbnailsDisplay,Boolean.FALSE);
+        this.scaleExifThumbnails = StringUtil.asBoolean(scaleExifThumbnailsDisplay,Boolean.FALSE);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

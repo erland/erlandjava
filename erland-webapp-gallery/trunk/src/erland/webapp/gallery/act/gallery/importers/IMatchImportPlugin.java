@@ -9,6 +9,7 @@ import java.io.*;
 import java.util.*;
 
 import erland.util.Log;
+import erland.util.StringUtil;
 import erland.webapp.common.act.BaseTaskPlugin;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
 import erland.webapp.common.ServletParameterHelper;
@@ -46,7 +47,7 @@ public class IMatchImportPlugin extends BaseTaskPlugin{
     }
     public boolean isActive() {
         String active = WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("backgroundimport");
-        return ServletParameterHelper.asBoolean(active,Boolean.FALSE).booleanValue();
+        return StringUtil.asBoolean(active,Boolean.FALSE).booleanValue();
     }
     public Gallery[] getActiveImportPictureTasks() {
         Object[] tasks = getActiveTasks();

@@ -1,6 +1,7 @@
 package erland.webapp.gallery.fb.gallery;
 
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -33,10 +34,10 @@ public class CategoryMenuItemPB extends GalleryMenuItemPB {
     }
 
     public String getCategoryDisplay() {
-        return ServletParameterHelper.asString(category,null);
+        return StringUtil.asString(category,null);
     }
 
     public void setCategoryDisplay(String categoryDisplay) {
-        this.category = ServletParameterHelper.asInteger(categoryDisplay,null);
+        this.category = StringUtil.asInteger(categoryDisplay,null);
     }
 }

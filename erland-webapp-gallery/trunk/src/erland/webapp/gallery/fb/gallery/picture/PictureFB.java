@@ -7,6 +7,7 @@ import java.util.Date;
 
 import erland.webapp.common.fb.BaseFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -51,11 +52,11 @@ public class PictureFB extends BaseFB {
     }
 
     public String getGalleryDisplay() {
-        return ServletParameterHelper.asString(gallery,null);
+        return StringUtil.asString(gallery,null);
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        this.gallery = ServletParameterHelper.asInteger(galleryDisplay,null);
+        this.gallery = StringUtil.asInteger(galleryDisplay,null);
     }
 
     public Integer getId() {
@@ -67,11 +68,11 @@ public class PictureFB extends BaseFB {
     }
 
     public String getIdDisplay() {
-        return ServletParameterHelper.asString(id,null);
+        return StringUtil.asString(id,null);
     }
 
     public void setIdDisplay(String idDisplay) {
-        this.id = ServletParameterHelper.asInteger(idDisplay,null);
+        this.id = StringUtil.asInteger(idDisplay,null);
     }
 
     public String getTitle() {
@@ -139,11 +140,11 @@ public class PictureFB extends BaseFB {
     }
 
     public String getOfficialDisplay() {
-        return ServletParameterHelper.asString(official,null);
+        return StringUtil.asString(official,null);
     }
 
     public void setOfficialDisplay(String officialDisplay) {
-        this.official = ServletParameterHelper.asBoolean(officialDisplay,Boolean.FALSE);
+        this.official = StringUtil.asBoolean(officialDisplay,Boolean.FALSE);
     }
 
     public Boolean getOfficialGuest() {
@@ -155,11 +156,11 @@ public class PictureFB extends BaseFB {
     }
 
     public String getOfficialGuestDisplay() {
-        return ServletParameterHelper.asString(officialGuest,null);
+        return StringUtil.asString(officialGuest,null);
     }
 
     public void setOfficialGuestDisplay(String officialGuestDisplay) {
-        this.officialGuest = ServletParameterHelper.asBoolean(officialGuestDisplay,Boolean.FALSE);
+        this.officialGuest = StringUtil.asBoolean(officialGuestDisplay,Boolean.FALSE);
     }
 
     public Date getDate() {
@@ -171,11 +172,11 @@ public class PictureFB extends BaseFB {
     }
 
     public String getDateDisplay() {
-        return ServletParameterHelper.asString(date,null);
+        return StringUtil.asString(date,null);
     }
 
     public void setDateDisplay(String dateDisplay) {
-        this.date = ServletParameterHelper.asDate(dateDisplay,null);
+        this.date = StringUtil.asDate(dateDisplay,null);
     }
 
     public Long getOrderNo() {
@@ -187,11 +188,11 @@ public class PictureFB extends BaseFB {
     }
 
     public String getOrderNoDisplay() {
-        return ServletParameterHelper.asString(orderNo,null);
+        return StringUtil.asString(orderNo,null);
     }
 
     public void setOrderNoDisplay(String orderNoDisplay) {
-        this.orderNo = ServletParameterHelper.asLong(orderNoDisplay,null);
+        this.orderNo = StringUtil.asLong(orderNoDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 
 /*
@@ -47,11 +48,11 @@ public class SearchPictureFB extends SelectPictureFB {
     }
 
     public String getAllCategoriesDisplay() {
-        return ServletParameterHelper.asString(allCategories,null);
+        return StringUtil.asString(allCategories,null);
     }
 
     public void setAllCategoriesDisplay(String allCategoriesDisplay) {
-        this.allCategories = ServletParameterHelper.asBoolean(allCategoriesDisplay,Boolean.FALSE);
+        this.allCategories = StringUtil.asBoolean(allCategoriesDisplay,Boolean.FALSE);
     }
 
     public Integer[] getCategories() {
@@ -66,7 +67,7 @@ public class SearchPictureFB extends SelectPictureFB {
         if(categories!=null) {
             String[] result = new String[categories.length];
             for (int i = 0; i < categories.length; i++) {
-                result[i] = ServletParameterHelper.asString(categories[i],null);
+                result[i] = StringUtil.asString(categories[i],null);
             }
             return result;
         }else {
@@ -78,7 +79,7 @@ public class SearchPictureFB extends SelectPictureFB {
         if(categoriesDisplay!=null) {
             this.categories = new Integer[categoriesDisplay.length];
             for (int i = 0; i < categoriesDisplay.length; i++) {
-                this.categories[i] = ServletParameterHelper.asInteger(categoriesDisplay[i],null);
+                this.categories[i] = StringUtil.asInteger(categoriesDisplay[i],null);
             }
         }else {
             this.categories = null;
@@ -94,11 +95,11 @@ public class SearchPictureFB extends SelectPictureFB {
     }
 
     public String getDateAfterDisplay() {
-        return ServletParameterHelper.asString(dateAfter,"");
+        return StringUtil.asString(dateAfter,"");
     }
 
     public void setDateAfterDisplay(String dateAfterDisplay) {
-        this.dateAfter = ServletParameterHelper.asDate(dateAfterDisplay,null);
+        this.dateAfter = StringUtil.asDate(dateAfterDisplay,null);
     }
 
     public Date getDateBefore() {
@@ -110,11 +111,11 @@ public class SearchPictureFB extends SelectPictureFB {
     }
 
     public String getDateBeforeDisplay() {
-        return ServletParameterHelper.asString(dateBefore,"");
+        return StringUtil.asString(dateBefore,"");
     }
 
     public void setDateBeforeDisplay(String dateBeforeDisplay) {
-        this.dateBefore = ServletParameterHelper.asDate(dateBeforeDisplay,null);
+        this.dateBefore = StringUtil.asDate(dateBeforeDisplay,null);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import erland.webapp.gallery.fb.gallery.SelectGalleryFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -41,11 +42,11 @@ public class SelectCategoryFB extends SelectGalleryFB {
     }
 
     public String getCategoryDisplay() {
-        return ServletParameterHelper.asString(category,null);
+        return StringUtil.asString(category,null);
     }
 
     public void setCategoryDisplay(String categoryDisplay) {
-        this.category = ServletParameterHelper.asInteger(categoryDisplay,null);
+        this.category = StringUtil.asInteger(categoryDisplay,null);
     }
 
     public String getName() {

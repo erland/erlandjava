@@ -95,8 +95,8 @@ public class GenerateThumbnailPlugin extends BaseTaskPlugin {
     private class ManagerTask implements Runnable {
         public void run() {
             while (true) {
-                Boolean active = ServletParameterHelper.asBoolean(getEnvironment().getConfigurableResources().getParameter("backgroundthumnailgeneration"),Boolean.FALSE);
-                Boolean parallell = ServletParameterHelper.asBoolean(getEnvironment().getConfigurableResources().getParameter("backgroundthumnailgenerationparallell"),Boolean.FALSE);
+                Boolean active = StringUtil.asBoolean(getEnvironment().getConfigurableResources().getParameter("backgroundthumnailgeneration"),Boolean.FALSE);
+                Boolean parallell = StringUtil.asBoolean(getEnvironment().getConfigurableResources().getParameter("backgroundthumnailgenerationparallell"),Boolean.FALSE);
                 if(active.booleanValue()) {
                     EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-gallery").search(new QueryFilter("allofficial"));
                     for (int i = 0; i < entities.length; i++) {
@@ -109,7 +109,7 @@ public class GenerateThumbnailPlugin extends BaseTaskPlugin {
                         Thread.sleep(60000);
                     } catch (InterruptedException e) {
                     }
-                    Boolean activeCurrent = ServletParameterHelper.asBoolean(getEnvironment().getConfigurableResources().getParameter("backgroundthumnailgeneration"),Boolean.FALSE);
+                    Boolean activeCurrent = StringUtil.asBoolean(getEnvironment().getConfigurableResources().getParameter("backgroundthumnailgeneration"),Boolean.FALSE);
                     if(!activeCurrent.equals(active)) {
                         break;
                     }
@@ -145,7 +145,7 @@ public class GenerateThumbnailPlugin extends BaseTaskPlugin {
             for (int i = 0; i < entities.length; i++) {
                 Picture picture = (Picture) entities[i];
 
-                Boolean active = ServletParameterHelper.asBoolean(getEnvironment().getConfigurableResources().getParameter("backgroundthumnailgeneration"),Boolean.FALSE);
+                Boolean active = StringUtil.asBoolean(getEnvironment().getConfigurableResources().getParameter("backgroundthumnailgeneration"),Boolean.FALSE);
                 if(!active.booleanValue()) {
                     break;
                 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.fb.BaseFB;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -45,11 +46,11 @@ public class ImportFB extends BaseFB {
     }
 
     public String getGalleryDisplay() {
-        return ServletParameterHelper.asString(gallery,null);
+        return StringUtil.asString(gallery,null);
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        this.gallery = ServletParameterHelper.asInteger(galleryDisplay,null);
+        this.gallery = StringUtil.asInteger(galleryDisplay,null);
     }
 
     public String getFile() {
@@ -69,11 +70,11 @@ public class ImportFB extends BaseFB {
     }
 
     public String getClearCategoriesDisplay() {
-        return ServletParameterHelper.asString(clearCategories,null);
+        return StringUtil.asString(clearCategories,null);
     }
 
     public void setClearCategoriesDisplay(String clearCategoriesDisplay) {
-        this.clearCategories = ServletParameterHelper.asBoolean(clearCategoriesDisplay,Boolean.FALSE);
+        this.clearCategories = StringUtil.asBoolean(clearCategoriesDisplay,Boolean.FALSE);
     }
 
     public Boolean getClearPictures() {
@@ -85,11 +86,11 @@ public class ImportFB extends BaseFB {
     }
 
     public String getClearPicturesDisplay() {
-        return ServletParameterHelper.asString(clearPictures,null);
+        return StringUtil.asString(clearPictures,null);
     }
 
     public void setClearPicturesDisplay(String clearPicturesDisplay) {
-        this.clearPictures = ServletParameterHelper.asBoolean(clearPicturesDisplay,Boolean.FALSE);
+        this.clearPictures = StringUtil.asBoolean(clearPicturesDisplay,Boolean.FALSE);
     }
 
     public Boolean getLocalLinks() {
@@ -101,11 +102,11 @@ public class ImportFB extends BaseFB {
     }
 
     public String getLocalLinksDisplay() {
-        return ServletParameterHelper.asString(localLinks,null);
+        return StringUtil.asString(localLinks,null);
     }
 
     public void setLocalLinksDisplay(String localLinksDisplay) {
-        this.localLinks = ServletParameterHelper.asBoolean(localLinksDisplay,Boolean.FALSE);
+        this.localLinks = StringUtil.asBoolean(localLinksDisplay,Boolean.FALSE);
     }
 
     public Boolean getFilenameAsPictureTitle() {
@@ -117,11 +118,11 @@ public class ImportFB extends BaseFB {
     }
 
     public String getFilenameAsPictureTitleDisplay() {
-        return ServletParameterHelper.asString(filenameAsPictureTitle,null);
+        return StringUtil.asString(filenameAsPictureTitle,null);
     }
 
     public void setFilenameAsPictureTitleDisplay(String filenameAsPictureTitleDisplay) {
-        this.filenameAsPictureTitle = ServletParameterHelper.asBoolean(filenameAsPictureTitleDisplay,Boolean.FALSE);
+        this.filenameAsPictureTitle = StringUtil.asBoolean(filenameAsPictureTitleDisplay,Boolean.FALSE);
     }
 
     public Boolean getFilenameAsPictureDescription() {
@@ -133,11 +134,11 @@ public class ImportFB extends BaseFB {
     }
 
     public String getFilenameAsPictureDescriptionDisplay() {
-        return ServletParameterHelper.asString(filenameAsPictureDescription,null);
+        return StringUtil.asString(filenameAsPictureDescription,null);
     }
 
     public void setFilenameAsPictureDescriptionDisplay(String filenameAsPictureDescriptionDisplay) {
-        this.filenameAsPictureDescription = ServletParameterHelper.asBoolean(filenameAsPictureDescriptionDisplay,Boolean.FALSE);
+        this.filenameAsPictureDescription = StringUtil.asBoolean(filenameAsPictureDescriptionDisplay,Boolean.FALSE);
     }
 
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {

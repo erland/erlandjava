@@ -2,6 +2,7 @@ package erland.webapp.gallery.fb.gallery.filter;
 
 import erland.webapp.common.fb.BaseFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,11 +43,11 @@ public class GalleryFilterFB extends BaseFB {
     }
 
     public String getIdDisplay() {
-        return ServletParameterHelper.asString(id,null);
+        return StringUtil.asString(id,null);
     }
 
     public void setIdDisplay(String idDisplay) {
-        this.id = ServletParameterHelper.asInteger(idDisplay,null);
+        this.id = StringUtil.asInteger(idDisplay,null);
     }
 
     public Integer getGallery() {
@@ -58,11 +59,11 @@ public class GalleryFilterFB extends BaseFB {
     }
 
     public String getGalleryDisplay() {
-        return ServletParameterHelper.asString(gallery,null);
+        return StringUtil.asString(gallery,null);
     }
 
     public void setGalleryDisplay(String galleryDisplay) {
-        this.gallery = ServletParameterHelper.asInteger(galleryDisplay,null);
+        this.gallery = StringUtil.asInteger(galleryDisplay,null);
     }
 
     public Integer getFilter() {
@@ -74,11 +75,11 @@ public class GalleryFilterFB extends BaseFB {
     }
 
     public String getFilterDisplay() {
-        return ServletParameterHelper.asString(filter,null);
+        return StringUtil.asString(filter,null);
     }
 
     public void setFilterDisplay(String filterDisplay) {
-        this.filter = ServletParameterHelper.asInteger(filterDisplay,null);
+        this.filter = StringUtil.asInteger(filterDisplay,null);
     }
 
     public String getName() {
@@ -98,11 +99,11 @@ public class GalleryFilterFB extends BaseFB {
     }
 
     public String getOrderNoDisplay() {
-        return ServletParameterHelper.asString(orderNo,null);
+        return StringUtil.asString(orderNo,null);
     }
 
     public void setOrderNoDisplay(String orderNoDisplay) {
-        this.orderNo = ServletParameterHelper.asInteger(orderNoDisplay,null);
+        this.orderNo = StringUtil.asInteger(orderNoDisplay,null);
     }
 
     public String getParameters() {

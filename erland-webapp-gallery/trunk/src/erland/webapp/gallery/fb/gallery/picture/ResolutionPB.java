@@ -3,6 +3,7 @@ package erland.webapp.gallery.fb.gallery.picture;
 import org.apache.struts.action.ActionForm;
 import erland.webapp.common.fb.BasePB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -60,10 +61,10 @@ public class ResolutionPB extends BasePB {
     }
 
     public String getWidthDisplay() {
-        return ServletParameterHelper.asString(width,null);
+        return StringUtil.asString(width,null);
     }
 
     public void setWidthDisplay(String widthDisplay) {
-        this.width = ServletParameterHelper.asInteger(widthDisplay,null);
+        this.width = StringUtil.asInteger(widthDisplay,null);
     }
 }
