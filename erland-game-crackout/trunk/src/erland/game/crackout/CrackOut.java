@@ -31,7 +31,6 @@ public class CrackOut extends GamePanelHandlerForApplication implements GamePane
     private ImageHandlerInterface images;
 
     public static void main(String[] args) {
-        Log.setLog("crackoutlog.xml");
         CrackOut game = new CrackOut();
         GamePanelHandler.run(game,game);
         System.exit(-1);
