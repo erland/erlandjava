@@ -36,8 +36,17 @@
             type="erland.webapp.download.act.SearchAllApplicationVersionsAction"
             name="applicationIdFB">
 
-            <forward name="download-link" path="{contextpath}/do/downloadapplication?name={application}&amp;filename={filename}"/>
+            <forward name="application-link" path="/do/viewapplication?name={application}"/>
+            <forward name="download-link" path="/do/downloadapplication?name={application}&amp;filename={filename}"/>
             <forward name="success" path=".viewallapplicationversions"/>
+            <forward name="failure" path=".viewapplications"/>
+        </action>
+        <action
+            path="/viewapplicationwithmenu"
+            type="erland.webapp.download.act.SearchApplicationsAction"
+            name="selectLanguageFB">
+
+            <forward name="success" path="/do/viewapplication"/>
             <forward name="failure" path=".viewapplications"/>
         </action>
         <action
@@ -53,7 +62,7 @@
             type="erland.webapp.download.act.SearchApplicationVersionsAction"
             name="applicationIdFB">
 
-            <forward name="download-link" path="{contextpath}/do/downloadapplication?name={application}&amp;filename={filename}"/>
+            <forward name="download-link" path="/do/downloadapplication?name={application}&amp;filename={filename}"/>
             <forward name="success" path=".viewapplicationversions"/>
             <forward name="failure" path=".viewapplications"/>
         </action>
@@ -72,10 +81,11 @@
             <forward name="failure" path=".viewapplicationversions"/>
         </action>
         <action
-            path="/ws/searchallapplicationversions"
+            path="/ws/getallapplicationversions"
             type="erland.webapp.download.act.SearchAllApplicationVersionsAction"
             name="applicationIdFB">
 
+            <forward name="application-link" path="http:[hostname,//{hostname}][port,:{port}]{contextpath}/do/viewapplicationwithmenu?name={application}"/>
             <forward name="download-link" path="http:[hostname,//{hostname}][port,:{port}]{contextpath}/do/downloadapplication?name={application}&amp;filename={filename}"/>
             <forward name="success" path=".ws.searchallapplicationversions"/>
         </action>
