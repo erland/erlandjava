@@ -33,7 +33,7 @@ public class SBXMLEncoder {
         }
         return logObject;
     }
-    static String encodeStockData(BufferedReader data) {
+    static String encodeStockData(BufferedReader data, int rateColumn) {
         String out="";
         try {
             Log.println(getLogObject(),"getXMLData start "+System.currentTimeMillis());
@@ -43,7 +43,7 @@ public class SBXMLEncoder {
             }
             Log.println(getLogObject(),"getXMLData stop "+System.currentTimeMillis());
             if(xmlData!=null) {
-                SBXMLParser parser = new SBXMLParser();
+                SBXMLParser parser = new SBXMLParser(rateColumn);
                 //System.out.println(xmlData);
                 if(XMLParser.getInstance().parse(xmlData,parser)) {
                     XMLNode element = parser.getData();

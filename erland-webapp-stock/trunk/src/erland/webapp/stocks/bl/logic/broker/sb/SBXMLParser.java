@@ -39,7 +39,11 @@ public class SBXMLParser implements XMLParserHandlerInterface {
     private int fieldCounter;
     private StringBuffer date;
     private boolean bStockRateCaptionsFinished;
+    private int rateColumn;
 
+    public SBXMLParser(int rateColumn) {
+        this.rateColumn = rateColumn;
+    }
     public XMLNode getData() {
         if(vector.size()>0) {
             return (XMLNode) vector.elementAt(0);
@@ -68,7 +72,7 @@ public class SBXMLParser implements XMLParserHandlerInterface {
             fieldCounter = 0;
         }else if(bFirstStockRateFound && name.equals("TD")) {
             fieldCounter++;
-            if(fieldCounter==1 || fieldCounter==7) {
+            if(fieldCounter==1 || fieldCounter==rateColumn) {
                 bCatchCharacters = true;
             }
         }
@@ -99,7 +103,7 @@ public class SBXMLParser implements XMLParserHandlerInterface {
             if(fieldCounter==1) {
                 date.append(text);
                 bCatchCharacters = false;
-            }else if(fieldCounter==7) {
+            }else if(fieldCounter==rateColumn) {
                 if(Log.isEnabled(this)) Log.println(this,"Got rate for "+date.toString()+": "+text.toString());
                 if(text!=null && text.length()>0 && Character.isDigit(text.charAt(0))) {
                     Map rateAttrs = new HashMap();
