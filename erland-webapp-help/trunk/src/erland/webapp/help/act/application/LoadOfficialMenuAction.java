@@ -84,13 +84,4 @@ public class LoadOfficialMenuAction extends LoadMenuAction {
         request.setAttribute("version",version);
         request.getSession().setAttribute("menuApplicationsPB", pb);
     }
-
-    protected ActionForward findSuccess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        SelectChapterFB fb = (SelectChapterFB) form;
-        if(StringUtil.asNull(fb.getChapter())!=null) {
-            return mapping.findForward("success-chapter");
-        }else {
-            return super.findSuccess(mapping, form, request, response);
-        }
-    }
 }
