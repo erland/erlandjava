@@ -37,7 +37,8 @@ import java.util.*;
 
 public class SearchApplicationVersionsAction extends Action {
     public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        QueryFilter filter = getFilter(actionForm);
+        QueryFilter filter = getFilter(httpServletRequest,actionForm);
+        filter.setAttribute("language",httpServletRequest.getLocale().getLanguage());
         EntityInterface[] entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-applicationversion").search(filter);
         if(entities!=null) {
             Map applicationVersions = new HashMap();
@@ -49,7 +50,7 @@ public class SearchApplicationVersionsAction extends Action {
                     ApplicationFileFB[] newFiles = new ApplicationFileFB[existingFiles.length+1];
                     boolean bInserted = false;
                     for (int j = 0,k=0; j < newFiles.length; j++) {
-                        if(!bInserted && (entity.getType()==null || entity.getType().length()==0 || existingFiles[k].getType().compareTo(entity.getType())>0)) {
+                        if(!bInserted && (entity.getType()==null || entity.getType().length()==0 || existingFiles[k].getType().compareTo(entity.getType())>=0)) {
                             newFiles[j] = new ApplicationFileFB(entity.getName(),entity.getType(),entity.getName());
                             bInserted = true;
                         }else {
@@ -90,12 +91,13 @@ public class SearchApplicationVersionsAction extends Action {
         }
     }
 
-    protected QueryFilter getFilter(ActionForm actionForm) {
+    protected QueryFilter getFilter(HttpServletRequest request, ActionForm actionForm) {
         ApplicationIdFB fb = (ApplicationIdFB) actionForm;
         QueryFilter filter = new QueryFilter("allforapplication");
         String mainDir = WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("basedirectory");
         filter.setAttribute("directory",mainDir+"/"+fb.getName());
         filter.setAttribute("extensions", ".zip,.exe");
+        filter.setAttribute("language",request.getLocale().getLanguage());
         return filter;
     }
 }
