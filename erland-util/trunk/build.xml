@@ -9,6 +9,20 @@
         <copy file="${java.home.netscapejavascript}" todir="${dist}"/>
     </target>
 
+    <target name="Make archive">
+        <antcall target="Clean All"/>
+        <antcall target="Build Application"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="makedeliverable">
+            <property name="currentproject" value="${ant.project.name}"/>
+        </ant>
+    </target>
+    <target name="Make archive (Debug)">
+        <antcall target="Clean All"/>
+        <antcall target="Build Application (Debug)"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="makedeliverable">
+            <property name="currentproject" value="${ant.project.name}"/>
+        </ant>
+    </target>
     <target name="Build Applet">
         <property name="compilemsapplet" value="true"/>
         <property name="nojarsign" value="true"/>
