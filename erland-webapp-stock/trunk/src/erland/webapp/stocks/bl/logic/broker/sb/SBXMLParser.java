@@ -25,6 +25,7 @@ import java.util.Map;
 import erland.util.StringUtil;
 import erland.util.XMLNode;
 import erland.util.XMLParserHandlerInterface;
+import erland.util.Log;
 
 public class SBXMLParser implements XMLParserHandlerInterface {
     private StringBuffer text;
@@ -88,15 +89,18 @@ public class SBXMLParser implements XMLParserHandlerInterface {
                 text.setLength(lastNameChar);
             }
             stockAttrs.put("name",text.toString());
+            if(Log.isEnabled(this)) Log.println(this,"Got name: "+text.toString());
             current = new XMLNode("stock",stockAttrs);
             vector.addElement(current);
         }else if(bStockRateCaptionsFound && name.equals("TR")) {
             bStockRateCaptionsFinished = true;
+            if(Log.isEnabled(this)) Log.println(this,"Got captions");
         }else if(bFirstStockRateFound && name.equals("TD")) {
             if(fieldCounter==1) {
                 date.append(text);
                 bCatchCharacters = false;
             }else if(fieldCounter==7) {
+                if(Log.isEnabled(this)) Log.println(this,"Got rate for "+date.toString()+": "+text.toString());
                 if(text!=null && text.length()>0 && Character.isDigit(text.charAt(0))) {
                     Map rateAttrs = new HashMap();
                     rateAttrs.put("date",date.toString());
