@@ -4,11 +4,11 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.regex.Pattern;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -34,6 +34,9 @@ import java.util.regex.Pattern;
  * @author Erland Isaksson
  */
 public class StringUtil {
+    /** Default date format to use in string conversion methods */
+    private final static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
     /**
      * Converts a number to a String with specified length, if the number is
      * shorter than the specified length it will be filled out with 0 in the
@@ -395,5 +398,103 @@ public class StringUtil {
         }
         sb.append(")");
         return sb.toString();
+    }
+
+    public static Boolean asBoolean(String value,Boolean defaultValue) {
+        Boolean booleanValue = defaultValue;
+        if(value!=null && value.equalsIgnoreCase("true")) {
+            booleanValue = Boolean.TRUE;
+        }else if(value!=null && value.equalsIgnoreCase("false")) {
+            booleanValue = Boolean.FALSE;
+        }
+        return booleanValue;
+    }
+
+    public static Integer asInteger(String value,Integer defaultValue) {
+        Integer integerValue = defaultValue;
+        if(value!=null && value.length()>0) {
+            try {
+                integerValue = Integer.valueOf(value);
+            } catch (NumberFormatException e) {
+            }
+        }
+        return integerValue;
+    }
+
+    public static Long asLong(String value, Long defaultValue) {
+        Long longValue = defaultValue;
+        if(value!=null && value.length()>0) {
+            try {
+                longValue = Long.valueOf(value);
+            } catch (NumberFormatException e) {
+            }
+        }
+        return longValue;
+    }
+
+    public static Double asDouble(String value, Double defaultValue) {
+        Double doubleValue = defaultValue;
+        if(value!=null && value.length()>0) {
+            try {
+                doubleValue = Double.valueOf(value);
+            } catch (NumberFormatException e) {
+            }
+        }
+        return doubleValue;
+    }
+
+    public static Float asFloat(String value, Float defaultValue) {
+        Float floatValue = defaultValue;
+        if(value!=null && value.length()>0) {
+            try {
+                floatValue = Float.valueOf(value);
+            } catch (NumberFormatException e) {
+            }
+        }
+        return floatValue;
+    }
+
+    public static Date asDate(String value, Date defaultValue) {
+        Date dateValue = defaultValue;
+        if(value!=null) {
+            try {
+                dateValue = dateFormat.parse(value);
+            } catch (ParseException e) {
+            }
+        }
+        return dateValue;
+    }
+
+    public static Date asDate(String value, Date defaultValue, Locale locale) {
+        Date dateValue = defaultValue;
+        if(value!=null) {
+            try {
+                dateValue = DateFormat.getDateInstance(DateFormat.SHORT,locale).parse(value);
+            } catch (ParseException e) {
+            }
+        }
+        return dateValue;
+    }
+
+    public static String asString(Integer value, String defaultValue) {
+        return value!=null?value.toString():defaultValue;
+    }
+    public static String asString(Long value, String defaultValue) {
+        return value!=null?value.toString():defaultValue;
+    }
+    public static String asString(Boolean value, String defaultValue) {
+        return value!=null?value.toString():defaultValue;
+    }
+    public static String asString(Float value, String defaultValue) {
+        return value!=null?value.toString():defaultValue;
+    }
+    public static String asString(Double value, String defaultValue) {
+        return value!=null?value.toString():defaultValue;
+    }
+    public static String asString(Date value, String defaultValue) {
+        return value!=null?dateFormat.format(value):defaultValue;
+    }
+    public static String asString(Date value, String defaultValue, Locale locale) {
+        return value!=null?DateFormat.getDateInstance(DateFormat.SHORT,locale).format(value):defaultValue;
     }
 }
