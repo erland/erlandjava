@@ -20,12 +20,10 @@ package erland.webapp.diary.act.gallery;
  */
 
 import erland.webapp.common.act.BaseAction;
-import erland.webapp.diary.entity.gallery.Gallery;
 import erland.webapp.diary.fb.gallery.GalleryFB;
-import erland.webapp.usermgmt.User;
 import erland.webapp.gallery.act.gallery.GalleryHelper;
-import erland.webapp.gallery.entity.gallery.GalleryInterface;
 import erland.webapp.gallery.fb.gallery.GalleryPB;
+import erland.webapp.gallery.entity.gallery.Gallery;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -42,7 +40,7 @@ public class NewGalleryAction extends BaseAction {
         fb.setOfficial(Boolean.FALSE);
         fb.setTitle(null);
 
-        GalleryInterface[] galleries = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",request.getRemoteUser(),"allforuser");
+        Gallery[] galleries = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",request.getRemoteUser(),"allforuser");
         GalleryPB[] pbGalleries = new GalleryPB[galleries.length];
         for (int i = 0; i < galleries.length; i++) {
             pbGalleries[i] = new GalleryPB();
