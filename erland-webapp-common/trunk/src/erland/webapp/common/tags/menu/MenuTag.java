@@ -2,12 +2,15 @@ package erland.webapp.common.tags.menu;
 
 import erland.webapp.common.html.HTMLBasicStringReplace;
 import erland.webapp.common.html.StringReplaceInterface;
+import erland.util.Log;
+import erland.util.StringUtil;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
 /*
@@ -29,7 +32,7 @@ import java.io.IOException;
  * 
  */
 
-public class MenuTag extends BodyTagSupport implements MenuItemInterface {
+public class MenuTag extends TagSupport implements MenuItemInterface {
     private String id;
     private String style;
     private String styleSelected;
@@ -98,6 +101,9 @@ public class MenuTag extends BodyTagSupport implements MenuItemInterface {
     }
 
     public int doStartTag() throws JspException {
+        if(Log.isEnabled(this,Log.DEBUG)) {
+            Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
+        }
         try {
             if(menuStyle!=null) {
                 pageContext.getOut().write("<table style=\""+menuStyle+"\">");
@@ -107,12 +113,11 @@ public class MenuTag extends BodyTagSupport implements MenuItemInterface {
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
-        return EVAL_BODY_BUFFERED;
+        return EVAL_BODY_INCLUDE;
     }
 
     public int doEndTag() throws JspException {
         try {
-            pageContext.getOut().print(bodyContent.getString());
             pageContext.getOut().write("</table>");
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
