@@ -4,6 +4,7 @@ import org.apache.struts.validator.ValidatorForm;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -65,7 +66,7 @@ public class SelectGalleryFB extends ValidatorForm {
         }
     }
 
-    public void reset(ActionMapping actionMapping, ServletRequest servletRequest) {
+    public void reset(ActionMapping actionMapping, HttpServletRequest servletRequest) {
         super.reset(actionMapping, servletRequest);
         gallery=null;
         user=null;
