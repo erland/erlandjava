@@ -30,6 +30,7 @@
   <shortDescription>A web application that manages a list of companies</shortDescription>
   <!-- any mailing lists for the project -->
 
+  <siteDirectory>\\xp2500\erland/public_html/java/erland-webapp-companylist</siteDirectory>
   <mailingLists/>
   <!-- who the developers are for the project -->
 
