@@ -51,10 +51,11 @@ public class EditGalleryAction extends BaseAction {
         gallery.setUsername(username);
 
         Date cacheDate = new Date();
+        Gallery oldGallery = null;
         if(fb.getId()!=null) {
             Gallery template = (Gallery) getEnvironment().getEntityFactory().create("gallery-gallery");
             template.setId(fb.getId());
-            Gallery oldGallery = (Gallery) getEnvironment().getEntityStorageFactory().getStorage("gallery-gallery").load(template);
+            oldGallery = (Gallery) getEnvironment().getEntityStorageFactory().getStorage("gallery-gallery").load(template);
             cacheDate = oldGallery.getCacheDate();
         }
         gallery.setCacheDate(cacheDate);
@@ -76,7 +77,10 @@ public class EditGalleryAction extends BaseAction {
                     }
                 }
             }
-        }else {
+        }else if(oldGallery==null || fb.getForcePictureUpdate().booleanValue() || 
+                !oldGallery.getOfficialCategory().equals(gallery.getOfficialCategory()) ||
+                !oldGallery.getOfficialGuestCategory().equals(gallery.getOfficialGuestCategory())){
+
             QueryFilter filter = new QueryFilter("calculateofficialforgallery");
             filter.setAttribute("gallery", gallery.getId());
             updatePictures(filter, gallery.getId(), Boolean.TRUE);
