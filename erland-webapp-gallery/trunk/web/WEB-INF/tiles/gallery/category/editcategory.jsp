@@ -12,6 +12,9 @@
         <tr><td><bean:message key="gallery.gallery.category.edit.name"/></td><td>
         <html:text property="name"/>
         </td></tr>
+        <tr><td><bean:message key="gallery.gallery.category.edit.name-english"/></td><td>
+        <html:text property="nameEnglish"/>
+        </td></tr>
         <tr><td><bean:message key="gallery.gallery.category.edit.visible"/></td><td>
         <html:checkbox property="officialVisibleDisplay" value="true"/>
         </td></tr>
