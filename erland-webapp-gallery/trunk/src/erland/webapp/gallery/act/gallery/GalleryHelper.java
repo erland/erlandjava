@@ -23,7 +23,6 @@ import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.gallery.entity.gallery.Gallery;
-import erland.webapp.gallery.entity.gallery.GalleryInterface;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -58,7 +57,7 @@ public class GalleryHelper {
         return galleryId;
     }
 
-    public static Integer getGalleryId(GalleryInterface gallery) {
+    public static Integer getGalleryId(Gallery gallery) {
         if (gallery != null) {
             if (gallery.getReferencedGallery() != null && !gallery.getReferencedGallery().equals(new Integer(0))) {
                 return gallery.getReferencedGallery();
@@ -69,20 +68,20 @@ public class GalleryHelper {
         return null;
     }
 
-    public static GalleryInterface getGallery(WebAppEnvironmentInterface environment, Integer galleryId) {
-        GalleryInterface gallery = null;
+    public static Gallery getGallery(WebAppEnvironmentInterface environment, Integer galleryId) {
+        Gallery gallery = null;
         if (galleryId != null) {
             Gallery template = (Gallery) environment.getEntityFactory().create("gallery-gallery");
             template.setId(galleryId);
-            gallery = (GalleryInterface) environment.getEntityStorageFactory().getStorage("gallery-gallery").load(template);
+            gallery = (Gallery) environment.getEntityStorageFactory().getStorage("gallery-gallery").load(template);
         }
         return gallery;
     }
 
-    public static GalleryInterface[] searchGalleries(WebAppEnvironmentInterface environment, String entityName, String username, String filterName) {
+    public static Gallery[] searchGalleries(WebAppEnvironmentInterface environment, String entityName, String username, String filterName) {
         QueryFilter filter = new QueryFilter(filterName);
         filter.setAttribute("username", username);
         EntityInterface[] entities = environment.getEntityStorageFactory().getStorage(entityName).search(filter);
-        return (GalleryInterface[]) Arrays.asList(entities).toArray(new GalleryInterface[0]);
+        return (Gallery[]) Arrays.asList(entities).toArray(new Gallery[0]);
     }
 }

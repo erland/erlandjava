@@ -27,8 +27,8 @@ import erland.webapp.gallery.fb.gallery.MenuItemPB;
 import erland.webapp.gallery.fb.gallery.CategoryMenuItemPB;
 import erland.webapp.gallery.fb.gallery.GalleryMenuItemPB;
 import erland.webapp.gallery.act.gallery.category.CategoryHelper;
-import erland.webapp.gallery.entity.gallery.GalleryInterface;
 import erland.webapp.gallery.entity.gallery.category.Category;
+import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.entity.guestaccount.GuestAccount;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -58,7 +58,7 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage(getEntityName()).search(filter);
         GalleryMenuItemPB[] pb = new GalleryMenuItemPB[entities.length];
         for (int i = 0; i < entities.length; i++) {
-            GalleryInterface entity = (GalleryInterface)entities[i];
+            Gallery entity = (Gallery)entities[i];
             pb[i] = new GalleryMenuItemPB();
             Integer gallery = entity.getId();
             if (entity.getReferencedGallery() != null && !entity.getReferencedGallery().equals(new Integer(0))) {
@@ -102,7 +102,7 @@ public class SearchGalleriesAndCategoriesAction extends BaseAction {
                 EntityInterface[] galleryEntities = getEnvironment().getEntityStorageFactory().getStorage(getEntityName()).search(filter);
                 GalleryMenuItemPB[] pbGalleries = new GalleryMenuItemPB[galleryEntities.length];
                 for (int j = 0; j < galleryEntities.length; j++) {
-                    GalleryInterface entity = (GalleryInterface)galleryEntities[j];
+                    Gallery entity = (Gallery)galleryEntities[j];
                     pbGalleries[j] = new GalleryMenuItemPB();
                     Integer gallery = entity.getId();
                     if (entity.getReferencedGallery() != null && !entity.getReferencedGallery().equals(new Integer(0))) {

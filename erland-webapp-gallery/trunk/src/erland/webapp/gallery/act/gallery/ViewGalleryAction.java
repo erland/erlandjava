@@ -27,7 +27,6 @@ import erland.webapp.common.act.BaseAction;
 import erland.webapp.gallery.act.gallery.category.CategoryHelper;
 import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.entity.gallery.GalleryCategoryAssociation;
-import erland.webapp.gallery.entity.gallery.GalleryInterface;
 import erland.webapp.gallery.entity.gallery.category.Category;
 import erland.webapp.gallery.fb.gallery.GalleryFB;
 import erland.webapp.gallery.fb.gallery.GalleryPB;
@@ -51,7 +50,7 @@ public class ViewGalleryAction extends BaseAction {
         GalleryFB fb = (GalleryFB) form;
         Gallery template = (Gallery) getEnvironment().getEntityFactory().create("gallery-gallery");
         template.setId(fb.getId());
-        GalleryInterface gallery = (GalleryInterface) getEnvironment().getEntityStorageFactory().getStorage("gallery-gallery").load(template);
+        Gallery gallery = (Gallery) getEnvironment().getEntityStorageFactory().getStorage("gallery-gallery").load(template);
         if (gallery == null) {
             saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.do-not-exist"}));
             return;
@@ -73,7 +72,7 @@ public class ViewGalleryAction extends BaseAction {
             fb.setCategories(categories);
         }
 
-        GalleryInterface[] galleries = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",gallery.getUsername(),"allrealforuser");
+        Gallery[] galleries = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",gallery.getUsername(),"allrealforuser");
         GalleryPB[] pbGalleries = new GalleryPB[galleries.length];
         for (int i = 0; i < galleries.length; i++) {
             pbGalleries[i] = new GalleryPB();

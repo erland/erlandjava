@@ -25,7 +25,6 @@ import erland.webapp.common.act.BaseAction;
 import erland.webapp.common.image.ImageWriteHelper;
 import erland.webapp.gallery.act.gallery.GalleryHelper;
 import erland.webapp.gallery.entity.gallery.Gallery;
-import erland.webapp.gallery.entity.gallery.GalleryInterface;
 import erland.webapp.gallery.entity.gallery.picture.Picture;
 import erland.webapp.gallery.entity.gallery.picturestorage.PictureStorage;
 import erland.webapp.gallery.entity.guestaccount.GuestAccount;
@@ -48,7 +47,7 @@ public class LoadImageAction extends BaseAction {
 
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ImageFB fb = (ImageFB) form;
-        GalleryInterface gallery = GalleryHelper.getGallery(getEnvironment(),fb.getGallery());
+        Gallery gallery = GalleryHelper.getGallery(getEnvironment(),fb.getGallery());
         setGallery(request,gallery);
         Integer galleryId = GalleryHelper.getGalleryId(gallery);
         Picture template = (Picture) getEnvironment().getEntityFactory().create("gallery-picture");
@@ -148,11 +147,11 @@ public class LoadImageAction extends BaseAction {
         request.setAttribute(USERNAME,username);
     }
 
-    public GalleryInterface getGallery(HttpServletRequest request) {
-        return (GalleryInterface) request.getAttribute(GALLERY);
+    public Gallery getGallery(HttpServletRequest request) {
+        return (Gallery) request.getAttribute(GALLERY);
     }
 
-    public void setGallery(HttpServletRequest request, GalleryInterface gallery) {
+    public void setGallery(HttpServletRequest request, Gallery gallery) {
         request.setAttribute(GALLERY,gallery);
     }
     public Picture getPicture(HttpServletRequest request) {

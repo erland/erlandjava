@@ -27,7 +27,6 @@ import erland.webapp.common.image.JPEGMetadataHandler;
 import erland.webapp.common.image.MetadataHandlerInterface;
 import erland.webapp.gallery.act.gallery.GalleryHelper;
 import erland.webapp.gallery.entity.gallery.Gallery;
-import erland.webapp.gallery.entity.gallery.GalleryInterface;
 import erland.webapp.gallery.entity.gallery.picture.Picture;
 import erland.webapp.gallery.entity.gallery.picture.Resolution;
 import erland.webapp.gallery.entity.gallery.picturestorage.PictureStorage;
@@ -50,7 +49,7 @@ import java.util.Map;
 public class LoadMetadataAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MetadataImageFB fb = (MetadataImageFB) form;
-        GalleryInterface gallery = GalleryHelper.getGallery(getEnvironment(),fb.getGallery());
+        Gallery gallery = GalleryHelper.getGallery(getEnvironment(),fb.getGallery());
         Integer galleryId = GalleryHelper.getGalleryId(gallery);
         Picture template = (Picture) getEnvironment().getEntityFactory().create("gallery-picture");
         template.setGallery(galleryId);

@@ -27,7 +27,6 @@ import erland.webapp.common.act.BaseAction;
 import erland.webapp.gallery.act.gallery.category.CategoryHelper;
 import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.entity.gallery.GalleryCategoryAssociation;
-import erland.webapp.gallery.entity.gallery.GalleryInterface;
 import erland.webapp.gallery.entity.gallery.category.Category;
 import erland.webapp.gallery.fb.gallery.GalleryFB;
 import erland.webapp.gallery.fb.gallery.GalleryPB;
@@ -50,7 +49,7 @@ public class NewGalleryAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GalleryFB fb = (GalleryFB) form;
 
-        GalleryInterface[] galleries = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",request.getRemoteUser(),"allrealforuser");
+        Gallery[] galleries = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",request.getRemoteUser(),"allrealforuser");
         GalleryPB[] pbGalleries = new GalleryPB[galleries.length];
         for (int i = 0; i < galleries.length; i++) {
             pbGalleries[i] = new GalleryPB();

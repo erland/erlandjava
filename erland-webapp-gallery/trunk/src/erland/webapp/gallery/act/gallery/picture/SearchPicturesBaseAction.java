@@ -26,8 +26,8 @@ import erland.webapp.common.act.BaseAction;
 import erland.webapp.gallery.act.gallery.GalleryHelper;
 import erland.webapp.gallery.entity.gallery.category.Category;
 import erland.webapp.gallery.entity.gallery.picturestorage.PictureStorage;
-import erland.webapp.gallery.entity.gallery.GalleryInterface;
 import erland.webapp.gallery.entity.gallery.picture.Resolution;
+import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.fb.gallery.picture.PictureCollectionPB;
 import erland.webapp.gallery.fb.gallery.picture.PicturePB;
 import erland.webapp.gallery.fb.gallery.picture.SelectPictureFB;
@@ -57,7 +57,7 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         SelectPictureFB fb = (SelectPictureFB) form;
         Integer virtualGalleryId = fb.getGallery();
         setVirtualGalleryId(request,virtualGalleryId);
-        GalleryInterface gallery = GalleryHelper.getGallery(getEnvironment(), virtualGalleryId);
+        Gallery gallery = GalleryHelper.getGallery(getEnvironment(), virtualGalleryId);
         if(gallery==null) {
             saveErrors(request, Arrays.asList(new String[]{"gallery.gallery.gallery-not-found"}));
             return;

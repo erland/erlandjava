@@ -23,7 +23,6 @@ import erland.webapp.common.EntityInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.entity.gallery.GalleryCategoryAssociation;
-import erland.webapp.gallery.entity.gallery.GalleryInterface;
 import erland.webapp.gallery.entity.gallery.category.Category;
 import erland.webapp.gallery.entity.gallery.picture.Picture;
 
@@ -40,7 +39,7 @@ public class SearchPicturesAction extends SearchPicturesBaseAction {
         if (categoryId == null && getGalleryId(request) != null) {
             Gallery template = (Gallery) getEnvironment().getEntityFactory().create("gallery-gallery");
             template.setId(getGalleryId(request));
-            GalleryInterface entity = (GalleryInterface) getEnvironment().getEntityStorageFactory().getStorage("gallery-gallery").load(template);
+            Gallery entity = (Gallery) getEnvironment().getEntityStorageFactory().getStorage("gallery-gallery").load(template);
             if (entity != null && !entity.getTopCategory().equals(new Integer(0))) {
                 categoryId = entity.getTopCategory();
             }

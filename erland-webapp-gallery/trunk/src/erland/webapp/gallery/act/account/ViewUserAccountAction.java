@@ -21,7 +21,7 @@ package erland.webapp.gallery.act.account;
 
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.gallery.entity.account.UserAccount;
-import erland.webapp.gallery.entity.gallery.GalleryInterface;
+import erland.webapp.gallery.entity.gallery.Gallery;
 import erland.webapp.gallery.fb.account.AccountFB;
 import erland.webapp.gallery.fb.gallery.GalleryPB;
 import erland.webapp.gallery.act.gallery.GalleryHelper;
@@ -44,7 +44,7 @@ public class ViewUserAccountAction extends BaseAction {
         PropertyUtils.copyProperties(fb, account);
         PropertyUtils.copyProperties(fb, getUser(username));
 
-        GalleryInterface[] entities = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",username,"allforuser");
+        Gallery[] entities = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",username,"allforuser");
         GalleryPB[] pb = new GalleryPB[entities.length];
         for (int i = 0; i < entities.length; i++) {
             pb[i] = new GalleryPB();

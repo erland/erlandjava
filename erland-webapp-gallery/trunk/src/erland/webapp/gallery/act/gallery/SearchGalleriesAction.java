@@ -24,7 +24,7 @@ import erland.webapp.common.QueryFilter;
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.gallery.fb.gallery.GalleryPB;
 import erland.webapp.gallery.fb.gallery.SelectGalleryFB;
-import erland.webapp.gallery.entity.gallery.GalleryInterface;
+import erland.webapp.gallery.entity.gallery.Gallery;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -39,7 +39,7 @@ public class SearchGalleriesAction extends BaseAction {
         if (fb != null) {
             username = fb.getUser();
         }
-        GalleryInterface[] entities = GalleryHelper.searchGalleries(getEnvironment(),getEntityName(),username,getQueryFilter(request));
+        Gallery[] entities = GalleryHelper.searchGalleries(getEnvironment(),getEntityName(),username,getQueryFilter(request));
         GalleryPB[] pb = new GalleryPB[entities.length];
         for (int i = 0; i < entities.length; i++) {
             pb[i] = new GalleryPB();

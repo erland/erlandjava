@@ -1,7 +1,6 @@
 package erland.webapp.gallery.act.gallery.category;
 
 import erland.webapp.gallery.entity.gallery.Gallery;
-import erland.webapp.gallery.entity.gallery.GalleryInterface;
 import erland.webapp.gallery.entity.gallery.category.Category;
 import erland.webapp.gallery.fb.gallery.category.CategoryPB;
 import erland.webapp.common.QueryFilter;
@@ -35,7 +34,7 @@ public class CategoryHelper {
         if (category == null) {
             Gallery template = (Gallery) environment.getEntityFactory().create("gallery-gallery");
             template.setId(virtualGalleryId);
-            GalleryInterface entity = (GalleryInterface) environment.getEntityStorageFactory().getStorage("gallery-gallery").load(template);
+            Gallery entity = (Gallery) environment.getEntityStorageFactory().getStorage("gallery-gallery").load(template);
             if (entity != null && !entity.getTopCategory().equals(new Integer(0))) {
                 category = entity.getTopCategory();
             }

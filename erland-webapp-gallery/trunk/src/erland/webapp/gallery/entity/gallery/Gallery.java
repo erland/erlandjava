@@ -21,7 +21,7 @@ package erland.webapp.gallery.entity.gallery;
 
 import erland.webapp.common.BaseEntity;
 
-public class Gallery extends BaseEntity implements GalleryInterface {
+public class Gallery extends BaseEntity {
     private Integer id;
     private String username;
     private String title;
