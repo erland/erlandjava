@@ -65,18 +65,19 @@ public class ImageHandlerForApplication
 		
 		if(image == null) {
 			String file = imageDir + "/" + imagename;
-			
+
 			Toolkit tk = Toolkit.getDefaultToolkit();
 			image = tk.getImage(file);
-			
+
 			images.add(new ImageData(imagename,image));
-			MediaTracker mt = new MediaTracker(component);
-			mt.addImage(image,1);
+            MediaTracker mt = new MediaTracker(component);
+			mt.addImage(image,0);
 			try {
 				mt.waitForAll();
 			}catch(InterruptedException e) {
 				// Do nothing
 			}
+
 		}
 		return image;
 	}
