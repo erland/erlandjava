@@ -21,6 +21,8 @@ package erland.webapp.gallery.entity.gallery;
 
 import erland.webapp.common.BaseEntity;
 
+import java.util.Date;
+
 public class Gallery extends BaseEntity {
     private Integer id;
     private String username;
@@ -31,6 +33,14 @@ public class Gallery extends BaseEntity {
     private Integer referencedGallery;
     private String defaultResolution;
     private Integer maxWidth;
+    private Integer officialCategory;
+    private Integer officialGuestCategory;
+    private Float thumbnailCompression;
+    private Float compression;
+    private String skin;
+    private Boolean antialias;
+    private Boolean thumbnailAntialias;
+    private Date cacheDate;
 
     public Integer getId() {
         return id;
@@ -102,5 +112,69 @@ public class Gallery extends BaseEntity {
 
     public void setMaxWidth(Integer maxWidth) {
         this.maxWidth = maxWidth;
+    }
+
+    public Integer getOfficialCategory() {
+        return officialCategory;
+    }
+
+    public void setOfficialCategory(Integer officialCategory) {
+        this.officialCategory = officialCategory;
+    }
+
+    public Integer getOfficialGuestCategory() {
+        return officialGuestCategory;
+    }
+
+    public void setOfficialGuestCategory(Integer officialGuestCategory) {
+        this.officialGuestCategory = officialGuestCategory;
+    }
+
+    public Float getThumbnailCompression() {
+        return thumbnailCompression;
+    }
+
+    public void setThumbnailCompression(Float thumbnailCompression) {
+        this.thumbnailCompression = thumbnailCompression;
+    }
+
+    public Float getCompression() {
+        return compression;
+    }
+
+    public void setCompression(Float compression) {
+        this.compression = compression;
+    }
+
+    public String getSkin() {
+        return skin;
+    }
+
+    public void setSkin(String skin) {
+        this.skin = skin;
+    }
+
+    public Boolean getAntialias() {
+        return antialias;
+    }
+
+    public void setAntialias(Boolean antialias) {
+        this.antialias = antialias;
+    }
+
+    public Boolean getThumbnailAntialias() {
+        return thumbnailAntialias;
+    }
+
+    public void setThumbnailAntialias(Boolean thumbnailAntialias) {
+        this.thumbnailAntialias = thumbnailAntialias;
+    }
+
+    public Date getCacheDate() {
+        return cacheDate;
+    }
+
+    public void setCacheDate(Date cacheDate) {
+        this.cacheDate = cacheDate;
     }
 }
