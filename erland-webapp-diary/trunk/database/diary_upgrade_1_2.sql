@@ -5,9 +5,5 @@ CREATE TABLE sourceappendixentries (
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
-ALTER TABLE containers
-  ADD linksource varchar(255) default NULL AFTER link;
-
-ALTER TABLE inventoryentries
-  ADD linksource varchar(255) default NULL AFTER link;
-
+INSERT INTO purchaseentrycategories VALUES (8,'Medicin');
+INSERT INTO purchaseentrycategories VALUES (9,'V%C3%A4xtn%C3%A4ring');
