@@ -656,7 +656,7 @@
             type="erland.webapp.diary.act.gallery.SearchGalleryEntriesAction"
             name="selectGalleryFB">
 
-            <forward name="success-external" path="/do/user/viewexternalpictures?gallery={externalgallery}"/>
+            <forward name="success-external" path="/do/user/viewexternalpictures?gallery={externalgallery}&amp;max=0"/>
             <forward name="success" path=".user.viewpictures"/>
             <forward name="update-gallery-link" path="/do/user/viewgallery?id={gallery}"/>
             <forward name="delete-gallery-link" path="/do/user/removegallery?id={gallery}"/>
@@ -670,7 +670,7 @@
             type="erland.webapp.diary.act.gallery.SearchGalleryEntriesAction"
             name="selectGalleryFB">
 
-            <forward name="success-external" path="/do/guest/viewexternalpictures?user={user}&amp;gallery={externalgallery}"/>
+            <forward name="success-external" path="/do/guest/viewexternalpictures?user={user}&amp;gallery={externalgallery}&amp;max=0"/>
             <forward name="success" path=".guest.viewpictures"/>
         </action>
 
