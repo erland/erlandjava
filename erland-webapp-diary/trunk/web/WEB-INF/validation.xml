@@ -130,5 +130,28 @@
                 <arg0 key="diary.purchase.edit.description"/>
             </field>
         </form>
+        <form name="editContainerFB">
+            <field property="name" depends="required">
+                <arg0 key="diary.container.edit.name"/>
+            </field>
+            <field property="model" depends="required">
+                <arg0 key="diary.container.edit.model"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="diary.container.edit.description"/>
+            </field>
+            <field property="widthDisplay" depends="required">
+                <arg0 key="diary.container.edit.width"/>
+            </field>
+            <field property="heightDisplay" depends="required">
+                <arg0 key="diary.container.edit.height"/>
+            </field>
+            <field property="lengthDisplay" depends="required">
+                <arg0 key="diary.container.edit.length"/>
+            </field>
+            <field property="volumeDisplay" depends="required">
+                <arg0 key="diary.container.edit.volume"/>
+            </field>
+        </form>
     </formset>
 </form-validation>
