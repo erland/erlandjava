@@ -1,0 +1,55 @@
+<entity id="skin">
+    <class>erland.webapp.gallery.entity.skin.Skin</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/gallery</datasource>
+        <table>skins</table>
+        <fields>
+            <field id="id">
+                <column>id</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="layout">
+                <column>layout</column>
+                <type>String</type>
+            </field>
+            <field id="layoutSingle">
+                <column>layoutsingle</column>
+                <type>String</type>
+            </field>
+            <field id="header">
+                <column>header</column>
+                <type>String</type>
+            </field>
+            <field id="menu">
+                <column>menu</column>
+                <type>String</type>
+            </field>
+            <field id="search">
+                <column>search</column>
+                <type>String</type>
+            </field>
+            <field id="viewPicture">
+                <column>viewpicture</column>
+                <type>String</type>
+            </field>
+            <field id="viewPictures">
+                <column>viewpictures</column>
+                <type>String</type>
+            </field>
+            <field id="stylesheet">
+                <column>stylesheet</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="all">
+                <querystring/>
+            </query>
+        </queries>
+    </data>
+</entity>
