@@ -35,7 +35,7 @@
     </td></tr>
     <tr><td><bean:message key="homepage.section.edit.service"/></td><td>
     <html:select property="serviceDisplay" size="1">
-        <html:option value="" key="home.section.edit.service.none"/>
+        <html:option value="" key="homepage.section.edit.service.none"/>
         <html:options collection="servicesPB" property="idDisplay" labelProperty="name" />
     </html:select>
     </td></tr>
