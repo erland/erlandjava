@@ -1,1 +1,1 @@
-java -classpath ".;game.jar;util.jar;BoulderDash.jar" erland.game.boulderdash.BoulderDash
+java -classpath "@CLASSPATH@" erland.game.boulderdash.BoulderDash
