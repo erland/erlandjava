@@ -23,13 +23,25 @@ import erland.webapp.common.EntityInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
 import erland.webapp.common.html.StringReplaceInterface;
+import erland.webapp.common.html.DynamicStringReplaceInterface;
 import erland.webapp.diary.entity.appendix.AppendixEntry;
 import erland.util.Log;
 
-public class AppendixStringReplace implements StringReplaceInterface {
+public class AppendixStringReplace implements DynamicStringReplaceInterface {
+    private EntityInterface[] entities = null;
+    protected String getEntity() {
+        return "diary-appendixentry";
+    }
+
+    public void reset() {
+        entities = null;
+    }
+
     public String replace(String str) {
         Log.println(this,"replacing appendix entries with "+getClass().getName());
-        EntityInterface[] entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("diary-appendixentry").search(new QueryFilter("all"));
+        if(entities==null) {
+            entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage(getEntity()).search(new QueryFilter("all"));
+        }
         for (int i = 0; i < entities.length; i++) {
             AppendixEntry entry = (AppendixEntry) entities[i];
             Log.println(this,"replacing appendix entry "+entry.getName());
