@@ -73,6 +73,23 @@ public class FileEntityStorage implements EntityStorageInterface {
             return f.isDirectory();
         }
     };
+    private class FileFileFilter implements FileFilter {
+        public boolean accept(File f) {
+            return f.isFile();
+        }
+    };
+    private class FileMultipleAndFilter implements FileFilter {
+        private FileFilter filter1;
+        private FileFilter filter2;
+        public FileMultipleAndFilter(FileFilter filter1, FileFilter filter2) {
+            this.filter1 = filter1;
+            this.filter2 = filter2;
+        }
+        public boolean accept(File f) {
+            return filter1.accept(f) && filter2.accept(f);
+        }
+    };
+
     public void init(WebAppEnvironmentInterface environment) {
         this.environment = environment;
     }
@@ -177,6 +194,24 @@ public class FileEntityStorage implements EntityStorageInterface {
                             fileFilter= new FileExtensionFilter(extensions);
                         }
                         Boolean tree =  (Boolean)((QueryFilter)filter).getAttribute("tree");
+                        if(tree==null) {
+                            tree = Boolean.FALSE;
+                        }
+
+                        Boolean directoriesOnly = (Boolean) ((QueryFilter)filter).getAttribute("directoriesonly");
+                        if(directoriesOnly!=null && directoriesOnly.booleanValue()) {
+                            if(fileFilter!=null) {
+                                fileFilter = new FileMultipleAndFilter(fileFilter,new FileDirectoryFilter());
+                            }else {
+                                fileFilter = new FileDirectoryFilter();
+                            }
+                        }else {
+                            if(fileFilter!=null) {
+                                fileFilter = new FileMultipleAndFilter(fileFilter,new FileFileFilter());
+                            }else {
+                                fileFilter = new FileFileFilter();
+                            }
+                        }
                         File[] files = getFilesInDir(dir,fileFilter,tree.booleanValue());
                         Arrays.sort(files,orderByDate);
                         entities = new EntityInterface[files.length];
