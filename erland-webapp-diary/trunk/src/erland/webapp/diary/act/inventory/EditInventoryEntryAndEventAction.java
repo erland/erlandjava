@@ -52,6 +52,7 @@ public class EditInventoryEntryAndEventAction extends BaseAction {
         event.setDescription(fb.getEventDescription());
         event.setSize(fb.getEventSize());
         event.setId(entry.getId());
+        event.setContainer(fb.getContainer());
         getEnvironment().getEntityStorageFactory().getStorage("diary-inventoryentryevent").store(event);
     }
 }

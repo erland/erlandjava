@@ -20,10 +20,13 @@ package erland.webapp.diary.act.inventory;
  */
 
 import erland.webapp.common.act.BaseAction;
+import erland.webapp.common.QueryFilter;
+import erland.webapp.common.EntityInterface;
 import erland.webapp.diary.entity.inventory.InventoryEntryEvent;
 import erland.webapp.diary.entity.inventory.DescriptionId;
 import erland.webapp.diary.fb.inventory.InventoryEntryEventFB;
 import erland.webapp.diary.fb.inventory.DescriptionIdPB;
+import erland.webapp.diary.fb.container.ContainerPB;
 import erland.webapp.diary.entity.inventory.DescriptionId;
 import erland.webapp.diary.logic.inventory.DescriptionIdHelper;
 import org.apache.struts.action.ActionForm;
@@ -48,5 +51,15 @@ public class NewInventoryEntryEventAction extends BaseAction {
             PropertyUtils.copyProperties(typesPB[i],types[i]);
         }
         request.getSession().setAttribute("inventoryEntryEventTypesPB",typesPB);
+
+        QueryFilter filter = new QueryFilter("allforuser");
+        filter.setAttribute("username", request.getRemoteUser());
+        EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("diary-container").search(filter);
+        ContainerPB[] pbContainers= new ContainerPB[entities.length];
+        for (int i = 0; i < entities.length; i++) {
+            pbContainers[i] = new ContainerPB();
+            PropertyUtils.copyProperties(pbContainers[i],entities[i]);
+        }
+        request.getSession().setAttribute("containersPB",pbContainers);
     }
 }
