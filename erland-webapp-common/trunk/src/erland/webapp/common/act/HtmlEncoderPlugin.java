@@ -66,7 +66,7 @@ public class HtmlEncoderPlugin implements PlugIn {
         while(tokens.hasMoreElements()) {
             String token = (String) tokens.nextElement();
             try {
-                elements.add(getClass().getClassLoader().loadClass(token) instanceof StringReplaceInterface);
+                elements.add(getClass().getClassLoader().loadClass(token.trim()));
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();  //To change body of catch statement use Options | File Templates.
             }
