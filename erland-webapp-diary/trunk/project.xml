@@ -31,6 +31,7 @@
     A aquarium diary, purchaselist and inventory
   </shortDescription>
 
+  <siteDirectory>\\xp2500\erland/public_html/java/erland-webapp-diary</siteDirectory>
   <!-- any mailing lists for the project -->
   <mailingLists/>
   
