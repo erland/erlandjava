@@ -62,7 +62,7 @@ public class MenuItemSeparatorTag extends TagSupport implements MenuItemInterfac
             }else {
                 itemId = id;
             }
-            System.out.println(""+id+".getItemId()="+itemId);
+            Log.println(this,""+id+".getItemId()="+itemId);
         }
         return itemId;
     }
@@ -76,7 +76,7 @@ public class MenuItemSeparatorTag extends TagSupport implements MenuItemInterfac
             }else {
                 parentId = "";
             }
-            System.out.println(""+id+".getParentId()="+parentId);
+            Log.println(this,""+id+".getParentId()="+parentId);
         }
         return parentId;
     }

@@ -103,7 +103,7 @@ public class BeanMenuItemTag extends TagSupport {
             } else {
                 parentId = "";
             }
-            System.out.println("" + id + ".getParentId()=" + parentId);
+            Log.println(this,"" + id + ".getParentId()=" + parentId);
         }
         return parentId;
     }
