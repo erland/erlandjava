@@ -22,6 +22,9 @@ import erland.util.Log;
 import erland.util.ParameterStorageString;
 import erland.util.StringStorage;
 import erland.webapp.usermgmt.UserMgmtServlet;
+import erland.webapp.common.html.HTMLEncoder;
+import erland.webapp.common.html.HTMLBasicStringReplace;
+import erland.webapp.common.html.HTMLLinkStringReplace;
 
 
 public class DirGalleryServlet extends UserMgmtServlet {
