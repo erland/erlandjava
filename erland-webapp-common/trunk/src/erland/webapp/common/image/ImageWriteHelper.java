@@ -124,7 +124,7 @@ public class ImageWriteHelper {
 
                     if (thumbnail != null) {
                         ImageOutputStream imageOutput = ImageIO.createImageOutputStream(output);
-                        writeImageToOutput(requestedCompression, imageOutput, thumbnail);
+                        writeImageToOutput(thumbnail, requestedCompression, imageOutput);
                         imageOutput.close();
 
                         if (useCache.booleanValue()) {
@@ -151,15 +151,23 @@ public class ImageWriteHelper {
             output.write(data, 0, length);
         }
     }
+    public static void writeImageToOutput(BufferedImage image, OutputStream output) throws IOException {
+        float compression = image.getWidth() <= THUMBNAIL_WIDTH ? SMALL_THUMBNAIL_COMPRESSION : COMPRESSION;
+        writeImageToOutput(image,compression,output);
+    }
 
-    private static void writeImageToOutput(float requestedCompression, ImageOutputStream output, BufferedImage thumbnail) throws IOException {
+    public static void writeImageToOutput(BufferedImage image, float compression, OutputStream output) throws IOException {
+        ImageOutputStream imageOutput = ImageIO.createImageOutputStream(output);
+        writeImageToOutput(image,compression,imageOutput);
+    }
+    private static void writeImageToOutput(BufferedImage image, float requestedCompression, ImageOutputStream output) throws IOException {
         Iterator it = ImageIO.getImageWritersByFormatName("JPEG");
         ImageWriter writer = (ImageWriter) it.next();
         ImageWriteParam param = writer.getDefaultWriteParam();
         param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
         param.setCompressionQuality(requestedCompression);
         writer.setOutput(output);
-        writer.write(null, new IIOImage(thumbnail, null, null), param);
+        writer.write(null, new IIOImage(image, null, null), param);
         writer.dispose();
     }
 
@@ -183,7 +191,7 @@ public class ImageWriteHelper {
         try {
             String cacheFileName = getCacheFileName(username, width, originalFile);
             ImageOutputStream output = ImageIO.createImageOutputStream(new File(cacheDir + "/" + cacheFileName));
-            writeImageToOutput(compression, output, image);
+            writeImageToOutput(image, compression, output);
             output.close();
         } catch (IOException e) {
             e.printStackTrace();
