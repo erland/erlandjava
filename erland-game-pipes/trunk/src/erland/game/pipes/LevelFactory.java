@@ -71,6 +71,9 @@ class LevelFactory
 			case 6:
 				block = new PipeBlockRightUp(images);
 				break;
+			//case 7:
+			//	block = new PipeBlockCrossSplit(images);
+			//	break;
 			default:
 				block = new PipeBlockCross(images);
 				break;
