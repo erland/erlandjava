@@ -38,7 +38,7 @@ public class PictureFB extends ValidatorForm {
     private Boolean official;
     private Date date;
 
-    private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS");
     public Integer getGallery() {
         return gallery;
     }
