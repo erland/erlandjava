@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import erland.webapp.common.fb.BaseFB;
 import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.gallery.fb.account.SelectUserFB;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -26,19 +27,9 @@ import erland.webapp.common.ServletParameterHelper;
  * 
  */
 
-public class SelectGalleryFB extends BaseFB {
-    private String user;
+public class SelectGalleryFB extends SelectUserFB {
     private String guestUser;
     private Integer gallery;
-    private String skin;
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
 
     public String getGuestUser() {
         return guestUser;
@@ -64,19 +55,9 @@ public class SelectGalleryFB extends BaseFB {
         this.gallery = ServletParameterHelper.asInteger(galleryDisplay,null);
     }
 
-    public String getSkin() {
-        return skin;
-    }
-
-    public void setSkin(String skin) {
-        this.skin = skin;
-    }
-
     public void reset(ActionMapping actionMapping, HttpServletRequest servletRequest) {
         super.reset(actionMapping, servletRequest);
         gallery=null;
-        user=null;
         guestUser = null;
-        skin = null;
     }
 }
