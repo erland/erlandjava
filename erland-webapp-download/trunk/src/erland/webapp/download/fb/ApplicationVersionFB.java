@@ -2,6 +2,11 @@ package erland.webapp.download.fb;
 
 import org.apache.struts.action.ActionForm;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.text.ParseException;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -23,9 +28,12 @@ import org.apache.struts.action.ActionForm;
 
 public class ApplicationVersionFB extends ActionForm {
     private String name;
+    private Date date;
     private String filename;
     private String version;
     private String description;
+
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public String getName() {
         return name;
@@ -57,5 +65,25 @@ public class ApplicationVersionFB extends ActionForm {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getDateDisplay() {
+        return dateFormat.format(date);
+    }
+
+    public void setDateDisplay(String dateDisplay) {
+        try {
+            date = dateFormat.parse(dateDisplay);
+        } catch (ParseException e) {
+            date = null;
+        }
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

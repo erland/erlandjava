@@ -6,6 +6,7 @@ import erland.webapp.common.EntityReadUpdateInterface;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Date;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -32,6 +33,7 @@ public class ApplicationVersion extends BaseEntity implements EntityReadUpdateIn
     private String directory;
     private String version;
     private String description;
+    private Date date;
 
     public String getId() {
         return id;
@@ -75,6 +77,14 @@ public class ApplicationVersion extends BaseEntity implements EntityReadUpdateIn
         } else {
             this.directory = directory;
         }
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public void preReadUpdate() {
