@@ -49,5 +49,6 @@
     </tr>
     </table>
     </td></tr>
+    <tr class="picturepage-footer"><td><tiles:insert page="/WEB-INF/tiles/common/footer.jsp"/></td></tr>
 </table>
 </logic:notEmpty>
