@@ -21,11 +21,12 @@
     </td></tr>
     <tr><td><bean:message key="gallery.account.edit.default-gallery"/></td><td>
     <html:select property="defaultGalleryDisplay" size="1">
+        <html:option value="" key="gallery.account.edit.default-gallery.none"/>
         <html:options collection="galleriesPB" property="idDisplay" labelProperty="title" />
     </html:select>
     </td></tr>
     <tr><td><bean:message key="gallery.account.edit.official"/></td><td>
-    <html:checkbox property="official" />
+    <html:checkbox property="officialDisplay" value="true"/>
     </td></tr>
     <tr><td></td><td>
     <html:submit><bean:message key="gallery.buttons.save"/></html:submit>
