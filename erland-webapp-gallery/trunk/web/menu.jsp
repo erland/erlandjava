@@ -30,6 +30,12 @@
 <tr>
 <td class="left-margin"></td>
 <td colspan="3">
+<a href="portal?do=searchguestaccounts" class="bold-link">Guest users</a>
+</td>
+</tr>
+<tr>
+<td class="left-margin"></td>
+<td colspan="3">
 <a href="portal?do=viewuseraccount" class="bold-link">Preferences</a>
 </td>
 </tr>
