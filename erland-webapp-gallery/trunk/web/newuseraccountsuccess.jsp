@@ -25,7 +25,8 @@
         </table>
         Login below to start using your gallery
         <jsp:include page="loginform.jsp">
-            <jsp:param name="user" value="<%=account.getUsername()%>"/>
+            <jsp:param name="loginuser" value="<%=account.getUsername()%>"/>
+            <jsp:param name="logincmd" value="login"/>
         </jsp:include>
         <%
     }
