@@ -82,5 +82,10 @@
                 <arg0 key="gallery.guestaccount.edit.username"/>
             </field>
         </form>
+        <form name="skinFB">
+            <field property="id" depends="required">
+                <arg0 key="gallery.skin.edit.id"/>
+            </field>
+        </form>
     </formset>
 </form-validation>
