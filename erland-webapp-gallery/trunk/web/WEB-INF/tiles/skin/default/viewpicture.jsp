@@ -12,7 +12,7 @@
     </tr>
     <tr><td>
     <logic:notEmpty name="picturePB" property="title">
-        <p class="singlepicturepage-title"><bean:write name="picturePB" property="title"/></p>
+        <p class="singlepicturepage-title"><erland-common:expandhtml><bean:write name="picturePB" property="title"/></erland-common:expandhtml></p>
     </logic:notEmpty>
     <p class="singlepicturepage-description"><bean:write name="picturePB" property="description"/></p>
     </td></tr>
