@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.io.Reader;
 
-import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
@@ -37,7 +37,7 @@ public class BaseTaskPlugin implements PlugIn {
     private Integer priority = null;
 
     public void setPriority(String priority) {
-        this.priority = ServletParameterHelper.asInteger(priority,null);
+        this.priority = StringUtil.asInteger(priority,null);
     }
 
     public void destroy() {

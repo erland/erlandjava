@@ -1,18 +1,10 @@
 package erland.webapp.common.tags.tablegrid;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.struts.util.ResponseUtils;
-
 import javax.servlet.jsp.tagext.TagSupport;
-import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
 import java.io.IOException;
 
-import erland.webapp.common.ServletParameterHelper;
 import erland.util.Log;
 import erland.util.StringUtil;
 
@@ -131,7 +123,7 @@ public class TableGridRowTag extends TagSupport {
             if(Log.isEnabled(this,Log.DEBUG)) {
                 Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
             }
-            rowNo=ServletParameterHelper.asInteger(row,new Integer(0)).intValue();
+            rowNo=StringUtil.asInteger(row,new Integer(0)).intValue();
             if(rowNo==getTableRowIndex()) {
                 String cellStyle = this.cellStyle!=null?this.cellStyle:getTableCellStyle();
                 String align = this.align!=null?this.align:getTableAlign();

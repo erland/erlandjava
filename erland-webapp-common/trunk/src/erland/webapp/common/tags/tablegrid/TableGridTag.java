@@ -1,17 +1,14 @@
 package erland.webapp.common.tags.tablegrid;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.struts.util.ResponseUtils;
 
 import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.io.IOException;
 
-import erland.webapp.common.ServletParameterHelper;
 import erland.util.Log;
 import erland.util.StringUtil;
 
@@ -348,20 +345,20 @@ public class TableGridTag extends TagSupport {
             }else {
                 throw new IllegalArgumentException("Bean is not an array or collection");
             }
-            Integer rowsValue=ServletParameterHelper.asInteger(rows,null);
+            Integer rowsValue=StringUtil.asInteger(rows,null);
             if(rowsValue==null || rowsValue.intValue()<1) {
                 noOfRows=iterateObject.length;
             }else {
                 noOfRows=rowsValue.intValue();
             }
-            Integer colsValue=ServletParameterHelper.asInteger(cols,null);
+            Integer colsValue=StringUtil.asInteger(cols,null);
             if(colsValue==null || colsValue.intValue()<1) {
                 noOfCols=iterateObject.length;
             }else {
                 noOfCols=colsValue.intValue();
             }
-            noOfRowIterations=ServletParameterHelper.asInteger(rowIterations,new Integer(1)).intValue();
-            noOfColumnIterations=ServletParameterHelper.asInteger(columnIterations,new Integer(1)).intValue();
+            noOfRowIterations=StringUtil.asInteger(rowIterations,new Integer(1)).intValue();
+            noOfColumnIterations=StringUtil.asInteger(columnIterations,new Integer(1)).intValue();
             if(iterateObject.length>0) {
                 index = 0;
                 columnIndex = 0;

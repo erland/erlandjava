@@ -5,7 +5,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import java.io.IOException;
 
-import erland.webapp.common.ServletParameterHelper;
 import erland.util.Log;
 import erland.util.StringUtil;
 
@@ -124,7 +123,7 @@ public class TableGridColumnTag extends TagSupport {
             if(Log.isEnabled(this,Log.DEBUG)) {
                 Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
             }
-            columnNo=ServletParameterHelper.asInteger(column,new Integer(0)).intValue();
+            columnNo=StringUtil.asInteger(column,new Integer(0)).intValue();
             if(columnNo==getTableColumnIndex()) {
                 String cellStyle = this.cellStyle!=null?this.cellStyle:getTableCellStyle();
                 String align = this.align!=null?this.align:getTableAlign();
