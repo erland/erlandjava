@@ -25,6 +25,7 @@ import erland.webapp.common.ServletParameterHelper;
 
 public class GalleryPB extends GalleryFB {
     private Boolean virtual;
+    private Integer noOfThumnailInfoRows;
 
     public Boolean getVirtual() {
         return virtual;
@@ -40,5 +41,21 @@ public class GalleryPB extends GalleryFB {
 
     public void setVirtualDisplay(String virtualDisplay) {
         this.virtual = ServletParameterHelper.asBoolean(virtualDisplay,Boolean.FALSE);
+    }
+
+    public Integer getNoOfThumnailInfoRows() {
+        return noOfThumnailInfoRows;
+    }
+
+    public void setNoOfThumnailInfoRows(Integer noOfThumnailInfoRows) {
+        this.noOfThumnailInfoRows = noOfThumnailInfoRows;
+    }
+
+    public String getNoOfThumnailInfoRowsDisplay() {
+        return ServletParameterHelper.asString(noOfThumnailInfoRows,null);
+    }
+
+    public void setNoOfThumnailInfoRowsDisplay(String noOfThumnailInfoRowsDisplay) {
+        this.noOfThumnailInfoRows = ServletParameterHelper.asInteger(noOfThumnailInfoRowsDisplay,null);
     }
 }
