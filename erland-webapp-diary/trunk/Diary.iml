@@ -69,7 +69,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="commons-beanutils" level="application" />
-    <orderEntry type="library" name="Erland Gallery" level="application" />
     <orderEntry type="library" name="Servletapi" level="application" />
     <orderEntry type="library" name="Jakarta Struts" level="application" />
     <orderEntry type="module" module-name="Gallery" />
