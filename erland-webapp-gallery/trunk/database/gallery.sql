@@ -16,6 +16,7 @@ CREATE TABLE categories (
   officialvisible tinyint(1) NOT NULL default '0',
   officialalways tinyint(1) NOT NULL default '0',
   parent int(11) NOT NULL default '0',
+  officialnever tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (gallery,id)
 ) TYPE=MyISAM;
 
@@ -81,6 +82,8 @@ CREATE TABLE pictures (
   image varchar(255) NOT NULL default '',
   official tinyint(1) NOT NULL default '0',
   link varchar(255) NOT NULL default '',
+  official tinyint(1) NOT NULL default '0',
+  officialguest tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (id,gallery)
 ) TYPE=MyISAM;
 
