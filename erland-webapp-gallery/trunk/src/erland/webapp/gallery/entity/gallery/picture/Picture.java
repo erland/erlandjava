@@ -31,6 +31,7 @@ public class Picture extends BaseEntity {
     private String image;
     private String link;
     private Boolean official;
+    private Boolean officialGuest;
     private Date date;
 
     public Integer getGallery() {
@@ -87,6 +88,14 @@ public class Picture extends BaseEntity {
 
     public void setOfficial(Boolean official) {
         this.official = official;
+    }
+
+    public Boolean getOfficialGuest() {
+        return officialGuest;
+    }
+
+    public void setOfficialGuest(Boolean officialGuest) {
+        this.officialGuest = officialGuest;
     }
 
     public Date getDate() {
