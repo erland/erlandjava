@@ -47,17 +47,6 @@
       <maximumHeapSize value="128" />
       <viewClosedWhenNoErrors value="false" />
     </buildFile>
-    <buildFile url="file://E:/EGNA/Working/Java/buildutil.xml">
-      <useEmacsModeOutput value="true" />
-      <useCustomJdk value="false" />
-      <treeView value="true" />
-      <useJavaw value="false" />
-      <verbose value="true" />
-      <includeProjectClasspath value="false" />
-      <includeParser value="true" />
-      <maximumHeapSize value="128" />
-      <viewClosedWhenNoErrors value="false" />
-    </buildFile>
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
