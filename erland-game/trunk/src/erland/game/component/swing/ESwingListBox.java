@@ -37,7 +37,6 @@ public class ESwingListBox extends EListBox {
     public ESwingListBox(String[] values) {
         super(new JComboBox(values));
         ((JComboBox)getComponent()).setEditable(false);
-        ((JComboBox)getComponent()).
     }
 
     public String getSelection() {
