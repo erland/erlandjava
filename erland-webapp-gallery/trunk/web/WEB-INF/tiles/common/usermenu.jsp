@@ -9,6 +9,9 @@
         <erland-common:menuitem id="new" titleKey="gallery.menu.galleries.new" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" />
         <erland-common:beanmenuitem bean="menuGalleriesAndCategoriesPB" id="idDisplay" titleKey="name" page="path" childs="childs" />
     </erland-common:menuitem>
+    <erland-common:menuitem id="guestgalleries" titleKey="gallery.menu.galleries-guest" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" >
+        <erland-common:beanmenuitem bean="guestMenuGalleriesAndCategoriesPB" id="idDisplay" titleKey="name" page="path" childs="childs" />
+    </erland-common:menuitem>
     <erland-common:menuitem id="storages" titleKey="gallery.menu.storages" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" />
     <erland-common:menuitem id="preferences" titleKey="gallery.menu.preferences" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" />
     <erland-common:menuitem id="guestusers" titleKey="gallery.menu.guestusers" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" />
