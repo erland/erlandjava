@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public class UserMgmtServlet extends BaseServlet {
     protected boolean isCommandAllowed(HttpServletRequest request) {
-        Log.println(this,getClass().getName()+"::"+"isCommandAllowed(...)");
         HttpSession session = request.getSession(false);
         String cmd = getCommandClassName(request);
         if(session!=null) {
