@@ -11,9 +11,10 @@ import erland.webapp.common.EntityInterface;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
 import erland.webapp.download.fb.ApplicationVersionFB;
 import erland.webapp.download.fb.ApplicationIdFB;
+import erland.webapp.download.fb.ApplicationFileFB;
 import erland.webapp.download.entity.ApplicationVersion;
-import java.util.Collection;
-import java.util.ArrayList;
+
+import java.util.*;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -36,29 +37,65 @@ import java.util.ArrayList;
 
 public class SearchApplicationVersionsAction extends Action {
     public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+        QueryFilter filter = getFilter(actionForm);
+        EntityInterface[] entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-applicationversion").search(filter);
+        if(entities!=null) {
+            Map applicationVersions = new HashMap();
+            for (int i = 0; i < entities.length; i++) {
+                ApplicationVersion entity = (ApplicationVersion) entities[i];
+                if(applicationVersions.containsKey(entity.getApplicationName()+"-"+entity.getVersion())) {
+                    ApplicationVersionFB existingEntry = (ApplicationVersionFB) applicationVersions.get(entity.getApplicationName()+"-"+entity.getVersion());
+                    ApplicationFileFB[] existingFiles = existingEntry.getFiles();
+                    ApplicationFileFB[] newFiles = new ApplicationFileFB[existingFiles.length+1];
+                    boolean bInserted = false;
+                    for (int j = 0,k=0; j < newFiles.length; j++) {
+                        if(!bInserted && (entity.getType()==null || entity.getType().length()==0 || existingFiles[k].getType().compareTo(entity.getType())>0)) {
+                            newFiles[j] = new ApplicationFileFB(entity.getName(),entity.getType(),entity.getName());
+                            bInserted = true;
+                        }else {
+                            newFiles[j] = existingFiles[k++];
+                        }
+                    }
+                    existingEntry.setFiles(newFiles);
+                    if(entity.getDescription()!=null && entity.getDescription().length()>0) {
+                        if(existingEntry.getDescription()!=null && entity.getDescription().length()>0) {
+                            existingEntry.setDescription(existingEntry.getDescription()+'\n');
+                        }else {
+                            existingEntry.setDescription("");
+                        }
+                        existingEntry.setDescription(existingEntry.getDescription()+entity.getDescription());
+                    }
+                }else {
+                    ApplicationVersionFB version = new ApplicationVersionFB();
+                    version.setName(entity.getApplicationName());
+                    version.setTitle(entity.getApplicationTitle());
+                    version.setDate(entity.getDate());
+                    version.setVersion(entity.getVersion());
+                    version.setDescription(entity.getDescription());
+                    version.setFiles(new ApplicationFileFB[] {new ApplicationFileFB(entity.getName(),entity.getType(),entity.getName())});
+
+                    applicationVersions.put(entity.getApplicationName()+"-"+entity.getVersion(),version);
+                }
+            }
+            ApplicationVersionFB[] versions = (ApplicationVersionFB[]) applicationVersions.values().toArray(new ApplicationVersionFB[0]);
+            Arrays.sort(versions, new Comparator() {
+                public int compare(Object o1, Object o2) {
+                    return -((ApplicationVersionFB)o1).getDate().compareTo(((ApplicationVersionFB)o2).getDate());
+                }
+            });
+            httpServletRequest.setAttribute("applicationversionsPB",versions);
+            return actionMapping.findForward("success");
+        }else {
+            return actionMapping.findForward("failure");
+        }
+    }
+
+    protected QueryFilter getFilter(ActionForm actionForm) {
         ApplicationIdFB fb = (ApplicationIdFB) actionForm;
         QueryFilter filter = new QueryFilter("allforapplication");
         String mainDir = WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("basedirectory");
         filter.setAttribute("directory",mainDir+"/"+fb.getName());
         filter.setAttribute("extensions", ".zip,.exe");
-        EntityInterface[] entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-applicationversion").search(filter);
-        if(entities!=null) {
-            Collection applicationVersions = new ArrayList();
-            for (int i = 0; i < entities.length; i++) {
-                ApplicationVersion entity = (ApplicationVersion) entities[i];
-                ApplicationVersionFB version = new ApplicationVersionFB();
-
-                version.setName(fb.getName());
-                version.setFilename(entity.getName());
-                version.setDate(entity.getDate());
-                version.setVersion(entity.getVersion());
-                version.setDescription(entity.getDescription());
-                applicationVersions.add(version);
-            }
-            httpServletRequest.setAttribute("applicationversionsPB",applicationVersions);
-            return actionMapping.findForward("success");
-        }else {
-            return actionMapping.findForward("failure");
-        }
+        return filter;
     }
 }
