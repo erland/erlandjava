@@ -15,6 +15,11 @@
        1.1, 1.2, 2.0-SNAPSHOT -->
   <currentVersion>SNAPSHOT</currentVersion>
   
+  <organization>
+        <name>Erland Isaksson</name>
+        <url>http://erland.homeip.net</url>
+  </organization>
+
   <!-- the year the project started -->
   <inceptionYear>2003</inceptionYear>
   <package>erland.game.isoadventure</package>
@@ -23,7 +28,7 @@
   </description>
   <!-- a short description of what the project does -->
   <shortDescription>
-    An adventure game with a isometric perspective view
+    An adventure game with a isometric view
   </shortDescription>
   <url>http://erland.homeip.net/games/applications</url>
   <!-- any mailing lists for the project -->
@@ -49,6 +54,7 @@
 	  <properties>
         <jnlp.jar>true</jnlp.jar>
         <dist.bin.bundle>true</dist.bin.bundle>
+        <jar.manifest.classpath>true</jar.manifest.classpath>
       </properties>
     </dependency>
 
@@ -61,6 +67,7 @@
 	  <properties>
         <jnlp.jar>true</jnlp.jar>
         <dist.bin.bundle>true</dist.bin.bundle>
+        <jar.manifest.classpath>true</jar.manifest.classpath>
       </properties>
     </dependency>
 
@@ -73,6 +80,7 @@
 	  <properties>
         <jnlp.jar>true</jnlp.jar>
         <dist.bin.bundle>true</dist.bin.bundle>
+        <jar.manifest.classpath>true</jar.manifest.classpath>
       </properties>
     </dependency>
   </dependencies>
@@ -91,11 +99,12 @@
         </resource>
         <resource>
             <directory>${basedir}</directory>
-            <includes dir="images">
-                <include>**/*.gif</include>
+            <includes>
+                <include>images/**/*.gif</include>
             </includes>
         </resource>
     </resources>
   </build>
+  <reports><report>maven-javadoc-plugin</report></reports>
 </project>
 
