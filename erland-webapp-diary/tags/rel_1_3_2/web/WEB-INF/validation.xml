@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN"
+          "http://jakarta.apache.org/commons/dtds/validator_1_0.dtd">
+
+<form-validation>
+    <formset>
+        <form name="editUserAccountFB">
+            <field property="welcomeText" depends="required">
+                <arg0 key="diary.account.edit.welcome-text"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="diary.account.edit.description"/>
+            </field>
+        </form>
+        <form name="newUserAccountFB">
+            <field property="username" depends="required">
+                <arg0 key="diary.account.new.username"/>
+            </field>
+            <field property="firstName" depends="required">
+                <arg0 key="diary.account.new.firstname"/>
+            </field>
+            <field property="lastName" depends="required">
+                <arg0 key="diary.account.new.lastname"/>
+            </field>
+            <field property="mail" depends="required,email">
+                <arg0 key="diary.account.new.mail"/>
+            </field>
+            <field property="password1" depends="required">
+                <arg0 key="diary.account.new.password1"/>
+            </field>
+            <field property="password2" depends="required">
+                <arg0 key="diary.account.new.password2"/>
+            </field>
+            <field property="welcomeText" depends="required">
+                <arg0 key="diary.account.new.welcome-text"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="diary.account.new.description"/>
+            </field>
+        </form>
+        <form name="editAppendixFB">
+            <field property="name" depends="required">
+                <arg0 key="diary.appendix.edit.name"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="diary.appendix.edit.description"/>
+            </field>
+        </form>
+        <form name="editDiaryFB">
+            <field property="title" depends="required">
+                <arg0 key="diary.diary.edit.title"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="diary.diary.edit.description"/>
+            </field>
+        </form>
+        <form name="editDiaryEntryFB">
+            <field property="date" depends="required">
+                <arg0 key="diary.diary.entry.edit.date"/>
+            </field>
+            <field property="title" depends="required">
+                <arg0 key="diary.diary.entry.edit.title"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="diary.diary.entry.edit.description"/>
+            </field>
+        </form>
+        <form name="editGalleryFB">
+            <field property="title" depends="required">
+                <arg0 key="diary.gallery.edit.title"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="diary.gallery.edit.description"/>
+            </field>
+        </form>
+        <form name="editGalleryEntryFB">
+            <field property="title" depends="required">
+                <arg0 key="diary.gallery.entry.edit.title"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="diary.gallery.entry.edit.description"/>
+            </field>
+            <field property="image" depends="required">
+                <arg0 key="diary.gallery.entry.edit.image"/>
+            </field>
+            <field property="link" depends="required">
+                <arg0 key="diary.gallery.entry.edit.link"/>
+            </field>
+        </form>
+        <form name="editInventoryEntryAndEventFB">
+            <field property="name" depends="required">
+                <arg0 key="diary.inventory.edit.name"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="diary.inventory.edit.description"/>
+            </field>
+            <field property="eventDate" depends="required">
+                <arg0 key="diary.inventory.edit.event.date"/>
+            </field>
+            <field property="eventSizeDisplay" depends="required">
+                <arg0 key="diary.inventory.edit.event.size"/>
+            </field>
+        </form>
+        <form name="editInventoryEntryFB">
+            <field property="name" depends="required">
+                <arg0 key="diary.inventory.edit.name"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="diary.inventory.edit.description"/>
+            </field>
+        </form>
+        <form name="editInventoryEntryEventFB">
+            <field property="date" depends="required">
+                <arg0 key="diary.inventory.event.edit.date"/>
+            </field>
+            <field property="sizeDisplay" depends="required">
+                <arg0 key="diary.inventory.event.edit.size"/>
+            </field>
+        </form>
+        <form name="editPurchaseEntryFB">
+            <field property="date" depends="required">
+                <arg0 key="diary.purchase.edit.date"/>
+            </field>
+            <field property="store" depends="required">
+                <arg0 key="diary.purchase.edit.store"/>
+            </field>
+            <field property="priceDisplay" depends="required">
+                <arg0 key="diary.purchase.edit.price"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="diary.purchase.edit.description"/>
+            </field>
+        </form>
+        <form name="editContainerFB">
+            <field property="name" depends="required">
+                <arg0 key="diary.container.edit.name"/>
+            </field>
+            <field property="model" depends="required">
+                <arg0 key="diary.container.edit.model"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="diary.container.edit.description"/>
+            </field>
+            <field property="widthDisplay" depends="required">
+                <arg0 key="diary.container.edit.width"/>
+            </field>
+            <field property="heightDisplay" depends="required">
+                <arg0 key="diary.container.edit.height"/>
+            </field>
+            <field property="lengthDisplay" depends="required">
+                <arg0 key="diary.container.edit.length"/>
+            </field>
+            <field property="volumeDisplay" depends="required">
+                <arg0 key="diary.container.edit.volume"/>
+            </field>
+        </form>
+    </formset>
+</form-validation>

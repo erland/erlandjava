@@ -1,0 +1,52 @@
+<entity id="inventoryentryevent">
+    <class>erland.webapp.diary.entity.inventory.InventoryEntryEvent</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/diary</datasource>
+        <table>inventoryentryhistory</table>
+        <fields>
+            <field id="id">
+                <column>id</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+            <field id="eventId">
+                <column>eventid</column>
+                <type>Integer</type>
+                <identity>true</identity>
+                <auto>true</auto>
+            </field>
+            <field id="date">
+                <column>date</column>
+                <type>Date</type>
+            </field>
+            <field id="size">
+                <column>size</column>
+                <type>Double</type>
+            </field>
+            <field id="description">
+                <column>description</column>
+                <type>Integer</type>
+            </field>
+            <field id="container">
+                <column>container</column>
+                <type>Integer</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allforid">
+                <querystring>id=?</querystring>
+                <orderstring>order by date desc, eventid desc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>id</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
