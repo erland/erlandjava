@@ -73,7 +73,11 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
             return;
         }
         setGallery(request,gallery);
-        boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
+        String language = fb.getLanguage();
+        if(StringUtil.asNull(language)==null) {
+            language = request.getLocale().getLanguage();
+        }
+        boolean useEnglish = !language.equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
         Integer galleryId = GalleryHelper.getGalleryId(gallery);
         setGalleryId(request,galleryId);
         Integer categoryId = fb.getCategory();
@@ -136,10 +140,11 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
             entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").search(filter);
         }
 
-        String username = fb.getUser();
-        if (username == null || username.length() == 0) {
-            username = request.getRemoteUser();
-        }
+        String username = gallery.getUsername();
+        //String username = fb.getUser();
+        //if (username == null || username.length() == 0) {
+        //  username = request.getRemoteUser();
+        //}
         filter = new QueryFilter("allforuser");
         filter.setAttribute("username", username);
         EntityInterface[] storageEntities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picturestorage").search(filter);
@@ -173,6 +178,13 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
         }
 
         Map pictureParameters = new HashMap();
+        if(StringUtil.asNull(request.getServerName())!=null) {
+            pictureParameters.put("hostname",request.getServerName());
+            if(request.getServerPort()!=80) {
+                pictureParameters.put("port",new Integer(request.getServerPort()));
+            }
+        }
+        pictureParameters.put("contextpath",request.getContextPath());
         PicturePB[] picturesPB = new PicturePB[entities.length];
         ActionForward updateForward = mapping.findForward("picture-update-link");
         ActionForward removeForward = mapping.findForward("picture-remove-link");
@@ -403,6 +415,17 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
             }
         }else {
             request.getSession().setAttribute("stylesheetPB",pbSkin.getStylesheet());
+        }
+        String pbTitle = (String) request.getSession().getAttribute("titlePB");
+        if(StringUtil.asNull(pbTitle)==null) {
+            UserAccount template = (UserAccount) getEnvironment().getEntityFactory().create("gallery-useraccount");
+            template.setUsername(username);
+            UserAccount account = (UserAccount) getEnvironment().getEntityStorageFactory().getStorage("gallery-useraccount").load(template);
+            String title = account.getTitle();
+            if(useEnglish && StringUtil.asNull(account.getTitleEnglish())!=null) {
+                title = account.getTitleEnglish();
+            }
+            request.getSession().setAttribute("titlePB",title);
         }
     }
 
