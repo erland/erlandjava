@@ -12,9 +12,9 @@
 </head>
 <body>
 <center>
-<table border="0" cellspacing="0" cellpadding="0" width="600" height="100%">
+<table border="0" cellspacing="0" cellpadding="0" width="500" height="100%">
 <tr>
-<td colspan="2" width="600" height="80" valign="center" align="center">
+<td colspan="2" height="80" valign="center" align="center">
 <a href="portal?do=logout"><img src="logo.gif" border="0"></img></a>
 <%
 String p = (String) request.getAttribute("header");
@@ -35,7 +35,7 @@ if(p!=null) {
 </td>
 </tr>
 <tr>
-<td height="*" valign="top">
+<td height="*" valign="top" align="left">
 <%
 p = (String) request.getAttribute("menu");
 if(p!=null) {
@@ -45,7 +45,7 @@ if(p!=null) {
 }
 %>
 </td>
-<td valign="top">
+<td valign="top" align="left">
 <%
 p = (String) request.getAttribute("content");
 if(p!=null) {
