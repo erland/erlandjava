@@ -13,6 +13,7 @@ public class LogoutCommand implements CommandInterface {
     public String execute(HttpServletRequest req) {
         HttpSession session = req.getSession(true);
         session.removeAttribute("user");
+        session.invalidate();
         return null;
     }
 }
