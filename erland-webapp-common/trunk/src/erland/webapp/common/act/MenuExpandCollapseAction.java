@@ -43,7 +43,6 @@ public class MenuExpandCollapseAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MenuExpandCollapseFB fb = (MenuExpandCollapseFB) form;
         String menuObj = (String) request.getSession().getAttribute(fb.getMenuName());
-        System.out.println(fb.getMenuName()+" Current: "+menuObj);
         if(menuObj!=null && menuObj.startsWith(fb.getMenuItemId())) {
             String id = fb.getMenuItemId();
             int pos = id.lastIndexOf("-");
@@ -52,10 +51,8 @@ public class MenuExpandCollapseAction extends BaseAction {
             }else {
                 id = "";
             }
-            System.out.println(fb.getMenuName()+" New: "+id);
             request.getSession().setAttribute(fb.getMenuName(),id);
         }else {
-            System.out.println(fb.getMenuName()+" New: "+fb.getMenuItemId());
             request.getSession().setAttribute(fb.getMenuName(),fb.getMenuItemId());
         }
     }

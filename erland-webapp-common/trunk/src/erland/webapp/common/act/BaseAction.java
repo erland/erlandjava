@@ -394,7 +394,6 @@ public class BaseAction extends Action {
     protected WebAppEnvironmentInterface getEnvironment() {
         if(environment==null) {
             environment = WebAppEnvironmentPlugin.getEnvironment();
-            System.out.println("Got "+environment);
         }
         return environment;
     }
