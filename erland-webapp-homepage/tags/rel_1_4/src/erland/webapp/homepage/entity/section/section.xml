@@ -1,0 +1,99 @@
+<entity id="section">
+    <class>erland.webapp.homepage.entity.section.Section</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/homepage</datasource>
+        <table>sections</table>
+        <fields>
+            <field id="username">
+                <column>username</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="id">
+                <column>id</column>
+                <type>Integer</type>
+                <auto>true</auto>
+                <identity>true</identity>
+            </field>
+            <field id="parent">
+                <column>parent</column>
+                <type>Integer</type>
+            </field>
+            <field id="orderNo">
+                <column>orderno</column>
+                <type>Integer</type>
+            </field>
+            <field id="name">
+                <column>name</column>
+                <type>String</type>
+            </field>
+            <field id="nameEnglish">
+                <column>name_en</column>
+                <type>String</type>
+            </field>
+            <field id="title">
+                <column>title</column>
+                <type>String</type>
+            </field>
+            <field id="titleEnglish">
+                <column>title_en</column>
+                <type>String</type>
+            </field>
+            <field id="description">
+                <column>description</column>
+                <type>String</type>
+            </field>
+            <field id="descriptionEnglish">
+                <column>description_en</column>
+                <type>String</type>
+            </field>
+            <field id="service">
+                <column>service</column>
+                <type>Integer</type>
+            </field>
+            <field id="serviceParameters">
+                <column>serviceparameters</column>
+                <type>String</type>
+            </field>
+            <field id="ipAddr">
+                <column>ipaddr</column>
+                <type>String</type>
+            </field>
+            <field id="hosts">
+                <column>hosts</column>
+                <type>String</type>
+            </field>
+            <field id="official">
+                <column>official</column>
+                <type>Boolean</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allforuser">
+                <orderstring>order by parent asc, title asc</orderstring>
+                <querystring/>
+            </query>
+            <query id="allofficialforuser">
+                <orderstring>order by parent asc, title asc</orderstring>
+                <querystring>official=1</querystring>
+            </query>
+            <query id="allforparent">
+                <querystring>username=? and parent=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>username</field>
+                        <type>String</type>
+                    </field>
+                    <field id="2">
+                        <field>parent</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>

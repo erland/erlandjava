@@ -1,0 +1,122 @@
+<project name="homepage" default="Build Application" basedir=".">
+    <!-- set global properties for this build -->
+	<property environment="env"/>
+    <property file="${env.ERLAND_ANT_BUILD_PROPERTIES}"/>
+
+  <target name="init" unless="buildutil">
+    <get dest="buildutil.xml" usetimestamp="true" ignoreerrors="false" src="http://erland.homeip.net/~ant/buildutil.xml"/>
+    <property name="buildutil" value="${basedir}/buildutil.xml"/>
+    <get dest="build.properties" usetimestamp="true" ignoreerrors="false" src="http://erland.homeip.net/~ant/build.properties"/>
+	<property file="build.properties"/>
+  </target>
+
+    <target name="buildlibraries">
+        <!-- Make sure to build other project this depend on -->
+        <ant dir="../common"/>
+        <ant dir="../usermgmt"/>
+    </target>
+    <target name="copylibraries">
+        <!-- Copy required libraries to distribution dir -->
+        <copy todir="${dist}/WEB-INF">
+            <fileset dir="${java.home.struts}">
+                <include name="*.xml"/>
+            </fileset>
+        </copy>
+        <copy todir="${dist}">
+            <fileset dir="${java.home.struts}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${java.home.request-taglib}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="../common/${dist}">
+                <include name="*.jar"/>
+                <include name="*.tld"/>
+            </fileset>
+            <fileset dir="../usermgmt/${dist}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="../../common/util/${dist}">
+                <include name="util.jar"/>
+            </fileset>
+            <fileset file="resources.xml"/>
+            <fileset dir="web">
+                <include name="**/*.xml"/>
+                <include name="**/*.jsp"/>
+                <include name="**/*.html"/>
+                <include name="**/*.css"/>
+                <include name="**/*.gif"/>
+                <include name="**/*.jpg"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="Make archive" depends="init">
+        <antcall target="Clean All"/>
+        <antcall target="Build Application"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="makedeliverableweb">
+            <property name="currentproject" value="${ant.project.name}"/>
+        </ant>
+    </target>
+    <target name="Make archive (Debug)" depends="init">
+        <antcall target="Clean All"/>
+        <antcall target="Build Application (Debug)"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="makedeliverableweb">
+            <property name="currentproject" value="${ant.project.name}"/>
+        </ant>
+    </target>
+
+    <target name="Build Application" depends="init">
+        <property name="nojarsign" value="true"/>
+        <antcall target="buildlibraries"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="dist">
+            <property name="currentproject" value="${ant.project.name}"/>
+            <property name="currentpackage" value="erland.webapp.homepage"/>
+            <property name="projectclasspath" value="${java.home.j2ee};${java.home.beanutils};${java.home.struts.lib};../common/${dist}/webcommon.jar;../usermgmt/${dist}/usermgmt.jar;../diagram/${dist}/diagram.jar;../../common/util/${dist}/util.jar"/>
+        </ant>
+        <antcall target="copylibraries"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="makewebapp">
+            <property name="currentproject" value="${ant.project.name}"/>
+        </ant>
+    </target>
+    <target name="Install and Build Application (Debug)" depends="Build Application (Debug)" >
+        <copy todir="${erland.home.webapps}" file="${dist}/${ant.project.name}.war"/>
+        <unwar dest="${erland.home.webapps}/${ant.project.name}" src="${dist}/${ant.project.name}.war"/>
+    </target>
+    <target name="Install and Build Application" depends="Build Application" >
+        <copy todir="${erland.home.webapps}" file="${dist}/${ant.project.name}.war"/>
+        <unwar dest="${erland.home.webapps}/${ant.project.name}" src="${dist}/${ant.project.name}.war"/>
+    </target>
+    <target name="Build Application (Debug)" depends="init">
+        <property name="debug" value="true"/>
+        <antcall target="Build Application"/>
+    </target>
+
+    <target name="Documentation" depends="init">
+        <ant dir="../common" target="Documentation"/>
+        <ant dir="../usermgmt" target="Documentation"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="doc">
+            <property name="currentproject" value="${ant.project.name}"/>
+            <property name="currentpackage" value="erland.webapp.homepage"/>
+            <property name="projectclasspath" value="${java.home.j2ee};${java.home.beanutils};${java.home.struts.lib};../common/${dist}/webcommon.jar;../usermgmt/${dist}/usermgmt.jar;../diagram/${dist}/diagram.jar;../../common/util/${dist}/util.jar"/>
+        </ant>
+    </target>
+    <target name="Public Documentation" depends="init">
+        <ant dir="../common" target="Public Documentation"/>
+        <ant dir="../usermgmt" target="Public Documentation"/>
+        <ant dir="${basedir}" antfile="${buildutil}" target="docpublic">
+            <property name="currentproject" value="${ant.project.name}"/>
+            <property name="currentpackage" value="erland.webapp.homepage"/>
+            <property name="projectclasspath" value="${java.home.j2ee};${java.home.beanutils};${java.home.struts.lib};../common/${dist}/webcommon.jar;../usermgmt/${dist}/usermgmt.jar;../diagram/${dist}/diagram.jar;../../common/util/${dist}/util.jar"/>
+        </ant>
+    </target>
+
+    <target name="Clean All" depends="init,Clean This">
+        <ant dir="../../common/util" target="Clean This"/>
+        <ant dir="../common" target="Clean This"/>
+        <ant dir="../usermgmt" target="Clean This"/>
+    </target>
+    <target name="Clean This" depends="init">
+        <ant dir="${basedir}" antfile="${buildutil}" target="clean"/>
+    </target>
+</project>
