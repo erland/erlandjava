@@ -1,0 +1,33 @@
+<entity id="picturecomment">
+    <class>erland.webapp.dirgallery.gallery.picture.PictureComment</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/dirgallery</datasource>
+        <table>picturecomments</table>
+        <fields>
+            <field id="id">
+                <column>id</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="comment">
+                <column>comment</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allforcommentlist">
+                <querystring>id in ({1})</querystring>
+                <fields>
+                    <field id="1">
+                        <field>comments</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
