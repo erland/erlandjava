@@ -1,0 +1,196 @@
+<entity id="category">
+    <class>erland.webapp.gallery.entity.gallery.category.Category</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/gallery</datasource>
+        <table>categories</table>
+        <fields>
+            <field id="category">
+                <column>id</column>
+                <type>Integer</type>
+                <identity>true</identity>
+                <auto>true</auto>
+            </field>
+            <field id="gallery">
+                <column>gallery</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+            <field id="name">
+                <column>name</column>
+                <type>String</type>
+            </field>
+            <field id="official">
+                <column>official</column>
+                <type>Boolean</type>
+            </field>
+            <field id="officialAlways">
+                <column>officialalways</column>
+                <type>Boolean</type>
+            </field>
+            <field id="officialVisible">
+                <column>officialvisible</column>
+                <type>Boolean</type>
+            </field>
+            <field id="parentCategory">
+                <column>parent</column>
+                <type>Integer</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allforgallery">
+                <querystring>gallery=?</querystring>
+                <orderstring>order by parent asc,id asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allofficialforgallery">
+                <querystring>gallery=? and officialvisible=1</querystring>
+                <orderstring>order by parent asc,id asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforgallerywithtopcategory">
+                <querystring>gallery=? and parent>=?</querystring>
+                <orderstring>order by parent asc,id asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>parent</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allofficialforgallerywithtopcategory">
+                <querystring>gallery=? and parent>=? and officialvisible=1</querystring>
+                <orderstring>order by parent asc,id asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>parent</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforgalleryorderedbyname">
+                <querystring>gallery=?</querystring>
+                <orderstring>order by name asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allofficialforgalleryorderedbyname">
+                <querystring>gallery=? and officialvisible=1</querystring>
+                <orderstring>order by name asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforgallerywithoutparent">
+                <querystring>gallery=? and parent=0</querystring>
+                <orderstring>order by name asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforgallerywithparent">
+                <querystring>gallery=? and parent=?</querystring>
+                <orderstring>order by name asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>parent</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allofficialforgallerywithoutparent">
+                <querystring>gallery=? and parent=0 and officialvisible=1</querystring>
+                <orderstring>order by name asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allofficialforgallerywithparent">
+                <querystring>gallery=? and parent=? and officialvisible=1</querystring>
+                <orderstring>order by name asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>parent</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforgalleryandcategorytree">
+                <completequerystring>select categories.* from categorymembers,categories where categorymembers.gallery=? and categorymembers.gallery=categories.gallery and categorymembers.member=categories.id and categorymembers.category=? union select * from categories where gallery=? and id=?</completequerystring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>category</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="3">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="4">
+                        <field>category</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforgalleryandcategorylist">
+                <querystring>gallery=? and id in ({2})</querystring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>categories</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
