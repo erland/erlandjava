@@ -394,11 +394,15 @@
     <brokers>
         <broker id="robur">
             <name>Robur</name>
-            <class id="connection">erland.webapp.stocks.robur.RoburConnection</class>
+            <data id="connection">
+                <class>erland.webapp.stocks.robur.RoburConnection</class>
+            </data>
         </broker>
         <broker id="sb">
             <name>Stockholmsbörsen</name>
-            <class id="connection">erland.webapp.stocks.sb.SBConnection</class>
+            <data id="connection">
+                <class>erland.webapp.stocks.sb.SBConnection</class>
+            </data>
         </broker>
     </brokers>
 </resources>
