@@ -1,0 +1,67 @@
+<entity id="channel">
+    <class>erland.webapp.tvguide.entity.channel.Channel</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/tvguide</datasource>
+        <table>channels</table>
+        <fields>
+            <field id="id">
+                <column>id</column>
+                <type>Integer</type>
+                <identity>true</identity>
+                <auto>true</auto>
+            </field>
+            <field id="tag">
+                <column>tag</column>
+                <type>String</type>
+            </field>
+            <field id="name">
+                <column>name</column>
+                <type>String</type>
+            </field>
+            <field id="logo">
+                <column>logo</column>
+                <type>String</type>
+            </field>
+            <field id="link">
+                <column>link</column>
+                <type>String</type>
+            </field>
+            <field id="description">
+                <column>description</column>
+                <type>String</type>
+            </field>
+            <field id="service">
+                <column>service</column>
+                <type>Integer</type>
+            </field>
+            <field id="serviceParameters">
+                <column>serviceparameters</column>
+                <type>String</type>
+            </field>
+            <field id="cacheDate">
+                <column>cachedate</column>
+                <type>Timestamp</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="all">
+                <orderstring>order by name asc</orderstring>
+                <querystring/>
+            </query>
+            <query id="allinlist">
+                <orderstring>order by name asc</orderstring>
+                <querystring>id in ({1})</querystring>
+                <fields>
+                    <field id="1">
+                        <field>channel</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
