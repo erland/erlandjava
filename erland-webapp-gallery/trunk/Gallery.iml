@@ -21,6 +21,7 @@
     <orderEntry type="module" module-name="UserMgmt" />
     <orderEntry type="module" module-name="util" />
     <orderEntry type="module" module-name="WebCommon" />
+    <orderEntry type="library" name="Dom4J" level="application" />
   </component>
 </module>
 
