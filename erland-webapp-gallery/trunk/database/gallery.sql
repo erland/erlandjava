@@ -89,6 +89,8 @@ CREATE TABLE galleries (
   scaleExifThumbnails tinyint(1) NOT NULL default '0',
   useExifThumbnails tinyint(1) NOT NULL default '0',
   usecachelargeimages tinyint(1) NOT NULL default '0',
+  nationalnamepattern varchar(255) NOT NULL default '',
+  englishnamepattern varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -194,6 +196,8 @@ CREATE TABLE skins (
 
 CREATE TABLE useraccounts (
   username varchar(100) NOT NULL default '',
+  title varchar(255) NOT NULL default '',
+  title_en varchar(255) NOT NULL default '',
   welcometext longtext NOT NULL default '',
   welcometext_en longtext NOT NULL default '',
   description longtext NOT NULL default '',
