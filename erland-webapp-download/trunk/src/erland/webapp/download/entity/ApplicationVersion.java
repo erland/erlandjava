@@ -30,6 +30,9 @@ import java.util.Date;
 public class ApplicationVersion extends BaseEntity implements EntityReadUpdateInterface {
     private String id;
     private String name;
+    private String applicationName;
+    private String applicationTitle;
+    private String type;
     private String directory;
     private String version;
     private String description;
@@ -49,6 +52,30 @@ public class ApplicationVersion extends BaseEntity implements EntityReadUpdateIn
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getApplicationName() {
+        return applicationName;
+    }
+
+    public void setApplicationName(String applicationName) {
+        this.applicationName = applicationName;
+    }
+
+    public String getApplicationTitle() {
+        return applicationTitle;
+    }
+
+    public void setApplicationTitle(String applicationTitle) {
+        this.applicationTitle = applicationTitle;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getVersion() {
@@ -116,6 +143,25 @@ public class ApplicationVersion extends BaseEntity implements EntityReadUpdateIn
             } catch (IOException e) {
                 setDescription(null);
             }
+
+            pos = Math.max(id.lastIndexOf("/"),id.lastIndexOf("\\"));
+            if(pos>=0) {
+                setApplicationName(id.substring(0,pos));
+                int pos2 = Math.max(getApplicationName().lastIndexOf("/"),getApplicationName().lastIndexOf("\\"));
+                if(pos2>=0) {
+                    setApplicationName(getApplicationName().substring(pos2+1));
+                }
+            }else {
+                setApplicationName(null);
+            }
+
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(id.substring(0,pos)+"/title.txt"));
+                setApplicationTitle(reader.readLine());
+            } catch (IOException e) {
+                setApplicationTitle(null);
+            }
+
             id = id.substring(directory.length());
             id = id.replaceAll("[/\\\\]", ":");
         }
@@ -130,6 +176,17 @@ public class ApplicationVersion extends BaseEntity implements EntityReadUpdateIn
                 setVersion(nameWithoutExtension.substring(pos+1));
             }else {
                 setVersion(null);
+            }
+
+            if(getVersion()!=null) {
+                String version = getVersion();
+                pos = version.indexOf("_");
+                if(pos>=0) {
+                    setVersion(version.substring(0,pos));
+                    setType(version.substring(pos+1));
+                }else {
+                    setType(null);
+                }
             }
         }
     }
