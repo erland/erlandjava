@@ -30,8 +30,19 @@ import java.io.IOException;
 import java.net.URL;
 
 public class ImageThumbnail implements ThumbnailCreatorInterface {
+    private final static int THUMBNAIL_WIDTH=150;
     private static Object sync = new Object();
+    private Boolean antialias;
+    private Boolean thumbnailAntialias;
 
+    public ImageThumbnail() {
+        antialias = Boolean.FALSE;
+        thumbnailAntialias = Boolean.FALSE;
+    }
+    public ImageThumbnail(Boolean thumbnailAntialias, Boolean antialias) {
+        this.antialias = antialias!=null?antialias:Boolean.FALSE;
+        this.thumbnailAntialias = thumbnailAntialias!=null?thumbnailAntialias:Boolean.FALSE;
+    }
     public BufferedImage create(URL url, int requestedWidth, ImageFilterContainerInterface filters) throws IOException {
         BufferedImage thumbnail = null;
         synchronized (sync) {
@@ -64,7 +75,14 @@ public class ImageThumbnail implements ThumbnailCreatorInterface {
                 thumbnail = new BufferedImage(width, height, image.getType());
                 Graphics2D g2 = thumbnail.createGraphics();
                 g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-                g2.drawImage(image, 0, 0, width, height, 0, 0, image.getWidth(), image.getHeight(), null);
+                if((requestedWidth<=THUMBNAIL_WIDTH && thumbnailAntialias.booleanValue()) ||
+                   (requestedWidth>THUMBNAIL_WIDTH && antialias.booleanValue())) {
+                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    Image scaled = image.getScaledInstance(width,height,Image.SCALE_AREA_AVERAGING);
+                    g2.drawImage(scaled, 0, 0, null);
+                }else {
+                    g2.drawImage(image, 0, 0, width, height, 0, 0, image.getWidth(), image.getHeight(), null);
+                }
                 g2.dispose();
             }
         }
