@@ -1,6 +1,6 @@
 1. LICENSE
 ==========
-Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
+Copyright (C) 2003-2004 Erland Isaksson (erland_i@hotmail.com)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 2. LIBRARIES
 ============
+A number of different libraries from http://jakarta.apache.org is included
 
 3. PREREQUISITES
 ================
@@ -27,10 +28,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 4. FILES
 ========
-This archive should contain the following files:
-- readme.txt (this file)
-- download.war (The web application code)
+This binary archive should contain the following files:
+- README.txt (this file)
+- LICENSE.txt (the software license)
+- download.war (The web application)
 - database/*.sql (A number of database configuration scripts)
+- docs/* (The javadoc documentation for the web application classes)
+
+This source archive should contain the following files:
+- README.txt (this file)
+- LICENSE.txt (the software license)
+- database/*.sql (A number of database configuration scripts)
+- src/* (The web application source code)
+- web/* (The web application source code)
+- build.xml (A build file for ant)
+- maven.xml (A build file for maven)
+- project.properties (A configuration file for maven)
+- project.xml (A configuration file for maven)
 
 5. CONFIGURING OF THE DATABASE
 ==============================
@@ -63,6 +77,7 @@ exists.
 
 8. THIRD PARTY LIBRARIES
 ========================
+No extra third party libraries should be required besides the ones delivered with the appliacation.
 
 9. DEPLOY AND RUN
 =================
@@ -70,3 +85,21 @@ You should now be able to deploy the download.war file on you web-server and the
 as for example:
 http://mywebserver/download
 
+10. BUILDING
+============
+This chapter is only interesting if you for some reason wants to recompile the web application from
+the source archive. There is an ant build file delivered witht he application but the recommended and
+tested way to build it is by using maven(http://maven.apache.org).
+
+- Install maven
+- You will have to create a build.properties file with the following rows:
+  maven.war.final.name=${maven.webapp.name}.war
+  maven.war.build.dir=${maven.build.dir}
+  maven.war.webapp.dir=${maven.war.build.dir}/${maven.webapp.name}
+  maven.webserver.webapp.dir=D:/users/erland/webappstomcat
+- The maven.webserver.webapp.dir parameter should point to the webapps expansion dir of your webserver
+- Build with:
+  To just generate the war archive:
+  maven all:build
+  To generate a new distribution:
+  maven dist
