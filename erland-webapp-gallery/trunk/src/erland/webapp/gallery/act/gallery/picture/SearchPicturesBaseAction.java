@@ -28,10 +28,7 @@ import erland.webapp.gallery.entity.gallery.category.Category;
 import erland.webapp.gallery.entity.gallery.picturestorage.PictureStorage;
 import erland.webapp.gallery.entity.gallery.picture.Resolution;
 import erland.webapp.gallery.entity.gallery.Gallery;
-import erland.webapp.gallery.fb.gallery.picture.PictureCollectionPB;
-import erland.webapp.gallery.fb.gallery.picture.PicturePB;
-import erland.webapp.gallery.fb.gallery.picture.SelectPictureFB;
-import erland.webapp.gallery.fb.gallery.picture.ResolutionPB;
+import erland.webapp.gallery.fb.gallery.picture.*;
 import erland.webapp.gallery.fb.gallery.GalleryPB;
 import erland.util.Log;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -153,6 +150,11 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
 
         Map pictureParameters = new HashMap();
         PicturePB[] picturesPB = new PicturePB[entities.length];
+        ActionForward updateForward = mapping.findForward("picture-update-link");
+        ActionForward removeForward = mapping.findForward("picture-remove-link");
+        ActionForward resolutionForward = mapping.findForward("picture-resolution-link");
+        ActionForward pictureLinkForward = mapping.findForward("picture-link");
+        ActionForward pictureImageForward = mapping.findForward("picture-image");
         for (int i = 0; i < entities.length; i++) {
             picturesPB[i] = new PicturePB();
             PropertyUtils.copyProperties(picturesPB[i], entities[i]);
@@ -162,39 +164,43 @@ public abstract class SearchPicturesBaseAction extends BaseAction {
                 pictureParameters.put("width",defaultResolution.toString());
             }
             if (picturesPB[i].getImage().startsWith("{")) {
-                String path = mapping.findForward("picture-image").getPath();
+                String path = pictureImageForward.getPath();
                 picturesPB[i].setImage(ServletParameterHelper.replaceDynamicParameters(path,pictureParameters));
             } else {
                 picturesPB[i].setImage(getImagePath(storageEntities, picturesPB[i].getImage()));
             }
             if (gallery.getUsername().equals(request.getRemoteUser())) {
-                ActionForward forward = mapping.findForward("picture-update-link");
-                if(forward!=null) {
-                    String path = forward.getPath();
+                if(updateForward!=null) {
+                    String path = updateForward.getPath();
                     picturesPB[i].setUpdateLink(ServletParameterHelper.replaceDynamicParameters(path,pictureParameters));
                 }
-                forward = mapping.findForward("picture-remove-link");
-                if(forward!=null) {
-                    String path = forward.getPath();
+                if(removeForward!=null) {
+                    String path = removeForward.getPath();
                     picturesPB[i].setRemoveLink(ServletParameterHelper.replaceDynamicParameters(path,pictureParameters));
                 }
             }else {
-                ActionForward forward = mapping.findForward("picture-resolution-link");
-                if(forward!=null) {
-                    picturesPB[i].setResolutionLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),pictureParameters));
-                    picturesPB[i].setResolutions(resolutionsPB);
+                if(resolutionForward!=null) {
+                    ResolutionLinkPB[] resolutionLinksPB = new ResolutionLinkPB[resolutionsPB.length];
+                    Map resolutionParameters = new HashMap();
+                    resolutionParameters.put("gallery",virtualGalleryId);
+                    resolutionParameters.put("picture",picturesPB[i].getId());
+                    for (int j = 0; j < resolutionLinksPB.length; j++) {
+                        resolutionParameters.put("width",resolutionsPB[j].getWidth());
+                        String path = ServletParameterHelper.replaceDynamicParameters(resolutionForward.getPath(),resolutionParameters);
+                        resolutionLinksPB[j] = new ResolutionLinkPB(resolutionsPB[j].getId(),resolutionsPB[j].getDescription(),path);
+                    }
+                    picturesPB[i].setResolutions(resolutionLinksPB);
                 }
             }
             if (picturesPB[i].getLink().startsWith("{")) {
                 String path = null;
                 if(defaultResolution!=null) {
-                    ActionForward forward = mapping.findForward("picture-resolution-link-complete");
-                    if(forward!=null) {
-                        path = forward.getPath();
+                    if(resolutionForward!=null) {
+                        path = resolutionForward.getPath();
                     }
                 }
                 if(path==null) {
-                    path = mapping.findForward("picture-link").getPath();
+                    path = pictureLinkForward.getPath();
                 }
                 picturesPB[i].setLink(ServletParameterHelper.replaceDynamicParameters(path,pictureParameters));
             } else {
