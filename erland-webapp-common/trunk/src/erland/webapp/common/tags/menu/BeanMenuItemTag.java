@@ -19,6 +19,8 @@ import java.net.URL;
 import java.net.MalformedURLException;
 
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.Log;
+import erland.util.StringUtil;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -160,6 +162,9 @@ public class BeanMenuItemTag extends TagSupport {
 
     public int doStartTag() throws JspException {
         JspWriter out = pageContext.getOut();
+        if(Log.isEnabled(this,Log.DEBUG)) {
+            Log.println(this,StringUtil.beanToString(this,null,TagSupport.class,true));
+        }
         String menuObjName = getMenuId();
         String menuObj = (String) pageContext.getAttribute(menuObjName, PageContext.SESSION_SCOPE);
         if ((getParentId().length() == 0 || (menuObj != null && menuObj.startsWith(getParentId()))) && (isUserInRole(roles))) {
@@ -167,7 +172,7 @@ public class BeanMenuItemTag extends TagSupport {
                 Object o = pageContext.getAttribute(bean, PageContext.SESSION_SCOPE);
                 if (o instanceof Object[]) {
                     writeMenu((Object[]) o, getIndent(), getParentId(), menuObj, out);
-                }else {
+                }else if(o instanceof Object) {
                     writeMenu(new Object[] {o}, getIndent(), getParentId(), menuObj, out);
                 }
             } catch (IOException e) {
