@@ -4,6 +4,8 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +36,9 @@ import java.io.*;
  */
 
 public class DownloadApplication extends Action {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(DownloadApplication.class);
+
     public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         ApplicationFileFB fb = (ApplicationFileFB) actionForm;
 
@@ -49,9 +54,14 @@ public class DownloadApplication extends Action {
             if(entity.getName()!=null) {
                 String filename = entity.getDirectory()+entity.getName();
                 InputStream input = new BufferedInputStream(new FileInputStream(filename));
+                if(filename.endsWith(".zip")) {
+                    httpServletResponse.setContentType("application/zip");
+                }else {
+                    httpServletResponse.setContentType("application/octet-stream");
+                }
                 httpServletResponse.setHeader("Content-Disposition","attachment; filename=\"" +entity.getName()+ "\";");
                 write(input,httpServletResponse.getOutputStream());
-                System.out.println("Loading application "+filename);
+                LOG.debug("Loading application "+filename);
             }
             return null;
         }else {
