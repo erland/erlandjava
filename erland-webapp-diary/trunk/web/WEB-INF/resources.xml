@@ -17,6 +17,8 @@
         <entity id="diary-inventoryentrytype" reference="inventoryentrytype:erland/webapp/diary/entity/inventory/inventoryentrytype.xml"/>
         <entity id="diary-inventoryentrysex" reference="inventoryentrysex:erland/webapp/diary/entity/inventory/inventoryentrysex.xml"/>
         <entity id="diary-inventorysummary" reference="inventorysummary:erland/webapp/diary/entity/inventory/inventorysummary.xml"/>
+        <entity id="diary-species" reference="species:erland/webapp/diary/entity/species/species.xml"/>
+        <entity id="diary-speciestype" reference="speciestype:erland/webapp/diary/entity/species/speciestype.xml"/>
         <entity id="diary-diary" reference="diary:erland/webapp/diary/entity/diary/diary.xml"/>
         <entity id="diary-diaryentry" reference="diaryentry:erland/webapp/diary/entity/diary/diaryentry.xml"/>
         <entity id="diary-gallery" reference="gallery:erland/webapp/diary/entity/gallery/gallery.xml"/>
