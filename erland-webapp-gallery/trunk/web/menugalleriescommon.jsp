@@ -2,15 +2,16 @@
                  erland.webapp.gallery.gallery.ViewGalleriesInterface,
                  erland.webapp.common.CommandInterface,
                  erland.webapp.gallery.gallery.category.ViewCategoriesInterface,
-                 erland.webapp.gallery.gallery.category.Category"%>
+                 erland.webapp.gallery.gallery.category.Category,
+                 erland.webapp.gallery.gallery.GalleryInterface"%>
 <%
 CommandInterface cmd = (CommandInterface) request.getSession().getAttribute("menugalleries");
 if(cmd instanceof ViewGalleriesInterface) {
-    Gallery[] galleries = ((ViewGalleriesInterface)cmd).getGalleries();
+    GalleryInterface[] galleries = ((ViewGalleriesInterface)cmd).getGalleries();
     String user = request.getParameter("user");
     String command = request.getParameter("searchcategoriescmd");
     for (int i = 0; i < galleries.length; i++) {
-        Gallery gallery = galleries[i];
+        GalleryInterface gallery = galleries[i];
         %>
         <tr>
         <td class="sub-menu"></td>

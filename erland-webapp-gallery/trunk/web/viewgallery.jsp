@@ -1,13 +1,14 @@
 <%@ page session="true" import="erland.webapp.common.CommandInterface,
                                 erland.webapp.gallery.gallery.ViewGalleryInterface,
                                 erland.webapp.gallery.gallery.Gallery,
-                                erland.webapp.gallery.HTMLEncoder"%>
+                                erland.webapp.gallery.HTMLEncoder,
+                                erland.webapp.gallery.gallery.GalleryInterface"%>
 
 
 <%
     CommandInterface cmd = (CommandInterface) request.getAttribute("cmd");
     if(cmd instanceof ViewGalleryInterface) {
-        Gallery gallery = ((ViewGalleryInterface)cmd).getGallery();
+        GalleryInterface gallery = ((ViewGalleryInterface)cmd).getGallery();
         if(gallery!=null) {
             %>
             <jsp:include page="gallerycategoryupdatelinks.jsp"/>
