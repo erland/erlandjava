@@ -156,5 +156,16 @@
                 <arg0 key="diary.container.edit.volume"/>
             </field>
         </form>
+        <form name="editSpeciesEntryFB">
+            <field property="name" depends="required">
+                <arg0 key="diary.species.edit.name"/>
+            </field>
+            <field property="latinName" depends="required">
+                <arg0 key="diary.species.edit.latinname"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="diary.species.edit.description"/>
+            </field>
+        </form>
     </formset>
 </form-validation>
