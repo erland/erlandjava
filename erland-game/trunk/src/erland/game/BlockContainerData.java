@@ -84,4 +84,28 @@ public class BlockContainerData
     {
     	return getSquareSize()*y;
     }
+    public int getDrawingSizeX()
+    {
+    	return getSquareSize()*getSizeX();
+    }
+    public int getDrawingSizeY()
+    {
+    	return getSquareSize()*getSizeY();
+    }
+	/**
+	 * Sets the horizontal drawing offset
+	 * @param x The new X drawing offset
+	 */
+	public void setOffsetX(int offsetX)
+	{
+		this.offsetX = offsetX;
+	}
+	/**
+	 * Sets the horizontal drawing offset
+	 * @param y The new Y drawing offset
+	 */
+	public void setOffsetY(int offsetY)
+	{
+		this.offsetY = offsetY;
+	}
 }
