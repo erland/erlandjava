@@ -53,6 +53,7 @@ public class MenuItemTag extends TagSupport implements MenuItemInterface {
     private String id;
     private String style;
     private String styleSelected;
+    private String target;
     private String roles;
 
     public void setStyleSelected(String styleSelected) {
@@ -73,6 +74,10 @@ public class MenuItemTag extends TagSupport implements MenuItemInterface {
 
     public void setTitleKey(String titleKey) {
         this.titleKey = titleKey;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
     }
 
     public void setId(String id) {
@@ -188,7 +193,7 @@ public class MenuItemTag extends TagSupport implements MenuItemInterface {
                 if(indent>0) {
                     out.write("<img src=\""+addContextPath(getIndentImage())+"\" width=\""+(getIndentWidth()*indent)+"\" height=\"1\"></img>");
                 }
-                out.write("<a "+(style!=null?"class=\""+style+"\" ":"")+"href=\""+addContextPath(ServletParameterHelper.replaceDynamicParameters(page, getParameterMap(getMenuId(),getItemId())))+"\">");
+                out.write("<a "+(style!=null?"class=\""+style+"\" ":"")+"href=\""+addContextPath(ServletParameterHelper.replaceDynamicParameters(page, getParameterMap(getMenuId(),getItemId())))+"\""+(target!=null?" target=\""+target+"\"":"")+"\">");
                 if(titleKey!=null) {
                     String title = RequestUtils.message(pageContext,null,null,titleKey);
                     if(title!=null) {
