@@ -1,0 +1,33 @@
+<entity id="account">
+    <class>erland.webapp.stocks.Account</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/stock</datasource>
+        <table>accounts</table>
+        <fields>
+            <field id="accountId">
+                <column>accountid</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+            <field id="username">
+                <column>username</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allforuser">
+                <querystring>username=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>username</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
