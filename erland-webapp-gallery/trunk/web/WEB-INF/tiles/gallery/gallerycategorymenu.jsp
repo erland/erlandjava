@@ -8,6 +8,7 @@
     <a href="<html:rewrite page="/do/user/viewgallery"/>?id=<bean:write name="galleryPB" property="id"/>" class="bold-link"><bean:message key="gallery.gallery.modify"/></a>
     <a href="<html:rewrite page="/do/user/removegallery"/>?id=<bean:write name="galleryPB" property="id"/>" class="bold-link" onClick="return confirm('<bean:message key="gallery.gallery.delete.are-you-sure"/>')"><bean:message key="gallery.gallery.delete"/></a>
     <a href="<html:rewrite page="/do/user/viewgalleryfilters"/>?gallery=<bean:write name="galleryPB" property="id"/>" class="bold-link"><bean:message key="gallery.gallery.view-filters"/></a>
+    <a href="<html:rewrite page="/do/user/clearcachegallery"/>?id=<bean:write name="galleryPB" property="id"/>" class="bold-link"><bean:message key="gallery.gallery.clear-cache"/></a>
     <logic:notEqual name="galleryPB" property="virtual" value="true">
         <a href="<html:rewrite page="/do/user/newpicture"/>?gallery=<bean:write name="galleryPB" property="id"/>" class="bold-link"><bean:message key="gallery.gallery.add-picture"/></a>
         <a href="<html:rewrite page="/do/user/newimportpictures"/>?gallery=<bean:write name="galleryPB" property="id"/>" class="bold-link"><bean:message key="gallery.gallery.import-pictures"/></a>
