@@ -1,0 +1,36 @@
+! ** JCreator Workspace File (C)2000
+! ********** DO NOT EDIT *********
+
+VERSION := "1.00"
+LABEL := "Pipes"
+
+! Start Project Structure
+#[BeginProject]SOURCE := "E:\\Egna\\Java\\Common\\game\\game.jcp" #[EndProject]
+#[BeginProject]SOURCE := "E:\\Egna\\Java\\Common\\util\\util.jcp" #[EndProject]
+#[BeginProject]SOURCE := "Pipes.jcp" #[EndProject]
+
+! Start Last Document Structure
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipePartLeftUp.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipePartNone.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipePartRightDown.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipePartRightUp.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipePartUpDown.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipePartCross.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockContainerInterface.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockCross.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\Pipes.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\LevelFactory.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipePartWell.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockStartRight.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockStartLeft.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockStartUp.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockStartDown.java" #[EndFile]
+#[BeginFile]SOURCE := "E:\\Egna\\Java\\Common\\util\\src\\erland\\util\\ImageHandlerInterface.java" #[EndFile]
+#[BeginFile]SOURCE := "E:\\Egna\\Java\\Common\\util\\src\\erland\\util\\ImageHandlerForApplet.java" #[EndFile]
+#[BeginFile]SOURCE := "E:\\Egna\\Java\\Common\\util\\src\\erland\\util\\ImageHandlerForApplication.java" #[EndFile]
+#[BeginFile]SOURCE := "E:\\Egna\\Java\\CrackOut\\src\\erland\\game\\crackout\\ImageHandlerForApp.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipePart.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlock.java" #[EndFile]
+
+! Start Last Document Structure
+
