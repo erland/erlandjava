@@ -9,6 +9,14 @@
     </target>
     <target name="copylibraries">
         <copy file="${java.home.awtdisplaymode}" todir="${dist}"/>
+        <copy todir="${dist}">
+            <fileset dir="../util/${dist}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="../network/${dist}">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
     </target>
 
     <target name="Make archive">
@@ -87,9 +95,10 @@
     </target>
 
     <target name="Clean All" depends="Clean This">
-        <ant dir="../common/util" target="Clean This"/>
-        <ant dir="../common/network" target="Clean This"/>
+        <ant dir="${basedir}/../util" target="Clean This"/>
+        <ant dir="${basedir}/../network" target="Clean This"/>
     </target>
+
     <target name="Clean This">
         <ant dir="${basedir}" antfile="${buildutil}" target="clean"/>
     </target>
