@@ -10,6 +10,9 @@
     <logic:notEmpty name="searchPictureFB" property="max">
         <html:hidden property="max"/>
     </logic:notEmpty>
+    <logic:notEmpty name="searchPictureFB" property="skin">
+        <html:hidden property="skin"/>
+    </logic:notEmpty>
     <html:hidden property="gallery"/>
     <table class="propertypage-body">
     <tr><td><bean:message key="gallery.gallery.search.first-date"/></td><td>
