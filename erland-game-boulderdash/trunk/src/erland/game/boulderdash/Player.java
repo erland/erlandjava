@@ -154,6 +154,7 @@ class Player
 	/**
 	 * Check if the player is still alive
 	 * @return true/false (Alive/Not alive)
+	 */
 	public boolean isAlive()
 	{
 		return alive;
