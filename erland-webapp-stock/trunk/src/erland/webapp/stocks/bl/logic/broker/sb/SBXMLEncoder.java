@@ -26,12 +26,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class SBXMLEncoder {
+    private static Object logObject;
+    private static Object getLogObject() {
+        if(logObject==null) {
+            logObject = new SBXMLEncoder();
+        }
+        return logObject;
+    }
     static String encodeStockData(BufferedReader data) {
         String out="";
         try {
-            Log.println(new SBXMLEncoder(),"getXMLData start "+System.currentTimeMillis());
+            Log.println(getLogObject(),"getXMLData start "+System.currentTimeMillis());
             String xmlData = getXMLData(data);
-            Log.println(new SBXMLEncoder(),"getXMLData stop "+System.currentTimeMillis());
+            if(Log.isEnabled(getLogObject())) {
+                Log.println(getLogObject(),xmlData,Log.DEBUG);
+            }
+            Log.println(getLogObject(),"getXMLData stop "+System.currentTimeMillis());
             if(xmlData!=null) {
                 SBXMLParser parser = new SBXMLParser();
                 //System.out.println(xmlData);
@@ -52,7 +62,7 @@ public class SBXMLEncoder {
         String line = data.readLine();
         boolean bFound = false;
         while(line!=null && !bFound) {
-            if(line.startsWith("<?xml")) {
+            if(line.indexOf("xml")>=0) {
                 bFound = true;
                 break;
             }
@@ -63,7 +73,7 @@ public class SBXMLEncoder {
         }
         //out.append(line);
         out.append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
-        line = data.readLine();
+        //line = data.readLine();
         bFound = false;
         while(line!=null && !bFound) {
             out.append(line);
