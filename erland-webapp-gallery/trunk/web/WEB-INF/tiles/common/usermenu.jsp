@@ -23,6 +23,10 @@
     <erland-common:menuitem id="skins" titleKey="gallery.menu.skins" page="/do/user/menu?menuItemId={menuItemId}" roles="manager" >
         <erland-common:menuitem id="new" titleKey="gallery.menu.skins.new" page="/do/user/menu?menuItemId={menuItemId}" roles="manager"/>
     </erland-common:menuitem>
+    <erland-common:menuitem id="usertasks" titleKey="gallery.menu.usertasks" page="/do/user/menu?menuItemId={menuItemId}" />
+    <erland-common:menuitem id="tasks" titleKey="gallery.menu.tasks" page="/do/user/menu?menuItemId={menuItemId}" roles="manager">
+        <erland-common:menuitem id="edit" titleKey="gallery.menu.tasks.edit" page="/do/user/menu?menuItemId={menuItemId}" roles="manager"/>
+    </erland-common:menuitem>
     <erland-common:menuitem id="users" titleKey="gallery.menu.users" page="/do/user/menu?menuItemId={menuItemId}" roles="manager" />
     <erland-common:beanmenuitem bean="helpMenuPB" id="idText" titleKey="name" page="path" target="_blank"/>
     <erland-common:menuitem id="logout" titleKey="gallery.menu.logout" page="/do/user/menu?menuItemId={menuItemId}" />
