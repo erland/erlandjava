@@ -324,7 +324,7 @@
                 </fields>
             </data>
         </entity>
-        <entity id="useraccount">
+        <entity id="galleryuseraccount">
             <class>erland.webapp.gallery.account.UserAccount</class>
             <data id="storage">
                 <class>erland.webapp.common.GenericEntityStorage</class>
@@ -753,6 +753,24 @@
                             </field>
                             <field id="2">
                                 <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                        </fields>
+                    </query>
+                    <query id="allforgalleryandcategorylistandpicturelist">
+                        <completequerystring>select distinct pictures.* from pictures,picturecategories where pictures.gallery=picturecategories.gallery and pictures.id=picturecategories.picture and pictures.gallery=? and picturecategories.category in ({2}) and pictures.id in ({3})</completequerystring>
+                        <orderstring>order by date desc,id desc</orderstring>
+                        <fields>
+                            <field id="1">
+                                <field>gallery</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="2">
+                                <field>categories</field>
+                                <type>Integer</type>
+                            </field>
+                            <field id="3">
+                                <field>pictures</field>
                                 <type>Integer</type>
                             </field>
                         </fields>

@@ -155,9 +155,9 @@ public class LoadThumbnailCommand extends LoadImageCommand implements CommandInt
     }
     private UserAccount getUserAccount() {
         if(account==null) {
-            UserAccount template = (UserAccount) getEnvironment().getEntityFactory().create("useraccount");
+            UserAccount template = (UserAccount) getEnvironment().getEntityFactory().create("galleryuseraccount");
             template.setUsername(getUsername());
-            account = (UserAccount) getEnvironment().getEntityStorageFactory().getStorage("useraccount").load(template);
+            account = (UserAccount) getEnvironment().getEntityStorageFactory().getStorage("galleryuseraccount").load(template);
         }
         return account;
     }

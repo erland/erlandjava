@@ -30,9 +30,9 @@ public class ViewUserAccountCommand implements CommandInterface, ViewUserAccount
                 }
             }
         }
-        UserAccount template = (UserAccount)environment.getEntityFactory().create("useraccount");
+        UserAccount template = (UserAccount)environment.getEntityFactory().create("galleryuseraccount");
         template.setUsername(username);
-        account = (UserAccount) environment.getEntityStorageFactory().getStorage("useraccount").load(template);
+        account = (UserAccount) environment.getEntityStorageFactory().getStorage("galleryuseraccount").load(template);
         String differentPages = request.getParameter("withdifferentpages");
         if(differentPages!=null && differentPages.equals("1")) {
             if(account!=null && account.getDefaultGallery().intValue()!=0) {

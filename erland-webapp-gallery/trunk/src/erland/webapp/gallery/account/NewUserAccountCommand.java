@@ -46,10 +46,10 @@ public class NewUserAccountCommand implements CommandInterface, ViewUserAccountI
                     templateRole.setApplication("gallery");
                     templateRole.setRole("user");
                     environment.getEntityStorageFactory().getStorage("userapplicationrole").store(templateRole);
-                    UserAccount templateAccount = (UserAccount) environment.getEntityFactory().create("useraccount");
+                    UserAccount templateAccount = (UserAccount) environment.getEntityFactory().create("galleryuseraccount");
                     templateAccount.setUsername(username);
                     templateAccount.setWelcomeText(welcomeText);
-                    environment.getEntityStorageFactory().getStorage("useraccount").store(templateAccount);
+                    environment.getEntityStorageFactory().getStorage("galleryuseraccount").store(templateAccount);
                     account = templateAccount;
                     return "success";
                 }

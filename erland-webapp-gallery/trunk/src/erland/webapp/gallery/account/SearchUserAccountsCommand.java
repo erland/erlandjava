@@ -18,7 +18,7 @@ public class SearchUserAccountsCommand implements CommandInterface, ViewUserAcco
 
     public String execute(HttpServletRequest request) {
         QueryFilter filter = new QueryFilter(getQueryFilter());
-        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("useraccount").search(filter);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("galleryuseraccount").search(filter);
         accounts = new UserAccount[entities.length];
         for (int i = 0; i < entities.length; i++) {
             accounts[i] = (UserAccount) entities[i];

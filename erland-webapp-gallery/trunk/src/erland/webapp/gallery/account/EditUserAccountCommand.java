@@ -42,7 +42,7 @@ public class EditUserAccountCommand implements CommandInterface, ViewUserAccount
             if(defaultGalleryString!=null && defaultGalleryString.length()>0) {
                 defaultGallery=Integer.valueOf(defaultGalleryString);
             }
-            account = (UserAccount)environment.getEntityFactory().create("useraccount");
+            account = (UserAccount)environment.getEntityFactory().create("galleryuseraccount");
             account.setUsername(username);
             account.setWelcomeText(welcomeText);
             account.setDescription(description);
@@ -50,7 +50,7 @@ public class EditUserAccountCommand implements CommandInterface, ViewUserAccount
             account.setOfficial(official);
             account.setDefaultGallery(defaultGallery);
             account.setCopyrightText(copyright);
-            environment.getEntityStorageFactory().getStorage("useraccount").store(account);
+            environment.getEntityStorageFactory().getStorage("galleryuseraccount").store(account);
         }
         return null;
     }

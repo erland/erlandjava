@@ -14,9 +14,9 @@ public class RemoveUserAccountCommand implements CommandInterface {
 
     public String execute(HttpServletRequest request) {
         String username = request.getParameter("username");
-        UserAccount template = (UserAccount)environment.getEntityFactory().create("useraccount");
+        UserAccount template = (UserAccount)environment.getEntityFactory().create("galleryuseraccount");
         template.setUsername(username);
-        environment.getEntityStorageFactory().getStorage("useraccount").delete(template);
+        environment.getEntityStorageFactory().getStorage("galleryuseraccount").delete(template);
         return null;
     }
 }
