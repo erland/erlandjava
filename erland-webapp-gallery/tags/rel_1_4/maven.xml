@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project default="all:build"
+    xmlns:ant="jelly:ant">
+
+	<postGoal name="dist:prepare-bin-filesystem">
+        <attainGoal name="war"/>
+        <!-- Remove Jars -->
+        <ant:delete file="${maven.dist.bin.assembly.dir}/${maven.final.name}.jar"/>
+        
+	    <!-- Copy Wars -->
+	    <ant:copy todir="${maven.dist.bin.assembly.dir}">
+	      <ant:fileset dir="${maven.build.dir}">
+	        <ant:include name="*.war"/>
+	      </ant:fileset>
+	    </ant:copy>
+
+	    <!-- Copy Database Files -->
+	    <ant:mkdir dir="${maven.dist.bin.assembly.dir}/${maven.database.src}"/>
+	    <ant:copy todir="${maven.dist.bin.assembly.dir}/${maven.database.src}">
+	      <ant:fileset dir="${maven.database.src}" />
+	    </ant:copy>
+	</postGoal>
+
+	<postGoal name="dist:prepare-src-filesystem">
+
+	    <!-- Copy WAR Source -->
+	    <ant:mkdir dir="${maven.dist.src.assembly.dir}/${maven.war.src}"/>
+	    <ant:copy todir="${maven.dist.src.assembly.dir}/${maven.war.src}">
+	      <ant:fileset dir="${maven.war.src}" />
+	    </ant:copy>
+
+	    <!-- Copy Database Files -->
+	    <ant:mkdir dir="${maven.dist.src.assembly.dir}/${maven.database.src}"/>
+	    <ant:copy todir="${maven.dist.src.assembly.dir}/${maven.database.src}">
+	      <ant:fileset dir="${maven.database.src}" />
+	    </ant:copy>
+
+	</postGoal>
+
+	<postGoal name="war:webapp">
+		<!-- copy validator-rules.xml to WEB-INF, war plugin does not do that automatically -->
+		<copy 
+			file="${maven.repo.local}/struts/xmls/validator-rules-1.1.xml"
+			tofile="${maven.war.webapp.dir}/WEB-INF/validator-rules.xml" 
+		/>
+	</postGoal>
+
+    <goal name="all:build">
+        <attainGoal name="jar:install"/>
+        <attainGoal name="war"/>
+        <ant:copy
+            file="${maven.war.build.dir}/${maven.war.final.name}"
+            toDir="${maven.webserver.webapp.dir}"
+            overwrite="true"/>
+
+        <unwar dest="${maven.webserver.webapp.dir}/${maven.webapp.name}"
+            src="${maven.war.build.dir}/${maven.war.final.name}"/>
+    </goal>
+</project>
