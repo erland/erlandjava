@@ -148,7 +148,12 @@ public class GenericEntityStorage extends EntityStorage {
                     updateDynamicQuery(0,sb,(QueryFilter)filter);
                 }
                 if(sb!=null) {
-                    String orderString = getEnvironment().getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".orderstring");
+                    String orderString = null;
+                    if(((QueryFilter)filter).getOrderName()!=null) {
+                        orderString = getEnvironment().getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".orderstrings."+((QueryFilter)filter).getOrderName());
+                    }else {
+                        orderString = getEnvironment().getResources().getParameter("entities."+getEntityName()+"."+getResourceName()+".queries."+((QueryFilter)filter).getQueryName()+".orderstring");
+                    }
                     if(orderString!=null && orderString.length()>0) {
                         sb.append(" "+orderString);
                     }
