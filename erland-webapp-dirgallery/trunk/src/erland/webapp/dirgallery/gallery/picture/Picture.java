@@ -12,6 +12,7 @@ public class Picture extends BaseEntity implements EntityReadUpdateInterface {
     private String directory;
     private String fullPath;
     private Integer typeOfFile;
+    private Long fileSize;
     public static final int PICTUREFILE = 0;
     public static final int MOVIEFILE = 1;
     private static final Integer PICTUREFILEID = new Integer(PICTUREFILE);
@@ -83,6 +84,14 @@ public class Picture extends BaseEntity implements EntityReadUpdateInterface {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public Long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(Long fileSize) {
+        this.fileSize = fileSize;
     }
 
     public void preReadUpdate() {
