@@ -178,11 +178,16 @@
         <command id="viewpicture">
             <class>erland.webapp.gallery.loader.LoadMetadataCommand</class>
         </command>
+        <command id="viewpictureguest">
+            <class>erland.webapp.gallery.loader.LoadMetadataCommand</class>
+            <saveparameters type="request">cmdparameters</saveparameters>
+        </command>
         <command id="loadthumbnail">
             <class>erland.webapp.gallery.loader.LoadThumbnailCommand</class>
         </command>
         <command id="loadimage">
             <class>erland.webapp.gallery.loader.LoadImageCommand</class>
+            <role>user</role>
         </command>
         <command id="viewdefaultgalleryguest">
             <class>erland.webapp.gallery.account.ViewUserAccountCommand</class>
@@ -2037,6 +2042,11 @@
         </page>
         <page id="viewpicture">
             <page>viewpicture.jsp</page>
+            <role>user</role>
+        </page>
+        <page id="viewpictureguest">
+            <page type="request">viewpictureguest.jsp</page>
+            <page id="main" type="request">indexempty.jsp</page>
         </page>
         <page id="searchgalleriesviewdefaultgallery">
             <forward>portal?do=searchcategories&amp;start=0&amp;max=9</forward>
