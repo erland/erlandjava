@@ -44,6 +44,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
 
 public class ViewGalleryAction extends BaseAction {
 
@@ -74,12 +76,15 @@ public class ViewGalleryAction extends BaseAction {
         }
 
         Gallery[] galleries = GalleryHelper.searchGalleries(getEnvironment(),"gallery-gallery",gallery.getUsername(),"allrealforuser");
-        GalleryPB[] pbGalleries = new GalleryPB[galleries.length];
+        List pbGalleriesList = new ArrayList();
         for (int i = 0; i < galleries.length; i++) {
-            pbGalleries[i] = new GalleryPB();
-            PropertyUtils.copyProperties(pbGalleries[i], galleries[i]);
+            if(!galleries[i].getId().equals(fb.getId())) {
+                GalleryPB galleryPB = new GalleryPB();
+                PropertyUtils.copyProperties(galleryPB, galleries[i]);
+                pbGalleriesList.add(galleryPB);
+            }
         }
-        request.getSession().setAttribute("galleriesPB", pbGalleries);
+        request.getSession().setAttribute("galleriesPB", pbGalleriesList.toArray(new GalleryPB[0]));
 
         Category[] categories = CategoryHelper.searchCategories(getEnvironment(),gallery.getReferencedGallery()!=null&&gallery.getReferencedGallery().intValue()!=0?gallery.getReferencedGallery():gallery.getId(),"allforgalleryorderedbyname");
         CategoryPB[] pbCategories = new CategoryPB[categories.length];
