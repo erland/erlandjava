@@ -62,7 +62,7 @@
         <antcall target="buildlibraries"/>
         <ant dir="${basedir}" antfile="${buildutil}" target="dist">
             <property name="currentproject" value="${ant.project.name}"/>
-            <property name="currentpackage" value="erland.webapp.usermgmt"/>
+            <property name="currentpackage" value="erland.webapp.diary"/>
             <property name="projectclasspath" value="${java.home.j2ee};${java.home.beanutils};../common/${dist}/webcommon.jar;../usermgmt/${dist}/usermgmt.jar;../diagram/${dist}/diagram.jar;../../common/util/${dist}/util.jar;../gallery/${dist}/gallery.jar"/>
         </ant>
         <antcall target="copylibraries"/>
