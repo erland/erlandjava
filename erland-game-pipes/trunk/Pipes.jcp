@@ -19,12 +19,10 @@ COMPILER := "<Default>"
 LABEL := "Root"
 FILTER := ""
 
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipesOptions.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\Direction.java" #[EndFile]
 #[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockCrossSplit.java" #[EndFile]
 #[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipePartCrossSplit.java" #[EndFile]
-#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockStartDown.java" #[EndFile]
-#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockStartUp.java" #[EndFile]
-#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockStartLeft.java" #[EndFile]
-#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockStartRight.java" #[EndFile]
 #[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipePartWell.java" #[EndFile]
 #[BeginFile]SOURCE := "src\\erland\\game\\pipes\\LevelFactory.java" #[EndFile]
 #[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockCross.java" #[EndFile]
@@ -50,4 +48,7 @@ FILTER := ""
 #[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlock.java" #[EndFile]
 #[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockContainerInterface.java" #[EndFile]
 #[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipePartNone.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipePartPool.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockStart.java" #[EndFile]
+#[BeginFile]SOURCE := "src\\erland\\game\\pipes\\PipeBlockPool.java" #[EndFile]
 #[EndFolder]
