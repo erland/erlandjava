@@ -21,8 +21,13 @@ package erland.game.boulderdash;
 import java.util.*;
 import erland.util.*;
 import erland.game.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 class LevelFactory
 {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(LevelFactory.class);
+
 	/** Boulderdash container object */
 	protected BoulderDashContainerInterface c;
 	
@@ -267,9 +272,9 @@ class LevelFactory
 			String leveldata = environment.getStorage().getParameter("level"+String.valueOf(level));
 			if(leveldata.length()>0) {
 				Level lev = new Level(environment,c, cont);
-				Log.println(this,"Loading level "+level+"...");
+				LOG.debug("Loading level "+level+"...");
 				if(lev.load(level,leveldata)) {
-					Log.println(this,"Level "+level+" loaded");
+					LOG.debug("Level "+level+" loaded");
 					ListIterator it = levels.listIterator();
 					while(it.hasNext()) {
 						Level l = (Level)(it.next());

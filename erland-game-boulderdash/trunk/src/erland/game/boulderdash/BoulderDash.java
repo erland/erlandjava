@@ -31,7 +31,6 @@ public class BoulderDash extends GamePanelHandlerForApplication implements GameP
     private ImageHandlerInterface images;
 
     public static void main(String[] args) {
-        Log.setLog("boulderdashlog.xml");
         BoulderDash game = new BoulderDash();
         GamePanelHandler.run(game,game);
         System.exit(-1);

@@ -25,11 +25,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
+
 /**
  * Main game class that controls the game logic and and screen redrawing
  */
 class BoulderDashMain implements GamePanelInterface, ActionListener, BoulderDashContainerInterface
 {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(BoulderDashMain.class);
 	/** Horisontal drawing offset, nothing should be drawn to the left of this position */
 	protected int offsetX;
 	/** Vertical drawing offset, nothing should be drawn above this position */
@@ -447,7 +452,7 @@ class BoulderDashMain implements GamePanelInterface, ActionListener, BoulderDash
 				}
 			}
 			if(moving && !player.isMoving()) {
-				Log.println(this,"moving:"+movingDirection);
+				LOG.debug("moving:"+movingDirection);
 				player.move(movingDirection);
 			}
 			player.update();
