@@ -30,6 +30,10 @@
                 <column>store</column>
                 <type>String</type>
             </field>
+            <field id="category">
+                <column>category</column>
+                <type>Integer</type>
+            </field>
             <field id="price">
                 <column>price</column>
                 <type>Double</type>

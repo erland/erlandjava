@@ -28,6 +28,7 @@ public class PurchaseEntry extends BaseEntity {
     private String username;
     private Date date;
     private String store;
+    private Integer category;
     private String description;
     private Double price;
 
@@ -69,6 +70,14 @@ public class PurchaseEntry extends BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getCategory() {
+        return category;
+    }
+
+    public void setCategory(Integer category) {
+        this.category = category;
     }
 
     public Double getPrice() {

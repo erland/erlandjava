@@ -32,6 +32,8 @@ public class PurchaseEntryFB extends BaseFB {
     private Integer id;
     private Date date;
     private String store;
+    private Integer category;
+    private String categoryDescription;
     private String description;
     private Double price;
 
@@ -75,6 +77,30 @@ public class PurchaseEntryFB extends BaseFB {
         this.store = store;
     }
 
+    public Integer getCategory() {
+        return category;
+    }
+
+    public void setCategory(Integer category) {
+        this.category = category;
+    }
+
+    public String getCategoryDisplay() {
+        return ServletParameterHelper.asString(category,null);
+    }
+
+    public void setCategoryDisplay(String categoryDisplay) {
+        this.category = ServletParameterHelper.asInteger(categoryDisplay,null);
+    }
+
+    public String getCategoryDescription() {
+        return categoryDescription;
+    }
+
+    public void setCategoryDescription(String categoryDescription) {
+        this.categoryDescription = categoryDescription;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -104,6 +130,7 @@ public class PurchaseEntryFB extends BaseFB {
         id = null;
         date = null;
         store = null;
+        category = null;
         description = null;
         price = null;
     }
