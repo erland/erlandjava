@@ -7,7 +7,7 @@ import erland.game.*;
  * Represents a block on the game area
  */
  
-class Player
+class Player extends Block
 {
 	/** Image handler object */
 	protected ImageHandlerInterface images;
@@ -146,9 +146,10 @@ class Player
 	/**
 	 * Destroy the player
 	 */
-	public void destroy()
+	public boolean destroy()
 	{
 		alive = false;
+		return true;
 	}
 	
 	/**
