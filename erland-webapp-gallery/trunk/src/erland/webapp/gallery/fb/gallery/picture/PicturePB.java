@@ -35,8 +35,7 @@ public class PicturePB extends BasePB {
     private String link;
     private String updateLink;
     private String removeLink;
-    private String resolutionLink;
-    private ResolutionPB[] resolutions;
+    private ResolutionLinkPB[] resolutionLinks;
 
     public Integer getGallery() {
         return gallery;
@@ -118,19 +117,11 @@ public class PicturePB extends BasePB {
         this.removeLink = removeLink;
     }
 
-    public String getResolutionLink() {
-        return resolutionLink;
+    public ResolutionLinkPB[] getResolutionLinks() {
+        return resolutionLinks;
     }
 
-    public void setResolutionLink(String resolutionLink) {
-        this.resolutionLink = resolutionLink;
-    }
-
-    public ResolutionPB[] getResolutions() {
-        return resolutions;
-    }
-
-    public void setResolutions(ResolutionPB[] resolutions) {
-        this.resolutions = resolutions;
+    public void setResolutions(ResolutionLinkPB[] resolutionLinks) {
+        this.resolutionLinks = resolutionLinks;
     }
 }
