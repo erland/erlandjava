@@ -41,6 +41,7 @@ public class BeanImageTag extends TagSupport {
     private String property;
     private String border;
     private String style;
+    private String width;
 
     public String getName() {
         return name;
@@ -74,6 +75,14 @@ public class BeanImageTag extends TagSupport {
         this.style = style;
     }
 
+    public String getWidth() {
+        return width;
+    }
+
+    public void setWidth(String width) {
+        this.width = width;
+    }
+
     public int doStartTag() throws JspException {
         JspWriter out = pageContext.getOut();
         Object bean = pageContext.findAttribute(name);
@@ -91,10 +100,9 @@ public class BeanImageTag extends TagSupport {
         }else {
             link=(String) bean;
         }
-
         if(link!=null) {
             try {
-                out.write("<img src=\""+addContextPath(link)+"\" "+(style!=null?"class=\""+style+"\" ":"")+" "+(border!=null?" border=\""+border+"\"":"")+">´</img>");
+                out.write("<img src=\""+addContextPath(link)+"\" "+(style!=null?"class=\""+style+"\" ":"")+" "+(border!=null?" border=\""+border+"\"":"")+(width!=null?" width=\""+width+"\"":"")+"></img>");
             } catch (IOException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -108,12 +116,13 @@ public class BeanImageTag extends TagSupport {
         border = null;
         name = null;
         property = null;
+        width = null;
     }
     private String addContextPath(String link) {
         if(link==null) {
             return link;
         }
-        if(Pattern.matches("[a-z]*:",link)) {
+        if(Pattern.matches("[a-z]*:.*",link)) {
             return link;
         }else {
             return ((HttpServletRequest) pageContext.getRequest()).getContextPath()+link;
