@@ -7,7 +7,7 @@ import java.awt.*;
  * be derived from this
  * @author Erland Isaksson
  */
-abstract class Block
+abstract class Block implements Cloneable
 {
 	/** rotation angle of block */
 	protected int rotation;
@@ -21,7 +21,29 @@ abstract class Block
 	 * @return The color of the block
 	 */
 	public abstract Color getColor();
-	
+
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
+    /**
+     * Get the rotation of the block
+     * @return The rotation of the block 0,1,2,3
+     */
+    public int getRotation() {
+        return rotation;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 	/**
 	 * Initialize block
 	 * @param x x position of block(Block coordinate)
@@ -127,7 +149,7 @@ abstract class Block
 	 * @param m The BlockMatrix in which the block resides
 	 * @param x The x position which should be checked(Block coordinate)
 	 * @param y The y position which should be checked(Block coordinate)
-	 * @param rotaton The rotation angle which should be checked
+	 * @param rotation The rotation angle which should be checked
 	 * @return true/false (Success/Failure)
 	 */
 	protected abstract boolean check(BlockMatrix m, int x, int y, int rotation);
@@ -137,8 +159,7 @@ abstract class Block
 	 * @param m The BlockMatrix in which the block resides
 	 * @param x The x position (Block coordinate)
 	 * @param y The y position (Block coordinate)
-	 * @param rotaton The rotation angle 
-	 * @return true/false (Success/Failure)
+	 * @param rotation The rotation angle
 	 */
 	protected abstract void set(BlockMatrix m, int x, int y, int rotation);
 
@@ -147,8 +168,7 @@ abstract class Block
 	 * @param m The BlockMatrix in which the block resides
 	 * @param x The x position (Block coordinate)
 	 * @param y The y position (Block coordinate)
-	 * @param rotaton The rotation angle 
-	 * @return true/false (Success/Failure)
+	 * @param rotation The rotation angle
 	 */
 	protected abstract void unset(BlockMatrix m, int x, int y, int rotation);
 	

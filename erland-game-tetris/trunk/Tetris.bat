@@ -1,1 +1,1 @@
-java -classpath ".;game.jar;util.jar;tetris.jar" erland.game.tetris.Tetris
+java -classpath ".;game.jar;util.jar;network.jar;tetris.jar" erland.game.tetris.Tetris

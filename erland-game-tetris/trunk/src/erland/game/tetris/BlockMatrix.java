@@ -41,7 +41,7 @@ interface BlockMatrix
 	 * Change the state to active for a specific square
 	 * @param x The x position of the square
 	 * @param y The y position of the square
-	 * @param color The colour of the square
+	 * @param c The colour of the square
 	 */
 	public void setUsed(int x, int y, Color c);
 	
@@ -49,7 +49,6 @@ interface BlockMatrix
 	 * Change the state to not active for a specific square
 	 * @param x The x position of the square
 	 * @param y The y position of the square
-	 * @param color The colour of the square
 	 */
 	public void setUnused(int x, int y);
 }
