@@ -34,6 +34,19 @@
                     </field>
                 </fields>
             </query>
+            <query id="allforgallerywithmember">
+                <querystring>gallery=? and member=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>member</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
         </queries>
     </data>
 </entity>
