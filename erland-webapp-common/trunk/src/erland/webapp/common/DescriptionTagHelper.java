@@ -44,7 +44,34 @@ public class DescriptionTagHelper {
         this.environment = environment;
     }
     public DescriptionTag[] getDescriptionTagList(String entity) {
-        DescriptionTag[] tagList = (DescriptionTag[]) map.get(entity);
+        return getDescriptionTagList(entity,true);
+    }
+
+    public String getDescription(String entity, String tag) {
+        DescriptionTag[] tagList = getDescriptionTagList(entity);
+        for (int i = 0; i < tagList.length; i++) {
+            DescriptionTag descriptionTag = tagList[i];
+            if(descriptionTag.getTag().equals(tag)) {
+                return descriptionTag.getDescription();
+            }
+        }
+        return null;
+    }
+    public void setDescription(String entity, String tag, String description) {
+        DescriptionTag template = (DescriptionTag) environment.getEntityFactory().create(entity);
+        template.setType(entity);
+        template.setTag(tag);
+        template.setDescription(description);
+        environment.getEntityStorageFactory().getStorage(entity).store(template);
+        // Make sure we reload the cache also
+        getDescriptionTagList(entity,false);
+    }
+
+    private DescriptionTag[] getDescriptionTagList(String entity, boolean useCached) {
+        DescriptionTag[] tagList = null;
+        if(useCached) {
+            tagList = (DescriptionTag[]) map.get(entity);
+        }
         if(tagList==null) {
             QueryFilter filter = new QueryFilter("allfortype");
             filter.setAttribute("type",entity);
@@ -57,16 +84,5 @@ public class DescriptionTagHelper {
             map.put(entity,tagList);
         }
         return tagList;
-    }
-
-    public String getDescription(String entity, String tag) {
-        DescriptionTag[] tagList = getDescriptionTagList(entity);
-        for (int i = 0; i < tagList.length; i++) {
-            DescriptionTag descriptionTag = tagList[i];
-            if(descriptionTag.getTag().equals(tag)) {
-                return descriptionTag.getDescription();
-            }
-        }
-        return null;
     }
 }
