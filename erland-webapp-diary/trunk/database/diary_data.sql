@@ -54,3 +54,4 @@ INSERT INTO purchaseentrycategories VALUES (9,'V%C3%A4xtn%C3%A4ring');
 
 INSERT INTO useraccounts VALUES ('test','Du+kan+%C3%A4ndra+denna+text+och+mycket+annat+genom+att+v%C3%A4lja+Inst%C3%A4llningar+i+menyn+till+v%C3%A4nster.%0D%0AN%C3%A4r+du+har+registrerat+all+n%C3%B6dv%C3%A4ndig+information+i+ditt+bildarkiv+can+du+g%C3%B6ra+det+synligt+p%C3%A5+f%C3%B6rstasidan+genom+att+s%C3%A4tta+en+markering+i+Inst%C3%A4llningar','En+kort+beskrivning+av+detta+bild+arkiv','',0,0);
 
+INSERT INTO speciestypes VALUES (1,'Fisk');
