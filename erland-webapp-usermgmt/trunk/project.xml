@@ -19,7 +19,7 @@
   <inceptionYear>2003</inceptionYear>
   <package>erland.webapp.usermgmt</package>
   <description>
-    A web application utility packate for user management and security functions
+    A web application utility package for user management and security functions
   </description>
   <!-- a short description of what the project does -->
   <shortDescription>
@@ -121,5 +121,6 @@
         </resource>
     </resources>
   </build>
+  <reports><report>maven-javadoc-plugin</report></reports>
 </project>
 
