@@ -66,22 +66,39 @@ public class SearchPicturesAction extends SearchPicturesBaseAction {
 
     protected Collection getPictures(HttpServletRequest request, ActionForm form) {
         if (!getVirtualGalleryId(request).equals(getGalleryId(request))) {
+            Collection categories = new ArrayList();
             QueryFilter categoryFilter = new QueryFilter("allforgallery");
             categoryFilter.setAttribute("gallery", getVirtualGalleryId(request));
             EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-gallerycategoryassociation").search(categoryFilter);
             if (entities.length == 0) {
-                return null;
+                Integer topCategory = getGallery(request).getTopCategory();
+                if(topCategory==null || topCategory.intValue()==0) {
+                    return null;
+                }
+                QueryFilter filter = new QueryFilter("allforgalleryandcategorytree");
+                filter.setAttribute("gallery",getGalleryId(request));
+                filter.setAttribute("category",topCategory);
+                entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-category").search(filter);
+                categories.add(topCategory);
+                for (int i = 0; i < entities.length; i++) {
+                    Category entity = (Category) entities[i];
+                    categories.add(entity.getCategory());
+                }
+                QueryFilter pictureFilter = new QueryFilter("allforgalleryandcategorylist");
+                pictureFilter.setAttribute("gallery",getGalleryId(request));
+                pictureFilter.setAttribute("categories",categories);
+                entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").search(pictureFilter);
+            }else {
+                for (int i = 0; i < entities.length; i++) {
+                    GalleryCategoryAssociation entity = (GalleryCategoryAssociation) entities[i];
+                    categories.add(entity.getCategory());
+                }
+                QueryFilter pictureFilter = new QueryFilter("allforgalleryandcategorylistallrequired");
+                pictureFilter.setAttribute("gallery", getGalleryId(request));
+                pictureFilter.setAttribute("categories", categories);
+                pictureFilter.setAttribute("numberofcategories", new Integer(categories.size()));
+                entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").search(pictureFilter);
             }
-            Collection categories = new ArrayList();
-            for (int i = 0; i < entities.length; i++) {
-                GalleryCategoryAssociation entity = (GalleryCategoryAssociation) entities[i];
-                categories.add(entity.getCategory());
-            }
-            QueryFilter pictureFilter = new QueryFilter("allforgalleryandcategorylistallrequired");
-            pictureFilter.setAttribute("gallery", getGalleryId(request));
-            pictureFilter.setAttribute("categories", categories);
-            pictureFilter.setAttribute("numberofcategories", new Integer(categories.size()));
-            entities = getEnvironment().getEntityStorageFactory().getStorage("gallery-picture").search(pictureFilter);
             Collection pictures = new ArrayList();
             for (int i = 0; i < entities.length; i++) {
                 Picture entity = (Picture) entities[i];
