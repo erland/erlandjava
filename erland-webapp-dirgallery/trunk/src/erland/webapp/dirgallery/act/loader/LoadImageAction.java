@@ -80,7 +80,7 @@ public class LoadImageAction extends BaseAction {
             }
         }
         try {
-            response.setContentType(getContentType());
+            response.setContentType(getContentType(request));
             if (!ImageWriteHelper.writeImage(getEnvironment(), getImageFile(request), response.getOutputStream())) {
                 return findFailure(mapping, form, request, response);
             }
@@ -134,7 +134,7 @@ public class LoadImageAction extends BaseAction {
         request.setAttribute(FORWARD, failureForward);
     }
 
-    protected String getContentType() {
+    protected String getContentType(HttpServletRequest request) {
         return "image/jpeg";
     }
 
