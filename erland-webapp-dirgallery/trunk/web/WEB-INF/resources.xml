@@ -24,4 +24,11 @@
         <forward id="8" pattern=".*user=.*" path="/do/guest/home?user={user}"/>
         <forward id="9" pattern=".*" path="/"/>
     </forwards>
+    <pathforwards>
+        <forward id="1" pattern="/guest/loadimage/(.*)" path="/do/guest/loadimage"/>
+        <forward id="2" pattern="/guest/loadresolutionimage/(.*)" path="/do/guest/loadresolutionimage"/>
+        <forward id="3" pattern="/user/loadimage/(.*)" path="/do/user/loadimage"/>
+        <forward id="4" pattern="/user/loadresolutionimage/(.*)" path="/do/user/loadresolutionimage"/>
+        <forward id="5" pattern=".*" path="/"/>
+    </pathforwards>
 </resources>
