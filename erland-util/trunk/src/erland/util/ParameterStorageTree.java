@@ -47,6 +47,16 @@ public class ParameterStorageTree implements ParameterValueStorageExInterface {
                 if(tokenizer.hasMoreTokens()) {
                     if(childs!=null && childs.hasNext()) {
                         return getParameter(tokenizer,childs);
+                    }else {
+                        String valueName = tokenizer.nextToken();
+                        String value = element.getAttributeValue(valueName);
+                        if(value!=null) {
+                            XMLNode node = new XMLNode(token,null);
+                            node.setValue(value);
+                            return node;
+                        }else {
+                            return null;
+                        }
                     }
                 }
                 return element;
@@ -72,7 +82,7 @@ public class ParameterStorageTree implements ParameterValueStorageExInterface {
                             node.setValue(value);
                             return node;
                         }else {
-                            return element;
+                            return null;
                         }
                     }else {
                         return element;
