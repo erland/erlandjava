@@ -138,7 +138,7 @@ public class LoadMetadataCommand implements CommandInterface, ViewMetadataInterf
 
     public String getMetadataDescription(String name) {
         String description = DescriptionTagHelper.getInstance().getDescription("metadatafielddescription",name);
-        if(showAllMetadata.booleanValue() && description==null) {
+        if(showAllMetadata.booleanValue()) {
             return name;
         }
         return description;
