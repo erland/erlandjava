@@ -29,6 +29,15 @@
                     </field>
                 </fields>
             </query>
+            <query id="allforguestuser">
+                <querystring>guestuser=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>guestuser</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
         </queries>
     </data>
 </entity>
