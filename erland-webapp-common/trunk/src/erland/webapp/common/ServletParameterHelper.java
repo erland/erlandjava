@@ -178,6 +178,30 @@ public class ServletParameterHelper {
         }
         return sb.toString();
     }
+
+    public static String getParameter(String parameterString, String parameter) {
+        if(parameterString.startsWith(parameter+"=")) {
+            int startPos = (parameter+"=").length();
+            int pos = parameterString.indexOf('&');
+            if(pos<0) {
+                return parameterString.substring(startPos);
+            }
+            return parameterString.substring(startPos,pos);
+        }else {
+            int pos = parameterString.indexOf("&"+parameter+"=");
+            if(pos>=0) {
+                int startPos = pos + ("&"+parameter+"=").length();
+                int endPos = parameterString.indexOf("&",pos+1);
+                if(endPos<0) {
+                    return parameterString.substring(startPos);
+                }
+                return parameterString.substring(startPos,endPos);
+            }else {
+                return null;
+            }
+        }
+    }
+
     public static Boolean asBoolean(String value,Boolean defaultValue) {
         Boolean booleanValue = defaultValue;
         if(value!=null && value.equalsIgnoreCase("true")) {
