@@ -1,11 +1,11 @@
--- MySQL dump 9.08
+-- MySQL dump 9.09
 --
 -- Host: localhost    Database: stock
 ---------------------------------------------------------
--- Server version	4.0.13-max-nt
+-- Server version	4.0.15-max-debug
 
 --
--- Table structure for table 'accounts'
+-- Table structure for table `accounts`
 --
 
 CREATE TABLE accounts (
@@ -15,17 +15,7 @@ CREATE TABLE accounts (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table 'resources'
---
-
-CREATE TABLE resources (
-  id varchar(100) NOT NULL default '',
-  value varchar(255) NOT NULL default '',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
-
---
--- Table structure for table 'transactions'
+-- Table structure for table `transactions`
 --
 
 CREATE TABLE transactions (
@@ -37,17 +27,5 @@ CREATE TABLE transactions (
   price double NOT NULL default '0',
   value double NOT NULL default '0',
   PRIMARY KEY  (accountid,brokerid,stockid,date,type)
-) TYPE=MyISAM;
-
---
--- Table structure for table 'users'
---
-
-CREATE TABLE users (
-  username varchar(100) NOT NULL default '',
-  firstname varchar(100) NOT NULL default '',
-  lastname varchar(100) NOT NULL default '',
-  password varchar(100) NOT NULL default '',
-  PRIMARY KEY  (username)
 ) TYPE=MyISAM;
 

@@ -1,19 +1,12 @@
--- MySQL dump 9.08
+-- MySQL dump 9.09
 --
 -- Host: localhost    Database: stock
 ---------------------------------------------------------
--- Server version	4.0.13-max-nt
+-- Server version	4.0.15-max-debug
 
 --
--- Dumping data for table 'accounts'
+-- Dumping data for table `accounts`
 --
 
-INSERT INTO accounts VALUES (1,'erland');
-
---
--- Dumping data for table 'resources'
---
-
-INSERT INTO resources VALUES ('resources.brokers.robur.cache','D%3A%5Cusers%5Cerland%5Crobur');
-INSERT INTO resources VALUES ('resources.brokers.sb.cache','D%3A%5Cusers%5Cerland%5Crobur');
+INSERT INTO accounts VALUES (1,'test');
 
