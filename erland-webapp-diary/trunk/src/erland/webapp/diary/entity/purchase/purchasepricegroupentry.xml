@@ -37,6 +37,28 @@
                     </field>
                 </fields>
             </query>
+            <query id="allyearsforuser">
+                <completequerystring>select date_format(date,'%Y') name,sum(price) price from purchaseentries where username=? group by name order by name desc</completequerystring>
+                <fields>
+                    <field id="1">
+                        <field>username</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allcategoriesforyearforuser">
+                <completequerystring>select purchaseentrycategories.description name,sum(price) price from purchaseentries,purchaseentrycategories where purchaseentries.category=purchaseentrycategories.id and username=? and date_format(date,'%Y')=? group by name order by price desc</completequerystring>
+                <fields>
+                    <field id="1">
+                        <field>username</field>
+                        <type>String</type>
+                    </field>
+                    <field id="2">
+                        <field>year</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
             <query id="allcategoriesforuser">
                 <completequerystring>select purchaseentrycategories.description name,sum(price) price from purchaseentries,purchaseentrycategories where purchaseentries.category=purchaseentrycategories.id and username=? group by name order by price desc</completequerystring>
                 <fields>
