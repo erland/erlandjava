@@ -25,6 +25,7 @@ import erland.webapp.usermgmt.UserMgmtServlet;
 import erland.webapp.common.html.HTMLEncoder;
 import erland.webapp.common.html.HTMLBasicStringReplace;
 import erland.webapp.common.html.HTMLLinkStringReplace;
+import erland.webapp.common.html.HTMLBoldLinkStringReplace;
 import erland.webapp.common.DescriptionTagHelper;
 
 
@@ -52,6 +53,7 @@ public class DirGalleryServlet extends UserMgmtServlet {
                 "</log>"), null, "log"));
         HTMLEncoder.addReplaceRoutine(new HTMLBasicStringReplace());
         HTMLEncoder.addReplaceRoutine(new HTMLLinkStringReplace());
+        HTMLEncoder.addReplaceRoutine(new HTMLBoldLinkStringReplace());
         DescriptionTagHelper.getInstance().init(getEnvironment());
     }
 }
