@@ -19,4 +19,19 @@
         <bodycontent>JSP</bodycontent>
         <info>Expands text to html, use HTMLEncoder to configure the expansion routine</info>
     </tag>
+
+    <tag>
+        <name>menuitem</name>
+        <tagclass>erland.webapp.common.tags.MenuItemTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>The body is visible if the name attribute value starts with the id value</info>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+        </attribute>
+    </tag>
 </taglib>
