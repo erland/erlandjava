@@ -18,10 +18,10 @@
                 <include name="*.jar"/>
             </fileset>
             <fileset dir="../gallery/${dist}">
-                <include name="*.jar"/>
+                <include name="gallery.jar"/>
             </fileset>
             <fileset dir="../../common/util/${dist}">
-                <include name="*.jar"/>
+                <include name="util.jar"/>
             </fileset>
             <fileset file="resources.xml"/>
             <fileset dir="web">
@@ -35,6 +35,28 @@
         </copy>
     </target>
 
+    <target name="Make archive">
+        <antcall target="Clean All"/>
+        <antcall target="Build Application"/>
+        <zip file="${dist}/${ant.project.name}.zip">
+            <fileset file="readme.txt"/>
+            <fileset dir="." >
+                <include name="database/*"/>
+            </fileset>
+            <fileset file="${dist}/${ant.project.name}.war"/>
+        </zip>
+    </target>
+    <target name="Make archive (Debug)">
+        <antcall target="Clean All"/>
+        <antcall target="Build Application (Debug)"/>
+        <zip file="${dist}/${ant.project.name}.zip">
+            <fileset file="readme.txt"/>
+            <fileset dir="database">
+                <include name="*"/>
+            </fileset>
+            <fileset file="${dist}/${ant.project.name}.war"/>
+        </zip>
+    </target>
     <target name="Build Application">
         <property name="nojarsign" value="true"/>
         <antcall target="buildlibraries"/>
