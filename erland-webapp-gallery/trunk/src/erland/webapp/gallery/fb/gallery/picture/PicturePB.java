@@ -40,6 +40,7 @@ public class PicturePB extends BasePB {
     private String row1Info;
     private String row2Info;
     private String row3Info;
+    private String currentLink;
 
     public Integer getGallery() {
         return gallery;
@@ -151,5 +152,13 @@ public class PicturePB extends BasePB {
 
     public void setRow3Info(String row3Info) {
         this.row3Info = row3Info;
+    }
+
+    public String getCurrentLink() {
+        return currentLink;
+    }
+
+    public void setCurrentLink(String currentLink) {
+        this.currentLink = currentLink;
     }
 }

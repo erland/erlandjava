@@ -8,6 +8,8 @@ import erland.webapp.common.fb.BaseFB;
 import erland.webapp.common.ServletParameterHelper;
 import erland.util.StringUtil;
 
+import java.util.ArrayList;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -197,21 +199,28 @@ public class GalleryFB extends BaseFB {
 
     public String[] getCategoriesDisplay() {
         if(categories!=null) {
-            String[] result = new String[categories.length];
+            ArrayList result = new ArrayList();
             for (int i = 0; i < categories.length; i++) {
-                result[i] = StringUtil.asString(categories[i],null);
+                String str = StringUtil.asString(categories[i],null);
+                if(str!=null) {
+                    result.add(str);
+                }
             }
-            return result;
+            return (String[]) result.toArray(new String[0]);
         }else {
             return null;
         }
     }
     public void setCategoriesDisplay(String[] categoriesDisplay) {
         if(categoriesDisplay!=null) {
-            this.categories = new Integer[categoriesDisplay.length];
+            ArrayList result = new ArrayList();
             for (int i = 0; i < categoriesDisplay.length; i++) {
-                this.categories[i] = StringUtil.asInteger(categoriesDisplay[i],null);
+                Integer value = StringUtil.asInteger(categoriesDisplay[i],null);
+                if(value!=null) {
+                    result.add(value);
+                }
             }
+            this.categories = (Integer[]) result.toArray(new Integer[0]);
         }else {
             this.categories = null;
         }

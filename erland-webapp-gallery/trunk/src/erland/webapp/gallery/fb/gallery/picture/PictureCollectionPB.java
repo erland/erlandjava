@@ -26,6 +26,7 @@ public class PictureCollectionPB extends BasePB {
     private String prevLink;
     private String nextLink;
     private String searchLink;
+    private String currentLink;
 
     public PicturePB[] getPictures() {
         return pictures;
@@ -57,5 +58,13 @@ public class PictureCollectionPB extends BasePB {
 
     public void setSearchLink(String searchLink) {
         this.searchLink = searchLink;
+    }
+
+    public String getCurrentLink() {
+        return currentLink;
+    }
+
+    public void setCurrentLink(String currentLink) {
+        this.currentLink = currentLink;
     }
 }
