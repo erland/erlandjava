@@ -42,8 +42,8 @@ public class ImageWriteHelper {
     /** Logging instance */
     private static Log LOG = LogFactory.getLog(ImageWriteHelper.class);
     private static final int THUMBNAIL_WIDTH = 150;
-    private static final int COPYRIGHT_WIDTH = 640;
-    private static final int COPYRIGHT_HEIGHT = 480;
+    private static final int COPYRIGHT_WIDTH = 250;
+    private static final int COPYRIGHT_HEIGHT = COPYRIGHT_WIDTH*3/4;
     private static final float COMPRESSION = 0.9f;
     private static final float SMALL_THUMBNAIL_COMPRESSION = 0.5f;
     private static final int COPYRIGHT_OFFSET = 5;
