@@ -48,6 +48,7 @@ public class SearchApplicationVersionsAction extends Action {
         filter.setAttribute("language",language);
         EntityInterface[] entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-applicationversion").search(filter);
         ActionForward downloadForward = actionMapping.findForward("download-link");
+        ActionForward applicationForward = actionMapping.findForward("application-link");
         if(entities!=null) {
             Map applicationVersions = new HashMap();
             Map parameters = new HashMap();
@@ -101,6 +102,9 @@ public class SearchApplicationVersionsAction extends Action {
                         url = ServletParameterHelper.replaceDynamicParameters(downloadForward.getPath(),parameters);
                     }
                     version.setFiles(new ApplicationFileFB[] {new ApplicationFileFB(language,entity.getName(),entity.getType(),entity.getName(),url)});
+                    if(applicationForward!=null) {
+                        version.setApplicationLink(ServletParameterHelper.replaceDynamicParameters(applicationForward.getPath(),parameters));
+                    }
 
                     applicationVersions.put(entity.getApplicationName()+"-"+entity.getVersion(),version);
                 }
