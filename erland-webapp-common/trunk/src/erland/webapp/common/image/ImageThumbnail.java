@@ -39,7 +39,7 @@ public class ImageThumbnail implements ThumbnailCreatorInterface {
     public ImageThumbnail(Boolean antialias) {
         this.antialias = antialias!=null?antialias:Boolean.FALSE;
     }
-    public BufferedImage create(URL url, int requestedWidth, ImageFilterContainerInterface filters) throws IOException {
+    public BufferedImage create(URL url, int requestedWidth, int requestedHeight, ImageFilterContainerInterface filters) throws IOException {
         BufferedImage thumbnail = null;
         synchronized (sync) {
             BufferedImage image = ImageIO.read(new BufferedInputStream(url.openStream()));
@@ -59,10 +59,19 @@ public class ImageThumbnail implements ThumbnailCreatorInterface {
                     g.dispose();
                 }
                 int width = requestedWidth;
-                int height = width * image.getHeight() / image.getWidth();
-                if (((double) image.getWidth() / image.getHeight()) < ((double) 1600 / 1200)) {
-                    height = width * 1200 / 1600;
-                    width = height * image.getWidth() / image.getHeight();
+                int height = requestedHeight;
+                if(height==0) {
+                    height = width * image.getHeight() / image.getWidth();
+                    if (((double) image.getWidth() / image.getHeight()) < ((double) 1600 / 1200)) {
+                        height = width * 1200 / 1600;
+                        width = height * image.getWidth() / image.getHeight();
+                    }
+                }else {
+                    if (((double) image.getWidth() / image.getHeight() < ((double) width/height))) {
+                        width = height * image.getWidth() / image.getHeight();
+                    }else {
+                        height = width * image.getHeight() / image.getWidth();
+                    }
                 }
                 if (width > image.getWidth() || height > image.getHeight()) {
                     width = image.getWidth();

@@ -71,13 +71,20 @@ public class ImageWriteHelper {
 
 
     public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, OutputStream output) {
-        return writeThumbnail(environment,width,useCache,compression,username,imageFile,copyrightText,thumbnailCreator,null,null,null,null,output);
+        return writeThumbnail(environment,width,null,useCache,compression,username,imageFile,copyrightText,thumbnailCreator,null,null,null,null,output);
     }
 
+    public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Integer height, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, OutputStream output) {
+        return writeThumbnail(environment,width,height,useCache,compression,username,imageFile,copyrightText,thumbnailCreator,null,null,null,null,output);
+    }
     public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, String cachePrefix, ImageFilterContainerInterface preFilters, ImageFilterContainerInterface postFilters, Date cacheDate, OutputStream output) {
+        return writeThumbnail(environment,width,null,useCache,compression,username,imageFile,copyrightText,thumbnailCreator,null,null,null,null,output);
+    }
+    public static boolean writeThumbnail(WebAppEnvironmentInterface environment,Integer width, Integer height, Boolean useCache, Float compression, String username, String imageFile, String copyrightText, ThumbnailCreatorInterface thumbnailCreator, String cachePrefix, ImageFilterContainerInterface preFilters, ImageFilterContainerInterface postFilters, Date cacheDate, OutputStream output) {
         Log.println(getLogInstance(), "Loading thumbnail image: " + imageFile);
         String cacheDir = environment.getConfigurableResources().getParameter("thumbnail.cache");
         int requestedWidth = width!=null?width.intValue():THUMBNAIL_WIDTH;
+        int requestedHeight = height!=null?height.intValue():0;
         float requestedCompression = compression!=null?compression.floatValue():0f;
         if (requestedCompression == 0) {
             requestedCompression = requestedWidth <= THUMBNAIL_WIDTH ? SMALL_THUMBNAIL_COMPRESSION : COMPRESSION;
@@ -112,7 +119,7 @@ public class ImageWriteHelper {
                     inputCache.close();
                     return true;
                 } else {
-                    thumbnail = thumbnailCreator.create(url, requestedWidth, preFilters);
+                    thumbnail = thumbnailCreator.create(url, requestedWidth, requestedHeight, preFilters);
                     ImageFilter[] filters = postFilters!=null?postFilters.getFilters():null;
                     if(filters!=null && filters.length>0) {
                         ImageProducer prod = thumbnail.getSource();

@@ -24,5 +24,5 @@ import java.awt.image.BufferedImage;
  */
 
 public interface ThumbnailCreatorInterface {
-    public BufferedImage create(URL url, int requestedWidth, ImageFilterContainerInterface filters) throws IOException;
+    public BufferedImage create(URL url, int requestedWidth, int requestedHeight, ImageFilterContainerInterface filters) throws IOException;
 }

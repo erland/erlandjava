@@ -422,7 +422,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
         this.noOfRows = noOfRows;
     }
 
-    public BufferedImage create(URL movie, int width, ImageFilterContainerInterface filters) {
+    public BufferedImage create(URL movie, int width, int height,ImageFilterContainerInterface filters) {
         synchronized (sync) {
             MediaLocator ml;
             ml = new MediaLocator(movie);
@@ -435,7 +435,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
                 ds = Manager.createDataSource(ml);
                 long noOfFrames = getNumberOfFrames(ds);
                 ds = Manager.createDataSource(ml);
-                return createThumbnail(ds, (int) (noOfFrames / (noOfColumns * noOfRows)), noOfColumns, noOfRows, width);
+                return createThumbnail(ds, (int) (noOfFrames / (noOfColumns * noOfRows)), noOfColumns, noOfRows, width, height);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -450,13 +450,17 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
         return noOfFrames;
     }
 
-    private BufferedImage createThumbnail(DataSource ds, int frameInterval, int noOfColumns, int noOfRows, int width) {
+    private BufferedImage createThumbnail(DataSource ds, int frameInterval, int noOfColumns, int noOfRows, int width, int height) {
         noOfFrames = 0;
         thumbnail = null;
         bGenerateThumbnail = true;
         this.frameInterval = frameInterval;
         this.width = width;
-        this.height = width * 1200 * noOfRows / (1600 * noOfColumns);
+        if(height==0) {
+            this.height = width * 1200 * noOfRows / (1600 * noOfColumns);
+        }else {
+            this.height = height;
+        }
         init(ds);
         return thumbnail;
     }
@@ -616,7 +620,7 @@ public class MovieThumbnail implements ThumbnailCreatorInterface, ControllerList
                 url = new File(args[0]).toURL();
             }
             MovieThumbnail me = new MovieThumbnail(4, 2);
-            BufferedImage image = me.create(url, 600,null);
+            BufferedImage image = me.create(url, 600,480,null);
             if (image != null) {
                 ImageIO.write(image, "JPEG", new File("C:\\temp\\test\\test.jpg"));
             } else {
