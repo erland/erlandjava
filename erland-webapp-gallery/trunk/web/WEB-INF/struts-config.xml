@@ -17,6 +17,7 @@
         <form-bean name="guestAccountFB" type="erland.webapp.gallery.fb.guestaccount.GuestAccountFB"/>
         <form-bean name="pictureFB" type="erland.webapp.gallery.fb.gallery.picture.PictureFB"/>
         <form-bean name="galleryFB" type="erland.webapp.gallery.fb.gallery.GalleryFB"/>
+        <form-bean name="quicksetupGalleryFB" type="erland.webapp.gallery.fb.gallery.QuickSetupFB"/>
         <form-bean name="categoryFB" type="erland.webapp.gallery.fb.gallery.category.CategoryFB"/>
         <form-bean name="selectCategoryFB" type="erland.webapp.gallery.fb.gallery.category.SelectCategoryFB"/>
         <form-bean name="selectPictureFB" type="erland.webapp.gallery.fb.gallery.picture.SelectPictureFB"/>
@@ -258,7 +259,7 @@
             input=".user.editgallery"
             validate="true">
 
-            <forward name="success-edit" path="/do/user/viewpictures?gallery={id}"/>
+            <forward name="success-edit" path="/do/user/viewpicturesloadmenu?gallery={id}"/>
             <forward name="success-new" path="/do/user/home"/>
         </action>
 
@@ -278,6 +279,56 @@
             validate="false">
 
             <forward name="success" path=".user.editpicture"/>
+        </action>
+
+        <action
+            path="/user/quicksetup"
+            type="erland.webapp.gallery.act.gallery.NewQuickSetupAction"
+            name="quicksetupGalleryFB">
+
+            <forward name="success" path=".user.quicksetup1"/>
+
+        </action>
+        <action
+            path="/user/quicksetup1"
+            type="erland.webapp.common.act.RequestParameterSwitchAction"
+            name="quicksetupGalleryFB"
+            parameter="{publishCategoriesDisplay}">
+
+            <forward name="success-true" path="/do/user/preparequicksetup2publish"/>
+            <forward name="success-false" path="/do/user/preparequicksetup2notpublish"/>
+        </action>
+
+        <action
+            path="/user/preparequicksetup2publish"
+            type="erland.webapp.gallery.act.gallery.category.SearchAllCategoriesAction"
+            name="selectCategoryFB">
+
+            <forward name="success" path=".user.quicksetup2publish"/>
+        </action>
+
+        <action
+            path="/user/preparequicksetup2notpublish"
+            type="erland.webapp.gallery.act.gallery.category.SearchAllCategoriesAction"
+            name="selectCategoryFB">
+
+            <forward name="success" path=".user.quicksetup2notpublish"/>
+        </action>
+
+        <action
+            path="/user/quicksetup2"
+            type="erland.webapp.gallery.act.gallery.picturestorage.SearchPictureStoragesAction"
+            name="quicksetupGalleryFB">
+
+            <forward name="success" path=".user.quicksetup3"/>
+        </action>
+
+        <action
+            path="/user/quicksetup3"
+            type="erland.webapp.gallery.act.gallery.QuickSetupAction"
+            name="quicksetupGalleryFB">
+
+            <forward name="success" path="/do/user/viewpicturesloadmenu?gallery={galleryDisplay}"/>
         </action>
 
         <action
@@ -574,7 +625,7 @@
             input=".user.editcategory"
             validate="true">
 
-            <forward name="success" path="/do/user/viewpictures"/>
+            <forward name="success" path="/do/user/viewpicturesloadmenu"/>
         </action>
 
         <action
