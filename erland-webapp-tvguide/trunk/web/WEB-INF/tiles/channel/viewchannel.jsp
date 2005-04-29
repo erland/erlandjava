@@ -33,9 +33,17 @@
     </td></tr>
     <logic:iterate id="program" name="channelPB" property="programs">
         <tr valign="top" align="left" class="channelpage-program-row<logic:equal name="program" property="startedDisplay" value="true">-started</logic:equal>">
-            <td><b><bean:write name="program" property="startTimeDisplay"/></b></td>
+            <td><b><bean:write name="program" property="startTimeDisplay"/></b>
+                <logic:notEqual name="program" property="reviewDisplay" value="0">
+                    <br><img src="<%=request.getContextPath()%>/images/review<bean:write name="program" property="reviewDisplay"/>.gif" border="0"></img>
+                </logic:notEqual>
+            </td>
             <td width="100%">
-                <b><bean:write name="program" property="name"/></b>&nbsp;&nbsp;&nbsp;<erland-common:beanlink name="program" property="newSubscriptionLink" style="channelpage-button"><bean:message key="tvguide.channel.addsubscription"/></erland-common:beanlink><br>
+                <b><bean:write name="program" property="name"/></b>
+                &nbsp;&nbsp;&nbsp;
+                <erland-common:beanlink name="program" property="reviewLink" style="channelpage-button" target="_blank"><bean:message key="tvguide.programs.more-information"/></erland-common:beanlink>
+                &nbsp;&nbsp;&nbsp;
+                <erland-common:beanlink name="program" property="newSubscriptionLink" style="channelpage-button"><bean:message key="tvguide.channel.addsubscription"/></erland-common:beanlink><br>
                 <erland-common:expandhtml><bean:write name="program" property="description"/></erland-common:expandhtml>
             </td>
         </tr>
