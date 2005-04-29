@@ -42,6 +42,7 @@
     <exclude_output enabled="yes" />
   </component>
   <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/target/classes" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
@@ -54,6 +55,7 @@
     <orderEntry type="module" module-name="util" />
     <orderEntry type="library" name="metadata-extractor" level="application" />
     <orderEntry type="library" name="commons-logging" level="application" />
+    <orderEntry type="library" name="JMF" level="application" />
     <orderEntryProperties />
   </component>
 </module>
