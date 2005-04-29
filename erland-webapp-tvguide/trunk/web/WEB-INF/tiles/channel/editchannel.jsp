@@ -36,6 +36,15 @@
     <tr><td><bean:message key="tvguide.channel.edit.serviceparameters"/></td><td>
     <html:text property="serviceParameters" size="80"/>
     </td></tr>
+    <tr><td><bean:message key="tvguide.channel.edit.reviewavailable"/></td><td>
+    <html:checkbox property="reviewAvailableDisplay" value="true"/>
+    </td></tr>
+    <tr><td><bean:message key="tvguide.channel.edit.reviewcategories"/></td><td>
+    <html:text property="reviewCategories" size="80"/>
+    </td></tr>
+    <tr><td><bean:message key="tvguide.channel.edit.noreviewcategories"/></td><td>
+    <html:text property="noReviewCategories" size="80"/>
+    </td></tr>
     <tr><td></td><td>
     <html:submit><bean:message key="tvguide.buttons.save"/></html:submit>
     </td></tr>
