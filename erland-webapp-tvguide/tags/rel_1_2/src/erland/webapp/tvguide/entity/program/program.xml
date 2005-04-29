@@ -1,0 +1,173 @@
+<entity id="program">
+    <class>erland.webapp.tvguide.entity.program.Program</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/tvguide</datasource>
+        <table>programs</table>
+        <fields>
+            <field id="id">
+                <column>id</column>
+                <type>Integer</type>
+                <auto>true</auto>
+                <identity>true</identity>
+            </field>
+            <field id="channel">
+                <column>channel</column>
+                <type>Integer</type>
+            </field>
+            <field id="name">
+                <column>name</column>
+                <type>String</type>
+            </field>
+            <field id="start">
+                <column>start</column>
+                <type>Timestamp</type>
+            </field>
+            <field id="stop">
+                <column>stop</column>
+                <type>Timestamp</type>
+            </field>
+            <field id="description">
+                <column>description</column>
+                <type>String</type>
+            </field>
+            <field id="review">
+                <column>review</column>
+                <type>Integer</type>
+            </field>
+            <field id="reviewLink">
+                <column>reviewlink</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="all">
+                <orderstring>order by start asc</orderstring>
+                <querystring/>
+            </query>
+            <query id="allforchannel">
+                <orderstring>order by start asc</orderstring>
+                <querystring>channel=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>channel</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforchannelandstarttime">
+                <orderstring>order by start asc</orderstring>
+                <querystring>channel=? and start=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>channel</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>starttime</field>
+                        <type>Timestamp</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforchannelanddate">
+                <orderstring>order by start asc</orderstring>
+                <querystring>channel=? and stop &gt;= date_format(?,'%Y-%m-%d') and start &lt; adddate(date_format(?,'%Y-%m-%d'), interval 1 day)</querystring>
+                <fields>
+                    <field id="1">
+                        <field>channel</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>date</field>
+                        <type>Timestamp</type>
+                    </field>
+                    <field id="3">
+                        <field>date</field>
+                        <type>Timestamp</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforchannelanddateaftertime">
+                <orderstring>order by start asc</orderstring>
+                <querystring>channel=? and stop &gt;= ? and start &lt; adddate(date_format(?,'%Y-%m-%d'), interval 1 day)</querystring>
+                <fields>
+                    <field id="1">
+                        <field>channel</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>time</field>
+                        <type>Timestamp</type>
+                    </field>
+                    <field id="3">
+                        <field>time</field>
+                        <type>Timestamp</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allfordateaftertime">
+                <orderstring>order by start asc</orderstring>
+                <querystring>stop &gt;= ? and start &lt; adddate(date_format(?,'%Y-%m-%d'), interval 1 day)</querystring>
+                <fields>
+                    <field id="1">
+                        <field>time</field>
+                        <type>Timestamp</type>
+                    </field>
+                    <field id="2">
+                        <field>time</field>
+                        <type>Timestamp</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allfordate">
+                <orderstring>order by start asc</orderstring>
+                <querystring>stop &gt;= date_format(?,'%Y-%m-%d') and start &lt; adddate(?, interval 1 day)</querystring>
+                <fields>
+                    <field id="1">
+                        <field>date</field>
+                        <type>Timestamp</type>
+                    </field>
+                    <field id="2">
+                        <field>date</field>
+                        <type>Timestamp</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allinlistfordateaftertime">
+                <orderstring>order by start asc</orderstring>
+                <querystring>channel in ({1}) and stop &gt;= ? and start &lt; adddate(date_format(?,'%Y-%m-%d'), interval 1 day)</querystring>
+                <fields>
+                    <field id="1">
+                        <field>channel</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>time</field>
+                        <type>Timestamp</type>
+                    </field>
+                    <field id="3">
+                        <field>time</field>
+                        <type>Timestamp</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allinlistaftertime">
+                <orderstring>order by start asc</orderstring>
+                <querystring>channel in ({1}) and stop &gt;= ?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>channel</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>time</field>
+                        <type>Timestamp</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
