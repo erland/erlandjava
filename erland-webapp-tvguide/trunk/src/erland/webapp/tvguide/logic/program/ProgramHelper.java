@@ -25,12 +25,15 @@ import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.tvguide.entity.channel.Channel;
 import erland.webapp.tvguide.entity.Service;
+import erland.webapp.tvguide.entity.movie.Movie;
 import erland.webapp.tvguide.entity.subscription.Subscription;
 import erland.webapp.tvguide.entity.favorite.Favorite;
 import erland.webapp.tvguide.entity.program.Program;
 import erland.webapp.tvguide.logic.service.ServiceHelper;
+import erland.webapp.tvguide.logic.movie.MovieHelper;
 import erland.webapp.tvguide.fb.program.ProgramPB;
 import erland.webapp.tvguide.fb.program.SearchProgramFB;
+import erland.util.StringUtil;
 
 import java.util.*;
 import java.io.StringReader;
@@ -50,6 +53,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 public class ProgramHelper {
     private static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss Z");
     public static void loadPrograms(WebAppEnvironmentInterface environment,boolean forced) {
+        MovieHelper.loadMovies(environment);
         QueryFilter filter = new QueryFilter("all");
         EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("tvguide-channel").search(filter);
         for (int i = 0; i < entities.length; i++) {
@@ -70,6 +74,8 @@ public class ProgramHelper {
                 Document document = saxReader.read(reader);
 
                 if (document != null) {
+                    Set reviewCategories = getReviewCategoriesSet(channel.getReviewCategories());
+                    Set noReviewCategories = getReviewCategoriesSet(channel.getNoReviewCategories());
                     List list = document.selectNodes( "/tv/programme[@channel='"+channel.getTag()+"']" );
                     for (Iterator iter = list.iterator(); iter.hasNext(); ) {
                         try {
@@ -80,6 +86,7 @@ public class ProgramHelper {
                             Date stopTime = DATE_FORMAT.parse(stop);
                             String title = element.elementText("title");
                             String desc = element.elementText("desc");
+                            Integer year = StringUtil.asInteger(element.elementText("date"),null);
                             QueryFilter filter = new QueryFilter("allforchannelandstarttime");
                             filter.setAttribute("channel",channel.getId());
                             filter.setAttribute("starttime",startTime);
@@ -91,6 +98,14 @@ public class ProgramHelper {
                                 program.setName(title);
                                 program.setDescription(desc);
                                 program.setChannel(channel.getId());
+                                if(channel.getReviewAvailable().booleanValue() && isReviewCategory(reviewCategories,noReviewCategories,element.selectNodes("category"))) {
+                                    Movie movie = MovieHelper.getMovie(environment,title,year);
+                                    program.setReview(movie.getReview());
+                                    program.setReviewLink(movie.getLink());
+                                }else {
+                                    program.setReview(null);
+                                    program.setReviewLink(null);
+                                }
                                 environment.getEntityStorageFactory().getStorage("tvguide-program").store(program);
                             }else {
                                 Program program = (Program) environment.getEntityFactory().create("tvguide-program");
@@ -99,6 +114,13 @@ public class ProgramHelper {
                                 program.setName(title);
                                 program.setDescription(desc);
                                 program.setChannel(channel.getId());
+                                if(channel.getReviewAvailable().booleanValue()) {
+                                    Movie movie = MovieHelper.getMovie(environment,title,year);
+                                    program.setReview(movie.getReview());
+                                    program.setReviewLink(movie.getLink());
+                                }else {
+                                    program.setReview(null);
+                                }
                                 environment.getEntityStorageFactory().getStorage("tvguide-program").store(program);
                             }
                         } catch (ParseException e) {
@@ -327,5 +349,42 @@ public class ProgramHelper {
         Calendar c2 = Calendar.getInstance();
         c2.setTime(date2);
         return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c1.get(Calendar.DATE) == c2.get(Calendar.DATE);
+    }
+    private static Set getReviewCategoriesSet(String reviewCategories) {
+        if(StringUtil.asNull(reviewCategories)==null) {
+            return null;
+        }
+        Set result = new HashSet();
+        StringTokenizer tokens = new StringTokenizer(reviewCategories,",");
+        while(tokens.hasMoreTokens()) {
+            String token = tokens.nextToken();
+            result.add(token.trim().toLowerCase());
+        }
+        return result;
+    }
+
+    private static boolean isReviewCategory(Set reviewCategories,Set noReviewCategories, List categoryElements) {
+        if(noReviewCategories!=null && noReviewCategories.size()>0) {
+            for (int i = 0; i < categoryElements.size(); i++) {
+                Element element = (Element) categoryElements.get(i);
+                String category = element.getText();
+                category = category.trim().toLowerCase();
+                if(noReviewCategories.contains(category)) {
+                    return false;
+                }
+            }
+        }
+        if(reviewCategories==null||reviewCategories.size()==0) {
+            return true;
+        }
+        for (int i = 0; i < categoryElements.size(); i++) {
+            Element element = (Element) categoryElements.get(i);
+            String category = element.getText();
+            category = category.trim().toLowerCase();
+            if(reviewCategories.contains(category.trim().toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
