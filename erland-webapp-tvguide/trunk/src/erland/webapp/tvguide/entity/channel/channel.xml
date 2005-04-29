@@ -46,6 +46,18 @@
                 <column>cachedate</column>
                 <type>Timestamp</type>
             </field>
+            <field id="reviewAvailable">
+                <column>reviewavailable</column>
+                <type>Boolean</type>
+            </field>
+            <field id="reviewCategories">
+                <column>reviewcategories</column>
+                <type>String</type>
+            </field>
+            <field id="noReviewCategories">
+                <column>noreviewcategories</column>
+                <type>String</type>
+            </field>
         </fields>
         <queries>
             <query id="all">

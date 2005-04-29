@@ -30,6 +30,8 @@ public class Program extends BaseEntity {
     private Date start;
     private Date stop;
     private String description;
+    private Integer review;
+    private String reviewLink;
 
     public Integer getId() {
         return id;
@@ -77,5 +79,21 @@ public class Program extends BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getReview() {
+        return review;
+    }
+
+    public void setReview(Integer review) {
+        this.review = review;
+    }
+
+    public String getReviewLink() {
+        return reviewLink;
+    }
+
+    public void setReviewLink(String reviewLink) {
+        this.reviewLink = reviewLink;
     }
 }

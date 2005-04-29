@@ -30,6 +30,9 @@ public class Channel extends BaseEntity {
     private String description;
     private String logo;
     private String link;
+    private Boolean reviewAvailable;
+    private String reviewCategories;
+    private String noReviewCategories;
     private Integer service;
     private String serviceParameters;
     private Date cacheDate;
@@ -104,5 +107,29 @@ public class Channel extends BaseEntity {
 
     public void setCacheDate(Date cacheDate) {
         this.cacheDate = cacheDate;
+    }
+
+    public Boolean getReviewAvailable() {
+        return reviewAvailable;
+    }
+
+    public void setReviewAvailable(Boolean reviewAvailable) {
+        this.reviewAvailable = reviewAvailable;
+    }
+
+    public String getReviewCategories() {
+        return reviewCategories;
+    }
+
+    public void setReviewCategories(String reviewCategories) {
+        this.reviewCategories = reviewCategories;
+    }
+
+    public String getNoReviewCategories() {
+        return noReviewCategories;
+    }
+
+    public void setNoReviewCategories(String noReviewCategories) {
+        this.noReviewCategories = noReviewCategories;
     }
 }

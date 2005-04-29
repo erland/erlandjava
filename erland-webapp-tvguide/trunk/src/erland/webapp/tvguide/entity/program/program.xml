@@ -34,6 +34,14 @@
                 <column>description</column>
                 <type>String</type>
             </field>
+            <field id="review">
+                <column>review</column>
+                <type>Integer</type>
+            </field>
+            <field id="reviewLink">
+                <column>reviewlink</column>
+                <type>String</type>
+            </field>
         </fields>
         <queries>
             <query id="all">

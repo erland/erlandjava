@@ -34,6 +34,9 @@ public class ChannelFB extends BaseFB {
     private String link;
     private String serviceDisplay;
     private String serviceParameters;
+    private String reviewAvailableDisplay;
+    private String reviewCategories;
+    private String noReviewCategories;
 
     public Integer getId() {
         return StringUtil.asInteger(idDisplay,null);
@@ -115,6 +118,37 @@ public class ChannelFB extends BaseFB {
         this.serviceParameters = serviceParameters;
     }
 
+    public Boolean getReviewAvailable() {
+        return StringUtil.asBoolean(reviewAvailableDisplay,Boolean.FALSE);
+    }
+
+    public void setReviewAvailable(Boolean reviewAvailable) {
+        reviewAvailableDisplay = StringUtil.asString(reviewAvailable, null);
+    }
+    public String getReviewAvailableDisplay() {
+        return reviewAvailableDisplay;
+    }
+
+    public void setReviewAvailableDisplay(String reviewAvailableDisplay) {
+        this.reviewAvailableDisplay = reviewAvailableDisplay;
+    }
+
+    public String getReviewCategories() {
+        return reviewCategories;
+    }
+
+    public void setReviewCategories(String reviewCategories) {
+        this.reviewCategories = reviewCategories;
+    }
+
+    public String getNoReviewCategories() {
+        return noReviewCategories;
+    }
+
+    public void setNoReviewCategories(String noReviewCategories) {
+        this.noReviewCategories = noReviewCategories;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         idDisplay = null;
@@ -125,5 +159,8 @@ public class ChannelFB extends BaseFB {
         link = null;
         serviceDisplay = null;
         serviceParameters = null;
+        reviewAvailableDisplay = null;
+        reviewCategories = null;
+        noReviewCategories = null;
     }
 }

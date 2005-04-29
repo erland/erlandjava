@@ -40,6 +40,8 @@ public class ProgramPB extends BasePB {
     private Boolean startOtherDay;
     private String newSubscriptionLink;
     private String viewSubscriptionLink;
+    private Integer review;
+    private String reviewLink;
 
     public Date getStart() {
         return start;
@@ -174,5 +176,28 @@ public class ProgramPB extends BasePB {
 
     public void setViewSubscriptionLink(String viewSubscriptionLink) {
         this.viewSubscriptionLink = viewSubscriptionLink;
+    }
+
+    public Integer getReview() {
+        return review;
+    }
+
+    public void setReview(Integer review) {
+        this.review = review;
+    }
+    public String getReviewDisplay() {
+        return StringUtil.asString(review,null);
+    }
+
+    public void setReviewDisplay(String reviewDisplay) {
+        this.review = StringUtil.asInteger(reviewDisplay,new Integer(0));
+    }
+
+    public String getReviewLink() {
+        return reviewLink;
+    }
+
+    public void setReviewLink(String reviewLink) {
+        this.reviewLink = reviewLink;
     }
 }
