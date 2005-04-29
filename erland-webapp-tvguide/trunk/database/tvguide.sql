@@ -27,6 +27,9 @@ CREATE TABLE `channels` (
   `service` int(11) NOT NULL default '0',
   `serviceparameters` longtext NOT NULL,
   `cachedate` datetime NOT NULL default '0000-00-00 00:00:00',
+  `reviewavailable` tinyint(4) NOT NULL default '0',
+  `reviewcategories` varchar(255) NOT NULL default '',
+  `noreviewcategories` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
@@ -44,6 +47,18 @@ CREATE TABLE `favorites` (
 ) TYPE=MyISAM;
 
 --
+-- Table structure for table `movies`
+--
+
+DROP TABLE IF EXISTS `movies`;
+CREATE TABLE `movies` (
+  `title` varchar(255) NOT NULL default '',
+  `review` int(11) default NULL,
+  `link` varchar(100) default NULL,
+  PRIMARY KEY  (`title`)
+) TYPE=MyISAM;
+
+--
 -- Table structure for table `programs`
 --
 
@@ -55,6 +70,8 @@ CREATE TABLE `programs` (
   `start` datetime NOT NULL default '0000-00-00 00:00:00',
   `stop` datetime NOT NULL default '0000-00-00 00:00:00',
   `channel` int(11) NOT NULL default '0',
+  `review` int(11) NOT NULL default '0',
+  `reviewLink` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
