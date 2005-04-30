@@ -154,6 +154,46 @@
                     </field>
                 </fields>
             </query>
+            <query id="allinlistfortwodatesaftertime">
+                <orderstring>order by start asc</orderstring>
+                <querystring>channel in ({1}) and stop &gt;= ? and start &lt; adddate(date_format(?,'%Y-%m-%d'), interval 2 day)</querystring>
+                <fields>
+                    <field id="1">
+                        <field>channel</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>time</field>
+                        <type>Timestamp</type>
+                    </field>
+                    <field id="3">
+                        <field>time</field>
+                        <type>Timestamp</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allinlistfortwodatesaftertimewithreview">
+                <orderstring>order by start asc</orderstring>
+                <querystring>channel in ({1}) and stop &gt;= ? and start &lt; adddate(date_format(?,'%Y-%m-%d'), interval 2 day) and review>=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>channel</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>time</field>
+                        <type>Timestamp</type>
+                    </field>
+                    <field id="3">
+                        <field>time</field>
+                        <type>Timestamp</type>
+                    </field>
+                    <field id="4">
+                        <field>review</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
             <query id="allinlistaftertime">
                 <orderstring>order by start asc</orderstring>
                 <querystring>channel in ({1}) and stop &gt;= ?</querystring>
