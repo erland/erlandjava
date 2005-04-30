@@ -121,6 +121,8 @@ CREATE TABLE `useraccounts` (
   `mailnotification` tinyint(4) NOT NULL default '0',
   `jabberid` varchar(100) default NULL,
   `jabbernotification` tinyint(4) NOT NULL default '0',
+  `includetips` tinyint(4) NOT NULL default '0',
+  `mintipsreview` int(11) NOT NULL default '8';
   PRIMARY KEY  (`username`)
 ) TYPE=MyISAM;
 
