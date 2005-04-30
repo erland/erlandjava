@@ -197,10 +197,23 @@ public class ProgramHelper {
             Map channelMap = getChannelMap(environment, channels);
             Collection subscriptions = getSubscriptions(environment,username);
             if(subscriptions.size()>0) {
-                QueryFilter filter = new QueryFilter("allinlistfordateaftertime");
+                QueryFilter filter = new QueryFilter("allinlistfortwodatesaftertime");
                 filter.setAttribute("channel", channels);
                 return getSubscribedPrograms(environment,username,filter,subscriptions,channelMap,date, viewForward);
             }
+        }
+        return new ProgramPB[0];
+    }
+
+    public static ProgramPB[] getProgramsWithMinReview(WebAppEnvironmentInterface environment, String username, Date date, Integer minReview, ActionForward viewForward) {
+        Collection channels = getFavoriteChannels(environment,username);
+        if(channels.size()>0) {
+            loadPrograms(environment,false);
+            Map channelMap = getChannelMap(environment, channels);
+            QueryFilter filter = new QueryFilter("allinlistfortwodatesaftertimewithreview");
+            filter.setAttribute("channel", channels);
+            filter.setAttribute("review",minReview);
+            return getPrograms(environment,username,filter,channelMap,date, viewForward);
         }
         return new ProgramPB[0];
     }
@@ -343,6 +356,44 @@ public class ProgramHelper {
         }
         return (ProgramPB[]) programCollection.toArray(new ProgramPB[0]);
     }
+
+    private static ProgramPB[] getPrograms(WebAppEnvironmentInterface environment, String username, QueryFilter filter, Map channelMap, Date date, ActionForward viewSubscriptionForward) {
+        filter.setAttribute("time",date);
+        EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("tvguide-program").search(filter);
+        Collection programCollection = new ArrayList();
+        Map parameters = new HashMap();
+        parameters.put("user",username);
+        for (int i = 0; i < entities.length; i++) {
+            Program entity = (Program) entities[i];
+
+            ProgramPB programPB;
+            programPB = new ProgramPB();
+            try {
+                PropertyUtils.copyProperties(programPB, entity);
+            } catch (IllegalAccessException e) {
+            } catch (InvocationTargetException e) {
+            } catch (NoSuchMethodException e) {
+            }
+            Channel ch = (Channel) channelMap.get(entity.getChannel());
+            programPB.setChannelName(ch.getName());
+            programPB.setChannelLogo(ch.getLogo());
+            programPB.setChannelLink(ch.getLink());
+
+            if (programPB.getStart().before(date)) {
+                programPB.setStarted(Boolean.TRUE);
+            } else {
+                programPB.setStarted(Boolean.FALSE);
+            }
+            if (sameDay(programPB.getStart(), date)) {
+                programPB.setStartSameDay(Boolean.TRUE);
+            } else {
+                programPB.setStartSameDay(Boolean.FALSE);
+            }
+            programCollection.add(programPB);
+        }
+        return (ProgramPB[]) programCollection.toArray(new ProgramPB[0]);
+    }
+
     private static boolean sameDay(Date date1, Date date2) {
         Calendar c1 = Calendar.getInstance();
         c1.setTime(date1);
