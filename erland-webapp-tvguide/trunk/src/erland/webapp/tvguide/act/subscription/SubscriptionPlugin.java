@@ -130,7 +130,11 @@ public class SubscriptionPlugin extends BaseTaskPlugin {
                                     InternetAddress to = new InternetAddress(user.getMail());
 
                                     ProgramPB[] programsPB = ProgramHelper.getSubscribedPrograms(getEnvironment(), account.getUsername(), new Date(), null);
-                                    if (programsPB.length > 0) {
+                                    ProgramPB[] tipsProgramsPB = new ProgramPB[0];
+                                    if(account.getIncludeTips()!=null && account.getIncludeTips().booleanValue()) {
+                                        tipsProgramsPB = ProgramHelper.getProgramsWithMinReview(getEnvironment(),account.getUsername(),new Date(), account.getMinTipsReview(),null);
+                                    }
+                                    if (programsPB.length > 0 || tipsProgramsPB.length>0) {
                                         Message msg = new MimeMessage(session);
                                         msg.setFrom(from);
                                         msg.setRecipient(Message.RecipientType.TO, to);
@@ -139,7 +143,7 @@ public class SubscriptionPlugin extends BaseTaskPlugin {
                                         parameters.put("date", DATE_FORMAT.format(new Date()));
                                         msg.setSubject(ServletParameterHelper.replaceDynamicParameters(subject, parameters));
                                         msg.setSentDate(new Date());
-                                        msg.setText(getMessageString(programsPB));
+                                        msg.setText(getMessageString(programsPB,tipsProgramsPB));
 
                                         LOG.info("Sending daily mail to: " + ((InternetAddress) msg.getRecipients(Message.RecipientType.TO)[0]).getAddress());
                                         Transport.send(msg);
@@ -215,12 +219,24 @@ public class SubscriptionPlugin extends BaseTaskPlugin {
             }
         }
     }
-    private String getMessageString(ProgramPB[] programs) {
+    private String getMessageString(ProgramPB[] programs, ProgramPB[] tipsPrograms) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < programs.length; i++) {
             ProgramPB program = programs[i];
-            sb.append("\n"+program.getStartTimeDisplay()+" - "+program.getStopTimeDisplay()+" "+program.getName()+" ("+program.getChannelName()+")");
+            sb.append("\n"+program.getStartDateDisplay()+"\n"+program.getStartTimeDisplay()+" - "+program.getStopTimeDisplay()+" "+program.getName()+" ("+program.getChannelName()+")");
             sb.append("\n"+StringUtil.wordWrap(program.getDescription(),80));
+            sb.append("\n");
+        }
+        if(tipsPrograms.length>0) {
+            sb.append("\n");
+            sb.append("*********************** Tips ***********************\n");
+            sb.append("\n");
+        }
+        for (int i = 0; i < tipsPrograms.length; i++) {
+            ProgramPB program = tipsPrograms[i];
+            sb.append("\n"+program.getStartDateDisplay()+"\n"+program.getStartTimeDisplay()+" - "+program.getStopTimeDisplay()+" "+program.getName()+" ("+program.getChannelName()+")");
+            sb.append("\n"+StringUtil.wordWrap(program.getDescription(),80));
+            sb.append("\nReview: "+program.getReview());
             sb.append("\n");
         }
         return sb.toString();
