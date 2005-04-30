@@ -30,6 +30,24 @@
     <tr><td><bean:message key="tvguide.account.edit.mailnotification"/></td><td>
     <html:checkbox property="mailNotificationDisplay" value="true"/>
     </td></tr>
+    <tr><td><bean:message key="tvguide.account.edit.includetips"/></td><td>
+    <html:checkbox property="includeTipsDisplay" value="true"/>
+    </td></tr>
+    <tr><td><bean:message key="tvguide.account.edit.mintipsreview"/></td><td>
+    <html:select property="minTipsReviewDisplay" size="1">
+        <html:option value="0"/>
+        <html:option value="1"/>
+        <html:option value="2"/>
+        <html:option value="3"/>
+        <html:option value="4"/>
+        <html:option value="5"/>
+        <html:option value="6"/>
+        <html:option value="7"/>
+        <html:option value="8"/>
+        <html:option value="9"/>
+        <html:option value="10"/>
+    </html:select>
+    </td></tr>
     <tr><td><bean:message key="tvguide.account.edit.jabbernotification"/></td><td>
     <html:checkbox property="jabberNotificationDisplay" value="true"/>
     </td></tr>

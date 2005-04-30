@@ -32,6 +32,8 @@ public class UserAccount extends BaseEntity {
     private Boolean mailNotification;
     private String jabberId;
     private Boolean jabberNotification;
+    private Boolean includeTips;
+    private Integer minTipsReview;
 
     public String getUsername() {
         return username;
@@ -111,5 +113,21 @@ public class UserAccount extends BaseEntity {
 
     public void setJabberId(String jabberId) {
         this.jabberId = jabberId;
+    }
+
+    public Boolean getIncludeTips() {
+        return includeTips;
+    }
+
+    public void setIncludeTips(Boolean includeTips) {
+        this.includeTips = includeTips;
+    }
+
+    public Integer getMinTipsReview() {
+        return minTipsReview;
+    }
+
+    public void setMinTipsReview(Integer minTipsReview) {
+        this.minTipsReview = minTipsReview;
     }
 }

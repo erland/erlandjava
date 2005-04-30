@@ -49,6 +49,14 @@
                 <column>jabbernotification</column>
                 <type>Boolean</type>
             </field>
+            <field id="includeTips">
+                <column>includetips</column>
+                <type>Boolean</type>
+            </field>
+            <field id="minTipsReview">
+                <column>mintipsreview</column>
+                <type>Integer</type>
+            </field>
         </fields>
         <queries>
             <query id="all">

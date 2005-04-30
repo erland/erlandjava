@@ -40,6 +40,8 @@ public class AccountFB extends BaseFB {
     private String mailNotificationDisplay;
     private String jabberNotificationDisplay;
     private String jabberId;
+    private String includeTipsDisplay;
+    private String minTipsReviewDisplay;
 
     public String getUsername() {
         return username;
@@ -177,6 +179,38 @@ public class AccountFB extends BaseFB {
         this.jabberId = jabberId;
     }
 
+    public String getIncludeTipsDisplay() {
+        return includeTipsDisplay;
+    }
+
+    public void setIncludeTipsDisplay(String includeTipsDisplay) {
+        this.includeTipsDisplay = includeTipsDisplay;
+    }
+
+    public String getMinTipsReviewDisplay() {
+        return minTipsReviewDisplay;
+    }
+
+    public void setMinTipsReviewDisplay(String minTipsReviewDisplay) {
+        this.minTipsReviewDisplay = minTipsReviewDisplay;
+    }
+
+    public Boolean getIncludeTips() {
+        return StringUtil.asBoolean(includeTipsDisplay,Boolean.FALSE);
+    }
+
+    public void setIncludeTips(Boolean includeTips) {
+        this.includeTipsDisplay = StringUtil.asString(includeTips,null);
+    }
+
+    public Integer getMinTipsReview() {
+        return StringUtil.asInteger(minTipsReviewDisplay,null);
+    }
+
+    public void setMinTipsReview(Integer minTipsReview) {
+        this.minTipsReviewDisplay = StringUtil.asString(minTipsReview,null);
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         username = null;
@@ -193,5 +227,7 @@ public class AccountFB extends BaseFB {
         mailNotificationDisplay = null;
         jabberNotificationDisplay = null;
         jabberId = null;
+        includeTipsDisplay = null;
+        minTipsReviewDisplay = null;
     }
 }

@@ -30,6 +30,8 @@
     <input type="hidden" name="mailNotificationDisplay" value="false"/>
     <input type="hidden" name="jabberNotificationDisplay" value="false"/>
     <input type="hidden" name="jabberId" value="false"/>
+    <input type="hidden" name="includeTipsDisplay" value="false"/>
+    <input type="hidden" name="minTipsReviewDisplay" value="8"/>
     <input type="submit" value="<bean:message key="tvguide.account.new.register"/>">
     <input type="button" value="<bean:message key="tvguide.account.new.cancel"/>" onClick="window.location='<html:rewrite page="/do/index"/>'">
     </td></tr>
