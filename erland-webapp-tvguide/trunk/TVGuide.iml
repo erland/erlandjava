@@ -20,7 +20,6 @@
     <orderEntry type="library" name="commons-logging" level="application" />
     <orderEntry type="library" name="Dom4J" level="application" />
     <orderEntry type="library" name="javamail-1.3.2" level="application" />
-    <orderEntry type="library" name="Tomcat" level="application_server_libraries" />
     <orderEntry type="library" name="muse-8.1" level="application" />
     <orderEntryProperties />
   </component>
@@ -34,18 +33,6 @@
     <setting name="RUN_JASPER_VALIDATION" value="false" />
   </component>
   <component name="WebModuleProperties">
-    <containerElement type="module" name="UserMgmt">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/classes" />
-    </containerElement>
-    <containerElement type="module" name="util">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/classes" />
-    </containerElement>
-    <containerElement type="module" name="WebCommon">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/classes" />
-    </containerElement>
     <containerElement type="library" level="application" name="commons-beanutils">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib" />
@@ -63,10 +50,6 @@
       <attribute name="URI" value="/WEB-INF/lib" />
     </containerElement>
     <containerElement type="library" level="application" name="javamail-1.3.2">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib" />
-    </containerElement>
-    <containerElement type="library" level="application" name="metadata-extractor">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib" />
     </containerElement>
