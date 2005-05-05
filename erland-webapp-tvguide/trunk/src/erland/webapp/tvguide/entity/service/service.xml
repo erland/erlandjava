@@ -1,5 +1,5 @@
 <entity id="service">
-    <class>erland.webapp.tvguide.entity.Service</class>
+    <class>erland.webapp.tvguide.entity.service.Service</class>
     <data id="storage">
         <class>erland.webapp.common.GenericEntityStorage</class>
         <name>sql</name>

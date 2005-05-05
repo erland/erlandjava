@@ -23,7 +23,7 @@ import erland.webapp.common.EntityInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.act.BaseAction;
-import erland.webapp.tvguide.entity.Service;
+import erland.webapp.tvguide.entity.service.Service;
 import erland.webapp.tvguide.fb.service.ServicePB;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;

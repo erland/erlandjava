@@ -20,7 +20,7 @@ package erland.webapp.tvguide.act.service;
  */
 
 import erland.webapp.common.act.BaseAction;
-import erland.webapp.tvguide.entity.Service;
+import erland.webapp.tvguide.entity.service.Service;
 import erland.webapp.tvguide.fb.service.ServiceFB;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;

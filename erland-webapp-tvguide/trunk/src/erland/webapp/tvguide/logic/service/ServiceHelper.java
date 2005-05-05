@@ -27,7 +27,7 @@ import erland.webapp.common.EntityInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.common.WebAppEnvironmentInterface;
-import erland.webapp.tvguide.entity.Service;
+import erland.webapp.tvguide.entity.service.Service;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

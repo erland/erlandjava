@@ -19,36 +19,33 @@ package erland.webapp.tvguide.logic.program;
  *
  */
 
-import erland.webapp.common.QueryFilter;
-import erland.webapp.common.EntityInterface;
-import erland.webapp.common.WebAppEnvironmentInterface;
-import erland.webapp.common.ServletParameterHelper;
-import erland.webapp.tvguide.entity.channel.Channel;
-import erland.webapp.tvguide.entity.Service;
-import erland.webapp.tvguide.entity.movie.Movie;
-import erland.webapp.tvguide.entity.subscription.Subscription;
-import erland.webapp.tvguide.entity.favorite.Favorite;
-import erland.webapp.tvguide.entity.program.Program;
-import erland.webapp.tvguide.logic.service.ServiceHelper;
-import erland.webapp.tvguide.logic.movie.MovieHelper;
-import erland.webapp.tvguide.fb.program.ProgramPB;
-import erland.webapp.tvguide.fb.program.SearchProgramFB;
 import erland.util.StringUtil;
+import erland.webapp.common.EntityInterface;
+import erland.webapp.common.QueryFilter;
+import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.common.WebAppEnvironmentInterface;
+import erland.webapp.tvguide.entity.channel.Channel;
+import erland.webapp.tvguide.entity.favorite.Favorite;
+import erland.webapp.tvguide.entity.movie.Movie;
+import erland.webapp.tvguide.entity.program.Program;
+import erland.webapp.tvguide.entity.subscription.Subscription;
+import erland.webapp.tvguide.fb.program.ProgramPB;
+import erland.webapp.tvguide.logic.movie.MovieHelper;
+import erland.webapp.tvguide.logic.service.ServiceHelper;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.struts.action.ActionForward;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 
-import java.util.*;
-import java.io.StringReader;
 import java.io.Reader;
-import java.text.SimpleDateFormat;
+import java.io.StringReader;
+import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.lang.reflect.InvocationTargetException;
-
-import org.dom4j.io.SAXReader;
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.DocumentException;
-import org.apache.struts.action.ActionForward;
-import org.apache.commons.beanutils.PropertyUtils;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ProgramHelper {
     private static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss Z");

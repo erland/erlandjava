@@ -1,4 +1,4 @@
-package erland.webapp.tvguide.entity;
+package erland.webapp.tvguide.entity.service;
 
 /*
  * Copyright (C) 2005 Erland Isaksson (erland_i@hotmail.com)
