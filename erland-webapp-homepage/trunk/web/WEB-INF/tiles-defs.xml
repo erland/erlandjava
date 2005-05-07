@@ -61,6 +61,12 @@
     <definition name=".user.editsection" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/section/editsection.jsp"/>
     </definition>
+    <definition name=".guest.viewsectionredirect" path="/WEB-INF/tiles/section/viewsectionredirect.jsp">
+        <put name="title" value="Homepage, redirecting..."/>
+    </definition>
+    <definition name=".user.viewsectionredirect" path="/WEB-INF/tiles/section/viewsectionredirect.jsp">
+        <put name="title" value="Homepage, redirecting..."/>
+    </definition>
     <definition name=".user.viewsection" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/section/viewsection.jsp"/>
     </definition>
