@@ -37,6 +37,8 @@ public class Section extends BaseEntity {
     private Boolean official;
     private String hosts;
     private String ipAddr;
+    private String directLink;
+    private String directLinkEnglish;
 
     public String getUsername() {
         return username;
@@ -156,5 +158,21 @@ public class Section extends BaseEntity {
 
     public void setIpAddr(String ipAddr) {
         this.ipAddr = ipAddr;
+    }
+
+    public String getDirectLink() {
+        return directLink;
+    }
+
+    public void setDirectLink(String directLink) {
+        this.directLink = directLink;
+    }
+
+    public String getDirectLinkEnglish() {
+        return directLinkEnglish;
+    }
+
+    public void setDirectLinkEnglish(String directLinkEnglish) {
+        this.directLinkEnglish = directLinkEnglish;
     }
 }

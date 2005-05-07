@@ -67,6 +67,14 @@
                 <column>hosts</column>
                 <type>String</type>
             </field>
+            <field id="directLink">
+                <column>directlink</column>
+                <type>String</type>
+            </field>
+            <field id="directLinkEnglish">
+                <column>directlink_en</column>
+                <type>String</type>
+            </field>
             <field id="official">
                 <column>official</column>
                 <type>Boolean</type>
