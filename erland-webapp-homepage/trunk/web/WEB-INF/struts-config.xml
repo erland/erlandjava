@@ -49,16 +49,20 @@
             path="/user/home"
             type="erland.webapp.homepage.act.account.ViewDefaultSectionAction">
 
+            <forward name="english-link" path="/do/user/home?lang={language}"/>
+            <forward name="native-link" path="/do/user/home?lang={language}"/>
             <forward name="failure" path="/do/user/loadmenu" redirect="true" />
-            <forward name="success" path="/do/user/loadmenusection?section={section}"/>
+            <forward name="success" path="/do/user/loadmenusection?section={section}[lang,&amp;lang={lang}]"/>
         </action>
         <action
             path="/guest/home"
             type="erland.webapp.homepage.act.account.ViewOfficialDefaultSectionAction"
             name="menuFB">
 
+            <forward name="english-link" path="/do/guest/home?user={user}&amp;lang={language}"/>
+            <forward name="native-link" path="/do/guest/home?user={user}&amp;lang={language}"/>
             <forward name="failure" path="/do/guest/loadmenu?user={user}" redirect="true" />
-            <forward name="success" path="/do/guest/loadmenusection?user={user}&amp;section={section}"/>
+            <forward name="success" path="/do/guest/loadmenusection?user={user}&amp;section={section}[lang,&amp;lang={lang}]"/>
         </action>
         <action
             path="/user/loadmenusection"
@@ -66,7 +70,7 @@
             name="menuFB">
 
             <forward name="section-new" path="/do/user/newsection?parentDisplay={idDisplay}"/>
-            <forward name="section" path="/do/user/menuviewsection?section={idDisplay}&amp;menuItemId={menuItemId}"/>
+            <forward name="section" path="/do/user/menuviewsection?section={idDisplay}&amp;menuItemId={menuItemId}[language,&amp;lang={language}]"/>
             <forward name="success" path="/do/user/viewsectioninfo?section={section}"/>
         </action>
         <action
@@ -74,7 +78,7 @@
             type="erland.webapp.homepage.act.section.LoadOfficialMenuAction"
             name="menuFB">
 
-            <forward name="section" path="/do/guest/menuviewsection?user={user}&amp;section={idDisplay}&amp;menuItemId={menuItemId}"/>
+            <forward name="section" path="/do/guest/menuviewsection?user={user}&amp;section={idDisplay}&amp;menuItemId={menuItemId}[language,&amp;lang={language}]"/>
             <forward name="success" path="/do/guest/viewsection?user={user}&amp;section={section}"/>
         </action>
         <action
@@ -83,7 +87,7 @@
             name="menuFB">
 
             <forward name="section-new" path="/do/user/newsection?parentDisplay={idDisplay}"/>
-            <forward name="section" path="/do/user/menuviewsection?section={idDisplay}&amp;menuItemId={menuItemId}"/>
+            <forward name="section" path="/do/user/menuviewsection?section={idDisplay}&amp;menuItemId={menuItemId}[language,&amp;lang={language}]"/>
             <forward name="success" path=".user.index"/>
         </action>
         <action
@@ -91,7 +95,7 @@
             type="erland.webapp.homepage.act.section.LoadOfficialMenuAction"
             name="menuFB">
 
-            <forward name="section" path="/do/guest/menuviewsection?user={user}&amp;section={idDisplay}&amp;menuItemId={menuItemId}"/>
+            <forward name="section" path="/do/guest/menuviewsection?user={user}&amp;section={idDisplay}&amp;menuItemId={menuItemId}[language,&amp;lang={language}]"/>
             <forward name="success" path=".guest.index"/>
         </action>
         <action
@@ -196,12 +200,14 @@
             <forward name="update-section-link" path="/do/user/viewsection?idDisplay={section}"/>
             <forward name="remove-section-link" path="/do/user/removesection?idDisplay={section}"/>
             <forward name="success" path=".user.viewsection"/>
+            <forward name="redirect" path=".user.viewsectionredirect"/>
         </action>
         <action
             path="/guest/viewsection"
             type="erland.webapp.homepage.act.section.ViewSectionInfoAction"
             name="selectSectionFB">
             <forward name="success" path=".guest.viewsection"/>
+            <forward name="redirect" path=".guest.viewsectionredirect"/>
         </action>
         <action
             path="/user/viewsection"
