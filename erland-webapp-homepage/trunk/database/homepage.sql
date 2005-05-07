@@ -24,6 +24,8 @@ CREATE TABLE sections (
   official tinyint(4) default NULL,
   hosts varchar(255) default NULL,
   ipaddr varchar(255) default NULL,
+  directlink varchar(255) default NULL,
+  directlink_en varchar(255) default NULL,
   PRIMARY KEY  (username,id)
 ) TYPE=MyISAM;
 
