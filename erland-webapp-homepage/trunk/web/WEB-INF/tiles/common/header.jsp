@@ -2,8 +2,10 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html" %>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
+<table width="100%" class="header-body">
+<tr><td width="100%">
 <center>
-    <table width="100%" class="header-body">
+    <table width="100%" class="header-body-inner">
         <logic:present name="accountPB">
             <logic:equal name="accountPB" property="showLogoDisplay" value="true"> 
                 <tr class="header-logo"><td class="header-logo" width="100%" align="center">
@@ -31,5 +33,8 @@
         </logic:notPresent>
     </table>
 </center>
-
+</td><td>
+<erland-common:beanlink name="accountPB" property="nativeLink" style="bold-link"><bean:message key="homepage.home.native-link"/></erland-common:beanlink>
+<br><erland-common:beanlink name="accountPB" property="englishLink" style="bold-link"><bean:message key="homepage.home.english-link"/></erland-common:beanlink>
+</td></tr></table>
 
