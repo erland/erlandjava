@@ -23,16 +23,20 @@ import erland.webapp.homepage.fb.account.SelectUserFB;
 import erland.webapp.homepage.fb.account.AccountPB;
 import erland.webapp.homepage.entity.account.UserAccount;
 import erland.webapp.common.act.BaseAction;
+import erland.webapp.common.ServletParameterHelper;
 import erland.webapp.usermgmt.User;
 import erland.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionForward;
 
 public class ViewDefaultSectionAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -49,7 +53,7 @@ public class ViewDefaultSectionAction extends BaseAction {
         AccountPB pb = new AccountPB();
         PropertyUtils.copyProperties(pb,account);
         PropertyUtils.copyProperties(pb,getUser(username));
-        boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
+        boolean useEnglish = !getLocale(request).getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
         if(useEnglish && StringUtil.asNull(pb.getHeaderTextEnglish())!=null) {
             pb.setHeaderText(pb.getHeaderTextEnglish());
         }
@@ -64,6 +68,18 @@ public class ViewDefaultSectionAction extends BaseAction {
         }
         if(useEnglish && StringUtil.asNull(pb.getTitleEnglish())!=null) {
             pb.setTitle(pb.getTitleEnglish());
+        }
+        Map parameters = new HashMap();
+        parameters.put("user",username);
+        ActionForward forward = mapping.findForward("native-link");
+        if(forward!=null) {
+            parameters.put("language",getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
+            pb.setNativeLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+        }
+        forward = mapping.findForward("english-link");
+        if(forward!=null) {
+            parameters.put("language","en");
+            pb.setEnglishLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
         }
         request.getSession().setAttribute("accountPB",pb);
         request.getSession().setAttribute("titlePB",pb.getTitle());
