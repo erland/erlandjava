@@ -47,7 +47,7 @@ public class SearchServicesAction extends BaseAction {
         ServicePB[] pb = new ServicePB[entities.length];
         ActionForward updateLink = mapping.findForward("update-service-link");
         ActionForward removeLink = mapping.findForward("remove-service-link");
-        boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
+        boolean useEnglish = !getLocale(request).getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
         Map parameters = new HashMap();
         for (int i = 0; i < entities.length; i++) {
             pb[i] = new ServicePB();

@@ -44,7 +44,7 @@ public class ViewSectionAction extends BaseAction {
         Section section = (Section) getEnvironment().getEntityStorageFactory().getStorage("homepage-section").load(template);
         PropertyUtils.copyProperties(fb, section);
 
-        boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
+        boolean useEnglish = !getLocale(request).getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("homepage-service").search(new QueryFilter("all"));
         ServicePB[] servicesPB = new ServicePB[entities.length];
         for (int i = 0; i < entities.length; i++) {

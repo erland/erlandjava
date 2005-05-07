@@ -50,7 +50,7 @@ public class NewSectionAction extends BaseAction {
         fb.setNameEnglish(null);
         // We do not want to reset parent, since it should be possible to easy create subsections
 
-        boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
+        boolean useEnglish = !getLocale(request).getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("homepage-service").search(new QueryFilter("all"));
         ServicePB[] servicesPB = new ServicePB[entities.length];
         for (int i = 0; i < entities.length; i++) {

@@ -42,7 +42,7 @@ public class EditUserAccountAction extends BaseAction {
         } else {
             request.getSession().removeAttribute("stylesheetPB");
         }
-        boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
+        boolean useEnglish = !getLocale(request).getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
         if(useEnglish && StringUtil.asNull(account.getTitleEnglish())!=null) {
             request.setAttribute("titlePB",account.getTitleEnglish());
         }else {

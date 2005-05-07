@@ -64,7 +64,7 @@ public class ViewServiceInfoAction extends BaseAction{
                     Object serviceInstance = serviceCls.newInstance();
                     if(serviceInstance instanceof ServiceInterface) {
                         Map parameterValues = new HashMap();
-                        parameterValues.put("language",request.getLocale().getLanguage());
+                        parameterValues.put("language",getLocale(request).getLanguage());
                         parameterValues.put("user",username);
                         if(request.getRemoteUser()!=null) {
                             parameterValues.put("usertype","user");

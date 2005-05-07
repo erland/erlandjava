@@ -49,7 +49,7 @@ public class LoadMenuAction extends BaseAction {
         if (StringUtil.asNull(username)==null) {
             username = request.getRemoteUser();
         }
-        boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
+        boolean useEnglish = !getLocale(request).getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
 
         QueryFilter filter = new QueryFilter(getQueryFilter());
         filter.setAttribute("username", username);
@@ -64,7 +64,7 @@ public class LoadMenuAction extends BaseAction {
         if (newSectionForward!=null) {
             newSectionPath = newSectionForward.getPath();
         }
-        MenuItemPB[] sectionsPB = makeMenuTree(username, (Section[]) Arrays.asList(entities).toArray(new Section[0]), sectionPath, useEnglish);
+        MenuItemPB[] sectionsPB = makeMenuTree(username, (Section[]) Arrays.asList(entities).toArray(new Section[0]), sectionPath, useEnglish, getLocale(request).getLanguage());
         if(newSectionPath!=null) {
             for (int i = 0; i < sectionsPB.length; i++) {
                 MenuItemPB menuItemPB = sectionsPB[i];
@@ -106,7 +106,7 @@ public class LoadMenuAction extends BaseAction {
         return "allforuser";
     }
 
-    private MenuItemPB[] makeMenuTree(String username, Section[] sections, String sectionPath, boolean useEnglish) {
+    private MenuItemPB[] makeMenuTree(String username, Section[] sections, String sectionPath, boolean useEnglish, String language) {
         List result = new ArrayList();
         for (int i = 0; i < sections.length; i++) {
             Section section = sections[i];
@@ -121,6 +121,7 @@ public class LoadMenuAction extends BaseAction {
             pb.setOrderNo(section.getOrderNo());
             pb.setHosts(section.getHosts());
             pb.setIpAddr(section.getIpAddr());
+            pb.setLanguage(language);
             if (section.getParent() == null || section.getParent().equals(new Integer(0))) {
                 result.add(pb);
             } else {

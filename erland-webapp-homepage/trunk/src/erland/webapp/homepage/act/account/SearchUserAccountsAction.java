@@ -45,7 +45,7 @@ public class SearchUserAccountsAction extends BaseAction {
         }
 
         AccountPB[] accountsPB = new AccountPB[accounts.length];
-        boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
+        boolean useEnglish = !getLocale(request).getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
         try {
             for (int i = 0; i < accounts.length; i++) {
                 UserAccount account = accounts[i];

@@ -42,7 +42,7 @@ public class ViewUserAccountAction extends BaseAction {
         PropertyUtils.copyProperties(fb, getUser(username));
         request.getSession().setAttribute("skinsPB",new Object[0]);
 
-        boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
+        boolean useEnglish = !getLocale(request).getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
         request.getSession().setAttribute("sectionsPB",SectionHelper.searchSections("allforuser",username,useEnglish));
     }
 
