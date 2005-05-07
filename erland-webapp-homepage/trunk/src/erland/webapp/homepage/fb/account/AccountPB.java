@@ -22,4 +22,22 @@ package erland.webapp.homepage.fb.account;
 import erland.webapp.common.fb.BasePB;
 
 public class AccountPB extends AccountFB {
+    private String nativeLink;
+    private String englishLink;
+
+    public String getNativeLink() {
+        return nativeLink;
+    }
+
+    public void setNativeLink(String nativeLink) {
+        this.nativeLink = nativeLink;
+    }
+
+    public String getEnglishLink() {
+        return englishLink;
+    }
+
+    public void setEnglishLink(String englishLink) {
+        this.englishLink = englishLink;
+    }
 }
