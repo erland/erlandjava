@@ -27,6 +27,12 @@
     <tr><td><bean:message key="homepage.section.edit.title-english"/></td><td>
     <html:text property="titleEnglish"/>
     </td></tr>
+    <tr><td><bean:message key="homepage.section.edit.directlink"/></td><td>
+    <html:text property="directLink"/>
+    </td></tr>
+    <tr><td><bean:message key="homepage.section.edit.directlink-english"/></td><td>
+    <html:text property="directLinkEnglish"/>
+    </td></tr>
     <tr><td><bean:message key="homepage.section.edit.description"/></td><td>
     <html:textarea property="description" cols="80" rows="15" />
     </td></tr>
