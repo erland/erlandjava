@@ -31,6 +31,7 @@ public class MenuItemPB extends BasePB {
     private String hosts;
     private String ipAddr;
     private Integer orderNo;
+    private String language;
     private MenuItemPB[] childs;
 
     public Integer getId() {
@@ -111,5 +112,13 @@ public class MenuItemPB extends BasePB {
 
     public void setIpAddr(String ipAddr) {
         this.ipAddr = ipAddr;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }
