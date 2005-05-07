@@ -38,6 +38,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.ServletParameterHelper;
+import erland.util.StringUtil;
 
 /**
  * Base class for all other actions, contains common functionallity
@@ -591,8 +592,17 @@ public class BaseAction extends Action {
             }
             LOG.debug("Parameter: "+mapping.getParameter());
         }
-
-        request.getSession().setAttribute(Globals.LOCALE_KEY,request.getLocale());
+        String language = request.getParameter("lang");
+        if(StringUtil.asNull(language)==null) {
+            if(request.getSession().getAttribute(Globals.LOCALE_KEY)==null) {
+                request.getSession().setAttribute(Globals.LOCALE_KEY,request.getLocale());
+            }
+        }else {
+            Locale locale = (Locale) request.getSession().getAttribute(Globals.LOCALE_KEY);
+            if(locale==null || !locale.getLanguage().equals(language)) {
+                request.getSession().setAttribute(Globals.LOCALE_KEY,new Locale(language));
+            }
+        }
 
         // Check for precondition errors; fail if found
         preProcess(mapping, form, request, response);
