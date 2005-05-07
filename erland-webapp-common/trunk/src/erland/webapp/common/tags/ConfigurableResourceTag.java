@@ -9,10 +9,13 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.TagSupport;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Locale;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.struts.Globals;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -50,7 +53,28 @@ public class ConfigurableResourceTag extends TagSupport {
             // getJspWriter to output content
             JspWriter out = pageContext.getOut();
             if (out!= null) {
-                String language = pageContext.getRequest().getLocale().getLanguage();
+
+                String language = StringUtil.asNull((String) pageContext.getRequest().getParameter("lang"));
+                HttpSession session = pageContext.getSession();
+                if(language==null) {
+                    if(session!=null) {
+                        Locale locale = (Locale) session.getAttribute(Globals.LOCALE_KEY);
+                        if(locale!=null) {
+                            language = locale.getLanguage();
+                        }else {
+                            session.setAttribute(Globals.LOCALE_KEY,pageContext.getRequest().getLocale());
+                            language = pageContext.getRequest().getLocale().getLanguage();
+                        }
+                    }else {
+                        language = pageContext.getRequest().getLocale().getLanguage();
+                    }
+                }else if(session!=null){
+                    Locale locale = (Locale) session.getAttribute(Globals.LOCALE_KEY);
+                    if(locale==null || !locale.getLanguage().equals(language)) {
+                        session.setAttribute(Globals.LOCALE_KEY,new Locale(language));
+                    }
+                }
+
                 String value = null;
                 if(language!=null) {
                     value = WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter(name+"_"+language);
