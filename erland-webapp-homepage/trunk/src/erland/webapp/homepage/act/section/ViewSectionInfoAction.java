@@ -43,6 +43,7 @@ import org.apache.struts.action.ActionForward;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.RequestDispatcher;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -66,9 +67,9 @@ public class ViewSectionInfoAction extends BaseAction {
         template.setId(fb.getSection());
         template.setUsername(username);
         Section section = (Section) getEnvironment().getEntityStorageFactory().getStorage("homepage-section").load(template);
+        boolean useEnglish = !getLocale(request).getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
         SectionPB pb = new SectionPB();
         PropertyUtils.copyProperties(pb, section);
-        boolean useEnglish = !request.getLocale().getLanguage().equals(getEnvironment().getConfigurableResources().getParameter("nativelanguage"));
         if(useEnglish && StringUtil.asNull(section.getNameEnglish())!=null) {
             pb.setName(section.getNameEnglish());
         }
@@ -77,6 +78,9 @@ public class ViewSectionInfoAction extends BaseAction {
         }
         if(useEnglish && StringUtil.asNull(section.getDescriptionEnglish())!=null) {
             pb.setDescription(section.getDescriptionEnglish());
+        }
+        if(useEnglish && StringUtil.asNull(section.getDirectLinkEnglish())!=null) {
+            pb.setDirectLink(section.getDirectLinkEnglish());
         }
         Map parameters = new HashMap();
         parameters.put("user",username);
@@ -101,7 +105,7 @@ public class ViewSectionInfoAction extends BaseAction {
                     Object serviceInstance = serviceCls.newInstance();
                     if(serviceInstance instanceof ServiceInterface) {
                         Map parameterValues = new HashMap();
-                        parameterValues.put("language",request.getLocale().getLanguage());
+                        parameterValues.put("language",getLocale(request).getLanguage());
                         parameterValues.put("user",username);
                         if(request.getRemoteUser()!=null) {
                             parameterValues.put("usertype","user");
@@ -140,5 +144,13 @@ public class ViewSectionInfoAction extends BaseAction {
             }
         }
         request.setAttribute("sectionPB",pb);
+    }
+
+    protected ActionForward findSuccess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        SectionPB pb = (SectionPB) request.getAttribute("sectionPB");
+        if(StringUtil.asNull(pb.getDirectLink())!=null && request.getRemoteUser()==null) {
+            return mapping.findForward("redirect");
+        }
+        return super.findSuccess(mapping, form, request, response);    //To change body of overridden methods use File | Settings | File Templates.
     }
 }
