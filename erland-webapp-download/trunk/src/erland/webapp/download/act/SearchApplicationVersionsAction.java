@@ -68,7 +68,7 @@ public class SearchApplicationVersionsAction extends Action {
                     ApplicationFileFB[] newFiles = new ApplicationFileFB[existingFiles.length+1];
                     boolean bInserted = false;
                     for (int j = 0,k=0; j < newFiles.length; j++) {
-                        if(!bInserted && (entity.getType()==null || entity.getType().length()==0 || existingFiles[k].getType().compareTo(entity.getType())>=0)) {
+                        if(!bInserted && (entity.getType()==null || entity.getType().length()==0 || k>=existingFiles.length || (existingFiles[k].getType()!=null && existingFiles[k].getType().compareTo(entity.getType())>=0))) {
                             parameters.put("filename",entity.getName());
                             String url = null;
                             if(downloadForward!=null) {
