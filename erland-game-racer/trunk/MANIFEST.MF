@@ -1,4 +1,0 @@
-Manifest-Version: 1.1
-Created-By: Erland Isaksson
-Main-Class: erland/game/racer/Racer
-Class-Path: util.jar game.jar network.jar
