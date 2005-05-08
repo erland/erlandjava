@@ -25,15 +25,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 This binary archive should contain the following files:
 - README.txt (this file)
 - LICENSE.txt (the software license)
-- *.jar (The game classes)
+- *.war (The game classes)
 - docs/* (The javadoc documentation for the library classes)
-- Racer.bat (A bat file to start the client)
-- RacerServer.bat (A bat file to start the server)
 
 This source archive should contain the following files:
 - README.txt (this file)
 - LICENSE.txt (the software license)
-- src/* (The library source code)
+- src/* (The game source code)
+- web/* (The web application source code)
 - build.xml (A build file for ant)
 - maven.xml (A build file for maven)
 - project.properties (A configuration file for maven)
@@ -48,20 +47,14 @@ change these to your machine
 
 5. RUN
 =================
-If you want to run a networked game you can start the server with the included
-bat-file. To start the client as standalone or networked just lanunch the bat-file 
-to start the client.
+To start the client extract the war-file and run the included bat-file, if you want 
+to run a networked game you can start the server with the included
+bat-file. 
 
 6. RUN WITH WEBSTART
 ====================
 To be able to run it with webstart you will either have to run it at my homepage
-http://erland.homeip.net or you need to download the source package and build a jnlp
-file as follows:
-
-- Modify the project.xml file and the <url> tag to point to your website where you 
-  will put the jnlp files
-- See the BUILDING chapter below for information about how to generate the jnlp package
-
+http://erland.homeip.net or deploy the war-file to your own web server.
 
 7. BUILDING
 ============
@@ -70,10 +63,10 @@ the source archive. There is an ant build file delivered witht he application bu
 tested way to build it is by using maven(http://maven.apache.org).
 
 - Install maven
+- Generate a new keystore with:
+  maven jnlp:generate-keystore
 - Build with:
   To just generate the war archive:
   maven all:build
   To generate a new distribution:
   maven dist
-  To generate a jnlp webstart package(Se also previous chapter):
-  maven jnlp
