@@ -132,7 +132,7 @@ public class SubscriptionPlugin extends BaseTaskPlugin {
                                     ProgramPB[] programsPB = ProgramHelper.getSubscribedPrograms(getEnvironment(), account.getUsername(), new Date(), null);
                                     ProgramPB[] tipsProgramsPB = new ProgramPB[0];
                                     if(account.getIncludeTips()!=null && account.getIncludeTips().booleanValue()) {
-                                        tipsProgramsPB = ProgramHelper.getProgramsWithMinReview(getEnvironment(),account.getUsername(),new Date(), account.getMinTipsReview(),null);
+                                        tipsProgramsPB = ProgramHelper.getProgramsWithMinReview(getEnvironment(),account.getUsername(),new Date(), account.getMinTipsReview(),true, null,null);
                                     }
                                     if (programsPB.length > 0 || tipsProgramsPB.length>0) {
                                         Message msg = new MimeMessage(session);
