@@ -7,12 +7,16 @@
 <erland-common:menu id="mainMenu" menuStyle="menu" style="menuitem" styleSelected="menuitem-selected" indentWidth="10" indentImage="/images/transparent.gif" >
     <erland-common:menuitem id="today" titleKey="tvguide.menu.today" page="/do/user/menu?menuItemId={menuItemId}" />
     <erland-common:menuitem id="subscribed" titleKey="tvguide.menu.subscribed" page="/do/user/menu?menuItemId={menuItemId}" />
+    <erland-common:menuitem id="minreview" titleKey="tvguide.menu.minreview" page="/do/user/menu?menuItemId={menuItemId}" />
     <erland-common:menuitemseparator id="separator1" />
     <erland-common:beanmenuitem bean="menuFavoriteChannelsPB" id="idDisplay" title="name" page="path" />
     <erland-common:menuitemseparator id="separator2" />
     <erland-common:menuitem id="newfavorite" titleKey="tvguide.menu.favorites-new" page="/do/user/newfavorite" />
     <erland-common:menuitem id="subscriptions" titleKey="tvguide.menu.subscriptions" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}">
         <erland-common:menuitem id="new" titleKey="tvguide.menu.subscriptions-new" page="/do/user/newsubscription" />
+    </erland-common:menuitem>
+    <erland-common:menuitem id="exclusions" titleKey="tvguide.menu.exclusions" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}">
+        <erland-common:menuitem id="new" titleKey="tvguide.menu.exclusions-new" page="/do/user/newexclusion" />
     </erland-common:menuitem>
     <erland-common:menuitem id="channels" titleKey="tvguide.menu.channels" page="/do/user/menu?menuName={menuId}&menuItemId={menuItemId}" roles="manager">
         <erland-common:menuitem id="new" titleKey="tvguide.menu.channels-new" page="/do/user/newchannel" />
