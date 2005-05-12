@@ -12,6 +12,7 @@
         <entity id="tvguide-service" reference="service:erland/webapp/tvguide/entity/service/service.xml"/>
         <entity id="tvguide-program" reference="program:erland/webapp/tvguide/entity/program/program.xml"/>
         <entity id="tvguide-subscription" reference="subscription:erland/webapp/tvguide/entity/subscription/subscription.xml"/>
+        <entity id="tvguide-exclusion" reference="exclusion:erland/webapp/tvguide/entity/exclusion/exclusion.xml"/>
         <entity id="tvguide-movie" reference="movie:erland/webapp/tvguide/entity/movie/movie.xml"/>
     </entities>
 </resources>
