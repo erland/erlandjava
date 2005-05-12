@@ -22,10 +22,20 @@
             </td>
             <td width="100%">
                 <b><bean:write name="program" property="name"/></b>
-                &nbsp;&nbsp;&nbsp;
+                <logic:notEmpty name="program" property="newSubscriptionLink">
+                    <br>
+                </logic:notEmpty>
+                <logic:empty name="program" property="newSubscriptionLink">
+                    <logic:notEmpty name="program" property="reviewLink"><br></logic:notEmpty>
+                </logic:empty>
                 <erland-common:beanlink name="program" property="reviewLink" style="programpage-button" target="_blank"><bean:message key="tvguide.programs.more-information"/></erland-common:beanlink>
-                &nbsp;&nbsp;&nbsp;
-                <erland-common:beanlink name="program" property="newSubscriptionLink" style="programpage-button"><bean:message key="tvguide.favorite.addsubscription"/></erland-common:beanlink><br>
+                <erland-common:beanlink name="program" property="newSubscriptionLink" style="programpage-button">&nbsp;&nbsp;<bean:message key="tvguide.favorite.addsubscription"/></erland-common:beanlink>
+                <logic:notEmpty name="program" property="newSubscriptionLink">
+                    <br>
+                </logic:notEmpty>
+                <logic:empty name="program" property="newSubscriptionLink">
+                    <logic:notEmpty name="program" property="reviewLink"><br></logic:notEmpty>
+                </logic:empty>
                 <erland-common:expandhtml><bean:write name="program" property="description"/></erland-common:expandhtml>
             </td>
         </tr>
