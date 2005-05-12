@@ -38,6 +38,7 @@ public class ProgramPB extends BasePB {
     private String channelLink;
     private Boolean started;
     private Boolean startOtherDay;
+    private String newExclusionLink;
     private String newSubscriptionLink;
     private String viewSubscriptionLink;
     private Integer review;
@@ -199,5 +200,13 @@ public class ProgramPB extends BasePB {
 
     public void setReviewLink(String reviewLink) {
         this.reviewLink = reviewLink;
+    }
+
+    public String getNewExclusionLink() {
+        return newExclusionLink;
+    }
+
+    public void setNewExclusionLink(String newExclusionLink) {
+        this.newExclusionLink = newExclusionLink;
     }
 }
