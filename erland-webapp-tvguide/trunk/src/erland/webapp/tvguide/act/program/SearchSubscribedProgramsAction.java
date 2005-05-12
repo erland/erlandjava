@@ -31,6 +31,7 @@ import erland.webapp.tvguide.fb.program.ProgramCollectionPB;
 import erland.webapp.tvguide.fb.program.ProgramPB;
 import erland.webapp.tvguide.fb.program.SearchProgramFB;
 import erland.webapp.tvguide.logic.program.ProgramHelper;
+import erland.util.StringUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,10 +61,39 @@ public class SearchSubscribedProgramsAction extends BaseAction {
         if(fb.getDate()!=null) {
             pb.setPrograms(ProgramHelper.getSubscribedPrograms(getEnvironment(),username, fb.getDate(),mapping.findForward("view-subscription-link")));
         }else {
-            pb.setPrograms(ProgramHelper.getSubscribedPrograms(getEnvironment(),username, mapping.findForward("view-subscription-link")));
+            pb.setPrograms(ProgramHelper.getSubscribedPrograms(getEnvironment(),username, new Date(), mapping.findForward("view-subscription-link")));
         }
         Map parameters = new HashMap();
         parameters.put("user", username);
+        Date date = new Date();
+        if(fb.getDate()!=null) {
+            date = fb.getDate();
+        }
+        parameters.put("date",StringUtil.asString(date,null));
+
+        Calendar cal = Calendar.getInstance();
+
+        ActionForward forward = mapping.findForward("current-view-link");
+        if(forward!=null) {
+            pb.setCurrentDate(date);
+            pb.setCurrentLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+        }
+        forward = mapping.findForward("next-view-link");
+        if(forward!=null) {
+            cal.setTime(date);
+            cal.add(Calendar.DATE,1);
+            pb.setNextDate(cal.getTime());
+            parameters.put("date",StringUtil.asString(cal.getTime(),null));
+            pb.setNextLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+        }
+        forward = mapping.findForward("prev-view-link");
+        if(forward!=null) {
+            cal.setTime(date);
+            cal.add(Calendar.DATE,-1);
+            pb.setPrevDate(cal.getTime());
+            parameters.put("date",StringUtil.asString(cal.getTime(),null));
+            pb.setPrevLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+        }
 
         request.setAttribute("programsPB", pb);
     }
