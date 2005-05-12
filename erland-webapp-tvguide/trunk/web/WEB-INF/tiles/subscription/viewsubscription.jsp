@@ -12,7 +12,11 @@
     <logic:iterate id="program" name="subscriptionPB" property="programs">
         <tr valign="top" align="left" class="subscriptionpage-program-row<logic:equal name="program" property="startedDisplay" value="true">-started</logic:equal><logic:equal name="program" property="startSameDayDisplay" value="false">-otherday</logic:equal>">
             <td><erland-common:beanimage name="program" property="channelLogo" height="25" /></td>
-            <td nowrap><b><bean:write name="program" property="startDateDisplay"/><br><bean:write name="program" property="startTimeDisplay"/></b> - <bean:write name="program" property="stopTimeDisplay"/></td>
+            <td nowrap><b><bean:write name="program" property="startDateDisplay"/><br><bean:write name="program" property="startTimeDisplay"/></b> - <bean:write name="program" property="stopTimeDisplay"/>
+                <logic:notEqual name="program" property="reviewDisplay" value="0">
+                    <br><img src="<%=request.getContextPath()%>/images/review<bean:write name="program" property="reviewDisplay"/>.gif" border="0"></img>
+                </logic:notEqual>
+            </td>
             <td width="100%">
                 <b><bean:write name="program" property="name"/></b><br>
                 <erland-common:expandhtml><bean:write name="program" property="description"/></erland-common:expandhtml>
