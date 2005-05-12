@@ -86,6 +86,12 @@
     <definition name=".guest.viewsubscribedprograms" extends=".guest.index">
         <put name="body" value="/WEB-INF/tiles/program/viewsubscribedprograms.jsp"/>
     </definition>
+    <definition name=".user.viewminreviewprograms" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/program/viewminreviewprograms.jsp"/>
+    </definition>
+    <definition name=".guest.viewminreviewprograms" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/program/viewminreviewprograms.jsp"/>
+    </definition>
 
     <definition name=".user.editfavorite" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/favorite/editfavorite.jsp"/>
@@ -121,6 +127,16 @@
     </definition>
     <definition name=".guest.viewsubscriptions" extends=".guest.index">
         <put name="body" value="/WEB-INF/tiles/subscription/viewsubscriptions.jsp"/>
+    </definition>
+
+    <definition name=".user.editexclusion" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/exclusion/editexclusion.jsp"/>
+    </definition>
+    <definition name=".user.viewexclusions" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/exclusion/viewexclusions.jsp"/>
+    </definition>
+    <definition name=".guest.viewexclusions" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/exclusion/viewexclusions.jsp"/>
     </definition>
 
     <definition name=".mainSkinLayout" path="/WEB-INF/tiles/skin/layout.jsp">
