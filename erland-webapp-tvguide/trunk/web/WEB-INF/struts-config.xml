@@ -23,6 +23,10 @@
         <form-bean name="removeSubscriptionFB" type="erland.webapp.tvguide.fb.subscription.SubscriptionFB"/>
         <form-bean name="selectSubscriptionFB" type="erland.webapp.tvguide.fb.subscription.SelectSubscriptionFB"/>
         <form-bean name="searchSubscriptionFB" type="erland.webapp.tvguide.fb.account.SelectUserFB"/>
+        <form-bean name="editExclusionFB" type="erland.webapp.tvguide.fb.exclusion.ExclusionFB"/>
+        <form-bean name="removeExclusionFB" type="erland.webapp.tvguide.fb.exclusion.ExclusionFB"/>
+        <form-bean name="selectExclusionFB" type="erland.webapp.tvguide.fb.exclusion.SelectExclusionFB"/>
+        <form-bean name="searchExclusionFB" type="erland.webapp.tvguide.fb.account.SelectUserFB"/>
     </form-beans>
 
     <global-forwards>
@@ -91,6 +95,7 @@
 
             <forward name="mainMenu-today" path="/do/guest/searchprograms?user={user}"/>
             <forward name="mainMenu-subscribed" path="/do/guest/searchsubscribedprograms?user={user}"/>
+            <forward name="mainMenu-minreview" path="/do/guest/searchminreviewprograms?user={user}"/>
             <forward name="mainMenu-subscriptions" path="/do/guest/viewsubscriptions?user={user}"/>
             <forward name="success" path=".guest.index"/>
         </action>
@@ -104,8 +109,11 @@
             <forward name="mainMenu-today" path="/do/user/searchprograms"/>
             <forward name="mainMenu-newfavorite" path="/do/user/newfavorite"/>
             <forward name="mainMenu-subscribed" path="/do/user/searchsubscribedprograms"/>
+            <forward name="mainMenu-minreview" path="/do/user/searchminreviewprograms"/>
             <forward name="mainMenu-subscriptions" path="/do/user/viewsubscriptions"/>
             <forward name="mainMenu-subscriptions-new" path="/do/user/newsubscription"/>
+            <forward name="mainMenu-exclusions" path="/do/user/viewexclusions"/>
+            <forward name="mainMenu-exclusions-new" path="/do/user/newexclusion"/>
             <forward name="mainMenu-services" path="/do/user/viewservices"/>
             <forward name="mainMenu-services-new" path="/do/user/newservice"/>
             <forward name="mainMenu-channels-new" path="/do/user/newchannel"/>
@@ -294,6 +302,58 @@
 
 
         <action
+            path="/user/newexclusion"
+            type="erland.webapp.tvguide.act.exclusion.NewExclusionAction"
+            validate="false"
+            name="editExclusionFB">
+            <forward name="success" path=".user.editexclusion"/>
+        </action>
+        <action
+            path="/user/addexclusion"
+            type="erland.webapp.tvguide.act.exclusion.AddExclusionAction"
+            validate="false"
+            name="editExclusionFB">
+            <forward name="success" path=".user.editexclusion"/>
+        </action>
+        <action
+            path="/user/editexclusion"
+            type="erland.webapp.tvguide.act.exclusion.EditExclusionAction"
+            name="editExclusionFB"
+            input=".user.editexclusion">
+            <forward name="failure" path=".user.editexclusion"/>
+            <forward name="success" path="/do/user/viewexclusions"/>
+        </action>
+        <action
+            path="/user/viewexclusion"
+            type="erland.webapp.tvguide.act.exclusion.ViewExclusionAction"
+            validate="false"
+            name="editExclusionFB">
+            <forward name="success" path=".user.editexclusion"/>
+        </action>
+        <action
+            path="/user/removeexclusion"
+            type="erland.webapp.tvguide.act.exclusion.RemoveExclusionAction"
+            name="removeExclusionFB">
+            <forward name="success" path="/do/user/viewexclusions"/>
+        </action>
+        <action
+            path="/user/viewexclusions"
+            type="erland.webapp.tvguide.act.exclusion.SearchExclusionsAction"
+            name="searchExclusionFB">
+            <forward name="update-exclusion-link" path="/do/user/viewexclusion?idDisplay={exclusion}"/>
+            <forward name="remove-exclusion-link" path="/do/user/removeexclusion?idDisplay={exclusion}"/>
+            <forward name="success" path=".user.viewexclusions"/>
+        </action>
+        <action
+            path="/guest/viewexclusions"
+            type="erland.webapp.tvguide.act.exclusion.SearchExclusionsAction"
+            name="searchExclusionFB">
+            <forward name="success" path=".guest.viewexclusions"/>
+        </action>
+
+
+
+        <action
             path="/user/searchprograms"
             type="erland.webapp.tvguide.act.program.SearchProgramsAction"
             name="searchProgramFB">
@@ -324,6 +384,9 @@
 
             <forward name="add-subscription-link" path="/do/user/addsubscription?name={programName}"/>
             <forward name="view-subscription-link" path="/do/user/viewsubscriptioninfo?subscription={subscription}"/>
+            <forward name="prev-view-link" path="/do/user/searchsubscribedprograms?dateDisplay={date}"/>
+            <forward name="current-view-link" path="/do/user/searchsubscribedprograms?dateDisplay={date}"/>
+            <forward name="next-view-link" path="/do/user/searchsubscribedprograms?dateDisplay={date}"/>
 
             <forward name="success" path=".user.viewsubscribedprograms"/>
         </action>
@@ -333,10 +396,38 @@
             name="searchProgramFB">
 
             <forward name="view-subscription-link" path="/do/guest/viewsubscription?user={user}&amp;subscription={subscription}"/>
+            <forward name="prev-view-link" path="/do/guest/searchsubscribedprograms?user={user}&amp;dateDisplay={date}"/>
+            <forward name="current-view-link" path="/do/guest/searchsubscribedprograms?user={user}&amp;dateDisplay={date}"/>
+            <forward name="next-view-link" path="/do/guest/searchsubscribedprograms?user={user}&amp;dateDisplay={date}"/>
 
             <forward name="success" path=".guest.viewsubscribedprograms"/>
         </action>
 
+
+        <action
+            path="/user/searchminreviewprograms"
+            type="erland.webapp.tvguide.act.program.SearchMinReviewProgramsAction"
+            name="searchProgramFB">
+
+            <forward name="add-subscription-link" path="/do/user/addsubscription?name={programName}"/>
+            <forward name="add-exclusion-link" path="/do/user/addexclusion?name={programName}"/>
+            <forward name="prev-view-link" path="/do/user/searchminreviewprograms?dateDisplay={date}"/>
+            <forward name="current-view-link" path="/do/user/searchminreviewprograms?dateDisplay={date}"/>
+            <forward name="next-view-link" path="/do/user/searchminreviewprograms?dateDisplay={date}"/>
+
+            <forward name="success" path=".user.viewminreviewprograms"/>
+        </action>
+        <action
+            path="/guest/searchminreviewprograms"
+            type="erland.webapp.tvguide.act.program.SearchMinReviewProgramsAction"
+            name="searchProgramFB">
+
+            <forward name="prev-view-link" path="/do/guest/searchminreviewprograms?user={user}&amp;dateDisplay={date}"/>
+            <forward name="current-view-link" path="/do/guest/searchminreviewprograms?user={user}&amp;dateDisplay={date}"/>
+            <forward name="next-view-link" path="/do/guest/searchminreviewprograms?user={user}&amp;dateDisplay={date}"/>
+
+            <forward name="success" path=".guest.viewminreviewprograms"/>
+        </action>
 
         <action
             path="/user/newfavorite"
