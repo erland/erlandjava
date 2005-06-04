@@ -125,9 +125,11 @@ public class StockAccountTransactionList implements StockAccountTransactionListI
         return null;
     }
     public StockAccountTransactionListInterface getTransactions(String broker, String stock, Date fromDate, Date toDate, StockAccountTransactionFilterInterface filter) {
+        LOG.debug("getTransactions start "+fromDate+" "+toDate);
         StockAccountTransactionList result = new StockAccountTransactionList();
         for(int i=0;i<vector.size();i++) {
             StockAccountTransaction entry = getTransaction(i);
+            LOG.debug("getTranactions checking "+entry.getBroker()+" "+entry.getStock()+" "+entry.getDate());
             if(entry.getBroker().equals(broker) &&
                     entry.getStock().equals(stock) &&
                     entry.getDate().getTime()<=toDate.getTime() &&
@@ -137,6 +139,7 @@ public class StockAccountTransactionList implements StockAccountTransactionListI
                 result.addTransaction(entry);
             }
         }
+        LOG.debug("getTransactions start result.size()="+result.size()+" "+fromDate+" "+toDate);
         return result;
     }
     public StockAccountTransaction getTransactionBefore(String broker, String stock, Date date, StockAccountTransactionFilterInterface filter) {
