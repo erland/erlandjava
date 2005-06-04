@@ -61,6 +61,7 @@ public class GetAccountDiagramAction extends Action {
                 account.getTotalPurchaseValues(broker,fb.getStartDate(),fb.getEndDate(),"inköp")
             };
         }
+        httpServletResponse.setContentType("image/jpeg");
         DateValueDiagramHelper.drawDiagram((DateValueSerieInterface[]) stocks,httpServletResponse.getOutputStream());
         return null;
     }
