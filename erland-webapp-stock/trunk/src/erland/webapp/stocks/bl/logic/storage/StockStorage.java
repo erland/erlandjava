@@ -18,64 +18,51 @@ package erland.webapp.stocks.bl.logic.storage;
  *
  */
 
+import erland.webapp.common.ServiceInterface;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.stocks.bl.logic.broker.BrokerConnectionInterface;
-import erland.webapp.stocks.bl.logic.stock.Stock;
 import erland.webapp.stocks.bl.logic.stock.StockInterface;
 import erland.webapp.stocks.bl.service.BrokerConnectionFactoryInterface;
+import erland.webapp.stocks.bl.service.StockStorageInterface;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.FileInputStream;
-import java.util.Map;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
-public class StockStorage implements StockStorageInterface {
-    private static StockStorage me;
+public abstract class StockStorage implements StockStorageInterface, ServiceInterface {
     private Map stocks = new HashMap();
     private WebAppEnvironmentInterface environment;
 
-    private StockStorage(WebAppEnvironmentInterface environment) {
+    public void init(WebAppEnvironmentInterface environment) {
         this.environment = environment;
     }
-    public static StockStorageInterface getInstance(WebAppEnvironmentInterface environment) {
-        if(me==null) {
-            me = new StockStorage(environment);
-        }
-        return me;
+
+    protected WebAppEnvironmentInterface getEnvironment() {
+        return environment;
     }
 
+    protected abstract Date getLastCachedDate(String broker, String stock);
+    protected abstract void storeStock(String broker, String stock, String xmlData);
+    protected abstract boolean isCacheUpdated(String broker, String stock);
+    protected abstract StockInterface getStockFromCache(String broker, String stock);
+
     public StockInterface getStock(String broker, String stock) {
-        File file = new File(environment.getConfigurableResources().getParameter("brokers."+broker+".cache")+"/"+broker+stock+".xml");
-        if(!file.exists() || file.lastModified()<System.currentTimeMillis()-1000*60*60) {
-            try {
-                FileWriter outFile = new FileWriter(file);
-                BrokerConnectionFactoryInterface factory = (BrokerConnectionFactoryInterface) environment.getServiceFactory().create("stock-brokerconnectionfactory");
-                BrokerConnectionInterface brokerCls = factory.create(broker);
-                String fondXML = brokerCls.getStock(stock);
-                if(fondXML!=null) {
-                    //outFile.write("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
-                    outFile.write(fondXML);
-                    outFile.flush();
-                }
-                outFile.close();
-            } catch (IOException e) {
-                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+        if(!isCacheUpdated(broker,stock)) {
+            BrokerConnectionFactoryInterface factory = (BrokerConnectionFactoryInterface) environment.getServiceFactory().create("stock-brokerconnectionfactory");
+            BrokerConnectionInterface brokerCls = factory.create(broker);
+            String fondXML = brokerCls.getStock(getLastCachedDate(broker,stock),stock);
+            if(fondXML!=null) {
+                //outFile.write("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
+                storeStock(broker,stock,fondXML);
             }
         }
-        try {
-            StockInterface s = (StockInterface) stocks.get(broker+stock);
-            if(s==null) {
-                FileInputStream fileInput = new FileInputStream(environment.getConfigurableResources().getParameter("brokers."+broker+".cache")+"/"+broker+stock+".xml");
-                s = new Stock(fileInput);
-                fileInput.close();
+        StockInterface s = (StockInterface) stocks.get(broker+stock);
+        if(s==null) {
+            s = getStockFromCache(broker, stock);
+            if(s!=null) {
                 stocks.put(broker+stock,s);
             }
-            return s;
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
-        return null;
+        return s;
     }
 }
