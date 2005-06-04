@@ -22,6 +22,10 @@
                 <column>name</column>
                 <type>String</type>
             </field>
+            <field id="cacheTime">
+                <column>cachetime</column>
+                <type>Timestamp</type>
+            </field>
         </fields>
         <queries>
             <query id="allforbroker">
