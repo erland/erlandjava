@@ -21,7 +21,7 @@ package erland.webapp.stocks.act.stock;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
 import erland.webapp.diagram.DateValueSerieInterface;
 import erland.webapp.diagram.DateValueDiagramHelper;
-import erland.webapp.stocks.bl.logic.storage.StockStorage;
+import erland.webapp.stocks.bl.service.StockStorageInterface;
 import erland.webapp.stocks.bl.logic.stock.StockInterface;
 import erland.webapp.stocks.fb.stock.SelectFB;
 
@@ -39,7 +39,8 @@ public class GetStockDiagramAction extends Action {
     public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         SelectFB fb = (SelectFB) actionForm;
         if(fb.getStock()!=null) {
-            DateValueSerieInterface[] stocks = new DateValueSerieInterface[] {StockStorage.getInstance(WebAppEnvironmentPlugin.getEnvironment()).getStock(fb.getBroker(), fb.getStock()).getRates()};
+            DateValueSerieInterface[] stocks = new DateValueSerieInterface[] {((StockStorageInterface)WebAppEnvironmentPlugin.getEnvironment().getServiceFactory().create("stock-stockstorage")).getStock(fb.getBroker(), fb.getStock()).getRates()};
+            httpServletResponse.setContentType("image/jpeg");
             DateValueDiagramHelper.drawDiagram((DateValueSerieInterface[]) stocks,httpServletResponse.getOutputStream());
             SelectFB pb = new SelectFB();
             PropertyUtils.copyProperties(pb,fb);
