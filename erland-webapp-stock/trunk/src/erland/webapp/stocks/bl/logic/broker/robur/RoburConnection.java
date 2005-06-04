@@ -43,7 +43,7 @@ public class RoburConnection implements BrokerConnectionInterface {
     public void init(WebAppEnvironmentInterface environment) {
         this.environment = environment;
     }
-    public String getStock(String fondPrefix) {
+    public String getStock(Date startDate, String fondPrefix) {
         try {
             URL url = new URL("http://www.robur.se/getFundInExcelFormat.asp");
             URLConnection conn = url.openConnection();
@@ -58,9 +58,9 @@ public class RoburConnection implements BrokerConnectionInterface {
             DateFormat formatDay = new SimpleDateFormat("dd");
             outRobur.writeBytes(
                     "strFundID="+fondPrefix+
-                    "&fryear=1980"+
-                    "&frmonth=01"+
-                    "&frday=01"+
+                    "&fryear="+formatYear.format(startDate)+
+                    "&frmonth="+formatMonth.format(startDate)+
+                    "&frday="+formatDay.format(startDate)+
                     "&toyear="+formatYear.format(today)+
                     "&tomonth="+formatMonth.format(today)+
                     "&today="+formatDay.format(today));

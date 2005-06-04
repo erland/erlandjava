@@ -33,6 +33,7 @@ import java.util.Locale;
 import java.util.Arrays;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -54,17 +55,18 @@ public class SBConnection implements BrokerConnectionInterface {
     protected int getRateColumn() {
         return 7;
     }
-    public String getStock(String fondPrefix) {
+    public String getStock(Date startDate, String fondPrefix) {
         try {
             //URL url =new URL("http://p233/StockServlet?do=login&name=erland&password=dnalre");
             //URL url = new URL("http://www.google.com/search?q=erland");
             //URL url =new URL("http://www.stockholmsborsen.se/stocklist.asp?lang=swe&list=SSE43&group=Kursnoteringar&listName=O-listan, samtliga");
             //URL url = new URL("http://www.stockholmsborsen.se/getHistory.asp?isin=SE0000105116");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             URL url = new URL("http://www.stockholmsborsen.se/Slutkurser/excel.asp?"+
                     "InstrumentID="+fondPrefix+
                     "&InstrumentType="+getInstrumentType()+
-                    "&From=1980-01-01"+
-                    "&todate="+new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                    "&From="+dateFormat.format(startDate)+
+                    "&todate="+dateFormat.format(new Date()));
             URLConnection conn = url.openConnection();
             conn.setDoInput(true);
             conn.setDoOutput(false);
