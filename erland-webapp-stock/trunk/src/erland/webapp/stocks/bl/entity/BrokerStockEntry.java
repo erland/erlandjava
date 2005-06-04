@@ -2,6 +2,8 @@ package erland.webapp.stocks.bl.entity;
 
 import erland.webapp.common.BaseEntity;
 
+import java.util.Date;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -25,6 +27,7 @@ public class BrokerStockEntry extends BaseEntity {
     private String broker;
     private String name;
     private String code;
+    private Date cacheTime;
 
     public String getName() {
         return name;
@@ -48,5 +51,13 @@ public class BrokerStockEntry extends BaseEntity {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Date getCacheTime() {
+        return cacheTime;
+    }
+
+    public void setCacheTime(Date cacheTime) {
+        this.cacheTime = cacheTime;
     }
 }
