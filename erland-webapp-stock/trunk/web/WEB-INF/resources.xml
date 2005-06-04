@@ -4,6 +4,7 @@
         <service id="stock-brokermanager" reference="brokermanager:erland/webapp/stocks/bl/service/brokermanager.xml"/>
         <service id="stock-brokerconnectionfactory" reference="brokerconnectionfactory:erland/webapp/stocks/bl/service/brokerconnectionfactory.xml"/>
         <service id="stock-stockaccountmanager" reference="stockaccountmanager:erland/webapp/stocks/bl/service/stockaccountmanager.xml"/>
+        <service id="stock-stockstorage" reference="stockstorage:erland/webapp/stocks/bl/service/stockstorage.xml"/>
     </services>
     <entities>
         <entity id="common-resource" reference="resource:erland/webapp/common/resource.xml"/>
@@ -14,6 +15,7 @@
         <entity id="stock-transaction" reference="transaction:erland/webapp/stocks/bl/entity/transaction.xml"/>
         <entity id="stock-stockaccountstockentry" reference="stockaccountstockentry:erland/webapp/stocks/bl/entity/stockaccountstockentry.xml"/>
         <entity id="stock-brokerstockentry" reference="brokerstockentry:erland/webapp/stocks/bl/entity/brokerstockentry.xml"/>
+        <entity id="stock-rate" reference="rate:erland/webapp/stocks/bl/entity/rate.xml"/>
         <entity id="stock-stockaccount">
             <class>erland.webapp.stocks.bl.entity.DatabaseStockAccount</class>
         </entity>
