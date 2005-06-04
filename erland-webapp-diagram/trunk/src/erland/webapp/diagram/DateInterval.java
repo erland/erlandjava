@@ -18,12 +18,17 @@ package erland.webapp.diagram;
  *
  */
 
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class DateInterval {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(DateInterval.class);
     private static int counter=0;
     private String value;
     private int intValue;
@@ -92,7 +97,7 @@ public class DateInterval {
     }
 
     private void nextMatching(Calendar cal) {
-        System.out.println("nextMatching in="+cal.getTime());
+        LOG.debug("nextMatching in="+cal.getTime());
         cal.set(Calendar.HOUR_OF_DAY,0);
         cal.set(Calendar.MINUTE,0);
         cal.set(Calendar.SECOND,0);
@@ -140,7 +145,7 @@ public class DateInterval {
                 }
             }
         }
-        System.out.println("nextMatching out="+cal.getTime());
+        LOG.debug("nextMatching out="+cal.getTime());
    }
     private boolean isMatching(Calendar cal) {
         if(cal.get(Calendar.HOUR_OF_DAY)==0 &&
@@ -176,7 +181,7 @@ public class DateInterval {
                 }
             }
         }
-        System.out.println("isMatching "+cal.getTime()+" false");
+        LOG.debug("isMatching "+cal.getTime()+" false");
         return false;
     }
     public Date nextAfter(Date startDate) {
