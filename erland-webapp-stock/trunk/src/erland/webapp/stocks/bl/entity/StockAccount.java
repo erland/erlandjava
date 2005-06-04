@@ -18,10 +18,7 @@ package erland.webapp.stocks.bl.entity;
  *
  */
 
-import erland.webapp.diagram.DateValue;
-import erland.webapp.diagram.DateValueSerieInterface;
-import erland.webapp.diagram.DateValueSerie;
-import erland.webapp.diagram.DateValueInterface;
+import erland.webapp.diagram.*;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.stocks.bl.entity.StockAccountStockEntry;
@@ -30,10 +27,12 @@ import erland.webapp.stocks.bl.logic.transaction.StockAccountTransactionFilterIn
 import erland.webapp.stocks.bl.logic.transaction.StockAccountTransactionList;
 import erland.webapp.stocks.bl.logic.transaction.StockAccountTransactionListInterface;
 import erland.webapp.stocks.bl.logic.stock.StockInterface;
-import erland.webapp.stocks.bl.logic.storage.StockStorageInterface;
+import erland.webapp.stocks.bl.service.StockStorageInterface;
 import erland.webapp.stocks.bl.service.BrokerManagerInterface;
 
 import java.util.*;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -42,7 +41,7 @@ public abstract class StockAccount implements EntityInterface {
     /** Logging instance */
     private static Log LOG = LogFactory.getLog(StockAccount.class);
     private StockStorageInterface stockStorage;
-    private String userName;
+    private String username;
     private WebAppEnvironmentInterface environment;
     private BrokerManagerInterface brokerManager;
 
@@ -57,17 +56,17 @@ public abstract class StockAccount implements EntityInterface {
 
     public void init(WebAppEnvironmentInterface environment) {
         this.environment = environment;
+        this.stockStorage = ((StockStorageInterface)environment.getServiceFactory().create("stock-stockstorage"));
     }
     protected WebAppEnvironmentInterface getEnvironment() {
         return environment;
     }
 
-    public void init(String userName, StockStorageInterface stockStorage) {
-        this.userName = userName;
-        this.stockStorage = stockStorage;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
     protected String getUsername() {
-        return userName;
+        return username;
     }
     abstract public StockAccountTransactionListInterface getPermanentEntries();
 
@@ -127,13 +126,16 @@ public abstract class StockAccount implements EntityInterface {
             }
             date = getNextMultiple(entry,date);
         }
-        LOG.debug("getStockContinously end "+entry.getValue()+" "+fromDate+" "+toDate);
+        LOG.debug("getStockContinously end number="+number+" "+entry.getValue()+" "+fromDate+" "+toDate);
         return number;
     }
 
     private double getValue(DateValueSerieInterface values, StockAccountTransaction entry, int pos, SerieType type, boolean isPermanent) {
         if(pos<0) {
             pos = values.indexOf(entry.getDate());
+            if(pos<0 && values.size()>0) {
+                pos=0;
+            }
         }
         if(pos>=0) {
             DateValue dv = (DateValue) values.getDateValue(pos);
@@ -222,7 +224,7 @@ public abstract class StockAccount implements EntityInterface {
         LOG.debug("getStockValue start "+broker+" "+stock+" "+dateTo+" "+System.currentTimeMillis());
         double currentValue=0;
         if(dateTo==null) {
-            LOG.debug("getStockValue end "+broker+" "+stock+" "+dateTo+" "+System.currentTimeMillis());
+            LOG.debug("getStockValue end currentValue="+currentValue+" "+broker+" "+stock+" "+dateTo+" "+System.currentTimeMillis());
             return currentValue;
         }
         StockAccountTransactionListInterface permanentStocks = getPermanentEntries();
@@ -246,7 +248,7 @@ public abstract class StockAccount implements EntityInterface {
 
         int startPos = values.indexOf(dateTo);
         if(startPos<0) {
-            LOG.debug("getStockValue end "+broker+" "+stock+" "+dateTo+" "+System.currentTimeMillis());
+            LOG.debug("getStockValue end currentValue="+currentValue+" "+broker+" "+stock+" "+dateTo+" "+System.currentTimeMillis());
             return currentValue;
         }
 
@@ -294,7 +296,7 @@ public abstract class StockAccount implements EntityInterface {
             currentValue += getStockContinously(values,entry,entry.getDate(),nextDate,type,true,includeNextDate);
         }
 
-        LOG.debug("getStockValue end "+broker+" "+stock+" "+dateTo+" "+System.currentTimeMillis());
+        LOG.debug("getStockValue end currentValue="+currentValue+" "+broker+" "+stock+" "+dateTo+" "+System.currentTimeMillis());
         return currentValue;
     }
 
@@ -304,14 +306,14 @@ public abstract class StockAccount implements EntityInterface {
         Date dateTo = toDate;
         DateValueSerie result = new DateValueSerie(values.getName());
         if(dateFrom==null||dateTo==null) {
-            LOG.debug("getStockValues end "+broker+" "+stock+" "+fromDate+" "+toDate+" "+System.currentTimeMillis());
+            LOG.debug("getStockValues end result.size()="+result.size()+" "+broker+" "+stock+" "+fromDate+" "+toDate+" "+System.currentTimeMillis());
             return result;
         }
         int finalEndPos = values.indexOf(dateTo);
         int curPos=values.indexOf(dateFrom);
         if(curPos<0 && finalEndPos>=0) {
             curPos=0;
-            dateFrom.setTime(values.getDateValue(0).getDate().getTime());
+            dateFrom = new Date(values.getDateValue(0).getDate().getTime());
         }
 
         double currentValue = getStockValue(values,broker,stock,dateFrom,type);
@@ -323,7 +325,7 @@ public abstract class StockAccount implements EntityInterface {
         StockAccountTransactionListInterface permanentStocks = getPermanentEntries().getTransactions(broker,stock,dateFrom, dateTo,null);
 
         if((curPos <0 && finalEndPos<0) || curPos==finalEndPos) {
-            LOG.debug("getStockValues end "+broker+" "+stock+" "+fromDate+" "+toDate+" "+System.currentTimeMillis());
+            LOG.debug("getStockValues end result.size()="+result.size()+" "+broker+" "+stock+" "+fromDate+" "+toDate+" "+System.currentTimeMillis());
             return result;
         }
 
@@ -432,7 +434,7 @@ public abstract class StockAccount implements EntityInterface {
             }
             bLast = (curPos==finalEndPos);
         }
-        LOG.debug("getStockValues end "+broker+" "+stock+" "+fromDate+" "+toDate+" "+System.currentTimeMillis());
+        LOG.debug("getStockValues end result.size="+result.size()+" "+broker+" "+stock+" "+fromDate+" "+toDate+" "+System.currentTimeMillis());
         return result;
     }
 
@@ -467,6 +469,14 @@ public abstract class StockAccount implements EntityInterface {
         DateValueSerieInterface values = s.getRates();
         DateValueSerie dateValues = getStockValues(values,broker,stock,fromDate,toDate, type);
         dateValues.setName(getBrokerManager().getStockName(broker,stock)+" "+serieName);
+        if(LOG.isTraceEnabled()) {
+            LOG.trace("Values for: "+dateValues.getName());
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            for(Iterator it=dateValues.getSerie(DateValueSerieType.ALL);it.hasNext();) {
+                DateValueInterface dv = (DateValueInterface) it.next();
+                LOG.trace(format.format(dv.getDate())+" "+dv.getValue());
+            }
+        }
         return dateValues;
     }
 
@@ -476,6 +486,14 @@ public abstract class StockAccount implements EntityInterface {
         DateValueSerieInterface values = s.getRates();
         DateValueSerie dateValues = getStockValues(values,broker,stock,fromDate,toDate, SerieType.STOCK_VALUES);
         dateValues.setName(getBrokerManager().getStockName(broker,stock));
+        if(LOG.isTraceEnabled()) {
+            LOG.trace("Values for: "+dateValues.getName());
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            for(Iterator it=dateValues.getSerie(DateValueSerieType.ALL);it.hasNext();) {
+                DateValueInterface dv = (DateValueInterface) it.next();
+                LOG.trace(format.format(dv.getDate())+" "+dv.getValue());
+            }
+        }
         return dateValues;
     }
 
@@ -485,6 +503,14 @@ public abstract class StockAccount implements EntityInterface {
         DateValueSerieInterface values = s.getRates();
         DateValueSerie dateValues = getStockValues(values,broker,stock,fromDate,toDate, type);
         dateValues.setName(getBrokerManager().getStockName(broker,stock)+" "+purchaseName);
+        if(LOG.isTraceEnabled()) {
+            LOG.trace("Values for: "+dateValues.getName());
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            for(Iterator it=dateValues.getSerie(DateValueSerieType.ALL);it.hasNext();) {
+                DateValueInterface dv = (DateValueInterface) it.next();
+                LOG.trace(format.format(dv.getDate())+" "+dv.getValue());
+            }
+        }
         return dateValues;
     }
 
@@ -506,9 +532,51 @@ public abstract class StockAccount implements EntityInterface {
                 subresult.addElement(getStockValues(entry.getBroker(),entry.getStock(),fromDate,toDate));
             }
         }
-        return getTotalStockValues(subresult, "Total");
+        DateValueSerie result = getTotalStockValues(subresult, "Total");
+        if(LOG.isTraceEnabled()) {
+            LOG.trace("Values for: "+result.getName());
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            for(Iterator it=result.getSerie(DateValueSerieType.ALL);it.hasNext();) {
+                DateValueInterface dv = (DateValueInterface) it.next();
+                LOG.trace(format.format(dv.getDate())+" "+dv.getValue());
+            }
+        }
+        return getDateLimitedSerie(fromDate,toDate,result);
     }
 
+    private DateValueSerieInterface getDateLimitedSerie(Date fromDate, Date toDate, DateValueSerie serie) {
+        LOG.debug("getDateLimitedSerie "+serie.getName()+" "+fromDate+" "+toDate);
+        int pos = serie.indexOf(fromDate);
+        if(pos>=0) {
+            DateValueInterface dvBefore = serie.getDateValue(pos);
+            if(!dvBefore.getDate().equals(fromDate)) {
+                double interpolatedValue = dvBefore.getValue();
+                if(serie.size()>pos+1) {
+                    DateValueInterface dv = serie.getDateValue(pos+1);
+                    interpolatedValue = dvBefore.getValue()+((dv.getValue()-dvBefore.getValue())*(((double)(fromDate.getTime()-dvBefore.getDate().getTime()))/(dv.getDate().getTime()-dvBefore.getDate().getTime())));
+                }
+                serie.insertDateValue(new DateValue(fromDate,interpolatedValue),pos+1);
+                LOG.debug("Inserted interpolated date: "+fromDate+" value:"+interpolatedValue);
+            }
+            serie.deleteBefore(fromDate);
+        }
+
+        pos = serie.indexOf(toDate);
+        if(pos>=0) {
+            DateValueInterface dvBefore = serie.getDateValue(pos);
+            if(!dvBefore.getDate().equals(toDate)) {
+                double interpolatedValue = dvBefore.getValue();
+                if(serie.size()>pos+1) {
+                    DateValueInterface dv = serie.getDateValue(pos+1);
+                    interpolatedValue = dvBefore.getValue()+((dv.getValue()-dvBefore.getValue())*(((double)(toDate.getTime()-dvBefore.getDate().getTime()))/(dv.getDate().getTime()-dvBefore.getDate().getTime())));
+                }
+                serie.insertDateValue(new DateValue(toDate,interpolatedValue),pos+1);
+                LOG.debug("Inserted interpolated date: "+toDate+" value:"+interpolatedValue);
+            }
+            serie.deleteAfter(toDate);
+        }
+        return serie;
+    }
     public DateValueSerieInterface getTotalPurchaseValues(String broker, Date fromDate, Date toDate, String purchaseName) {
         LOG.debug("getStockValues "+fromDate+" "+toDate);
         Vector subresult = new Vector();
@@ -519,69 +587,73 @@ public abstract class StockAccount implements EntityInterface {
                 subresult.addElement(getPurchaseValues(entry.getBroker(),entry.getStock(),fromDate,toDate,purchaseName));
             }
         }
-        return getTotalStockValues(subresult, "Total "+purchaseName);
+        DateValueSerie result = getTotalStockValues(subresult, "Total "+purchaseName);
+        if(LOG.isTraceEnabled()) {
+            LOG.trace("Values for: "+result.getName());
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            for(Iterator it=result.getSerie(DateValueSerieType.ALL);it.hasNext();) {
+                DateValueInterface dv = (DateValueInterface) it.next();
+                LOG.trace(format.format(dv.getDate())+" "+dv.getValue());
+            }
+        }
+        return getDateLimitedSerie(fromDate,toDate,result);
     }
 
-    private DateValueSerieInterface getTotalStockValues(Vector series, String name) {
+    private DateValueSerie getTotalStockValues(Vector series, String name) {
         LOG.debug("getTotalStockValues start "+System.currentTimeMillis());
         if(series.size()==0) {
-            LOG.debug("getTotalStockValues end "+System.currentTimeMillis());
+            LOG.debug("getTotalStockValues end = null "+System.currentTimeMillis());
             return null;
         }
+        // First create an empty result list with all dates
         DateValueSerie result = new DateValueSerie(name);
         for(int i=0;i<series.size();i++) {
             DateValueSerie serie = (DateValueSerie) series.elementAt(i);
-
-            int lastCalculated = -1;
-            double lastValue = 0;
-            double lastResultValue = 0;
-            int currentPos = 0;
+            int lastPos = -1;
             for(int j=0;j<serie.size();j++) {
-                DateValueInterface dvNew = serie.getDateValue(j);
-                int pos = result.indexOf(dvNew.getDate(),currentPos);
+                DateValueInterface dv = serie.getDateValue(j);
+                Date currentDate = dv.getDate();
+                int pos = result.indexOf(currentDate,lastPos+1);
                 if(pos>=0) {
-                    if(pos>currentPos+1) {
-                        for(int k=currentPos+1;k<pos;k++) {
-                            DateValueInterface intermediateValue = new DateValue(result.getDateValue(k).getDate(),result.getDateValue(k).getValue()+lastResultValue);
-                            result.setDateValue(intermediateValue,k);
-                        }
-                    }
-                    lastResultValue = dvNew.getValue();
-                    DateValueInterface dvOld = result.getDateValue(pos);
-                    DateValueInterface newValue = new DateValue(dvNew.getDate(),dvNew.getValue()+dvOld.getValue());
-                    if(dvNew.getDate().equals(dvOld.getDate())) {
-                        result.setDateValue(newValue,pos);
-                        currentPos = pos;
-                        lastValue = dvOld.getValue();
-                        lastCalculated=pos;
-                    }else {
-                        if(pos==lastCalculated) {
-                            result.insertDateValue(new DateValue(dvNew.getDate(),dvNew.getValue()+lastValue),pos+1);
-                            currentPos = pos+1;
-                        }else {
-                            result.insertDateValue(newValue,pos+1);
-                            currentPos = pos+1;
-                            lastValue = dvOld.getValue();
-                        }
-                        lastCalculated=pos+1;
+                    DateValueInterface dvResult = result.getDateValue(pos);
+                    if(!dvResult.getDate().equals(currentDate)) {
+                        result.insertDateValue(new DateValue(currentDate,0),pos+1);
                     }
                 }else {
-                    result.insertDateValue(dvNew,0);
-                    lastResultValue = dvNew.getValue();
-                    currentPos=0;
-                    lastValue = 0;
-                    lastCalculated=0;
+                    result.insertDateValue(new DateValue(currentDate,0),0);
                 }
-            }
-            if(result.size()>currentPos+1) {
-                int size = result.size();
-                for(int k=currentPos+1;k<size;k++) {
-                    DateValueInterface intermediateValue = new DateValue(result.getDateValue(k).getDate(),result.getDateValue(k).getValue()+lastResultValue);
-                    result.setDateValue(intermediateValue,k);
-                }
+                lastPos = pos;
             }
         }
-        LOG.debug("getTotalStockValues end "+System.currentTimeMillis());
+        // Now step through each serie again and add values
+        for(int i=0;i<series.size();i++) {
+            DateValueSerie serie = (DateValueSerie) series.elementAt(i);
+            double lastValue = -1;
+            int lastPos = -1;
+            for(int j=0;j<serie.size();j++) {
+                DateValueInterface dv = serie.getDateValue(j);
+                Date currentDate = dv.getDate();
+                int pos = result.indexOf(currentDate,lastPos+1);
+                DateValueInterface dvResult = result.getDateValue(pos);
+                result.setDateValue(new DateValue(dvResult.getDate(),dvResult.getValue()+dv.getValue()),pos);
+
+                // Step through all intermediate dates between last date and the current date and calculate summary entries
+                if(lastPos>=0) {
+                    for(int k=lastPos+1;k<pos;k++) {
+                        DateValueInterface dvResultIntermediate = result.getDateValue(k);
+                        result.setDateValue(new DateValue(dvResultIntermediate.getDate(),dvResultIntermediate.getValue()+lastValue),k);
+                    }
+                }
+                lastPos = pos;
+                lastValue = dv.getValue();
+            }
+            // Step throgh all dates after the last date and calculate summary entries
+            for(int k=lastPos+1;k<result.size();k++) {
+                DateValueInterface dvResultIntermediate = result.getDateValue(k);
+                result.setDateValue(new DateValue(dvResultIntermediate.getDate(),dvResultIntermediate.getValue()+lastValue),k);
+            }
+        }
+        LOG.debug("getTotalStockValues end = result.size()="+result.size()+" "+System.currentTimeMillis());
         return result;
     }
     private Vector getStockNumbers(String broker, Date fromDate, Date toDate, String serieName, SerieType type) {
