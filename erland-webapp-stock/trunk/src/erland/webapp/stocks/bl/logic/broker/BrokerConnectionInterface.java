@@ -22,10 +22,11 @@ import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.stocks.bl.entity.BrokerStockEntry;
 
 import java.util.Iterator;
+import java.util.Date;
 
 public interface BrokerConnectionInterface {
     public void init(WebAppEnvironmentInterface environment);
     public String getName();
     public BrokerStockEntry[] getAvailableStocks();
-    public String getStock(String stock);
+    public String getStock(Date startDate, String stock);
 }
