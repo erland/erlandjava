@@ -2,6 +2,10 @@ package erland.webapp.common;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import erland.util.StringUtil;
+
+import java.util.Map;
+import java.util.HashMap;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -26,25 +30,36 @@ public class ServiceFactory implements ServiceFactoryInterface {
     /** Logging instance */
     private static Log LOG = LogFactory.getLog(ServiceFactory.class);
     private WebAppEnvironmentInterface environment;
+    private Map singletonServices = new HashMap();
     public ServiceFactory(WebAppEnvironmentInterface environment) {
         this.environment = environment;
     }
     public ServiceInterface create(String serviceName) {
         String clsName = environment.getResources().getParameter("services."+serviceName+".class");
+        Boolean isSingleton = StringUtil.asBoolean(environment.getResources().getParameter("services."+serviceName+".singleton"),Boolean.FALSE);
         if (clsName != null && clsName.length()>0) {
-            try {
-                ServiceInterface service = (ServiceInterface)Class.forName(clsName).newInstance();
-                service.init(environment);
-                return service;
-            } catch (ClassNotFoundException e) {
-                LOG.error("Unable to create service "+serviceName,e);
-            } catch (InstantiationException e) {
-                LOG.error("Unable to create service "+serviceName,e);
-            } catch (IllegalAccessException e) {
-                LOG.error("Unable to create service "+serviceName,e);
-            } catch (ClassCastException e) {
-                LOG.error("Service "+serviceName+" does not implement ServiceInterface",e);
+            ServiceInterface service = null;
+            if(isSingleton.booleanValue()) {
+                service = (ServiceInterface) singletonServices.get(serviceName);
             }
+            if(service==null) {
+                try {
+                    service = (ServiceInterface)Class.forName(clsName).newInstance();
+                    service.init(environment);
+                } catch (ClassNotFoundException e) {
+                    LOG.error("Unable to create service "+serviceName,e);
+                } catch (InstantiationException e) {
+                    LOG.error("Unable to create service "+serviceName,e);
+                } catch (IllegalAccessException e) {
+                    LOG.error("Unable to create service "+serviceName,e);
+                } catch (ClassCastException e) {
+                    LOG.error("Service "+serviceName+" does not implement ServiceInterface",e);
+                }
+                if(isSingleton.booleanValue()) {
+                    singletonServices.put(serviceName,service);
+                }
+            }
+            return service;
         }
         return null;
     }
