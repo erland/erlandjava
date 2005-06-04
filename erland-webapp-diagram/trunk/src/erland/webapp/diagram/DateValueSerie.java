@@ -23,7 +23,12 @@ import erland.webapp.diagram.DateValueInterface;
 
 import java.util.*;
 
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
+
 public class DateValueSerie implements DateValueSerieInterface {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(DateValueSerie.class);
     private String name;
     private Vector serie = new Vector();
 
@@ -136,17 +141,53 @@ public class DateValueSerie implements DateValueSerieInterface {
         for(int i=startPos;i<serie.size();i++) {
             DateValueInterface value = getDateValue(i);
             if(value.getDate().equals(date)) {
+                if(LOG.isDebugEnabled()) {
+                    LOG.debug("indexOf("+date+")="+value.getDate());
+                }
                 return i;
             }else if(value.getDate().getTime()>date.getTime()) {
+                if(LOG.isDebugEnabled()) {
+                    if(i-1>=0) {
+                        LOG.debug("indexOf("+date+")="+getDateValue(i-1).getDate());
+                    }else {
+                        LOG.debug("indexOf("+date+")=NONE");
+                    }
+                }
                 return i-1;
             }
         }
         if(serie.size()>0) {
+            if(LOG.isDebugEnabled()) {
+                LOG.debug("indexOf("+date+")="+getDateValue(serie.size()-1).getDate());
+            }
             return serie.size()-1;
+        }
+        if(LOG.isDebugEnabled()) {
+            LOG.debug("indexOf("+date+")=NONE");
         }
         return -1;
     }
     public int indexOf(Date date) {
         return indexOf(date,0);
+    }
+
+    public void deleteBefore(Date date) {
+        for(Iterator it=serie.iterator();it.hasNext();) {
+            DateValueInterface value = (DateValueInterface) it.next();
+            if(value.getDate().before(date)) {
+                LOG.debug("remove: "+value.getDate());
+                it.remove();
+            }
+        }
+    }
+
+    public void deleteAfter(Date date) {
+        for(Iterator it=serie.iterator();it.hasNext();) {
+            DateValueInterface value = (DateValueInterface) it.next();
+            if(value.getDate().after(date)) {
+                LOG.debug("remove: "+value.getDate());
+                it.remove();
+            }
+        }
     }
 }
