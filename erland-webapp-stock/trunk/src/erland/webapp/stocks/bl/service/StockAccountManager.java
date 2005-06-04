@@ -21,7 +21,6 @@ package erland.webapp.stocks.bl.service;
 import erland.webapp.usermgmt.User;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.stocks.bl.entity.StockAccount;
-import erland.webapp.stocks.bl.logic.storage.StockStorage;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -35,7 +34,7 @@ public class StockAccountManager implements StockAccountManagerInterface {
 
     public StockAccount getAccount(String user) {
         StockAccount account = (StockAccount)environment.getEntityFactory().create("stock-stockaccount");
-        account.init(user, StockStorage.getInstance(environment));
+        account.setUsername(user);
         return account;
     }
 }
