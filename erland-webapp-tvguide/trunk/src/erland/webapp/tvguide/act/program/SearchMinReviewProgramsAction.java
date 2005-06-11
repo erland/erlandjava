@@ -58,15 +58,13 @@ public class SearchMinReviewProgramsAction extends BaseAction {
             username = fb.getUser();
         }
 
-        UserAccount template = (UserAccount) getEnvironment().getEntityFactory().create("tvguide-useraccount");
-        template.setUsername(username);
-        UserAccount account = (UserAccount) getEnvironment().getEntityStorageFactory().getStorage("tvguide-useraccount").load(template);
+        Integer minReview = getMinReview(username);
 
         ProgramCollectionPB pb = new ProgramCollectionPB();
         if(fb.getDate()!=null) {
-            pb.setPrograms(ProgramHelper.getProgramsWithMinReview(getEnvironment(),username, fb.getDate(),account.getMinTipsReview(),false,mapping.findForward("add-subscription-link"),mapping.findForward("add-exclusion-link")));
+            pb.setPrograms(ProgramHelper.getProgramsWithMinReview(getEnvironment(),username, fb.getDate(),1,minReview,false,mapping.findForward("add-subscription-link"),mapping.findForward("add-exclusion-link"),mapping.findForward("cover-link"),mapping.findForward("update-review-link")));
         }else {
-            pb.setPrograms(ProgramHelper.getProgramsWithMinReview(getEnvironment(),username, new Date(), account.getMinTipsReview(), false,mapping.findForward("add-subscription-link"),mapping.findForward("add-exclusion-link")));
+            pb.setPrograms(ProgramHelper.getProgramsWithMinReview(getEnvironment(),username, new Date(), 1, minReview, false,mapping.findForward("add-subscription-link"),mapping.findForward("add-exclusion-link"),mapping.findForward("cover-link"),mapping.findForward("update-review-link")));
         }
         Map parameters = new HashMap();
         parameters.put("user", username);
@@ -101,5 +99,12 @@ public class SearchMinReviewProgramsAction extends BaseAction {
         }
 
         request.setAttribute("programsPB", pb);
+    }
+
+    protected Integer getMinReview(String username) {
+        UserAccount template = (UserAccount) getEnvironment().getEntityFactory().create("tvguide-useraccount");
+        template.setUsername(username);
+        UserAccount account = (UserAccount) getEnvironment().getEntityStorageFactory().getStorage("tvguide-useraccount").load(template);
+        return account.getMinTipsReview();
     }
 }
