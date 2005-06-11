@@ -172,9 +172,9 @@
                     </field>
                 </fields>
             </query>
-            <query id="allinlistfortwodatesaftertimewithreview">
+            <query id="allinlistfordatesaftertimewithreview">
                 <orderstring>order by start asc</orderstring>
-                <querystring>channel in ({1}) and stop &gt;= ? and start &lt; adddate(date_format(?,'%Y-%m-%d'), interval 2 day) and review &gt;=?</querystring>
+                <querystring>channel in ({1}) and stop &gt;= ? and start &lt; adddate(date_format(?,'%Y-%m-%d'), interval ? day) and review &gt;=?</querystring>
                 <fields>
                     <field id="1">
                         <field>channel</field>
@@ -189,6 +189,10 @@
                         <type>Timestamp</type>
                     </field>
                     <field id="4">
+                        <field>numberofdays</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="5">
                         <field>review</field>
                         <type>Integer</type>
                     </field>
@@ -223,6 +227,15 @@
                     <field id="2">
                         <field>time</field>
                         <type>Timestamp</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforreviewlink">
+                <querystring>reviewlink=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>reviewlink</field>
+                        <type>String</type>
                     </field>
                 </fields>
             </query>
