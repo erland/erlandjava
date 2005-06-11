@@ -71,7 +71,7 @@ public class ViewSubscriptionInfoAction extends BaseAction{
             username = fb.getUser();
         }
 
-        pb.setPrograms(ProgramHelper.getSubscriptionPrograms(getEnvironment(),username,subscription));
+        pb.setPrograms(ProgramHelper.getSubscriptionPrograms(getEnvironment(),username,subscription,mapping.findForward("cover-link"),mapping.findForward("update-review-link")));
         request.setAttribute("subscriptionPB",pb);
     }
 }

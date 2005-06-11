@@ -107,7 +107,7 @@ public class ViewChannelInfoAction extends BaseAction {
 
         forward = mapping.findForward("add-subscription-link");
 
-        pb.setPrograms(ProgramHelper.getChannelPrograms(getEnvironment(),username,channel,fb.getDate(),forward));
+        pb.setPrograms(ProgramHelper.getChannelPrograms(getEnvironment(),username,channel,fb.getDate(),forward,mapping.findForward("cover-link"),mapping.findForward("update-review-link")));
         request.setAttribute("channelPB",pb);
     }
 

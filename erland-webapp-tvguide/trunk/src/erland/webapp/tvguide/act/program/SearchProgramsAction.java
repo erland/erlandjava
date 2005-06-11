@@ -60,7 +60,7 @@ public class SearchProgramsAction extends BaseAction {
         ActionForward forward = mapping.findForward("add-subscription-link");
 
         ProgramCollectionPB pb = new ProgramCollectionPB();
-        pb.setPrograms(ProgramHelper.getAllPrograms(getEnvironment(),username,fb.getDate(),fb.getDayOffset(),forward));
+        pb.setPrograms(ProgramHelper.getAllPrograms(getEnvironment(),username,fb.getDate(),fb.getDayOffset(),forward,mapping.findForward("cover-link"),mapping.findForward("update-review-link")));
         Map parameters = new HashMap();
         parameters.put("user",username);
         Date date = new Date();
