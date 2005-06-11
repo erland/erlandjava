@@ -8,16 +8,17 @@ import erland.util.StringUtil;
 
 import java.net.URL;
 import java.net.URLEncoder;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.FileReader;
+import java.net.URLConnection;
+import java.io.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 
 /*
  * Copyright (C) 2005 Erland Isaksson (erland_i@hotmail.com)
@@ -39,6 +40,8 @@ import java.util.Map;
  */
 
 public class MovieHelper {
+    /** Logging instance */
+    private static Log LOG = LogFactory.getLog(MovieHelper.class);
     private static Map reviews = new HashMap();
     private static final String LINK_PREFIX = "http://www.imdb.com/title/";
 
@@ -56,7 +59,60 @@ public class MovieHelper {
         }
     }
 
-    public static Movie getMovie(WebAppEnvironmentInterface environment, String title, Integer year) {
+    public static void refreshMovie(WebAppEnvironmentInterface environment, String title, String id) {
+        title = title.toLowerCase();
+        String data =null;
+        if(StringUtil.asNull(id)!=null) {
+            data = getTitlePage(id);
+        }
+        String poster = null;
+        if(data!=null) {
+            poster = getMoviePoster(data);
+        }
+        storePoster(environment, title, poster);
+        int review = 0;
+        if(data!=null) {
+            review = getMovieReview(data);
+        }
+        Movie movieEntity = (Movie) environment.getEntityFactory().create("tvguide-movie");
+        movieEntity.setTitle(title.toLowerCase());
+        if(data!=null) {
+            movieEntity.setReview(new Integer(review));
+            movieEntity.setLink(id);
+            storeMovie(environment,movieEntity.getTitle(),movieEntity);
+        }else {
+            storeMovie(environment,movieEntity.getTitle(),null);
+        }
+   }
+
+    private static void storePoster(WebAppEnvironmentInterface environment, String title, String poster) {
+        String cacheDir = StringUtil.asNull(environment.getConfigurableResources().getParameter("cover.cache"));
+        if(cacheDir!=null) {
+            if(poster!=null) {
+                try {
+                    LOG.debug("Loading poster: "+poster);
+                    InputStream input = new BufferedInputStream(new URL(poster).openStream());
+                    String filename = title.toLowerCase().replaceAll(":","-");
+                    OutputStream output = new BufferedOutputStream(new FileOutputStream(cacheDir+"/"+filename+".jpg"));
+
+                    int d = input.read();
+                    while(d>=0) {
+                        output.write(d);
+                        d = input.read();
+                    }
+                    input.close();
+                    output.close();
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }else {
+                String filename = title.toLowerCase().replaceAll(":","-");
+                File file = new File(cacheDir+"/"+filename+".jpg");
+                file.delete();
+            }
+        }
+    }
+    public static Movie getMovie(WebAppEnvironmentInterface environment, String title) {
         Movie movieEntity = null;
         synchronized(reviews) {
             movieEntity = (Movie) reviews.get(title.toLowerCase());
@@ -74,6 +130,30 @@ public class MovieHelper {
                 }
             }
         }
+        return movieEntity;
+    }
+    private static void storeMovie(WebAppEnvironmentInterface environment, String title, Movie movieEntity) {
+        if(movieEntity!=null) {
+            environment.getEntityStorageFactory().getStorage("tvguide-movie").store(movieEntity);
+            if(StringUtil.asNull(movieEntity.getLink())!=null) {
+                movieEntity.setLink(LINK_PREFIX+movieEntity.getLink()+"/");
+            }
+        }else {
+            Movie template = (Movie) environment.getEntityFactory().create("tvguide-movie");
+            template.setTitle(title);
+            environment.getEntityStorageFactory().getStorage("tvguide-movie").delete(template);
+        }
+        synchronized(reviews) {
+            if(movieEntity!=null) {
+                reviews.put(title,movieEntity);
+            }else {
+                reviews.remove(title);
+            }
+        }
+    }
+
+    public static Movie getMovie(WebAppEnvironmentInterface environment, String title, Integer year) {
+        Movie movieEntity = getMovie(environment, title);
         if(movieEntity == null) {
             int review = 0;
             String data = getSearchResultPage(title);
@@ -88,31 +168,57 @@ public class MovieHelper {
             if(data!=null && isResultPage(data)) {
                 data = getTitlePage(data,year);
             }
+            if(data==null) {
+                data = getHalfTitlePage(title,year,'-');
+            }
+            if(data==null) {
+                data = getHalfTitlePage(title,year,':');
+            }
             String link = null;
             if(data!=null) {
-                int pos = data.indexOf("goldstar.gif");
-                while(pos>=0) {
-                    review++;
-                    pos = data.indexOf("goldstar.gif",pos+1);
-                }
+                review = getMovieReview(data);
                 link = getMovieId(data);
+                String poster = getMoviePoster(data);
+                storePoster(environment, title, poster);
             }
 
             movieEntity = (Movie) environment.getEntityFactory().create("tvguide-movie");
             movieEntity.setTitle(title.toLowerCase());
             movieEntity.setReview(new Integer(review));
             movieEntity.setLink(link);
-            environment.getEntityStorageFactory().getStorage("tvguide-movie").store(movieEntity);
-            if(StringUtil.asNull(movieEntity.getLink())!=null) {
-                movieEntity.setLink(LINK_PREFIX+movieEntity.getLink()+"/");
-            }
-            synchronized(reviews) {
-                reviews.put(movieEntity.getTitle(),movieEntity);
-            }
+            storeMovie(environment, movieEntity.getTitle(), movieEntity);
         }
         return movieEntity;
     }
 
+    private static int getMovieReview(String data) {
+        int review=0;
+        int pos = data.indexOf("goldstar.gif");
+        while(pos>=0) {
+            review++;
+            pos = data.indexOf("goldstar.gif",pos+1);
+        }
+        return review;
+    }
+    private static String getHalfTitlePage(String title, Integer year, char ch) {
+        String data = null;
+        int pos = title.indexOf(ch);
+        if(pos>0) {
+            String subtitle = title.substring(0,pos).trim();
+            data = getSearchResultPage(subtitle);
+            if(data!=null && isResultPage(data)) {
+                data = getTitlePage(data,year);
+            }
+            if(data==null && pos<title.length()-1) {
+                subtitle = title.substring(pos+1).trim();
+            }
+            data = getSearchResultPage(subtitle);
+            if(data!=null && isResultPage(data)) {
+                data = getTitlePage(data,year);
+            }
+        }
+        return data;
+    }
     private static boolean isResultPage(String data) {
         return data.indexOf("IMDb title search")>=0;
     }
@@ -123,6 +229,17 @@ public class MovieHelper {
         }
         return null;
     }
+    private static String getMoviePoster(String data) {
+        Matcher m = Pattern.compile("name=\"poster\".*?src=\"(.*?)\"").matcher(new StringBuffer(data));
+        if(m.find()) {
+            String poster = m.group(1);
+            if(!poster.endsWith("npa.jpg")) {
+                return poster;
+            }
+        }
+        return null;
+    }
+
     private static String getTitlePage(String data,Integer requestedYear) {
         Matcher m = Pattern.compile("IMDb title search for \"(.*?)\"").matcher(new StringBuffer(data));
         String id = null;
@@ -158,21 +275,25 @@ public class MovieHelper {
                     }
                 }
             }
-            if(id!=null) {
-                try {
-                    URL url = new URL(LINK_PREFIX+id+"/");
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-                    StringBuffer sb = new StringBuffer(10000);
-                    String line = reader.readLine();
-                    while(line!=null) {
-                        sb.append(line);
-                       line = reader.readLine();
-                    }
-                    reader.close();
-                    return sb.toString();
-                } catch (IOException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return getTitlePage(id);
+        }
+        return null;
+    }
+    private static String getTitlePage(String id) {
+        if(id!=null) {
+            try {
+                URL url = new URL(LINK_PREFIX+id+"/");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+                StringBuffer sb = new StringBuffer(10000);
+                String line = reader.readLine();
+                while(line!=null) {
+                    sb.append(line);
+                   line = reader.readLine();
                 }
+                reader.close();
+                return sb.toString();
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
         return null;
