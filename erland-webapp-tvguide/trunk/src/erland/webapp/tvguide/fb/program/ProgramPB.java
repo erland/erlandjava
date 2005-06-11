@@ -43,6 +43,8 @@ public class ProgramPB extends BasePB {
     private String viewSubscriptionLink;
     private Integer review;
     private String reviewLink;
+    private String coverLink;
+    private String updateReviewLink;
 
     public Date getStart() {
         return start;
@@ -208,5 +210,21 @@ public class ProgramPB extends BasePB {
 
     public void setNewExclusionLink(String newExclusionLink) {
         this.newExclusionLink = newExclusionLink;
+    }
+
+    public String getCoverLink() {
+        return coverLink;
+    }
+
+    public void setCoverLink(String coverLink) {
+        this.coverLink = coverLink;
+    }
+
+    public String getUpdateReviewLink() {
+        return updateReviewLink;
+    }
+
+    public void setUpdateReviewLink(String updateReviewLink) {
+        this.updateReviewLink = updateReviewLink;
     }
 }
