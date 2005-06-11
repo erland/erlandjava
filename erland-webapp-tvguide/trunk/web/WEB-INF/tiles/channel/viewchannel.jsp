@@ -43,9 +43,11 @@
                 &nbsp;&nbsp;&nbsp;
                 <erland-common:beanlink name="program" property="reviewLink" style="channelpage-button" target="_blank"><bean:message key="tvguide.programs.more-information"/></erland-common:beanlink>
                 &nbsp;&nbsp;&nbsp;
-                <erland-common:beanlink name="program" property="newSubscriptionLink" style="channelpage-button"><bean:message key="tvguide.channel.addsubscription"/></erland-common:beanlink><br>
+                <erland-common:beanlink name="program" property="newSubscriptionLink" style="channelpage-button"><bean:message key="tvguide.channel.addsubscription"/></erland-common:beanlink>
+                <erland-common:beanlink name="program" property="updateReviewLink" style="programpage-button">&nbsp;&nbsp;<bean:message key="tvguide.programs.update-review"/></erland-common:beanlink><br>
                 <erland-common:expandhtml><bean:write name="program" property="description"/></erland-common:expandhtml>
             </td>
+            <td><erland-common:beanlink name="program" property="reviewLink" style="programpage-button" target="_blank"><erland-common:beanimage name="program" property="coverLink" height="100" border="0" /></erland-common:beanlink></td>
         </tr>
     </logic:iterate>
 </table>

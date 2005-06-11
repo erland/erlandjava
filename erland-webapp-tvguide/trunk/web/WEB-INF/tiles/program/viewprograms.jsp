@@ -30,6 +30,7 @@
                 </logic:empty>
                 <erland-common:beanlink name="program" property="reviewLink" style="programpage-button" target="_blank"><bean:message key="tvguide.programs.more-information"/></erland-common:beanlink>
                 <erland-common:beanlink name="program" property="newSubscriptionLink" style="programpage-button">&nbsp;&nbsp;<bean:message key="tvguide.favorite.addsubscription"/></erland-common:beanlink>
+                <erland-common:beanlink name="program" property="updateReviewLink" style="programpage-button">&nbsp;&nbsp;<bean:message key="tvguide.programs.update-review"/></erland-common:beanlink>
                 <logic:notEmpty name="program" property="newSubscriptionLink">
                     <br>
                 </logic:notEmpty>
@@ -38,6 +39,7 @@
                 </logic:empty>
                 <erland-common:expandhtml><bean:write name="program" property="description"/></erland-common:expandhtml>
             </td>
+            <td><erland-common:beanlink name="program" property="reviewLink" style="programpage-button" target="_blank"><erland-common:beanimage name="program" property="coverLink" height="100" border="0" /></erland-common:beanlink></td>
         </tr>
     </logic:iterate>
 </table>
