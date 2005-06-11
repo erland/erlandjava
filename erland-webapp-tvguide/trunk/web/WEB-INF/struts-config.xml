@@ -27,6 +27,8 @@
         <form-bean name="removeExclusionFB" type="erland.webapp.tvguide.fb.exclusion.ExclusionFB"/>
         <form-bean name="selectExclusionFB" type="erland.webapp.tvguide.fb.exclusion.SelectExclusionFB"/>
         <form-bean name="searchExclusionFB" type="erland.webapp.tvguide.fb.account.SelectUserFB"/>
+        <form-bean name="selectMovieFB" type="erland.webapp.tvguide.fb.movie.SelectMovieFB"/>
+        <form-bean name="editMovieFB" type="erland.webapp.tvguide.fb.movie.MovieFB"/>
     </form-beans>
 
     <global-forwards>
@@ -96,6 +98,7 @@
             <forward name="mainMenu-today" path="/do/guest/searchprograms?user={user}"/>
             <forward name="mainMenu-subscribed" path="/do/guest/searchsubscribedprograms?user={user}"/>
             <forward name="mainMenu-minreview" path="/do/guest/searchminreviewprograms?user={user}"/>
+            <forward name="mainMenu-reviewed" path="/do/guest/searchreviewedprograms?user={user}"/>
             <forward name="mainMenu-subscriptions" path="/do/guest/viewsubscriptions?user={user}"/>
             <forward name="success" path=".guest.index"/>
         </action>
@@ -110,6 +113,7 @@
             <forward name="mainMenu-newfavorite" path="/do/user/newfavorite"/>
             <forward name="mainMenu-subscribed" path="/do/user/searchsubscribedprograms"/>
             <forward name="mainMenu-minreview" path="/do/user/searchminreviewprograms"/>
+            <forward name="mainMenu-reviewed" path="/do/user/searchreviewedprograms"/>
             <forward name="mainMenu-subscriptions" path="/do/user/viewsubscriptions"/>
             <forward name="mainMenu-subscriptions-new" path="/do/user/newsubscription"/>
             <forward name="mainMenu-exclusions" path="/do/user/viewexclusions"/>
@@ -202,6 +206,8 @@
             <forward name="current-view-link" path="/do/user/viewchannelinfo?channel={channel}&amp;dateDisplay={date}"/>
             <forward name="next-view-link" path="/do/user/viewchannelinfo?channel={channel}&amp;dateDisplay={date}"/>
             <forward name="add-subscription-link" path="/do/user/addsubscription?name={programName}"/>
+            <forward name="cover-link" path="/do/guest/loadmoviecover?id={programName}"/>
+            <forward name="update-review-link" path="/do/user/viewmovie?title={programName}"/>
 
             <forward name="success" path=".user.viewchannel"/>
         </action>
@@ -213,6 +219,7 @@
             <forward name="prev-view-link" path="/do/guest/viewchannel?user={user}&amp;channel={channel}&amp;dateDisplay={date}"/>
             <forward name="current-view-link" path="/do/guest/viewchannel?user={user}&amp;channel={channel}&amp;dateDisplay={date}"/>
             <forward name="next-view-link" path="/do/guest/viewchannel?user={user}&amp;channel={channel}&amp;dateDisplay={date}"/>
+            <forward name="cover-link" path="/do/guest/loadmoviecover?id={programName}"/>
 
             <forward name="success" path=".guest.viewchannel"/>
         </action>
@@ -290,6 +297,8 @@
             <forward name="view-subscription-link" path="/do/user/viewsubscriptioninfo?subscription={subscription}"/>
             <forward name="update-subscription-link" path="/do/user/viewsubscription?idDisplay={subscription}"/>
             <forward name="remove-subscription-link" path="/do/user/removesubscription?idDisplay={subscription}"/>
+            <forward name="cover-link" path="/do/guest/loadmoviecover?id={programName}"/>
+            <forward name="update-review-link" path="/do/user/viewmovie?title={programName}"/>
             <forward name="success" path=".user.viewsubscriptions"/>
         </action>
         <action
@@ -297,6 +306,7 @@
             type="erland.webapp.tvguide.act.subscription.SearchSubscriptionsAction"
             name="searchSubscriptionFB">
             <forward name="view-subscription-link" path="/do/guest/viewsubscription?user={user}&amp;subscription={subscription}"/>
+            <forward name="cover-link" path="/do/guest/loadmoviecover?id={programName}"/>
             <forward name="success" path=".guest.viewsubscriptions"/>
         </action>
 
@@ -362,6 +372,8 @@
             <forward name="current-view-link" path="/do/user/searchprograms?dateDisplay={date}"/>
             <forward name="next-view-link" path="/do/user/searchprograms?dateDisplay={date}"/>
             <forward name="add-subscription-link" path="/do/user/addsubscription?name={programName}"/>
+            <forward name="cover-link" path="/do/guest/loadmoviecover?id={programName}"/>
+            <forward name="update-review-link" path="/do/user/viewmovie?title={programName}"/>
 
             <forward name="success" path=".user.viewprograms"/>
         </action>
@@ -373,6 +385,7 @@
             <forward name="prev-view-link" path="/do/guest/searchprograms?user={user}&amp;dateDisplay={date}"/>
             <forward name="current-view-link" path="/do/guest/searchprograms?user={user}&amp;dateDisplay={date}"/>
             <forward name="next-view-link" path="/do/guest/searchprograms?user={user}&amp;dateDisplay={date}"/>
+            <forward name="cover-link" path="/do/guest/loadmoviecover?id={programName}"/>
 
             <forward name="success" path=".guest.viewprograms"/>
         </action>
@@ -387,6 +400,8 @@
             <forward name="prev-view-link" path="/do/user/searchsubscribedprograms?dateDisplay={date}"/>
             <forward name="current-view-link" path="/do/user/searchsubscribedprograms?dateDisplay={date}"/>
             <forward name="next-view-link" path="/do/user/searchsubscribedprograms?dateDisplay={date}"/>
+            <forward name="cover-link" path="/do/guest/loadmoviecover?id={programName}"/>
+            <forward name="update-review-link" path="/do/user/viewmovie?title={programName}"/>
 
             <forward name="success" path=".user.viewsubscribedprograms"/>
         </action>
@@ -399,6 +414,7 @@
             <forward name="prev-view-link" path="/do/guest/searchsubscribedprograms?user={user}&amp;dateDisplay={date}"/>
             <forward name="current-view-link" path="/do/guest/searchsubscribedprograms?user={user}&amp;dateDisplay={date}"/>
             <forward name="next-view-link" path="/do/guest/searchsubscribedprograms?user={user}&amp;dateDisplay={date}"/>
+            <forward name="cover-link" path="/do/guest/loadmoviecover?id={programName}"/>
 
             <forward name="success" path=".guest.viewsubscribedprograms"/>
         </action>
@@ -414,6 +430,8 @@
             <forward name="prev-view-link" path="/do/user/searchminreviewprograms?dateDisplay={date}"/>
             <forward name="current-view-link" path="/do/user/searchminreviewprograms?dateDisplay={date}"/>
             <forward name="next-view-link" path="/do/user/searchminreviewprograms?dateDisplay={date}"/>
+            <forward name="cover-link" path="/do/guest/loadmoviecover?id={programName}"/>
+            <forward name="update-review-link" path="/do/user/viewmovie?title={programName}"/>
 
             <forward name="success" path=".user.viewminreviewprograms"/>
         </action>
@@ -425,8 +443,37 @@
             <forward name="prev-view-link" path="/do/guest/searchminreviewprograms?user={user}&amp;dateDisplay={date}"/>
             <forward name="current-view-link" path="/do/guest/searchminreviewprograms?user={user}&amp;dateDisplay={date}"/>
             <forward name="next-view-link" path="/do/guest/searchminreviewprograms?user={user}&amp;dateDisplay={date}"/>
+            <forward name="cover-link" path="/do/guest/loadmoviecover?id={programName}"/>
 
             <forward name="success" path=".guest.viewminreviewprograms"/>
+        </action>
+
+        <action
+            path="/user/searchreviewedprograms"
+            type="erland.webapp.tvguide.act.program.SearchReviewedProgramsAction"
+            name="searchProgramFB">
+
+            <forward name="add-subscription-link" path="/do/user/addsubscription?name={programName}"/>
+            <forward name="add-exclusion-link" path="/do/user/addexclusion?name={programName}"/>
+            <forward name="prev-view-link" path="/do/user/searchreviewedprograms?dateDisplay={date}"/>
+            <forward name="current-view-link" path="/do/user/searchreviewedprograms?dateDisplay={date}"/>
+            <forward name="next-view-link" path="/do/user/searchreviewedprograms?dateDisplay={date}"/>
+            <forward name="cover-link" path="/do/guest/loadmoviecover?id={programName}"/>
+            <forward name="update-review-link" path="/do/user/viewmovie?title={programName}"/>
+
+            <forward name="success" path=".user.viewreviewedprograms"/>
+        </action>
+        <action
+            path="/guest/searchreviewedprograms"
+            type="erland.webapp.tvguide.act.program.SearchReviewedProgramsAction"
+            name="searchProgramFB">
+
+            <forward name="prev-view-link" path="/do/guest/searchreviewedprograms?user={user}&amp;dateDisplay={date}"/>
+            <forward name="current-view-link" path="/do/guest/searchreviewedprograms?user={user}&amp;dateDisplay={date}"/>
+            <forward name="next-view-link" path="/do/guest/searchreviewedprograms?user={user}&amp;dateDisplay={date}"/>
+            <forward name="cover-link" path="/do/guest/loadmoviecover?id={programName}"/>
+
+            <forward name="success" path=".guest.viewreviewedprograms"/>
         </action>
 
         <action
@@ -513,6 +560,31 @@
             name="selectServiceFB">
 
             <forward name="success" path=".guest.viewservicefull"/>
+        </action>
+
+        <action
+            path="/user/editmovie"
+            type="erland.webapp.tvguide.act.movie.EditMovieAction"
+            name="editMovieFB"
+            input=".user.editmovie">
+            <forward name="failure" path=".user.editmovie"/>
+            <forward name="success" path="/do/user/home"/>
+        </action>
+        <action
+            path="/user/viewmovie"
+            type="erland.webapp.tvguide.act.movie.ViewMovieAction"
+            validate="false"
+            name="editMovieFB">
+            <forward name="success" path=".user.editmovie"/>
+        </action>
+
+        <action
+            path="/guest/loadmoviecover"
+            type="erland.webapp.tvguide.act.movie.LoadMovieCoverAction"
+            name="selectMovieFB"
+            validate="false"
+            scope="request">
+            <forward name="failure" path="/images/transparent.gif"/>
         </action>
 
         <action
