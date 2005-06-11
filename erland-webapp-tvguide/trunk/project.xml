@@ -13,7 +13,7 @@
   
   <!-- The version of the project under development, e.g.
        1.1, 1.2, 2.0-SNAPSHOT -->
-  <currentVersion>1.4</currentVersion>
+  <currentVersion>1.5</currentVersion>
   
   <organization>
         <name>Erland Isaksson</name>
@@ -323,7 +323,7 @@
   
   <!-- build information for the project -->
   <build>
-    <nagEmailAddress>erland.i@telia.com</nagEmailAddress>
+    <nagEmailAddress>erland_i@hotmail.com</nagEmailAddress>
     <sourceDirectory>src</sourceDirectory>
     <resources>
         <resource>
