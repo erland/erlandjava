@@ -87,14 +87,24 @@
         <put name="body" value="/WEB-INF/tiles/program/viewsubscribedprograms.jsp"/>
     </definition>
     <definition name=".user.viewminreviewprograms" extends=".user.index">
-        <put name="body" value="/WEB-INF/tiles/program/viewminreviewprograms.jsp"/>
+        <put name="body" value="/WEB-INF/tiles/program/viewreviewedprograms.jsp"/>
     </definition>
     <definition name=".guest.viewminreviewprograms" extends=".guest.index">
-        <put name="body" value="/WEB-INF/tiles/program/viewminreviewprograms.jsp"/>
+        <put name="body" value="/WEB-INF/tiles/program/viewreviewedprograms.jsp"/>
+    </definition>
+    <definition name=".user.viewreviewedprograms" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/program/viewreviewedprograms.jsp"/>
+    </definition>
+    <definition name=".guest.viewreviewedprograms" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/program/viewreviewedprograms.jsp"/>
     </definition>
 
     <definition name=".user.editfavorite" extends=".user.index">
         <put name="body" value="/WEB-INF/tiles/favorite/editfavorite.jsp"/>
+    </definition>
+
+    <definition name=".user.editmovie" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/movie/editmovie.jsp"/>
     </definition>
 
     <definition name=".user.editservice" extends=".user.index">
