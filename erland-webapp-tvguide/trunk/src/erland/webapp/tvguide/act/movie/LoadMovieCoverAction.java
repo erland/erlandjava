@@ -43,7 +43,7 @@ public class LoadMovieCoverAction extends BaseAction {
         SelectMovieFB fb = (SelectMovieFB) form;
         String cacheDir = StringUtil.asNull(getEnvironment().getConfigurableResources().getParameter("cover.cache"));
         if(cacheDir!=null) {
-            setImageFile(request,cacheDir+"/"+fb.getId().toLowerCase().replaceAll(":","-")+".jpg");
+            setImageFile(request,cacheDir+"/"+fb.getId().toLowerCase().replaceAll(":","-").replaceAll("/"," ")+".jpg");
         }
     }
 

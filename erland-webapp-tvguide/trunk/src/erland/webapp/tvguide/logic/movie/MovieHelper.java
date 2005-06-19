@@ -92,7 +92,8 @@ public class MovieHelper {
                 try {
                     LOG.debug("Loading poster: "+poster);
                     InputStream input = new BufferedInputStream(new URL(poster).openStream());
-                    String filename = title.toLowerCase().replaceAll(":","-");
+                    String title2 = title.toLowerCase().replaceAll(":","-");
+                    String filename = title2.toLowerCase().replaceAll("/"," ");
                     OutputStream output = new BufferedOutputStream(new FileOutputStream(cacheDir+"/"+filename+".jpg"));
 
                     int d = input.read();
@@ -106,7 +107,8 @@ public class MovieHelper {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }else {
-                String filename = title.toLowerCase().replaceAll(":","-");
+                String title2 = title.toLowerCase().replaceAll(":","-");
+                String filename = title2.toLowerCase().replaceAll("/"," ");
                 File file = new File(cacheDir+"/"+filename+".jpg");
                 file.delete();
             }
