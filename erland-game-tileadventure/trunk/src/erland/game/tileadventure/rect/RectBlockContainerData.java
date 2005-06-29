@@ -29,46 +29,23 @@ public class RectBlockContainerData extends BlockContainerData {
         super(offsetX,offsetY,sizeX,sizeY,sizeZ, squareSizeX,squareSizeY,squareSizeZ,visibleSizeX,visibleSizeY);
     }
 
-    public int getDrawingPositionX(int x, int y, int z)
+    public int getDrawingPositionX(float x, float y, float z)
     {
-    	return getDrawingPositionX(x,y,z,0,0,0);
+        return getOffsetX() + blockDrawingOffsetX - getScrollingOffsetX() + getPositionX(x,y,z);
     }
-    public int getDrawingPositionY(int x, int y, int z)
+    public int getDrawingPositionY(float x, float y, float z)
     {
-        return getDrawingPositionY(x,y,z,0,0,0);
+        return getOffsetY() + blockDrawingOffsetY - getScrollingOffsetY() + getPositionY(x,y,z);
     }
-    public int getDrawingPositionX(int x, int y, int z,float dx, float dy, float dz)
+    public int getPositionX(float x, float y, float z)
     {
-    	return getOffsetX() + blockDrawingOffsetX - getScrollingOffsetX() + getPositionX(x,y,z,dx,dy,dz);
+        return (int)(getSquareSizeX()*x);
     }
-    public int getDrawingPositionY(int x, int y, int z,float dx,float dy, float dz)
+    public int getPositionY(float x, float y, float z)
     {
-    	return getOffsetY() + blockDrawingOffsetY - getScrollingOffsetY() + getPositionY(x,y,z,dx,dy,dz);
+        return (int)(getSquareSizeY()*y);
     }
-    public int getPositionX(int x, int y, int z)
-    {
-    	return getRelativePositionX(x,y,z);
-    }
-    public int getPositionY(int x, int y, int z)
-    {
-        return getRelativePositionY(x,y,z);
-    }
-    private int getRelativePositionX(float dx, float dy, float dz) {
-        return (int)(getSquareSizeX()*dx);
-    }
-    private int getRelativePositionY(float dx, float dy, float dz) {
-        return (int)(getSquareSizeY()*dy);
-    }
-    public int getPositionX(int x, int y, int z, float dx, float dy, float dz)
-    {
-    	return getPositionX(x,y,z)+getRelativePositionX(dx,dy,dz);
-    }
-    public int getPositionY(int x, int y, int z, float dx, float dy, float dz)
-    {
-        return getPositionY(x,y,z)+getRelativePositionY(dx,dy,dz);
-    }
-
-    public boolean getVisible(int posX, int posY,int posZ)
+    public boolean getVisible(float posX, float posY,float posZ)
     {
         if((getPositionX(posX,posY,posZ)+getSquareSizeX())>getScrollingOffsetX() && getPositionX(posX,posY,posZ)<(getScrollingOffsetX()+getDrawingSizeX())) {
             if((getPositionY(posX,posY,posZ)+getSquareSizeY())>getScrollingOffsetY() && getPositionY(posX,posY,posZ)<(getScrollingOffsetY()+getDrawingSizeY())) {
@@ -78,11 +55,11 @@ public class RectBlockContainerData extends BlockContainerData {
         return false;
     }
 
-    public int getPixelDrawingPositionX(int x, int y, int z) {
+    public int getPixelDrawingPositionX(float x, float y, float z) {
         return getDrawingPositionX(x,y,z);
     }
 
-    public int getPixelDrawingPositionY(int x, int y, int z) {
+    public int getPixelDrawingPositionY(float x, float y, float z) {
         return getDrawingPositionY(x,y,z);
     }
     /**

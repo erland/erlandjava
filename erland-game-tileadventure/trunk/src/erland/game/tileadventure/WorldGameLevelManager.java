@@ -86,7 +86,7 @@ public class WorldGameLevelManager extends LevelManager {
                     room.setBlocks(objectInfo.getObjects());
                     room.setExtendedLevelInfo(objectInfo.getExtendedInfo());
                     room.setPos(obj.getPosX(),obj.getPosY(),obj.getPosZ());
-                    map.setObject(room,obj.getPosX(),obj.getPosY(),obj.getPosZ());
+                    map.setObject(room,(int)obj.getPosX(),(int)obj.getPosY(),(int)obj.getPosZ());
                 } else {
                     bEnd = true;
                 }

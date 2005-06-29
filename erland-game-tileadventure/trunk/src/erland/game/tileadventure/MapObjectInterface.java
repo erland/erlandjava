@@ -30,13 +30,13 @@ public interface MapObjectInterface {
 
     IrregularBlockContainerInterface getContainer();
 
-    int getPosX();
+    float getPosX();
 
-    int getPosY();
+    float getPosY();
 
-    int getPosZ();
+    float getPosZ();
 
-    void setPos(int x, int y, int z);
+    void setPos(float x, float y, float z);
 
     void draw(Graphics g);
 

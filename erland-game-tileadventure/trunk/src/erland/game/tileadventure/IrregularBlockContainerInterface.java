@@ -38,35 +38,27 @@ public interface IrregularBlockContainerInterface {
 
     int getOffsetY();
 
-    int getDrawingPositionX(int x, int y, int z);
+    int getDrawingPositionX(float x, float y, float z);
 
-    int getDrawingPositionY(int x, int y, int z);
+    int getDrawingPositionY(float x, float y, float z);
 
-    int getDrawingPositionX(int x, int y, int z, float dx, float dy, float dz);
+    int getPositionX(float x, float y, float z);
 
-    int getDrawingPositionY(int x, int y, int z, float dx, float dy, float dz);
-
-    int getPositionX(int x, int y, int z);
-
-    int getPositionY(int x, int y, int z);
+    int getPositionY(float x, float y, float z);
 
     int getDrawingSizeX();
 
     int getDrawingSizeY();
 
-    boolean getVisible(int posX, int posY, int posZ);
+    boolean getVisible(float posX, float posY, float posZ);
 
     int getScrollingSizeX();
 
     int getScrollingSizeY();
 
-    int getPixelDrawingPositionX(int x, int y, int z);
+    int getPixelDrawingPositionX(float x, float y, float z);
 
-    int getPixelDrawingPositionY(int x, int y, int z);
-
-    int getPositionX(int x, int y, int z, float dx, float dy, float dz);
-
-    int getPositionY(int x, int y, int z, float dx, float dy, float dz);
+    int getPixelDrawingPositionY(float x, float y, float z);
 
     int getScrollingOffsetX();
 

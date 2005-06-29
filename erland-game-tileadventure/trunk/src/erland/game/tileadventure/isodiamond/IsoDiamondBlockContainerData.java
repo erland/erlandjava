@@ -31,46 +31,23 @@ public class IsoDiamondBlockContainerData extends BlockContainerData {
         this.blockDrawingOffsetY = blockDrawingOffsetY;
     }
 
-    public int getDrawingPositionX(int x, int y, int z)
+    public int getDrawingPositionX(float x, float y, float z)
     {
-    	return getDrawingPositionX(x,y,z,0,0,0);
+        return getOffsetX() + blockDrawingOffsetX - getScrollingOffsetX() + getPositionX(x,y,z);
     }
-    public int getDrawingPositionY(int x, int y, int z)
+    public int getDrawingPositionY(float x, float y, float z)
     {
-    	return getDrawingPositionY(x,y,z,0,0,0);
+        return getOffsetY() + blockDrawingOffsetY - getScrollingOffsetY() + getPositionY(x,y,z);
     }
-    public int getDrawingPositionX(int x, int y, int z,float dx, float dy, float dz)
+    public int getPositionX(float x, float y, float z)
     {
-    	return getOffsetX() + blockDrawingOffsetX - getScrollingOffsetX() + getPositionX(x,y,z,dx,dy,dz);
+    	return ((getSquareSizeX()*getSizeX())>>1)-(getSquareSizeX()>>1)+(int)((getSquareSizeX()>>1)*x-(getSquareSizeX()>>1)*y);
     }
-    public int getDrawingPositionY(int x, int y, int z,float dx,float dy, float dz)
+    public int getPositionY(float x, float y, float z)
     {
-    	return getOffsetY() + blockDrawingOffsetY - getScrollingOffsetY() + getPositionY(x,y,z,dx,dy,dz);
+        return (int)((getSquareSizeY()>>1)*x+(getSquareSizeY()>>1)*y-getSquareSizeZ()*z);
     }
-    public int getPositionX(int x, int y, int z)
-    {
-    	return ((getSquareSizeX()*getSizeX())>>1)-(getSquareSizeX()>>1)+getRelativePositionX(x,y,z);
-    }
-    public int getPositionY(int x, int y, int z)
-    {
-        return getRelativePositionY(x,y,z);
-    }
-    private int getRelativePositionX(float dx, float dy, float dz) {
-        return (int)((getSquareSizeX()>>1)*dx-(getSquareSizeX()>>1)*dy);
-    }
-    private int getRelativePositionY(float dx, float dy, float dz) {
-        return (int)((getSquareSizeY()>>1)*dx+(getSquareSizeY()>>1)*dy-getSquareSizeZ()*dz);
-    }
-    public int getPositionX(int x, int y, int z, float dx, float dy, float dz)
-    {
-    	return getPositionX(x,y,z)+getRelativePositionX(dx,dy,dz);
-    }
-    public int getPositionY(int x, int y, int z, float dx, float dy, float dz)
-    {
-        return getPositionY(x,y,z)+getRelativePositionY(dx,dy,dz);
-    }
-
-    public boolean getVisible(int posX, int posY,int posZ)
+    public boolean getVisible(float posX, float posY,float posZ)
     {
         if((getPositionX(posX,posY,posZ)+getSquareSizeX())>getScrollingOffsetX() && getPositionX(posX,posY,posZ)<(getScrollingOffsetX()+getDrawingSizeX())) {
             if((getPositionY(posX,posY,posZ)+getSquareSizeY())>getScrollingOffsetY() && getPositionY(posX,posY,posZ)<(getScrollingOffsetY()+getDrawingSizeY())) {
@@ -80,11 +57,11 @@ public class IsoDiamondBlockContainerData extends BlockContainerData {
         return false;
     }
 
-    public int getPixelDrawingPositionX(int x, int y, int z) {
+    public int getPixelDrawingPositionX(float x, float y, float z) {
         return getOffsetX() - getScrollingOffsetX() + getPositionX(x,y,z);
     }
 
-    public int getPixelDrawingPositionY(int x, int y, int z) {
+    public int getPixelDrawingPositionY(float x, float y, float z) {
         return getOffsetY() - getScrollingOffsetY() + getPositionY(x,y,z);
     }
     /**
@@ -108,8 +85,8 @@ public class IsoDiamondBlockContainerData extends BlockContainerData {
     public int getBlockPositionX(int x, int y, int z) {
         int realX = x+getScrollingOffsetX()-getOffsetX();
         int realY = y+getScrollingOffsetY()-getOffsetY();
-        int zeroX = getPositionX(0,0,0,0,0,(float)z/getSquareSizeZ())+getSquareSizeX()/2;
-        int zeroY = getPositionY(0,0,0,0,0,(float)z/getSquareSizeZ());
+        int zeroX = getPositionX(0,0,(float)z/getSquareSizeZ())+getSquareSizeX()/2;
+        int zeroY = getPositionY(0,0,(float)z/getSquareSizeZ());
 
         int screenDeltaX = realX-zeroX;
         int screenDeltaY = realY-zeroY;
@@ -126,8 +103,8 @@ public class IsoDiamondBlockContainerData extends BlockContainerData {
     public int getBlockPositionY(int x, int y, int z) {
         int realX = x+getScrollingOffsetX()-getOffsetX();
         int realY = y+getScrollingOffsetY()-getOffsetY();
-        int zeroX = getPositionX(0,0,0,0,0,(float)z/getSquareSizeZ())+getSquareSizeX()/2;
-        int zeroY = getPositionY(0,0,0,0,0,(float)z/getSquareSizeZ());
+        int zeroX = getPositionX(0,0,(float)z/getSquareSizeZ())+getSquareSizeX()/2;
+        int zeroY = getPositionY(0,0,(float)z/getSquareSizeZ());
 
         int screenDeltaX = realX-zeroX;
         int screenDeltaY = realY-zeroY;

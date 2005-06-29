@@ -39,7 +39,7 @@ public class LivingObject extends MovableObject {
     protected Action isActionPossible(Action action) {
         if(!super.isMoving()) {
             if(!bJumping && !isDropping()) {
-                if(action==Action.JUMP && !getActionMap().isFree(this,getPosX(),getPosY(),getPosZ()-1)) {
+                if(action==Action.JUMP && !getActionMap().isFree(this,(int)getPosX(),(int)getPosY(),(int)getPosZ()-1)) {
                     return getActionMap().isActionPossibleOnObject(this,action);
                 }else {
                     return super.isActionPossible(action);
@@ -53,7 +53,7 @@ public class LivingObject extends MovableObject {
     protected boolean actionChild(Action action) {
         if(!super.isMoving()) {
             if(!bJumping && !isDropping()) {
-                if(action==Action.JUMP && !getActionMap().isFree(this,getPosX(),getPosY(),getPosZ()-1)) {
+                if(action==Action.JUMP && !getActionMap().isFree(this,(int)getPosX(),(int)getPosY(),(int)getPosZ()-1)) {
                     Action a = getActionMap().startActionOnObject(this,action);
                     LOG.debug("Starting JUMP trying");
                     if(a!=null && a!=Action.NONE) {
@@ -119,7 +119,7 @@ public class LivingObject extends MovableObject {
         }
     }
 
-    public int getMovingPosZ() {
+    public float getMovingPosZ() {
         if(bJumping) {
             return super.getMovingPosZ()+(int)getJumpingProgress()-lastJumpingProgress;
         }else {

@@ -29,11 +29,11 @@ public class RoomObject implements Cloneable, MapObjectInterface {
     /** The block container which the block exist in */
     private IrregularBlockContainerInterface cont;
     /** The x position of the block */
-    private int posX;
+    private float posX;
     /** The y position of the block */
-    private int posY;
+    private float posY;
     /** The z position of the block */
-    private int posZ;
+    private float posZ;
     /** The game environment of the block */
     private GameEnvironmentInterface environment;
     /** The blocks in the room */
@@ -53,19 +53,19 @@ public class RoomObject implements Cloneable, MapObjectInterface {
         return cont;
     }
 
-    public int getPosX() {
+    public float getPosX() {
         return posX;
     }
 
-    public int getPosY() {
+    public float getPosY() {
         return posY;
     }
 
-    public int getPosZ() {
+    public float getPosZ() {
         return posZ;
     }
 
-    public void setPos(int x, int y, int z) {
+    public void setPos(float x, float y, float z) {
         this.posX = x;
         this.posY = y;
         this.posZ = z;

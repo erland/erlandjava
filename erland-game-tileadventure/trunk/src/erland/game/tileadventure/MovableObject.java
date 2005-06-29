@@ -64,9 +64,9 @@ public class MovableObject extends AnimatedObject implements GameObjectUpdateInt
 
     protected boolean isMovableChild(Direction direction) {
         if(!bMoving) {
-            int newX=getPosX();
-            int newY=getPosY();
-            int newZ=getPosZ();
+            float newX=getPosX();
+            float newY=getPosY();
+            float newZ=getPosZ();
             if(direction==Direction.WEST) {
                 newX--;
             }else if(direction==Direction.EAST) {
@@ -159,10 +159,10 @@ public class MovableObject extends AnimatedObject implements GameObjectUpdateInt
         return super.getDrawingPosY(dx+getMovingProgressX(),dy+getMovingProgressY(),dz+getMovingProgressZ());
     }
     public int getPixelPosX() {
-        return getContainer().getPositionX(getPosX(),getPosY(),getPosZ(),getMovingProgressX(),getMovingProgressY(),getMovingProgressZ());
+        return getContainer().getPositionX(getPosX()+getMovingProgressX(),getPosY()+getMovingProgressY(),getPosZ()+getMovingProgressZ());
     }
     public int getPixelPosY() {
-        return getContainer().getPositionY(getPosX(),getPosY(),getPosZ(),getMovingProgressX(),getMovingProgressY(),getMovingProgressZ());
+        return getContainer().getPositionY(getPosX()+getMovingProgressX(),getPosY()+getMovingProgressY(),getPosZ()+getMovingProgressZ());
     }
 
     public boolean isMoving() {
@@ -173,7 +173,7 @@ public class MovableObject extends AnimatedObject implements GameObjectUpdateInt
         return bDropping;
     }
 
-    public int getMovingPosX() {
+    public float getMovingPosX() {
         if(isMoving() && getMovingProgressX()!=0) {
             return (int)(getPosX()+getMovingProgressX()/Math.abs(getMovingProgressX()));
         }else {
@@ -181,7 +181,7 @@ public class MovableObject extends AnimatedObject implements GameObjectUpdateInt
         }
     }
 
-    public int getMovingPosY() {
+    public float getMovingPosY() {
         if(isMoving() && getMovingProgressY()!=0) {
             return (int)(getPosY()+getMovingProgressY()/Math.abs(getMovingProgressY()));
         }else {
@@ -189,7 +189,7 @@ public class MovableObject extends AnimatedObject implements GameObjectUpdateInt
         }
     }
 
-    public int getMovingPosZ() {
+    public float getMovingPosZ() {
         if(isMoving() && getMovingProgressZ()!=0) {
             return (int)(getPosZ()+getMovingProgressZ()/Math.abs(getMovingProgressZ()));
         }else {

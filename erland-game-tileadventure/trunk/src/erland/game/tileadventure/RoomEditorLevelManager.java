@@ -128,7 +128,7 @@ public class RoomEditorLevelManager extends LevelManager {
                     obj.setContainer(getContainer());
                     obj.read(objectParameters);
                     obj.setImage(getPaletteImage(), obj.getBlockType()-1);
-                    map.setObject(obj, obj.getPosX(), obj.getPosY(), obj.getPosZ());
+                    map.setObject(obj, (int)obj.getPosX(), (int)obj.getPosY(), (int)obj.getPosZ());
                 } else {
                     bEnd = true;
                 }

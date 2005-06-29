@@ -28,11 +28,11 @@ public abstract class GameObject implements Cloneable, MapObjectInterface {
     /** The block container which the block exist in */
     private IrregularBlockContainerInterface cont;
     /** The x position of the block */
-    private int posX;
+    private float posX;
     /** The y position of the block */
-    private int posY;
+    private float posY;
     /** The z position of the block */
-    private int posZ;
+    private float posZ;
     /** The game environment of the block */
     private GameEnvironmentInterface environment;
     /** The object map which the object lives in */
@@ -86,31 +86,31 @@ public abstract class GameObject implements Cloneable, MapObjectInterface {
         return actionMap;
     }
 
-    public int getPosX()
+    public float getPosX()
     {
         return posX;
     }
 
-    public int getPosY()
+    public float getPosY()
     {
         return posY;
     }
 
-    public int getPosZ() {
+    public float getPosZ() {
         return posZ;
     }
 
-    public int getMovingPosX()
+    public float getMovingPosX()
     {
         return getPosX();
     }
 
-    public int getMovingPosY()
+    public float getMovingPosY()
     {
         return getPosY();
     }
 
-    public int getMovingPosZ() {
+    public float getMovingPosZ() {
         return getPosZ();
     }
 
@@ -121,18 +121,18 @@ public abstract class GameObject implements Cloneable, MapObjectInterface {
         return getContainer().getPositionY(getPosX(),getPosY(),getPosZ());
     }
     public int getDrawingPosX(float dx,float dy, float dz) {
-        return getContainer().getDrawingPositionX(getPosX(),getPosY(),getPosZ(),dx,dy,dz);
+        return getContainer().getDrawingPositionX(getPosX()+dx,getPosY()+dy,getPosZ()+dz);
     }
 
     public int getDrawingPosY(float dx, float dy, float dz) {
-        return getContainer().getDrawingPositionY(getPosX(),getPosY(),getPosZ(),dx,dy,dz);
+        return getContainer().getDrawingPositionY(getPosX()+dx,getPosY()+dy,getPosZ()+dz);
     }
 
-    public void setPos(int x, int y, int z)
+    public void setPos(float x, float y, float z)
     {
         if(objectMap!=null) {
-            objectMap.removeObject(this,posX,posY,posZ);
-            objectMap.setObject(this,x,y,z);
+            objectMap.removeObject(this,(int)posX,(int)posY,(int)posZ);
+            objectMap.setObject(this,(int)x,(int)y,(int)z);
         }
         posX = x;
         posY = y;
@@ -164,9 +164,9 @@ public abstract class GameObject implements Cloneable, MapObjectInterface {
 	}
 
     public void write(ParameterValueStorageExInterface out) {
-        out.setParameter("x",Integer.toString(getPosX()));
-        out.setParameter("y",Integer.toString(getPosY()));
-        out.setParameter("z",Integer.toString(getPosZ()));
+        out.setParameter("x",Integer.toString((int)getPosX()));
+        out.setParameter("y",Integer.toString((int)getPosY()));
+        out.setParameter("z",Integer.toString((int)getPosZ()));
     }
 
     public void read(ParameterValueStorageExInterface in) {

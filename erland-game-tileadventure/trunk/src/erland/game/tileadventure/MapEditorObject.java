@@ -44,9 +44,9 @@ public class MapEditorObject extends BitmapObject {
 
     public void write(ParameterValueStorageExInterface out) {
         out.setParameter("type",String.valueOf(blockType));
-        out.setParameter("x",String.valueOf(getPosX()));
-        out.setParameter("y",String.valueOf(getPosY()));
-        out.setParameter("z",String.valueOf(getPosZ()));
+        out.setParameter("x",Integer.toString((int)getPosX()));
+        out.setParameter("y",Integer.toString((int)getPosY()));
+        out.setParameter("z",Integer.toString((int)getPosZ()));
     }
 
     public void read(ParameterValueStorageExInterface in) {
