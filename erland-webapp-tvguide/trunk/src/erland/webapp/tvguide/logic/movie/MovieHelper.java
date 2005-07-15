@@ -277,6 +277,38 @@ public class MovieHelper {
                     }
                 }
             }
+            // Nothing has matched, check if any half title matches
+            if(id==null) {
+                mSection = Pattern.compile("<ol>(.*?)</ol>").matcher(new StringBuffer(data));
+                while(id==null && mSection.find()) {
+                    String sectionData = mSection.group(1);
+                    m = Pattern.compile("href=\"/title/(.*?)/.*?>(.*?)</a>.*?\\((.*?)[^0-9]*\\)").matcher(new StringBuffer(sectionData));
+                    while(m.find()) {
+                        String currentTitle = m.group(2);
+                        Integer currentYear = StringUtil.asInteger(m.group(3),null);
+                        if(equalHalfNames(currentTitle,title)) {
+                            if(idYear==null||(!idYear.equals(requestedYear) && currentYear!=null && (currentYear.equals(requestedYear) || idYear.compareTo(currentYear)<0))) {
+                                id = m.group(1);
+                                idYear=currentYear;
+                            }
+                        }
+                    }
+                    m = Pattern.compile("href=\"/title/(.*?)/.*?</a>.*?\\((.*?)[^0-9]*\\).*?(<br>)*(.*?)</li>").matcher(new StringBuffer(sectionData));
+                    while(m.find()) {
+                        Matcher m2 = Pattern.compile("<em>\"(.*?)\"<").matcher(new StringBuffer(m.group(4)));
+                        while(m2.find()) {
+                            String akaTitle = m2.group(1);
+                            Integer currentYear = StringUtil.asInteger(m.group(2),null);
+                            if(equalHalfNames(akaTitle,title)) {
+                                if(idYear==null||(!idYear.equals(requestedYear) && currentYear!=null && (currentYear.equals(requestedYear) || idYear.compareTo(currentYear)<0))) {
+                                    idYear = currentYear;
+                                    id = m.group(1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             return getTitlePage(id);
         }
         return null;
@@ -318,6 +350,18 @@ public class MovieHelper {
         }
         return null;
     }
+    private static boolean equalHalfNames(String title1, String title2) {
+        int pos = title1.indexOf(':');
+        if(pos>0 && pos<title1.length()-1) {
+            System.out.println("Compare "+title1.substring(pos+1)+" with "+title2);
+            if(title1.substring(pos+1).trim().equalsIgnoreCase(title2)) {
+                return true;
+            }else if(title1.substring(0,pos).trim().equalsIgnoreCase(title2)) {
+                return true;
+            }
+        }
+        return false;
+    }
     private static boolean equalNames(String title1, String title2) {
         if(title1!=null && title2!=null) {
             title1 = title1.toLowerCase();
@@ -327,12 +371,16 @@ public class MovieHelper {
             }else {
                 title1 = title1.replaceAll(": "," ");
                 title1 = title1.replaceAll("- "," ");
+                title1 = title1.replaceAll("\\."," ");
                 title1 = title1.replaceAll("  "," ");
                 title1 = title1.replaceAll("  "," ");
+                title1 = title1.trim();
                 title2 = title2.replaceAll(": "," ");
                 title2 = title2.replaceAll("- "," ");
+                title2 = title2.replaceAll("\\."," ");
                 title2 = title2.replaceAll("  "," ");
                 title2 = title2.replaceAll("  "," ");
+                title2 = title2.trim();
                 if(title1.equalsIgnoreCase(title2)) {
                     return true;
                 }
