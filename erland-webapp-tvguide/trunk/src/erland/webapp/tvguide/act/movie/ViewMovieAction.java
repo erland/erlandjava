@@ -37,6 +37,10 @@ public class ViewMovieAction extends BaseAction {
         Movie template = (Movie) getEnvironment().getEntityFactory().create("tvguide-movie");
         template.setTitle(fb.getTitle().toLowerCase());
         Movie movie = (Movie) getEnvironment().getEntityStorageFactory().getStorage("tvguide-movie").load(template);
-        PropertyUtils.copyProperties(fb, movie);
+        if(movie!=null) {
+            PropertyUtils.copyProperties(fb, movie);
+        }else {
+            PropertyUtils.copyProperties(fb, template);
+        }
     }
 }
