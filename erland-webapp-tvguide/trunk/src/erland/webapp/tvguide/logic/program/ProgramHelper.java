@@ -368,7 +368,7 @@ public class ProgramHelper {
                 parameters.put("programName",programsPB[i].getName());
                 programsPB[i].setCoverLink(ServletParameterHelper.replaceDynamicParameters(coverForward.getPath(),parameters));
             }
-            if(updateReviewForward!=null && StringUtil.asNull(programsPB[i].getReviewLink())!=null) {
+            if(updateReviewForward!=null && ch.getReviewAvailable().booleanValue()) {
                 parameters.put("programName",programsPB[i].getName());
                 programsPB[i].setUpdateReviewLink(ServletParameterHelper.replaceDynamicParameters(updateReviewForward.getPath(),parameters));
             }
@@ -419,7 +419,7 @@ public class ProgramHelper {
                         parameters.put("programName",programPB.getName());
                         programPB.setCoverLink(ServletParameterHelper.replaceDynamicParameters(coverForward.getPath(),parameters));
                     }
-                    if(updateReviewForward!=null && StringUtil.asNull(programPB.getReviewLink())!=null) {
+                    if(updateReviewForward!=null && ch.getReviewAvailable().booleanValue()) {
                         parameters.put("programName",programPB.getName());
                         programPB.setUpdateReviewLink(ServletParameterHelper.replaceDynamicParameters(updateReviewForward.getPath(),parameters));
                     }
@@ -485,7 +485,7 @@ public class ProgramHelper {
                     parameters.put("programName",programPB.getName());
                     programPB.setCoverLink(ServletParameterHelper.replaceDynamicParameters(coverForward.getPath(),parameters));
                 }
-                if(updateReviewForward!=null && StringUtil.asNull(programPB.getReviewLink())!=null) {
+                if(updateReviewForward!=null && ch.getReviewAvailable().booleanValue()) {
                     parameters.put("programName",programPB.getName());
                     programPB.setUpdateReviewLink(ServletParameterHelper.replaceDynamicParameters(updateReviewForward.getPath(),parameters));
                 }
