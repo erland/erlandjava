@@ -28,6 +28,7 @@ import erland.webapp.tvguide.fb.channel.ChannelFB;
 import erland.webapp.tvguide.fb.movie.MovieFB;
 import erland.webapp.tvguide.logic.movie.MovieHelper;
 import erland.webapp.tvguide.logic.program.ProgramHelper;
+import erland.util.StringUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -42,12 +43,22 @@ public class EditMovieAction extends BaseAction {
         MovieFB fb = (MovieFB) form;
 
         Movie movie = MovieHelper.getMovie(getEnvironment(),fb.getTitle());
-        String reviewLink = movie.getLink();
+        String reviewLink = null;
+        if(movie!=null) {
+            reviewLink = movie.getLink();
+        }
         MovieHelper.refreshMovie(getEnvironment(),fb.getTitle(),fb.getLink());
         Movie movieUpdated = MovieHelper.getMovie(getEnvironment(),fb.getTitle());
 
-        QueryFilter filter = new QueryFilter("allforreviewlink");
-        filter.setAttribute("reviewlink",reviewLink);
+        QueryFilter filter;
+        if(StringUtil.asNull(reviewLink)!=null) {
+            filter = new QueryFilter("allforreviewlinkandname");
+            filter.setAttribute("reviewlink",reviewLink);
+            filter.setAttribute("name",fb.getTitle());
+        }else {
+            filter = new QueryFilter("allforname");
+            filter.setAttribute("name",fb.getTitle());
+        }
         Program program = (Program) getEnvironment().getEntityFactory().create("tvguide-program");
         if(movieUpdated!=null) {
             program.setReview(movieUpdated.getReview());
