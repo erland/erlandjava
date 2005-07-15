@@ -230,11 +230,24 @@
                     </field>
                 </fields>
             </query>
-            <query id="allforreviewlink">
-                <querystring>reviewlink=?</querystring>
+            <query id="allforreviewlinkandname">
+                <querystring>reviewlink=? and lcase(name)=lcase(?)</querystring>
                 <fields>
                     <field id="1">
                         <field>reviewlink</field>
+                        <type>String</type>
+                    </field>
+                    <field id="2">
+                        <field>name</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforname">
+                <querystring>lcase(name)=lcase(?)</querystring>
+                <fields>
+                    <field id="1">
+                        <field>name</field>
                         <type>String</type>
                     </field>
                 </fields>
