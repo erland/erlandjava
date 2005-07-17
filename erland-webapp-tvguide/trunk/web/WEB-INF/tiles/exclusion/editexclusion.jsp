@@ -15,6 +15,12 @@
     <tr><td><bean:message key="tvguide.exclusion.edit.name"/></td><td>
     <html:text property="name"/>
     </td></tr>
+    <tr><td><bean:message key="tvguide.exclusion.edit.type"/></td><td>
+        <html:select property="typeDisplay" size="1">
+            <html:option value="0" key="tvguide.exclusion.edit.type.0"/>
+            <html:option value="1" key="tvguide.exclusion.edit.type.1"/>
+        </html:select>
+    </td></tr>
     <tr><td><bean:message key="tvguide.exclusion.edit.pattern"/></td><td>
     <html:text property="pattern"/>
     </td></tr>
