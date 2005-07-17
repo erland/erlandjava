@@ -57,12 +57,11 @@ public class SearchProgramsAction extends BaseAction {
         if(username==null) {
             username = fb.getUser();
         }
-        ActionForward forward = mapping.findForward("add-subscription-link");
-
         ProgramCollectionPB pb = new ProgramCollectionPB();
-        pb.setPrograms(ProgramHelper.getAllPrograms(getEnvironment(),username,fb.getDate(),fb.getDayOffset(),forward,mapping.findForward("cover-link"),mapping.findForward("update-review-link")));
+        pb.setPrograms(getPrograms(mapping,username,fb,request));
         Map parameters = new HashMap();
         parameters.put("user",username);
+        parameters.put("name",fb.getName());
         Date date = new Date();
         if(fb.getDate()!=null) {
             date = fb.getDate();
@@ -71,7 +70,7 @@ public class SearchProgramsAction extends BaseAction {
 
         Calendar cal = Calendar.getInstance();
 
-        forward = mapping.findForward("current-view-link");
+        ActionForward forward = mapping.findForward("current-view-link");
         if(forward!=null) {
             pb.setCurrentDate(date);
             pb.setCurrentLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
@@ -92,7 +91,14 @@ public class SearchProgramsAction extends BaseAction {
             parameters.put("date",StringUtil.asString(cal.getTime(),null));
             pb.setPrevLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
         }
-
+        pb.setTitle(getSearchTitle(fb));
         request.setAttribute("programsPB",pb);
+    }
+    protected ProgramPB[] getPrograms(ActionMapping mapping,String username, SearchProgramFB fb,HttpServletRequest request) {
+        ActionForward forward = mapping.findForward("add-subscription-link");
+        return ProgramHelper.getAllProgramsForDate(getEnvironment(),username,fb.getDate(),fb.getDayOffset(),null,null,forward,mapping.findForward("cover-link"),mapping.findForward("update-review-link"),mapping.findForward("searchbyname-link"),mapping.findForward("searchbycredit-link"));
+    }
+    protected String getSearchTitle(SearchProgramFB fb) {
+        return null;
     }
 }

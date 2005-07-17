@@ -62,9 +62,9 @@ public class SearchMinReviewProgramsAction extends BaseAction {
 
         ProgramCollectionPB pb = new ProgramCollectionPB();
         if(fb.getDate()!=null) {
-            pb.setPrograms(ProgramHelper.getProgramsWithMinReview(getEnvironment(),username, fb.getDate(),1,minReview,false,mapping.findForward("add-subscription-link"),mapping.findForward("add-exclusion-link"),mapping.findForward("cover-link"),mapping.findForward("update-review-link")));
+            pb.setPrograms(ProgramHelper.getProgramsWithMinReview(getEnvironment(),username, fb.getDate(),1,minReview,false,mapping.findForward("add-subscription-link"),mapping.findForward("add-exclusion-link"),mapping.findForward("cover-link"),mapping.findForward("update-review-link"),mapping.findForward("searchbyname-link"),mapping.findForward("searchbycredit-link")));
         }else {
-            pb.setPrograms(ProgramHelper.getProgramsWithMinReview(getEnvironment(),username, new Date(), 1, minReview, false,mapping.findForward("add-subscription-link"),mapping.findForward("add-exclusion-link"),mapping.findForward("cover-link"),mapping.findForward("update-review-link")));
+            pb.setPrograms(ProgramHelper.getProgramsWithMinReview(getEnvironment(),username, new Date(), 1, minReview, false,mapping.findForward("add-subscription-link"),mapping.findForward("add-exclusion-link"),mapping.findForward("cover-link"),mapping.findForward("update-review-link"),mapping.findForward("searchbyname-link"),mapping.findForward("searchbycredit-link")));
         }
         Map parameters = new HashMap();
         parameters.put("user", username);

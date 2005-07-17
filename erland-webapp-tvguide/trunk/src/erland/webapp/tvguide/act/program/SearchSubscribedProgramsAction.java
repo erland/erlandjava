@@ -59,9 +59,9 @@ public class SearchSubscribedProgramsAction extends BaseAction {
 
         ProgramCollectionPB pb = new ProgramCollectionPB();
         if(fb.getDate()!=null) {
-            pb.setPrograms(ProgramHelper.getSubscribedPrograms(getEnvironment(),username, fb.getDate(),mapping.findForward("view-subscription-link"),mapping.findForward("cover-link"),mapping.findForward("update-review-link")));
+            pb.setPrograms(ProgramHelper.getSubscribedPrograms(getEnvironment(),username, fb.getDate(),mapping.findForward("view-subscription-link"),mapping.findForward("cover-link"),mapping.findForward("update-review-link"),mapping.findForward("add-exclusion-link"),mapping.findForward("searchbyname-link"),mapping.findForward("searchbycredit-link")));
         }else {
-            pb.setPrograms(ProgramHelper.getSubscribedPrograms(getEnvironment(),username, new Date(), mapping.findForward("view-subscription-link"),mapping.findForward("cover-link"),mapping.findForward("update-review-link")));
+            pb.setPrograms(ProgramHelper.getSubscribedPrograms(getEnvironment(),username, new Date(), mapping.findForward("view-subscription-link"),mapping.findForward("cover-link"),mapping.findForward("update-review-link"),mapping.findForward("add-exclusion-link"),mapping.findForward("searchbyname-link"),mapping.findForward("searchbycredit-link")));
         }
         Map parameters = new HashMap();
         parameters.put("user", username);

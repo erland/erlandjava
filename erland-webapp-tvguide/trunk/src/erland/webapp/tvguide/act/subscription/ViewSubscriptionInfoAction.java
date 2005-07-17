@@ -66,12 +66,20 @@ public class ViewSubscriptionInfoAction extends BaseAction{
             pb.setRemoveLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
         }
 
+        forward = mapping.findForward("removeandexclude-subscription-link");
+        if(forward!=null) {
+            pb.setRemoveAndExcludeLink(ServletParameterHelper.replaceDynamicParameters(forward.getPath(),parameters));
+        }
+
         String username = request.getRemoteUser();
         if(username==null) {
             username = fb.getUser();
         }
-
-        pb.setPrograms(ProgramHelper.getSubscriptionPrograms(getEnvironment(),username,subscription,mapping.findForward("cover-link"),mapping.findForward("update-review-link")));
+        ActionForward newExclusionForward = null;
+        if(subscription.getType().equals(Subscription.TYPE_CREDITNAME)) {
+            newExclusionForward = mapping.findForward("add-exclusion-link");
+        }
+        pb.setPrograms(ProgramHelper.getSubscriptionPrograms(getEnvironment(),username,subscription,mapping.findForward("cover-link"),mapping.findForward("update-review-link"),newExclusionForward,mapping.findForward("searchbyname-link"),mapping.findForward("searchbycredit-link")));
         request.setAttribute("subscriptionPB",pb);
     }
 }

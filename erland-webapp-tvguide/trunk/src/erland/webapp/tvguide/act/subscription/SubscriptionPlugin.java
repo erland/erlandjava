@@ -129,10 +129,10 @@ public class SubscriptionPlugin extends BaseTaskPlugin {
                                     InternetAddress from = new InternetAddress(smtpFrom);
                                     InternetAddress to = new InternetAddress(user.getMail());
 
-                                    ProgramPB[] programsPB = ProgramHelper.getSubscribedPrograms(getEnvironment(), account.getUsername(), new Date(), null,null,null);
+                                    ProgramPB[] programsPB = ProgramHelper.getSubscribedPrograms(getEnvironment(), account.getUsername(), new Date(), null,null,null,null,null,null);
                                     ProgramPB[] tipsProgramsPB = new ProgramPB[0];
                                     if(account.getIncludeTips()!=null && account.getIncludeTips().booleanValue()) {
-                                        tipsProgramsPB = ProgramHelper.getProgramsWithMinReview(getEnvironment(),account.getUsername(),new Date(), 2,account.getMinTipsReview(),true, null,null,null,null);
+                                        tipsProgramsPB = ProgramHelper.getProgramsWithMinReview(getEnvironment(),account.getUsername(),new Date(), 2,account.getMinTipsReview(),true, null,null,null,null,null,null);
                                     }
                                     if (programsPB.length > 0 || tipsProgramsPB.length>0) {
                                         Message msg = new MimeMessage(session);
@@ -179,7 +179,7 @@ public class SubscriptionPlugin extends BaseTaskPlugin {
                         for (int i = 0; i < entities.length; i++) {
                             UserAccount account = (UserAccount) entities[i];
                             if (StringUtil.asNull(account.getJabberId()) != null && account.getJabberNotification() != null && account.getJabberNotification().booleanValue()) {
-                                ProgramPB[] programsPB = ProgramHelper.getSubscribedPrograms(getEnvironment(), account.getUsername(), new Date(), null,null,null);
+                                ProgramPB[] programsPB = ProgramHelper.getSubscribedPrograms(getEnvironment(), account.getUsername(), new Date(), null,null,null,null,null,null);
                                 Date soon = new Date();
                                 Calendar c = Calendar.getInstance();
                                 c.add(Calendar.MINUTE, 10);
