@@ -149,6 +149,13 @@
         <put name="body" value="/WEB-INF/tiles/exclusion/viewexclusions.jsp"/>
     </definition>
 
+    <definition name=".user.editsearchprograms" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/program/searchprograms.jsp"/>
+    </definition>
+    <definition name=".guest.editsearchprograms" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/program/guestsearchprograms.jsp"/>
+    </definition>
+
     <definition name=".mainSkinLayout" path="/WEB-INF/tiles/skin/layout.jsp">
         <put name="title" value="TV-Guide"/>
         <put name="header" value="/WEB-INF/tiles/skin/header.jsp"/>
