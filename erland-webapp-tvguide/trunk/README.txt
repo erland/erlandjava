@@ -84,6 +84,7 @@ Data scripts:
   Setup the subject to use in daily mails
   Setup the time when daily mails should be sent
   Setup the directory where cover scans for reviewed movies are stored (You might want to change this)
+  Setup the directory where thumbnails of cover scans for reviewed movies are stored (You might want to change this)
 - users_data.sql
   Create a user with username "test" and password "test" and configure it with roles "user" and "manager"
 - tvguide_data.sql
