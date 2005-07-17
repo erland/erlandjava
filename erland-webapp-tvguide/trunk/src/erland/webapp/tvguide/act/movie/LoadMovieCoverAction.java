@@ -7,8 +7,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.common.image.ImageWriteHelper;
+import erland.webapp.common.image.CopyrightCreatorInterface;
+import erland.webapp.common.image.ImageThumbnail;
 import erland.webapp.tvguide.entity.movie.Movie;
-import erland.webapp.tvguide.fb.movie.SelectMovieFB;
+import erland.webapp.tvguide.fb.movie.SelectMovieCoverFB;
 import erland.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,10 +40,17 @@ public class LoadMovieCoverAction extends BaseAction {
     /** Logging instance */
     private static Log LOG = LogFactory.getLog(LoadMovieCoverAction.class);
     private final static String IMAGE_FILE = LoadMovieCoverAction.class+"-imageFile";
+    private final static String SIZE = LoadMovieCoverAction.class+"-size";
+    private final static Integer DEFAULT_SIZE = new Integer(100);
 
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        SelectMovieFB fb = (SelectMovieFB) form;
+        SelectMovieCoverFB fb = (SelectMovieCoverFB) form;
         String cacheDir = StringUtil.asNull(getEnvironment().getConfigurableResources().getParameter("cover.cache"));
+        if(fb.getSize()!=null && fb.getSize().intValue()>0) {
+            setSize(request,fb.getSize());
+        }else {
+            setSize(request,DEFAULT_SIZE);
+        }
         if(cacheDir!=null) {
             setImageFile(request,cacheDir+"/"+fb.getId().toLowerCase().replaceAll(":","-").replaceAll("/"," ")+".jpg");
         }
@@ -55,10 +64,17 @@ public class LoadMovieCoverAction extends BaseAction {
         return (String)request.getAttribute(IMAGE_FILE);
     }
 
+    protected void setSize(HttpServletRequest request, Integer size) {
+        request.setAttribute(SIZE,size);
+    }
+    public Integer getSize(HttpServletRequest request) {
+        return (Integer)request.getAttribute(SIZE);
+    }
     protected ActionForward findSuccess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         try {
             response.setContentType("image/jpeg");
-            if (!ImageWriteHelper.writeImage(getEnvironment(), getImageFile(request), response.getOutputStream())) {
+            if(!ImageWriteHelper.writeThumbnail(getEnvironment(),getSize(request),getSize(request),Boolean.TRUE,null,"",getImageFile(request),(CopyrightCreatorInterface)null,new ImageThumbnail(),response.getOutputStream())) {
+            //if (!ImageWriteHelper.writeImage(getEnvironment(), getImageFile(request), response.getOutputStream())) {
                 return findFailure(mapping,form,request,response);
             }
         } catch (IOException e) {
