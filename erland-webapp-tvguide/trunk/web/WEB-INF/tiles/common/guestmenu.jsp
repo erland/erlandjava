@@ -9,6 +9,7 @@
     <erland-common:menuitem id="subscribed" titleKey="tvguide.menu.subscribed" page="/do/guest/menu?user={user}&menuItemId={menuItemId}" />
     <erland-common:menuitem id="minreview" titleKey="tvguide.menu.minreview" page="/do/guest/menu?user={user}&menuItemId={menuItemId}" />
     <erland-common:menuitem id="reviewed" titleKey="tvguide.menu.reviewed" page="/do/guest/menu?user={user}&menuItemId={menuItemId}" />
+    <erland-common:menuitem id="searchprograms" titleKey="tvguide.menu.searchprograms" page="/do/guest/menu?user={user}&menuItemId={menuItemId}" />
     <erland-common:menuitemseparator id="separator1" />
     <erland-common:menuitem id="subscriptions" titleKey="tvguide.menu.subscriptions" page="/do/guest/menu?user={user}&menuItemId={menuItemId}" />
     <erland-common:beanmenuitem bean="menuFavoriteChannelsPB" id="idDisplay" title="name" page="path" />
