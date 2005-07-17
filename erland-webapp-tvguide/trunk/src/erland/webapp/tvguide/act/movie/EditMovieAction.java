@@ -63,9 +63,11 @@ public class EditMovieAction extends BaseAction {
         if(movieUpdated!=null) {
             program.setReview(movieUpdated.getReview());
             program.setReviewLink(movieUpdated.getLink());
+            program.setCategory(movieUpdated.getCategory());
         }else {
             program.setReview(new Integer(0));
             program.setReviewLink("");
+            program.setCategory("");
         }
         getEnvironment().getEntityStorageFactory().getStorage("tvguide-program").update(filter,program);
     }
