@@ -27,10 +27,12 @@ import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.tvguide.entity.channel.Channel;
 import erland.webapp.tvguide.entity.favorite.Favorite;
 import erland.webapp.tvguide.entity.movie.Movie;
+import erland.webapp.tvguide.entity.movie.MovieCredit;
 import erland.webapp.tvguide.entity.program.Program;
 import erland.webapp.tvguide.entity.subscription.Subscription;
 import erland.webapp.tvguide.entity.exclusion.Exclusion;
 import erland.webapp.tvguide.fb.program.ProgramPB;
+import erland.webapp.tvguide.fb.program.CreditPB;
 import erland.webapp.tvguide.logic.movie.MovieHelper;
 import erland.webapp.tvguide.logic.service.ServiceHelper;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -107,12 +109,14 @@ public class ProgramHelper {
                                     Movie movie = MovieHelper.getMovie(environment,title,year);
                                     program.setReview(movie.getReview());
                                     program.setReviewLink(movie.getLink());
+                                    program.setCategory(movie.getCategory());
                                     if(LOG.isDebugEnabled()) {
                                         LOG.debug("Setting up review for: "+program.getName()+"="+program.getReview()+" id:"+program.getReviewLink());
                                     }
                                 }else {
                                     program.setReview(null);
                                     program.setReviewLink(null);
+                                    program.setCategory(null);
                                     if(LOG.isDebugEnabled()) {
                                         LOG.debug("Setting up review for: "+program.getName()+"=N/A");
                                     }
@@ -132,12 +136,14 @@ public class ProgramHelper {
                                     Movie movie = MovieHelper.getMovie(environment,title,year);
                                     program.setReview(movie.getReview());
                                     program.setReviewLink(movie.getLink());
+                                    program.setCategory(movie.getCategory());
                                     if(LOG.isDebugEnabled()) {
                                         LOG.debug("Setting up review for: "+program.getName()+"="+program.getReview()+" id:"+program.getReviewLink());
                                     }
                                 }else {
                                     program.setReview(null);
                                     program.setReviewLink(null);
+                                    program.setCategory(null);
                                     if(LOG.isDebugEnabled()) {
                                         LOG.debug("Setting up review for: "+program.getName()+"=N/A");
                                     }
@@ -206,39 +212,41 @@ public class ProgramHelper {
         }
         return channelMap;
     }
-    public static ProgramPB[] getSubscribedPrograms(WebAppEnvironmentInterface environment, String username, ActionForward viewForward, ActionForward coverForward, ActionForward updateReviewForward) {
+    public static ProgramPB[] getSubscribedPrograms(WebAppEnvironmentInterface environment, String username, ActionForward viewForward, ActionForward coverForward, ActionForward updateReviewForward, ActionForward newExclusionForward, ActionForward searchByNameForward, ActionForward searchByCreditForward) {
         Collection channels = getFavoriteChannels(environment,username);
         if(channels.size()>0) {
             loadPrograms(environment,false);
             Map channelMap = getChannelMap(environment, channels);
             Collection subscriptions = getSubscriptions(environment,username);
+            Collection exclusions = getExclusions(environment,username);
             if(subscriptions.size()>0) {
                 Date date = new Date();
 
                 QueryFilter filter = new QueryFilter("allinlistaftertime");
                 filter.setAttribute("channel", channels);
-                return getSubscribedPrograms(environment,username,filter,subscriptions,channelMap,date, viewForward, coverForward, updateReviewForward);
+                return getSubscribedPrograms(environment,username,filter,subscriptions,exclusions,channelMap,date, viewForward, coverForward, updateReviewForward, newExclusionForward,searchByNameForward, searchByCreditForward);
             }
         }
         return new ProgramPB[0];
     }
 
-    public static ProgramPB[] getSubscribedPrograms(WebAppEnvironmentInterface environment, String username, Date date, ActionForward viewForward, ActionForward coverForward, ActionForward updateReviewForward) {
+    public static ProgramPB[] getSubscribedPrograms(WebAppEnvironmentInterface environment, String username, Date date, ActionForward viewForward, ActionForward coverForward, ActionForward updateReviewForward, ActionForward newExclusionForward, ActionForward searchByNameForward, ActionForward searchByCreditForward) {
         Collection channels = getFavoriteChannels(environment,username);
         if(channels.size()>0) {
             loadPrograms(environment,false);
             Map channelMap = getChannelMap(environment, channels);
             Collection subscriptions = getSubscriptions(environment,username);
+            Collection exclusions = getExclusions(environment,username);
             if(subscriptions.size()>0) {
                 QueryFilter filter = new QueryFilter("allinlistfortwodatesaftertime");
                 filter.setAttribute("channel", channels);
-                return getSubscribedPrograms(environment,username,filter,subscriptions,channelMap,date, viewForward, coverForward, updateReviewForward);
+                return getSubscribedPrograms(environment,username,filter,subscriptions,exclusions,channelMap,date, viewForward, coverForward, updateReviewForward, newExclusionForward,searchByNameForward, searchByCreditForward);
             }
         }
         return new ProgramPB[0];
     }
 
-    public static ProgramPB[] getProgramsWithMinReview(WebAppEnvironmentInterface environment, String username, Date date, int noOfDays, Integer minReview, boolean excludeSubscriptions, ActionForward subscriptionForward,ActionForward exclusionForward, ActionForward coverForward, ActionForward updateReviewForward) {
+    public static ProgramPB[] getProgramsWithMinReview(WebAppEnvironmentInterface environment, String username, Date date, int noOfDays, Integer minReview, boolean excludeSubscriptions, ActionForward subscriptionForward,ActionForward exclusionForward, ActionForward coverForward, ActionForward updateReviewForward, ActionForward searchByNameForward, ActionForward searchByCreditForward) {
         Collection channels = getFavoriteChannels(environment,username);
         if(channels.size()>0) {
             loadPrograms(environment,false);
@@ -252,12 +260,12 @@ public class ProgramHelper {
             filter.setAttribute("channel", channels);
             filter.setAttribute("review",minReview);
             filter.setAttribute("numberofdays",new Integer(noOfDays));
-            return getPrograms(environment,username,filter,channelMap,exclusions,date, subscriptionForward,exclusionForward,coverForward,updateReviewForward);
+            return getPrograms(environment,username,filter,channelMap,exclusions,date, subscriptionForward,exclusionForward,coverForward,updateReviewForward,searchByNameForward, searchByCreditForward);
         }
         return new ProgramPB[0];
     }
 
-    public static ProgramPB[] getProgramsWithMinReview(WebAppEnvironmentInterface environment, String username, Integer minReview, boolean excludeSubscriptions, ActionForward subscriptionForward,ActionForward exclusionForward, ActionForward coverForward, ActionForward updateReviewForward) {
+    public static ProgramPB[] getProgramsWithMinReview(WebAppEnvironmentInterface environment, String username, Integer minReview, boolean excludeSubscriptions, ActionForward subscriptionForward,ActionForward exclusionForward, ActionForward coverForward, ActionForward updateReviewForward, ActionForward searchByNameForward, ActionForward searchByCreditForward) {
         Collection channels = getFavoriteChannels(environment,username);
         if(channels.size()>0) {
             loadPrograms(environment,false);
@@ -271,29 +279,30 @@ public class ProgramHelper {
             QueryFilter filter = new QueryFilter("allinlistaftertimewithreview");
             filter.setAttribute("channel", channels);
             filter.setAttribute("review",minReview);
-            return getPrograms(environment,username,filter,channelMap,exclusions,date, subscriptionForward,exclusionForward,coverForward, updateReviewForward);
+            return getPrograms(environment,username,filter,channelMap,exclusions,date, subscriptionForward,exclusionForward,coverForward, updateReviewForward,searchByNameForward, searchByCreditForward);
         }
         return new ProgramPB[0];
     }
 
-    public static ProgramPB[] getSubscriptionPrograms(WebAppEnvironmentInterface environment, String username, Subscription subscription, ActionForward coverForward, ActionForward updateReviewForward) {
+    public static ProgramPB[] getSubscriptionPrograms(WebAppEnvironmentInterface environment, String username, Subscription subscription, ActionForward coverForward, ActionForward updateReviewForward, ActionForward newExclusionForward, ActionForward searchByNameForward, ActionForward searchByCreditForward) {
         Collection channels = getFavoriteChannels(environment,username);
         if(channels.size()>0) {
             loadPrograms(environment,false);
             Map channelMap = getChannelMap(environment, channels);
             Collection subscriptions = new ArrayList();
             subscriptions.add(subscription);
+            Collection exclusions = getExclusions(environment,username);
 
             Date date = new Date();
 
             QueryFilter filter = new QueryFilter("allinlistaftertime");
             filter.setAttribute("channel", channels);
-            return getSubscribedPrograms(environment,username,filter,subscriptions,channelMap,date, null, coverForward, updateReviewForward);
+            return getSubscribedPrograms(environment,username,filter,subscriptions,exclusions,channelMap,date, null, coverForward, updateReviewForward,newExclusionForward,searchByNameForward, searchByCreditForward);
         }
         return new ProgramPB[0];
     }
 
-    public static ProgramPB[] getAllPrograms(WebAppEnvironmentInterface environment, String username, Date date, Integer dateOffset, ActionForward subscriptionForward, ActionForward coverForward, ActionForward updateReviewForward) {
+    public static ProgramPB[] getAllProgramsForDate(WebAppEnvironmentInterface environment, String username, Date date, Integer dateOffset, String namePattern, String creditPattern, ActionForward subscriptionForward, ActionForward coverForward, ActionForward updateReviewForward, ActionForward searchByNameForward, ActionForward searchByCreditForward) {
 
         Collection channels = getFavoriteChannels(environment,username);
         if(channels.size()>0) {
@@ -302,21 +311,35 @@ public class ProgramHelper {
 
             QueryFilter filter = new QueryFilter("allinlistfordateaftertime");
             filter.setAttribute("channel",channels);
-            return getAllPrograms(environment,username,filter,channelMap,date,dateOffset,subscriptionForward, coverForward, updateReviewForward);
+            return getAllPrograms(environment,username,filter,channelMap,date,dateOffset,namePattern,creditPattern, subscriptionForward, coverForward, updateReviewForward,searchByNameForward, searchByCreditForward);
         }
         return new ProgramPB[0];
     }
 
-    public static ProgramPB[] getChannelPrograms(WebAppEnvironmentInterface environment, String username, Channel channel, Date date, ActionForward newSubscriptionForward, ActionForward coverForward, ActionForward updateReviewForward) {
+    public static ProgramPB[] getAllProgramsAfterTime(WebAppEnvironmentInterface environment, String username, Date date, Integer dateOffset, String namePattern, String creditPattern, ActionForward subscriptionForward, ActionForward coverForward, ActionForward updateReviewForward, ActionForward searchByNameForward, ActionForward searchByCreditForward) {
+
+        Collection channels = getFavoriteChannels(environment,username);
+        if(channels.size()>0) {
+            loadPrograms(environment,false);
+            Map channelMap = getChannelMap(environment, channels);
+
+            QueryFilter filter = new QueryFilter("allinlistaftertime");
+            filter.setAttribute("channel",channels);
+            return getAllPrograms(environment,username,filter,channelMap,date,dateOffset,namePattern,creditPattern,subscriptionForward, coverForward, updateReviewForward,searchByNameForward, searchByCreditForward);
+        }
+        return new ProgramPB[0];
+    }
+
+    public static ProgramPB[] getChannelPrograms(WebAppEnvironmentInterface environment, String username, Channel channel, Date date, ActionForward newSubscriptionForward, ActionForward coverForward, ActionForward updateReviewForward, ActionForward searchByNameForward, ActionForward searchByCreditForward) {
         loadPrograms(environment,false);
         Map channelMap = new HashMap();
         channelMap.put(channel.getId(),channel);
         QueryFilter filter = new QueryFilter("allforchannelanddateaftertime");
         filter.setAttribute("channel",channel.getId());
-        return getAllPrograms(environment,username,filter,channelMap,date,null,newSubscriptionForward,coverForward,updateReviewForward);
+        return getAllPrograms(environment,username,filter,channelMap,date,null,null,null,newSubscriptionForward,coverForward,updateReviewForward,searchByNameForward, searchByCreditForward);
     }
 
-    private static ProgramPB[] getAllPrograms(WebAppEnvironmentInterface environment, String username, QueryFilter filter, Map channelMap, Date date, Integer dateOffset, ActionForward newSubscriptionForward, ActionForward coverForward, ActionForward updateReviewForward) {
+    private static ProgramPB[] getAllPrograms(WebAppEnvironmentInterface environment, String username, QueryFilter filter, Map channelMap, Date date, Integer dateOffset, String namePattern, String creditPattern, ActionForward newSubscriptionForward, ActionForward coverForward, ActionForward updateReviewForward, ActionForward searchByNameForward, ActionForward searchByCreditForward) {
         Date currentDate = new Date();
         if(date==null) {
             date = currentDate;
@@ -333,50 +356,73 @@ public class ProgramHelper {
 
         filter.setAttribute("time",date);
         EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("tvguide-program").search(filter);
-        ProgramPB[] programsPB = new ProgramPB[entities.length];
+        Collection programCollection = new ArrayList();
         Map parameters = new HashMap();
         parameters.put("user",username);
         for (int i = 0; i < entities.length; i++) {
             Program entity = (Program) entities[i];
-            programsPB[i] = new ProgramPB();
-            try {
-                PropertyUtils.copyProperties(programsPB[i],entity);
-            } catch (IllegalAccessException e) {
-            } catch (InvocationTargetException e) {
-            } catch (NoSuchMethodException e) {
+            boolean creditMatches = false;
+            if(entity.getReviewLink()!=null && creditPattern!=null) {
+                MovieCredit[] credits = MovieHelper.getMovieCredits(environment,entity.getName());
+                for (int j = 0; j < credits.length; j++) {
+                    MovieCredit credit = credits[j];
+                    if(credit.getName().matches(creditPattern)) {
+                        creditMatches = true;
+                        break;
+                    }
+                }
             }
-            Channel ch = (Channel) channelMap.get(entity.getChannel());
-            programsPB[i].setChannelName(ch.getName());
-            programsPB[i].setChannelLogo(ch.getLogo());
-            programsPB[i].setChannelLink(ch.getLink());
+            if((namePattern==null && creditPattern==null) ||
+                (creditPattern==null && entity.getName().matches(namePattern)) ||
+                (namePattern==null && creditMatches) ||
+                (creditMatches && entity.getName().matches(namePattern))) {
 
-            if(programsPB[i].getStart().before(currentDate)) {
-                programsPB[i].setStarted(Boolean.TRUE);
-            }else {
-                programsPB[i].setStarted(Boolean.FALSE);
-            }
-            if(sameDay(programsPB[i].getStart(),date)) {
-                programsPB[i].setStartSameDay(Boolean.TRUE);
-            }else {
-                programsPB[i].setStartSameDay(Boolean.FALSE);
-            }
-            if(newSubscriptionForward!=null) {
-                parameters.put("programName",programsPB[i].getName());
-                programsPB[i].setNewSubscriptionLink(ServletParameterHelper.replaceDynamicParameters(newSubscriptionForward.getPath(),parameters));
-            }
-            if(coverForward!=null) {
-                parameters.put("programName",programsPB[i].getName());
-                programsPB[i].setCoverLink(ServletParameterHelper.replaceDynamicParameters(coverForward.getPath(),parameters));
-            }
-            if(updateReviewForward!=null && ch.getReviewAvailable().booleanValue()) {
-                parameters.put("programName",programsPB[i].getName());
-                programsPB[i].setUpdateReviewLink(ServletParameterHelper.replaceDynamicParameters(updateReviewForward.getPath(),parameters));
+                ProgramPB programPB = new ProgramPB();
+                try {
+                    PropertyUtils.copyProperties(programPB,entity);
+                } catch (IllegalAccessException e) {
+                } catch (InvocationTargetException e) {
+                } catch (NoSuchMethodException e) {
+                }
+                Channel ch = (Channel) channelMap.get(entity.getChannel());
+                programPB.setChannelName(ch.getName());
+                programPB.setChannelLogo(ch.getLogo());
+                programPB.setChannelLink(ch.getLink());
+
+                if(programPB.getStart().before(currentDate)) {
+                    programPB.setStarted(Boolean.TRUE);
+                }else {
+                    programPB.setStarted(Boolean.FALSE);
+                }
+                if(sameDay(programPB.getStart(),date)) {
+                    programPB.setStartSameDay(Boolean.TRUE);
+                }else {
+                    programPB.setStartSameDay(Boolean.FALSE);
+                }
+                if(newSubscriptionForward!=null) {
+                    parameters.put("programName",programPB.getName());
+                    programPB.setNewSubscriptionLink(ServletParameterHelper.replaceDynamicParameters(newSubscriptionForward.getPath(),parameters));
+                }
+                if(coverForward!=null) {
+                    parameters.put("programName",programPB.getName());
+                    programPB.setCoverLink(ServletParameterHelper.replaceDynamicParameters(coverForward.getPath(),parameters));
+                }
+                if(searchByNameForward!=null) {
+                    parameters.put("programName",programPB.getName());
+                    programPB.setSearchByNameLink(ServletParameterHelper.replaceDynamicParameters(searchByNameForward.getPath(),parameters));
+                }
+                if(updateReviewForward!=null && ch.getReviewAvailable().booleanValue()) {
+                    parameters.put("programName",programPB.getName());
+                    programPB.setUpdateReviewLink(ServletParameterHelper.replaceDynamicParameters(updateReviewForward.getPath(),parameters));
+                }
+                programPB.setCredits(getMovieCredits(environment, programPB.getName(),username,searchByCreditForward));
+                programCollection.add(programPB);
             }
         }
-        return programsPB;
+        return (ProgramPB[]) programCollection.toArray(new ProgramPB[0]);
     }
 
-    private static ProgramPB[] getSubscribedPrograms(WebAppEnvironmentInterface environment, String username, QueryFilter filter, Collection subscriptions, Map channelMap, Date date, ActionForward viewSubscriptionForward, ActionForward coverForward, ActionForward updateReviewForward) {
+    private static ProgramPB[] getSubscribedPrograms(WebAppEnvironmentInterface environment, String username, QueryFilter filter, Collection subscriptions, Collection exclusions, Map channelMap, Date date, ActionForward viewSubscriptionForward, ActionForward coverForward, ActionForward updateReviewForward, ActionForward newExclusionForward, ActionForward searchByNameForward, ActionForward searchByCreditForward) {
         filter.setAttribute("time",date);
         EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("tvguide-program").search(filter);
         Collection programCollection = new ArrayList();
@@ -384,54 +430,98 @@ public class ProgramHelper {
         parameters.put("user",username);
         for (int i = 0; i < entities.length; i++) {
             Program entity = (Program) entities[i];
-            for (Iterator iterator = subscriptions.iterator(); iterator.hasNext();) {
-                Subscription subscription = (Subscription) iterator.next();
-                String pattern = subscription.getPattern();
-                if (entity.getName().matches(pattern)) {
-                    ProgramPB programPB;
-                    programPB = new ProgramPB();
-                    try {
-                        PropertyUtils.copyProperties(programPB, entity);
-                    } catch (IllegalAccessException e) {
-                    } catch (InvocationTargetException e) {
-                    } catch (NoSuchMethodException e) {
+            boolean bExcluded = false;
+            for (Iterator iterator = exclusions.iterator(); iterator.hasNext();) {
+                Exclusion exclusion = (Exclusion) iterator.next();
+                boolean creditMatches = false;
+                String pattern = exclusion.getPattern();
+                if(exclusion.getType().equals(Exclusion.TYPE_CREDITNAME)){
+                    MovieCredit[] credits = MovieHelper.getMovieCredits(environment,entity.getName());
+                    for (int j = 0; j < credits.length; j++) {
+                        MovieCredit credit = credits[j];
+                        if(credit.getName().matches(pattern)) {
+                            creditMatches = true;
+                            break;
+                        }
                     }
-                    Channel ch = (Channel) channelMap.get(entity.getChannel());
-                    programPB.setChannelName(ch.getName());
-                    programPB.setChannelLogo(ch.getLogo());
-                    programPB.setChannelLink(ch.getLink());
-
-                    if (programPB.getStart().before(date)) {
-                        programPB.setStarted(Boolean.TRUE);
-                    } else {
-                        programPB.setStarted(Boolean.FALSE);
-                    }
-                    if (sameDay(programPB.getStart(), date)) {
-                        programPB.setStartSameDay(Boolean.TRUE);
-                    } else {
-                        programPB.setStartSameDay(Boolean.FALSE);
-                    }
-                    if(viewSubscriptionForward!=null) {
-                        parameters.put("subscription",subscription.getId());
-                        programPB.setViewSubscriptionLink(ServletParameterHelper.replaceDynamicParameters(viewSubscriptionForward.getPath(),parameters));
-                    }
-                    if(coverForward!=null) {
-                        parameters.put("programName",programPB.getName());
-                        programPB.setCoverLink(ServletParameterHelper.replaceDynamicParameters(coverForward.getPath(),parameters));
-                    }
-                    if(updateReviewForward!=null && ch.getReviewAvailable().booleanValue()) {
-                        parameters.put("programName",programPB.getName());
-                        programPB.setUpdateReviewLink(ServletParameterHelper.replaceDynamicParameters(updateReviewForward.getPath(),parameters));
-                    }
-                    programCollection.add(programPB);
+                }
+                if ((exclusion.getType().equals(Exclusion.TYPE_PROGRAMNAME) && entity.getName().matches(pattern)) ||
+                    (exclusion.getType().equals(Exclusion.TYPE_CREDITNAME) && creditMatches)) {
+                    bExcluded = true;
                     break;
+                }
+            }
+            if(!bExcluded) {
+                for (Iterator iterator = subscriptions.iterator(); iterator.hasNext();) {
+                    Subscription subscription = (Subscription) iterator.next();
+                    boolean creditMatches = false;
+                    String pattern = subscription.getPattern();
+                    if(subscription.getType().equals(Subscription.TYPE_CREDITNAME)){
+                        MovieCredit[] credits = MovieHelper.getMovieCredits(environment,entity.getName());
+                        for (int j = 0; j < credits.length; j++) {
+                            MovieCredit credit = credits[j];
+                            if(credit.getName().matches(pattern)) {
+                                creditMatches = true;
+                                break;
+                            }
+                        }
+                    }
+                    if ((subscription.getType().equals(Subscription.TYPE_PROGRAMNAME) && entity.getName().matches(pattern)) ||
+                        (subscription.getType().equals(Subscription.TYPE_CREDITNAME) && creditMatches)) {
+                        ProgramPB programPB;
+                        programPB = new ProgramPB();
+                        try {
+                            PropertyUtils.copyProperties(programPB, entity);
+                        } catch (IllegalAccessException e) {
+                        } catch (InvocationTargetException e) {
+                        } catch (NoSuchMethodException e) {
+                        }
+                        Channel ch = (Channel) channelMap.get(entity.getChannel());
+                        programPB.setChannelName(ch.getName());
+                        programPB.setChannelLogo(ch.getLogo());
+                        programPB.setChannelLink(ch.getLink());
+
+                        if (programPB.getStart().before(date)) {
+                            programPB.setStarted(Boolean.TRUE);
+                        } else {
+                            programPB.setStarted(Boolean.FALSE);
+                        }
+                        if (sameDay(programPB.getStart(), date)) {
+                            programPB.setStartSameDay(Boolean.TRUE);
+                        } else {
+                            programPB.setStartSameDay(Boolean.FALSE);
+                        }
+                        if(viewSubscriptionForward!=null) {
+                            parameters.put("subscription",subscription.getId());
+                            programPB.setViewSubscriptionLink(ServletParameterHelper.replaceDynamicParameters(viewSubscriptionForward.getPath(),parameters));
+                        }
+                        if(newExclusionForward!=null) {
+                            parameters.put("programName",programPB.getName());
+                            programPB.setNewExclusionLink(ServletParameterHelper.replaceDynamicParameters(newExclusionForward.getPath(),parameters));
+                        }
+                        if(coverForward!=null) {
+                            parameters.put("programName",programPB.getName());
+                            programPB.setCoverLink(ServletParameterHelper.replaceDynamicParameters(coverForward.getPath(),parameters));
+                        }
+                        if(searchByNameForward!=null) {
+                            parameters.put("programName",programPB.getName());
+                            programPB.setSearchByNameLink(ServletParameterHelper.replaceDynamicParameters(searchByNameForward.getPath(),parameters));
+                        }
+                        if(updateReviewForward!=null && ch.getReviewAvailable().booleanValue()) {
+                            parameters.put("programName",programPB.getName());
+                            programPB.setUpdateReviewLink(ServletParameterHelper.replaceDynamicParameters(updateReviewForward.getPath(),parameters));
+                        }
+                        programPB.setCredits(getMovieCredits(environment, programPB.getName(),username,searchByCreditForward));
+                        programCollection.add(programPB);
+                        break;
+                    }
                 }
             }
         }
         return (ProgramPB[]) programCollection.toArray(new ProgramPB[0]);
     }
 
-    private static ProgramPB[] getPrograms(WebAppEnvironmentInterface environment, String username, QueryFilter filter, Map channelMap, Collection exclusions, Date date, ActionForward newSubscriptionForward,ActionForward newExclusionForward, ActionForward coverForward, ActionForward updateReviewForward) {
+    private static ProgramPB[] getPrograms(WebAppEnvironmentInterface environment, String username, QueryFilter filter, Map channelMap, Collection exclusions, Date date, ActionForward newSubscriptionForward,ActionForward newExclusionForward, ActionForward coverForward, ActionForward updateReviewForward, ActionForward searchByNameForward, ActionForward searchByCreditForward) {
         filter.setAttribute("time",date);
         EntityInterface[] entities = environment.getEntityStorageFactory().getStorage("tvguide-program").search(filter);
         Collection programCollection = new ArrayList();
@@ -443,8 +533,20 @@ public class ProgramHelper {
             boolean bExcluded = false;
             for (Iterator iterator = exclusions.iterator(); iterator.hasNext();) {
                 Exclusion exclusion = (Exclusion) iterator.next();
+                boolean creditMatches = false;
                 String pattern = exclusion.getPattern();
-                if (entity.getName().matches(pattern)) {
+                if(exclusion.getType().equals(Exclusion.TYPE_CREDITNAME)){
+                    MovieCredit[] credits = MovieHelper.getMovieCredits(environment,entity.getName());
+                    for (int j = 0; j < credits.length; j++) {
+                        MovieCredit credit = credits[j];
+                        if(credit.getName().matches(pattern)) {
+                            creditMatches = true;
+                            break;
+                        }
+                    }
+                }
+                if ((exclusion.getType().equals(Exclusion.TYPE_PROGRAMNAME) && entity.getName().matches(pattern)) ||
+                    (exclusion.getType().equals(Exclusion.TYPE_CREDITNAME) && creditMatches)) {
                     bExcluded = true;
                     break;
                 }
@@ -485,10 +587,15 @@ public class ProgramHelper {
                     parameters.put("programName",programPB.getName());
                     programPB.setCoverLink(ServletParameterHelper.replaceDynamicParameters(coverForward.getPath(),parameters));
                 }
+                if(searchByNameForward!=null) {
+                    parameters.put("programName",programPB.getName());
+                    programPB.setSearchByNameLink(ServletParameterHelper.replaceDynamicParameters(searchByNameForward.getPath(),parameters));
+                }
                 if(updateReviewForward!=null && ch.getReviewAvailable().booleanValue()) {
                     parameters.put("programName",programPB.getName());
                     programPB.setUpdateReviewLink(ServletParameterHelper.replaceDynamicParameters(updateReviewForward.getPath(),parameters));
                 }
+                programPB.setCredits(getMovieCredits(environment, programPB.getName(),username, searchByCreditForward));
                 programCollection.add(programPB);
             }
         }
@@ -555,5 +662,25 @@ public class ProgramHelper {
             }
 
         }
+    }
+    private static CreditPB[] getMovieCredits(WebAppEnvironmentInterface enviornment, String title, String username, ActionForward searchByCreditForward) {
+        MovieCredit[] movieCredits = MovieHelper.getMovieCredits(enviornment,title);
+        CreditPB[] credits = new CreditPB[movieCredits.length];
+        Map parameters = new HashMap();
+        parameters.put("user",username);
+        for (int i = 0; i < credits.length; i++) {
+            credits[i] = new CreditPB();
+            try {
+                PropertyUtils.copyProperties(credits[i],movieCredits[i]);
+            } catch (IllegalAccessException e) {
+            } catch (InvocationTargetException e) {
+            } catch (NoSuchMethodException e) {
+            }
+            if(searchByCreditForward!=null) {
+                parameters.put("creditName",credits[i].getName());
+                credits[i].setSearchByCreditLink(ServletParameterHelper.replaceDynamicParameters(searchByCreditForward.getPath(),parameters));
+            }
+        }
+        return credits;
     }
 }
