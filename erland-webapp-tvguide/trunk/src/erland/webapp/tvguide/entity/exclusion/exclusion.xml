@@ -22,6 +22,10 @@
                 <column>name</column>
                 <type>String</type>
             </field>
+            <field id="type">
+                <column>type</column>
+                <type>Integer</type>
+            </field>
             <field id="pattern">
                 <column>pattern</column>
                 <type>String</type>

@@ -27,13 +27,14 @@ import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 
 public class ProgramCollectionPB extends BasePB {
-    private static DateFormat FORMAT = new SimpleDateFormat("EEEE d MMM");
+    private static final DateFormat FORMAT = new SimpleDateFormat("EEEE d MMM");
     private String currentLink;
     private String currentDateDisplay;
     private String nextLink;
     private String nextDateDisplay;
     private String prevLink;
     private String prevDateDisplay;
+    private String title;
     private ProgramPB[] programs;
 
     public String getCurrentLink() {
@@ -114,5 +115,13 @@ public class ProgramCollectionPB extends BasePB {
 
     public void setPrevDate(Date prevDate) {
         this.prevDateDisplay = StringUtil.asString(prevDate,null,FORMAT);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

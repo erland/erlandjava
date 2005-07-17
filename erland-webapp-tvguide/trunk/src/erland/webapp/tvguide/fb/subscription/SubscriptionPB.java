@@ -25,6 +25,7 @@ public class SubscriptionPB extends SubscriptionFB {
     private String viewLink;
     private String updateLink;
     private String removeLink;
+    private String removeAndExcludeLink;
     private ProgramPB[] programs;
 
     public String getViewLink() {
@@ -49,6 +50,14 @@ public class SubscriptionPB extends SubscriptionFB {
 
     public void setRemoveLink(String removeLink) {
         this.removeLink = removeLink;
+    }
+
+    public String getRemoveAndExcludeLink() {
+        return removeAndExcludeLink;
+    }
+
+    public void setRemoveAndExcludeLink(String removeAndExcludeLink) {
+        this.removeAndExcludeLink = removeAndExcludeLink;
     }
 
     public ProgramPB[] getPrograms() {

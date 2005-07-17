@@ -21,6 +21,10 @@
                 <column>link</column>
                 <type>String</type>
             </field>
+            <field id="category">
+                <column>category</column>
+                <type>String</type>
+            </field>
         </fields>
         <queries>
             <query id="all">

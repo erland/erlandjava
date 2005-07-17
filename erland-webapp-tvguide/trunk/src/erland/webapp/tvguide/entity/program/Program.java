@@ -32,6 +32,7 @@ public class Program extends BaseEntity {
     private String description;
     private Integer review;
     private String reviewLink;
+    private String category;
 
     public Integer getId() {
         return id;
@@ -95,5 +96,13 @@ public class Program extends BaseEntity {
 
     public void setReviewLink(String reviewLink) {
         this.reviewLink = reviewLink;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

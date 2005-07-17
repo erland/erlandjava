@@ -27,8 +27,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class ProgramPB extends BasePB {
-    private static DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
-    private static DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE d MMM");
+    private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE d MMM");
     private Date start;
     private Date stop;
     private String name;
@@ -45,6 +45,9 @@ public class ProgramPB extends BasePB {
     private String reviewLink;
     private String coverLink;
     private String updateReviewLink;
+    private String searchByNameLink;
+    private CreditPB[] credits;
+    private String category;
 
     public Date getStart() {
         return start;
@@ -226,5 +229,29 @@ public class ProgramPB extends BasePB {
 
     public void setUpdateReviewLink(String updateReviewLink) {
         this.updateReviewLink = updateReviewLink;
+    }
+
+    public CreditPB[] getCredits() {
+        return credits;
+    }
+
+    public void setCredits(CreditPB[] credits) {
+        this.credits = credits;
+    }
+
+    public String getSearchByNameLink() {
+        return searchByNameLink;
+    }
+
+    public void setSearchByNameLink(String searchByNameLink) {
+        this.searchByNameLink = searchByNameLink;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

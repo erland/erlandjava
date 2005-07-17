@@ -27,7 +27,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class ChannelPB extends ChannelFB {
-    private static DateFormat FORMAT = new SimpleDateFormat("EEEE d MMM");
+    private static final DateFormat FORMAT = new SimpleDateFormat("EEEE d MMM");
     private String currentLink;
     private String currentDateDisplay;
     private String nextLink;

@@ -25,6 +25,7 @@ public class Movie extends BaseEntity {
     private String title;
     private Integer review;
     private String link;
+    private String category;
 
     public String getTitle() {
         return title;
@@ -48,5 +49,13 @@ public class Movie extends BaseEntity {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

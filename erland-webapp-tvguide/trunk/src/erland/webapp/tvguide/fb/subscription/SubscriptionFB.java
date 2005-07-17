@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 public class SubscriptionFB extends BaseFB {
     private String idDisplay;
     private String name;
+    private String typeDisplay;
     private String pattern;
 
     public String getIdDisplay() {
@@ -62,10 +63,25 @@ public class SubscriptionFB extends BaseFB {
         this.pattern = pattern;
     }
 
+    public String getTypeDisplay() {
+        return typeDisplay;
+    }
+
+    public void setTypeDisplay(String typeDisplay) {
+        this.typeDisplay = typeDisplay;
+    }
+
+    public Integer getType() {
+        return StringUtil.asInteger(typeDisplay,new Integer(0));
+    }
+    public void setType(Integer type) {
+        this.typeDisplay = StringUtil.asString(type,null);
+    }
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         idDisplay = null;
         name = null;
         pattern = null;
+        typeDisplay = null;
     }
 }

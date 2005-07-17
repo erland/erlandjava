@@ -25,7 +25,11 @@ public class Exclusion extends BaseEntity {
     private Integer id;
     private String username;
     private String name;
+    private Integer type;
     private String pattern;
+
+    public final static Integer TYPE_PROGRAMNAME = new Integer(0);
+    public final static Integer TYPE_CREDITNAME = new Integer(1);
 
     public Integer getId() {
         return id;
@@ -57,5 +61,13 @@ public class Exclusion extends BaseEntity {
 
     public void setPattern(String pattern) {
         this.pattern = pattern;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

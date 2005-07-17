@@ -31,6 +31,8 @@ import javax.servlet.http.HttpServletRequest;
 public class SearchProgramFB extends SelectUserFB {
     private String dateDisplay;
     private String dayOffsetDisplay;
+    private String name;
+    private String credit;
 
     public Date getDate() {
         return StringUtil.asDate(dateDisplay,null);
@@ -64,9 +66,27 @@ public class SearchProgramFB extends SelectUserFB {
         this.dayOffsetDisplay = dayOffsetDisplay;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCredit() {
+        return credit;
+    }
+
+    public void setCredit(String credit) {
+        this.credit = credit;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         dateDisplay = null;
         dayOffsetDisplay = null;
+        name = null;
+        credit = null;
     }
 }
