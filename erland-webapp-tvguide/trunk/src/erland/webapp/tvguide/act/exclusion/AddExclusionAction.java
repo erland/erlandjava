@@ -48,7 +48,7 @@ public class AddExclusionAction extends BaseAction {
             fb.setId(exclusion.getId());
             fb.setPattern(exclusion.getPattern());
         }else {
-            fb.setPattern(".*"+fb.getName()+".*");
+            fb.setPattern(fb.getName());
         }
     }
 }

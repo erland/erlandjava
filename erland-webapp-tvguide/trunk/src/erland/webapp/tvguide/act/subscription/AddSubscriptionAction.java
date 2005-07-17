@@ -46,7 +46,7 @@ public class AddSubscriptionAction extends BaseAction {
             fb.setId(subscription.getId());
             fb.setPattern(subscription.getPattern());
         }else {
-            fb.setPattern(".*"+fb.getName()+".*");
+            fb.setPattern(fb.getName());
         }
     }
 }
