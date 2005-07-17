@@ -70,6 +70,8 @@ public class MovieHelper {
         if(data!=null) {
             poster = getMoviePoster(data);
             refreshMovieCredits(environment,data,title);
+        }else {
+            refreshMovieCredits(environment,null,title);
         }
         storePoster(environment, title, poster);
         int review = 0;
@@ -475,86 +477,90 @@ public class MovieHelper {
         filter.setAttribute("movie",title);
         environment.getEntityStorageFactory().getStorage("tvguide-moviecredit").delete(filter);
 
-        Matcher m = Pattern.compile("<b.*?>Directed by.*?</b>(.*?)<b ").matcher(new StringBuffer(data));
-        int priority = 1;
-        if(m.find()) {
-            String directors = m.group(1);
-            if(StringUtil.asNull(directors)!=null) {
-                m = Pattern.compile("href=\"/name/(.*?)/\">(.*?)<").matcher(new StringBuffer(directors));
-                while(m.find()) {
-                    String director = m.group(2);
-                    String directorLink = m.group(1);
-                    MovieCredit credit = (MovieCredit) environment.getEntityFactory().create("tvguide-moviecredit");
-                    credit.setCategory(MovieCredit.CATEGORY_DIRECTOR);
-                    credit.setMovie(title);
-                    credit.setLink(directorLink);
-                    credit.setName(convertNCRtoUnicode(director));
-                    credit.setPriority(new Integer(priority++));
-                    environment.getEntityStorageFactory().getStorage("tvguide-moviecredit").store(credit);
+        if(data!=null) {
+            Matcher m = Pattern.compile("<b.*?>Directed by.*?</b>(.*?)<b ").matcher(new StringBuffer(data));
+            int priority = 1;
+            if(m.find()) {
+                String directors = m.group(1);
+                if(StringUtil.asNull(directors)!=null) {
+                    m = Pattern.compile("href=\"/name/(.*?)/\">(.*?)<").matcher(new StringBuffer(directors));
+                    while(m.find()) {
+                        String director = m.group(2);
+                        String directorLink = m.group(1);
+                        MovieCredit credit = (MovieCredit) environment.getEntityFactory().create("tvguide-moviecredit");
+                        credit.setCategory(MovieCredit.CATEGORY_DIRECTOR);
+                        credit.setMovie(title);
+                        credit.setLink(directorLink);
+                        credit.setName(convertNCRtoUnicode(director));
+                        credit.setPriority(new Integer(priority++));
+                        environment.getEntityStorageFactory().getStorage("tvguide-moviecredit").store(credit);
+                    }
+                }
+            }
+            m = Pattern.compile("<b.*?>Cast overview.*?</tr>(.*?)href=\"fullcredits\"").matcher(new StringBuffer(data));
+            if(m.find()) {
+                String actors = m.group(1);
+                if(StringUtil.asNull(actors)!=null) {
+                    m = Pattern.compile("href=\"/name/(.*?)/\">(.*?)<.*?<td.*?<td.*?>(.*?)<").matcher(new StringBuffer(actors));
+                    while(m.find()) {
+                        String actor = m.group(2);
+                        String actorLink = m.group(1);
+                        String role = m.group(3);
+                        MovieCredit credit = (MovieCredit) environment.getEntityFactory().create("tvguide-moviecredit");
+                        credit.setCategory(MovieCredit.CATEGORY_ACTOR);
+                        credit.setMovie(title);
+                        credit.setLink(actorLink);
+                        credit.setName(convertNCRtoUnicode(actor));
+                        credit.setRole(convertNCRtoUnicode(role));
+                        credit.setPriority(new Integer(priority++));
+                        environment.getEntityStorageFactory().getStorage("tvguide-moviecredit").store(credit);
+                    }
+                }
+            }
+            m = Pattern.compile("<b.*?>Credited cast.*?</tr>(.*?)href=\"fullcredits\"").matcher(new StringBuffer(data));
+            if(m.find()) {
+                String actors = m.group(1);
+                if(StringUtil.asNull(actors)!=null) {
+                    m = Pattern.compile("href=\"/name/(.*?)/\">(.*?)<.*?<td.*?<td.*?>(.*?)<").matcher(new StringBuffer(actors));
+                    while(m.find()) {
+                        String actor = m.group(2);
+                        String actorLink = m.group(1);
+                        String role = m.group(3);
+                        MovieCredit credit = (MovieCredit) environment.getEntityFactory().create("tvguide-moviecredit");
+                        credit.setCategory(MovieCredit.CATEGORY_ACTOR);
+                        credit.setMovie(title);
+                        credit.setLink(actorLink);
+                        credit.setName(convertNCRtoUnicode(actor));
+                        credit.setRole(convertNCRtoUnicode(role));
+                        credit.setPriority(new Integer(priority++));
+                        environment.getEntityStorageFactory().getStorage("tvguide-moviecredit").store(credit);
+                    }
+                }
+            }
+            m = Pattern.compile("<b.*?>Complete credited cast.*?</tr>(.*?)href=\"fullcredits\"").matcher(new StringBuffer(data));
+            if(m.find()) {
+                String actors = m.group(1);
+                if(StringUtil.asNull(actors)!=null) {
+                    m = Pattern.compile("href=\"/name/(.*?)/\">(.*?)<.*?<td.*?<td.*?>(.*?)<").matcher(new StringBuffer(actors));
+                    while(m.find()) {
+                        String actor = m.group(2);
+                        String actorLink = m.group(1);
+                        String role = m.group(3);
+                        MovieCredit credit = (MovieCredit) environment.getEntityFactory().create("tvguide-moviecredit");
+                        credit.setCategory(MovieCredit.CATEGORY_ACTOR);
+                        credit.setMovie(title);
+                        credit.setLink(actorLink);
+                        credit.setName(convertNCRtoUnicode(actor));
+                        credit.setRole(convertNCRtoUnicode(role));
+                        credit.setPriority(new Integer(priority++));
+                        environment.getEntityStorageFactory().getStorage("tvguide-moviecredit").store(credit);
+                    }
                 }
             }
         }
-        m = Pattern.compile("<b.*?>Cast overview.*?</tr>(.*?)href=\"fullcredits\"").matcher(new StringBuffer(data));
-        if(m.find()) {
-            String actors = m.group(1);
-            if(StringUtil.asNull(actors)!=null) {
-                m = Pattern.compile("href=\"/name/(.*?)/\">(.*?)<.*?<td.*?<td.*?>(.*?)<").matcher(new StringBuffer(actors));
-                while(m.find()) {
-                    String actor = m.group(2);
-                    String actorLink = m.group(1);
-                    String role = m.group(3);
-                    MovieCredit credit = (MovieCredit) environment.getEntityFactory().create("tvguide-moviecredit");
-                    credit.setCategory(MovieCredit.CATEGORY_ACTOR);
-                    credit.setMovie(title);
-                    credit.setLink(actorLink);
-                    credit.setName(convertNCRtoUnicode(actor));
-                    credit.setRole(convertNCRtoUnicode(role));
-                    credit.setPriority(new Integer(priority++));
-                    environment.getEntityStorageFactory().getStorage("tvguide-moviecredit").store(credit);
-                }
-            }
+        synchronized(movieCredits) {
+            movieCredits.remove(title);
         }
-        m = Pattern.compile("<b.*?>Credited cast.*?</tr>(.*?)href=\"fullcredits\"").matcher(new StringBuffer(data));
-        if(m.find()) {
-            String actors = m.group(1);
-            if(StringUtil.asNull(actors)!=null) {
-                m = Pattern.compile("href=\"/name/(.*?)/\">(.*?)<.*?<td.*?<td.*?>(.*?)<").matcher(new StringBuffer(actors));
-                while(m.find()) {
-                    String actor = m.group(2);
-                    String actorLink = m.group(1);
-                    String role = m.group(3);
-                    MovieCredit credit = (MovieCredit) environment.getEntityFactory().create("tvguide-moviecredit");
-                    credit.setCategory(MovieCredit.CATEGORY_ACTOR);
-                    credit.setMovie(title);
-                    credit.setLink(actorLink);
-                    credit.setName(convertNCRtoUnicode(actor));
-                    credit.setRole(convertNCRtoUnicode(role));
-                    credit.setPriority(new Integer(priority++));
-                    environment.getEntityStorageFactory().getStorage("tvguide-moviecredit").store(credit);
-                }
-            }
-        }
-        m = Pattern.compile("<b.*?>Complete credited cast.*?</tr>(.*?)href=\"fullcredits\"").matcher(new StringBuffer(data));
-        if(m.find()) {
-            String actors = m.group(1);
-            if(StringUtil.asNull(actors)!=null) {
-                m = Pattern.compile("href=\"/name/(.*?)/\">(.*?)<.*?<td.*?<td.*?>(.*?)<").matcher(new StringBuffer(actors));
-                while(m.find()) {
-                    String actor = m.group(2);
-                    String actorLink = m.group(1);
-                    String role = m.group(3);
-                    MovieCredit credit = (MovieCredit) environment.getEntityFactory().create("tvguide-moviecredit");
-                    credit.setCategory(MovieCredit.CATEGORY_ACTOR);
-                    credit.setMovie(title);
-                    credit.setLink(actorLink);
-                    credit.setName(convertNCRtoUnicode(actor));
-                    credit.setRole(convertNCRtoUnicode(role));
-                    credit.setPriority(new Integer(priority++));
-                    environment.getEntityStorageFactory().getStorage("tvguide-moviecredit").store(credit);
-                }
-            }
-        }
-        movieCredits.remove(title);
         getMovieCredits(environment,title);
     }
     private static String convertNCRtoUnicode(String str) {
