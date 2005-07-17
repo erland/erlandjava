@@ -15,6 +15,12 @@
     <tr><td><bean:message key="tvguide.subscription.edit.name"/></td><td>
     <html:text property="name"/>
     </td></tr>
+    <tr><td><bean:message key="tvguide.subscription.edit.type"/></td><td>
+        <html:select property="typeDisplay" size="1">
+            <html:option value="0" key="tvguide.subscription.edit.type.0"/>
+            <html:option value="1" key="tvguide.subscription.edit.type.1"/>
+        </html:select>
+    </td></tr>
     <tr><td><bean:message key="tvguide.subscription.edit.pattern"/></td><td>
     <html:text property="pattern"/>
     </td></tr>
