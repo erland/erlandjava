@@ -1,0 +1,35 @@
+<entity id="movie">
+    <class>erland.webapp.tvguide.entity.movie.Movie</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/tvguide</datasource>
+        <table>movies</table>
+        <fields>
+            <field id="title">
+                <column>title</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="review">
+                <column>review</column>
+                <type>Integer</type>
+            </field>
+            <field id="link">
+                <column>link</column>
+                <type>String</type>
+            </field>
+            <field id="category">
+                <column>category</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="all">
+                <querystring/>
+            </query>
+        </queries>
+    </data>
+</entity>
