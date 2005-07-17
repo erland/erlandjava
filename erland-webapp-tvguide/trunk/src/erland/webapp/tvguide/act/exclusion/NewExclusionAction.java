@@ -22,6 +22,7 @@ package erland.webapp.tvguide.act.exclusion;
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.tvguide.fb.subscription.SubscriptionFB;
 import erland.webapp.tvguide.fb.exclusion.ExclusionFB;
+import erland.webapp.tvguide.entity.exclusion.Exclusion;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 
@@ -33,6 +34,7 @@ public class NewExclusionAction extends BaseAction {
         ExclusionFB fb = (ExclusionFB) form;
         fb.setId(null);
         fb.setName(null);
+        fb.setType(Exclusion.TYPE_PROGRAMNAME);
         fb.setPattern(null);
     }
 }

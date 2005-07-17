@@ -21,6 +21,7 @@ package erland.webapp.tvguide.act.subscription;
 
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.tvguide.fb.subscription.SubscriptionFB;
+import erland.webapp.tvguide.entity.subscription.Subscription;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 
@@ -32,6 +33,7 @@ public class NewSubscriptionAction extends BaseAction {
         SubscriptionFB fb = (SubscriptionFB) form;
         fb.setId(null);
         fb.setName(null);
+        fb.setType(Subscription.TYPE_PROGRAMNAME);
         fb.setPattern(null);
     }
 }
