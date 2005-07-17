@@ -55,7 +55,23 @@ CREATE TABLE `movies` (
   `title` varchar(255) NOT NULL default '',
   `review` int(11) default NULL,
   `link` varchar(100) default NULL,
+  `category` varchar(255) default NULL,
   PRIMARY KEY  (`title`)
+) TYPE=MyISAM;
+
+--
+-- Table structure for table `moviecredits`
+--
+
+DROP TABLE IF EXISTS `moviecredits`;
+CREATE TABLE `moviecredits` (
+  `movie` varchar(100) NOT NULL default '',
+  `name` varchar(100) NOT NULL default '',
+  `category` varchar(20) NOT NULL default '',
+  `role` varchar(255) default null,
+  `priority` int(11) default NULL,
+  `link` varchar(100) default NULL,
+  PRIMARY KEY  (`movie`,`name`,`category`)
 ) TYPE=MyISAM;
 
 --
@@ -72,6 +88,7 @@ CREATE TABLE `programs` (
   `channel` int(11) NOT NULL default '0',
   `review` int(11) NOT NULL default '0',
   `reviewLink` varchar(255) NOT NULL default '',
+  `category` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
@@ -102,6 +119,7 @@ CREATE TABLE `subscriptions` (
   `username` varchar(100) NOT NULL default '',
   `name` varchar(100) NOT NULL default '',
   `pattern` varchar(255) NOT NULL default '',
+  `type` int(11) NOT NULL default 0,
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
@@ -115,6 +133,7 @@ CREATE TABLE `exclusions` (
   `username` varchar(100) NOT NULL default '',
   `name` varchar(100) NOT NULL default '',
   `pattern` varchar(255) NOT NULL default '',
+  `type` int(11) NOT NULL default 0,
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
