@@ -20,4 +20,5 @@ INSERT INTO resources VALUES ('tvguide','resources.jabber.server','');
 INSERT INTO resources VALUES ('tvguide','resources.jabber.user','');
 INSERT INTO resources VALUES ('tvguide','resources.jabber.password','');
 INSERT INTO resources VALUES ('tvguide','resources.cover.cache','C:/TEMP');
+INSERT INTO resources VALUES ('tvguide','resources.thumbnail.cache','C:/TEMP');
 
