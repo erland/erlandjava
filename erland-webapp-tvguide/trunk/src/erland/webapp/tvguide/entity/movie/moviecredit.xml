@@ -1,0 +1,52 @@
+<entity id="moviecredit">
+    <class>erland.webapp.tvguide.entity.movie.MovieCredit</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/tvguide</datasource>
+        <table>moviecredits</table>
+        <fields>
+            <field id="name">
+                <column>name</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="movie">
+                <column>movie</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="category">
+                <column>category</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="role">
+                <column>role</column>
+                <type>String</type>
+            </field>
+            <field id="priority">
+                <column>priority</column>
+                <type>Integer</type>
+            </field>
+            <field id="link">
+                <column>link</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allformovie">
+                <querystring>movie=?</querystring>
+                <orderstring>order by priority asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>movie</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>

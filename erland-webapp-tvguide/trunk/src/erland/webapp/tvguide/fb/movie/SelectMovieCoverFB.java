@@ -1,6 +1,7 @@
 package erland.webapp.tvguide.fb.movie;
 
 import erland.webapp.common.fb.BaseFB;
+import erland.util.StringUtil;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,8 +25,9 @@ import javax.servlet.http.HttpServletRequest;
  *
  */
 
-public class SelectMovieFB extends BaseFB {
+public class SelectMovieCoverFB extends BaseFB {
     String id;
+    String sizeDisplay;
 
     public String getId() {
         return id;
@@ -35,8 +37,24 @@ public class SelectMovieFB extends BaseFB {
         this.id = id;
     }
 
+    public String getSizeDisplay() {
+        return sizeDisplay;
+    }
+
+    public void setSizeDisplay(String sizeDisplay) {
+        this.sizeDisplay = sizeDisplay;
+    }
+
+    public Integer getSize() {
+        return StringUtil.asInteger(sizeDisplay,null);
+    }
+    public void setSize(Integer size) {
+        this.sizeDisplay = StringUtil.asString(size,null);
+    }
+
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
         id = null;
+        sizeDisplay = null;
     }
 }
