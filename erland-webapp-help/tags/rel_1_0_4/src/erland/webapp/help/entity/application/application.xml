@@ -1,0 +1,55 @@
+<entity id="application">
+    <class>erland.webapp.help.entity.application.Application</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/help</datasource>
+        <table>applications</table>
+        <fields>
+            <field id="name">
+                <column>name</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="titleNative">
+                <column>titlenative</column>
+                <type>String</type>
+            </field>
+            <field id="titleEnglish">
+                <column>titleenglish</column>
+                <type>String</type>
+            </field>
+            <field id="username">
+                <column>username</column>
+                <type>String</type>
+            </field>
+            <field id="logo">
+                <column>logo</column>
+                <type>String</type>
+            </field>
+            <field id="official">
+                <column>official</column>
+                <type>Boolean</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="all">
+                <querystring/>
+            </query>
+            <query id="allforuser">
+                <querystring>username=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>user</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allofficial">
+                <querystring>official=1</querystring>
+            </query>
+        </queries>
+    </data>
+</entity>

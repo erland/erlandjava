@@ -1,0 +1,81 @@
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration//EN"
+       "http://struts.apache.org/dtds/tiles-config_1_1.dtd">
+
+<!-- Definitions for Tiles documentation   -->
+<tiles-definitions>
+
+    <!-- ========================================================== -->
+    <!-- Master definition                                          -->
+    <!-- ========================================================== -->
+    <!-- Main page layout used as a root for other page definitions -->
+
+    <definition name=".mainLayout" path="/WEB-INF/layouts/classicLayout.jsp">
+        <put name="title" value="Online Help"/>
+        <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
+    </definition>
+
+    <definition name=".mainLayoutNoMenu" path="/WEB-INF/layouts/classicLayoutNoMenu.jsp">
+        <put name="title" value="Online Help"/>
+        <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
+    </definition>
+
+    <!-- ========================================================== -->
+    <!-- Index page definition                                      -->
+    <!-- ========================================================== -->
+    <!-- This definition inherits from the main definition.
+	  It overloads the page title and the body used.
+	  Use the same mechanism to define new pages sharing common
+	  properties (here header, menu, footer, layout)
+	-->
+
+    <definition name=".index" extends=".login"/>
+
+    <definition name=".login" extends=".mainLayoutNoMenu">
+        <put name="body" value="/WEB-INF/tiles/common/login.jsp"/>
+    </definition>
+
+    <definition name=".user.newuseraccount" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/account/newuseraccount.jsp"/>
+    </definition>
+    <definition name=".user.newuseraccount.success" extends=".user.index"/>
+
+    <definition name=".user.index" extends=".mainLayout">
+        <put name="menu" value="/WEB-INF/tiles/common/usermenu.jsp"/>
+    </definition>
+    <definition name=".user.edituseraccount" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/account/edituseraccount.jsp"/>
+    </definition>
+    <definition name=".user.viewuseraccounts" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/account/viewuseraccounts.jsp"/>
+    </definition>
+    <definition name=".user.editapplication" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/application/editapplication.jsp"/>
+    </definition>
+    <definition name=".user.editapplicationversion" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/application/editapplicationversion.jsp"/>
+    </definition>
+    <definition name=".user.viewapplication" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/application/viewapplication.jsp"/>
+    </definition>
+    <definition name=".user.viewapplicationversion" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/application/viewapplicationversion.jsp"/>
+    </definition>
+    <definition name=".user.editchapter" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/chapter/editchapter.jsp"/>
+    </definition>
+    <definition name=".user.editchapterattribute" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/chapter/editchapterattribute.jsp"/>
+    </definition>
+    <definition name=".user.viewchapter" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/chapter/viewchapter.jsp"/>
+    </definition>
+    <definition name=".guest.viewchapter" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/chapter/viewchapter.jsp"/>
+    </definition>
+
+    <definition name=".guest.index" extends=".mainLayout">
+        <put name="menu" value="/WEB-INF/tiles/common/guestmenu.jsp"/>
+        <put name="header" value="/WEB-INF/tiles/common/guestheader.jsp"/>
+    </definition>
+</tiles-definitions>
