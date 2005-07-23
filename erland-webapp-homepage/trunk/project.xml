@@ -13,7 +13,7 @@
   
   <!-- The version of the project under development, e.g.
        1.1, 1.2, 2.0-SNAPSHOT -->
-  <currentVersion>1.5</currentVersion>
+  <currentVersion>1.5.1</currentVersion>
   
   <organization>
         <name>Erland Isaksson</name>
@@ -269,11 +269,31 @@
               <war.bundle>true</war.bundle>
           </properties>
       </dependency>
+      <dependency>
+          <url>http://xml.apache.org/xerces2-j/</url>
+          <groupId>xerces</groupId>
+          <artifactId>xercesImpl</artifactId>
+          <version>2.6.2</version>
+          <type>jar</type>
+          <properties>
+              <war.bundle>true</war.bundle>
+          </properties>
+      </dependency>
+      <dependency>
+          <url>http://xml.apache.org/xerces2-j/</url>
+          <groupId>xerces</groupId>
+          <artifactId>xmlParserAPIs</artifactId>
+          <version>2.6.2</version>
+          <type>jar</type>
+          <properties>
+              <war.bundle>true</war.bundle>
+          </properties>
+      </dependency>
   </dependencies>
   
   <!-- build information for the project -->
   <build>
-    <nagEmailAddress>erland.i@telia.com</nagEmailAddress>
+    <nagEmailAddress>erland_i@hotmail.com</nagEmailAddress>
     <sourceDirectory>src</sourceDirectory>
     <resources>
         <resource>
