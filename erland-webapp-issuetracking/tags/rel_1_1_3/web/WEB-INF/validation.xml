@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN"
+          "http://jakarta.apache.org/commons/dtds/validator_1_0.dtd">
+
+<form-validation>
+    <formset>
+        <form name="editUserAccountFB">
+        </form>
+        <form name="newUserAccountFB">
+            <field property="username" depends="required">
+                <arg0 key="issuetracking.account.new.username"/>
+            </field>
+            <field property="firstName" depends="required">
+                <arg0 key="issuetracking.account.new.firstname"/>
+            </field>
+            <field property="lastName" depends="required">
+                <arg0 key="issuetracking.account.new.lastname"/>
+            </field>
+            <field property="password1" depends="required">
+                <arg0 key="issuetracking.account.new.password1"/>
+            </field>
+            <field property="password2" depends="required">
+                <arg0 key="issuetracking.account.new.password2"/>
+            </field>
+        </form>
+        <form name="editIssueFB">
+            <field property="mail" depends="email">
+                <arg0 key="issuetracking.issue.edit.mail"/>
+            </field>
+            <field property="title" depends="required">
+                <arg0 key="issuetracking.issue.edit.title"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="issuetracking.issue.edit.description"/>
+            </field>
+        </form>
+        <form name="editIssueEventFB">
+            <field property="description" depends="required">
+                <arg0 key="issuetracking.issueevent.edit.description"/>
+            </field>
+        </form>
+        <form name="editApplicationFB">
+            <field property="name" depends="required">
+                <arg0 key="issuetracking.application.edit.name"/>
+            </field>
+            <field property="titleEnglish" depends="required">
+                <arg0 key="issuetracking.application.edit.title-english"/>
+            </field>
+            <field property="titleNative" depends="required">
+                <arg0 key="issuetracking.application.edit.title-native"/>
+            </field>
+        </form>
+    </formset>
+</form-validation>
