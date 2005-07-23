@@ -1,0 +1,79 @@
+<entity id="container">
+    <class>erland.webapp.diary.entity.container.Container</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/diary</datasource>
+        <table>containers</table>
+        <fields>
+            <field id="id">
+                <column>id</column>
+                <type>Integer</type>
+                <identity>true</identity>
+                <auto>true</auto>
+            </field>
+            <field id="username">
+                <column>username</column>
+                <type>String</type>
+            </field>
+            <field id="name">
+                <column>name</column>
+                <type>String</type>
+            </field>
+            <field id="model">
+                <column>model</column>
+                <type>String</type>
+            </field>
+            <field id="description">
+                <column>description</column>
+                <type>String</type>
+            </field>
+            <field id="volume">
+                <column>volume</column>
+                <type>Integer</type>
+            </field>
+            <field id="width">
+                <column>width</column>
+                <type>Integer</type>
+            </field>
+            <field id="length">
+                <column>length</column>
+                <type>Integer</type>
+            </field>
+            <field id="height">
+                <column>height</column>
+                <type>Integer</type>
+            </field>
+            <field id="gallery">
+                <column>gallery</column>
+                <type>Integer</type>
+            </field>
+            <field id="image">
+                <column>image</column>
+                <type>String</type>
+            </field>
+            <field id="largeImage">
+                <column>largeimage</column>
+                <type>String</type>
+            </field>
+            <field id="link">
+                <column>link</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allforuser">
+                <querystring>username=?</querystring>
+                <orderstring>order by id desc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>username</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
