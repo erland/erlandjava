@@ -1,0 +1,70 @@
+<entity id="galleryfilter">
+    <class>erland.webapp.gallery.entity.gallery.filter.GalleryFilter</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/gallery</datasource>
+        <table>galleryfilters</table>
+        <fields>
+            <field id="id">
+                <column>id</column>
+                <type>Integer</type>
+                <identity>true</identity>
+                <auto>true</auto>
+            </field>
+            <field id="gallery">
+                <column>gallery</column>
+                <type>Integer</type>
+            </field>
+            <field id="filter">
+                <column>filter</column>
+                <type>Integer</type>
+            </field>
+            <field id="orderNo">
+                <column>orderno</column>
+                <type>Integer</type>
+            </field>
+            <field id="type">
+                <column>type</column>
+                <type>Integer</type>
+            </field>
+            <field id="parameters">
+                <column>parameters</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allpreforgallery">
+                <querystring>gallery=? and type=0</querystring>
+                <orderstring>order by orderno</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allpostforgallery">
+                <querystring>gallery=? and type=1</querystring>
+                <orderstring>order by orderno</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>gallery</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforfilter">
+                <querystring>filter=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>filter</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
