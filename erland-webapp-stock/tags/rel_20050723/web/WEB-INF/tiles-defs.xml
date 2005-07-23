@@ -1,0 +1,86 @@
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration//EN"
+       "http://struts.apache.org/dtds/tiles-config_1_1.dtd">
+
+<!-- Definitions for Tiles documentation   -->
+<tiles-definitions>
+
+    <!-- ========================================================== -->
+    <!-- Master definition                                          -->
+    <!-- ========================================================== -->
+    <!-- Main page layout used as a root for other page definitions -->
+
+    <definition name=".mainLayout" path="/WEB-INF/layouts/classicLayout.jsp">
+        <put name="title" value="Aktiediagram"/>
+        <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
+        <put name="footer" value="/WEB-INF/tiles/common/footer.jsp"/>
+        <put name="body" value="/WEB-INF/tiles/body.jsp"/>
+        <put name="menu" value="/WEB-INF/tiles/menu.jsp"/>
+    </definition>
+
+    <definition name=".mainLayoutMenu" extends=".mainLayout">
+        <put name="menu" value="/WEB-INF/tiles/common/menu.jsp"/>
+    </definition>
+
+    <!-- ========================================================== -->
+    <!-- Index page definition                                      -->
+    <!-- ========================================================== -->
+    <!-- This definition inherits from the main definition.
+	  It overloads the page title and the body used.
+	  Use the same mechanism to define new pages sharing common
+	  properties (here header, menu, footer, layout)
+	-->
+
+    <definition name=".index" extends=".login"/>
+
+    <definition name=".empty" extends=".mainLayoutMenu"/>
+
+    <definition name=".login" extends=".mainLayout">
+        <put name="body" value="/WEB-INF/tiles/common/login.jsp"/>
+    </definition>
+
+    <definition name=".viewbrokerstocks" extends=".mainLayoutMenu">
+        <put name="body" value="/WEB-INF/tiles/stock/viewbrokerstocks.jsp"/>
+    </definition>
+
+    <definition name=".viewaccountpermanent" extends=".mainLayoutMenu">
+        <put name="body" value="/WEB-INF/tiles/account/viewpermanent.jsp"/>
+    </definition>
+
+    <definition name=".viewaccountcontinously" extends=".mainLayoutMenu">
+        <put name="body" value="/WEB-INF/tiles/account/viewcontinously.jsp"/>
+    </definition>
+
+    <definition name=".viewaccountpurchaseonce" extends=".mainLayoutMenu">
+        <put name="body" value="/WEB-INF/tiles/account/viewpurchaseonce.jsp"/>
+    </definition>
+
+    <definition name=".viewaccountdiagram" extends=".mainLayoutMenu">
+        <put name="body" value="/WEB-INF/tiles/account/viewdiagram.jsp"/>
+    </definition>
+
+    <definition name=".editaccountpermanentnumber" extends=".mainLayoutMenu">
+        <put name="body" value="/WEB-INF/tiles/account/editpermanentnumber.jsp"/>
+    </definition>
+
+    <definition name=".editaccountpermanentnumberforvalue" extends=".mainLayoutMenu">
+        <put name="body" value="/WEB-INF/tiles/account/editpermanentnumberforvalue.jsp"/>
+    </definition>
+
+    <definition name=".editaccountcontinouslyforvalue" extends=".mainLayoutMenu">
+        <put name="body" value="/WEB-INF/tiles/account/editcontinouslyforvalue.jsp"/>
+    </definition>
+
+    <definition name=".editaccountpurchaseoncenumber" extends=".mainLayoutMenu">
+        <put name="body" value="/WEB-INF/tiles/account/editpurchaseoncenumber.jsp"/>
+    </definition>
+
+    <definition name=".editaccountpurchaseonceforvalue" extends=".mainLayoutMenu">
+        <put name="body" value="/WEB-INF/tiles/account/editpurchaseonceforvalue.jsp"/>
+    </definition>
+
+    <definition name=".editaccountpurchaseoncenumberforvalue" extends=".mainLayoutMenu">
+        <put name="body" value="/WEB-INF/tiles/account/editpurchaseoncenumberforvalue.jsp"/>
+    </definition>
+
+</tiles-definitions>
