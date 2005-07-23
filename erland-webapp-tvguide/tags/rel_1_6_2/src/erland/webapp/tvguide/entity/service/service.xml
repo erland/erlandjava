@@ -1,0 +1,62 @@
+<entity id="service">
+    <class>erland.webapp.tvguide.entity.service.Service</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/tvguide</datasource>
+        <table>services</table>
+        <fields>
+            <field id="id">
+                <column>id</column>
+                <type>Integer</type>
+                <auto>true</auto>
+                <identity>true</identity>
+            </field>
+            <field id="name">
+                <column>name</column>
+                <type>String</type>
+            </field>
+            <field id="serviceClass">
+                <column>serviceclass</column>
+                <type>String</type>
+            </field>
+            <field id="serviceData">
+                <column>servicedata</column>
+                <type>String</type>
+            </field>
+            <field id="customizedServiceData">
+                <column>customizedservicedata</column>
+                <type>String</type>
+            </field>
+            <field id="transformerClass">
+                <column>transformerclass</column>
+                <type>String</type>
+            </field>
+            <field id="transformerData">
+                <column>transformerdata</column>
+                <type>String</type>
+            </field>
+            <field id="customizedTransformerData">
+                <column>customizedtransformerdata</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="all">
+                <orderstring>order by id asc</orderstring>
+                <querystring/>
+            </query>
+            <query id="allforname">
+                <querystring>name=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>name</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
