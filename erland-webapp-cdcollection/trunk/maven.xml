@@ -94,6 +94,24 @@
 	      	<exclude name="index.jsp"/>
 	      </fileset>
 	    </delete>
+
+	    <!-- Create classpath for bat-files -->
+	    <j:set var="bat.jars.classpath" value="WEB-INF/classes"/>
+	    <j:forEach var="lib" items="${pom.artifacts}">
+	      <j:set var="dep" value="${lib.dependency}"/>     
+	      <j:if test="${dep.getProperty('war.bundle')=='true'}">
+	         <j:if test="${dep.type =='jar'}"> 
+	           <j:set var="bat.jars.classpath" value="${bat.jars.classpath};WEB-INF/lib/${lib.name}"/>
+	         </j:if> 
+	      </j:if>  
+	    </j:forEach>            
+		<ant:filter token="CLASSPATH" value="${bat.jars.classpath}"/>
+	    <!-- Copy bat files -->
+	    <ant:copy todir="${maven.war.webapp.dir}" filtering="true">
+	      <ant:fileset dir="${pom.dir}">
+	        <ant:include name="*.bat"/>
+	      </ant:fileset>
+	    </ant:copy>
 	</postGoal>
 
     <goal name="all:build">
