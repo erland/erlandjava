@@ -38,59 +38,65 @@ public class MediaHelper {
         int mediaId = -1;
         Settings.setContextClassLoader();
         FreeDB freeDB = new FreeDB();
-        CDInfo cdInfo = freeDB.readCDInfo(new CDDBRecord(category,discId,null,true));
-        if(cdInfo instanceof CDDBEntry) {
-            CDDBEntry entry = (CDDBEntry) cdInfo;
-            QueryFilter filter = new QueryFilter("allforuniquemediaid");
-            filter.setAttribute("uniquemediaid",entry.getCDDBRecord().getCategory()+" "+cdInfo.getCDDBRecord().getDiscID());
-            EntityInterface[] entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("cdcollection-media").search(filter);
-            Media media = null;
-            if(entities.length>0) {
-                media = (Media) entities[0];
-            }else {
-                media = (Media) WebAppEnvironmentPlugin.getEnvironment().getEntityFactory().create("cdcollection-media");
-                media.setUniqueMediaId(entry.getCDDBRecord().getCategory()+" "+cdInfo.getCDDBRecord().getDiscID());
-                media.setId(null);
-            }
-            Artist artist = entry.extractCDArtist();
-            if(artist!=null && StringUtil.asNull(media.getArtist())==null) {
-                media.setArtist(artist.getName());
-            }
-            Composition composition = entry.extractComposition(false);
-            if(StringUtil.asNull(media.getTitle())==null) {
-                media.setTitle(composition.getTitle());
-            }
-            media.setYear(new Integer(composition.getRecordingYear()));
-            WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("cdcollection-media").store(media);
+        try {
+            CDInfo cdInfo = freeDB.readCDInfo(new CDDBRecord(category,discId,null,true));
+            if(cdInfo instanceof CDDBEntry) {
+                CDDBEntry entry = (CDDBEntry) cdInfo;
+                QueryFilter filter = new QueryFilter("allforuniquemediaid");
+                filter.setAttribute("uniquemediaid",entry.getCDDBRecord().getCategory()+" "+cdInfo.getCDDBRecord().getDiscID());
+                EntityInterface[] entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("cdcollection-media").search(filter);
+                Media media = null;
+                if(entities.length>0) {
+                    media = (Media) entities[0];
+                }else {
+                    media = (Media) WebAppEnvironmentPlugin.getEnvironment().getEntityFactory().create("cdcollection-media");
+                    media.setUniqueMediaId(entry.getCDDBRecord().getCategory()+" "+cdInfo.getCDDBRecord().getDiscID());
+                    media.setId(null);
+                }
+                Artist artist = entry.extractCDArtist();
+                if(artist!=null && StringUtil.asNull(media.getArtist())==null) {
+                    media.setArtist(artist.getName());
+                }
+                Composition composition = entry.extractComposition(false);
+                if(StringUtil.asNull(media.getTitle())==null) {
+                    media.setTitle(composition.getTitle());
+                }
+                media.setYear(new Integer(composition.getRecordingYear()));
+                WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("cdcollection-media").store(media);
 
-            mediaId = media.getId().intValue();
-            filter = new QueryFilter("allformedia");
-            filter.setAttribute("media",media.getId());
-            EntityInterface[] discEntities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("cdcollection-disc").search(filter);
-            String defaultUniqueDiscId = entry.getCDDBRecord().getCategory()+" "+cdInfo.getCDDBRecord().getDiscID();
-            for (int i = 0; i < discEntities.length; i++) {
-                Disc discEntity = (Disc) discEntities[i];
-                if(defaultUniqueDiscId!=null && defaultUniqueDiscId.equals(discEntity.getUniqueDiscId())) {
-                    defaultUniqueDiscId = null;
-                }
-                StringTokenizer tokens = new StringTokenizer(discEntity.getUniqueDiscId());
-                if(tokens.hasMoreTokens()) {
-                    String discCategory = tokens.nextToken();
+                mediaId = media.getId().intValue();
+                filter = new QueryFilter("allformedia");
+                filter.setAttribute("media",media.getId());
+                EntityInterface[] discEntities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("cdcollection-disc").search(filter);
+                String defaultUniqueDiscId = entry.getCDDBRecord().getCategory()+" "+cdInfo.getCDDBRecord().getDiscID();
+                for (int i = 0; i < discEntities.length; i++) {
+                    Disc discEntity = (Disc) discEntities[i];
+                    if(defaultUniqueDiscId!=null && defaultUniqueDiscId.equals(discEntity.getUniqueDiscId())) {
+                        defaultUniqueDiscId = null;
+                    }
+                    StringTokenizer tokens = new StringTokenizer(discEntity.getUniqueDiscId());
                     if(tokens.hasMoreTokens()) {
-                        DiscHelper.importDiscToMedia(media.getId(),discCategory,tokens.nextToken());
+                        String discCategory = tokens.nextToken();
+                        if(tokens.hasMoreTokens()) {
+                            DiscHelper.importDiscToMedia(media.getId(),discCategory,tokens.nextToken());
+                        }
+                    }
+                }
+                // Import default disc if it is not already imported
+                if(defaultUniqueDiscId!=null) {
+                    StringTokenizer tokens = new StringTokenizer(defaultUniqueDiscId);
+                    if(tokens.hasMoreTokens()) {
+                        String discCategory = tokens.nextToken();
+                        if(tokens.hasMoreTokens()) {
+                            DiscHelper.importDiscToMedia(media.getId(),discCategory,tokens.nextToken());
+                        }
                     }
                 }
             }
-            // Import default disc if it is not already imported
-            if(defaultUniqueDiscId!=null) {
-                StringTokenizer tokens = new StringTokenizer(defaultUniqueDiscId);
-                if(tokens.hasMoreTokens()) {
-                    String discCategory = tokens.nextToken();
-                    if(tokens.hasMoreTokens()) {
-                        DiscHelper.importDiscToMedia(media.getId(),discCategory,tokens.nextToken());
-                    }
-                }
-            }
+        } catch (CDDBProtocolException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (XmcdFormatException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         return mediaId;
     }

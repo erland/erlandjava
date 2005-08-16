@@ -54,11 +54,11 @@ public class WSClient {
 
         try {
             FreeDB freedb = new FreeDB();
-            CDDBRecord[] records = freedb.queryCD(new CDID(new CDDriveWin(1)));
+            CDDBRecord[] records = freedb.queryCD(new CDID(new CDDriveWin()));
             CDInfo cd = null;
             for(int i=0;i<records.length;i++) {
                 if(records[i].isExactMatch()) {
-                    CDID cdid = new CDID(new CDDriveWin(1));
+                    CDID cdid = new CDID(new CDDriveWin());
                     cd = freedb.readCDInfo(records[i]);
                 }
             }
@@ -93,6 +93,10 @@ public class WSClient {
         }
         catch(java.io.IOException e) {
             e.printStackTrace();
+        } catch (XmcdFormatException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (CDDBProtocolException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 }

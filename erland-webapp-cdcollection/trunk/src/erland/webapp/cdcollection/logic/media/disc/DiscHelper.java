@@ -35,52 +35,58 @@ public class DiscHelper {
         int result = -1;
         Settings.setContextClassLoader();
         FreeDB freeDB = new FreeDB();
-        CDInfo cdInfo = freeDB.readCDInfo(new CDDBRecord(category,discId,null,true));
-        if(cdInfo instanceof CDDBEntry) {
-            CDDBEntry entry = (CDDBEntry) cdInfo;
-            QueryFilter filter = new QueryFilter("allforuniquediscid");
-            filter.setAttribute("uniquediscid",entry.getCDDBRecord().getCategory()+" "+cdInfo.getCDDBRecord().getDiscID());
-            EntityInterface[] entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("cdcollection-disc").search(filter);
-            Disc disc = null;
-            if(entities.length>0) {
-                disc = (Disc) entities[0];
-            }else {
-                disc = (Disc) WebAppEnvironmentPlugin.getEnvironment().getEntityFactory().create("cdcollection-disc");
-                disc.setUniqueDiscId(entry.getCDDBRecord().getCategory()+" "+cdInfo.getCDDBRecord().getDiscID());
-                disc.setId(null);
-            }
-            Artist artist = entry.extractCDArtist();
-            if(artist!=null && StringUtil.asNull(disc.getArtist())==null) {
-                disc.setArtist(artist.getName());
-            }
-            Composition composition = entry.extractComposition(false);
-            disc.setMediaId(mediaId);
-            if(StringUtil.asNull(disc.getTitle())==null) {
-                disc.setTitle(composition.getTitle());
-            }
-            disc.setYear(new Integer(composition.getRecordingYear()));
-            WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("cdcollection-disc").store(disc);
-            result = disc.getId().intValue();
-
-            filter = new QueryFilter("allfordisc");
-            filter.setAttribute("disc",disc.getId());
-            WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("cdcollection-disctrack").delete(filter);
-
-            Track[] tracks = entry.extractTracks(false);
-            for (int j = 0; j < tracks.length; j++) {
-                Track track = tracks[j];
-                DiscTrack discTrack = (DiscTrack) WebAppEnvironmentPlugin.getEnvironment().getEntityFactory().create("cdcollection-disctrack");
-                artist = entry.extractTrackArtist(track.getTrackNo());
-                if(artist!=null) {
-                    discTrack.setArtist(artist.getName());
+        try {
+            CDInfo cdInfo = freeDB.readCDInfo(new CDDBRecord(category,discId,null,true));
+            if(cdInfo instanceof CDDBEntry) {
+                CDDBEntry entry = (CDDBEntry) cdInfo;
+                QueryFilter filter = new QueryFilter("allforuniquediscid");
+                filter.setAttribute("uniquediscid",entry.getCDDBRecord().getCategory()+" "+cdInfo.getCDDBRecord().getDiscID());
+                EntityInterface[] entities = WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("cdcollection-disc").search(filter);
+                Disc disc = null;
+                if(entities.length>0) {
+                    disc = (Disc) entities[0];
+                }else {
+                    disc = (Disc) WebAppEnvironmentPlugin.getEnvironment().getEntityFactory().create("cdcollection-disc");
+                    disc.setUniqueDiscId(entry.getCDDBRecord().getCategory()+" "+cdInfo.getCDDBRecord().getDiscID());
+                    disc.setId(null);
                 }
-                discTrack.setDiscId(disc.getId());
-                discTrack.setId(null);
-                discTrack.setTrackNo(new Integer(track.getTrackNo()));
-                discTrack.setTitle(track.getTitle());
-                discTrack.setLength(new Integer(track.getLength()));
-                WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("cdcollection-disctrack").store(discTrack);
+                Artist artist = entry.extractCDArtist();
+                if(artist!=null && StringUtil.asNull(disc.getArtist())==null) {
+                    disc.setArtist(artist.getName());
+                }
+                Composition composition = entry.extractComposition(false);
+                disc.setMediaId(mediaId);
+                if(StringUtil.asNull(disc.getTitle())==null) {
+                    disc.setTitle(composition.getTitle());
+                }
+                disc.setYear(new Integer(composition.getRecordingYear()));
+                WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("cdcollection-disc").store(disc);
+                result = disc.getId().intValue();
+
+                filter = new QueryFilter("allfordisc");
+                filter.setAttribute("disc",disc.getId());
+                WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("cdcollection-disctrack").delete(filter);
+
+                Track[] tracks = entry.extractTracks(false);
+                for (int j = 0; j < tracks.length; j++) {
+                    Track track = tracks[j];
+                    DiscTrack discTrack = (DiscTrack) WebAppEnvironmentPlugin.getEnvironment().getEntityFactory().create("cdcollection-disctrack");
+                    artist = entry.extractTrackArtist(track.getTrackNo());
+                    if(artist!=null) {
+                        discTrack.setArtist(artist.getName());
+                    }
+                    discTrack.setDiscId(disc.getId());
+                    discTrack.setId(null);
+                    discTrack.setTrackNo(new Integer(track.getTrackNo()));
+                    discTrack.setTitle(track.getTitle());
+                    discTrack.setLength(new Integer(track.getLength()));
+                    WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("cdcollection-disctrack").store(discTrack);
+                }
             }
+        } catch (CDDBProtocolException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (XmcdFormatException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         return result;
     }
