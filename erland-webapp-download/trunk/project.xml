@@ -13,7 +13,7 @@
   
   <!-- The version of the project under development, e.g.
        1.1, 1.2, 2.0-SNAPSHOT -->
-  <currentVersion>1.2.2</currentVersion>
+  <currentVersion>1.2.3</currentVersion>
   
   <organization>
         <name>Erland Isaksson</name>
@@ -62,7 +62,7 @@
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-webapp-common</artifactId>
-      <version>1.23</version>
+      <version>1.25</version>
       <type>jar</type>
       <properties>
 	      <war.bundle>true</war.bundle>
@@ -254,7 +254,7 @@
   
   <!-- build information for the project -->
   <build>
-    <nagEmailAddress>erland.i@telia.com</nagEmailAddress>
+    <nagEmailAddress>erland_i@hotmail.com</nagEmailAddress>
     <sourceDirectory>src</sourceDirectory>
     <resources>
         <resource>
