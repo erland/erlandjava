@@ -3,6 +3,7 @@ package erland.webapp.cdcollection.act.media;
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.common.image.ImageWriteHelper;
 import erland.webapp.common.image.ImageThumbnail;
+import erland.webapp.common.image.CopyrightCreatorInterface;
 import erland.webapp.cdcollection.fb.media.MediaFB;
 import erland.webapp.cdcollection.fb.media.CoverFB;
 import erland.webapp.cdcollection.entity.media.Media;
@@ -95,7 +96,7 @@ public class LoadMediaCoverAction extends BaseAction {
         Float coverCompression = StringUtil.asFloat(getEnvironment().getConfigurableResources().getParameter("cover.compression"),null);
         try {
             response.setContentType("image/jpeg");
-            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), coverWidth, coverHeight,Boolean.TRUE, coverCompression, "", getCoverFile(request), null, thumbnailCreator, response.getOutputStream())) {
+            if (!ImageWriteHelper.writeThumbnail(getEnvironment(), coverWidth, coverHeight,Boolean.TRUE, coverCompression, "", getCoverFile(request), (CopyrightCreatorInterface)null, thumbnailCreator, response.getOutputStream())) {
                 return findFailure(mapping,form,request,response);
             }
         } catch (IOException e) {
