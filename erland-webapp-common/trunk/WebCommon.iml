@@ -49,13 +49,13 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Jakarta Struts" level="application" />
     <orderEntry type="library" name="commons-beanutils" level="application" />
-    <orderEntry type="library" name="Servletapi" level="application" />
     <orderEntry type="module" module-name="util" />
     <orderEntry type="library" name="metadata-extractor" level="application" />
     <orderEntry type="library" name="commons-logging" level="application" />
-    <orderEntry type="library" name="JMF" level="application" />
+    <orderEntry type="library" name="struts" level="application" />
+    <orderEntry type="library" name="jmf" level="application" />
+    <orderEntry type="library" name="servletapi" level="application" />
     <orderEntryProperties />
   </component>
 </module>
