@@ -14,14 +14,14 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="commons-beanutils" level="application" />
     <orderEntry type="library" name="commons-logging" level="application" />
-    <orderEntry type="library" name="Jakarta Struts" level="application" />
     <orderEntry type="library" name="securityfilter" level="application" />
-    <orderEntry type="library" name="Servletapi" level="application" />
     <orderEntry type="module" module-name="UserMgmt" />
     <orderEntry type="module" module-name="util" />
     <orderEntry type="module" module-name="WebCommon" />
     <orderEntry type="library" name="wsdl4j" level="application" />
     <orderEntry type="library" name="wsif" level="application" />
+    <orderEntry type="library" name="servletapi" level="application" />
+    <orderEntry type="library" name="struts" level="application" />
     <orderEntryProperties />
   </component>
   <component name="WebModuleBuildComponent">
@@ -54,15 +54,19 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib" />
     </containerElement>
-    <containerElement type="library" level="application" name="Jakarta Struts">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib" />
-    </containerElement>
-    <containerElement type="library" level="application" name="metadata-extractor">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib" />
-    </containerElement>
     <containerElement type="library" level="application" name="securityfilter">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib" />
+    </containerElement>
+    <containerElement type="library" level="application" name="struts">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib" />
+    </containerElement>
+    <containerElement type="library" level="application" name="wsdl4j">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib" />
+    </containerElement>
+    <containerElement type="library" level="application" name="wsif">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib" />
     </containerElement>
