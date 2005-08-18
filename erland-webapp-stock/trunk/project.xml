@@ -62,7 +62,7 @@
       <url>http://erland.homeip.net</url>
       <groupId>erland</groupId>
       <artifactId>erland-webapp-common</artifactId>
-      <version>1.24</version>
+      <version>1.25</version>
       <type>jar</type>
       <properties>
 	      <war.bundle>true</war.bundle>
