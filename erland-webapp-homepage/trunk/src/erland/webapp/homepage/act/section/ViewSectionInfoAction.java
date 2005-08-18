@@ -82,6 +82,9 @@ public class ViewSectionInfoAction extends BaseAction {
         if(useEnglish && StringUtil.asNull(section.getDirectLinkEnglish())!=null) {
             pb.setDirectLink(section.getDirectLinkEnglish());
         }
+        if(StringUtil.asNull(pb.getDirectLink())!=null) {
+            pb.setDirectLink(ServletParameterHelper.replaceHostAndContextParameters(request,pb.getDirectLink()));
+        }
         Map parameters = new HashMap();
         parameters.put("user",username);
         parameters.put("section",section.getId());
@@ -112,11 +115,14 @@ public class ViewSectionInfoAction extends BaseAction {
                         }else {
                             parameterValues.put("usertype","guest");
                         }
-                        String sectionParameterString = ServletParameterHelper.replaceDynamicParameters(StringUtil.asEmpty(section.getServiceParameters()),parameterValues);
-                        String serviceParameterString = ServletParameterHelper.replaceDynamicParameters(StringUtil.asEmpty(service.getServiceData()),parameterValues);
+                        String sectionParameterString = ServletParameterHelper.replaceHostAndContextParameters(request,section.getServiceParameters());
+                        sectionParameterString = ServletParameterHelper.replaceDynamicParameters(StringUtil.asEmpty(sectionParameterString),parameterValues);
+                        String serviceParameterString = ServletParameterHelper.replaceHostAndContextParameters(request,service.getServiceData());
+                        serviceParameterString = ServletParameterHelper.replaceDynamicParameters(StringUtil.asEmpty(serviceParameterString),parameterValues);
                         ParameterValueStorageExInterface serviceParameters = new ParameterStorageParameterString(new StringStorage(sectionParameterString),new StringStorage(serviceParameterString),',',StringUtil.asEmpty(service.getCustomizedServiceData()),null);
                         LOG.debug("Executing service: "+serviceInstance);
                         String result = (((ServiceInterface)serviceInstance).execute(serviceParameters));
+                        result = ServletParameterHelper.replaceHostAndContextParameters(request,result);
                         LOG.trace(result);
                         if(StringUtil.asNull(service.getTransformerClass())!=null) {
                             LOG.debug("Loading transformer: "+service.getTransformerClass());
@@ -134,6 +140,7 @@ public class ViewSectionInfoAction extends BaseAction {
                                 LOG.debug("Transforming with: "+transformerInstance);
                                 result = ((TransformerInterface)transformerInstance).transform(result,transformerParameters);
                                 LOG.trace("After transform: "+result);
+                                result = ServletParameterHelper.replaceHostAndContextParameters(request,result);
                             }
                         }
                         pb.setServiceResult(result);

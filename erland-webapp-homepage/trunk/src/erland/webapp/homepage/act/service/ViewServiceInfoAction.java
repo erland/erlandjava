@@ -72,10 +72,12 @@ public class ViewServiceInfoAction extends BaseAction{
                             parameterValues.put("usertype","guest");
                         }
                         String sectionParameterString = ServletParameterHelper.replaceDynamicParameters(StringUtil.asEmpty(getRequestParameters(request)),parameterValues);
-                        String serviceParameterString = ServletParameterHelper.replaceDynamicParameters(StringUtil.asEmpty(serviceEntity.getServiceData()),parameterValues);
+                        String serviceParameterString = ServletParameterHelper.replaceHostAndContextParameters(request,StringUtil.asEmpty(serviceEntity.getServiceData()));
+                        serviceParameterString = ServletParameterHelper.replaceDynamicParameters(serviceParameterString,parameterValues);
                         ParameterValueStorageExInterface serviceParameters = new ParameterStorageParameterString(new StringStorage(sectionParameterString),new StringStorage(serviceParameterString),',',StringUtil.asEmpty(serviceEntity.getCustomizedServiceData()),null);
                         LOG.debug("Executing service: "+serviceInstance);
                         String result = (((ServiceInterface)serviceInstance).execute(serviceParameters));
+                        result = ServletParameterHelper.replaceHostAndContextParameters(request,result);
                         LOG.trace(result);
                         if(StringUtil.asNull(serviceEntity.getTransformerClass())!=null) {
                             LOG.debug("Loading transformer: "+serviceEntity.getTransformerClass());
@@ -93,6 +95,7 @@ public class ViewServiceInfoAction extends BaseAction{
                                 LOG.debug("Transforming with: "+transformerInstance);
                                 result = ((TransformerInterface)transformerInstance).transform(result,transformerParameters);
                                 LOG.trace("After transform: "+result);
+                                result = ServletParameterHelper.replaceHostAndContextParameters(request,result);
                             }
                         }
                         request.setAttribute("serivceResultPB",result);
