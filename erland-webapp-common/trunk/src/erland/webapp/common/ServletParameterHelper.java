@@ -2,10 +2,15 @@ package erland.webapp.common;
 
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.HashMap;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 import erland.util.*;
+
+import javax.servlet.jsp.PageContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletRequest;
 
 /*
  * Copyright (C) 2003-2004 Erland Isaksson (erland_i@hotmail.com)
@@ -31,9 +36,15 @@ public class ServletParameterHelper {
     private static Log LOG = LogFactory.getLog(ServletParameterHelper.class);
     private static boolean bLogging = LOG.isDebugEnabled();
     public static String replaceDynamicParameters(String address, Map parameters) {
-        return replaceDynamicParameters(address,new ObjectStorageMap(parameters));
+        return replaceDynamicParameters(address,parameters,true);
+    }
+    public static String replaceDynamicParameters(String address, Map parameters, boolean replaceNonExisting) {
+        return replaceDynamicParameters(address,new ObjectStorageMap(parameters),replaceNonExisting);
     }
     public static String replaceDynamicParameters(String address, ObjectStorageInterface parameters) {
+        return replaceDynamicParameters(address,parameters,true);
+    }
+    public static String replaceDynamicParameters(String address, ObjectStorageInterface parameters, boolean replaceNonExisting) {
         if(bLogging) LOG.debug("Got: "+address);
         StringBuffer sb = new StringBuffer(address);
         int startPos = sb.indexOf("[");
@@ -65,10 +76,10 @@ public class ServletParameterHelper {
                             if(visibleValue instanceof Object[]) {
                                 Object[] visibleValues = (Object[]) visibleValue;
                                 for (int i = 0; i < visibleValues.length; i++) {
-                                    resultString += internalReplaceDynamicParameters(realString,parameters,i);
+                                    resultString += internalReplaceDynamicParameters(realString,parameters,i,replaceNonExisting);
                                 }
                             }else {
-                                resultString = internalReplaceDynamicParameters(realString,parameters,0);
+                                resultString = internalReplaceDynamicParameters(realString,parameters,0,replaceNonExisting);
                             }
                             if(resultString!=null) {
                                 sb.replace(startPos,endPos+1,resultString);
@@ -81,7 +92,7 @@ public class ServletParameterHelper {
                             sb.replace(startPos,endPos+1,"");
                             endPos = startPos;
                         }
-                    }else if(!bExists && (visibleValue==null ||
+                    }else if(!bExists && ((replaceNonExisting && visibleValue==null) ||
                             (visibleValue instanceof Object[] && ((Object[])visibleValue).length==0) ||
                             (visibleValue.toString().length()==0))) {
                         String realString = sb.substring(attributeEndPos+1,endPos);
@@ -89,10 +100,10 @@ public class ServletParameterHelper {
                         if(visibleValue instanceof Object[]) {
                             Object[] visibleValues = (Object[]) visibleValue;
                             for (int i = 0; i < visibleValues.length; i++) {
-                                resultString += internalReplaceDynamicParameters(realString,parameters,i);
+                                resultString += internalReplaceDynamicParameters(realString,parameters,i,replaceNonExisting);
                             }
                         }else {
-                            resultString = internalReplaceDynamicParameters(realString,parameters,0);
+                            resultString = internalReplaceDynamicParameters(realString,parameters,0,replaceNonExisting);
                         }
                         if(StringUtil.asNull(resultString)!=null) {
                             sb.replace(startPos,endPos+1,resultString);
@@ -101,9 +112,11 @@ public class ServletParameterHelper {
                             sb.replace(startPos,endPos+1,"");
                             endPos = startPos;
                         }
-                    }else {
+                    }else if(replaceNonExisting) {
                         sb.replace(startPos,endPos+1,"");
                         endPos = startPos;
+                    }else {
+                        endPos = endPos+1;
                     }
                 }
                 startPos = sb.indexOf("[",endPos);
@@ -115,12 +128,12 @@ public class ServletParameterHelper {
                 startPos = -1;
             }
         }
-        String result = internalReplaceDynamicParameters(sb.toString(),parameters, 0);
+        String result = internalReplaceDynamicParameters(sb.toString(),parameters, 0,replaceNonExisting);
         if(bLogging) LOG.debug("Return: "+result);
         return result;
     }
 
-    private static String internalReplaceDynamicParameters(String address, ObjectStorageInterface parameters, int index) {
+    private static String internalReplaceDynamicParameters(String address, ObjectStorageInterface parameters, int index,boolean replaceNonExisting) {
         if(bLogging) LOG.debug("Got: "+address);
         StringBuffer sb = new StringBuffer(address);
         int startPos = sb.indexOf("{");
@@ -140,9 +153,11 @@ public class ServletParameterHelper {
                         sb.replace(startPos,endPos+1,"");
                         endPos = startPos;
                     }
-                }else {
+                }else if(replaceNonExisting) {
                     sb.replace(startPos,endPos+1,"");
                     endPos = startPos;
+                }else {
+                    endPos = endPos+1;
                 }
                 startPos = sb.indexOf("{",endPos);
             }else {
@@ -230,4 +245,19 @@ public class ServletParameterHelper {
         if(bLogging) LOG.debug("getParameter: "+parameter+"="+result);
         return result;
     }
+    public static String replaceHostAndContextParameters(ServletRequest request, String in) {
+        Map parameters = new HashMap();
+        String port = "";
+        if(request.getServerPort()!=80) {
+            port=":"+request.getServerPort();
+        }
+        parameters.put("HOSTANDPORT",request.getServerName()+port);
+        if(request instanceof HttpServletRequest) {
+            parameters.put("CONTEXT",((HttpServletRequest)request).getContextPath());
+        }else {
+            parameters.put("CONTEXT","");
+        }
+        return ServletParameterHelper.replaceDynamicParameters(in,parameters,false);
+    }
+
 }
