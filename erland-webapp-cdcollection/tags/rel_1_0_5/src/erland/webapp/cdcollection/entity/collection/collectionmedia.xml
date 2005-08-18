@@ -1,0 +1,46 @@
+<entity id="collectionmedia">
+    <class>erland.webapp.cdcollection.entity.collection.CollectionMedia</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/cdcollection</datasource>
+        <table>collectionmedias</table>
+        <fields>
+            <field id="collectionId">
+                <column>collectionid</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+            <field id="mediaId">
+                <column>mediaid</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+        </fields>
+        <queries>
+            <query id="all">
+                <querystring/>
+            </query>
+            <query id="allformedia">
+                <querystring>mediaid=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>media</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforcollection">
+                <querystring>colllectionid=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>collection</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>

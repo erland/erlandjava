@@ -1,0 +1,1 @@
+java -classpath "@CLASSPATH@" erland.webapp.cdcollection.ws.client.WSClient %*
