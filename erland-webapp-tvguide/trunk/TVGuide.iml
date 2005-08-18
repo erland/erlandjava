@@ -10,17 +10,17 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Jakarta Struts" level="application" />
     <orderEntry type="library" name="securityfilter" level="application" />
-    <orderEntry type="library" name="Servletapi" level="application" />
     <orderEntry type="module" module-name="UserMgmt" />
     <orderEntry type="module" module-name="util" />
     <orderEntry type="module" module-name="WebCommon" />
     <orderEntry type="library" name="commons-beanutils" level="application" />
     <orderEntry type="library" name="commons-logging" level="application" />
-    <orderEntry type="library" name="Dom4J" level="application" />
-    <orderEntry type="library" name="javamail-1.3.2" level="application" />
-    <orderEntry type="library" name="muse-8.1" level="application" />
+    <orderEntry type="library" name="servletapi" level="application" />
+    <orderEntry type="library" name="struts" level="application" />
+    <orderEntry type="library" name="dom4j" level="application" />
+    <orderEntry type="library" name="javamail" level="application" />
+    <orderEntry type="library" name="muse" level="application" />
     <orderEntryProperties />
   </component>
   <component name="WebModuleBuildComponent">
@@ -41,19 +41,15 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib" />
     </containerElement>
-    <containerElement type="library" level="application" name="Dom4J">
+    <containerElement type="library" level="application" name="dom4j">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib" />
     </containerElement>
-    <containerElement type="library" level="application" name="Jakarta Struts">
+    <containerElement type="library" level="application" name="javamail">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib" />
     </containerElement>
-    <containerElement type="library" level="application" name="javamail-1.3.2">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib" />
-    </containerElement>
-    <containerElement type="library" level="application" name="muse-8.1">
+    <containerElement type="library" level="application" name="muse">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib" />
     </containerElement>
