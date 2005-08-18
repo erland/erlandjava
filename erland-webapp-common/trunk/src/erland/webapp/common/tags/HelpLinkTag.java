@@ -96,10 +96,11 @@ public class HelpLinkTag extends TagSupport {
             if(context!=null) {
                 parameters.put("context",context);
             }
-            link = ServletParameterHelper.replaceDynamicParameters(link,parameters);
+            String newLink = ServletParameterHelper.replaceHostAndContextParameters(pageContext.getRequest(),link);
+            newLink = ServletParameterHelper.replaceDynamicParameters(newLink,parameters);
 
             try {
-                out.write("<a href=\""+addContextPath(link)+"\" "+(style!=null?"class=\""+style+"\" ":"")+" "+(target!=null?" target=\""+target+"\"":"")+(onClickMessage!=null?" onClick=\"return confirm('"+onClickMessage+"')\"":"")+(title!=null?" title=\""+title+"\" ":"")+">");
+                out.write("<a href=\""+addContextPath(newLink)+"\" "+(style!=null?"class=\""+style+"\" ":"")+" "+(target!=null?" target=\""+target+"\"":"")+(onClickMessage!=null?" onClick=\"return confirm('"+onClickMessage+"')\"":"")+(title!=null?" title=\""+title+"\" ":"")+">");
                 return EVAL_BODY_INCLUDE;
             } catch (IOException e) {
                 link = null;

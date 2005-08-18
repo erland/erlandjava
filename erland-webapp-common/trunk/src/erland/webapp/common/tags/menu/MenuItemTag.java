@@ -209,7 +209,9 @@ public class MenuItemTag extends TagSupport implements MenuItemInterface {
                 if(indent>0) {
                     out.write("<img src=\""+addContextPath(getIndentImage())+"\" width=\""+(getIndentWidth()*indent)+"\" height=\"1\"></img>");
                 }
-                out.write("<a "+(style!=null?"class=\""+style+"\" ":"")+"href=\""+addContextPath(ServletParameterHelper.replaceDynamicParameters(page, getParameterMap(getMenuId(),getItemId())))+"\""+(target!=null?" target=\""+target+"\"":"")+"\">");
+                String link = ServletParameterHelper.replaceHostAndContextParameters(pageContext.getRequest(),page);
+                link = ServletParameterHelper.replaceDynamicParameters(link, getParameterMap(getMenuId(),getItemId()));
+                out.write("<a "+(style!=null?"class=\""+style+"\" ":"")+"href=\""+addContextPath(link)+"\""+(target!=null?" target=\""+target+"\"":"")+"\">");
                 if(titleKey!=null) {
                     String title = RequestUtils.message(pageContext,null,null,titleKey);
                     if(title!=null) {

@@ -272,6 +272,7 @@ public class BeanLinkTag extends TagSupport {
             if(StringUtil.asNull(getParameters())!=null) {
                 newLink = ServletParameterHelper.replaceParametersInUrl(newLink,getParameters());
             }
+            newLink = ServletParameterHelper.replaceHostAndContextParameters(pageContext.getRequest(),newLink);
             try {
                 out.write("<a href=\""+addContextPath(newLink)+"\" "+(style!=null?"class=\""+style+"\" ":"")+" "+(target!=null?" target=\""+target+"\"":"")+(onClickMessage!=null?" onClick=\"return confirm('"+onClickMessage+"')\"":"")+(title!=null?" title=\""+title+"\" ":"")+">");
                 return EVAL_BODY_INCLUDE;

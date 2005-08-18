@@ -276,7 +276,9 @@ public class BeanMenuItemTag extends TagSupport {
                 if(indent>0) {
                     out.write("<img src=\""+((HttpServletRequest)pageContext.getRequest()).getContextPath()+getIndentImage()+"\" width=\""+(getIndentWidth()*indent)+"\" height=\"1\"></img>");
                 }
-                out.write("<a " + (style != null ? "class=\"" + style + "\" " : "") + "href=\"" + addContextPath(ServletParameterHelper.replaceDynamicParameters((String) page, getParameterMap(item, getMenuId(), (String) id))) + "\""+(target!=null?" target=\""+target+"\"":"")+">");
+                String link = ServletParameterHelper.replaceHostAndContextParameters(pageContext.getRequest(),page);
+                link = ServletParameterHelper.replaceDynamicParameters(link, getParameterMap(item, getMenuId(), (String) id));
+                out.write("<a " + (style != null ? "class=\"" + style + "\" " : "") + "href=\"" + addContextPath(link) + "\""+(target!=null?" target=\""+target+"\"":"")+">");
                 if (title != null) {
                     out.write((String) title);
                 }else if(titleKey != null) {

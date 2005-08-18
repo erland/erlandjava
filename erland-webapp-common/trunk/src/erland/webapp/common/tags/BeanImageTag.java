@@ -131,6 +131,7 @@ public class BeanImageTag extends TagSupport {
             if(StringUtil.asNull(getParameters())!=null) {
                 link = ServletParameterHelper.replaceParametersInUrl(link,getParameters());
             }
+            link = ServletParameterHelper.replaceHostAndContextParameters(pageContext.getRequest(),link);
             try {
                 out.write("<img src=\""+addContextPath(link)+"\" "+(style!=null?"class=\""+style+"\" ":"")+" "+(border!=null?" border=\""+border+"\"":"")+(width!=null?" width=\""+width+"\"":"")+(height!=null?" height=\""+height+"\"":"")+"></img>");
             } catch (IOException e) {

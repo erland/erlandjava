@@ -224,13 +224,16 @@ public class CalendarTag extends TagSupport {
                     }
                     parameters.put("day", "" + day);
                     if (link != null) {
+                        link = ServletParameterHelper.replaceHostAndContextParameters(pageContext.getRequest(),link);
                         out.write("<a href=\"" + addContextPath(link)+ "\" title=\"" + titleStrings[day] + "\""+(styleLink != null ? " class=\"" + styleLink + "\"" : "")+">");
                     }
                     if (daysArray[day-1] != null && image != null) {
-                        String imageLink = ServletParameterHelper.replaceDynamicParameters(image, parameters);
+                        String imageLink = ServletParameterHelper.replaceHostAndContextParameters(pageContext.getRequest(),image);
+                        imageLink = ServletParameterHelper.replaceDynamicParameters(imageLink, parameters);
                         out.write("<img src=\"" + addContextPath(imageLink) + "\" border=\"0\" onmouseover=\"doChangeText(" + day + ")\" onmouseout=\"doChangeText(0)\"></img>");
                     } else if (daysArray[day-1] == null && imageEmpty != null) {
-                        String imageLink = ServletParameterHelper.replaceDynamicParameters(imageEmpty, parameters);
+                        String imageLink = ServletParameterHelper.replaceHostAndContextParameters(pageContext.getRequest(),imageEmpty);
+                        imageLink = ServletParameterHelper.replaceDynamicParameters(imageLink, parameters);
                         out.write("<img src=\"" + addContextPath(imageLink) + "\" border=\"0\" onmouseover=\"doChangeText(" + day + ")\" onmouseout=\"doChangeText(0)\"></img>");
                     } else {
                         out.write("<p"+(styleText != null ? " class=\"" + styleText + "\"" : "")+">"+day+"</p>");

@@ -1,12 +1,17 @@
 package erland.webapp.common.tags;
 
 import erland.webapp.common.html.HTMLEncoder;
+import erland.webapp.common.ServletParameterHelper;
 
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Map;
+import java.util.HashMap;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -36,7 +41,7 @@ public class ExpandHtmlTag extends BodyTagSupport {
             // getJspWriter to output content
             JspWriter out = bc.getEnclosingWriter();
             if (body != null) {
-                out.print(HTMLEncoder.encode(body));
+                out.print(ServletParameterHelper.replaceHostAndContextParameters(pageContext.getRequest(),HTMLEncoder.encode(body)));
             }
         } catch (IOException e) {
             throw new JspException("Error: " + e.getMessage());
