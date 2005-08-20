@@ -30,5 +30,5 @@
     <input type="submit" value="<bean:message key="homepage.account.new.register"/>">
     <input type="button" value="<bean:message key="homepage.account.new.cancel"/>" onClick="window.location='<html:rewrite page="/do/index"/>'">
     </td></tr>
-    <table>
+    </table>
 </html:form>

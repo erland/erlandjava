@@ -63,4 +63,5 @@
     <tr><td></td><td>
     <html:submit><bean:message key="homepage.buttons.save"/></html:submit>
     </td></tr>
+    </table>
 </html:form>

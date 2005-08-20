@@ -13,3 +13,4 @@
   </HEAD>
 <bean:define id="redirectAddress" name="sectionPB" property="directLink" type="String" />
 <logic:redirect href="<%=redirectAddress%>"/>
+</HTML>
