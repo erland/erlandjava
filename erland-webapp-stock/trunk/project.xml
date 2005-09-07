@@ -23,14 +23,10 @@
   <!-- the year the project started -->
   <inceptionYear>2003</inceptionYear>
   <package>erland.webapp.stocks</package>
-  <description>
-    A web application that makes it possible to look at history values
-    of a stock portfolio. The stock rates are retreived from the brokers
-  </description>
+  <description>A web application that makes it possible to look at history values
+    of a stock portfolio. The stock rates are retreived from the brokers</description>
   <!-- a short description of what the project does -->
-  <shortDescription>
-    A web application for viewing stock portfolio
-  </shortDescription>
+  <shortDescription>A web application for viewing stock portfolio</shortDescription>
 
   <siteDirectory>\\xp2500\erland/public_html/java/erland-webapp-stock</siteDirectory>
   <!-- any mailing lists for the project -->
