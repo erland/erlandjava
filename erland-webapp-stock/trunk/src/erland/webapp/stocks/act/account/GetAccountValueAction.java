@@ -20,10 +20,12 @@ package erland.webapp.stocks.act.account;
 
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
 import erland.webapp.stocks.bl.entity.StockAccount;
+import erland.webapp.stocks.bl.entity.StockAccountValue;
 import erland.webapp.stocks.bl.service.StockAccountManager;
 import erland.webapp.stocks.bl.logic.account.StockAccountStockEntryListInterface;
 import erland.webapp.stocks.fb.account.AccountDiagramFB;
 import erland.webapp.stocks.fb.account.AccountValuePB;
+import erland.webapp.stocks.fb.account.AccountStatisticPB;
 import erland.webapp.stocks.fb.stock.SelectFB;
 import erland.webapp.diagram.DateValueSerieInterface;
 import erland.webapp.diagram.DateValueDiagramHelper;
@@ -47,20 +49,39 @@ public class GetAccountValueAction extends Action {
         AccountDiagramFB fb = (AccountDiagramFB) actionForm;
         StockAccountManager accountManager = (StockAccountManager) WebAppEnvironmentPlugin.getEnvironment().getServiceFactory().create("stock-stockaccountmanager");
         StockAccount account = accountManager.getAccount(httpServletRequest.getRemoteUser());
-        double value =0;
-        double purchaseValue = 0;
         if(fb.getStartDate()!=null && fb.getEndDate()!=null) {
+            StockAccountValue value;
+            double purchaseValue = 0;
             if(fb.getBroker()!=null && fb.getStock()!=null) {
                 value = account.getStockValue(fb.getBroker(),fb.getStock(),fb.getEndDate());
                 purchaseValue = account.getPurchaseValue(fb.getBroker(),fb.getStock(),fb.getEndDate());
-            }else  {
+            }else if(fb.getBroker()!=null && fb.getStock()==null) {
                 value = account.getStockValue(fb.getBroker(),fb.getEndDate());
                 purchaseValue = account.getPurchaseValue(fb.getBroker(),fb.getEndDate());
+            }else {
+                value = account.getStockValue(fb.getEndDate());
+                purchaseValue = account.getPurchaseValue(fb.getEndDate());
             }
             AccountValuePB pb = new AccountValuePB();
             pb.setDate(fb.getEndDate());
-            pb.setValue(new Double(value));
+            pb.setValue(new Double(value.getValue()));
             pb.setPurchaseValue(new Double(purchaseValue));
+            if(value.getNoOfStocks()>0) {
+                pb.setNoOfStocks(new Double(value.getNoOfStocks()));
+            }
+            if(value.getRate()>0) {
+                pb.setCurrentRate(new Double(value.getRate()));
+            }
+            pb.setTotalStatistic(new Double((value.getValue()-purchaseValue)*100.0/purchaseValue));
+            int[] years = value.getStatisticYears();
+            if(years.length>0) {
+                AccountStatisticPB[] yearStats=new AccountStatisticPB[years.length];
+                for (int i = 0; i < years.length; i++) {
+                    yearStats[i] = new AccountStatisticPB();
+                    yearStats[i].setYear(new Integer(years[i]));
+                    yearStats[i].setValue(new Double(value.getStatistic(years[i])));
+                }
+            }
             httpServletRequest.setAttribute("accountValuePB",pb);
         }
         return actionMapping.findForward("success");
