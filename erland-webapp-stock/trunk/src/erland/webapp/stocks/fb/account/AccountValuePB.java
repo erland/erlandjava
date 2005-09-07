@@ -31,6 +31,10 @@ public class AccountValuePB extends ActionForm implements Serializable{
     private Date date;
     private Double value;
     private Double purchaseValue;
+    private Double noOfStocks;
+    private Double currentRate;
+    private AccountStatisticPB[] statisticsPerYear;
+    private Double totalStatistic;
 
     private static final NumberFormat numberFormat = new DecimalFormat("#.##");
 
@@ -63,7 +67,7 @@ public class AccountValuePB extends ActionForm implements Serializable{
     }
 
     public void setValueDisplay(String valueDisplay) {
-        this.value = new Double(valueDisplay);
+        this.value = StringUtil.asDouble(valueDisplay,null);
     }
 
     public Double getPurchaseValue() {
@@ -79,6 +83,61 @@ public class AccountValuePB extends ActionForm implements Serializable{
     }
 
     public void setPurchaseValueDisplay(String purchaseValueDisplay) {
-        this.purchaseValue = new Double(purchaseValueDisplay);
+        this.purchaseValue = StringUtil.asDouble(purchaseValueDisplay,null);
+    }
+
+    public Double getNoOfStocks() {
+        return noOfStocks;
+    }
+
+    public void setNoOfStocks(Double noOfStocks) {
+        this.noOfStocks = noOfStocks;
+    }
+
+    public String getNoOfStocksDisplay() {
+        return noOfStocks!=null?numberFormat.format(noOfStocks.doubleValue()):"";
+    }
+
+    public void setNoOfStocksDisplay(String noOfStocksDisplay) {
+        this.noOfStocks = StringUtil.asDouble(noOfStocksDisplay,null);
+    }
+
+    public Double getCurrentRate() {
+        return currentRate;
+    }
+
+    public void setCurrentRate(Double currentRate) {
+        this.currentRate = currentRate;
+    }
+
+    public String getCurrentRateDisplay() {
+        return currentRate!=null?numberFormat.format(currentRate.doubleValue()):"";
+    }
+
+    public void setCurrentRateDisplay(String currentRateDisplay) {
+        this.currentRate = new Double(currentRateDisplay);
+    }
+
+    public AccountStatisticPB[] getStatisticsPerYear() {
+        return statisticsPerYear;
+    }
+
+    public void setStatisticsPerYear(AccountStatisticPB[] statisticsPerYear) {
+        this.statisticsPerYear = statisticsPerYear;
+    }
+
+    public Double getTotalStatistic() {
+        return totalStatistic;
+    }
+
+    public void setTotalStatistic(Double totalStatistic) {
+        this.totalStatistic = totalStatistic;
+    }
+    public String getTotalStatisticDisplay() {
+        return totalStatistic!=null?numberFormat.format(totalStatistic.doubleValue()):"";
+    }
+
+    public void setTotalStatisticDisplay(String totalStatisticDisplay) {
+        this.totalStatistic = StringUtil.asDouble(totalStatisticDisplay,null);
     }
 }
