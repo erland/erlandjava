@@ -438,15 +438,19 @@ public abstract class StockAccount implements EntityInterface {
         return result;
     }
 
-    public double getStockValue(String broker, String stock, Date date) {
+    public StockAccountValue getStockValue(String broker, String stock, Date date) {
         LOG.debug("getStockValue "+broker+" "+stock+" "+date);
         StockInterface s = stockStorage.getStock(broker,stock);
         double noOfStocks = getStockValue(s.getRates(),broker,stock,date,SerieType.STOCK_VALUES);
         int i = s.getRates().indexOf(date);
         if(i>=0) {
-            return noOfStocks*s.getRates().getDateValue(i).getValue();
+            StockAccountValue result = new StockAccountValue();
+            result.setValue(noOfStocks*s.getRates().getDateValue(i).getValue());
+            result.setRate(s.getRates().getDateValue(i).getValue());
+            result.setNoOfStocks(noOfStocks);
+            return result;
         }else {
-            return 0;
+            return null;
         }
     }
 
@@ -710,20 +714,27 @@ public abstract class StockAccount implements EntityInterface {
         return getPurchaseValues(broker, fromDate, toDate, purchaseName, SerieType.PURCHASEDIFF_VALUES);
     }
 
-    public double getStockValue(Date date) {
+    public StockAccountValue getStockValue(Date date) {
         return getStockValue(null,date);
     }
-    public double getStockValue(String broker, Date date) {
+    public StockAccountValue getStockValue(String broker, Date date) {
         LOG.debug("getStockValue "+date);
         double value=0;
         StockAccountStockEntry[] stocks = getStocks();
         for(int i=0;i<stocks.length;i++) {
             StockAccountStockEntry entry = stocks[i];
             if(broker==null || entry.getBroker().equals(broker)) {
-                value += getStockValue(entry.getBroker(),entry.getStock(),date);
+                StockAccountValue stockValue = getStockValue(entry.getBroker(),entry.getStock(),date);
+                if(stockValue!=null) {
+                    value += stockValue.getValue();
+                }
             }
         }
-        return value;
+        StockAccountValue result = new StockAccountValue();
+        result.setValue(value);
+        result.setNoOfStocks(0);
+        result.setRate(0);
+        return result;
     }
 
     public double getPurchaseValue(Date date) {
