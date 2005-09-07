@@ -288,6 +288,9 @@
         <set-property
             property="applicationName"
             value="stock"/>
+        <set-property
+            property="xmlParser"
+            value="erland.util.SAXXMLParser"/>
     </plug-in>
     <plug-in className="org.apache.struts.tiles.TilesPlugin">
         <set-property property="definitions-config"
