@@ -8,7 +8,18 @@
     <bean:define name="accountValuePB" property="dateDisplay" id="date" type="String"/>
     <bean:define name="accountValuePB" property="valueDisplay" id="value" type="String"/>
     <bean:define name="accountValuePB" property="purchaseValueDisplay" id="purchaseValue" type="String"/>
-    <bean:message key="stock.account.diagram.value-description" arg0='<%=date%>' arg1='<%=value%>' arg2='<%=purchaseValue%>' />
+    <bean:define name="accountValuePB" property="noOfStocksDisplay" id="noOfStocks" type="String"/>
+    <bean:define name="accountValuePB" property="currentRateDisplay" id="currentRate" type="String"/>
+    <bean:define name="accountValuePB" property="totalStatisticDisplay" id="totalStatistic" type="String"/>
+    <logic:empty name="noOfStocks">
+        <bean:message key="stock.account.diagram.value-description" arg0='<%=date%>' arg1='<%=value%>' arg2='<%=purchaseValue%>' />
+    </logic:empty>
+    <logic:notEmpty name="noOfStocks">
+        <bean:message key="stock.account.diagram.value-description-extended" arg0='<%=date%>' arg1='<%=value%>' arg2='<%=purchaseValue%>' arg3='<%=noOfStocks%>' arg4='<%=currentRate%>'/>
+    </logic:notEmpty>
+    <logic:notEmpty name="totalStatistic">
+        <br><bean:message key="stock.account.diagram.statistic" arg0='<%=totalStatistic%>'/>
+    </logic:notEmpty>
     </p>
     <br>
     <img src="<html:rewrite page="/do/accountdiagram"/>?broker=<bean:write name="accountDiagramFB" property="broker"/>&stock=<bean:write name="accountDiagramFB" property="stock"/>&startDateDisplay=<bean:write name="accountDiagramFB" property="startDateDisplay"/>&endDateDisplay=<bean:write name="accountDiagramFB" property="endDateDisplay"/>"></img>
