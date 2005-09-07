@@ -1,0 +1,62 @@
+<entity id="rate">
+    <class>erland.webapp.stocks.bl.entity.Rate</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/stock</datasource>
+        <table>rates</table>
+        <fields>
+            <field id="broker">
+                <column>broker</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="stock">
+                <column>stock</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="date">
+                <column>date</column>
+                <type>Date</type>
+                <identity>true</identity>
+            </field>
+            <field id="rate">
+                <column>rate</column>
+                <type>Double</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allforbrokerandstock">
+                <querystring>broker=? and stock=?</querystring>
+                <orderstring>order by date</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>broker</field>
+                        <type>String</type>
+                    </field>
+                    <field id="2">
+                        <field>stock</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="lastforbrokerandstock">
+                <querystring>broker=? and stock=?</querystring>
+                <orderstring>order by date desc limit 0,1</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>broker</field>
+                        <type>String</type>
+                    </field>
+                    <field id="2">
+                        <field>stock</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
