@@ -54,6 +54,7 @@ public abstract class StockStorage implements StockStorageInterface, ServiceInte
             if(fondXML!=null) {
                 //outFile.write("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
                 storeStock(broker,stock,fondXML);
+                stocks.put(broker+stock,null);
             }
         }
         StockInterface s = (StockInterface) stocks.get(broker+stock);
