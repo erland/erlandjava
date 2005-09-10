@@ -23,12 +23,13 @@ import erland.webapp.common.EntityInterface;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.stocks.bl.entity.StockAccountStockEntry;
 import erland.webapp.stocks.bl.logic.transaction.StockAccountTransaction;
-import erland.webapp.stocks.bl.logic.transaction.StockAccountTransactionFilterInterface;
 import erland.webapp.stocks.bl.logic.transaction.StockAccountTransactionList;
 import erland.webapp.stocks.bl.logic.transaction.StockAccountTransactionListInterface;
+import erland.webapp.stocks.bl.logic.transaction.StockAccountTransactionFilterInterface;
 import erland.webapp.stocks.bl.logic.stock.StockInterface;
 import erland.webapp.stocks.bl.service.StockStorageInterface;
 import erland.webapp.stocks.bl.service.BrokerManagerInterface;
+import erland.util.StringUtil;
 
 import java.util.*;
 import java.text.SimpleDateFormat;
@@ -52,6 +53,146 @@ public abstract class StockAccount implements EntityInterface {
         public static final SerieType STOCK_VALUES = new SerieType();
         public static final SerieType STOCKNUMBER_VALUES = new SerieType();
         public static final SerieType STOCKNUMBERDIFF_VALUES = new SerieType();
+    }
+
+    class SerieTypeController {
+        private SerieType serieType = SerieType.STOCK_VALUES;
+
+        public void setSerieType(SerieType serieType) {
+            this.serieType = serieType;
+        }
+        public SerieType getSerieType() {
+            return serieType;
+        }
+    }
+    class DateValue implements DateValueInterface {
+        private Date date;
+        private double value;
+        private double purchaseValue;
+        private double numberOf;
+        private double purchaseDiff;
+        private double numberOfDiff;
+        private SerieTypeController controller;
+
+        public DateValue(SerieTypeController controller,Date date, double purchaseValue, double numberOf, double stockValue,double purchaseDiff, double numberOfDiff) {
+            this.controller = controller;
+            this.date = date;
+            this.value = stockValue;
+            this.purchaseValue = purchaseValue;
+            this.numberOf = numberOf;
+            this.numberOfDiff = numberOfDiff;
+            this.purchaseDiff = purchaseDiff;
+        }
+
+        public DateValue(SerieTypeController controller,Date date, DateValue dv) {
+            this(controller,date,dv.purchaseValue, dv.numberOf,dv.value,dv.purchaseDiff,dv.numberOfDiff);
+        }
+
+        public DateValue interpolated(DateValue dv,Date date) {
+            DateValue next = dv;
+            DateValue previous = this;
+            if(date.before(this.date)) {
+                previous = next;
+                next = this;
+            }
+            double percent = (((double)(date.getTime()-previous.getDate().getTime()))/(next.getDate().getTime()-previous.getDate().getTime()));
+            double interpolatedValue = previous.value+((next.value-previous.value)*percent);
+            double interpolatedPurchaseValue = previous.purchaseValue+((next.purchaseValue-previous.purchaseValue)*percent);
+            double interpolatedNumberOfValue = previous.numberOf+((next.numberOf-previous.numberOf)*percent);
+            double interpolatedPurchaseDiff = previous.purchaseDiff+((next.purchaseDiff-previous.purchaseDiff)*percent);
+            double interpolatedNumberOfDiff = previous.numberOfDiff+((next.numberOfDiff-previous.numberOfDiff)*percent);
+            return new DateValue(controller,date,interpolatedPurchaseValue,interpolatedNumberOfValue,interpolatedValue,interpolatedPurchaseDiff,interpolatedNumberOfDiff);
+        }
+        public void set(DateValue dv) {
+            this.date = dv.date;
+            this.value = dv.value;
+            this.purchaseValue = dv.purchaseValue;
+            this.numberOf = dv.numberOf;
+            this.numberOfDiff = dv.numberOfDiff;
+            this.purchaseDiff = dv.purchaseDiff;
+        }
+        public void add(DateValue dv) {
+            this.value+=dv.value;
+            this.purchaseValue+=dv.purchaseValue;
+            this.numberOf+=dv.numberOf;
+            this.numberOfDiff+=dv.numberOfDiff;
+            this.purchaseDiff+=dv.purchaseDiff;
+        }
+
+        public Date getDate() {
+            return date;
+        }
+
+        public double getValue() {
+            if(controller.getSerieType()==SerieType.STOCK_VALUES) {
+                return value;
+            }else if(controller.getSerieType()==SerieType.PURCHASE_VALUES) {
+                return purchaseValue;
+            }else if(controller.getSerieType()==SerieType.STOCKNUMBER_VALUES) {
+                return numberOf;
+            }else if(controller.getSerieType()==SerieType.PURCHASEDIFF_VALUES) {
+                return purchaseDiff;
+            }else if(controller.getSerieType()==SerieType.STOCKNUMBERDIFF_VALUES) {
+                return numberOfDiff;
+            }
+            return 0;
+        }
+
+        public String toString() {
+            return StringUtil.objectToString(this,null,Object.class,true);
+        }
+    }
+    class DateValueSerie extends erland.webapp.diagram.DateValueSerie {
+        private SerieTypeController controller = new SerieTypeController();
+        public DateValueSerie(String name) {
+            super(name);
+        }
+        public SerieTypeController getController() {
+            return controller;
+        }
+    }
+
+    class Value {
+        //TODO: Maybe we need to have a purchaseValue attribute also ?
+        private double value;
+        private double numberOf;
+        public Value() {}
+        public Value(double value, double numberOf) {
+            this.value = value;
+            this.numberOf = numberOf;
+        }
+        public boolean isEmpty() {
+            return value==0 && numberOf==0;
+        }
+        public void add(Value value) {
+            this.value+=value.value;
+            this.numberOf+=value.numberOf;
+        }
+        public double getValue() {
+            return value;
+        }
+
+        public void setValue(double value) {
+            this.value = value;
+        }
+
+        public double getNumberOf() {
+            return numberOf;
+        }
+
+        public void setNumberOf(double numberOf) {
+            this.numberOf = numberOf;
+        }
+
+        public void addValue(double value) {
+            this.value+=value;
+        }
+        public void addNumberOf(double numberOf) {
+            this.numberOf+=numberOf;
+        }
+        public String toString() {
+            return StringUtil.objectToString(this,null,Object.class,true);
+        }
     }
 
     public void init(WebAppEnvironmentInterface environment) {
@@ -96,37 +237,35 @@ public abstract class StockAccount implements EntityInterface {
 
     public double getStockNumber(String broker, String stock, String date) {
         StockInterface s = stockStorage.getStock(broker,stock);
-        return getStockValue(s.getRates(),broker,stock,StockAccountTransactionList.getDateFromString(date),SerieType.STOCKNUMBER_VALUES);
+        Value value = getStockValue(s.getRates(),broker,stock,StockAccountTransactionList.getDateFromString(date));
+        return value.getNumberOf();
     }
 
-    private double getStockContinously(DateValueSerieInterface values, StockAccountTransaction entry, Date fromDate, Date toDate, SerieType type, boolean includeFromDate, boolean includeToDate) {
-        LOG.debug("getStockContinously start "+entry.getValue()+" "+fromDate+" "+toDate);
+    private void addStockContinously(Value resultValue, DateValueSerieInterface values, StockAccountTransaction entry, Date fromDate, Date toDate, boolean includeFromDate, boolean includeToDate,Date startDatePermanentNumberOf) {
+        LOG.debug("addStockContinously start "+entry.getValue()+" "+fromDate+" "+toDate+" "+startDatePermanentNumberOf);
         Date date;
         if(includeFromDate) {
             date = fromDate;
         }else {
             date = getNextMultiple(entry,fromDate);
         }
-        double number=0;
         int oldPos=0;
         while(date.getTime()<=toDate.getTime()) {
             if(includeToDate || date.getTime()<toDate.getTime()) {
                 int pos = values.indexOf(date,oldPos);
                 if(pos>=0) {
                     oldPos=pos;
-                    DateValue dv = (DateValue) values.getDateValue(pos);
-                    LOG.debug("getStockContinously add "+entry.getValue()+" "+dv.getDate());
-                    if(type==SerieType.PURCHASE_VALUES||type==SerieType.PURCHASEDIFF_VALUES) {
-                        number += entry.getValue();
-                    }else {
-                        number += entry.getValue()/dv.getValue();
+                    DateValueInterface dv = values.getDateValue(pos);
+                    if(LOG.isDebugEnabled()) LOG.debug("getStockContinously add "+entry.getValue()+" "+dv.getDate());
+                    resultValue.addValue(entry.getValue());
+                    if(startDatePermanentNumberOf==null || dv.getDate().after(startDatePermanentNumberOf)) {
+                        resultValue.addNumberOf(entry.getValue()/dv.getValue());
                     }
                 }
             }
             date = getNextMultiple(entry,date);
         }
-        LOG.debug("getStockContinously end number="+number+" "+entry.getValue()+" "+fromDate+" "+toDate);
-        return number;
+        LOG.debug("getStockContinously end result="+entry.getValue()+" "+fromDate+" "+toDate+" "+startDatePermanentNumberOf);
     }
 
     /**
@@ -136,11 +275,10 @@ public abstract class StockAccount implements EntityInterface {
      * @param values The stock value serie to get values from
      * @param entry The transaction to use in the calculation
      * @param pos The position in the stock value serie
-     * @param type The type of result/stock value to calculate
      * @param isPermanent Indicates if this is a permanent transaction
      * @return The calculated stock value, -1 for a permanent transaction means no calculation has been made
      */
-    private double getValue(DateValueSerieInterface values, StockAccountTransaction entry, int pos, SerieType type, boolean isPermanent) {
+    private Value getValue(DateValueSerieInterface values, StockAccountTransaction entry, int pos, boolean isPermanent) {
         // If no position was specified
         if(pos<0) {
             // Find the position which is valid at the transaction date
@@ -153,46 +291,37 @@ public abstract class StockAccount implements EntityInterface {
                 pos=0;
             }
         }
+        Value result = new Value();
         // If a position to use in the stock value serie has been found or specified
         if(pos>=0) {
-            DateValue dv = (DateValue) values.getDateValue(pos);
+            DateValueInterface dv = values.getDateValue(pos);
 
             // If the transaction entry contains a change of number of stocks
             if(entry.getNumber()!=0) {
-                // If we are doing a calculation in which the number of stocks are interesting
-                if(type==SerieType.STOCK_VALUES||type==SerieType.STOCKNUMBER_VALUES||type==SerieType.STOCKNUMBERDIFF_VALUES) {
-                    return entry.getNumber();
-                // If we are doing a calculation in which the purchase value is interesting
-                }else if(type==SerieType.PURCHASE_VALUES||type==SerieType.PURCHASEDIFF_VALUES) {
-                    // If the transation entry contains a possitive purchase value
-                    if(entry.getValue()>=0) {
-                        // Calculate the real purchase value by multiplying it with the number of stocks
-                        return entry.getNumber()*entry.getValue();
+                result.setNumberOf(entry.getNumber());
+                // If the transation entry contains a possitive purchase value
+                if(entry.getValue()>=0) {
+                    // Calculate the real purchase value by multiplying it with the number of stocks
+                    result.setValue(entry.getNumber()*entry.getValue());
+                }else {
+                    // If this is a permanent transaction
+                    if(isPermanent) {
+                        // TODO: Why do we need to return -1 instead of 0 ?
+                        // Return -1 to indicate that we have not done any calculation
+                        result.setValue(-1);
                     }else {
-                        // If this is a permanent transaction
-                        if(isPermanent) {
-                            // Return -1 to indicate that we have not done any calculation
-                            return -1;
-                        }else {
-                            // Calculate the real purchase value by multiplying it with the number of stocks
-                            return entry.getNumber()*dv.getValue();
-                        }
+                        // Calculate the real purchase value by multiplying it with the number of stocks
+                        result.setValue(entry.getNumber()*dv.getValue());
                     }
                 }
             }else {
-                // If we are doing a calculation in which the number of stocks are interesting
-                if(type==SerieType.STOCK_VALUES||type==SerieType.STOCKNUMBER_VALUES||type==SerieType.STOCKNUMBERDIFF_VALUES) {
-                    // Calculate number of stocks by dividing the transaction value with the current stock value in the stock value serie
-                    return entry.getValue()/dv.getValue();
-                // If we are doing a calculation in which the purchase value is interesting
-                }else if(type==SerieType.PURCHASE_VALUES||type==SerieType.PURCHASEDIFF_VALUES) {
-                    // The purchase value is directly in the transaction, so just return it, no calculation is required in this situation
-                    return entry.getValue();
-                }
+                result.setNumberOf(entry.getValue()/dv.getValue());
+                result.setValue(entry.getValue());
             }
         }
+        if(LOG.isDebugEnabled()) LOG.debug("getValue("+entry+")="+result);
         // Else this transaction should not affect the calculation of the specified type of result
-        return 0;
+        return result;
     }
 
     /**
@@ -206,7 +335,7 @@ public abstract class StockAccount implements EntityInterface {
         final Calendar calCurrent = Calendar.getInstance();
         calCurrent.setTime(startDate);
         calMultiple.setTime(transaction.getDate());
-        LOG.debug("getNextMultiple in = "+calMultiple.getTime()+" "+startDate);
+        if(LOG.isDebugEnabled()) LOG.debug("getNextMultiple in = "+calMultiple.getTime()+" "+startDate);
         int yearMultiple=calMultiple.get(Calendar.YEAR);
         int monthMultiple=calMultiple.get(Calendar.MONTH);
         int dayMultiple=calMultiple.get(Calendar.DAY_OF_MONTH);
@@ -215,22 +344,17 @@ public abstract class StockAccount implements EntityInterface {
             yearMultiple = calCurrent.get(Calendar.YEAR);
             monthMultiple = 0;
             calMultiple.set(Calendar.YEAR,yearMultiple);
-            LOG.debug("getNextMultiple1 = "+calMultiple.getTime());
             //if(calCurrent.getActualMaximum(Calendar.DAY_OF_MONTH)<calMultiple.get(Calendar.DAY_OF_MONTH)) {
             //    calMultiple.set(Calendar.DAY_OF_MONTH,calCurrent.getActualMaximum(Calendar.DAY_OF_MONTH));
             //}
-            LOG.debug("getNextMultiple2 = "+calMultiple.getTime());
             calMultiple.set(Calendar.MONTH,monthMultiple);
-            LOG.debug("getNextMultiple3 = "+calMultiple.getTime());
         }
         if(monthMultiple<calCurrent.get(Calendar.MONTH)) {
             monthMultiple = calCurrent.get(Calendar.MONTH);
             //if(calCurrent.getActualMaximum(Calendar.DAY_OF_MONTH)<calMultiple.get(Calendar.DAY_OF_MONTH)) {
             //    calMultiple.set(Calendar.DAY_OF_MONTH,calCurrent.getActualMaximum(Calendar.DAY_OF_MONTH)) ;
             //}
-            LOG.debug("getNextMultiple4 = "+calMultiple.getTime());
             calMultiple.set(Calendar.MONTH,monthMultiple);
-            LOG.debug("getNextMultiple5 = "+calMultiple.getTime());
         }
         if(dayMultiple<=calCurrent.get(Calendar.DAY_OF_MONTH)||calCurrent.getActualMaximum(Calendar.DAY_OF_MONTH)==calCurrent.get(Calendar.DAY_OF_MONTH)) {
             monthMultiple++;
@@ -239,20 +363,15 @@ public abstract class StockAccount implements EntityInterface {
                 monthMultiple-=12;
             }
             //calMultiple.set(Calendar.DAY_OF_MONTH,1);
-            LOG.debug("getNextMultiple6 = "+calMultiple.getTime());
             calMultiple.set(Calendar.MONTH,monthMultiple);
-            LOG.debug("getNextMultiple7 = "+calMultiple.getTime());
             calMultiple.set(Calendar.YEAR,yearMultiple);
-            LOG.debug("getNextMultiple8 = "+calMultiple.getTime());
         }
         if(calMultiple.getActualMaximum(Calendar.DAY_OF_MONTH)<dayMultiple) {
             calMultiple.set(Calendar.DAY_OF_MONTH,calMultiple.getActualMaximum(Calendar.DAY_OF_MONTH)) ;
-            LOG.debug("getNextMultiple9 = "+calMultiple.getTime());
         }else {
             calMultiple.set(Calendar.DAY_OF_MONTH,dayMultiple);
-            LOG.debug("getNextMultiple0 = "+calMultiple.getTime());
         }
-        LOG.debug("getNextMultiple = "+calMultiple.getTime());
+        if(LOG.isDebugEnabled()) LOG.debug("getNextMultiple = "+calMultiple.getTime());
         return calMultiple.getTime();
     }
 
@@ -262,12 +381,11 @@ public abstract class StockAccount implements EntityInterface {
      * @param broker The id of the broker
      * @param stock The id of the stock
      * @param dateTo The date to get the value for
-     * @param type The type of value to get
      * @return The value of the stock at the specified date
      */
-    private double getStockValue(DateValueSerieInterface values, String broker, String stock, Date dateTo, SerieType type) {
+    private Value getStockValue(DateValueSerieInterface values, String broker, String stock, Date dateTo) {
         LOG.debug("getStockValue start "+broker+" "+stock+" "+dateTo+" "+System.currentTimeMillis());
-        double currentValue=0;
+        Value currentValue=new Value();
 
         // If  no date has been specified, just return 0
         if(dateTo==null) {
@@ -297,7 +415,7 @@ public abstract class StockAccount implements EntityInterface {
         // If a permanent value transaction exists
         if(permanent!=null) {
             // Set current value to the value at the permanent transaction
-            currentValue = getValue(values,permanent,-1,type,true);
+            currentValue = getValue(values,permanent,-1,true);
             // Set start date of the calculation to the start date of the permanent transaction, there is no idea to
             // perform calculation before the permanent transaction since the permanent transaction still will reset the
             // calculation result when its reached.
@@ -315,6 +433,8 @@ public abstract class StockAccount implements EntityInterface {
             LOG.debug("getStockValue end currentValue="+currentValue+" "+broker+" "+stock+" "+dateTo+" "+System.currentTimeMillis());
             return currentValue;
         }
+        Date startDateNumberOf = null;
+        double permanentNumberOf = 0;
 
         // Get the last permanent value transactions before toDate, transactions after toDate does not affect the result
         // and permanent transactions before the "last one before toDate" will not affect anything since there calculation
@@ -324,14 +444,15 @@ public abstract class StockAccount implements EntityInterface {
         // number of stocks has been specified
         if(permanentWithNumberOnly!=null && permanentWithNumberOnly.getValue()<0) {
             // Get stock value for the permanent transaction
-            double val = getValue(values,permanentWithNumberOnly,-1,type,true);
-            // If stock value exists and date of permanent value transaction is after start date
-            if(val>=0 && permanentWithNumberOnly.getDate().getTime()>startDate.getTime()) {
-                // Set current value to the calculated value of the permanent value transaction
-                currentValue = val;
-                // Set start date to the date of the permanent value transaction
-                startDate = permanentWithNumberOnly.getDate();
-                LOG.debug("getStockValue permOnly "+startDate);
+            Value val = getValue(values,permanentWithNumberOnly,-1,true);
+
+            // If number of stocks exists and date of permanent value transation is after start date
+            if(val.getNumberOf()>=0 && permanentWithNumberOnly.getDate().getTime()>startDate.getTime()) {
+                // Set current value of number of stocks to the calculated value of the permanent value transaction
+                permanentNumberOf = val.getNumberOf();
+                // Set start date of number of stocks calculation to the date of the permanent value transaction
+                startDateNumberOf = permanentWithNumberOnly.getDate();
+                LOG.debug("getStockValue permAdj "+startDateNumberOf);
             }
         }
 
@@ -345,7 +466,11 @@ public abstract class StockAccount implements EntityInterface {
         StockAccountTransactionListInterface beforeFirstDate = oneTimePurchase.getTransactions(broker,stock,startDate,dateTo,null);
         for(int i=0;i<beforeFirstDate.size();i++) {
             StockAccountTransaction entry = beforeFirstDate.getTransaction(i);
-            currentValue += getValue(values,entry,-1,type,false);
+            currentValue.add(getValue(values,entry,-1,false));
+            // Reset number of stocks to permanent value if this entry is before the permanent value
+            if(startDateNumberOf!=null && !entry.getDate().after(startDateNumberOf)) {
+                currentValue.setNumberOf(permanentNumberOf);
+            }
             LOG.debug("getStockValue once "+entry.getDate());
         }
 
@@ -371,7 +496,7 @@ public abstract class StockAccount implements EntityInterface {
 
             // Perform calculation of all times the continously transaction before start date until the next continously
             // transaction or until toDate of no more continously transaction exists
-            currentValue += getStockContinously(values,beforeStartDate,startDate,nextDate,type,false,includeNextDate);
+            addStockContinously(currentValue, values,beforeStartDate,startDate,nextDate,false,includeNextDate,startDateNumberOf);
         }
 
         //
@@ -400,7 +525,7 @@ public abstract class StockAccount implements EntityInterface {
             // Perform calculation of all times the continously transaction affects the result between the date of
             // the continously transaction until the end date (initialized in the previous statements)
             LOG.debug("getStockValue multiple "+entry.getDate());
-            currentValue += getStockContinously(values,entry,entry.getDate(),nextDate,type,true,includeNextDate);
+            addStockContinously(currentValue,values,entry,entry.getDate(),nextDate,true,includeNextDate,startDateNumberOf);
         }
 
         LOG.debug("getStockValue end currentValue="+currentValue+" "+broker+" "+stock+" "+dateTo+" "+System.currentTimeMillis());
@@ -414,21 +539,24 @@ public abstract class StockAccount implements EntityInterface {
      * @param stock The id of the stock
      * @param fromDate The start date of the requested result serie
      * @param toDate The end date fo the requested result serie
-     * @param type The type of result to calculate
      * @return The calculated stock value serie
      */
-    private DateValueSerie getStockValues(DateValueSerieInterface values, String broker, String stock, Date fromDate, Date toDate,SerieType type) {
+    private DateValueSerie getStockValues(DateValueSerieInterface values, String broker, String stock, Date fromDate, Date toDate) {
         LOG.debug("getStockValues start "+broker+" "+stock+" "+fromDate+" "+toDate+" "+System.currentTimeMillis());
         Date dateFrom = fromDate;
         Date dateTo = toDate;
         DateValueSerie result = new DateValueSerie(values.getName());
         //TODO: Why can't we have some default values instead of requesting that both from and to is specified ?
-        if(dateFrom==null||dateTo==null) {
+        if(dateTo==null || values.size()==0) {
             LOG.debug("getStockValues end result.size()="+result.size()+" "+broker+" "+stock+" "+fromDate+" "+toDate+" "+System.currentTimeMillis());
             return result;
         }
+        int curPos = -1;
+        if(dateFrom!=null) {
+            curPos =values.indexOf(dateFrom);
+        }
         int finalEndPos = values.indexOf(dateTo);
-        int curPos=values.indexOf(dateFrom);
+
 
         //If fromDate is before all available stock values AND
         //   toDate is equal to or after the first available stock value
@@ -439,8 +567,8 @@ public abstract class StockAccount implements EntityInterface {
         }
 
         // Get value of the stock at fromDate
-        double currentValue = getStockValue(values,broker,stock,dateFrom,type);
-        double oldValue = 0;
+        Value currentValue = getStockValue(values,broker,stock,dateFrom);
+        Value oldValue = new Value();
 
         // Get all transaction entries which we need to use when calculating
         StockAccountTransaction currentMultiple = getPurchaseContinouslyEntries().getTransactionBefore(broker,stock,dateFrom,null);
@@ -450,7 +578,7 @@ public abstract class StockAccount implements EntityInterface {
 
         // If no stock value exists within the fromDate<->toDate interval OR
         //    the fromDate and toDate points to the same stock value entry
-        if((curPos <0 && finalEndPos<0) || curPos==finalEndPos) {
+        if((curPos <0 && finalEndPos<0)) {
             LOG.debug("getStockValues end result.size()="+result.size()+" "+broker+" "+stock+" "+fromDate+" "+toDate+" "+System.currentTimeMillis());
             // Return an emtpy result
             return result;
@@ -464,7 +592,7 @@ public abstract class StockAccount implements EntityInterface {
         // PAHSE 3: Perform calculation for the next transation
         while(curPos<=finalEndPos) {
             // Get stock value for current position
-            DateValue dv = (DateValue) values.getDateValue(curPos);
+            DateValueInterface dv = values.getDateValue(curPos);
 
             //
             // PHASE 1:
@@ -582,20 +710,22 @@ public abstract class StockAccount implements EntityInterface {
             //
             for(;curPos<endPos||bLast;curPos++) {
                 bLast = false;
-                DateValue dateValue = (DateValue) values.getDateValue(curPos);
+                DateValueInterface dateValue = values.getDateValue(curPos);
 
-                if(type==SerieType.PURCHASE_VALUES||type==SerieType.STOCKNUMBER_VALUES) {
-                    result.addDateValue(new DateValue(dateValue.getDate(),currentValue));
-                }else if(type==SerieType.STOCK_VALUES) {
-                    double value = currentValue*dateValue.getValue();
-                    result.addDateValue(new DateValue(dateValue.getDate(),value));
-                }else if(type==SerieType.STOCKNUMBERDIFF_VALUES||type==SerieType.PURCHASEDIFF_VALUES) {
-                    double value = currentValue-oldValue;
-                    if(value!=0) {
-                        result.addDateValue(new DateValue(dateValue.getDate(),value));
-                    }
-                    oldValue=currentValue;
-                }
+                // Calculate stock value
+                double value = currentValue.getNumberOf()*dateValue.getValue();
+                // Calculate purchase value differens compared to previous entry
+                double purchaseDiff = currentValue.getValue()-oldValue.getValue();
+                // Calculate number of stocks differens compared to previous entry
+                double numberOfDiff = currentValue.getNumberOf()-oldValue.getNumberOf();
+
+                // Add entry to serie
+                DateValue newDV = new DateValue(result.getController(),dateValue.getDate(),currentValue.getValue(),currentValue.getNumberOf(),value,purchaseDiff,numberOfDiff);
+                result.addDateValue(newDV);
+
+                // Store current values for usage in next iteration
+                oldValue.setNumberOf(currentValue.getNumberOf());
+                oldValue.setValue(currentValue.getNumberOf());
             }
 
             //
@@ -605,35 +735,39 @@ public abstract class StockAccount implements EntityInterface {
             // we step to the next iteration
             //
             if(nextPermanent!=null) {
-                double val =getValue(values,nextPermanent,endPos,type,true);
+                Value val =getValue(values,nextPermanent,endPos,true);
                 LOG.debug("adding permanent "+val+" "+values.getDateValue(endPos).getDate());
                 // If a stockvalue is found for a permanent value transaction and it should affect the calculation
                 // in this iteration and for this time of result
-                if(val>=0) {
+                if(val.getValue()>=0) {
                     // Set the result to the value of the permanent value transation
                     currentValue = val;
+                }else if(val.getNumberOf()>=0) {
+                    // Just adjust the number of stocks if this is a permanent value transaction which just specifies number
+                    // of stocks
+                    currentValue.setNumberOf(val.getNumberOf());
                 }
             }
             if(next!=null) {
-                LOG.debug("adding once "+getValue(values,next,endPos,type,false)+" "+values.getDateValue(endPos).getDate());
+                LOG.debug("adding once "+getValue(values,next,endPos,false)+" "+values.getDateValue(endPos).getDate());
                 // Add the stockvalue for a purchace once transaction if it should affect the calculation in this iteration
                 // and this type of result
-                currentValue+=getValue(values,next,endPos,type,false);
+                currentValue.add(getValue(values,next,endPos,false));
             }
             //LOG.debug("AddMultiple = "+bAddMultiple);
             if(currentMultiple!=null && nextMultiple==null) {
                 // Add the stockvalue for a continously transaction found in a previous iteration if it should affect
                 // the calculation in this iteration and this type of result
                 if(bAddCurrentMultiple) {
-                    LOG.debug("adding current multiple "+getValue(values,currentMultiple,endPos,type,false)+" "+values.getDateValue(endPos).getDate());
-                    currentValue+=getValue(values,currentMultiple,endPos,type,false);
+                    LOG.debug("adding current multiple "+getValue(values,currentMultiple,endPos,false)+" "+values.getDateValue(endPos).getDate());
+                    currentValue.add(getValue(values,currentMultiple,endPos,false));
                 }
             }
             if(nextMultiple!=null) {
-                LOG.debug("adding next multiple "+getValue(values,nextMultiple,endPos,type,false)+" "+values.getDateValue(endPos).getDate());
+                LOG.debug("adding next multiple "+getValue(values,nextMultiple,endPos,false)+" "+values.getDateValue(endPos).getDate());
                 // Add the stockvalue for a continously transation found in this iteration if it should affect the
                 // calculation in this iteration and this type of result
-                currentValue += getValue(values,nextMultiple,endPos,type,false);
+                currentValue.add(getValue(values,nextMultiple,endPos,false));
                 // Set this continously transaction to the currently active one.
                 // This means that this transaction might also be used in the next iterations
                 currentMultiple = nextMultiple;
@@ -649,23 +783,171 @@ public abstract class StockAccount implements EntityInterface {
     public StockAccountValue getStockValue(String broker, String stock, Date date) {
         LOG.debug("getStockValue "+broker+" "+stock+" "+date);
         StockInterface s = stockStorage.getStock(broker,stock);
-        double noOfStocks = getStockValue(s.getRates(),broker,stock,date,SerieType.STOCK_VALUES);
+        DateValueSerie valueSerie = getStockValues(s.getRates(),broker,stock,null,date);
+        DateValue value = (DateValue) valueSerie.getDateValue(valueSerie.size()-1);
+
+        valueSerie.getController().setSerieType(SerieType.STOCKNUMBER_VALUES);
+        double noOfStocks = value.getValue();
+
+        valueSerie.getController().setSerieType(SerieType.PURCHASE_VALUES);
+        double purchaseValue = value.getValue();
+
         int i = s.getRates().indexOf(date);
         if(i>=0) {
             StockAccountValue result = new StockAccountValue();
             result.setValue(noOfStocks*s.getRates().getDateValue(i).getValue());
             result.setRate(s.getRates().getDateValue(i).getValue());
             result.setNoOfStocks(noOfStocks);
+            result.setPurchaseValue(purchaseValue);
+            result.setIncreasedValue(result.getValue()-purchaseValue);
+            result.setTotalStatistics((result.getValue()-purchaseValue)*100.0/purchaseValue);
+            calculateYearStatistics(result,valueSerie);
+            calculateStockStatistics(result,broker,stock, valueSerie);
             return result;
         }else {
             return null;
         }
     }
 
+    private double calculateThisYearStatistics(DateValueSerie valueSerie) {
+        if(valueSerie.size()==0) {
+            return 0;
+        }
+        int pos = valueSerie.size()-1;
+        DateValue dv = (DateValue) valueSerie.getDateValue(pos);
+        Date date = dv.getDate();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.MONTH,0);
+        cal.set(Calendar.DAY_OF_MONTH,1);
+        Date startOfYear = cal.getTime();
+        int startPos = valueSerie.indexOf(startOfYear);
+        if(startPos<0) {
+            return 0;
+        }
+        DateValue startDV = (DateValue) valueSerie.getDateValue(startPos);
+
+        valueSerie.getController().setSerieType(SerieType.STOCK_VALUES);
+        double startValue = 0;
+        while(startValue<=1000 && startPos<valueSerie.size()) {
+            startDV = (DateValue) valueSerie.getDateValue(startPos++);
+            startValue = startDV.getValue();
+            if(!startDV.getDate().before(date)) {
+                return 0;
+            }
+        }
+
+        valueSerie.getController().setSerieType(SerieType.PURCHASE_VALUES);
+        double startPurchase = startDV.getValue();
+
+        valueSerie.getController().setSerieType(SerieType.STOCK_VALUES);
+        double endValue = dv.getValue();
+        valueSerie.getController().setSerieType(SerieType.PURCHASE_VALUES);
+        double endPurchase = dv.getValue();
+
+        if(pos>startPos) {
+            double statisticValue = endValue-startValue-(endPurchase-startPurchase);
+            return statisticValue*100/startValue;
+        }
+        return 0;
+    }
+
+    private void calculateYearStatistics(StockAccountValue accountValue,DateValueSerie valueSerie) {
+        if(valueSerie.size()==0) {
+            return;
+        }
+
+        int pos = valueSerie.size()-1;
+        boolean bFirst = true;
+        while(pos>=0) {
+            DateValue dv = (DateValue) valueSerie.getDateValue(pos);
+            Date date = dv.getDate();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            cal.set(Calendar.MONTH,0);
+            cal.set(Calendar.DAY_OF_MONTH,1);
+            int year = cal.get(Calendar.YEAR);
+            Date startOfYear = cal.getTime();
+            int startPos = valueSerie.indexOf(startOfYear);
+            if(startPos<0) {
+                break;
+            }
+            DateValue startDV = (DateValue) valueSerie.getDateValue(startPos);
+
+            valueSerie.getController().setSerieType(SerieType.PURCHASE_VALUES);
+            double startPurchaseInitial = startDV.getValue();
+
+            valueSerie.getController().setSerieType(SerieType.STOCK_VALUES);
+            double startValue = 0;
+            while(startValue<=1000 && startPos<valueSerie.size()) {
+                startDV = (DateValue) valueSerie.getDateValue(startPos++);
+                startValue = startDV.getValue();
+                if(!startDV.getDate().before(date)) {
+                    break;
+                }
+            }
+
+            valueSerie.getController().setSerieType(SerieType.PURCHASE_VALUES);
+            double startPurchase = startDV.getValue();
+
+            valueSerie.getController().setSerieType(SerieType.STOCK_VALUES);
+            double endValue = dv.getValue();
+            valueSerie.getController().setSerieType(SerieType.PURCHASE_VALUES);
+            double endPurchase = dv.getValue();
+
+            if(startValue<=1000) {
+                break;
+            }
+            if(pos>startPos) {
+                double purchaseValue = endPurchase-startPurchaseInitial;
+                double statisticValue = endValue-startValue-(endPurchase-startPurchase);
+                double statisticPercent = statisticValue*100/startValue;
+
+                accountValue.setYearStatistic(year,statisticPercent,statisticValue,purchaseValue);
+                if(bFirst) {
+                    accountValue.setTotalStatisticsThisYear(statisticPercent);
+                }
+            }
+            bFirst = false;
+            cal.add(Calendar.DATE,-1);
+            date = cal.getTime();
+            pos = valueSerie.indexOf(date);
+        }
+    }
+
+    private void calculateStockStatistics(StockAccountValue accountValue,String brokerId, String stockId, DateValueSerie valueSerie) {
+        if(valueSerie.size()<=1) {
+            return;
+        }
+        DateValue startDV = (DateValue) valueSerie.getDateValue(0);
+        DateValue endDV = (DateValue) valueSerie.getDateValue(valueSerie.size()-1);
+
+        valueSerie.getController().setSerieType(SerieType.STOCK_VALUES);
+        double startValue = startDV.getValue();
+
+        valueSerie.getController().setSerieType(SerieType.PURCHASE_VALUES);
+        double startPurchase = startDV.getValue();
+
+        valueSerie.getController().setSerieType(SerieType.STOCK_VALUES);
+        double endValue = endDV.getValue();
+        valueSerie.getController().setSerieType(SerieType.PURCHASE_VALUES);
+        double endPurchase = endDV.getValue();
+
+        double statisticPercent = 0;
+        if(endPurchase!=0) {
+            statisticPercent = (endValue-endPurchase)*100/endPurchase;
+        }
+
+        String stockName = getBrokerManager().getStockName(brokerId,stockId);
+        String brokerName = getBrokerManager().getBrokerName(brokerId);
+        accountValue.setStockStatistic(brokerId,stockId,brokerName,stockName,statisticPercent,endValue,endPurchase,endValue-endPurchase,calculateThisYearStatistics(valueSerie));
+    }
+
     public double getPurchaseValue(String broker, String stock, Date date) {
         LOG.debug("getPurchaseValue "+broker+" "+stock+" "+date);
         StockInterface s = stockStorage.getStock(broker,stock);
-        return getStockValue(s.getRates(),broker,stock,date,SerieType.PURCHASE_VALUES);
+        Value value = getStockValue(s.getRates(),broker,stock,date);
+        return value.getValue();
     }
 
     public DateValueSerieInterface getStockNumbers(String broker, String stock, Date fromDate, Date toDate, String serieName) {
@@ -679,7 +961,8 @@ public abstract class StockAccount implements EntityInterface {
         LOG.debug("getStockNumbers "+broker+" "+stock+" "+fromDate+" "+toDate);
         StockInterface s = stockStorage.getStock(broker,stock);
         DateValueSerieInterface values = s.getRates();
-        DateValueSerie dateValues = getStockValues(values,broker,stock,fromDate,toDate, type);
+        DateValueSerie dateValues = getStockValues(values,broker,stock,fromDate,toDate);
+        dateValues.getController().setSerieType(type);
         dateValues.setName(getBrokerManager().getStockName(broker,stock)+" "+serieName);
         if(LOG.isTraceEnabled()) {
             LOG.trace("Values for: "+dateValues.getName());
@@ -696,8 +979,9 @@ public abstract class StockAccount implements EntityInterface {
         LOG.debug("getStockValues "+broker+" "+stock+" "+fromDate+" "+toDate);
         StockInterface s = stockStorage.getStock(broker,stock);
         DateValueSerieInterface values = s.getRates();
-        DateValueSerie dateValues = getStockValues(values,broker,stock,fromDate,toDate, SerieType.STOCK_VALUES);
+        DateValueSerie dateValues = getStockValues(values,broker,stock,fromDate,toDate);
         dateValues.setName(getBrokerManager().getStockName(broker,stock));
+        dateValues.getController().setSerieType(SerieType.STOCK_VALUES);
         if(LOG.isTraceEnabled()) {
             LOG.trace("Values for: "+dateValues.getName());
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -713,8 +997,9 @@ public abstract class StockAccount implements EntityInterface {
         LOG.debug("getStockValues "+broker+" "+stock+" "+fromDate+" "+toDate);
         StockInterface s = stockStorage.getStock(broker,stock);
         DateValueSerieInterface values = s.getRates();
-        DateValueSerie dateValues = getStockValues(values,broker,stock,fromDate,toDate, type);
+        DateValueSerie dateValues = getStockValues(values,broker,stock,fromDate,toDate);
         dateValues.setName(getBrokerManager().getStockName(broker,stock)+" "+purchaseName);
+        dateValues.getController().setSerieType(type);
         if(LOG.isTraceEnabled()) {
             LOG.trace("Values for: "+dateValues.getName());
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -735,16 +1020,25 @@ public abstract class StockAccount implements EntityInterface {
     }
 
     public DateValueSerieInterface getTotalStockValues(String broker, Date fromDate, Date toDate) {
-        LOG.debug("getStockValues "+fromDate+" "+toDate);
+        return getTotalStockValues(broker,fromDate,toDate,null);
+    }
+
+    public DateValueSerieInterface getTotalStockValues(String broker, Date fromDate, Date toDate, StockAccountValue statistics) {
+        if(LOG.isDebugEnabled()) LOG.debug("getStockValues "+fromDate+" "+toDate);
         Vector subresult = new Vector();
         StockAccountStockEntry[] stocks = getStocks();
         for(int i=0;i<stocks.length;i++) {
             StockAccountStockEntry entry = stocks[i];
             if(broker==null || entry.getBroker().equals(broker)) {
-                subresult.addElement(getStockValues(entry.getBroker(),entry.getStock(),fromDate,toDate));
+                DateValueSerieInterface valueSeries = getStockValues(entry.getBroker(),entry.getStock(),fromDate,toDate);
+                if(statistics!=null) {
+                    calculateStockStatistics(statistics,entry.getBroker(),entry.getStock(),(DateValueSerie) valueSeries);
+                }
+                subresult.addElement(valueSeries);
             }
         }
         DateValueSerie result = getTotalStockValues(subresult, "Total");
+        result.getController().setSerieType(SerieType.STOCK_VALUES);
         if(LOG.isTraceEnabled()) {
             LOG.trace("Values for: "+result.getName());
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -758,34 +1052,41 @@ public abstract class StockAccount implements EntityInterface {
 
     private DateValueSerieInterface getDateLimitedSerie(Date fromDate, Date toDate, DateValueSerie serie) {
         LOG.debug("getDateLimitedSerie "+serie.getName()+" "+fromDate+" "+toDate);
-        int pos = serie.indexOf(fromDate);
-        if(pos>=0) {
-            DateValueInterface dvBefore = serie.getDateValue(pos);
-            if(!dvBefore.getDate().equals(fromDate)) {
-                double interpolatedValue = dvBefore.getValue();
-                if(serie.size()>pos+1) {
-                    DateValueInterface dv = serie.getDateValue(pos+1);
-                    interpolatedValue = dvBefore.getValue()+((dv.getValue()-dvBefore.getValue())*(((double)(fromDate.getTime()-dvBefore.getDate().getTime()))/(dv.getDate().getTime()-dvBefore.getDate().getTime())));
+        if(fromDate!=null) {
+            int pos = serie.indexOf(fromDate);
+            if(pos>=0) {
+                DateValue dvBefore = (DateValue) serie.getDateValue(pos);
+                if(!dvBefore.getDate().equals(fromDate)) {
+                    DateValue interpolatedDV = null;
+                    if(serie.size()>pos+1) {
+                        DateValue dv = (DateValue) serie.getDateValue(pos+1);
+                        interpolatedDV = dv.interpolated(dvBefore,fromDate);
+                    }else {
+                        interpolatedDV = new DateValue(serie.getController(),fromDate,dvBefore);
+                    }
+                    serie.insertDateValue(interpolatedDV,pos+1);
+                    LOG.debug("Inserted interpolated date: "+fromDate+" value:"+interpolatedDV);
                 }
-                serie.insertDateValue(new DateValue(fromDate,interpolatedValue),pos+1);
-                LOG.debug("Inserted interpolated date: "+fromDate+" value:"+interpolatedValue);
+                serie.deleteBefore(fromDate);
             }
-            serie.deleteBefore(fromDate);
         }
-
-        pos = serie.indexOf(toDate);
-        if(pos>=0) {
-            DateValueInterface dvBefore = serie.getDateValue(pos);
-            if(!dvBefore.getDate().equals(toDate)) {
-                double interpolatedValue = dvBefore.getValue();
-                if(serie.size()>pos+1) {
-                    DateValueInterface dv = serie.getDateValue(pos+1);
-                    interpolatedValue = dvBefore.getValue()+((dv.getValue()-dvBefore.getValue())*(((double)(toDate.getTime()-dvBefore.getDate().getTime()))/(dv.getDate().getTime()-dvBefore.getDate().getTime())));
+        if(toDate!=null) {
+            int pos = serie.indexOf(toDate);
+            if(pos>=0) {
+                DateValue dvBefore = (DateValue) serie.getDateValue(pos);
+                if(!dvBefore.getDate().equals(toDate)) {
+                    DateValue interpolatedDV = null;
+                    if(serie.size()>pos+1) {
+                        DateValue dv = (DateValue) serie.getDateValue(pos+1);
+                        interpolatedDV = dv.interpolated(dvBefore,toDate);
+                    }else {
+                        interpolatedDV = new DateValue(serie.getController(),toDate,dvBefore);
+                    }
+                    serie.insertDateValue(interpolatedDV,pos+1);
+                    LOG.debug("Inserted interpolated date: "+toDate+" value:"+interpolatedDV);
                 }
-                serie.insertDateValue(new DateValue(toDate,interpolatedValue),pos+1);
-                LOG.debug("Inserted interpolated date: "+toDate+" value:"+interpolatedValue);
+                serie.deleteAfter(toDate);
             }
-            serie.deleteAfter(toDate);
         }
         return serie;
     }
@@ -800,6 +1101,7 @@ public abstract class StockAccount implements EntityInterface {
             }
         }
         DateValueSerie result = getTotalStockValues(subresult, "Total "+purchaseName);
+        result.getController().setSerieType(SerieType.PURCHASE_VALUES);
         if(LOG.isTraceEnabled()) {
             LOG.trace("Values for: "+result.getName());
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -829,10 +1131,10 @@ public abstract class StockAccount implements EntityInterface {
                 if(pos>=0) {
                     DateValueInterface dvResult = result.getDateValue(pos);
                     if(!dvResult.getDate().equals(currentDate)) {
-                        result.insertDateValue(new DateValue(currentDate,0),pos+1);
+                        result.insertDateValue(new DateValue(result.getController(),currentDate,0,0,0,0,0),pos+1);
                     }
                 }else {
-                    result.insertDateValue(new DateValue(currentDate,0),0);
+                    result.insertDateValue(new DateValue(result.getController(),currentDate,0,0,0,0,0),0);
                 }
                 lastPos = pos;
             }
@@ -840,29 +1142,30 @@ public abstract class StockAccount implements EntityInterface {
         // Now step through each serie again and add values
         for(int i=0;i<series.size();i++) {
             DateValueSerie serie = (DateValueSerie) series.elementAt(i);
-            double lastValue = -1;
+            DateValue lastValue = new DateValue(result.getController(),null,0,0,0,0,0);
             int lastPos = -1;
             for(int j=0;j<serie.size();j++) {
-                DateValueInterface dv = serie.getDateValue(j);
+                DateValue dv = (DateValue) serie.getDateValue(j);
                 Date currentDate = dv.getDate();
                 int pos = result.indexOf(currentDate,lastPos+1);
-                DateValueInterface dvResult = result.getDateValue(pos);
-                result.setDateValue(new DateValue(dvResult.getDate(),dvResult.getValue()+dv.getValue()),pos);
+                DateValue dvResult = (DateValue) result.getDateValue(pos);
+
+                dvResult.add(dv);
 
                 // Step through all intermediate dates between last date and the current date and calculate summary entries
                 if(lastPos>=0) {
                     for(int k=lastPos+1;k<pos;k++) {
-                        DateValueInterface dvResultIntermediate = result.getDateValue(k);
-                        result.setDateValue(new DateValue(dvResultIntermediate.getDate(),dvResultIntermediate.getValue()+lastValue),k);
+                        DateValue dvResultIntermediate = (DateValue) result.getDateValue(k);
+                        dvResultIntermediate.add(lastValue);
                     }
                 }
                 lastPos = pos;
-                lastValue = dv.getValue();
+                lastValue.set(dv);
             }
             // Step throgh all dates after the last date and calculate summary entries
             for(int k=lastPos+1;k<result.size();k++) {
-                DateValueInterface dvResultIntermediate = result.getDateValue(k);
-                result.setDateValue(new DateValue(dvResultIntermediate.getDate(),dvResultIntermediate.getValue()+lastValue),k);
+                DateValue dvResultIntermediate = (DateValue) result.getDateValue(k);
+                dvResultIntermediate.add(lastValue);
             }
         }
         LOG.debug("getTotalStockValues end = result.size()="+result.size()+" "+System.currentTimeMillis());
@@ -927,21 +1230,23 @@ public abstract class StockAccount implements EntityInterface {
     }
     public StockAccountValue getStockValue(String broker, Date date) {
         LOG.debug("getStockValue "+date);
-        double value=0;
-        StockAccountStockEntry[] stocks = getStocks();
-        for(int i=0;i<stocks.length;i++) {
-            StockAccountStockEntry entry = stocks[i];
-            if(broker==null || entry.getBroker().equals(broker)) {
-                StockAccountValue stockValue = getStockValue(entry.getBroker(),entry.getStock(),date);
-                if(stockValue!=null) {
-                    value += stockValue.getValue();
-                }
-            }
-        }
         StockAccountValue result = new StockAccountValue();
+        DateValueSerie valueSerie = (DateValueSerie) getTotalStockValues(broker,null,date,result);
+        DateValue dv = (DateValue) valueSerie.getDateValue(valueSerie.size()-1);
+
+        valueSerie.getController().setSerieType(SerieType.PURCHASE_VALUES);
+        double purchaseValue = dv.getValue();
+
+        valueSerie.getController().setSerieType(SerieType.STOCK_VALUES);
+        double value = dv.getValue();
+
         result.setValue(value);
-        result.setNoOfStocks(0);
         result.setRate(0);
+        result.setNoOfStocks(0);
+        result.setPurchaseValue(purchaseValue);
+        result.setIncreasedValue(value-purchaseValue);
+        result.setTotalStatistics((result.getValue()-purchaseValue)*100.0/purchaseValue);
+        calculateYearStatistics(result,valueSerie);
         return result;
     }
 
