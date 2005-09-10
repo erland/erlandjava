@@ -30,13 +30,18 @@ import erland.util.StringUtil;
 public class AccountValuePB extends ActionForm implements Serializable{
     private Date date;
     private Double value;
+    private Double increasedValue;
     private Double purchaseValue;
     private Double noOfStocks;
     private Double currentRate;
-    private AccountStatisticPB[] statisticsPerYear;
+    private AccountYearStatisticPB[] statisticsPerYear;
+    private AccountStockStatisticPB[] statisticsPerStock;
     private Double totalStatistic;
+    private Double totalStatisticThisYear;
 
-    private static final NumberFormat numberFormat = new DecimalFormat("#.##");
+    private static final NumberFormat valueFormat = new DecimalFormat("#,###,###");
+    private static final NumberFormat decimalFormat = new DecimalFormat("###,##0.##");
+    private static final NumberFormat percentFormat = new DecimalFormat("0.0");
 
     public Date getDate() {
         return date;
@@ -63,11 +68,27 @@ public class AccountValuePB extends ActionForm implements Serializable{
     }
 
     public String getValueDisplay() {
-        return value!=null?numberFormat.format(value.doubleValue()):null;
+        return value!=null?valueFormat.format(value.doubleValue()):null;
     }
 
     public void setValueDisplay(String valueDisplay) {
         this.value = StringUtil.asDouble(valueDisplay,null);
+    }
+
+    public Double getIncreasedValue() {
+        return increasedValue;
+    }
+
+    public void setIncreasedValue(Double increasedValue) {
+        this.increasedValue = increasedValue;
+    }
+
+    public String getIncreasedValueDisplay() {
+        return increasedValue!=null?valueFormat.format(increasedValue.doubleValue()):null;
+    }
+
+    public void setIncreasedValueDisplay(String increasedValueDisplay) {
+        this.increasedValue = StringUtil.asDouble(increasedValueDisplay,null);
     }
 
     public Double getPurchaseValue() {
@@ -79,7 +100,7 @@ public class AccountValuePB extends ActionForm implements Serializable{
     }
 
     public String getPurchaseValueDisplay() {
-        return purchaseValue!=null?numberFormat.format(purchaseValue.doubleValue()):null;
+        return purchaseValue!=null?valueFormat.format(purchaseValue.doubleValue()):null;
     }
 
     public void setPurchaseValueDisplay(String purchaseValueDisplay) {
@@ -95,7 +116,7 @@ public class AccountValuePB extends ActionForm implements Serializable{
     }
 
     public String getNoOfStocksDisplay() {
-        return noOfStocks!=null?numberFormat.format(noOfStocks.doubleValue()):"";
+        return noOfStocks!=null?decimalFormat.format(noOfStocks.doubleValue()):"";
     }
 
     public void setNoOfStocksDisplay(String noOfStocksDisplay) {
@@ -111,18 +132,18 @@ public class AccountValuePB extends ActionForm implements Serializable{
     }
 
     public String getCurrentRateDisplay() {
-        return currentRate!=null?numberFormat.format(currentRate.doubleValue()):"";
+        return currentRate!=null?decimalFormat.format(currentRate.doubleValue()):"";
     }
 
     public void setCurrentRateDisplay(String currentRateDisplay) {
         this.currentRate = new Double(currentRateDisplay);
     }
 
-    public AccountStatisticPB[] getStatisticsPerYear() {
+    public AccountYearStatisticPB[] getStatisticsPerYear() {
         return statisticsPerYear;
     }
 
-    public void setStatisticsPerYear(AccountStatisticPB[] statisticsPerYear) {
+    public void setStatisticsPerYear(AccountYearStatisticPB[] statisticsPerYear) {
         this.statisticsPerYear = statisticsPerYear;
     }
 
@@ -134,10 +155,34 @@ public class AccountValuePB extends ActionForm implements Serializable{
         this.totalStatistic = totalStatistic;
     }
     public String getTotalStatisticDisplay() {
-        return totalStatistic!=null?numberFormat.format(totalStatistic.doubleValue()):"";
+        return totalStatistic!=null?percentFormat.format(totalStatistic.doubleValue()):"";
     }
 
     public void setTotalStatisticDisplay(String totalStatisticDisplay) {
         this.totalStatistic = StringUtil.asDouble(totalStatisticDisplay,null);
     }
+
+    public Double getTotalStatisticThisYear() {
+        return totalStatisticThisYear;
+    }
+
+    public void setTotalStatisticThisYear(Double totalStatisticThisYear) {
+        this.totalStatisticThisYear = totalStatisticThisYear;
+    }
+    public String getTotalStatisticThisYearDisplay() {
+        return totalStatisticThisYear!=null?percentFormat.format(totalStatisticThisYear.doubleValue()):"";
+    }
+
+    public void setTotalStatisticThisYearDisplay(String totalStatisticThisYearDisplay) {
+        this.totalStatisticThisYear = StringUtil.asDouble(totalStatisticThisYearDisplay,null);
+    }
+
+    public AccountStockStatisticPB[] getStatisticsPerStock() {
+        return statisticsPerStock;
+    }
+
+    public void setStatisticsPerStock(AccountStockStatisticPB[] statisticsPerStock) {
+        this.statisticsPerStock = statisticsPerStock;
+    }
+
 }
