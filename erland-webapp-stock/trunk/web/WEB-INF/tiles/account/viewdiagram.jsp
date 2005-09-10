@@ -18,12 +18,30 @@
         <bean:message key="stock.account.diagram.value-description-extended" arg0='<%=date%>' arg1='<%=value%>' arg2='<%=purchaseValue%>' arg3='<%=noOfStocks%>' arg4='<%=currentRate%>'/>
     </logic:notEmpty>
     <logic:notEmpty name="totalStatistic">
-        <br><bean:message key="stock.account.diagram.statistic" arg0='<%=totalStatistic%>'/>
+        <br><bean:message key="stock.account.diagram.statistic" arg0='<%=totalStatistic%>'/><br>
     </logic:notEmpty>
     </p>
     <br>
     <img src="<html:rewrite page="/do/accountdiagram"/>?broker=<bean:write name="accountDiagramFB" property="broker"/>&stock=<bean:write name="accountDiagramFB" property="stock"/>&startDateDisplay=<bean:write name="accountDiagramFB" property="startDateDisplay"/>&endDateDisplay=<bean:write name="accountDiagramFB" property="endDateDisplay"/>"></img>
     <br>
+    <table class="diagrampage-statistic" valign="top">
+    <tr valign="top"><td valign="top">
+    <table class="diagrampage-statistic">
+    <tr class="diagrampage-statistic-header"><td><bean:message key="stock.account.diagram.statistic.year"/></td><td><bean:message key="stock.account.diagram.statistic.purchase"/></td><td><bean:message key="stock.account.diagram.statistic.value"/></td><td><bean:message key="stock.account.diagram.statistic.percent"/></td></tr>
+    <logic:iterate id="year" name="accountValuePB" property="statisticsPerYear">
+        <tr><td align="left"><bean:write name="year" property="yearDisplay"/></td><td align="right"><bean:write name="year" property="purchaseDisplay"/> kr</td><td align="right"><bean:write name="year" property="valueDisplay"/> kr</td><td align="right"><bean:write name="year" property="percentDisplay"/> %</td></tr>
+    </logic:iterate>
+    </table>
+    </td><td valign="top">
+    <table class="diagrampage-statistic">
+    <tr class="diagrampage-statistic-header"><td></td><td><bean:message key="stock.account.diagram.statistic.stock.purchase"/></td><td><bean:message key="stock.account.diagram.statistic.stock.value"/></td><td><bean:message key="stock.account.diagram.statistic.stock.increasedvalue"/></td><td><bean:message key="stock.account.diagram.statistic.stock.percent"/></td><td><bean:message key="stock.account.diagram.statistic.stock.percent.thisyear"/></td></tr>
+    <logic:iterate id="stock" name="accountValuePB" property="statisticsPerStock">
+        <tr><td align="left"><b><bean:write name="stock" property="stock"/></b>&nbsp;&nbsp;&nbsp;</td><td align="right"><bean:write name="stock" property="purchaseDisplay"/> kr&nbsp;&nbsp;&nbsp;</td><td align="right"><bean:write name="stock" property="valueDisplay"/> kr</td><td align="right"><bean:write name="stock" property="increasedValueDisplay"/> kr</td><td align="right"><bean:write name="stock" property="percentDisplay"/> %</td><td align="right"><bean:write name="stock" property="percentThisYearDisplay"/> %</td></tr>
+    </logic:iterate>
+    <tr><td align="left"><b><bean:message key="stock.account.diagram.statistic.stock.name.total"/></b>&nbsp;&nbsp;&nbsp;</td><td align="right"><b><bean:write name="accountValuePB" property="purchaseValueDisplay"/> kr</b>&nbsp;&nbsp;&nbsp;</td><td align="right"><b><bean:write name="accountValuePB" property="valueDisplay"/> kr</b></td><td align="right"><b><bean:write name="accountValuePB" property="increasedValueDisplay"/> kr</b></td><td align="right"><b><bean:write name="accountValuePB" property="totalStatisticDisplay"/> %</b></td><td align="right"><b><bean:write name="accountValuePB" property="totalStatisticThisYearDisplay"/> %</b></td></tr>
+    </table>
+    </td></tr>
+    </table>
 </logic:notEmpty>
 
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
