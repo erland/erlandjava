@@ -26,9 +26,14 @@ import java.io.Serializable;
 
 import erland.util.StringUtil;
 
-public class AccountStatisticPB extends ActionForm implements Serializable{
+public class AccountYearStatisticPB extends ActionForm implements Serializable{
     private Integer year;
     private Double value;
+    private Double percent;
+    private Double purchase;
+
+    private static final NumberFormat percentFormat = new DecimalFormat("##0.0");
+    private static final NumberFormat valueFormat = new DecimalFormat("#,###,###");
 
     public Integer getYear() {
         return year;
@@ -52,5 +57,44 @@ public class AccountStatisticPB extends ActionForm implements Serializable{
 
     public void setValue(Double value) {
         this.value = value;
+    }
+
+    public String getValueDisplay() {
+        return value!=null?valueFormat.format(value):"";
+    }
+
+    public void setValueDisplay(String valueDisplay) {
+        this.value = StringUtil.asDouble(valueDisplay,null);
+    }
+    public Double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(Double percent) {
+        this.percent = percent;
+    }
+
+    public String getPercentDisplay() {
+        return percent!=null?percentFormat.format(percent):"";
+    }
+
+    public void setPercentDisplay(String percentDisplay) {
+        this.percent = StringUtil.asDouble(percentDisplay,null);
+    }
+
+    public Double getPurchase() {
+        return purchase;
+    }
+
+    public void setPurchase(Double purchase) {
+        this.purchase = purchase;
+    }
+
+    public String getPurchaseDisplay() {
+        return purchase!=null?valueFormat.format(purchase):"";
+    }
+
+    public void setPurchaseDisplay(String purchaseDisplay) {
+        this.purchase = StringUtil.asDouble(purchaseDisplay,null);
     }
 }
