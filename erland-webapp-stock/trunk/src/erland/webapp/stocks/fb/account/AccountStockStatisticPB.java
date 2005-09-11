@@ -28,8 +28,10 @@ import erland.util.StringUtil;
 import erland.webapp.common.fb.BasePB;
 
 public class AccountStockStatisticPB extends BasePB implements Serializable{
-    private String broker;
-    private String stock;
+    private String brokerId;
+    private String stockId;
+    private String brokerDescription;
+    private String stockDescription;
     private Double value;
     private Double percent;
     private Double percentThisYear;
@@ -39,20 +41,36 @@ public class AccountStockStatisticPB extends BasePB implements Serializable{
     private static final NumberFormat percentFormat = new DecimalFormat("##0.0");
     private static final NumberFormat valueFormat = new DecimalFormat("#,###,###");
 
-    public String getBroker() {
-        return broker;
+    public String getBrokerId() {
+        return brokerId;
     }
 
-    public void setBroker(String broker) {
-        this.broker = broker;
+    public void setBrokerId(String brokerId) {
+        this.brokerId = brokerId;
     }
 
-    public String getStock() {
-        return stock;
+    public String getStockId() {
+        return stockId;
     }
 
-    public void setStock(String stock) {
-        this.stock = stock;
+    public void setStockId(String stockId) {
+        this.stockId = stockId;
+    }
+
+    public String getBrokerDescription() {
+        return brokerDescription;
+    }
+
+    public void setBrokerDescription(String brokerDescription) {
+        this.brokerDescription = brokerDescription;
+    }
+
+    public String getStockDescription() {
+        return stockDescription;
+    }
+
+    public void setStockDescription(String stockDescription) {
+        this.stockDescription = stockDescription;
     }
 
     public Double getValue() {
