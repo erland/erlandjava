@@ -35,7 +35,7 @@ import java.util.Date;
 public class DatabaseStockAccount extends StockAccount {
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    private Integer getAccountId() {
+    protected Integer getAccountId() {
         QueryFilter filter = new QueryFilter("allforuser");
         filter.setAttribute("username",getUsername());
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("stock-account").search(filter);
