@@ -39,6 +39,8 @@ public class AccountValuePB extends BasePB implements Serializable{
     private AccountStockStatisticPB[] statisticsPerStock;
     private Double totalStatistic;
     private Double totalStatisticThisYear;
+    private String stockDescription;
+    private String brokerDescription;
 
     private static final NumberFormat valueFormat = new DecimalFormat("#,###,###");
     private static final NumberFormat decimalFormat = new DecimalFormat("###,##0.##");
@@ -186,4 +188,19 @@ public class AccountValuePB extends BasePB implements Serializable{
         this.statisticsPerStock = statisticsPerStock;
     }
 
+    public String getBrokerDescription() {
+        return brokerDescription;
+    }
+
+    public void setBrokerDescription(String brokerDescription) {
+        this.brokerDescription = brokerDescription;
+    }
+
+    public String getStockDescription() {
+        return stockDescription;
+    }
+
+    public void setStockDescription(String stockDescription) {
+        this.stockDescription = stockDescription;
+    }
 }

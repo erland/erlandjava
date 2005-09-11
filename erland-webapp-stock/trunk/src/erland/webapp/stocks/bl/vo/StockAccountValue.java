@@ -26,6 +26,8 @@ import java.util.Iterator;
  * Represents a stock account value
  */
 public class StockAccountValue {
+    private String brokerDescription;
+    private String stockDescription;
     private double purchaseValue;
     private double value;
     private double noOfStocks;
@@ -38,11 +40,29 @@ public class StockAccountValue {
     private Map statisticsPurchase = new HashMap();
     private Map statisticsStockId = new HashMap();
     private Map statisticsStockBroker = new HashMap();
+    private Map statisticsStockDescription = new HashMap();
+    private Map statisticsStockBrokerDescription = new HashMap();
     private Map statisticsStockPercent = new HashMap();
     private Map statisticsStockPercentThisYear = new HashMap();
     private Map statisticsStockValue = new HashMap();
     private Map statisticsStockIncreasedValue = new HashMap();
     private Map statisticsStockPurchase = new HashMap();
+
+    public String getBrokerDescription() {
+        return brokerDescription;
+    }
+
+    public void setBrokerDescription(String brokerDescription) {
+        this.brokerDescription = brokerDescription;
+    }
+
+    public String getStockDescription() {
+        return stockDescription;
+    }
+
+    public void setStockDescription(String stockDescription) {
+        this.stockDescription = stockDescription;
+    }
 
     public double getTotalStatistics() {
         return totalStatistics;
@@ -123,8 +143,10 @@ public class StockAccountValue {
     }
 
     public void setStockStatistic(String brokerId, String stockId, String brokerName, String stockName, double percent, double value, double purchase,double increasedValue,double percentThisYear) {
-        statisticsStockId.put(brokerId+stockId,stockName);
-        statisticsStockBroker.put(brokerId+stockId,brokerName);
+        statisticsStockId.put(brokerId+stockId,stockId);
+        statisticsStockBroker.put(brokerId+stockId,brokerId);
+        statisticsStockDescription.put(brokerId+stockId,stockName);
+        statisticsStockBrokerDescription.put(brokerId+stockId,brokerName);
         statisticsStockPercent.put(brokerId+stockId,new Double(percent));
         statisticsStockPercentThisYear.put(brokerId+stockId,new Double(percentThisYear));
         statisticsStockValue.put(brokerId+stockId,new Double(value));
@@ -145,9 +167,15 @@ public class StockAccountValue {
         return statistic!=null?statistic.doubleValue():0;
     }
     public String getStockStatisticStockName(String id) {
-        return (String) statisticsStockId.get(id);
+        return (String) statisticsStockDescription.get(id);
     }
     public String getStockStatisticBroker(String id) {
+        return (String) statisticsStockBrokerDescription.get(id);
+    }
+    public String getStockStatisticStockId(String id) {
+        return (String) statisticsStockId.get(id);
+    }
+    public String getStockStatisticBrokerId(String id) {
         return (String) statisticsStockBroker.get(id);
     }
     public double getStockStatisticPercent(String id) {
