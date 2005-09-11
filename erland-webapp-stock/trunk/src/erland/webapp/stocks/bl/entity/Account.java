@@ -25,6 +25,7 @@ import erland.webapp.common.BaseEntity;
 public class Account extends BaseEntity {
     private Integer accountId;
     private String username;
+    private String name;
 
     public Integer getAccountId() {
         return accountId;
@@ -40,5 +41,13 @@ public class Account extends BaseEntity {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
