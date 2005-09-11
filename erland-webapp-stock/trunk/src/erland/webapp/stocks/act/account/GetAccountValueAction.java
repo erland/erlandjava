@@ -21,7 +21,7 @@ package erland.webapp.stocks.act.account;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
 import erland.webapp.common.act.BaseAction;
 import erland.webapp.stocks.bl.entity.StockAccount;
-import erland.webapp.stocks.bl.entity.StockAccountValue;
+import erland.webapp.stocks.bl.vo.StockAccountValue;
 import erland.webapp.stocks.bl.service.StockAccountManager;
 import erland.webapp.stocks.fb.account.AccountDiagramFB;
 import erland.webapp.stocks.fb.account.AccountValuePB;
@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;

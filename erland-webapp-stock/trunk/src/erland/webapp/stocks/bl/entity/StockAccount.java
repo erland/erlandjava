@@ -19,7 +19,6 @@ package erland.webapp.stocks.bl.entity;
  */
 
 import erland.webapp.diagram.*;
-import erland.webapp.common.EntityInterface;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.BaseEntity;
 import erland.webapp.stocks.bl.entity.StockAccountStockEntry;
@@ -30,6 +29,7 @@ import erland.webapp.stocks.bl.logic.transaction.StockAccountTransactionFilterIn
 import erland.webapp.stocks.bl.logic.stock.StockInterface;
 import erland.webapp.stocks.bl.service.StockStorageInterface;
 import erland.webapp.stocks.bl.service.BrokerManagerInterface;
+import erland.webapp.stocks.bl.vo.StockAccountValue;
 import erland.util.StringUtil;
 
 import java.util.*;
