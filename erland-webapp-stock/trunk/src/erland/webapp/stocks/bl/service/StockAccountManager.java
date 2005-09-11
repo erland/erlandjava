@@ -32,9 +32,10 @@ public class StockAccountManager implements StockAccountManagerInterface {
         this.environment = environment;
     }
 
-    public StockAccount getAccount(String user) {
+    public StockAccount getAccount(String user, Integer accountId) {
         StockAccount account = (StockAccount)environment.getEntityFactory().create("stock-stockaccount");
         account.setUsername(user);
+        account.setAccountId(accountId);
         return account;
     }
 }

@@ -23,5 +23,5 @@ import erland.webapp.stocks.bl.entity.StockAccount;
  */
 
 public interface StockAccountManagerInterface extends ServiceInterface{
-    public StockAccount getAccount(String user);
+    public StockAccount getAccount(String user, Integer accountId);
 }
