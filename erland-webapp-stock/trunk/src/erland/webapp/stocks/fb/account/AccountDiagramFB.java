@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.io.Serializable;
 
 import erland.util.StringUtil;
+import erland.webapp.common.fb.BaseFB;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -33,7 +34,8 @@ import erland.util.StringUtil;
  * 
  */
 
-public class AccountDiagramFB extends ValidatorForm implements Serializable{
+public class AccountDiagramFB extends BaseFB implements Serializable{
+    private Integer accountId;
     private String broker;
     private String stock;
     private Date startDate;
@@ -87,6 +89,14 @@ public class AccountDiagramFB extends ValidatorForm implements Serializable{
         this.endDate = StringUtil.asDate(purchaseDateDisplay,null);
     }
 
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         setBroker(null);
         setStock(null);
@@ -95,5 +105,6 @@ public class AccountDiagramFB extends ValidatorForm implements Serializable{
         cal.set(Calendar.MONTH,0);
         setStartDate(cal.getTime());
         setEndDate(new Date());
+        setAccountId(null);
     }
 }

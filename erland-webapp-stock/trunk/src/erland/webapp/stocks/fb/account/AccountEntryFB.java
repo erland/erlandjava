@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.io.Serializable;
 
 import erland.util.StringUtil;
+import erland.webapp.common.fb.BaseFB;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -32,7 +33,8 @@ import erland.util.StringUtil;
  * 
  */
 
-public class AccountEntryFB extends ValidatorForm implements Serializable{
+public class AccountEntryFB extends BaseFB implements Serializable{
+    private Integer accountId;
     private String broker;
     private String stock;
     private Double number;
@@ -103,6 +105,14 @@ public class AccountEntryFB extends ValidatorForm implements Serializable{
         this.purchaseDate = StringUtil.asDate(purchaseDateDisplay,null);
     }
 
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping,httpServletRequest);
         setPurchaseDate(new Date());
@@ -110,5 +120,6 @@ public class AccountEntryFB extends ValidatorForm implements Serializable{
         setStock(null);
         setValue(null);
         setNumber(null);
+        setAccountId(null);
     }
 }
