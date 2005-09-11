@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
+import erland.webapp.common.act.BaseAction;
 import erland.webapp.stocks.bl.service.BrokerManagerInterface;
 import erland.webapp.stocks.fb.account.BrokerFB;
 
@@ -31,7 +32,7 @@ import erland.webapp.stocks.fb.account.BrokerFB;
  * 
  */
 
-public class SearchBrokersAction extends Action {
+public class SearchBrokersAction extends BaseAction {
     public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         BrokerManagerInterface brokers = (BrokerManagerInterface) WebAppEnvironmentPlugin.getEnvironment().getServiceFactory().create("stock-brokermanager");
         String[] brokerIds = brokers.getBrokers();

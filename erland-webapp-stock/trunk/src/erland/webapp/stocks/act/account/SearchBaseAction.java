@@ -6,6 +6,7 @@ import erland.webapp.stocks.bl.logic.transaction.StockAccountTransactionListInte
 import erland.webapp.stocks.bl.logic.transaction.StockAccountTransaction;
 import erland.webapp.stocks.bl.service.BrokerManagerInterface;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
+import erland.webapp.common.act.BaseAction;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -26,7 +27,7 @@ import erland.webapp.common.act.WebAppEnvironmentPlugin;
  * 
  */
 
-public class SearchBaseAction extends Action {
+public class SearchBaseAction extends BaseAction {
     protected AccountEntryPB[] createPB(StockAccountTransactionListInterface stockList) {
         BrokerManagerInterface brokerManager = (BrokerManagerInterface) WebAppEnvironmentPlugin.getEnvironment().getServiceFactory().create("stock-brokermanager");
         StockAccountTransaction[] transactions = stockList.toArray();

@@ -19,6 +19,7 @@ package erland.webapp.stocks.act.stock;
  */
 
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
+import erland.webapp.common.act.BaseAction;
 import erland.webapp.diagram.DateValueSerieInterface;
 import erland.webapp.diagram.DateValueDiagramHelper;
 import erland.webapp.stocks.bl.service.StockStorageInterface;
@@ -35,7 +36,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
 import org.apache.commons.beanutils.PropertyUtils;
 
-public class GetStockDiagramAction extends Action {
+public class GetStockDiagramAction extends BaseAction {
     public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         SelectFB fb = (SelectFB) actionForm;
         if(fb.getStock()!=null) {
