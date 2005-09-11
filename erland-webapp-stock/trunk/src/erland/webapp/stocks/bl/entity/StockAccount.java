@@ -45,7 +45,6 @@ public abstract class StockAccount extends BaseEntity {
     private StockStorageInterface stockStorage;
     private String username;
     private Integer accountId;
-    private WebAppEnvironmentInterface environment;
     private BrokerManagerInterface brokerManager;
 
     static class SerieType {
@@ -198,11 +197,8 @@ public abstract class StockAccount extends BaseEntity {
     }
 
     public void init(WebAppEnvironmentInterface environment) {
-        this.environment = environment;
+        super.init(environment);
         this.stockStorage = ((StockStorageInterface)environment.getServiceFactory().create("stock-stockstorage"));
-    }
-    protected WebAppEnvironmentInterface getEnvironment() {
-        return environment;
     }
 
     public void setUsername(String userName) {
