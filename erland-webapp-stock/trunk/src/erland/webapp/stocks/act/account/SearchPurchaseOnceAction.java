@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import erland.webapp.stocks.fb.account.AccountEntryFB;
 import erland.webapp.stocks.fb.account.AccountEntryPB;
+import erland.webapp.stocks.fb.account.SelectAccountFB;
 import erland.webapp.stocks.bl.service.StockAccountManager;
 import erland.webapp.stocks.bl.entity.StockAccount;
 import erland.webapp.stocks.bl.service.BrokerManagerInterface;
@@ -38,8 +39,9 @@ import erland.webapp.common.act.WebAppEnvironmentPlugin;
 
 public class SearchPurchaseOnceAction extends SearchBaseAction {
     public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+        SelectAccountFB fb = (SelectAccountFB) actionForm;
         StockAccountManager accountManager = (StockAccountManager) WebAppEnvironmentPlugin.getEnvironment().getServiceFactory().create("stock-stockaccountmanager");
-        StockAccount account = accountManager.getAccount(httpServletRequest.getRemoteUser());
+        StockAccount account = accountManager.getAccount(httpServletRequest.getRemoteUser(),fb.getAccountId());
 
         StockAccountTransactionListInterface stockList = account.getPurchaseOnceEntries();
 

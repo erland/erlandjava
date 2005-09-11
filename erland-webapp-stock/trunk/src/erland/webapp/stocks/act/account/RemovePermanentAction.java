@@ -21,6 +21,7 @@ package erland.webapp.stocks.act.account;
 import erland.webapp.common.CommandInterface;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
+import erland.webapp.common.act.BaseAction;
 import erland.webapp.stocks.bl.entity.StockAccount;
 import erland.webapp.stocks.bl.service.StockAccountManager;
 import erland.webapp.stocks.fb.account.AccountEntryFB;
@@ -33,12 +34,12 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.Action;
 
-public class RemovePermanentAction extends Action {
+public class RemovePermanentAction extends BaseAction {
     public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         AccountEntryFB fb = (AccountEntryFB) actionForm;
 
         StockAccountManager accountManager = (StockAccountManager) WebAppEnvironmentPlugin.getEnvironment().getServiceFactory().create("stock-stockaccountmanager");
-        StockAccount account = accountManager.getAccount(httpServletRequest.getRemoteUser());
+        StockAccount account = accountManager.getAccount(httpServletRequest.getRemoteUser(),fb.getAccountId());
         account.removeStockPermanent(fb.getBroker(),fb.getStock(),fb.getPurchaseDate());
         return actionMapping.findForward("success");
     }

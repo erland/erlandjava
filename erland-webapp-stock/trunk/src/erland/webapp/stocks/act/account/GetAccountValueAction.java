@@ -19,6 +19,7 @@ package erland.webapp.stocks.act.account;
  */
 
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
+import erland.webapp.common.act.BaseAction;
 import erland.webapp.stocks.bl.entity.StockAccount;
 import erland.webapp.stocks.bl.entity.StockAccountValue;
 import erland.webapp.stocks.bl.service.StockAccountManager;
@@ -36,12 +37,12 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
 
-public class GetAccountValueAction extends Action {
+public class GetAccountValueAction extends BaseAction {
 
     public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         AccountDiagramFB fb = (AccountDiagramFB) actionForm;
         StockAccountManager accountManager = (StockAccountManager) WebAppEnvironmentPlugin.getEnvironment().getServiceFactory().create("stock-stockaccountmanager");
-        StockAccount account = accountManager.getAccount(httpServletRequest.getRemoteUser());
+        StockAccount account = accountManager.getAccount(httpServletRequest.getRemoteUser(),fb.getAccountId());
         if(fb.getStartDate()!=null && fb.getEndDate()!=null) {
             StockAccountValue value;
             if(fb.getBroker()!=null && fb.getStock()!=null) {
