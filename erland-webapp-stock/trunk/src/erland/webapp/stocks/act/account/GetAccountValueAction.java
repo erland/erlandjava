@@ -62,6 +62,8 @@ public class GetAccountValueAction extends BaseAction {
             if(value.getRate()>0) {
                 pb.setCurrentRate(new Double(value.getRate()));
             }
+            pb.setBrokerDescription(value.getBrokerDescription());
+            pb.setStockDescription(value.getStockDescription());
             pb.setTotalStatistic(new Double(value.getTotalStatistics()));
             pb.setTotalStatisticThisYear(new Double(value.getTotalStatisticsThisYear()));
             int[] years = value.getYearStatistic();
@@ -84,8 +86,10 @@ public class GetAccountValueAction extends BaseAction {
             AccountStockStatisticPB[] stockStats=new AccountStockStatisticPB[stockIds.length];
             for (int i = 0; i < stockIds.length; i++) {
                 stockStats[i] = new AccountStockStatisticPB();
-                stockStats[i].setStock(value.getStockStatisticStockName(stockIds[i]));
-                stockStats[i].setBroker(value.getStockStatisticBroker(stockIds[i]));
+                stockStats[i].setStockId(value.getStockStatisticStockId(stockIds[i]));
+                stockStats[i].setBrokerId(value.getStockStatisticBrokerId(stockIds[i]));
+                stockStats[i].setStockDescription(value.getStockStatisticStockName(stockIds[i]));
+                stockStats[i].setBrokerDescription(value.getStockStatisticBroker(stockIds[i]));
                 stockStats[i].setPercent(new Double(value.getStockStatisticPercent(stockIds[i])));
                 stockStats[i].setPercentThisYear(new Double(value.getStockStatisticPercentThisYear(stockIds[i])));
                 stockStats[i].setValue(new Double(value.getStockStatisticValue(stockIds[i])));
@@ -94,7 +98,7 @@ public class GetAccountValueAction extends BaseAction {
             }
             Arrays.sort(stockStats,new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    int comp = ((AccountStockStatisticPB)o1).getBroker().compareTo(((AccountStockStatisticPB)o2).getBroker());
+                    int comp = ((AccountStockStatisticPB)o1).getBrokerDescription().compareTo(((AccountStockStatisticPB)o2).getBrokerDescription());
                     if(comp!=0) {
                         return comp;
                     }
