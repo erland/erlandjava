@@ -46,6 +46,72 @@ public abstract class StockAccount extends BaseEntity {
     private String username;
     private Integer accountId;
     private BrokerManagerInterface brokerManager;
+    private static final Map cache = new HashMap();
+
+    class CacheEntry {
+        private DateValueSerie valueSerie;
+        private Date cacheTime;
+
+        public CacheEntry(DateValueSerie valueSerie) {
+            cacheTime = new Date();
+            this.valueSerie = valueSerie;
+        }
+        public DateValueSerie getValueSerie() {
+            return valueSerie;
+        }
+
+        public void setValueSerie(DateValueSerie valueSerie) {
+            this.valueSerie = valueSerie;
+        }
+
+        public Date getCacheTime() {
+            return cacheTime;
+        }
+
+        public void setCacheTime(Date cacheTime) {
+            this.cacheTime = cacheTime;
+        }
+    }
+    class CacheKey {
+        private String username;
+        private Integer accountId;
+        private String broker;
+        private String stock;
+        private Date fromDate;
+        private Date toDate;
+
+        public CacheKey(String username, Integer accountId, String broker, String stock, Date fromDate, Date toDate) {
+            this.username = username;
+            this.accountId = accountId;
+            this.broker = broker;
+            this.stock = stock;
+            this.fromDate = fromDate;
+            this.toDate = toDate;
+        }
+        public boolean equals(Object obj) {
+            if(!(obj instanceof CacheKey)) {
+                return false;
+            }
+            CacheKey c = (CacheKey) obj;
+            return (username==c.username||(username!=null && username.equals(c.username))) &&
+                   (accountId==c.accountId||(accountId!=null && accountId.equals(c.accountId))) &&
+                   (broker==c.broker||(broker!=null && broker.equals(c.broker))) &&
+                   (stock==c.stock||(stock!=null && stock.equals(c.stock))) &&
+                   (fromDate==c.fromDate||(fromDate!=null && fromDate.equals(c.fromDate))) &&
+                   (toDate==c.toDate||(toDate!=null && toDate.equals(c.toDate)));
+        }
+
+        public int hashCode() {
+            int result = 17;
+            result = 37*result + (username!=null?username.hashCode():0);
+            result = 37*result + (accountId!=null?accountId.hashCode():0);
+            result = 37*result + (broker!=null?broker.hashCode():0);
+            result = 37*result + (stock!=null?stock.hashCode():0);
+            result = 37*result + (fromDate!=null?fromDate.hashCode():0);
+            result = 37*result + (toDate!=null?toDate.hashCode():0);
+            return result;
+        }
+    }
 
     static class SerieType {
         private SerieType() {}
@@ -147,6 +213,15 @@ public abstract class StockAccount extends BaseEntity {
         private SerieTypeController controller = new SerieTypeController();
         public DateValueSerie(String name) {
             super(name);
+        }
+        public DateValueSerie(DateValueSerie original) {
+            super(original.getName());
+            controller.setSerieType(original.getController().getSerieType());
+            Iterator it = original.getSerie(DateValueSerieType.ALL);
+            while (it.hasNext()) {
+                DateValue entry = (DateValue) it.next();
+                addDateValue(new DateValue(controller,entry.date,entry));
+            }
         }
         public SerieTypeController getController() {
             return controller;
@@ -547,9 +622,15 @@ public abstract class StockAccount extends BaseEntity {
      */
     private DateValueSerie getStockValues(DateValueSerieInterface values, String broker, String stock, Date fromDate, Date toDate) {
         LOG.debug("getStockValues start "+broker+" "+stock+" "+fromDate+" "+toDate+" "+System.currentTimeMillis());
+        DateValueSerie result = getFromCache(getUsername(),getAccountId(),broker,stock,fromDate,toDate);
+        if(result!=null) {
+            LOG.debug("getStockValues end (from cache) result.size="+result.size()+" "+broker+" "+stock+" "+fromDate+" "+toDate+" "+System.currentTimeMillis());
+            return result;
+        }else {
+            result = new DateValueSerie(values.getName());
+        }
         Date dateFrom = fromDate;
         Date dateTo = toDate;
-        DateValueSerie result = new DateValueSerie(values.getName());
         //TODO: Why can't we have some default values instead of requesting that both from and to is specified ?
         if(dateTo==null || values.size()==0) {
             LOG.debug("getStockValues end result.size()="+result.size()+" "+broker+" "+stock+" "+fromDate+" "+toDate+" "+System.currentTimeMillis());
@@ -780,37 +861,43 @@ public abstract class StockAccount extends BaseEntity {
             // Check if this is the last iteration
             bLast = (curPos==finalEndPos);
         }
+        storeInCache(getUsername(),getAccountId(),broker,stock,fromDate,toDate,result);
         LOG.debug("getStockValues end result.size="+result.size()+" "+broker+" "+stock+" "+fromDate+" "+toDate+" "+System.currentTimeMillis());
         return result;
     }
 
+
     public StockAccountValue getStockValue(String broker, String stock, Date date) {
         LOG.debug("getStockValue "+broker+" "+stock+" "+date);
-        StockInterface s = stockStorage.getStock(broker,stock);
-        DateValueSerie valueSerie = getStockValues(s.getRates(),broker,stock,null,date);
-        DateValue value = (DateValue) valueSerie.getDateValue(valueSerie.size()-1);
-
-        valueSerie.getController().setSerieType(SerieType.STOCKNUMBER_VALUES);
-        double noOfStocks = value.getValue();
+        StockAccountValue result = new StockAccountValue();
+        DateValueSerie valueSerie = (DateValueSerie) getTotalStockValues(null,null,date,result);
+        DateValueSerie stockValueSerie = (DateValueSerie) getStockValues(broker,stock,null,date);
+        DateValue dv = (DateValue) valueSerie.getDateValue(valueSerie.size()-1);
+        DateValue stockDV = (DateValue) stockValueSerie.getDateValue(stockValueSerie.size()-1);
 
         valueSerie.getController().setSerieType(SerieType.PURCHASE_VALUES);
-        double purchaseValue = value.getValue();
+        double purchaseValue = dv.getValue();
 
-        int i = s.getRates().indexOf(date);
-        if(i>=0) {
-            StockAccountValue result = new StockAccountValue();
-            result.setValue(noOfStocks*s.getRates().getDateValue(i).getValue());
-            result.setRate(s.getRates().getDateValue(i).getValue());
-            result.setNoOfStocks(noOfStocks);
-            result.setPurchaseValue(purchaseValue);
-            result.setIncreasedValue(result.getValue()-purchaseValue);
-            result.setTotalStatistics((result.getValue()-purchaseValue)*100.0/purchaseValue);
-            calculateYearStatistics(result,valueSerie);
-            calculateStockStatistics(result,broker,stock, valueSerie);
-            return result;
-        }else {
-            return null;
-        }
+        valueSerie.getController().setSerieType(SerieType.STOCK_VALUES);
+        double value = dv.getValue();
+
+        stockValueSerie.getController().setSerieType(SerieType.STOCK_VALUES);
+        double stockValue = stockDV.getValue();
+
+        stockValueSerie.getController().setSerieType(SerieType.STOCKNUMBER_VALUES);
+        double noOfStocks = stockDV.getValue();
+
+        result.setValue(value);
+        result.setPurchaseValue(purchaseValue);
+        result.setIncreasedValue(value-purchaseValue);
+        result.setNoOfStocks(noOfStocks);
+        result.setRate(stockValue/noOfStocks);
+        result.setTotalStatistics((result.getValue()-purchaseValue)*100.0/purchaseValue);
+        result.setTotalStatisticsThisYear(calculateThisYearStatistics(valueSerie));
+        result.setBrokerDescription(getBrokerManager().getBrokerName(broker));
+        result.setStockDescription(getBrokerManager().getStockName(broker,stock));
+        calculateYearStatistics(result,stockValueSerie);
+        return result;
     }
 
     private double calculateThisYearStatistics(DateValueSerie valueSerie) {
@@ -862,7 +949,6 @@ public abstract class StockAccount extends BaseEntity {
         }
 
         int pos = valueSerie.size()-1;
-        boolean bFirst = true;
         while(pos>=0) {
             DateValue dv = (DateValue) valueSerie.getDateValue(pos);
             Date date = dv.getDate();
@@ -908,11 +994,7 @@ public abstract class StockAccount extends BaseEntity {
                 double statisticPercent = statisticValue*100/startValue;
 
                 accountValue.setYearStatistic(year,statisticPercent,statisticValue,purchaseValue);
-                if(bFirst) {
-                    accountValue.setTotalStatisticsThisYear(statisticPercent);
-                }
             }
-            bFirst = false;
             cal.add(Calendar.DATE,-1);
             date = cal.getTime();
             pos = valueSerie.indexOf(date);
@@ -1054,7 +1136,7 @@ public abstract class StockAccount extends BaseEntity {
         return getDateLimitedSerie(fromDate,toDate,result);
     }
 
-    private DateValueSerieInterface getDateLimitedSerie(Date fromDate, Date toDate, DateValueSerie serie) {
+    private DateValueSerie getDateLimitedSerie(Date fromDate, Date toDate, DateValueSerie serie) {
         LOG.debug("getDateLimitedSerie "+serie.getName()+" "+fromDate+" "+toDate);
         if(fromDate!=null) {
             int pos = serie.indexOf(fromDate);
@@ -1079,15 +1161,12 @@ public abstract class StockAccount extends BaseEntity {
             if(pos>=0) {
                 DateValue dvBefore = (DateValue) serie.getDateValue(pos);
                 if(!dvBefore.getDate().equals(toDate)) {
-                    DateValue interpolatedDV = null;
                     if(serie.size()>pos+1) {
                         DateValue dv = (DateValue) serie.getDateValue(pos+1);
-                        interpolatedDV = dv.interpolated(dvBefore,toDate);
-                    }else {
-                        interpolatedDV = new DateValue(serie.getController(),toDate,dvBefore);
+                        DateValue interpolatedDV = dv.interpolated(dvBefore,toDate);
+                        serie.insertDateValue(interpolatedDV,pos+1);
+                        LOG.debug("Inserted interpolated date: "+toDate+" value:"+interpolatedDV);
                     }
-                    serie.insertDateValue(interpolatedDV,pos+1);
-                    LOG.debug("Inserted interpolated date: "+toDate+" value:"+interpolatedDV);
                 }
                 serie.deleteAfter(toDate);
             }
@@ -1235,7 +1314,7 @@ public abstract class StockAccount extends BaseEntity {
     public StockAccountValue getStockValue(String broker, Date date) {
         LOG.debug("getStockValue "+date);
         StockAccountValue result = new StockAccountValue();
-        DateValueSerie valueSerie = (DateValueSerie) getTotalStockValues(broker,null,date,result);
+        DateValueSerie valueSerie = (DateValueSerie) getTotalStockValues(null,null,date,result);
         DateValue dv = (DateValue) valueSerie.getDateValue(valueSerie.size()-1);
 
         valueSerie.getController().setSerieType(SerieType.PURCHASE_VALUES);
@@ -1250,6 +1329,7 @@ public abstract class StockAccount extends BaseEntity {
         result.setPurchaseValue(purchaseValue);
         result.setIncreasedValue(value-purchaseValue);
         result.setTotalStatistics((result.getValue()-purchaseValue)*100.0/purchaseValue);
+        result.setTotalStatisticsThisYear(calculateThisYearStatistics(valueSerie));
         calculateYearStatistics(result,valueSerie);
         return result;
     }
@@ -1275,5 +1355,55 @@ public abstract class StockAccount extends BaseEntity {
             brokerManager = (BrokerManagerInterface) getEnvironment().getServiceFactory().create("stock-brokermanager");
         }
         return brokerManager;
+    }
+
+    private DateValueSerie getFromCache(String username, Integer accountId, String broker, String stock, Date fromDate, Date toDate) {
+        synchronized(cache) {
+            CacheKey key = new CacheKey(username,accountId,broker,stock,fromDate,toDate);
+            CacheEntry entry = (CacheEntry) cache.get(key);
+            // Check if an exact entry exists
+            if(entry!=null) {
+                LOG.debug("Got from cache: "+username+","+accountId+","+broker+","+stock+","+fromDate+","+toDate);
+                return new DateValueSerie(entry.getValueSerie());
+
+            // Check if an entry without fromDate exists
+            }else if(fromDate!=null) {
+                key = new CacheKey(username,accountId,broker,stock,null,toDate);
+                entry = (CacheEntry) cache.get(key);
+                if(entry!=null) {
+                    LOG.debug("Created from cache: "+username+","+accountId+","+broker+","+stock+","+fromDate+","+toDate);
+                    return getDateLimitedSerie(fromDate,toDate,new DateValueSerie(entry.getValueSerie()));
+                }
+            }
+            return null;
+        }
+    }
+    private void storeInCache(String username, Integer accountId, String broker, String stock, Date fromDate, Date toDate, DateValueSerie valueSerie) {
+        synchronized(cache) {
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DATE,-1);
+            Date cacheLimitDate = cal.getTime();
+            while(cache.size()>30) {
+                Iterator it = cache.keySet().iterator();
+                Date lastDate = null;
+                CacheKey lastKey = null;
+                while (it.hasNext()) {
+                    CacheKey key = (CacheKey) it.next();
+                    CacheEntry entry = (CacheEntry) cache.get(key);
+
+                    // Remove cache entry of it is to old
+                    if(entry.getCacheTime().before(cacheLimitDate)) {
+                        it.remove();
+                    }else if(lastDate==null || lastDate.after(entry.getCacheTime())) {
+                        lastDate = entry.getCacheTime();
+                        lastKey = key;
+                    }
+                }
+                cache.remove(lastKey);
+            }
+            CacheKey key = new CacheKey(username,accountId,broker,stock,fromDate,toDate);
+            cache.put(key,new CacheEntry(valueSerie));
+            LOG.debug("Store in cache: "+username+","+accountId+","+broker+","+stock+","+fromDate+","+toDate);
+        }
     }
 }
