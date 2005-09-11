@@ -21,6 +21,7 @@ package erland.webapp.stocks.bl.entity;
 import erland.webapp.diagram.*;
 import erland.webapp.common.EntityInterface;
 import erland.webapp.common.WebAppEnvironmentInterface;
+import erland.webapp.common.BaseEntity;
 import erland.webapp.stocks.bl.entity.StockAccountStockEntry;
 import erland.webapp.stocks.bl.logic.transaction.StockAccountTransaction;
 import erland.webapp.stocks.bl.logic.transaction.StockAccountTransactionList;
@@ -38,11 +39,12 @@ import java.text.DateFormat;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public abstract class StockAccount implements EntityInterface {
+public abstract class StockAccount extends BaseEntity {
     /** Logging instance */
     private static Log LOG = LogFactory.getLog(StockAccount.class);
     private StockStorageInterface stockStorage;
     private String username;
+    private Integer accountId;
     private WebAppEnvironmentInterface environment;
     private BrokerManagerInterface brokerManager;
 
@@ -208,6 +210,12 @@ public abstract class StockAccount implements EntityInterface {
     }
     protected String getUsername() {
         return username;
+    }
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
+    protected Integer getAccountId() {
+        return accountId;
     }
     abstract public StockAccountTransactionListInterface getPermanentEntries();
 
