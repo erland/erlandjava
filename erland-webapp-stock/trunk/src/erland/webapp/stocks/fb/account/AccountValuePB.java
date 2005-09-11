@@ -7,6 +7,7 @@ import java.text.*;
 import java.io.Serializable;
 
 import erland.util.StringUtil;
+import erland.webapp.common.fb.BasePB;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -27,7 +28,7 @@ import erland.util.StringUtil;
  * 
  */
 
-public class AccountValuePB extends ActionForm implements Serializable{
+public class AccountValuePB extends BasePB implements Serializable{
     private Date date;
     private Double value;
     private Double increasedValue;

@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.io.Serializable;
 
 import erland.util.StringUtil;
+import erland.webapp.common.fb.BasePB;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -29,7 +30,7 @@ import erland.util.StringUtil;
  * 
  */
 
-public class AccountEntryPB extends ActionForm implements Serializable{
+public class AccountEntryPB extends BasePB implements Serializable{
     private String broker;
     private String brokerDescription;
     private String stock;

@@ -25,8 +25,9 @@ import java.text.*;
 import java.io.Serializable;
 
 import erland.util.StringUtil;
+import erland.webapp.common.fb.BasePB;
 
-public class AccountStockStatisticPB extends ActionForm implements Serializable{
+public class AccountStockStatisticPB extends BasePB implements Serializable{
     private String broker;
     private String stock;
     private Double value;

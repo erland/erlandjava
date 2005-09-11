@@ -25,8 +25,9 @@ import java.text.*;
 import java.io.Serializable;
 
 import erland.util.StringUtil;
+import erland.webapp.common.fb.BasePB;
 
-public class AccountYearStatisticPB extends ActionForm implements Serializable{
+public class AccountYearStatisticPB extends BasePB implements Serializable{
     private Integer year;
     private Double value;
     private Double percent;

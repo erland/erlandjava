@@ -4,6 +4,8 @@ import org.apache.struts.action.ActionForm;
 
 import java.io.Serializable;
 
+import erland.webapp.common.fb.BasePB;
+
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -23,7 +25,7 @@ import java.io.Serializable;
  * 
  */
 
-public class BrokerPB extends ActionForm implements Serializable{
+public class BrokerPB extends BasePB implements Serializable{
     private String broker;
     private String description;
     private StockPB[] stocks;
