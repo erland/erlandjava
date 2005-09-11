@@ -20,6 +20,7 @@ DROP TABLE IF EXISTS `accounts`;
 CREATE TABLE `accounts` (
   `accountid` int(11) NOT NULL auto_increment,
   `username` varchar(100) NOT NULL default '',
+  `name` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`accountid`)
 ) TYPE=MyISAM;
 
