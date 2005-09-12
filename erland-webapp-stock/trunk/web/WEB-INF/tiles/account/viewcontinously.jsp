@@ -6,7 +6,7 @@
 <table class="transactionpage-header">
 <logic:iterate name="brokersPB" id="broker">
     <tr><td nowrap>
-    <a class="transactionpage-button" href="<html:rewrite page="/do/newaccountcontinouslyforvalue"/>?broker=<bean:write name="broker" property="id"/>"><bean:write name="broker" property="description"/> : <bean:message key="stock.account.add-continously-for-value"/></a>
+    <a class="transactionpage-button" href="<html:rewrite page="/do/newaccountcontinouslyforvalue"/>?accountId=<bean:write name="selectAccountFB" property="accountId"/>&broker=<bean:write name="broker" property="id"/>"><bean:write name="broker" property="description"/> : <bean:message key="stock.account.add-continously-for-value"/></a>
     </td></tr>
 </logic:iterate>
 </table>
@@ -19,7 +19,7 @@
     <td class="transactionpage-list-entry" nowrap><bean:write name="entry" property="purchaseDateDisplay"/></td>
     <td class="transactionpage-list-entry" nowrap><bean:write name="entry" property="value"/></td>
     <td class="transactionpage-list-entry" nowrap>
-    <a class="transactionpage-button" href="<html:rewrite page="/do/removeaccountcontinously"/>?broker=<bean:write name="entry" property="broker"/>&stock=<bean:write name="entry" property="stock"/>&purchaseDateDisplay=<bean:write name="entry" property="purchaseDateDisplay"/>" onClick="return confirm('<bean:message key="stock.account.are-you-sure-remove"/>')"><bean:message key="stock.account.remove"/></a>
+    <a class="transactionpage-button" href="<html:rewrite page="/do/removeaccountcontinously"/>?accountId=<bean:write name="selectAccountFB" property="accountId"/>&broker=<bean:write name="entry" property="broker"/>&stock=<bean:write name="entry" property="stock"/>&purchaseDateDisplay=<bean:write name="entry" property="purchaseDateDisplay"/>" onClick="return confirm('<bean:message key="stock.account.are-you-sure-remove"/>')"><bean:message key="stock.account.remove"/></a>
     </td>
     </tr>
 </logic:iterate>

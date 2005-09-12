@@ -6,10 +6,10 @@
 <table class="transactionpage-header">
 <logic:iterate name="brokersPB" id="broker">
     <tr><td nowrap>
-    <a class="transactionpage-button" href="<html:rewrite page="/do/newaccountpermanentnumberforvalue"/>?broker=<bean:write name="broker" property="id"/>"><bean:write name="broker" property="description"/> : <bean:message key="stock.account.add-permanent-number-for-value"/></a>
+    <a class="transactionpage-button" href="<html:rewrite page="/do/newaccountpermanentnumberforvalue"/>?accountId=<bean:write name="selectAccountFB" property="accountId"/>&broker=<bean:write name="broker" property="id"/>"><bean:write name="broker" property="description"/> : <bean:message key="stock.account.add-permanent-number-for-value"/></a>
     </td></tr>
     <tr><td nowrap>
-    <a class="transactionpage-button" href="<html:rewrite page="/do/newaccountpermanentnumber"/>?broker=<bean:write name="broker" property="id"/>"><bean:write name="broker" property="description"/> : <bean:message key="stock.account.add-permanent-number"/></a>
+    <a class="transactionpage-button" href="<html:rewrite page="/do/newaccountpermanentnumber"/>?accountId=<bean:write name="selectAccountFB" property="accountId"/>&broker=<bean:write name="broker" property="id"/>"><bean:write name="broker" property="description"/> : <bean:message key="stock.account.add-permanent-number"/></a>
     </td></tr>
 </logic:iterate>
 </table>
@@ -23,7 +23,7 @@
     <td class="transactionpage-list-entry" nowrap><bean:write name="entry" property="number"/></td>
     <td class="transactionpage-list-entry" nowrap><bean:write name="entry" property="value"/></td>
     <td class="transactionpage-list-entry" nowrap>
-    <a class="transactionpage-button" href="<html:rewrite page="/do/removeaccountpermanent"/>?broker=<bean:write name="entry" property="broker"/>&stock=<bean:write name="entry" property="stock"/>&purchaseDateDisplay=<bean:write name="entry" property="purchaseDateDisplay"/>" onClick="return confirm('<bean:message key="stock.account.are-you-sure-remove"/>')"><bean:message key="stock.account.remove"/></a>
+    <a class="transactionpage-button" href="<html:rewrite page="/do/removeaccountpermanent"/>?accountId=<bean:write name="selectAccountFB" property="accountId"/>&broker=<bean:write name="entry" property="broker"/>&stock=<bean:write name="entry" property="stock"/>&purchaseDateDisplay=<bean:write name="entry" property="purchaseDateDisplay"/>" onClick="return confirm('<bean:message key="stock.account.are-you-sure-remove"/>')"><bean:message key="stock.account.remove"/></a>
     </td>
     </tr>
 </logic:iterate>

@@ -6,6 +6,7 @@
 <tiles:insert page="/WEB-INF/tiles/common/validationerrors.jsp" />
 <table class="propertypage-body">
 <html:form action="/editaccountpurchaseoncenumberforvalue" method="POST">
+    <html:hidden property="accountId"/>
     <html:hidden name="brokerPB" property="broker"/>
     <tr><td><bean:message key="stock.account.edit.stock"/></td><td>
     <html:select property="stock">

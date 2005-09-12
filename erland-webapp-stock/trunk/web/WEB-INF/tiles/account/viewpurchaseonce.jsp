@@ -6,13 +6,13 @@
 <table class="transactionpage-header">
 <logic:iterate name="brokersPB" id="broker">
     <tr><td nowrap>
-    <a class="transactionpage-button" href="<html:rewrite page="/do/newaccountpurchaseoncenumber"/>?broker=<bean:write name="broker" property="id"/>"><bean:write name="broker" property="description"/> : <bean:message key="stock.account.add-purchaseonce-number"/>)</a>
+    <a class="transactionpage-button" href="<html:rewrite page="/do/newaccountpurchaseoncenumber"/>?accountId=<bean:write name="selectAccountFB" property="accountId"/>&broker=<bean:write name="broker" property="id"/>"><bean:write name="broker" property="description"/> : <bean:message key="stock.account.add-purchaseonce-number"/>)</a>
     </td></tr>
     <tr><td nowrap>
-    <a class="transactionpage-button" href="<html:rewrite page="/do/newaccountpurchaseoncenumberforvalue"/>?broker=<bean:write name="broker" property="id"/>"><bean:write name="broker" property="description"/> : <bean:message key="stock.account.add-purchaseonce-number-for-value"/></a>
+    <a class="transactionpage-button" href="<html:rewrite page="/do/newaccountpurchaseoncenumberforvalue"/>?accountId=<bean:write name="selectAccountFB" property="accountId"/>&broker=<bean:write name="broker" property="id"/>"><bean:write name="broker" property="description"/> : <bean:message key="stock.account.add-purchaseonce-number-for-value"/></a>
     </td></tr>
     <tr><td nowrap>
-    <a class="transactionpage-button" href="<html:rewrite page="/do/newaccountpurchaseonceforvalue"/>?broker=<bean:write name="broker" property="id"/>"><bean:write name="broker" property="description"/> : <bean:message key="stock.account.add-purchaseonce-for-value"/></a>
+    <a class="transactionpage-button" href="<html:rewrite page="/do/newaccountpurchaseonceforvalue"/>?accountId=<bean:write name="selectAccountFB" property="accountId"/>&broker=<bean:write name="broker" property="id"/>"><bean:write name="broker" property="description"/> : <bean:message key="stock.account.add-purchaseonce-for-value"/></a>
     </td></tr>
 </logic:iterate>
 </table>
@@ -26,7 +26,7 @@
     <td class="transactionpage-list-entry" nowrap><bean:write name="entry" property="number"/></td>
     <td class="transactionpage-list-entry" nowrap><bean:write name="entry" property="value"/></td>
     <td class="transactionpage-list-entry" nowrap>
-    <a class="transactionpage-button" href="<html:rewrite page="/do/removeaccountpurchaseonce"/>?broker=<bean:write name="entry" property="broker"/>&stock=<bean:write name="entry" property="stock"/>&purchaseDateDisplay=<bean:write name="entry" property="purchaseDateDisplay"/>" onClick="return confirm('<bean:message key="stock.account.are-you-sure-remove"/>')"><bean:message key="stock.account.remove"/></a>
+    <a class="transactionpage-button" href="<html:rewrite page="/do/removeaccountpurchaseonce"/>?accountId=<bean:write name="selectAccountFB" property="accountId"/>&broker=<bean:write name="entry" property="broker"/>&stock=<bean:write name="entry" property="stock"/>&purchaseDateDisplay=<bean:write name="entry" property="purchaseDateDisplay"/>" onClick="return confirm('<bean:message key="stock.account.are-you-sure-remove"/>')"><bean:message key="stock.account.remove"/></a>
     </td>
     </tr>
 </logic:iterate>
