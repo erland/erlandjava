@@ -7,6 +7,8 @@
     <form-beans>
         <form-bean name="brokerFB" type="erland.webapp.stocks.fb.stock.SelectFB"/>
         <form-bean name="brokerStockFB" type="erland.webapp.stocks.fb.stock.SelectFB"/>
+        <form-bean name="editAccountFB" type="erland.webapp.stocks.fb.account.AccountFB"/>
+        <form-bean name="selectAccountFB" type="erland.webapp.stocks.fb.account.SelectAccountFB"/>
         <form-bean name="accountEntryValueFB" type="erland.webapp.stocks.fb.account.AccountEntryFB"/>
         <form-bean name="accountEntryNumberFB" type="erland.webapp.stocks.fb.account.AccountEntryFB"/>
         <form-bean name="accountEntryNumberValueFB" type="erland.webapp.stocks.fb.account.AccountEntryFB"/>
@@ -25,6 +27,19 @@
             path="/index"
             type="org.apache.struts.actions.ForwardAction"
             parameter=".index">
+        </action>
+        <action
+            path="/home"
+            type="erland.webapp.stocks.act.account.LoadMenuAction">
+
+            <forward name="permanent" path="/do/viewaccountpermanententries?accountId={accountId}"/>
+            <forward name="purchaseonce" path="/do/viewaccountpurchaseonceentries?accountId={accountId}"/>
+            <forward name="continously" path="/do/viewaccountcontinouslyentries?accountId={accountId}"/>
+            <forward name="diagram" path="/do/viewaccountdiagramwithoutdiagram?accountId={accountId}"/>
+            <forward name="account" path="/do/expandcollapsemenu?menuName=mainMenu&amp;menuItemId={idDisplay}"/>
+            <forward name="editaccount" path="/do/viewaccount?accountId={accountId}"/>
+
+            <forward name="success" path="/do/viewbrokerstocks"/>
         </action>
         <action
             path="/logout"
@@ -89,37 +104,43 @@
         </action>
         <action
             path="/viewaccountpermanententries"
-            type="erland.webapp.stocks.act.account.SearchPermanentAction">
+            type="erland.webapp.stocks.act.account.SearchPermanentAction"
+            name="selectAccountFB">
 
             <forward name="success" path="/do/viewaccountpermanententrieswithbrokers"/>
         </action>
         <action
             path="/viewaccountcontinouslyentries"
-            type="erland.webapp.stocks.act.account.SearchContinouslyAction">
+            type="erland.webapp.stocks.act.account.SearchContinouslyAction"
+            name="selectAccountFB">
 
             <forward name="success" path="/do/viewaccountcontinouslyentrieswithbrokers"/>
         </action>
         <action
             path="/viewaccountpurchaseonceentries"
-            type="erland.webapp.stocks.act.account.SearchPurchaseOnceAction">
+            type="erland.webapp.stocks.act.account.SearchPurchaseOnceAction"
+            name="selectAccountFB">
 
             <forward name="success" path="/do/viewaccountpurchaseonceentrieswithbrokers"/>
         </action>
         <action
             path="/viewaccountpermanententrieswithbrokers"
-            type="erland.webapp.stocks.act.account.SearchBrokersAction">
+            type="erland.webapp.stocks.act.account.SearchBrokersAction"
+            name="selectAccountFB">
 
             <forward name="success" path=".viewaccountpermanent"/>
         </action>
         <action
             path="/viewaccountcontinouslyentrieswithbrokers"
-            type="erland.webapp.stocks.act.account.SearchBrokersAction">
+            type="erland.webapp.stocks.act.account.SearchBrokersAction"
+            name="selectAccountFB">
 
             <forward name="success" path=".viewaccountcontinously"/>
         </action>
         <action
             path="/viewaccountpurchaseonceentrieswithbrokers"
-            type="erland.webapp.stocks.act.account.SearchBrokersAction">
+            type="erland.webapp.stocks.act.account.SearchBrokersAction"
+            name="selectAccountFB">
 
             <forward name="success" path=".viewaccountpurchaseonce"/>
         </action>
@@ -281,6 +302,27 @@
             name="accountSelectEntryFB">
 
             <forward name="success" path="/do/viewaccountpurchaseonceentries"/>
+        </action>
+        <action
+            path="/newaccount"
+            type="erland.webapp.stocks.act.account.NewAccountAction"
+            name="editAccountFB">
+
+            <forward name="success" path=".editaccount"/>
+        </action>
+        <action
+            path="/editaccount"
+            type="erland.webapp.stocks.act.account.EditAccountAction"
+            name="editAccountFB">
+
+            <forward name="success" path="/do/home"/>
+        </action>
+        <action
+            path="/viewaccount"
+            type="erland.webapp.stocks.act.account.ViewAccountAction"
+            name="editAccountFB">
+
+            <forward name="success" path=".editaccount"/>
         </action>
     </action-mappings>
 
