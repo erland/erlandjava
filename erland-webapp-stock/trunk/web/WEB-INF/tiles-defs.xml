@@ -79,6 +79,10 @@
         <put name="body" value="/WEB-INF/tiles/account/editpurchaseonceforvalue.jsp"/>
     </definition>
 
+    <definition name=".editaccount" extends=".mainLayoutMenu">
+        <put name="body" value="/WEB-INF/tiles/account/editaccount.jsp"/>
+    </definition>
+
     <definition name=".editaccountpurchaseoncenumberforvalue" extends=".mainLayoutMenu">
         <put name="body" value="/WEB-INF/tiles/account/editpurchaseoncenumberforvalue.jsp"/>
     </definition>
