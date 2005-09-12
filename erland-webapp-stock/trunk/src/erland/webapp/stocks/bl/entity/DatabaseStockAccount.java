@@ -35,17 +35,6 @@ import java.util.Date;
 public class DatabaseStockAccount extends StockAccount {
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    protected Integer getAccountId() {
-        QueryFilter filter = new QueryFilter("allforuser");
-        filter.setAttribute("username",getUsername());
-        EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("stock-account").search(filter);
-        if(entities.length>0) {
-            return ((Account)entities[0]).getAccountId();
-        }else {
-            return null;
-        }
-    }
-
     private boolean updateEntry(int type, String broker, String stock, Date date, double value) {
         return updateEntry(type,broker,stock,date,value,0);
     }
