@@ -88,6 +88,31 @@ public abstract class StockAccount extends BaseEntity {
             this.fromDate = fromDate;
             this.toDate = toDate;
         }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public Integer getAccountId() {
+            return accountId;
+        }
+
+        public String getBroker() {
+            return broker;
+        }
+
+        public String getStock() {
+            return stock;
+        }
+
+        public Date getFromDate() {
+            return fromDate;
+        }
+
+        public Date getToDate() {
+            return toDate;
+        }
+
         public boolean equals(Object obj) {
             if(!(obj instanceof CacheKey)) {
                 return false;
@@ -861,7 +886,7 @@ public abstract class StockAccount extends BaseEntity {
             // Check if this is the last iteration
             bLast = (curPos==finalEndPos);
         }
-        storeInCache(getUsername(),getAccountId(),broker,stock,fromDate,toDate,result);
+        storeInCache(getAccountId(),broker,stock,fromDate,toDate,result);
         LOG.debug("getStockValues end result.size="+result.size()+" "+broker+" "+stock+" "+fromDate+" "+toDate+" "+System.currentTimeMillis());
         return result;
     }
@@ -1378,7 +1403,7 @@ public abstract class StockAccount extends BaseEntity {
             return null;
         }
     }
-    private void storeInCache(String username, Integer accountId, String broker, String stock, Date fromDate, Date toDate, DateValueSerie valueSerie) {
+    private void storeInCache(Integer accountId, String broker, String stock, Date fromDate, Date toDate, DateValueSerie valueSerie) {
         synchronized(cache) {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DATE,-1);
@@ -1404,6 +1429,21 @@ public abstract class StockAccount extends BaseEntity {
             CacheKey key = new CacheKey(username,accountId,broker,stock,fromDate,toDate);
             cache.put(key,new CacheEntry(valueSerie));
             LOG.debug("Store in cache: "+username+","+accountId+","+broker+","+stock+","+fromDate+","+toDate);
+        }
+    }
+    protected void clearCache(Integer accountId, String broker, String stock) {
+        synchronized(cache) {
+            Iterator it = cache.keySet().iterator();
+            while (it.hasNext()) {
+                CacheKey key = (CacheKey) it.next();
+                if(key.getAccountId().equals(accountId)) {
+                    if(key.getBroker()==null ||
+                      (broker.equals(key.getBroker()) && key.getStock()==null) ||
+                       broker.equals(key.getBroker()) && stock.equals(key.getStock())) {
+                        it.remove();
+                    }
+                }
+            }
         }
     }
 }

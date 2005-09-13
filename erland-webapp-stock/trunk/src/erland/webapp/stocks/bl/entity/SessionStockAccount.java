@@ -36,38 +36,47 @@ public class SessionStockAccount extends StockAccount {
     private StockAccountTransactionList multiplePurchase = new StockAccountTransactionList();
 
     public boolean removeStockContinously(String broker, String stock, Date date) {
+        clearCache(getAccountId(),broker,stock);
         return multiplePurchase.removeTransaction(broker, stock, date);
     }
 
     public boolean removeStockSingle(String broker, String stock, Date date) {
+        clearCache(getAccountId(),broker,stock);
         return oneTimePurchase.removeTransaction(broker, stock, date);
     }
 
     public boolean removeStockPermanent(String broker, String stock, Date date) {
+        clearCache(getAccountId(),broker,stock);
         return permanentStocks.removeTransaction(broker, stock, date);
     }
 
     public boolean addStockContinously(String broker, String stock, Date date, double valueOfStocks, String interval) {
+        clearCache(getAccountId(),broker,stock);
         return multiplePurchase.addTransaction(broker, stock, date, valueOfStocks, 0);
     }
 
     public boolean addStockSingle(String broker, String stock, Date date, double numberOfStocks) {
+        clearCache(getAccountId(),broker,stock);
         return oneTimePurchase.addTransaction(broker, stock, date, numberOfStocks, -1);
     }
 
     public boolean addStockSingleForValue(String broker, String stock, Date date, double valueOfStocks) {
+        clearCache(getAccountId(),broker,stock);
         return oneTimePurchase.addTransaction(broker,stock,date,0,valueOfStocks);
     }
 
     public boolean addStockSingleForPrice(String broker, String stock, Date date, double numberOfStocks, double priceOfStocks) {
+        clearCache(getAccountId(),broker,stock);
         return oneTimePurchase.addTransaction(broker,stock,date,numberOfStocks,priceOfStocks);
     }
 
     public boolean addStockPermanent(String broker, String stock, Date date, double number) {
+        clearCache(getAccountId(),broker,stock);
         return permanentStocks.addTransaction(broker,stock,date,number,-1);
     }
 
     public boolean addStockPermanentForPrice(String broker, String stock, Date date, double number,double price) {
+        clearCache(getAccountId(),broker,stock);
         return permanentStocks.addTransaction(broker,stock,date,number,price);
     }
 

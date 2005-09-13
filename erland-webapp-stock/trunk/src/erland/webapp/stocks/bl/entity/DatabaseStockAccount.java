@@ -56,26 +56,32 @@ public class DatabaseStockAccount extends StockAccount {
     }
 
     public boolean addStockContinously(String broker, String stock, Date date, double valueOfStocks, String interval) {
+        clearCache(getAccountId(),broker,stock);
         return updateEntry(4,broker,stock,date,valueOfStocks);
     }
 
     public boolean addStockSingle(String broker, String stock, Date date, double numberOfStocks) {
+        clearCache(getAccountId(),broker,stock);
         return updateEntry(2,broker,stock,date,numberOfStocks);
     }
 
     public boolean addStockSingleForValue(String broker, String stock, Date date, double valueOfStocks) {
+        clearCache(getAccountId(),broker,stock);
         return updateEntry(3,broker,stock,date,valueOfStocks);
     }
 
     public boolean addStockSingleForPrice(String broker, String stock, Date date, double numberOfStocks, double priceOfStocks) {
+        clearCache(getAccountId(),broker,stock);
         return updateEntry(5,broker,stock,date,numberOfStocks, priceOfStocks);
     }
 
     public boolean addStockPermanent(String broker, String stock, Date date, double number) {
+        clearCache(getAccountId(),broker,stock);
         return updateEntry(1,broker,stock,date,number);
     }
 
     public boolean addStockPermanentForPrice(String broker, String stock, Date date, double number,double price) {
+        clearCache(getAccountId(),broker,stock);
         return updateEntry(6,broker,stock,date,number,price);
     }
 
@@ -109,14 +115,17 @@ public class DatabaseStockAccount extends StockAccount {
     }
 
     public boolean removeStockContinously(String broker, String stock, Date date) {
+        clearCache(getAccountId(),broker,stock);
         return removeEntry(4,broker,stock,date);
     }
 
     public boolean removeStockSingle(String broker, String stock, Date date) {
+        clearCache(getAccountId(),broker,stock);
         return removeEntry(2,broker,stock,date) && removeEntry(3,broker,stock,date) && removeEntry(5,broker,stock,date);
     }
 
     public boolean removeStockPermanent(String broker, String stock, Date date) {
+        clearCache(getAccountId(),broker,stock);
         return removeEntry(1,broker,stock,date) && removeEntry(6,broker,stock,date);
     }
 
