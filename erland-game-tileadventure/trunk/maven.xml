@@ -65,4 +65,14 @@
 	
   <goal name="all:build" prereqs="jar:install,war:install">
   </goal>
+
+  <goal name="all:run" prereqs="all:build">
+      <java classname="${tileadventure.class}">
+          <classpath>
+              <path refid="maven.dependency.classpath"/>
+              <pathelement path="${maven.build.dest}"/>
+          </classpath>
+          <arg value="${tileadventure.mode}"/>
+      </java>
+  </goal>
 </project>
