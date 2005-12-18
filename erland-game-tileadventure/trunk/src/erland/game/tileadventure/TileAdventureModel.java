@@ -22,10 +22,7 @@ import erland.game.GameEnvironmentInterface;
 import erland.game.tileadventure.isodiamond.IsoDiamondDrawMap;
 import erland.game.tileadventure.rect.RectDrawMap;
 
-import java.util.Vector;
-import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
+import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,7 +30,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Implementation of the main game model that handles all the logic in the game
  */
-public class TileAdventureModel implements GameObjectMapActionInterface {
+public class TileAdventureModel implements GameObjectMapActionInterface, ActionHandlerInterface {
     /** Logging instance */
     private static Log LOG = LogFactory.getLog(TileAdventureModel.class);
     /** Block container for the game area */
@@ -52,6 +49,8 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
     private Map movingMapByBlockMap;
     /** Mapping between a player and current room */
     private Map playerRoomMap;
+    /** A list of all ongoing actions */
+    private Map actionMap = new HashMap();
 
     /**
      * Initiate the model
@@ -76,7 +75,7 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
         for (int x = 0; x < rooms.getSizeX(); x++) {
             for (int y = 0; y < rooms.getSizeY(); y++) {
                 for (int z = 0; z < rooms.getSizeZ(); z++) {
-                    RoomObject room = (RoomObject) rooms.getObject(x,y,z);
+                    RoomObject room = (RoomObject) rooms.getBlock(x,y,z);
                     if(room!=null) {
                         initRoom(room,objectList);
                     }
@@ -88,7 +87,7 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
         DrawMap map = ((TileGameEnvironmentInterface)(environment.getCustomEnvironment())).createBlockMap();
         map.setContainer(cont);
         map.addObjectMap(room.getBlocks());
-        map.addObjectMap((MapObjectContainerInterface) movingMapByBlockMap.get(room.getBlocks()));
+        //map.addObjectMap((MapObjectContainerInterface) movingMapByBlockMap.get(room.getBlocks()));
         playerRoomMap.put(player,map);
     }
     private void initRoom(RoomObject room,List objectList) {
@@ -99,7 +98,7 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
         for (int x = 0; x < map.getSizeX(); x++) {
             for (int y = 0; y < map.getSizeY(); y++) {
                 for (int z = 0; z < map.getSizeZ(); z++) {
-                    GameObject o = (GameObject) map.getObject(x,y,z);
+                    GameObject o = (GameObject) map.getBlock(x,y,z);
                     if(o instanceof GameObjectUpdateInterface) {
                         o.setActionMap(this);
                         objectList.add(o);
@@ -113,7 +112,7 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
         for (int x = 0; x < roomMap.getSizeX(); x++) {
             for (int y = 0; y < roomMap.getSizeY(); y++) {
                 for (int z = 0; z < roomMap.getSizeZ(); z++) {
-                    RoomObject room = (RoomObject) roomMap.getObject(x,y,z);
+                    RoomObject room = (RoomObject) roomMap.getBlock(x,y,z);
                     if(room!=null) {
                         return room;
                     }
@@ -126,9 +125,9 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
         if(players!=null) {
             for(int i=0;i<players.length;i++) {
                 objectList.removeElement(players[i]);
-                players[i].getObjectMap().removeObject(players[i],(int)players[i].getPosX(),(int)players[i].getPosY(),(int)players[i].getPosZ());
+                players[i].getObjectMap().removeBlock(players[i],(int)players[i].getPosX(),(int)players[i].getPosY(),(int)players[i].getPosZ());
                 MapObjectContainerInterface movingMap = (MapObjectContainerInterface) movingMapByBlockMap.get(players[i].getObjectMap());
-                movingMap.removeObject(players[i]);
+                movingMap.removeBlock(players[i]);
             }
         }
     }
@@ -142,7 +141,7 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
             players[i].setActionMap(this);
             players[i].setPos(1,1,1);
             objectList.addElement(players[i]);
-            blockMap.setObject(players[i],(int)players[i].getPosX(),(int)players[i].getPosY(),(int)players[i].getPosZ());
+            blockMap.addObject(players[i],(int)players[i].getPosX(),(int)players[i].getPosY(),(int)players[i].getPosZ());
             initPlayer(room,players[i]);
         }
     }
@@ -154,6 +153,17 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
             for(int i=0;i<objectList.size();i++) {
                 GameObjectUpdateInterface obj = (GameObjectUpdateInterface) objectList.elementAt(i);
                 obj.update();
+            }
+        }
+        for (Iterator it = actionMap.values().iterator(); it.hasNext();) {
+            List list = (List) it.next();
+            for(Iterator it2 = list.iterator();it2.hasNext();) {
+                ActionInterface action = (ActionInterface) it2.next();
+                action.start();
+                if(action.perform()) {
+                    action.stop();
+                    it2.remove();
+                }
             }
         }
     }
@@ -171,7 +181,7 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
 
     public boolean isFree(MapObjectContainerInterface map,GameObject obj,float x, float y, float z) {
         if(isInsideMap(map,x,y,z)) {
-            MapObjectInterface block = map.getObject((int)x,(int)y,(int)z);
+            MapObjectInterface block = map.getBlock((int)x,(int)y,(int)z);
             if((block==null||block==obj)) {
                 return true;
             }
@@ -181,12 +191,53 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
 
     public boolean isFree(GameObject obj,float x, float y, float z) {
         if(isInsideMap(obj.getObjectMap(),x,y,z)) {
-            MapObjectInterface block = obj.getObjectMap().getObject((int)x,(int)y,(int)z);
-            MapObjectContainerInterface movingMap = (MapObjectContainerInterface) movingMapByBlockMap.get(obj.getObjectMap());
-            MapObjectInterface movingObject = movingMap.getObject((int)x,(int)y,(int)z);
-            if((block==null||block==obj)&&(movingObject==null||movingObject==obj)) {
+            MapObjectInterface block = obj.getObjectMap().getBlock((int)x,(int)y,(int)z);
+            //TODO: clean up
+            //MapObjectContainerInterface movingMap = (MapObjectContainerInterface) movingMapByBlockMap.get(obj.getObjectMap());
+            //MapObjectInterface movingObject = movingMap.getBlock((int)x,(int)y,(int)z);
+            //if((block==null||block==obj)&&(movingObject==null||movingObject==obj)) {
+            if(block==null || block==obj || !block.getBoundingBox().contains(x,y,z)) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    public boolean isFree(GameObject obj,Box3D boundingBox) {
+        return isFree(obj,boundingBox.getMinX(),boundingBox.getMinY(),boundingBox.getMinZ()) &&
+               isFree(obj,boundingBox.getMinX(),boundingBox.getMinY(),boundingBox.getMaxZ()) &&
+               isFree(obj,boundingBox.getMinX(),boundingBox.getMaxY(),boundingBox.getMinZ()) &&
+               isFree(obj,boundingBox.getMinX(),boundingBox.getMaxY(),boundingBox.getMaxZ()) &&
+               isFree(obj,boundingBox.getMaxX(),boundingBox.getMinY(),boundingBox.getMinZ()) &&
+               isFree(obj,boundingBox.getMaxX(),boundingBox.getMinY(),boundingBox.getMaxZ()) &&
+               isFree(obj,boundingBox.getMaxX(),boundingBox.getMaxY(),boundingBox.getMinZ()) &&
+               isFree(obj,boundingBox.getMaxX(),boundingBox.getMaxY(),boundingBox.getMaxZ());
+    }
+
+    public boolean move(GameObject obj, float x, float y, float z) {
+        Box3D b = new Box3D();
+        obj.fillBoundingBox(x,y,z,b);
+        if(isFree(obj,b)) {
+            Box3D c = obj.getBoundingBox();
+            obj.getObjectMap().removeObject(obj,(int)c.getMinX(),(int)c.getMinY(),(int)c.getMinZ());
+            obj.getObjectMap().removeObject(obj,(int)c.getMinX(),(int)c.getMinY(),(int)c.getMaxZ());
+            obj.getObjectMap().removeObject(obj,(int)c.getMinX(),(int)c.getMaxY(),(int)c.getMinZ());
+            obj.getObjectMap().removeObject(obj,(int)c.getMinX(),(int)c.getMaxY(),(int)c.getMaxZ());
+            obj.getObjectMap().removeObject(obj,(int)c.getMaxX(),(int)c.getMinY(),(int)c.getMinZ());
+            obj.getObjectMap().removeObject(obj,(int)c.getMaxX(),(int)c.getMinY(),(int)c.getMaxZ());
+            obj.getObjectMap().removeObject(obj,(int)c.getMaxX(),(int)c.getMaxY(),(int)c.getMinZ());
+            obj.getObjectMap().removeObject(obj,(int)c.getMaxX(),(int)c.getMaxY(),(int)c.getMaxZ());
+            obj.setPos(x,y,z);
+            c = obj.getBoundingBox();
+            obj.getObjectMap().addObject(obj,(int)c.getMinX(),(int)c.getMinY(),(int)c.getMinZ());
+            obj.getObjectMap().addObject(obj,(int)c.getMinX(),(int)c.getMinY(),(int)c.getMaxZ());
+            obj.getObjectMap().addObject(obj,(int)c.getMinX(),(int)c.getMaxY(),(int)c.getMinZ());
+            obj.getObjectMap().addObject(obj,(int)c.getMinX(),(int)c.getMaxY(),(int)c.getMaxZ());
+            obj.getObjectMap().addObject(obj,(int)c.getMaxX(),(int)c.getMinY(),(int)c.getMinZ());
+            obj.getObjectMap().addObject(obj,(int)c.getMaxX(),(int)c.getMinY(),(int)c.getMaxZ());
+            obj.getObjectMap().addObject(obj,(int)c.getMaxX(),(int)c.getMaxY(),(int)c.getMinZ());
+            obj.getObjectMap().addObject(obj,(int)c.getMaxX(),(int)c.getMaxY(),(int)c.getMaxZ());
+            return true;
         }
         return false;
     }
@@ -230,7 +281,7 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
         }
     }
 
-    public Action isActionPossibleOnObject(GameObject obj, Action action) {
+    public ActionInterface isActionPossibleOnObject(GameObject obj, Action action) {
         MapObjectContainerInterface movingMap = (MapObjectContainerInterface) movingMapByBlockMap.get(obj.getObjectMap());
         MapObjectContainerInterface blockMap = (MapObjectContainerInterface) obj.getObjectMap();
         if(action.isMove()||action.isPush()) {
@@ -242,7 +293,7 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
                 if(isFree(obj,newX,newY,newZ)) {
                     return action;
                 }else {
-                    GameObject nextObj = (GameObject)blockMap.getObject(newX,newY,newZ);
+                    GameObject nextObj = (GameObject)blockMap.getBlock(newX,newY,newZ);
                     if(nextObj!=null && nextObj.isMovable(action.getDirection())) {
                         //TODO: Push when move was requested, do we need to do anything special ?
                         return getPushActionForDirection(action.getDirection());
@@ -271,7 +322,7 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
         }
         return Action.NONE;
     }
-    public Action startActionOnObject(GameObject obj, Action action) {
+    public ActionInterface startActionOnObject(GameObject obj, Action action) {
         MapObjectContainerInterface movingMap = (MapObjectContainerInterface) movingMapByBlockMap.get(obj.getObjectMap());
         MapObjectContainerInterface blockMap = (MapObjectContainerInterface) obj.getObjectMap();
         if(action.isMove()||action.isPush()) {
@@ -281,13 +332,13 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
             int newZ=(int)getMovingPosZ(obj.getPosX(),obj.getPosY(),obj.getPosZ(),direction);
             if(isInsideMap(blockMap,newX,newY,newZ)) {
                 if(isFree(obj,newX,newY,newZ)) {
-                    movingMap.setObject(obj,newX,newY,newZ);
+                    movingMap.setBlock(obj,newX,newY,newZ);
                     return action;
                 }else {
-                    GameObject nextObj = (GameObject)blockMap.getObject(newX,newY,newZ);
+                    GameObject nextObj = (GameObject)blockMap.getBlock(newX,newY,newZ);
                     if(nextObj!=null && nextObj.isMovable(action.getDirection())) {
                         nextObj.action(getPushActionForDirection(action.getDirection()));
-                        movingMap.setObject(obj,newX,newY,newZ);
+                        movingMap.setBlock(obj,newX,newY,newZ);
                         return getPushActionForDirection(action.getDirection());
                     }
                 }
@@ -297,21 +348,21 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
                 RoomObject currentRoom = (RoomObject) roomByBlockMap.get(currentRoomMap);
                 if(isFreeInNextRoom(currentRoom,newX,newY,newZ) && isAllowedToChangeRoom(obj)) {
                     LOG.debug("Start changing room "+newX+","+newY+","+newZ);
-                    movingMap.setObject(obj,newX,newY,newZ);
+                    movingMap.setBlock(obj,newX,newY,newZ);
                     return action;
                 }
             }
         }else if(action==Action.JUMP) {
             if(isInsideMap(blockMap,obj.getPosX(),obj.getPosY(),obj.getPosZ()+1)) {
                 if(isFree(obj,obj.getPosX(),obj.getPosY(),obj.getPosZ()+1)) {
-                    movingMap.setObject(obj,(int)obj.getPosX(),(int)obj.getPosY(),(int)obj.getPosZ()+1);
+                    movingMap.setBlock(obj,(int)obj.getPosX(),(int)obj.getPosY(),(int)obj.getPosZ()+1);
                     return action;
                 }
             }
         }else if(action==Action.DROP) {
             if(isInsideMap(blockMap,obj.getPosX(),obj.getPosY(),obj.getPosZ()-1)) {
                 if(isFree(obj,obj.getPosX(),obj.getPosY(),obj.getPosZ()-1)) {
-                    movingMap.setObject(obj,(int)obj.getPosX(),(int)obj.getPosY(),(int)obj.getPosZ()-1);
+                    movingMap.setBlock(obj,(int)obj.getPosX(),(int)obj.getPosY(),(int)obj.getPosZ()-1);
                     return action;
                 }
             }
@@ -328,8 +379,8 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
             int newY = (int)getMovingPosY(obj.getPosX(),obj.getPosY(),obj.getPosZ(),direction);
             int newZ = (int)getMovingPosZ(obj.getPosX(),obj.getPosY(),obj.getPosZ(),direction);
             if(isInsideMap(blockMap,newX,newY,newZ)) {
-                if(movingMap.getObject(newX,newY,newZ)==obj) {
-                    movingMap.removeObject(obj,newX,newY,newZ);
+                if(movingMap.getBlock(newX,newY,newZ)==obj) {
+                    movingMap.removeBlock(obj,newX,newY,newZ);
                     obj.setPos(newX,newY,newZ);
                 }
             }else {
@@ -364,18 +415,18 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
         }else if(action==Action.JUMP) {
             if(isInsideMap(blockMap,obj.getPosX(),obj.getPosY(),obj.getPosZ()+1)) {
                 LOG.debug("isInsideMap "+obj.getPosZ());
-                if(movingMap.getObject((int)obj.getPosX(),(int)obj.getPosY(),(int)obj.getPosZ()+1)==obj) {
-                    LOG.debug("getObject "+obj.getPosZ());
-                    movingMap.removeObject(obj,(int)obj.getPosX(),(int)obj.getPosY(),(int)obj.getPosZ()+1);
+                if(movingMap.getBlock((int)obj.getPosX(),(int)obj.getPosY(),(int)obj.getPosZ()+1)==obj) {
+                    LOG.debug("getBlock "+obj.getPosZ());
+                    movingMap.removeBlock(obj,(int)obj.getPosX(),(int)obj.getPosY(),(int)obj.getPosZ()+1);
                     obj.setPos(obj.getPosX(),obj.getPosY(),obj.getPosZ()+1);
                 }
             }
         }else if(action==Action.DROP) {
             if(isInsideMap(blockMap,obj.getPosX(),obj.getPosY(),obj.getPosZ()-1)) {
                 LOG.debug("isInsideMap "+obj.getPosZ());
-                if(movingMap.getObject((int)obj.getPosX(),(int)obj.getPosY(),(int)obj.getPosZ()-1)==obj) {
-                    LOG.debug("getObject "+obj.getPosZ());
-                    movingMap.removeObject(obj,(int)obj.getPosX(),(int)obj.getPosY(),(int)obj.getPosZ()-1);
+                if(movingMap.getBlock((int)obj.getPosX(),(int)obj.getPosY(),(int)obj.getPosZ()-1)==obj) {
+                    LOG.debug("getBlock "+obj.getPosZ());
+                    movingMap.removeBlock(obj,(int)obj.getPosX(),(int)obj.getPosY(),(int)obj.getPosZ()-1);
                     obj.setPos(obj.getPosX(),obj.getPosY(),obj.getPosZ()-1);
                 }
             }
@@ -400,7 +451,7 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
         }else if(z>=currentRoom.getBlocks().getSizeZ()) {
             roomZ++;
         }
-        return (RoomObject) roomMap.getObject(roomX,roomY,roomZ);
+        return (RoomObject) roomMap.getBlock(roomX,roomY,roomZ);
     }
 
     private boolean isFreeInNextRoom(RoomObject currentRoom, float x, float y, float z) {
@@ -427,5 +478,28 @@ public class TileAdventureModel implements GameObjectMapActionInterface {
     }
     private boolean isAllowedToChangeRoom(GameObject obj) {
         return obj instanceof LivingObject;
+    }
+
+    public void register(ActionInterface action) {
+        List list = (List) actionMap.get(action.getController());
+        if(list==null) {
+            list = new ArrayList(10);
+            actionMap.put(action.getController(),list);
+        }
+        for(Iterator it=list.iterator();it.hasNext();) {
+            ActionInterface a = (ActionInterface) it.next();
+            if(a.getClass().equals(action.getClass())) {
+                a.stop();
+                it.remove();
+            }
+        }
+        list.add(action);
+    }
+
+    public void unregister(ActionInterface action) {
+        List list = (List) actionMap.get(action.getController());
+        if(list!=null) {
+            list.remove(action);
+        }
     }
 }

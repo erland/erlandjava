@@ -41,4 +41,6 @@ public interface MapObjectInterface {
     void draw(Graphics g);
 
     Object clone();
+
+    Box3D getBoundingBox();
 }

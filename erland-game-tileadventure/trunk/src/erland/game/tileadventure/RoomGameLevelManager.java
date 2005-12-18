@@ -98,10 +98,11 @@ public class RoomGameLevelManager extends LevelManager {
 
                     LevelInfoInterface objectInfo = objectLevelManager.getLevel(obj.getBlockType());
                     MapObjectContainerInterface objectMap = objectInfo.getObjects();
-                    GameObject o = (GameObject) objectMap.getObject(0,0,0);
+                    GameObject o = (GameObject) objectMap.getBlock(0,0,0);
                     o.setContainer(getContainer());
                     o.setObjectMap(map);
                     o.setPos(obj.getPosX(),obj.getPosY(),obj.getPosZ());
+                    map.setBlock(o,(int)o.getPosX(),(int)o.getPosY(),(int)o.getPosZ());
                 } else {
                     bEnd = true;
                 }
@@ -136,11 +137,11 @@ public class RoomGameLevelManager extends LevelManager {
         for (int x = 0; x < newMap.getSizeX(); x++) {
             for (int y = 0; y < newMap.getSizeY(); y++) {
                 for (int z = 0; z < newMap.getSizeZ(); z++) {
-                    MapObjectInterface o = objects.getObject(x,y,z);
+                    MapObjectInterface o = objects.getBlock(x,y,z);
                     if(o!=null) {
                         GameObject newObj = (GameObject) o.clone();
                         newObj.setObjectMap(newMap);
-                        newMap.setObject(newObj,x,y,z);
+                        newMap.setBlock(newObj,x,y,z);
                     }
                 }
             }
@@ -158,7 +159,7 @@ public class RoomGameLevelManager extends LevelManager {
         for (int x = 0; x < blocks.getSizeX(); x++) {
             for (int y = 0; y < blocks.getSizeY(); y++) {
                 for (int z = 0; z < blocks.getSizeZ(); z++) {
-                    MapEditorObject o = (MapEditorObject) blocks.getObject(x, y, z);
+                    MapEditorObject o = (MapEditorObject) blocks.getBlock(x, y, z);
                     if (o != null) {
                         StringStorage objectStorage = new StringStorage();
                         ParameterValueStorageExInterface objectParameters = new ParameterStorageStringEx(objectStorage, null, null);

@@ -104,7 +104,7 @@ public class AnimationEditorLevelManager extends LevelManager {
                 obj.setBlockType(image+1);
                 obj.setImage(prefix+"ground.gif", obj.getBlockType()-1);
                 obj.setPos((i)%map.getSizeX(), (i)/map.getSizeX(), 0);
-                map.setObject(obj, (int)obj.getPosX(), (int)obj.getPosY(), (int)obj.getPosZ());
+                map.setBlock(obj, (int)obj.getPosX(), (int)obj.getPosY(), (int)obj.getPosZ());
             }
             return new LevelInfo(map,info);
         }else {
@@ -119,7 +119,7 @@ public class AnimationEditorLevelManager extends LevelManager {
         for (int x = 0; x < blocks.getSizeX(); x++) {
             for (int y = 0; y < blocks.getSizeY(); y++) {
                 for (int z = 0; z < blocks.getSizeZ(); z++) {
-                    MapEditorObject o = (MapEditorObject) blocks.getObject(x, y, z);
+                    MapEditorObject o = (MapEditorObject) blocks.getBlock(x, y, z);
                     if (o != null) {
                         images.add(new Integer(o.getBlockType()-1));
                     }

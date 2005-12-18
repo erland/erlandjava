@@ -40,6 +40,8 @@ public class RoomObject implements Cloneable, MapObjectInterface {
     private MapObjectContainerInterface maps;
     /** The extended level info for the room */
     private ParameterSerializable extendedLevelInfo;
+    /** Bounding box */
+    private Box3D boundingBox;
 
     public void init(GameEnvironmentInterface environment) {
         this.environment = environment;
@@ -69,6 +71,10 @@ public class RoomObject implements Cloneable, MapObjectInterface {
         this.posX = x;
         this.posY = y;
         this.posZ = z;
+        if(boundingBox!=null) {
+            boundingBox.setLocation(x,y,z);
+            boundingBox.setSize(999f,0.999f,0.999f);
+        }
     }
 
     public void draw(Graphics g) {
@@ -97,6 +103,15 @@ public class RoomObject implements Cloneable, MapObjectInterface {
     }
     public ParameterSerializable getExtendedLevelInfo() {
         return extendedLevelInfo;
+    }
+
+    public Box3D getBoundingBox() {
+        if(boundingBox==null) {
+            boundingBox = new Box3D();
+            boundingBox.setLocation(posX,posY,posZ);
+            boundingBox.setSize(0.999f,0.999f,0.999f);
+        }
+        return boundingBox;
     }
 }
 

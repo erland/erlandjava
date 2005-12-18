@@ -83,7 +83,7 @@ public class WorldEditorLevelManager extends LevelManager {
                     obj.setContainer(getContainer());
                     obj.read(objectParameters);
                     obj.setImage(getPaletteImage(), obj.getBlockType()-1);
-                    map.setObject(obj, (int)obj.getPosX(), (int)obj.getPosY(), (int)obj.getPosZ());
+                    map.setBlock(obj, (int)obj.getPosX(), (int)obj.getPosY(), (int)obj.getPosZ());
                 } else {
                     bEnd = true;
                 }
@@ -104,7 +104,7 @@ public class WorldEditorLevelManager extends LevelManager {
         for (int x = 0; x < blocks.getSizeX(); x++) {
             for (int y = 0; y < blocks.getSizeY(); y++) {
                 for (int z = 0; z < blocks.getSizeZ(); z++) {
-                    MapEditorObject o = (MapEditorObject) blocks.getObject(x, y, z);
+                    MapEditorObject o = (MapEditorObject) blocks.getBlock(x, y, z);
                     if (o != null) {
                         StringStorage objectStorage = new StringStorage();
                         ParameterValueStorageExInterface objectParameters = new ParameterStorageStringEx(objectStorage, null, null);

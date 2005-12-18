@@ -40,13 +40,13 @@ public class RectDrawMap extends DrawMap {
     }
 
     private void drawTile(MapObjectContainerInterface[] maps, int x, int y, int z, Graphics g) {
-        MapObjectInterface obj = maps[0].getObject(x,y,z);
+        MapObjectInterface obj = maps[0].getBlock(x,y,z);
         if(obj!=null) {
             obj.draw(g);
         }
         for(int i=1;i<maps.length;i++) {
             MapObjectContainerInterface map = (MapObjectContainerInterface) maps[i];
-            obj = map.getObject(x,y,z);
+            obj = map.getBlock(x,y,z);
             if(obj!=null) {
                 obj.draw(g);
             }

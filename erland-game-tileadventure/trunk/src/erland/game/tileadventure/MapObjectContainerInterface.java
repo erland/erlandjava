@@ -1,5 +1,7 @@
 package erland.game.tileadventure;
 
+import java.util.List;
+
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -23,8 +25,12 @@ public interface MapObjectContainerInterface {
     public int getSizeX();
     public int getSizeY();
     public int getSizeZ();
-    public MapObjectInterface getObject(int x, int y, int z);
-    public void setObject(MapObjectInterface object, int x, int y, int z);
+    public MapObjectInterface getBlock(int x, int y, int z);
+    public void setBlock(MapObjectInterface object, int x, int y, int z);
+    public void removeBlock(MapObjectInterface object, int x, int y, int z);
+    public void removeBlock(MapObjectInterface object);
+    public List getObjects(int x, int y, int z);
+    public void addObject(MapObjectInterface object, int x, int y, int z);
     public void removeObject(MapObjectInterface object, int x, int y, int z);
     public void removeObject(MapObjectInterface object);
 }

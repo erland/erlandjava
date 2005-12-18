@@ -25,7 +25,7 @@ import erland.network.NetworkConnectionInterface;
 /**
  * Implementation of control of the user player
  */
-public class TileAdventurePlayer implements GamePlayerInterface {
+public class TileAdventurePlayer implements GamePlayerInterface, ControllerInterface {
     /** Connection to client if networked game */
     private NetworkConnectionInterface connection;
     /** Indicates if the user is moving right */
@@ -40,6 +40,8 @@ public class TileAdventurePlayer implements GamePlayerInterface {
     private boolean bJump;
     /** The object that represents the player */
     private GameObject playerObject;
+    /** The object that manages all actions */
+    private ActionHandlerInterface actionHandler;
 
     /**
      * Create player object
@@ -62,6 +64,15 @@ public class TileAdventurePlayer implements GamePlayerInterface {
     public GameObject getPlayerObject() {
         return playerObject;
     }
+
+    public ActionHandlerInterface getActionHandler() {
+        return actionHandler;
+    }
+
+    public void setActionHandler(ActionHandlerInterface actionHandler) {
+        this.actionHandler = actionHandler;
+    }
+
     /** Start moving right */
     public void startMoveRight() {
         bMoveRight = true;
@@ -102,17 +113,23 @@ public class TileAdventurePlayer implements GamePlayerInterface {
     public void update() {
         if(playerObject!=null) {
             if(bMoveLeft) {
-                playerObject.action(Action.MOVE_WEST);
+                actionHandler.register(new MoveAction(this,MoveAction.WEST));
+                //playerObject.action(Action.MOVE_WEST);
             }else if(bMoveRight) {
-                playerObject.action(Action.MOVE_EAST);
+                actionHandler.register(new MoveAction(this,MoveAction.EAST));
+                //playerObject.action(Action.MOVE_EAST);
             }else if(bMoveDown) {
-                playerObject.action(Action.MOVE_SOUTH);
+                actionHandler.register(new MoveAction(this,MoveAction.SOUTH));
+                //playerObject.action(Action.MOVE_SOUTH);
             }else if(bMoveUp) {
-                playerObject.action(Action.MOVE_NORTH);
+                actionHandler.register(new MoveAction(this,MoveAction.NORTH));
+                //playerObject.action(Action.MOVE_NORTH);
+            }else {
+                actionHandler.register(new MoveAction(this,MoveAction.NONE));
             }
-            if(bJump) {
-                playerObject.action(Action.JUMP);
-            }
+            //if(bJump) {
+                //playerObject.action(Action.JUMP);
+            //}
             bJump = false;
         }
     }
@@ -130,5 +147,13 @@ public class TileAdventurePlayer implements GamePlayerInterface {
      */
     public boolean isGameOver() {
         return false;
+    }
+
+    public GameObject getControlledObject() {
+        return playerObject;
+    }
+
+    public void stopped(ActionInterface action) {
+        //TODO: Implement
     }
 }

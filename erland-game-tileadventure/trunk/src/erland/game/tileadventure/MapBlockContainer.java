@@ -1,5 +1,8 @@
 package erland.game.tileadventure;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -21,14 +24,20 @@ package erland.game.tileadventure;
 
 public class MapBlockContainer implements MapObjectContainerInterface {
     private MapObjectInterface blocks[][][];
+    private List objects[][][];
+
     public MapBlockContainer(int sizeX, int sizeY, int sizeZ) {
         blocks = new MapObjectInterface[sizeX][sizeY][sizeZ];
+        objects = new List[sizeX][sizeY][sizeZ];
         for (int x = 0; x < blocks.length; x++) {
             blocks[x] = new MapObjectInterface[sizeY][sizeZ];
+            objects[x] = new List[sizeY][sizeZ];
             for (int y = 0; y < blocks[x].length; y++) {
                 blocks[x][y] = new MapObjectInterface[sizeZ];
+                objects[x][y] = new List[sizeZ];
                 for (int z = 0; z < blocks[x][y].length; z++) {
                     blocks[x][y][z] = null;
+                    objects[x][y][z] = new ArrayList(10);
                 }
             }
         }
@@ -54,7 +63,7 @@ public class MapBlockContainer implements MapObjectContainerInterface {
         return blocks[0][0].length;
     }
 
-    public MapObjectInterface getObject(int x, int y, int z) {
+    public MapObjectInterface getBlock(int x, int y, int z) {
         if(isInsideMap(x,y,z)) {
             return blocks[x][y][z];
         }else {
@@ -62,13 +71,13 @@ public class MapBlockContainer implements MapObjectContainerInterface {
         }
     }
 
-    public void setObject(MapObjectInterface block, int x, int y, int z) {
+    public void setBlock(MapObjectInterface block, int x, int y, int z) {
         if(isInsideMap(x,y,z)) {
             blocks[x][y][z]=block;
         }
     }
 
-    public void removeObject(MapObjectInterface block, int x, int y, int z) {
+    public void removeBlock(MapObjectInterface block, int x, int y, int z) {
         if(isInsideMap(x,y,z)) {
             if(blocks[x][y][z]==block) {
                 blocks[x][y][z]=null;
@@ -76,7 +85,7 @@ public class MapBlockContainer implements MapObjectContainerInterface {
         }
     }
 
-    public void removeObject(MapObjectInterface object) {
+    public void removeBlock(MapObjectInterface object) {
         for (int x = 0; x < blocks.length; x++) {
             for (int y = 0; y < blocks[x].length; y++) {
                 for (int z = 0; z < blocks[x][y].length; z++) {
@@ -85,6 +94,38 @@ public class MapBlockContainer implements MapObjectContainerInterface {
                     }
                 }
             }
+        }
+    }
+    public void addObject(MapObjectInterface object,int x, int y, int z) {
+        if(isInsideMap(x,y,z)) {
+            for(int i=0;i<objects[x][y][z].size();i++) {
+                if(objects[x][y][z].get(i)==object) {
+                    return;
+                }
+            }
+            //System.out.println("Add object ("+x+","+y+","+z+")="+object);
+            objects[x][y][z].add(object);
+        }
+    }
+    public void removeObject(MapObjectInterface object, int x, int y, int z) {
+        if(isInsideMap(x,y,z)) {
+            objects[x][y][z].remove(object);
+        }
+    }
+    public void removeObject(MapObjectInterface object) {
+        for (int x = 0; x < objects.length; x++) {
+            for (int y = 0; y < objects[x].length; y++) {
+                for (int z = 0; z < objects[x][y].length; z++) {
+                    while(objects[x][y][z].remove(object));
+                }
+            }
+        }
+    }
+    public List getObjects(int x, int y, int z) {
+        if(isInsideMap(x,y,z)) {
+            return objects[x][y][z];
+        }else {
+            return null;
         }
     }
 }

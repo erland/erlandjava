@@ -2,6 +2,8 @@ package erland.game.tileadventure;
 
 import erland.game.BlockContainerInterface;
 
+import java.awt.*;
+
 /*
  * Copyright (C) 2004 Erland Isaksson (erland_i@hotmail.com)
  *
@@ -22,11 +24,16 @@ import erland.game.BlockContainerInterface;
  */
 
 public interface IrregularBlockContainerInterface {
+
+    //Size3D getSize();
+
     int getSizeX();
 
     int getSizeY();
 
     int getSizeZ();
+
+    //Size3D getSquareSize();
 
     int getSquareSizeX();
 
@@ -34,13 +41,18 @@ public interface IrregularBlockContainerInterface {
 
     int getSquareSizeZ();
 
+    //Size2D getOffset();
     int getOffsetX();
 
     int getOffsetY();
 
+    //Point getDrawingPosition(Point3D p);
+
     int getDrawingPositionX(float x, float y, float z);
 
     int getDrawingPositionY(float x, float y, float z);
+
+    //Point getPosition(Point3D p);
 
     int getPositionX(float x, float y, float z);
 

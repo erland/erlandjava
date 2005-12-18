@@ -108,11 +108,11 @@ public class AnimationGameLevelManager extends LevelManager {
             for (int x = 0; x < newMap.getSizeX(); x++) {
                 for (int y = 0; y < newMap.getSizeY(); y++) {
                     for (int z = 0; z < newMap.getSizeZ(); z++) {
-                        MapObjectInterface o = objects.getObject(x,y,z);
+                        MapObjectInterface o = objects.getBlock(x,y,z);
                         if(o!=null) {
                             GameObject newObj = (GameObject) o.clone();
                             newObj.setObjectMap(newMap);
-                            newMap.setObject(newObj,x,y,z);
+                            newMap.setBlock(newObj,x,y,z);
                         }
                     }
                 }
@@ -129,7 +129,7 @@ public class AnimationGameLevelManager extends LevelManager {
         for (int x = 0; x < blocks.getSizeX(); x++) {
             for (int y = 0; y < blocks.getSizeY(); y++) {
                 for (int z = 0; z < blocks.getSizeZ(); z++) {
-                    MapEditorObject o = (MapEditorObject) blocks.getObject(x, y, z);
+                    MapEditorObject o = (MapEditorObject) blocks.getBlock(x, y, z);
                     if (o != null) {
                         MapEditorAnimationObject tmpObj = new MapEditorAnimationObject();
                         tmpObj.init(getEnvironment());

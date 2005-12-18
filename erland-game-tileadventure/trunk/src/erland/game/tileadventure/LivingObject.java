@@ -30,12 +30,12 @@ public class LivingObject extends MovableObject {
     private boolean bJumping;
     private final static int JUMPING_PROGRESS_PER_LEVEL_MAX=15;
     private float jumpingProgress;
-    private Action jumpingAction;
+    private ActionInterface jumpingAction;
     private final static int JUMPING_HEIGHT=2;
     private int lastJumpingProgress;
     private float jumpingSpeed;
     private double jumpingEnd;
-
+/*
     protected Action isActionPossible(Action action) {
         if(!super.isMoving()) {
             if(!bJumping && !isDropping()) {
@@ -54,7 +54,7 @@ public class LivingObject extends MovableObject {
         if(!super.isMoving()) {
             if(!bJumping && !isDropping()) {
                 if(action==Action.JUMP && !getActionMap().isFree(this,(int)getPosX(),(int)getPosY(),(int)getPosZ()-1)) {
-                    Action a = getActionMap().startActionOnObject(this,action);
+                    ActionInterface a = getActionMap().startActionOnObject(this,action);
                     LOG.debug("Starting JUMP trying");
                     if(a!=null && a!=Action.NONE) {
                         LOG.debug("Starting JUMP success");
@@ -92,7 +92,7 @@ public class LivingObject extends MovableObject {
             }else if(lastJumpingProgress!=(int)getJumpingProgress()) {
                 getActionMap().endActionOnObject(this,jumpingAction);
                 lastJumpingProgress=(int)getJumpingProgress();
-                Action a = getActionMap().startActionOnObject(this,jumpingAction);
+                ActionInterface a = getActionMap().startActionOnObject(this,jumpingAction);
                 if(a==jumpingAction) {
                     LOG.debug("Jumping, next block "+getPosZ()+" allowed");
                 }else {
@@ -124,6 +124,50 @@ public class LivingObject extends MovableObject {
             return super.getMovingPosZ()+(int)getJumpingProgress()-lastJumpingProgress;
         }else {
             return super.getMovingPosZ();
+        }
+    }
+    */
+    public void draw(Graphics g) {
+        super.draw(g);    //To change body of overridden methods use File | Settings | File Templates.
+        if(LOG.isDebugEnabled()) {
+            if(getContainer().getVisible(getPosX(),getPosY(),getPosZ())) {
+                Box3D box = getBoundingBox();
+                int x1 = getContainer().getPixelDrawingPositionX(box.getMinX(),box.getMinY(),box.getMinZ());
+                int x2 = getContainer().getPixelDrawingPositionX(box.getMinX(),box.getMinY(),box.getMaxZ());
+                int x3 = getContainer().getPixelDrawingPositionX(box.getMinX(),box.getMaxY(),box.getMinZ());
+                int x4 = getContainer().getPixelDrawingPositionX(box.getMinX(),box.getMaxY(),box.getMaxZ());
+                int x5 = getContainer().getPixelDrawingPositionX(box.getMaxX(),box.getMinY(),box.getMinZ());
+                int x6 = getContainer().getPixelDrawingPositionX(box.getMaxX(),box.getMinY(),box.getMaxZ());
+                int x7 = getContainer().getPixelDrawingPositionX(box.getMaxX(),box.getMaxY(),box.getMinZ());
+                int x8 = getContainer().getPixelDrawingPositionX(box.getMaxX(),box.getMaxY(),box.getMaxZ());
+
+                int y1 = getContainer().getPixelDrawingPositionY(box.getMinX(),box.getMinY(),box.getMinZ());
+                int y2 = getContainer().getPixelDrawingPositionY(box.getMinX(),box.getMinY(),box.getMaxZ());
+                int y3 = getContainer().getPixelDrawingPositionY(box.getMinX(),box.getMaxY(),box.getMinZ());
+                int y4 = getContainer().getPixelDrawingPositionY(box.getMinX(),box.getMaxY(),box.getMaxZ());
+                int y5 = getContainer().getPixelDrawingPositionY(box.getMaxX(),box.getMinY(),box.getMinZ());
+                int y6 = getContainer().getPixelDrawingPositionY(box.getMaxX(),box.getMinY(),box.getMaxZ());
+                int y7 = getContainer().getPixelDrawingPositionY(box.getMaxX(),box.getMaxY(),box.getMinZ());
+                int y8 = getContainer().getPixelDrawingPositionY(box.getMaxX(),box.getMaxY(),box.getMaxZ());
+
+                g.setColor(Color.WHITE);
+                g.drawLine(x1,y1,x2,y2);
+                g.drawLine(x3,y3,x4,y4);
+                g.drawLine(x1,y1,x3,y3);
+                g.drawLine(x2,y2,x4,y4);
+
+                g.setColor(Color.WHITE);
+                g.drawLine(x5,y5,x6,y6);
+                g.drawLine(x7,y7,x8,y8);
+                g.drawLine(x5,y5,x7,y7);
+                g.drawLine(x6,y6,x8,y8);
+
+                g.setColor(Color.WHITE);
+                g.drawLine(x1,y1,x5,y5);
+                g.drawLine(x2,y2,x6,y6);
+                g.drawLine(x3,y3,x7,y7);
+                g.drawLine(x4,y4,x8,y8);
+            }
         }
     }
 }

@@ -18,9 +18,11 @@ package erland.game.tileadventure;
  *
  */
 
-public class Action {
+public class Action implements ActionInterface {
+    private ControllerInterface controller;
+    private boolean isRunning;
 
-    private Action() {}
+    protected Action() {}
     public final static Action NONE = new Action();
     public final static Action MOVE_WEST = new Action();
     public final static Action MOVE_EAST = new Action();
@@ -35,7 +37,7 @@ public class Action {
 
     public final static Action JUMP = new Action();
 
-    public final static Action DROP = new Action();
+    public final static ActionInterface DROP = new Action();
 
     public boolean isMove() {
         return this==MOVE_WEST || this==MOVE_EAST || this==MOVE_NORTH || this==MOVE_SOUTH || this==MOVE_DOWN;
@@ -57,5 +59,23 @@ public class Action {
         }else {
             return null;
         }
+    }
+
+    public void setController(ControllerInterface controller) {
+        this.controller = controller;
+    }
+    public ControllerInterface getController() {
+        return controller;
+    }
+    public void start() {
+        isRunning = true;
+    }
+    public void stop() {
+        isRunning = false;
+        getController().stopped(this);
+    }
+    public boolean perform() {
+        //TODO: abstract ?
+        return true;
     }
 }

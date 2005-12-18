@@ -178,11 +178,11 @@ public abstract class TileMapEditor extends MapEditor {
                         if(b!=null) {
                             b.setContainer(contPalette);
                             b.setPos(x,y,0);
-                            paletteBlocks.setObject(b,x,y,0);
+                            paletteBlocks.setBlock(b,x,y,0);
                         }
                         i++;
                     }else {
-                        paletteBlocks.setObject(null,x,y,0);
+                        paletteBlocks.setBlock(null,x,y,0);
                     }
                 }
             }
@@ -377,15 +377,33 @@ public abstract class TileMapEditor extends MapEditor {
 
     public void drawSelectedFrame(Graphics g, MapObjectInterface selectedBlock) {
         g.setColor(Color.WHITE);
-        int x = selectedBlock.getContainer().getPixelDrawingPositionX(selectedBlock.getPosX(),selectedBlock.getPosY(),selectedBlock.getPosZ());
-        int y = selectedBlock.getContainer().getPixelDrawingPositionY(selectedBlock.getPosX(),selectedBlock.getPosY(),selectedBlock.getPosZ());
-        g.drawRect(x,y,selectedBlock.getContainer().getSquareSizeX(),selectedBlock.getContainer().getSquareSizeY());
+        int x1 = selectedBlock.getContainer().getPixelDrawingPositionX(selectedBlock.getPosX(),selectedBlock.getPosY(),selectedBlock.getPosZ());
+        int y1 = selectedBlock.getContainer().getPixelDrawingPositionY(selectedBlock.getPosX(),selectedBlock.getPosY(),selectedBlock.getPosZ());
+        int x2 = selectedBlock.getContainer().getPixelDrawingPositionX(selectedBlock.getPosX(),selectedBlock.getPosY()+1,selectedBlock.getPosZ());
+        int y2 = selectedBlock.getContainer().getPixelDrawingPositionY(selectedBlock.getPosX(),selectedBlock.getPosY()+1,selectedBlock.getPosZ());
+        int x3 = selectedBlock.getContainer().getPixelDrawingPositionX(selectedBlock.getPosX()+1,selectedBlock.getPosY(),selectedBlock.getPosZ());
+        int y3 = selectedBlock.getContainer().getPixelDrawingPositionY(selectedBlock.getPosX()+1,selectedBlock.getPosY(),selectedBlock.getPosZ());
+        int x4 = selectedBlock.getContainer().getPixelDrawingPositionX(selectedBlock.getPosX()+1,selectedBlock.getPosY()+1,selectedBlock.getPosZ());
+        int y4 = selectedBlock.getContainer().getPixelDrawingPositionY(selectedBlock.getPosX()+1,selectedBlock.getPosY()+1,selectedBlock.getPosZ());
+        g.drawLine(x1,y1,x2,y2);
+        g.drawLine(x1,y1,x3,y3);
+        g.drawLine(x4,y4,x2,y2);
+        g.drawLine(x4,y4,x3,y3);
     }
 
     public void drawHoveringFrame(Graphics g, int posX, int posY) {
         g.setColor(Color.WHITE);
-        int x = getMapContainer().getPixelDrawingPositionX(posX,posY,getMapPosZ());
-        int y = getMapContainer().getPixelDrawingPositionY(posX,posY,getMapPosZ());
-        g.drawRect(x,y,getMapContainer().getSquareSizeX(),getMapContainer().getSquareSizeY());
+        int x1 = getMapContainer().getPixelDrawingPositionX(posX,posY,getMapPosZ());
+        int y1 = getMapContainer().getPixelDrawingPositionY(posX,posY,getMapPosZ());
+        int x2 = getMapContainer().getPixelDrawingPositionX(posX,posY+1,getMapPosZ());
+        int y2 = getMapContainer().getPixelDrawingPositionY(posX,posY+1,getMapPosZ());
+        int x3 = getMapContainer().getPixelDrawingPositionX(posX+1,posY,getMapPosZ());
+        int y3 = getMapContainer().getPixelDrawingPositionY(posX+1,posY,getMapPosZ());
+        int x4 = getMapContainer().getPixelDrawingPositionX(posX+1,posY+1,getMapPosZ());
+        int y4 = getMapContainer().getPixelDrawingPositionY(posX+1,posY+1,getMapPosZ());
+        g.drawLine(x1,y1,x2,y2);
+        g.drawLine(x1,y1,x3,y3);
+        g.drawLine(x4,y4,x2,y2);
+        g.drawLine(x4,y4,x3,y3);
     }
 }

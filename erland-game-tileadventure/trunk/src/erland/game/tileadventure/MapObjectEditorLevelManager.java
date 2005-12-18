@@ -57,7 +57,7 @@ public class MapObjectEditorLevelManager extends LevelManager {
             LevelInfoInterface level = getLevel(++i);
             if(level!=null) {
                 MapObjectContainerInterface map = level.getObjects();
-                MapEditorObject o = (MapEditorObject) map.getObject(0,0,0);
+                MapEditorObject o = (MapEditorObject) map.getBlock(0,0,0);
                 o.init(getEnvironment());
                 o.setContainer(cont);
                 o.setPos(0,0,0);
@@ -92,7 +92,7 @@ public class MapObjectEditorLevelManager extends LevelManager {
             obj.setContainer(getContainer());
             obj.read(objectParameters);
             obj.setImage(getPaletteImage(),obj.getBlockType()-1);
-            map.setObject(obj,(int)obj.getPosX(),(int)obj.getPosY(),(int)obj.getPosZ());
+            map.setBlock(obj,(int)obj.getPosX(),(int)obj.getPosY(),(int)obj.getPosZ());
             return new LevelInfo(map,info);
         }else {
             return null;
@@ -103,7 +103,7 @@ public class MapObjectEditorLevelManager extends LevelManager {
 
         StringStorage objectStorage = new StringStorage();
         ParameterValueStorageExInterface objectParameters = new ParameterStorageStringEx(objectStorage,null,null);
-        MapEditorObject obj = (MapEditorObject) blocks.getObject(0,0,0);
+        MapEditorObject obj = (MapEditorObject) blocks.getBlock(0,0,0);
         if(obj!=null) {
             obj.write(objectParameters);
         }

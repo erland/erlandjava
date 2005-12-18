@@ -61,7 +61,7 @@ public class MapObjectGameLevelManager extends LevelManager {
             LevelInfoInterface level = getLevel(++i);
             if(level!=null) {
                 MapObjectContainerInterface map = level.getObjects();
-                MapEditorObject o = (MapEditorObject) map.getObject(0,0,0);
+                MapEditorObject o = (MapEditorObject) map.getBlock(0,0,0);
                 o.init(getEnvironment());
                 o.setContainer(cont);
                 o.setPos(0,0,0);
@@ -99,6 +99,7 @@ public class MapObjectGameLevelManager extends LevelManager {
             o.setContainer(getContainer());
             o.setObjectMap(map);
             o.setPos(obj.getPosX(),obj.getPosY(),obj.getPosZ());
+            map.setBlock(o,(int)o.getPosX(),(int)o.getPosY(),(int)o.getPosZ());
             levelInfo = new LevelInfo(map, null);
             setInCache(level,levelInfo);
             return levelInfo;
@@ -130,11 +131,11 @@ public class MapObjectGameLevelManager extends LevelManager {
         for (int x = 0; x < newMap.getSizeX(); x++) {
             for (int y = 0; y < newMap.getSizeY(); y++) {
                 for (int z = 0; z < newMap.getSizeZ(); z++) {
-                    MapObjectInterface o = objects.getObject(x,y,z);
+                    MapObjectInterface o = objects.getBlock(x,y,z);
                     if(o!=null) {
                         GameObject newObj = (GameObject) o.clone();
                         newObj.setObjectMap(newMap);
-                        newMap.setObject(newObj,x,y,z);
+                        newMap.setBlock(newObj,x,y,z);
                     }
                 }
             }
@@ -146,7 +147,7 @@ public class MapObjectGameLevelManager extends LevelManager {
 
         StringStorage objectStorage = new StringStorage();
         ParameterValueStorageExInterface objectParameters = new ParameterStorageStringEx(objectStorage,null,null);
-        MapEditorObject obj = (MapEditorObject) blocks.getObject(0,0,0);
+        MapEditorObject obj = (MapEditorObject) blocks.getBlock(0,0,0);
         if(obj!=null) {
             obj.write(objectParameters);
         }

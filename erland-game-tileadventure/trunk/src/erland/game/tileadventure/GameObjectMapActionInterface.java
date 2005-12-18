@@ -19,8 +19,5 @@ package erland.game.tileadventure;
  */
 
 public interface GameObjectMapActionInterface {
-    boolean isFree(GameObject obj,float x, float y, float z);
-    Action startActionOnObject(GameObject obj, Action action);
-    void endActionOnObject(GameObject obj, Action action);
-    Action isActionPossibleOnObject(GameObject obj, Action action);
+    boolean move(GameObject obj, float x, float y, float z);
 }

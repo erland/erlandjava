@@ -36,7 +36,7 @@ public class MovableObject extends AnimatedObject implements GameObjectUpdateInt
     private int droppingHeight = 0;
     private float droppingSpeed = 0;
     private final int DROPPING_PROGRESS_MAX = 20;
-
+/*
     protected Action isActionPossible(Action action) {
         if(!bMoving && (action.isMove() || action.isPush())) {
             return getActionMap().isActionPossibleOnObject(this,action);
@@ -115,7 +115,7 @@ public class MovableObject extends AnimatedObject implements GameObjectUpdateInt
             droppingProgress=0;
         }
         if(!bDropping) {
-            Action a = getActionMap().startActionOnObject(this,Action.DROP);
+            ActionInterface a = getActionMap().startActionOnObject(this,Action.DROP);
             if(a==Action.DROP) {
                 LOG.debug("dropping from "+getPosZ());
                 bDropping = true;
@@ -196,4 +196,5 @@ public class MovableObject extends AnimatedObject implements GameObjectUpdateInt
             return getPosZ();
         }
     }
+    */
 }

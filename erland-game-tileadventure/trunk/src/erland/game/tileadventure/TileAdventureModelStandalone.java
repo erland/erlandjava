@@ -98,6 +98,7 @@ public class TileAdventureModelStandalone implements TileAdventureModelInterface
         model.init(environment,cont);
 
         player = new TileAdventurePlayer(environment,0);
+        player.setActionHandler(model);
         playerObjects = createPlayers();
         player.setPlayerObject(playerObjects[0]);
         model.initPlayers(playerObjects);

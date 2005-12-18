@@ -58,7 +58,7 @@ public class IsoDiamondBlockContainerData extends BlockContainerData {
     }
 
     public int getPixelDrawingPositionX(float x, float y, float z) {
-        return getOffsetX() - getScrollingOffsetX() + getPositionX(x,y,z);
+        return getOffsetX() - getScrollingOffsetX() + getPositionX(x,y,z) + getSquareSizeX()/2;
     }
 
     public int getPixelDrawingPositionY(float x, float y, float z) {

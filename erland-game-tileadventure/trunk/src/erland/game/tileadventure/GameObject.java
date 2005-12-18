@@ -43,6 +43,11 @@ public abstract class GameObject implements Cloneable, MapObjectInterface {
     private GameObject[] childs;
     /** Parent object */
     private GameObject parent;
+    /** Movement vector */
+    private Vector3D moveVector = new Vector3D();
+    /** Bounding box */
+    private Box3D boundingBox;
+
 
     public void init(GameEnvironmentInterface environment)
     {
@@ -130,13 +135,19 @@ public abstract class GameObject implements Cloneable, MapObjectInterface {
 
     public void setPos(float x, float y, float z)
     {
+        /*
         if(objectMap!=null) {
-            objectMap.removeObject(this,(int)posX,(int)posY,(int)posZ);
-            objectMap.setObject(this,(int)x,(int)y,(int)z);
+            objectMap.removeBlock(this,(int)posX,(int)posY,(int)posZ);
+            objectMap.setBlock(this,(int)x,(int)y,(int)z);
         }
+        */
         posX = x;
         posY = y;
         posZ = z;
+        if(boundingBox!=null) {
+            boundingBox.setLocation(x,y,z);
+            boundingBox.setSize(0.999f,0.999f,0.999f);
+        }
     }
 
     /**
@@ -259,6 +270,31 @@ public abstract class GameObject implements Cloneable, MapObjectInterface {
 
     public GameObject getParent() {
         return parent;
+    }
+    public void setMoveVector(Vector3D vector) {
+        moveVector = vector;
+    }
+    public Vector3D getMoveVector() {
+        return moveVector;
+    }
+
+    public boolean update() {
+        //TODO: Something useful ?
+        return true;
+    }
+
+    public Box3D getBoundingBox() {
+        if(boundingBox==null) {
+            boundingBox = new Box3D();
+            boundingBox.setLocation(posX,posY,posZ);
+            boundingBox.setSize(0.999f,0.999f,0.999f);
+        }
+        return boundingBox;
+    }
+
+    public void fillBoundingBox(float x, float y, float z, Box3D boundingBox) {
+        boundingBox.setLocation(x,y,z);
+        boundingBox.setSize(0.999f,0.999f,0.999f);
     }
 }
 

@@ -157,7 +157,7 @@ public abstract class MapEditor implements GamePanelInterface {
     protected void clickedMapBlock(int posX, int posY)
     {
         if(selectedBlock!=null) {
-            setMapBlock(prepareNewBlock(mapBlocks.getObject(posX,posY,getMapPosZ()),cloneBlock(selectedBlock,cont,posX,posY,getMapPosZ())),posX,posY,getMapPosZ());
+            setMapBlock(prepareNewBlock(mapBlocks.getBlock(posX,posY,getMapPosZ()),cloneBlock(selectedBlock,cont,posX,posY,getMapPosZ())),posX,posY,getMapPosZ());
         }else {
             if(isEmptyAllowed()) {
                 setMapBlock(null,posX,posY,getMapPosZ());
@@ -173,7 +173,7 @@ public abstract class MapEditor implements GamePanelInterface {
      * @param posZ The z position of the new block
      */
     protected void setMapBlock(MapObjectInterface block, int posX, int posY, int posZ) {
-        mapBlocks.setObject(block,posX,posY,posZ);
+        mapBlocks.setBlock(block,posX,posY,posZ);
     }
 
     /**
@@ -198,8 +198,8 @@ public abstract class MapEditor implements GamePanelInterface {
      */
     protected void clickedSelectBlock(int posX,int posY)
     {
-        if(paletteBlocks.getObject(posX,posY,getPalettePosZ())!=null) {
-            selectedBlock = paletteBlocks.getObject(posX,posY,getPalettePosZ());
+        if(paletteBlocks.getBlock(posX,posY,getPalettePosZ())!=null) {
+            selectedBlock = paletteBlocks.getBlock(posX,posY,getPalettePosZ());
         }else {
             selectedBlock = null;
         }
@@ -415,8 +415,8 @@ public abstract class MapEditor implements GamePanelInterface {
             for(int y=0;y<paletteBlocks.getSizeY();y++) {
                 for (int z = 0; z < paletteBlocks.getSizeZ(); z++) {
                     if(contPalette.getVisible(x,y,z)) {
-                        if(paletteBlocks.getObject(x,y,z)!=null) {
-                            drawBlock(g,paletteBlocks.getObject(x,y,z));
+                        if(paletteBlocks.getBlock(x,y,z)!=null) {
+                            drawBlock(g,paletteBlocks.getBlock(x,y,z));
                         }
                     }
                 }
