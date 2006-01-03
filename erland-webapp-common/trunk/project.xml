@@ -13,7 +13,7 @@
   
   <!-- The version of the project under development, e.g.
        1.1, 1.2, 2.0-SNAPSHOT -->
-  <currentVersion>1.25</currentVersion>
+  <currentVersion>1.26</currentVersion>
   
   <organization>
         <name>Erland Isaksson</name>
@@ -23,13 +23,9 @@
   <!-- the year the project started -->
   <inceptionYear>2003</inceptionYear>
   <package>erland.webapp.common</package>
-  <description>
-    A utility package for web applications
-  </description>
+  <description>A utility package for web applications</description>
   <!-- a short description of what the project does -->
-  <shortDescription>
-    A utility package for web applications
-  </shortDescription>
+  <shortDescription>A utility package for web applications</shortDescription>
 
   <siteDirectory>\\xp2500\erland/public_html/java/erland-webapp-common</siteDirectory>
   <!-- any mailing lists for the project -->
