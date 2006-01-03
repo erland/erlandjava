@@ -24,16 +24,21 @@ import erland.webapp.stocks.bl.entity.BrokerStockEntry;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.EntityInterface;
+import erland.webapp.common.http.CookieHandler;
+import erland.webapp.common.http.ClientHttpRequest;
 
 import java.io.DataOutputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.HttpURLConnection;
 import java.util.Vector;
 import java.util.Iterator;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 
@@ -45,28 +50,64 @@ public class RoburConnection implements BrokerConnectionInterface {
     }
     public String getStock(Date startDate, String fondPrefix) {
         try {
-            URL url = new URL("http://www.robur.se/getFundInExcelFormat.asp");
+            CookieHandler cookieHandler = new CookieHandler();
+
+            // First we need to make sure we get a session cookie
+            URL url = new URL("http://www.robur.se/RT/SaveFundInformation____62.aspx");
+            HttpURLConnection.setFollowRedirects(false);
             URLConnection conn = url.openConnection();
+            cookieHandler.setCookies(conn);
+
+            // Make another call to get the VIEWSTATE parameter
+            url = new URL("http://www.robur.se/RT/SaveFundInformation____62.aspx");
+            HttpURLConnection.setFollowRedirects(false);
+            conn = url.openConnection();
+            cookieHandler.postCookies(conn);
+
+            BufferedReader inRobur = new BufferedReader(new InputStreamReader(conn.getInputStream(),"ISO-8859-1"));
+            StringBuffer viewStateResult = new StringBuffer(10000);
+            String line = inRobur.readLine();
+            while(line!=null) {
+                viewStateResult.append(line);
+                line = inRobur.readLine();
+            }
+            inRobur.close();
+
+            String viewState = null;
+            Pattern viewStatePattern = Pattern.compile("name=\\\"__VIEWSTATE\\\".*?value=\\\"(.*?)\\\"");
+            Matcher viewStateMatcher = viewStatePattern.matcher(viewStateResult);
+            if(viewStateMatcher.find()) {
+                viewState = viewStateMatcher.group(1);
+            }
+
+            // At last we can retreive the data
+            url = new URL("http://www.robur.se/RT/SaveFundInformation.aspx?id=62");
+            conn = (HttpURLConnection) url.openConnection();
             conn.setDoInput(true);
             conn.setDoOutput(true);
             conn.setUseCaches(false);
-            conn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
-            DataOutputStream outRobur = new DataOutputStream(conn.getOutputStream());
+            cookieHandler.postCookies(conn);
+            ClientHttpRequest realConnection = new ClientHttpRequest(conn);
+
             Date today = new Date();
             DateFormat formatYear = new SimpleDateFormat("yyyy");
             DateFormat formatMonth = new SimpleDateFormat("MM");
             DateFormat formatDay = new SimpleDateFormat("dd");
-            outRobur.writeBytes(
-                    "strFundID="+fondPrefix+
-                    "&fryear="+formatYear.format(startDate)+
-                    "&frmonth="+formatMonth.format(startDate)+
-                    "&frday="+formatDay.format(startDate)+
-                    "&toyear="+formatYear.format(today)+
-                    "&tomonth="+formatMonth.format(today)+
-                    "&today="+formatDay.format(today));
-            outRobur.flush();
-            outRobur.close();
-            BufferedReader inRobur = new BufferedReader(new InputStreamReader(conn.getInputStream(),"ISO-8859-1"));
+            realConnection.setParameter("__EVENTTARGET","");
+            realConnection.setParameter("__EVENTARGUMENT","");
+            if(viewState!=null) {
+                realConnection.setParameter("__VIEWSTATE",viewState);
+            }
+            realConnection.setParameter("RoburFramework:Menu1:ddFunds:myDropDownBox","0");
+            realConnection.setParameter("RoburFramework:SaveFundInformation:ddlFundList:myDropDownBox",fondPrefix);
+            realConnection.setParameter("RoburFramework:SaveFundInformation:fromDate:YearDownList",formatYear.format(startDate));
+            realConnection.setParameter("RoburFramework:SaveFundInformation:fromDate:MonthDownList",formatMonth.format(startDate));
+            realConnection.setParameter("RoburFramework:SaveFundInformation:fromDate:DayDownList",formatDay.format(startDate));
+            realConnection.setParameter("RoburFramework:SaveFundInformation:toDate:YearDownList",formatYear.format(today));
+            realConnection.setParameter("RoburFramework:SaveFundInformation:toDate:MonthDownList",formatMonth.format(today));
+            realConnection.setParameter("RoburFramework:SaveFundInformation:toDate:DayDownList",formatDay.format(today));
+            realConnection.setParameter("RoburFramework:SaveFundInformation:btnSave2","Spara");
+            inRobur = new BufferedReader(new InputStreamReader(realConnection.post(),"ISO-8859-1"));
             String result = RoburXMLEncoder.encodeStockData(inRobur);
             inRobur.close();
             return result;

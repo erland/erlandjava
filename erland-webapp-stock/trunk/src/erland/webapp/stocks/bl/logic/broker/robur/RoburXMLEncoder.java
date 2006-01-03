@@ -30,9 +30,12 @@ public class RoburXMLEncoder {
         try {
             out.append("<stock name=\""+data.readLine()+"\">");
 
+            data.readLine(); // Skip line with column headers
+
             String line = data.readLine();
             while(line!=null) {
-                out.append("\n<rate date=\""+line.substring(0,10)+"\" value=\""+line.substring(11)+"\"/>");
+                String[] fields = line.split("\t");
+                out.append("\n<rate date=\""+fields[0]+"\" value=\""+fields[1]+"\"/>");
                 line = data.readLine();
             }
 
