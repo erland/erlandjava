@@ -1,7 +1,5 @@
-package erland.webapp.common.http;
-
 /*
- * Copyright (C) 2005 Erland Isaksson (erland_i@hotmail.com)
+ * Copyright (C) Erland Isaksson (erland_i@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,7 +15,10 @@ package erland.webapp.common.http;
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
+ *
  */
+
+package erland.webapp.common.http;
 
 import java.util.Map;
 import java.util.Collection;
