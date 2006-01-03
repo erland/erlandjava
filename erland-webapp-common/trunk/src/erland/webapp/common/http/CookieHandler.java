@@ -97,7 +97,6 @@ public class CookieHandler {
     public void setCookies(URLConnection conn) {
         Map fields = conn.getHeaderFields();
         Object cookieField = fields.get("Set-Cookie");
-        System.out.println("Set-Cookie="+cookieField);
         if(cookieField instanceof Collection) {
             Collection cookieFields = (Collection) cookieField;
             for (Iterator iterator = cookieFields.iterator(); iterator.hasNext();) {
