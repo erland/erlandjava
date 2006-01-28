@@ -50,64 +50,16 @@ public class RoburConnection implements BrokerConnectionInterface {
     }
     public String getStock(Date startDate, String fondPrefix) {
         try {
-            CookieHandler cookieHandler = new CookieHandler();
-
-            // First we need to make sure we get a session cookie
-            URL url = new URL("http://www.robur.se/RT/SaveFundInformation____62.aspx");
-            HttpURLConnection.setFollowRedirects(false);
-            URLConnection conn = url.openConnection();
-            cookieHandler.setCookies(conn);
-
-            // Make another call to get the VIEWSTATE parameter
-            url = new URL("http://www.robur.se/RT/SaveFundInformation____62.aspx");
-            HttpURLConnection.setFollowRedirects(false);
-            conn = url.openConnection();
-            cookieHandler.postCookies(conn);
-
-            BufferedReader inRobur = new BufferedReader(new InputStreamReader(conn.getInputStream(),"ISO-8859-1"));
-            StringBuffer viewStateResult = new StringBuffer(10000);
-            String line = inRobur.readLine();
-            while(line!=null) {
-                viewStateResult.append(line);
-                line = inRobur.readLine();
-            }
-            inRobur.close();
-
-            String viewState = null;
-            Pattern viewStatePattern = Pattern.compile("name=\\\"__VIEWSTATE\\\".*?value=\\\"(.*?)\\\"");
-            Matcher viewStateMatcher = viewStatePattern.matcher(viewStateResult);
-            if(viewStateMatcher.find()) {
-                viewState = viewStateMatcher.group(1);
-            }
-
-            // At last we can retreive the data
-            url = new URL("http://www.robur.se/RT/SaveFundInformation.aspx?id=62");
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setUseCaches(false);
-            cookieHandler.postCookies(conn);
-            ClientHttpRequest realConnection = new ClientHttpRequest(conn);
-
             Date today = new Date();
-            DateFormat formatYear = new SimpleDateFormat("yyyy");
-            DateFormat formatMonth = new SimpleDateFormat("MM");
-            DateFormat formatDay = new SimpleDateFormat("dd");
-            realConnection.setParameter("__EVENTTARGET","");
-            realConnection.setParameter("__EVENTARGUMENT","");
-            if(viewState!=null) {
-                realConnection.setParameter("__VIEWSTATE",viewState);
-            }
-            realConnection.setParameter("RoburFramework:Menu1:ddFunds:myDropDownBox","0");
-            realConnection.setParameter("RoburFramework:SaveFundInformation:ddlFundList:myDropDownBox",fondPrefix);
-            realConnection.setParameter("RoburFramework:SaveFundInformation:fromDate:YearDownList",formatYear.format(startDate));
-            realConnection.setParameter("RoburFramework:SaveFundInformation:fromDate:MonthDownList",formatMonth.format(startDate));
-            realConnection.setParameter("RoburFramework:SaveFundInformation:fromDate:DayDownList",formatDay.format(startDate));
-            realConnection.setParameter("RoburFramework:SaveFundInformation:toDate:YearDownList",formatYear.format(today));
-            realConnection.setParameter("RoburFramework:SaveFundInformation:toDate:MonthDownList",formatMonth.format(today));
-            realConnection.setParameter("RoburFramework:SaveFundInformation:toDate:DayDownList",formatDay.format(today));
-            realConnection.setParameter("RoburFramework:SaveFundInformation:btnSave2","Spara");
-            inRobur = new BufferedReader(new InputStreamReader(realConnection.post(),"ISO-8859-1"));
+            DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+            URL url = new URL("http://www.robur.se/RoburPages/PeriodFundQuotes.aspx?fundId="+fondPrefix+
+                    "&fromDate="+formatDate.format(startDate)+
+                    "&toDate="+formatDate.format(today));
+            URLConnection conn = url.openConnection();
+            conn.setDoInput(true);
+            conn.setDoOutput(false);
+            conn.setUseCaches(false);
+            BufferedReader inRobur = new BufferedReader(new InputStreamReader(conn.getInputStream(),"ISO-8859-1"));
             String result = RoburXMLEncoder.encodeStockData(inRobur);
             inRobur.close();
             return result;
