@@ -1,0 +1,4 @@
+<service id="stockstorage">
+    <class>erland.webapp.stocks.bl.service.DatabaseStockStorage</class>
+    <singleton>true</singleton>
+</service>
