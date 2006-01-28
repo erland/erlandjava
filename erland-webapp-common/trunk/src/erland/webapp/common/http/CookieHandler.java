@@ -103,7 +103,7 @@ public class CookieHandler {
                 String cookieString = iterator.next().toString();
                 setCookie(cookieString);
             }
-        }else {
+        }else if(cookieField!=null){
             setCookie(cookieField.toString());
         }
     }
