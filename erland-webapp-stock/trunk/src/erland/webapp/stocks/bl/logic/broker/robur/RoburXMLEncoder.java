@@ -28,18 +28,26 @@ public class RoburXMLEncoder {
         out.append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
 
         try {
-            out.append("<stock name=\""+data.readLine()+"\">");
-
-            data.readLine(); // Skip line with column headers
-
             String line = data.readLine();
-            while(line!=null) {
-                String[] fields = line.split("\t");
-                out.append("\n<rate date=\""+fields[0]+"\" value=\""+fields[1]+"\"/>");
-                line = data.readLine();
-            }
+            int pos = line.indexOf(":");
+            if(pos>=0 && line.length()>pos+1) {
+                line = line.substring(pos+1).trim();
+                out.append("<stock name=\""+line+"\">");
 
-            out.append("\n</stock>");
+                data.readLine(); // Skip line with column headers
+
+                line = data.readLine();
+                while(line!=null) {
+                    String[] fields = line.split("\t");
+                    out.append("\n<rate date=\""+fields[0]+"\" value=\""+fields[1]+"\"/>");
+                    line = data.readLine();
+                }
+
+                out.append("\n</stock>");
+            }else {
+                out.setLength(0);
+                out.append("Error!");
+            }
         } catch (IOException e) {
             out.setLength(0);
             out.append("Error!");
