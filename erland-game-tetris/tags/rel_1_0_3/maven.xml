@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project default="all:build"
+	xmlns:j="jelly:core"
+	xmlns:ant="jelly:ant">
+
+	<postGoal name="dist:prepare-bin-filesystem">
+        <attainGoal name="war"/>
+        <!-- Remove Jars -->
+        <ant:delete file="${maven.dist.bin.assembly.dir}/${maven.final.name}.jar"/>
+
+	    <!-- Copy Wars -->
+	    <ant:copy todir="${maven.dist.bin.assembly.dir}">
+	      <ant:fileset dir="${maven.build.dir}">
+	        <ant:include name="*.war"/>
+	      </ant:fileset>
+	    </ant:copy>
+	</postGoal>
+
+	<postGoal name="dist:prepare-src-filesystem">
+	    <!-- Copy WAR Source -->
+	    <ant:mkdir dir="${maven.dist.src.assembly.dir}/${maven.war.src}"/>
+	    <ant:copy todir="${maven.dist.src.assembly.dir}/${maven.war.src}">
+	      <ant:fileset dir="${maven.war.src}" />
+	    </ant:copy>
+
+	    <!-- Copy bat and files -->
+	    <ant:copy todir="${maven.dist.src.assembly.dir}">
+	      <ant:fileset dir="${pom.dir}">
+	        <ant:include name="*.bat"/>
+	      </ant:fileset>
+	    </ant:copy>
+
+	</postGoal>
+
+	<preGoal name="war:webapp">
+	  <attainGoal name="jnlp"/>
+      <ant:copy todir="${maven.war.webapp.dir}" preservelastmodified="true">
+        <ant:fileset dir="${maven.jnlp.dir}"/>
+      </ant:copy>
+
+	    <!-- Create classpath for bat-files -->
+	    <j:set var="bat.jars.classpath" value="${maven.final.name}.jar"/>
+	    <j:forEach var="lib" items="${pom.artifacts}">
+	      <j:set var="dep" value="${lib.dependency}"/>     
+	      <j:if test="${dep.getProperty('jar.manifest.classpath')=='true'}">
+	         <j:if test="${dep.type =='jar'}"> 
+	           <j:set var="bat.jars.classpath" value="${bat.jars.classpath};${lib.name}"/>
+	         </j:if> 
+	      </j:if>  
+	    </j:forEach>            
+		<ant:filter token="CLASSPATH" value="${bat.jars.classpath}"/>
+	    <!-- Copy bat files -->
+	    <ant:copy todir="${maven.war.webapp.dir}" filtering="true">
+	      <ant:fileset dir="${pom.dir}">
+	        <ant:include name="*.bat"/>
+	      </ant:fileset>
+	    </ant:copy>
+	</preGoal>
+	
+  <goal name="all:build" prereqs="jar:install,war:install">
+  </goal>
+</project>
