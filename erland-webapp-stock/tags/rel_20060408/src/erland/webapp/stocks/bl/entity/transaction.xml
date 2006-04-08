@@ -1,0 +1,78 @@
+<entity id="transaction">
+    <class>erland.webapp.stocks.bl.entity.Transaction</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/stock</datasource>
+        <table>transactions</table>
+        <fields>
+            <field id="accountId">
+                <column>accountid</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+            <field id="type">
+                <column>type</column>
+                <type>Integer</type>
+                <identity>true</identity>
+            </field>
+            <field id="brokerId">
+                <column>brokerid</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="stockId">
+                <column>stockid</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="date">
+                <column>date</column>
+                <type>Date</type>
+                <identity>true</identity>
+            </field>
+            <field id="price">
+                <column>price</column>
+                <type>Double</type>
+            </field>
+            <field id="value">
+                <column>value</column>
+                <type>Double</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="permanententriesforaccountid">
+                <querystring>(type=1 or type=6) and accountid=?</querystring>
+                <orderstring>order by brokerid,stockid,date</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>accountid</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="purchaseonceentriesforaccountid">
+                <querystring>(type=2 or type=3 or type=5) and accountid=?</querystring>
+                <orderstring>order by brokerid,stockid,date</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>accountid</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="purchasecontinouslyentriesforaccountid">
+                <querystring>type=4 and accountid=?</querystring>
+                <orderstring>order by brokerid,stockid,date</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>accountid</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
