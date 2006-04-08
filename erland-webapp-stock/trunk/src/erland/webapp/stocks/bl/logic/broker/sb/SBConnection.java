@@ -62,7 +62,7 @@ public class SBConnection implements BrokerConnectionInterface {
             //URL url =new URL("http://www.stockholmsborsen.se/stocklist.asp?lang=swe&list=SSE43&group=Kursnoteringar&listName=O-listan, samtliga");
             //URL url = new URL("http://www.stockholmsborsen.se/getHistory.asp?isin=SE0000105116");
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            URL url = new URL("http://www.stockholmsborsen.se/Slutkurser/excel.asp?"+
+            URL url = new URL("http://www.se.omxgroup.com/slutkurser/excel.asp?"+
                     "InstrumentID="+fondPrefix+
                     "&InstrumentType="+getInstrumentType()+
                     "&From="+dateFormat.format(startDate)+
