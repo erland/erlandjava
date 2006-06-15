@@ -3,9 +3,14 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://erland.homeip.net/tags/erland-common" prefix="erland-common" %>
 
-<p class="propertypage-title"><bean:message key="download.latest-releases"/></p>
-
 <table class="propertypage-body" align="center">
+    <logic:notEmpty name="descriptionPB">
+        <tr><td colspan="5"><p class="propertypage-description"><erland-common:expandhtml><bean:write name="descriptionPB"/></erland-common:expandhtml></td></tr>
+    </logic:notEmpty>
+
+    <tr><td colspan="5"><p class="propertypage-title"><bean:message key="download.latest-releases"/></p></td></tr>
+    <tr><td>&nbsp;</td></tr>
+
     <logic:iterate name="applicationversionsPB" id="item" length="10" >
         <tr>
         <td valign="top" nowrap><erland-common:beanlink style="propertypage-button" name="item" property="applicationLink"><bean:write name="item" property="title"/></erland-common:beanlink> <bean:write name="item" property="version"/></td>
