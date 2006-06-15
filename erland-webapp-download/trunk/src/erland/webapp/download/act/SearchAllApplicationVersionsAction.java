@@ -51,4 +51,8 @@ public class SearchAllApplicationVersionsAction extends SearchApplicationVersion
         filter.setAttribute("language",language);
         return filter;
     }
+    protected void beforeFinish(HttpServletRequest request, ActionForm actionForm) {
+        String description = WebAppEnvironmentPlugin.getEnvironment().getConfigurableResources().getParameter("description");
+        request.setAttribute("descriptionPB",description);
+    }
 }
