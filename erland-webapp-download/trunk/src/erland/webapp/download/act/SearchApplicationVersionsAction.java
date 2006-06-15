@@ -116,12 +116,14 @@ public class SearchApplicationVersionsAction extends Action {
                 }
             });
             httpServletRequest.setAttribute("applicationversionsPB",versions);
+            beforeFinish(httpServletRequest, actionForm);
             return actionMapping.findForward("success");
         }else {
             return actionMapping.findForward("failure");
         }
     }
-
+    protected void beforeFinish(HttpServletRequest request, ActionForm actionForm) {
+    }
     protected QueryFilter getFilter(HttpServletRequest request, ActionForm actionForm) {
         ApplicationIdFB fb = (ApplicationIdFB) actionForm;
         String language = fb.getLanguage();
