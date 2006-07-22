@@ -32,9 +32,11 @@ public class IssueFB extends BaseFB {
     private String application;
     private String version;
     private String username;
+    private String realname;
     private String mail;
     private String title;
     private String description;
+    private String externalReference;
     private Integer type;
 
     public Integer getId() {
@@ -117,15 +119,33 @@ public class IssueFB extends BaseFB {
         this.mail = mail;
     }
 
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname;
+    }
+
+    public String getExternalReference() {
+        return externalReference;
+    }
+
+    public void setExternalReference(String externalReference) {
+        this.externalReference = externalReference;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         id = null;
         application = null;
         version = null;
         username = null;
+        realname = null;
         type = null;
         title = null;
         description = null;
         mail = null;
+        externalReference = null;
     }
 }

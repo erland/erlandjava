@@ -18,6 +18,9 @@
     <tr><td><bean:message key="issuetracking.issue.edit.mail"/></td><td>
     <html:text property="mail" />
     </td></tr>
+    <tr><td><bean:message key="issuetracking.issue.edit.realname"/></td><td>
+    <html:text property="realname" />
+    </td></tr>
     <tr><td><bean:message key="issuetracking.issue.edit.version"/></td><td>
     <html:text property="version" />
     </td></tr>
@@ -26,6 +29,9 @@
     </td></tr>
     <tr><td><bean:message key="issuetracking.account.edit.description"/></td><td>
     <html:textarea property="description" cols="80" rows="5"/>
+    </td></tr>
+    <tr><td><bean:message key="issuetracking.issue.edit.externalreference"/></td><td>
+    <html:text property="externalReference" />
     </td></tr>
     <tr><td></td><td>
     <html:submit><bean:message key="issuetracking.buttons.save"/></html:submit>

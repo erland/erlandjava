@@ -26,9 +26,11 @@ public class Issue extends BaseEntity {
     private String application;
     private String version;
     private String username;
+    private String realname;
     private String mail;
     private String title;
     private String description;
+    private String externalReference;
     private Integer type;
 
     public final static Integer TYPE_PROBLEM = new Integer(1);
@@ -96,5 +98,21 @@ public class Issue extends BaseEntity {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname;
+    }
+
+    public String getExternalReference() {
+        return externalReference;
+    }
+
+    public void setExternalReference(String externalReference) {
+        this.externalReference = externalReference;
     }
 }

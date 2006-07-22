@@ -24,6 +24,9 @@
     <tr><td><bean:message key="issuetracking.account.edit.description"/></td><td>
     <html:textarea property="description" cols="80" rows="5"/>
     </td></tr>
+    <tr><td><bean:message key="issuetracking.issue.edit.externalreference"/></td><td>
+    <html:text property="externalReference" />
+    </td></tr>
     <tr><td></td><td>
     <html:submit><bean:message key="issuetracking.buttons.save"/></html:submit>
     </td></tr>

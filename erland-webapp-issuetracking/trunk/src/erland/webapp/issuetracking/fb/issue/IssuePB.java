@@ -27,9 +27,11 @@ public class IssuePB extends IssueFB {
     private IssueEventPB[] events;
     private String viewLink;
     private String stateTextKey;
+    private String typeTextKey;
     private String assignedTo;
     private String updateLink;
     private String applicationTitle;
+    private String mailDisplay;
 
     public IssueEventPB[] getEvents() {
         return events;
@@ -45,6 +47,14 @@ public class IssuePB extends IssueFB {
 
     public void setViewLink(String viewLink) {
         this.viewLink = viewLink;
+    }
+
+    public String getTypeTextKey() {
+        return typeTextKey;
+    }
+
+    public void setTypeTextKey(String typeTextKey) {
+        this.typeTextKey = typeTextKey;
     }
 
     public String getStateTextKey() {
@@ -77,5 +87,31 @@ public class IssuePB extends IssueFB {
 
     public void setApplicationTitle(String applicationTitle) {
         this.applicationTitle = applicationTitle;
+    }
+
+    public String getExternalReferenceLink() {
+        String extRef = getExternalReference();
+        if(extRef != null && extRef.startsWith("http")) {
+            return extRef;
+        }else {
+            return null;
+        }
+    }
+
+    public void setExternalReferenceLink(String externalReferenceLink) {
+        // Do nothing
+    }
+
+    public String getMailDisplay() {
+        String mail = getMail();
+        if(mail!=null) {
+            return mail.replaceAll("@"," at ").replaceAll("\\."," dot ");
+        }else {
+            return "";
+        }
+    }
+
+    public void setMailDisplay(String mailDisplay) {
+        // Do nothing
     }
 }

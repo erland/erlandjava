@@ -34,6 +34,14 @@
                 <column>username</column>
                 <type>String</type>
             </field>
+            <field id="realname">
+                <column>realname</column>
+                <type>String</type>
+            </field>
+            <field id="mail">
+                <column>mail</column>
+                <type>String</type>
+            </field>
             <field id="type">
                 <column>type</column>
                 <type>Integer</type>

@@ -27,10 +27,27 @@
     </td></tr>
 </logic:notEmpty>
 <logic:empty name="issuePB" property="username">
-    <tr><td><bean:message key="issuetracking.issue.edit.submittedby"/></td><td>
-    <bean:write name="issuePB" property="mail" />
-    </td></tr>
+    <logic:notEmpty name="issuePB" property="realname">
+        <tr><td><bean:message key="issuetracking.issue.edit.submittedby"/></td><td>
+        <bean:write name="issuePB" property="realname" />
+        </td></tr>
+    </logic:notEmpty>
+    <logic:empty name="issuePB" property="realname">
+        <tr><td><bean:message key="issuetracking.issue.edit.submittedby"/></td><td>
+        <bean:write name="issuePB" property="mailDisplay" />
+        </td></tr>
+    </logic:empty>
 </logic:empty>
+<logic:notEmpty name="issuePB" property="externalReference">
+    <tr><td><bean:message key="issuetracking.issue.edit.externalreference"/></td><td>
+    <logic:notEmpty name="issuePB" property="externalReferenceLink">
+        <erland-common:beanlink name="issuePB" property="externalReferenceLink" style="propertypage-button" target="_blank"><bean:write name="issuePB" property="externalReferenceLink"/></erland-common:beanlink>
+    </logic:notEmpty>
+    <logic:empty name="issuePB" property="externalReferenceLink">
+        <bean:write name="issuePB" property="externalReference"/>
+    </logic:empty>
+    </td></tr>
+</logic:notEmpty>
 <tr><td><p class="bold"><bean:message key="issuetracking.issue.edit.eventlog"/></p></td>
 </tr>
 <logic:iterate name="issuePB" property="events" id="event">
@@ -42,4 +59,4 @@
     </td></tr>
     <tr><td>&nbsp;</td></tr>
 </logic:iterate>
-<table>
+</table>

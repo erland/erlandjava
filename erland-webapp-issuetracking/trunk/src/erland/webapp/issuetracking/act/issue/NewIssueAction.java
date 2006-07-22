@@ -40,7 +40,9 @@ public class NewIssueAction extends BaseAction {
         fillData(fb);
         fb.setId(null);
         fb.setUsername(request.getRemoteUser());
+        fb.setRealname(null);
         fb.setMail(null);
+        fb.setExternalReference(null);
         fb.setType(Issue.TYPE_PROBLEM);
 
         TypePB[] typesPB = new TypePB[] {

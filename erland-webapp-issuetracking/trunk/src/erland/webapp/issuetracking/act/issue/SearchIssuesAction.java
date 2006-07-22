@@ -89,6 +89,7 @@ public class SearchIssuesAction extends BaseAction {
             }else {
                 pb[i].setApplicationTitle(((ListIssue)entities[i]).getApplicationTitleNative());
             }
+            pb[i].setTypeTextKey("issuetracking.type."+((ListIssue)entities[i]).getType());
             pb[i].setStateTextKey("issuetracking.state."+((ListIssue)entities[i]).getState());
             parameters.put("issue",pb[i].getId());
             if(viewForward != null) {

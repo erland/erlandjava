@@ -54,8 +54,10 @@ CREATE TABLE issues (
   application varchar(100) NOT NULL default '',
   version varchar(100) default NULL,
   username varchar(100) default NULL,
+  realname varchar(100) default NULL,
   mail varchar(100) default NULL,
   type int(11) NOT NULL default '0',
+  extref varchar(255) default NULL,
   title varchar(255) NOT NULL default '',
   description longtext,
   PRIMARY KEY  (id)

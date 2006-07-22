@@ -26,6 +26,10 @@
                 <column>username</column>
                 <type>String</type>
             </field>
+            <field id="realname">
+                <column>realname</column>
+                <type>String</type>
+            </field>
             <field id="mail">
                 <column>mail</column>
                 <type>String</type>
@@ -40,6 +44,10 @@
             </field>
             <field id="description">
                 <column>description</column>
+                <type>String</type>
+            </field>
+            <field id="externalReference">
+                <column>extref</column>
                 <type>String</type>
             </field>
         </fields>
