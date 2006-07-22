@@ -1,0 +1,258 @@
+.bold-link {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.bold-link {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.menu {
+font-family:arial;
+border:0px;
+}
+
+.menuitem {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.menuitem {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.menuitem-selected {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+:hover.menuitem-selected {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.propertypage-header {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.propertypage-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.propertypage-tableheader {
+font-family:arial;
+font-size:12px;
+color:#000000;
+font-weight:bold;
+text-decoration:none;
+}
+
+.propertypage-title {
+font-family:arial;
+font-size:14px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.propertypage-description {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.propertypage-notice {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.propertypage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.propertypage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.propertypage-link {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.propertypage-link {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.loginpage-header {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.loginpage-body {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.loginpage-footer {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+border:0px;
+}
+
+.loginpage-title {
+font-family:arial;
+font-size:14px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.loginpage-description {
+font-family:arial;
+font-size:12px;
+color:#000000;
+text-decoration:none;
+}
+
+.loginpage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#397AC0;
+text-decoration:none;
+}
+
+:hover.loginpage-button {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.header-text {
+font-family:arial;
+font-size:12px;
+font-weight:bold;
+color:#000000;
+text-decoration:none;
+}
+
+.header-logo {
+font-family:arial;
+border:0px;
+}
+
+.header-separator-line {
+}
+
+.layout-header {
+}
+
+.layout-body {
+}
+
+.layout-body-menu {
+}
+
+.layout-body-content {
+}
+
+.layout-footer {
+}
+
+.layout-menu {
+}
+
+.layout {
+}
+
+.layout-main {
+font-family:arial;
+border:0px;
+}
+
+.layout-header-separator-line {
+}
+
+.layout-header-separator {
+}
+
+.layoutnomenu-header {
+}
+
+.layoutnomenu-body {
+}
+
+.layoutnomenu-body-content {
+}
+
+.layoutnomenu-footer {
+}
+
+.layoutnomenu {
+}
+.layoutnomenu-main {
+font-family:arial;
+border:0px;
+}
+
+.layoutnomenu-header-separator-line {
+}
+
+.layoutnomenu-header-separator {
+}

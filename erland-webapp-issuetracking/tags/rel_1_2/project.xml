@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+
+  <!-- the version of maven's project object model -->
+  <pomVersion>3</pomVersion>
+  
+  <!-- a unique name for this project -->
+  <groupId>erland</groupId>
+  <id>erland-webapp-issuetracking</id>
+  
+  <!-- a short but descriptive name for the project -->
+  <name>Erland Issue Tracking</name>
+  
+  <!-- The version of the project under development, e.g.
+       1.1, 1.2, 2.0-SNAPSHOT -->
+  <currentVersion>1.2</currentVersion>
+  
+  <organization>
+        <name>Erland Isaksson</name>
+        <url>http://erland.homeip.net</url>
+  </organization>
+
+  <!-- the year the project started -->
+  <inceptionYear>2003</inceptionYear>
+  <package>erland.webapp.issuetracking</package>
+  <description>
+    A web application that makes it possible to keep track of bugs or feature
+    requests
+  </description>
+  <!-- a short description of what the project does -->
+  <shortDescription>
+    A web application for a issue tracking system
+  </shortDescription>
+
+  <siteDirectory>\\xp2500\erland/public_html/java/erland-webapp-issuetracking</siteDirectory>
+  <!-- any mailing lists for the project -->
+  <mailingLists/>
+  
+  <!-- who the developers are for the project -->
+  <developers>
+  	<developer>
+	  	<name>Erland Isaksson</name>
+	  	<email>erland_i@hotmail.com</email>
+	  	<url>http://erland.homeip.net</url>
+	</developer>
+  </developers>
+
+  <!-- jar files the project is dependent on -->
+  <dependencies>
+	<dependency>
+      <url>http://erland.homeip.net</url>
+      <groupId>erland</groupId>
+      <artifactId>erland-util</artifactId>
+      <version>1.6.2</version>
+      <type>jar</type>
+      <properties>
+	      <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+	<dependency>
+      <url>http://erland.homeip.net</url>
+      <groupId>erland</groupId>
+      <artifactId>erland-webapp-common</artifactId>
+      <version>1.26</version>
+      <type>jar</type>
+      <properties>
+	      <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+	<dependency>
+      <url>http://erland.homeip.net</url>
+      <groupId>erland</groupId>
+      <artifactId>erland-webapp-usermgmt</artifactId>
+      <version>1.2</version>
+      <type>jar</type>
+      <properties>
+	      <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+	<dependency>
+      <url>http://jakarta.apache.org/commons/beanutils.html</url>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.6.1</version>
+      <type>jar</type>
+      <properties>
+	      <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <url>http://jakarta.apache.org/commons/collections.html</url>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.0</version>
+      <type>jar</type>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <url>http://jakarta.apache.org/commons/digester.html</url>
+      <groupId>commons-digester</groupId>
+      <artifactId>commons-digester</artifactId>
+      <version>1.5</version>
+      <type>jar</type>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <url>http://jakarta.apache.org/commons/validator/</url>
+      <groupId>commons-validator</groupId>
+      <artifactId>commons-validator</artifactId>
+      <version>1.1.3</version>
+      <type>jar</type>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <url>http://jakarta.apache.org/oro/index.html</url>
+      <groupId>oro</groupId>
+      <artifactId>oro</artifactId>
+      <version>2.0.8</version>
+      <type>jar</type>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <url>http://securityfilter.sourceforge.net/</url>
+      <groupId>securityfilter</groupId>
+      <artifactId>securityfilter</artifactId>
+      <version>1.1</version>
+      <type>jar</type>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+	<dependency>
+      <url>http://jakarta.apache.org/struts</url>
+      <groupId>struts</groupId>
+      <artifactId>struts</artifactId>
+      <version>1.1</version>
+      <type>jar</type>
+      <properties>
+	      <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <url>http://jakarta.apache.org/struts</url>
+      <groupId>struts</groupId>
+      <artifactId>validator-rules</artifactId>
+      <version>1.1</version>
+      <type>xml</type>
+    </dependency>
+
+	<dependency>
+      <url>http://java.sun.com/products/servlet</url>
+      <groupId>servletapi</groupId>
+      <artifactId>servletapi</artifactId>
+      <version>2.3</version>
+      <type>jar</type>
+    </dependency>
+
+	<dependency>
+      <url>http://jakarta.apache.org/tomcat</url>
+      <groupId>tomcat</groupId>
+      <artifactId>jasper-compiler</artifactId>
+      <version>4.0.4</version>
+      <type>jar</type>
+    </dependency>
+	<dependency>
+      <url>http://jakarta.apache.org/tomcat</url>
+      <groupId>tomcat</groupId>
+      <artifactId>jasper-runtime</artifactId>
+      <version>4.0.4</version>
+      <type>jar</type>
+      <properties>
+	      <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+    <dependency>
+        <url>http://jakarta.apache.org/commons/logging</url>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.0.4</version>
+        <type>jar</type>
+        <properties>
+            <war.bundle>true</war.bundle>
+        </properties>
+    </dependency>
+  </dependencies>
+  
+  <!-- build information for the project -->
+  <build>
+    <nagEmailAddress>erland_i@hotmail.com</nagEmailAddress>
+    <sourceDirectory>src</sourceDirectory>
+    <resources>
+        <resource>
+            <directory>${basedir}/src</directory>
+            <includes>
+                <include>**/*.xml</include>
+                <include>**/*.properties</include>
+            </includes>
+        </resource>
+    </resources>
+  </build>
+  <reports>
+      <report>maven-javadoc-plugin</report>
+      <report>maven-license-plugin</report>
+ </reports>
+</project>
+
