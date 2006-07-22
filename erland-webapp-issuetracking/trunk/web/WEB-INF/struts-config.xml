@@ -7,6 +7,7 @@
     <form-beans>
         <form-bean name="mainMenuFB" type="erland.webapp.common.fb.MenuExpandCollapseFB"/>
         <form-bean name="selectUserFB" type="erland.webapp.issuetracking.fb.account.SelectUserFB"/>
+        <form-bean name="selectApplicationFB" type="erland.webapp.issuetracking.fb.application.SelectApplicationFB"/>
         <form-bean name="newUserAccountFB" type="erland.webapp.issuetracking.fb.account.AccountFB"/>
         <form-bean name="editUserAccountFB" type="erland.webapp.issuetracking.fb.account.AccountFB"/>
         <form-bean name="searchIssueFB" type="erland.webapp.issuetracking.fb.issue.SearchIssueFB"/>
@@ -50,7 +51,7 @@
         <action
             path="/guest/home"
             type="org.apache.struts.actions.ForwardAction"
-            parameter="/do/guest/viewissues">
+            parameter="/do/guest/loadmenu">
         </action>
         <action
             path="/user/loadmenu"
@@ -59,9 +60,23 @@
             <forward name="view-application-issues" path="/do/user/viewopenissues?application={id}"/>
             <forward name="view-application-error-issues" path="/do/user/viewopenissues?application={id}&amp;type=1"/>
             <forward name="view-application-feature-issues" path="/do/user/viewopenissues?application={id}&amp;type=2"/>
+            <forward name="view-application-delivered-issues" path="/do/user/viewissues?application={id}&amp;states=8"/>
             <forward name="view-application-closed-issues" path="/do/user/viewissues?application={id}&amp;states=8&amp;states=9"/>
             <forward name="view-application" path="/do/user/viewapplication?name={id}"/>
             <forward name="success" path="/do/user/viewopenissues"/>
+        </action>
+        <action
+            path="/guest/loadmenu"
+            type="erland.webapp.issuetracking.act.application.LoadOfficialMenuApplicationsAction"
+            name="selectApplicationFB">
+
+            <forward name="view-application-issues" path="/do/guest/viewopenissues?application={id}"/>
+            <forward name="view-application-error-issues" path="/do/guest/viewopenissues?application={id}&amp;type=1"/>
+            <forward name="view-application-feature-issues" path="/do/guest/viewopenissues?application={id}&amp;type=2"/>
+            <forward name="view-application-delivered-issues" path="/do/guest/viewissues?application={id}&amp;states=8"/>
+            <forward name="view-application-closed-issues" path="/do/guest/viewissues?application={id}&amp;states=8&amp;states=9"/>
+            <forward name="view-application" path="/do/guest/viewapplication?name={id}"/>
+            <forward name="success" path="/do/guest/viewopenissues"/>
         </action>
         <action
             path="/guest/menu"
@@ -71,25 +86,13 @@
             parameter="menuName=mainMenu&amp;menuItemIdParameter=id">
 
             <forward name="mainMenu-newissue" path="/do/guest/newissue"/>
-            <forward name="mainMenu-all" path="/do/guest/viewissues"/>
 
-            <forward name="mainMenu-problem" path="/do/guest/viewissues?type=1"/>
-            <forward name="mainMenu-problem-new" path="/do/guest/viewissues?type=1&amp;states=1"/>
-            <forward name="mainMenu-problem-analyzing" path="/do/guest/viewissues?type=1&amp;states=2&amp;states=3&amp;states=11"/>
-            <forward name="mainMenu-problem-correcting" path="/do/guest/viewissues?type=1&amp;states=4&amp;states=5&amp;states=10"/>
-            <forward name="mainMenu-problem-testing" path="/do/guest/viewissues?type=1&amp;states=6&amp;states=7&amp;states=12"/>
-            <forward name="mainMenu-problem-rejected" path="/do/guest/viewissues?type=1&amp;states=9"/>
-            <forward name="mainMenu-problem-delivered" path="/do/guest/viewissues?type=1&amp;states=8"/>
-            <forward name="mainMenu-problem-waiting" path="/do/guest/viewissues?type=1&amp;states=13"/>
+            <forward name="mainMenu-issues" path="/do/guest/viewopenissues"/>
+            <forward name="mainMenu-errorissues" path="/do/guest/viewopenissues?type=1"/>
+            <forward name="mainMenu-featureissues" path="/do/guest/viewopenissues?type=2"/>
+            <forward name="mainMenu-deliveredissues" path="/do/guest/viewissues?states=8"/>
+            <forward name="mainMenu-closedissues" path="/do/guest/viewissues?states=8&amp;states=9"/>
 
-            <forward name="mainMenu-feature" path="/do/guest/viewissues?type=2"/>
-            <forward name="mainMenu-feature-new" path="/do/guest/viewissues?type=2&amp;states=1"/>
-            <forward name="mainMenu-feature-analyzing" path="/do/guest/viewissues?type=2&amp;states=2&amp;states=3&amp;states=11"/>
-            <forward name="mainMenu-feature-correcting" path="/do/guest/viewissues?type=2&amp;states=4&amp;states=5&amp;states=10"/>
-            <forward name="mainMenu-feature-testing" path="/do/guest/viewissues?type=2&amp;states=6&amp;states=7&amp;states=12"/>
-            <forward name="mainMenu-feature-rejected" path="/do/guest/viewissues?type=2&amp;states=9"/>
-            <forward name="mainMenu-feature-delivered" path="/do/guest/viewissues?type=2&amp;states=8"/>
-            <forward name="mainMenu-feature-waiting" path="/do/guest/viewissues?type=2&amp;states=13"/>
             <forward name="success" path=".guest.index"/>
         </action>
         <action

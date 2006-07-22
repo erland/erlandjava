@@ -41,9 +41,8 @@ public class LoadMenuApplicationsAction extends BaseAction {
         if(nativeLanguage!=null && nativeLanguage.equals(getLocale(request).getLanguage())) {
             useEnglish = false;
         }
-        QueryFilter filter = new QueryFilter("allwithissuesforuser");
+        QueryFilter filter = getQueryFilter(form,request);
         filter.setAttribute("type",Arrays.asList(new Integer[] {Issue.TYPE_PROBLEM,Issue.TYPE_FEATURE}));
-        filter.setAttribute("user",request.getRemoteUser());
         filter.setAttribute("state",Arrays.asList(new Integer[] {
             IssueEvent.STATE_NEW,
             IssueEvent.STATE_ANALYZED,
@@ -116,6 +115,27 @@ public class LoadMenuApplicationsAction extends BaseAction {
         request.getSession().setAttribute("menuFeatureIssuesApplicationsPB", pb);
 
         filter.setAttribute("type",Arrays.asList(new Integer[] {Issue.TYPE_FEATURE,Issue.TYPE_PROBLEM}));
+        filter.setAttribute("state",Arrays.asList(new Integer[] {IssueEvent.STATE_DELIVERED}));
+        entities = getEnvironment().getEntityStorageFactory().getStorage("issuetracking-application").search(filter);
+        pb = new MenuItemPB[entities.length];
+        forward = mapping.findForward("view-application-delivered-issues");
+        for (int i = 0; i < entities.length; i++) {
+            Application application = (Application) entities[i];
+            pb[i] = new MenuItemPB();
+            pb[i].setId(application.getName());
+            if(useEnglish) {
+                pb[i].setName(application.getTitleEnglish());
+            }else {
+                pb[i].setName(application.getTitleNative());
+            }
+            pb[i].setUser(request.getRemoteUser());
+            if(forward!=null) {
+                pb[i].setPath(forward.getPath());
+            }
+        }
+        request.getSession().setAttribute("menuClosedIssuesApplicationsPB", pb);
+
+        filter.setAttribute("type",Arrays.asList(new Integer[] {Issue.TYPE_FEATURE,Issue.TYPE_PROBLEM}));
         filter.setAttribute("state",Arrays.asList(new Integer[] {IssueEvent.STATE_REJECTED,IssueEvent.STATE_DELIVERED}));
         entities = getEnvironment().getEntityStorageFactory().getStorage("issuetracking-application").search(filter);
         pb = new MenuItemPB[entities.length];
@@ -156,5 +176,10 @@ public class LoadMenuApplicationsAction extends BaseAction {
             }
         }
         request.getSession().setAttribute("menuUserApplicationsPB", pb);
+    }
+    protected QueryFilter getQueryFilter(ActionForm form, HttpServletRequest request) {
+        QueryFilter filter = new QueryFilter("allwithissuesforuser");
+        filter.setAttribute("user",request.getRemoteUser());
+        return filter;
     }
 }
