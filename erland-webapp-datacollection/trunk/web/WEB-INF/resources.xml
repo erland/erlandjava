@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<resources>
+    <entities>
+        <entity id="common-resource" reference="resource:erland/webapp/common/resource.xml"/>
+        <entity id="common-metadatafielddescription" reference="descriptiontag:erland/webapp/common/descriptiontag.xml"/>
+        <entity id="usermgmt-user" reference="user:erland/webapp/usermgmt/user.xml"/>
+        <entity id="usermgmt-userapplicationrole" reference="userapplicationrole:erland/webapp/usermgmt/userapplicationrole.xml"/>
+        <entity id="usermgmt-userinfo" reference="userinfo:erland/webapp/usermgmt/userinfo.xml"/>
+        <entity id="datacollection-useraccount" reference="useraccount:erland/webapp/datacollection/entity/account/useraccount.xml"/>
+        <entity id="datacollection-collection" reference="collection:erland/webapp/datacollection/entity/collection/collection.xml"/>
+        <entity id="datacollection-entry" reference="entry:erland/webapp/datacollection/entity/entry/entry.xml"/>
+        <entity id="datacollection-data" reference="data:erland/webapp/datacollection/entity/entry/data/data.xml"/>
+        <entity id="datacollection-entryhistory" reference="entryhistory:erland/webapp/datacollection/entity/entry/entryhistory.xml"/>
+        <entity id="datacollection-datahistory" reference="datahistory:erland/webapp/datacollection/entity/entry/data/datahistory.xml"/>
+    </entities>
+</resources>
