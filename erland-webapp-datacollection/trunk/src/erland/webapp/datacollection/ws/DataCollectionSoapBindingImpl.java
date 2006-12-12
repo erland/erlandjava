@@ -243,7 +243,7 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
                 if (!collection.getUsername().equals(username)) {
                     throw new RemoteException("Collection doesnt match username");
                 }
-                LOG.info(data);
+                LOG.debug(data);
                 StringReader reader = new StringReader(data);
                 if (!handleAddDataEntry(collection.getId(), reader, anonymous, overwrite!=0)) {
                     throw new RemoteException("Error creating entry");
