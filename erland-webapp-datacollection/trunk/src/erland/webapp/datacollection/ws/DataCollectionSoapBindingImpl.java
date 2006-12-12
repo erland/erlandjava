@@ -188,7 +188,7 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
         }
     }
 
-    public java.lang.String addDataEntry(java.lang.String username, java.lang.String password, java.lang.String application, int collectionId, java.lang.String data) throws java.rmi.RemoteException {
+    public java.lang.String addDataEntry(java.lang.String username, java.lang.String password, java.lang.String application, int collectionId, int overwrite, java.lang.String data) throws java.rmi.RemoteException {
         try {
             MessageContext context = MessageContext.getCurrentContext();
             HttpServletRequest request = (HttpServletRequest) context.getProperty("transport.http.servletRequest");
@@ -245,7 +245,7 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
                 }
                 LOG.info(data);
                 StringReader reader = new StringReader(data);
-                if (!handleAddDataEntry(collection.getId(), reader, anonymous)) {
+                if (!handleAddDataEntry(collection.getId(), reader, anonymous, overwrite!=0)) {
                     throw new RemoteException("Error creating entry");
                 }
                 return "";
@@ -280,7 +280,7 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
         return user == null;
     }
 
-    public boolean handleAddDataEntry(Integer collectionId, Reader reader, boolean anonymous) throws java.rmi.RemoteException {
+    public boolean handleAddDataEntry(Integer collectionId, Reader reader, boolean anonymous, boolean overwrite) throws java.rmi.RemoteException {
         SAXReader saxReader = new SAXReader();
         try {
             Document document = saxReader.read(reader);
@@ -312,7 +312,7 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
                         throw new RemoteException("Unable to create new entry");
                     }
                     entryId = entry.getId();
-                } else {
+                } else if(overwrite) {
                     Entry entry = ((Entry) entities[0]);
                     EntryHelper.storeHistory(WebAppEnvironmentPlugin.getEnvironment(), entry.getId());
                     entry.setTitle(title);
@@ -322,6 +322,8 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
                         throw new RemoteException("Unable to update existing entry");
                     }
                     entryId = entry.getId();
+                } else {
+                    throw new RemoteException("An entry with this unique identifier already exist, change the identifier or choose to overwrite the existing");
                 }
                 List list = entryNode.selectNodes("data");
                 LOG.info("Found " + list.size() + " data elements");

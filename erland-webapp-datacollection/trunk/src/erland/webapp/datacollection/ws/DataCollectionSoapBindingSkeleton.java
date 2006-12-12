@@ -138,6 +138,7 @@ public class DataCollectionSoapBindingSkeleton implements erland.webapp.datacoll
             new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "password"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false),
             new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "application"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false),
             new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "collectionId"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false),
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "overwrite"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false),
             new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "data"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false),
         };
         _oper = new org.apache.axis.description.OperationDesc("addDataEntry", _params, new javax.xml.namespace.QName("", "addDataEntryReturn"));
@@ -198,8 +199,8 @@ public class DataCollectionSoapBindingSkeleton implements erland.webapp.datacoll
         return ret;
     }
 
-    public String addDataEntry(String in0, String in1, String in2, int in3, String in4) throws java.rmi.RemoteException {
-        java.lang.String ret = impl.addDataEntry(in0, in1, in2, in3, in4);
+    public String addDataEntry(String in0, String in1, String in2, int in3, int in4, String in5) throws java.rmi.RemoteException {
+        java.lang.String ret = impl.addDataEntry(in0, in1, in2, in3, in4, in5);
         return ret;
     }
 
