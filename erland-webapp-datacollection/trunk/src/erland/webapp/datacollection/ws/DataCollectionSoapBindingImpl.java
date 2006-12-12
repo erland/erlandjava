@@ -228,7 +228,7 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
                     if (entities.length > 0) {
                         collection = (Collection) entities[0];
                     } else {
-                        LOG.info("Got no hit for " + username + ", " + application);
+                        LOG.debug("Got no hit for " + username + ", " + application);
                         collection = (Collection) WebAppEnvironmentPlugin.getEnvironment().getEntityFactory().create("datacollection-collection");
                         collection.setUsername(username);
                         collection.setDescription("Collection for " + application);
@@ -326,11 +326,11 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
                     throw new RemoteException("An entry with this unique identifier already exist, change the identifier or choose to overwrite the existing");
                 }
                 List list = entryNode.selectNodes("data");
-                LOG.info("Found " + list.size() + " data elements");
+                LOG.debug("Found " + list.size() + " data elements");
                 int i = 1;
                 for (Iterator iter = list.iterator(); iter.hasNext();) {
                     Element dataElement = (Element) iter.next();
-                    LOG.info("Parsing data " + i);
+                    LOG.debug("Parsing data " + i);
 
                     element = dataElement.selectSingleNode("type");
                     String type = element.getText();
