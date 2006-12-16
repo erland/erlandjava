@@ -41,4 +41,8 @@ public class SBObligationConnection extends SBConnection {
     public String getName() {
         return getEnvironment().getResources().getParameter("brokers.sb_obligation.name");
     }
+
+    protected String getBrokerId() {
+        return "sb_obligation";
+    }
 }

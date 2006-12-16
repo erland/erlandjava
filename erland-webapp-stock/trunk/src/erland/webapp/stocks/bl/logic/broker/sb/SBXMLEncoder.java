@@ -37,7 +37,7 @@ public class SBXMLEncoder {
         }
         return logObject;
     }
-    static String encodeStockData(BufferedReader data, int rateColumn) {
+    static String encodeStockData(BufferedReader data, String stockName, int rateColumn) {
         String out="";
         try {
             LOG.debug("getXMLData start "+System.currentTimeMillis());
@@ -47,8 +47,7 @@ public class SBXMLEncoder {
             }
             LOG.debug("getXMLData stop "+System.currentTimeMillis());
             if(xmlData!=null) {
-                SBXMLParser parser = new SBXMLParser(rateColumn);
-                //System.out.println(xmlData);
+                SBXMLParser parser = new SBXMLParser(stockName,rateColumn);
                 if(XMLParser.getInstance().parse(xmlData,parser)) {
                     XMLNode element = parser.getData();
                     out = element.toString(true);
@@ -64,32 +63,42 @@ public class SBXMLEncoder {
     private static String getXMLData(BufferedReader data) throws IOException {
         StringBuffer out = new StringBuffer(200000);
         String line = data.readLine();
-        boolean bFound = false;
-        while(line!=null && !bFound) {
-            if(line.indexOf("xml")>=0) {
-                bFound = true;
-                break;
+        boolean bFound1 = false;
+        boolean bFound2 = false;
+        while(line!=null && !bFound2) {
+            if(line.indexOf("table")>=0) {
+                if(bFound1) {
+                    bFound2 = true;
+                    break;
+                }else {
+                    bFound1 = true;
+                }
             }
             line = data.readLine();
         }
-        if(!bFound) {
+        if(!bFound2) {
             return null;
         }
         //out.append(line);
         out.append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
         //line = data.readLine();
-        bFound = false;
+        boolean bFound = false;
         while(line!=null && !bFound) {
             out.append(line);
-            if(line.startsWith("</table") || line.startsWith("/TABLE")) {
+            if(line.startsWith("</table")) {
                 bFound = true;
             }
             line = data.readLine();
         }
         if(bFound) {
-            return out.toString();
+            return replaceEntities(out.toString());
         }else {
             return null;
         }
+    }
+    private static String replaceEntities(String data) {
+        data = data.replace("&auml;","a");
+        data = data.replace("&ouml;","o");
+        return data;
     }
 }

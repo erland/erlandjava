@@ -34,18 +34,18 @@ public class SBXMLParser implements XMLParserHandlerInterface {
     private StringBuffer text;
     private Vector vector = new Vector();
     private XMLNode current = null;
-    private boolean bNameFound;
     private boolean bCatchCharacters;
-    private boolean bNameFinished;
     private boolean bStockRateCaptionsFound;
     private boolean bFirstStockRateFound;
     private int fieldCounter;
     private StringBuffer date;
     private boolean bStockRateCaptionsFinished;
     private int rateColumn;
+    private String stockName;
 
-    public SBXMLParser(int rateColumn) {
+    public SBXMLParser(String stockName, int rateColumn) {
         this.rateColumn = rateColumn;
+        this.stockName = stockName;
     }
     public XMLNode getData() {
         if(vector.size()>0) {
@@ -63,17 +63,18 @@ public class SBXMLParser implements XMLParserHandlerInterface {
     }
 
     public void startElement(String name, Map attributes) {
-        if(!bNameFound && name.equals("nobr")) {
-            bNameFound = true;
-            bCatchCharacters = true;
-        }else if(bNameFound && !bStockRateCaptionsFound && name.equals("TR")) {
+        if(!bStockRateCaptionsFound && name.equals("tr")) {
             bStockRateCaptionsFound = true;
-        }else if(bStockRateCaptionsFinished && !bFirstStockRateFound && name.equals("TR")) {
+            Map stockAttrs = new HashMap();
+            stockAttrs.put("name",stockName);
+            current = new XMLNode("stock",stockAttrs);
+            vector.addElement(current);
+        }else if(bStockRateCaptionsFinished && !bFirstStockRateFound && name.equals("tr")) {
             bFirstStockRateFound = true;
             fieldCounter = 0;
-        }else if(bFirstStockRateFound && name.equals("TR")) {
+        }else if(bFirstStockRateFound && name.equals("tr")) {
             fieldCounter = 0;
-        }else if(bFirstStockRateFound && name.equals("TD")) {
+        }else if(bFirstStockRateFound && name.equals("td")) {
             fieldCounter++;
             if(fieldCounter==1 || fieldCounter==rateColumn) {
                 bCatchCharacters = true;
@@ -83,26 +84,10 @@ public class SBXMLParser implements XMLParserHandlerInterface {
     }
 
     public void endElement(String name) {
-        if(bNameFound && !bNameFinished && name.equals("nobr")) {
-            bNameFinished = true;
-            bCatchCharacters = false;
-            Map stockAttrs = new HashMap();
-            int lastNameChar = text.lastIndexOf(",");
-            if(lastNameChar>0) {
-                int lastNameChar2 = text.lastIndexOf(",",lastNameChar-1);
-                if(lastNameChar2>0) {
-                    lastNameChar=lastNameChar2;
-                }
-                text.setLength(lastNameChar);
-            }
-            stockAttrs.put("name",text.toString());
-            if(LOG.isDebugEnabled()) LOG.debug("Got name: "+text.toString());
-            current = new XMLNode("stock",stockAttrs);
-            vector.addElement(current);
-        }else if(bStockRateCaptionsFound && name.equals("TR")) {
+        if(bStockRateCaptionsFound && name.equals("tr")) {
             bStockRateCaptionsFinished = true;
             if(LOG.isDebugEnabled()) LOG.debug("Got captions");
-        }else if(bFirstStockRateFound && name.equals("TD")) {
+        }else if(bFirstStockRateFound && name.equals("td")) {
             if(fieldCounter==1) {
                 date.append(text);
                 bCatchCharacters = false;

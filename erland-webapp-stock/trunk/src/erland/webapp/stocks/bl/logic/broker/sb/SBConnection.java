@@ -19,11 +19,14 @@ package erland.webapp.stocks.bl.logic.broker.sb;
  */
 
 import erland.webapp.stocks.bl.logic.broker.BrokerConnectionInterface;
+import erland.webapp.stocks.bl.logic.storage.StockStorage;
 import erland.webapp.stocks.bl.entity.BrokerStockEntry;
 import erland.webapp.stocks.bl.entity.BrokerStockEntry;
+import erland.webapp.stocks.bl.service.BrokerManagerInterface;
 import erland.webapp.common.WebAppEnvironmentInterface;
 import erland.webapp.common.QueryFilter;
 import erland.webapp.common.EntityInterface;
+import erland.webapp.common.act.WebAppEnvironmentPlugin;
 
 import java.net.URL;
 import java.net.URLConnection;
@@ -53,7 +56,7 @@ public class SBConnection implements BrokerConnectionInterface {
         return 1;
     }
     protected int getRateColumn() {
-        return 7;
+        return 2;
     }
     public String getStock(Date startDate, String fondPrefix) {
         try {
@@ -61,12 +64,12 @@ public class SBConnection implements BrokerConnectionInterface {
             //URL url = new URL("http://www.google.com/search?q=erland");
             //URL url =new URL("http://www.stockholmsborsen.se/stocklist.asp?lang=swe&list=SSE43&group=Kursnoteringar&listName=O-listan, samtliga");
             //URL url = new URL("http://www.stockholmsborsen.se/getHistory.asp?isin=SE0000105116");
+            // http://www.omxgroup.com/nordicexchange/marknaden/statistikanalys/Historiska+priser/functions/shares_excel/?print=true&linkparams=SubSystem%3DHistory%26Action%3DGetDataSeries%26Exchange%3DNMF%26hi.a%3D0,1,2,4,8,9,10,11,12%26FromDate%3D2006-12-01%26ToDate%3D2006-12-15%26Instrument%3DSSE101
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            URL url = new URL("http://www.se.omxgroup.com/slutkurser/excel.asp?"+
-                    "InstrumentID="+fondPrefix+
-                    "&InstrumentType="+getInstrumentType()+
-                    "&From="+dateFormat.format(startDate)+
-                    "&todate="+dateFormat.format(new Date()));
+            URL url = new URL("http://www.omxgroup.com/nordicexchange/marknaden/statistikanalys/Historiska+priser/functions/shares_excel/?print=true&linkparams=SubSystem%3DHistory%26Action%3DGetDataSeries%26Exchange%3DNMF%26hi.a%3D0,1,2,4,8,9,10,11,12%26"+
+                    "FromDate%3D"+dateFormat.format(startDate)+
+                    "%26ToDate%3D"+dateFormat.format(new Date())+
+                    "%26Instrument%3D"+fondPrefix);
             URLConnection conn = url.openConnection();
             conn.setDoInput(true);
             conn.setDoOutput(false);
@@ -80,13 +83,12 @@ public class SBConnection implements BrokerConnectionInterface {
             conn.setRequestProperty("User-Agent", s);
             conn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
             BufferedReader inSB = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            /*
-            String line;
-            while((line = inSB.readLine())!=null) {
-                System.out.println(line);
-            }
-            */
-            String result = SBXMLEncoder.encodeStockData(inSB,getRateColumn());
+            //String line;
+            //while((line = inSB.readLine())!=null) {
+            //    System.out.println(line);
+            //}
+            BrokerManagerInterface brokerManager = (BrokerManagerInterface) WebAppEnvironmentPlugin.getEnvironment().getServiceFactory().create("stock-brokermanager");
+            String result = SBXMLEncoder.encodeStockData(inSB, brokerManager.getStockName(getBrokerId(),fondPrefix), getRateColumn());
             LOG.trace(result);
             inSB.close();
             return result;
@@ -105,6 +107,9 @@ public class SBConnection implements BrokerConnectionInterface {
 
     public String getName() {
         return environment.getResources().getParameter("brokers.sb_aktie.name");
+    }
+    protected String getBrokerId() {
+        return "sb_aktie";
     }
     /*
     public static void main(String[] args) {
