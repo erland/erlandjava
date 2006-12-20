@@ -27,9 +27,11 @@ import erland.webapp.datacollection.fb.entry.EntryFB;
 import erland.webapp.datacollection.fb.entry.EntryPB;
 import erland.webapp.datacollection.fb.entry.EntryHistoryPB;
 import erland.webapp.datacollection.fb.entry.data.DataPB;
+import erland.webapp.datacollection.fb.collection.CollectionPB;
 import erland.webapp.datacollection.entity.entry.Entry;
 import erland.webapp.datacollection.entity.entry.EntryHistory;
 import erland.webapp.datacollection.entity.entry.data.Data;
+import erland.webapp.datacollection.entity.collection.Collection;
 import erland.util.StringUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;
@@ -53,6 +55,7 @@ public class ViewEntryInfoAction extends BaseAction {
         template.setId(fb.getId());
         Entry entry = (Entry) getEnvironment().getEntityStorageFactory().getStorage("datacollection-entry").load(template);
         EntryPB pb = new EntryPB();
+        CollectionPB pbCollection = new CollectionPB();
         if (entry != null) {
             PropertyUtils.copyProperties(pb, entry);
             Map parameters = new HashMap();
@@ -143,6 +146,12 @@ public class ViewEntryInfoAction extends BaseAction {
                     pb.setHistoryEntries(historyPB);
                 }
             }
+
+            Collection collectionTemplate = (Collection) getEnvironment().getEntityFactory().create("datacollection-collection");
+            collectionTemplate.setId(entry.getCollection());
+            Collection collection = (Collection) getEnvironment().getEntityStorageFactory().getStorage("datacollection-collection").load(collectionTemplate);
+            PropertyUtils.copyProperties(pbCollection, collection);
+            request.setAttribute("collectionPB",pbCollection);
         }
         request.setAttribute("entryPB",pb);
     }
