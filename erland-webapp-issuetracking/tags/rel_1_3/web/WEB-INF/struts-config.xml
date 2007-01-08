@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE struts-config PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+    "http://struts.apache.org/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+    <form-beans>
+        <form-bean name="mainMenuFB" type="erland.webapp.common.fb.MenuExpandCollapseFB"/>
+        <form-bean name="selectUserFB" type="erland.webapp.issuetracking.fb.account.SelectUserFB"/>
+        <form-bean name="selectApplicationFB" type="erland.webapp.issuetracking.fb.application.SelectApplicationFB"/>
+        <form-bean name="newUserAccountFB" type="erland.webapp.issuetracking.fb.account.AccountFB"/>
+        <form-bean name="editUserAccountFB" type="erland.webapp.issuetracking.fb.account.AccountFB"/>
+        <form-bean name="searchIssueFB" type="erland.webapp.issuetracking.fb.issue.SearchIssueFB"/>
+        <form-bean name="viewIssueFB" type="erland.webapp.issuetracking.fb.issue.IssueFB"/>
+        <form-bean name="editIssueFB" type="erland.webapp.issuetracking.fb.issue.IssueFB"/>
+        <form-bean name="editIssueEventFB" type="erland.webapp.issuetracking.fb.issue.IssueEventFB"/>
+        <form-bean name="editApplicationFB" type="erland.webapp.issuetracking.fb.application.ApplicationFB"/>
+    </form-beans>
+
+    <global-forwards>
+        <forward name="index" path="/do/index"/>
+    </global-forwards>
+
+    <action-mappings>
+        <action
+            path="/index"
+            type="erland.webapp.issuetracking.act.application.SearchOfficialApplicationsAction">
+
+            <forward name="success" path=".index"/>
+        </action>
+
+        <action
+            path="/guest/registeruser"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter=".user.newuseraccount">
+        </action>
+
+        <action
+            path="/guest/newuseraccount"
+            type="erland.webapp.issuetracking.act.account.NewUserAccountAction"
+            input=".user.newuseraccount"
+            name="newUserAccountFB">
+
+            <forward name="success" path="/do/user/viewuseraccounts"/>
+        </action>
+        <action
+            path="/user/home"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/do/user/loadmenu">
+        </action>
+        <action
+            path="/guest/home"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/do/guest/loadmenu">
+        </action>
+        <action
+            path="/user/loadmenu"
+            type="erland.webapp.issuetracking.act.application.LoadMenuApplicationsAction">
+
+            <forward name="view-application-issues" path="/do/user/viewopenissues?application={id}"/>
+            <forward name="view-application-error-issues" path="/do/user/viewopenissues?application={id}&amp;type=1"/>
+            <forward name="view-application-feature-issues" path="/do/user/viewopenissues?application={id}&amp;type=2"/>
+            <forward name="view-application-delivered-issues" path="/do/user/viewissues?application={id}&amp;states=8"/>
+            <forward name="view-application-closed-issues" path="/do/user/viewissues?application={id}&amp;states=8&amp;states=9"/>
+            <forward name="view-application" path="/do/user/viewapplication?name={id}"/>
+            <forward name="success" path="/do/user/viewopenissues"/>
+        </action>
+        <action
+            path="/guest/loadmenu"
+            type="erland.webapp.issuetracking.act.application.LoadOfficialMenuApplicationsAction"
+            name="selectApplicationFB">
+
+            <forward name="view-application-issues" path="/do/guest/viewopenissues?application={id}"/>
+            <forward name="view-application-error-issues" path="/do/guest/viewopenissues?application={id}&amp;type=1"/>
+            <forward name="view-application-feature-issues" path="/do/guest/viewopenissues?application={id}&amp;type=2"/>
+            <forward name="view-application-delivered-issues" path="/do/guest/viewissues?application={id}&amp;states=8"/>
+            <forward name="view-application-closed-issues" path="/do/guest/viewissues?application={id}&amp;states=8&amp;states=9"/>
+            <forward name="view-application" path="/do/guest/viewapplication?name={id}"/>
+            <forward name="success" path="/do/guest/viewopenissues"/>
+        </action>
+        <action
+            path="/guest/menu"
+            type="erland.webapp.common.act.MenuExpandCollapseAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu&amp;menuItemIdParameter=id">
+
+            <forward name="mainMenu-newissue" path="/do/guest/newissue"/>
+
+            <forward name="mainMenu-issues" path="/do/guest/viewopenissues"/>
+            <forward name="mainMenu-errorissues" path="/do/guest/viewopenissues?type=1"/>
+            <forward name="mainMenu-featureissues" path="/do/guest/viewopenissues?type=2"/>
+            <forward name="mainMenu-deliveredissues" path="/do/guest/viewissues?states=8"/>
+            <forward name="mainMenu-closedissues" path="/do/guest/viewissues?states=8&amp;states=9"/>
+
+            <forward name="success" path=".guest.index"/>
+        </action>
+        <action
+            path="/user/menu"
+            type="erland.webapp.common.act.MenuExpandCollapseAction"
+            name="mainMenuFB"
+            validate="false"
+            parameter="menuName=mainMenu&amp;menuItemIdParameter=id">
+
+            <forward name="mainMenu-newissue" path="/do/user/newissue"/>
+            <forward name="mainMenu-issues" path="/do/user/viewopenissues"/>
+            <forward name="mainMenu-errorissues" path="/do/user/viewopenissues?type=1"/>
+            <forward name="mainMenu-featureissues" path="/do/user/viewopenissues?type=2"/>
+            <forward name="mainMenu-closedissues" path="/do/user/viewissues?states=8&amp;states=9"/>
+            <forward name="mainMenu-users" path="/do/user/viewuseraccounts"/>
+            <forward name="mainMenu-preferences" path="/do/user/viewuseraccount"/>
+            <forward name="success" path=".user.index"/>
+        </action>
+
+        <action
+            path="/user/viewuseraccount"
+            type="erland.webapp.issuetracking.act.account.ViewUserAccountAction"
+            name="editUserAccountFB"
+            validate="false">
+
+            <forward name="success" path=".user.edituseraccount"/>
+        </action>
+
+        <action
+            path="/user/viewotheruseraccount"
+            type="erland.webapp.issuetracking.act.account.ViewOtherUserAccountAction"
+            name="editUserAccountFB"
+            validate="false">
+
+            <forward name="success" path=".user.edituseraccount"/>
+        </action>
+
+        <action
+            path="/user/edituseraccount"
+            type="erland.webapp.issuetracking.act.account.EditUserAccountAction"
+            name="editUserAccountFB"
+            input=".user.edituseraccount">
+
+            <forward name="failure" path=".user.edituseraccount"/>
+            <forward name="success" path="/do/user/home"/>
+        </action>
+
+        <action
+            path="/user/viewuseraccounts"
+            type="erland.webapp.issuetracking.act.account.SearchUserAccountsAction">
+
+            <forward name="success" path=".user.viewuseraccounts"/>
+        </action>
+
+
+        <action
+            path="/user/newissueevent"
+            type="erland.webapp.issuetracking.act.issue.NewIssueEventAction"
+            name="editIssueEventFB"
+            validate="false">
+
+            <forward name="success" path=".user.editissueevent"/>
+        </action>
+
+        <action
+            path="/user/editissueevent"
+            type="erland.webapp.issuetracking.act.issue.EditIssueEventAction"
+            name="editIssueEventFB"
+            input=".user.editissueevent">
+
+            <forward name="failure" path=".user.editissueevent"/>
+            <forward name="success" path="/do/user/home"/>
+        </action>
+
+        <action
+            path="/guest/newissue"
+            type="erland.webapp.issuetracking.act.issue.NewOfficialIssueAction"
+            name="editIssueFB"
+            validate="false">
+
+            <forward name="success" path=".guest.editissue"/>
+        </action>
+
+        <action
+            path="/guest/newissuewithdata"
+            type="erland.webapp.issuetracking.act.issue.NewOfficialIssueWithDataAction"
+            name="editIssueFB"
+            validate="false">
+
+            <forward name="success" path=".guest.editissue"/>
+        </action>
+
+        <action
+            path="/guest/editissue"
+            type="erland.webapp.issuetracking.act.issue.EditIssueAction"
+            name="editIssueFB"
+            input=".guest.editissue">
+
+            <forward name="failure" path=".guest.editissue"/>
+            <forward name="success" path="/do/guest/home"/>
+        </action>
+
+        <action
+            path="/user/newissue"
+            type="erland.webapp.issuetracking.act.issue.NewIssueAction"
+            name="editIssueFB"
+            validate="false">
+
+            <forward name="success" path=".user.editissue"/>
+        </action>
+
+        <action
+            path="/user/editissue"
+            type="erland.webapp.issuetracking.act.issue.EditIssueAction"
+            name="editIssueFB"
+            input=".user.editissue">
+
+            <forward name="failure" path=".user.editissue"/>
+            <forward name="success" path="/do/user/home"/>
+        </action>
+
+        <action
+            path="/user/viewopenissues"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/do/user/viewissues?states=1&amp;states=2&amp;states=3&amp;states=4&amp;states=5&amp;states=6&amp;states=7&amp;states=10&amp;states=11&amp;states=12&amp;states=13">
+        </action>
+
+        <action
+            path="/guest/viewopenissues"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/do/guest/viewissues?states=1&amp;states=2&amp;states=3&amp;states=4&amp;states=5&amp;states=6&amp;states=7&amp;states=10&amp;states=11&amp;states=12&amp;states=13">
+        </action>
+
+        <action
+            path="/user/viewissues"
+            type="erland.webapp.issuetracking.act.issue.SearchIssuesAction"
+            name="searchIssueFB"
+            validate="false">
+
+            <forward name="view-issue-link" path="/do/user/viewissue?id={issue}"/>
+            <forward name="update-issue-link" path="/do/user/newissueevent?issueId={issue}"/>
+            <forward name="success" path=".user.viewissues"/>
+        </action>
+
+        <action
+            path="/guest/viewissues"
+            type="erland.webapp.issuetracking.act.issue.SearchOfficialIssuesAction"
+            name="searchIssueFB"
+            validate="false">
+
+            <forward name="view-issue-link" path="/do/guest/viewissue?application={application}&amp;id={issue}"/>
+            <forward name="success" path=".guest.viewissues"/>
+        </action>
+
+        <action
+            path="/guest/viewissue"
+            type="erland.webapp.issuetracking.act.issue.ViewOfficialIssueAction"
+            name="viewIssueFB"
+            validate="false">
+
+            <forward name="failure" path=".guest.index"/>
+            <forward name="success" path=".guest.viewissue"/>
+        </action>
+
+        <action
+            path="/user/viewissue"
+            type="erland.webapp.issuetracking.act.issue.ViewIssueAction"
+            name="viewIssueFB"
+            validate="false">
+
+            <forward name="update-issue-link" path="/do/user/newissueevent?issueId={issue}"/>
+            <forward name="failure" path=".guest.index"/>
+            <forward name="success" path=".user.viewissue"/>
+        </action>
+
+        <action
+            path="/user/newapplication"
+            type="org.apache.struts.actions.ForwardAction"
+            name="editApplicationFB"
+            validate="false"
+            parameter=".user.editapplication">
+        </action>
+
+        <action
+            path="/user/viewapplication"
+            type="erland.webapp.issuetracking.act.application.ViewApplicationAction"
+            name="editApplicationFB"
+            validate="false">
+
+            <forward name="success" path=".user.editapplication"/>
+        </action>
+
+        <action
+            path="/user/editapplication"
+            type="erland.webapp.issuetracking.act.application.EditApplicationAction"
+            name="editApplicationFB"
+            input=".user.editapplication">
+
+            <forward name="failure" path=".user.editapplication"/>
+            <forward name="success" path="/do/user/home"/>
+        </action>
+
+        <action
+            path="/logout"
+            type="erland.webapp.common.act.InvalidateSessionAction">
+            <forward name="success" path="/do/index"/>
+        </action>
+    </action-mappings>
+
+    <message-resources parameter="erland.webapp.issuetracking.resources.message" null="false"/>
+
+    <plug-in className="erland.webapp.common.act.WebAppEnvironmentPlugin">
+        <set-property
+            property="applicationName"
+            value="issuetracking"/>
+        <set-property
+            property="xmlParser"
+            value="erland.util.SAXXMLParser"/>
+    </plug-in>
+    <plug-in className="org.apache.struts.tiles.TilesPlugin">
+        <set-property property="definitions-config"
+            value="/WEB-INF/tiles-defs.xml"/>
+    </plug-in>
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property
+            property="pathnames"
+            value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    </plug-in>
+    <plug-in className="erland.webapp.common.act.HtmlEncoderPlugin">
+        <set-property property="replaceRoutines"
+            value="erland.webapp.common.html.HTMLBasicStringReplace,
+                   erland.webapp.common.html.HTMLLinkStringReplace,
+                   erland.webapp.common.html.HTMLBoldLinkStringReplace"/>
+    </plug-in>
+</struts-config>

@@ -1,0 +1,27 @@
+<entity id="useraccount">
+    <class>erland.webapp.issuetracking.entity.account.UserAccount</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/issuetracking</datasource>
+        <table>useraccounts</table>
+        <fields>
+            <field id="username">
+                <column>username</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="description">
+                <column>description</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="all">
+                <querystring/>
+            </query>
+        </queries>
+    </data>
+</entity>

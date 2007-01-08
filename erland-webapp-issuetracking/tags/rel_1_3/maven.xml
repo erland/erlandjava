@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project default="all:build"
+    xmlns:ant="jelly:ant"
+    xmlns:j="jelly:core">
+
+	<postGoal name="dist:prepare-bin-filesystem">
+        <attainGoal name="war"/>
+        <!-- Remove Jars -->
+        <ant:delete file="${maven.dist.bin.assembly.dir}/${maven.final.name}.jar"/>
+        
+	    <!-- Copy Wars -->
+	    <ant:copy todir="${maven.dist.bin.assembly.dir}">
+	      <ant:fileset dir="${maven.build.dir}">
+	        <ant:include name="*.war"/>
+	      </ant:fileset>
+	    </ant:copy>
+
+	    <!-- Copy Database Files -->
+	    <ant:mkdir dir="${maven.dist.bin.assembly.dir}/${maven.database.src}"/>
+	    <ant:copy todir="${maven.dist.bin.assembly.dir}/${maven.database.src}">
+	      <ant:fileset dir="${maven.database.src}" />
+	    </ant:copy>
+	</postGoal>
+
+	<postGoal name="dist:prepare-src-filesystem">
+
+	    <!-- Copy WAR Source -->
+	    <ant:mkdir dir="${maven.dist.src.assembly.dir}/${maven.war.src}"/>
+	    <ant:copy todir="${maven.dist.src.assembly.dir}/${maven.war.src}">
+	      <ant:fileset dir="${maven.war.src}" />
+	    </ant:copy>
+
+	    <!-- Copy Database Files -->
+	    <ant:mkdir dir="${maven.dist.src.assembly.dir}/${maven.database.src}"/>
+	    <ant:copy todir="${maven.dist.src.assembly.dir}/${maven.database.src}">
+	      <ant:fileset dir="${maven.database.src}" />
+	    </ant:copy>
+
+	</postGoal>
+
+	<postGoal name="war:webapp">
+		<!-- copy validator-rules.xml to WEB-INF, war plugin does not do that automatically -->
+		<copy
+			file="${maven.repo.local}/struts/xmls/validator-rules-1.1.xml"
+			tofile="${maven.war.webapp.dir}/WEB-INF/validator-rules.xml" 
+		/>
+
+	    <copy file="${maven.war.src}/WEB-INF/web.xml" tofile="${maven.war.webapp.dir}/WEB-INF/web.xml" overwrite="true">
+	    	<filterset>
+      			<filter token="JSPSERVLETS" value=""/>
+    		</filterset>
+	    </copy>
+
+		<mkdir dir="${maven.build.dir}/jsp"/>
+	    <jspc srcdir="${maven.war.src}"
+	          destdir="${maven.build.dir}/jsp"
+	          package="${maven.war.jsp.package}"
+	          webinc="${maven.build.dir}/jsp/web.xml">
+
+          	<classpath>
+            	<path refid="maven.dependency.classpath"/>
+            	<pathelement path="${maven.build.dest}"/>
+          	</classpath>
+	        <webapp basedir="${maven.war.webapp.dir}"/>
+	    </jspc>
+	    <javac srcdir="${maven.build.dir}/jsp"
+	    	destdir="${maven.build.dir}/jsp">
+
+          <j:if test="${context.getVariable('maven.compile.target') != null}">
+            <ant:setProperty name="target" value="${maven.compile.target}" />
+          </j:if>
+          <j:if test="${context.getVariable('maven.compile.source') != null}">
+            <ant:setProperty name="source" value="${maven.compile.source}" />
+          </j:if>
+
+          	<classpath>
+            	<path refid="maven.dependency.classpath"/>
+            	<pathelement path="${maven.build.dest}"/>
+          	</classpath>
+        </javac>
+	    <copy todir="${maven.war.webapp.dir}/WEB-INF/classes">
+	      <fileset dir="${maven.build.dir}/jsp">
+	      	<include name="**/*.class"/>
+	      </fileset>
+	    </copy>
+	    <loadfile property="jspservlets" srcFile="${maven.build.dir}/jsp/web.xml"/>
+	    <copy file="${maven.war.src}/WEB-INF/web.xml" tofile="${maven.war.webapp.dir}/WEB-INF/web.xml" overwrite="true">
+	    	<filterset>
+      			<filter token="JSPSERVLETS" value="${jspservlets}"/>
+    		</filterset>
+	    </copy>
+	    <delete>
+	      <fileset dir="${maven.war.webapp.dir}">
+	      	<include name="**/*.jsp"/>
+	      	<exclude name="index.jsp"/>
+	      </fileset>
+	    </delete>
+	</postGoal>
+
+    <goal name="all:build">
+        <attainGoal name="jar:install"/>
+        <attainGoal name="war"/>
+	<!--
+        <ant:copy
+            file="${maven.war.build.dir}/${maven.war.final.name}"
+            toDir="${maven.webserver.webapp.dir}"
+            overwrite="true"/>
+
+        <unwar dest="${maven.webserver.webapp.dir}/${maven.webapp.name}"
+            src="${maven.war.build.dir}/${maven.war.final.name}"/>
+	-->
+    </goal>
+</project>
