@@ -33,6 +33,7 @@ import org.apache.struts.action.ActionMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.Arrays;
 
 public class EditIssueAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -43,6 +44,9 @@ public class EditIssueAction extends BaseAction {
         String username = request.getRemoteUser();
         if(username!=null) {
             issue.setUsername(username);
+        }else if(fb.getRandomKey()==null || !fb.getRandomKey().equals(fb.getRequestedRandomKey())) {
+            saveErrors(request, Arrays.asList(new String[]{"issuetracking.issue.edit.error.incorrect-random-key"}));
+            return;
         }
         getEnvironment().getEntityStorageFactory().getStorage("issuetracking-issue").store(issue);
         IssueEvent event = (IssueEvent) getEnvironment().getEntityFactory().create("issuetracking-issueevent");

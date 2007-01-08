@@ -33,6 +33,12 @@
     <tr><td><bean:message key="issuetracking.issue.edit.externalreference"/></td><td>
     <html:text property="externalReference" />
     </td></tr>
+    <tr><td><bean:message key="issuetracking.issue.edit.requestedrandomkey"/></td><td>
+    <html:hidden property="requestedRandomKey" /><bean:write name="editIssueFB" property="requestedRandomKey" />
+    </td></tr>
+    <tr><td><bean:message key="issuetracking.issue.edit.randomkey"/></td><td>
+    <html:text property="randomKey" />
+    </td></tr>
     <tr><td></td><td>
     <html:submit><bean:message key="issuetracking.buttons.save"/></html:submit>
     </td></tr>

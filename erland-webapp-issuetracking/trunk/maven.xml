@@ -100,6 +100,7 @@
     <goal name="all:build">
         <attainGoal name="jar:install"/>
         <attainGoal name="war"/>
+	<!--
         <ant:copy
             file="${maven.war.build.dir}/${maven.war.final.name}"
             toDir="${maven.webserver.webapp.dir}"
@@ -107,5 +108,6 @@
 
         <unwar dest="${maven.webserver.webapp.dir}/${maven.webapp.name}"
             src="${maven.war.build.dir}/${maven.war.final.name}"/>
+	-->
     </goal>
 </project>

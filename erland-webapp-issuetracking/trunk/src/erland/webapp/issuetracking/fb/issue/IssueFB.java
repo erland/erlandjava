@@ -37,6 +37,8 @@ public class IssueFB extends BaseFB {
     private String title;
     private String description;
     private String externalReference;
+    private String randomKey;
+    private String requestedRandomKey;
     private Integer type;
 
     public Integer getId() {
@@ -135,6 +137,22 @@ public class IssueFB extends BaseFB {
         this.externalReference = externalReference;
     }
 
+    public String getRandomKey() {
+        return randomKey;
+    }
+
+    public void setRandomKey(String randomKey) {
+        this.randomKey = randomKey;
+    }
+
+    public String getRequestedRandomKey() {
+        return requestedRandomKey;
+    }
+
+    public void setRequestedRandomKey(String requestedRandomKey) {
+        this.requestedRandomKey = requestedRandomKey;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         id = null;
@@ -147,5 +165,7 @@ public class IssueFB extends BaseFB {
         description = null;
         mail = null;
         externalReference = null;
+        randomKey = null;
+        requestedRandomKey = ""+(int)(1000000*Math.random());
     }
 }
