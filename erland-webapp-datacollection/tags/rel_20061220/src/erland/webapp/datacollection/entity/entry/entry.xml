@@ -1,0 +1,96 @@
+<entity id="entry">
+    <class>erland.webapp.datacollection.entity.entry.Entry</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/datacollection</datasource>
+        <table>entries</table>
+        <fields>
+            <field id="id">
+                <column>id</column>
+                <type>Integer</type>
+                <identity>true</identity>
+                <auto>true</auto>
+            </field>
+            <field id="collection">
+                <column>collection</column>
+                <type>Integer</type>
+            </field>
+            <field id="title">
+                <column>title</column>
+                <type>String</type>
+            </field>
+            <field id="description">
+                <column>description</column>
+                <type>String</type>
+            </field>
+            <field id="uniqueEntryId">
+                <column>uniqueentryid</column>
+                <type>String</type>
+            </field>
+            <field id="lastChanged">
+                <column>lastchanged</column>
+                <type>Timestamp</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="all">
+                <querystring/>
+                <orderstring>order by title</orderstring>
+            </query>
+            <query id="allforcollection">
+                <completequerystring>select entries.collection,entries.id,entries.uniqueentryid,entries.title,entries.description,case when ifnull(datas.url,'')='' then entries.lastchanged else null end as lastchanged from entries left join datas on entries.id=datas.entryid where entries.collection=? group by entries.id</completequerystring>
+                <fields>
+                    <field id="1">
+                        <field>collection</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+                <orderstring>order by title</orderstring>
+            </query>
+            <query id="allofficialforapplication">
+                <completequerystring>select entries.* from entries join collections on entries.collection=collections.id where collections.application=? and collections.official=1</completequerystring>
+                <fields>
+                    <field id="1">
+                        <field>application</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+                <orderstring>order by title</orderstring>
+            </query>
+            <query id="allforuniqueentryid">
+                <querystring>uniqueentryid=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>uniqueentryid</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforcollectionanduniqueid">
+                <querystring>collection=? and uniqueentryid=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>collection</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>uniqueid</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allfortitlelike">
+                <querystring>title=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>title</field>
+                        <type>String</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>

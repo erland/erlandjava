@@ -1,0 +1,1 @@
+<% response.setHeader("Content-Disposition","attachment; filename=\"" +request.getAttribute("filenamePB")+ "\";");%><%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %><tiles:insert attribute='body' />

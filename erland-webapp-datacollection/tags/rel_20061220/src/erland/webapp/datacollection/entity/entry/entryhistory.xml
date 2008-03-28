@@ -1,0 +1,55 @@
+<entity id="entryhistory">
+    <class>erland.webapp.datacollection.entity.entry.EntryHistory</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/datacollection</datasource>
+        <table>entries_history</table>
+        <fields>
+            <field id="historyId">
+                <column>historyid</column>
+                <type>Integer</type>
+                <identity>true</identity>
+                <auto>true</auto>
+            </field>
+            <field id="id">
+                <column>id</column>
+                <type>Integer</type>
+            </field>
+            <field id="collection">
+                <column>collection</column>
+                <type>Integer</type>
+            </field>
+            <field id="title">
+                <column>title</column>
+                <type>String</type>
+            </field>
+            <field id="description">
+                <column>description</column>
+                <type>String</type>
+            </field>
+            <field id="uniqueEntryId">
+                <column>uniqueentryid</column>
+                <type>String</type>
+            </field>
+            <field id="lastChanged">
+                <column>lastchanged</column>
+                <type>Timestamp</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="allforentry">
+                <querystring>id=?</querystring>
+                <fields>
+                    <field id="1">
+                        <field>entry</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+                <orderstring>order by historyid desc</orderstring>
+            </query>
+        </queries>
+    </data>
+</entity>

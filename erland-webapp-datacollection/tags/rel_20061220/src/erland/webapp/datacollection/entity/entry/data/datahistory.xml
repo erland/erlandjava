@@ -1,0 +1,58 @@
+<entity id="datahistory">
+    <class>erland.webapp.datacollection.entity.entry.data.DataHistory</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/datacollection</datasource>
+        <table>datas_history</table>
+        <fields>
+            <field id="historyId">
+                <column>historyid</column>
+                <type>Integer</type>
+                <identity>true</identity>
+                <auto>true</auto>
+            </field>
+            <field id="entryHistoryId">
+                <column>entryhistoryid</column>
+                <type>Integer</type>
+            </field>
+            <field id="entryId">
+                <column>entryid</column>
+                <type>Integer</type>
+            </field>
+            <field id="id">
+                <column>id</column>
+                <type>Integer</type>
+            </field>
+            <field id="type">
+                <column>type</column>
+                <type>String</type>
+            </field>
+            <field id="content">
+                <column>content</column>
+                <type>String</type>
+            </field>
+            <field id="url">
+                <column>url</column>
+                <type>String</type>
+            </field>
+        </fields>
+        <queries>
+            <query id="all">
+                <querystring/>
+            </query>
+            <query id="allforhistoryentry">
+                <querystring>entryhistoryid=?</querystring>
+                <orderstring>order by type</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>historyentry</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+        </queries>
+    </data>
+</entity>
