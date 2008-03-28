@@ -60,10 +60,14 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
     private static Log LOG = LogFactory.getLog(DataCollectionSoapBindingImpl.class);
 
     public String apiVersion() throws RemoteException {
-        return "1.0";
+        return "1.1";
     }
 
     public java.lang.String getEntries(java.lang.String application) throws java.rmi.RemoteException {
+        return getVersionedEntries(application,1);
+    }
+
+    public java.lang.String getVersionedEntries(java.lang.String application,int version) throws java.rmi.RemoteException {
         MessageContext context = MessageContext.getCurrentContext();
         HttpServletRequest request = (HttpServletRequest) context.getProperty("transport.http.servletRequest");
         try {
@@ -71,7 +75,7 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
             if (request.getServerPort() != 80) {
                 port = ":" + request.getServerPort();
             }
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new URL("http://" + request.getServerName() + port + request.getContextPath() + "/do/ws/getallentries?application=" + StringUtil.asEmpty(application)).openStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new URL("http://" + request.getServerName() + port + request.getContextPath() + "/do/ws/getallentries?application=" + StringUtil.asEmpty(application) + "&versionDisplay="+version).openStream()));
             StringBuffer sb = new StringBuffer(100000);
             int character = reader.read();
             while (character >= 0) {
@@ -86,6 +90,10 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
     }
 
     public java.lang.String getEntry(int entryId) throws java.rmi.RemoteException {
+        return getVersionedEntry(entryId,1);
+    }
+
+    public java.lang.String getVersionedEntry(int entryId, int version) throws java.rmi.RemoteException {
         MessageContext context = MessageContext.getCurrentContext();
         HttpServletRequest request = (HttpServletRequest) context.getProperty("transport.http.servletRequest");
         try {
@@ -93,7 +101,7 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
             if (request.getServerPort() != 80) {
                 port = ":" + request.getServerPort();
             }
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new URL("http://" + request.getServerName() + port + request.getContextPath() + "/do/ws/getentry?idDisplay=" + entryId).openStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new URL("http://" + request.getServerName() + port + request.getContextPath() + "/do/ws/getentry?idDisplay=" + entryId + "&versionDisplay="+version).openStream()));
             StringBuffer sb = new StringBuffer(100000);
             int character = reader.read();
             while (character >= 0) {
@@ -130,6 +138,9 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
     }
 
     public java.lang.String getCollection(int collectionId) throws java.rmi.RemoteException {
+        return getVersionedCollection(collectionId,1);
+    }
+    public java.lang.String getVersionedCollection(int collectionId,int version) throws java.rmi.RemoteException {
         MessageContext context = MessageContext.getCurrentContext();
         HttpServletRequest request = (HttpServletRequest) context.getProperty("transport.http.servletRequest");
         try {
@@ -137,7 +148,7 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
             if (request.getServerPort() != 80) {
                 port = ":" + request.getServerPort();
             }
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new URL("http://" + request.getServerName() + port + request.getContextPath() + "/do/ws/getcollection?collectionDisplay=" + collectionId).openStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new URL("http://" + request.getServerName() + port + request.getContextPath() + "/do/ws/getcollection?collectionDisplay=" + collectionId + "&versionDisplay="+version).openStream()));
             StringBuffer sb = new StringBuffer(100000);
             int character = reader.read();
             while (character >= 0) {
@@ -189,6 +200,10 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
     }
 
     public java.lang.String addDataEntry(java.lang.String username, java.lang.String password, java.lang.String application, int collectionId, int overwrite, java.lang.String data) throws java.rmi.RemoteException {
+        return addVersionedDataEntry(username,password,application,collectionId,overwrite,1,data);
+    }
+
+    public java.lang.String addVersionedDataEntry(java.lang.String username, java.lang.String password, java.lang.String application, int collectionId, int overwrite, int version, java.lang.String data) throws java.rmi.RemoteException {
         try {
             MessageContext context = MessageContext.getCurrentContext();
             HttpServletRequest request = (HttpServletRequest) context.getProperty("transport.http.servletRequest");
@@ -212,7 +227,7 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
                     anonymous = true;
                 }
                 Collection template = (Collection) WebAppEnvironmentPlugin.getEnvironment().getEntityFactory().create("datacollection-collection");
-                template.setId(collectionId);
+                template.setId(new Integer(collectionId));
                 Collection collection = (Collection) WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("datacollection-collection").load(template);
                 if(collection!=null && !collection.getUsername().equals(username)) {
                     throw new RemoteException("Incorrect collection identifier");
@@ -245,7 +260,7 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
                 }
                 LOG.debug(data);
                 StringReader reader = new StringReader(data);
-                if (!handleAddDataEntry(collection.getId(), reader, anonymous, overwrite!=0)) {
+                if (!handleAddDataEntry(collection.getId(), reader, anonymous, overwrite!=0, version)) {
                     throw new RemoteException("Error creating entry");
                 }
                 return "";
@@ -280,7 +295,7 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
         return user == null;
     }
 
-    public boolean handleAddDataEntry(Integer collectionId, Reader reader, boolean anonymous, boolean overwrite) throws java.rmi.RemoteException {
+    public boolean handleAddDataEntry(Integer collectionId, Reader reader, boolean anonymous, boolean overwrite, int version) throws java.rmi.RemoteException {
         SAXReader saxReader = new SAXReader();
         try {
             Document document = saxReader.read(reader);
@@ -344,6 +359,7 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
                     if (dataEntities.length > 0) {
                         Data data = (Data) dataEntities[0];
                         data.setContent(content);
+                        data.setVersion(new Integer(version));
                         if (!WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("datacollection-data").store(data)) {
                             throw new RemoteException("Unable to update existing data element");
                         }
@@ -352,6 +368,7 @@ public class DataCollectionSoapBindingImpl implements erland.webapp.datacollecti
                         data.setEntryId(entryId);
                         data.setType(type);
                         data.setContent(content);
+                        data.setVersion(new Integer(version));
                         if (!WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("datacollection-data").store(data)) {
                             throw new RemoteException("Unable to create new data element");
                         }

@@ -58,6 +58,7 @@ CREATE TABLE datas (
   type varchar(255) default NULL,
   content longtext NOT NULL,
   url varchar(255) default NULL,
+  version int(11) NOT NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -73,6 +74,7 @@ CREATE TABLE datas_history (
   type varchar(255) default NULL,
   content longtext NOT NULL,
   url varchar(255) default NULL,
+  version int(11) NOT NULL,
   PRIMARY KEY  (historyid)
 ) TYPE=MyISAM;
 

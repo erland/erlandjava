@@ -13,6 +13,9 @@
     <tr><td><bean:message key="datacollection.entry.data.edit.type"/></td><td>
     <html:text property="type" size="60"/>
     </td></tr>
+    <tr><td><bean:message key="datacollection.entry.data.edit.version"/></td><td>
+    <html:text property="versionDisplay"/>
+    </td></tr>
     <tr><td><bean:message key="datacollection.entry.data.edit.url"/></td><td>
     <html:text property="url" size="60"/>
     </td></tr>

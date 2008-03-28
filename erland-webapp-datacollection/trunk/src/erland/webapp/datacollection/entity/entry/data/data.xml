@@ -30,6 +30,10 @@
                 <column>url</column>
                 <type>String</type>
             </field>
+            <field id="version">
+                <column>version</column>
+                <type>Integer</type>
+            </field>
         </fields>
         <queries>
             <query id="all">

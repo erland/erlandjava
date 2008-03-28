@@ -86,6 +86,10 @@ public class SearchCollectionEntriesAction extends BaseAction {
         ActionForward viewLink = mapping.findForward("entry-view-link");
         ActionForward removeLink = mapping.findForward("entry-remove-link");
         QueryFilter filter = new QueryFilter("allforcollection");
+        if(fb.getVersion()!=null) {
+            filter = new QueryFilter("allforcollectionandversion");
+            filter.setAttribute("version",fb.getVersion());
+        }
         filter.setAttribute("collection", collection.getId());
         EntityInterface[] entities = getEnvironment().getEntityStorageFactory().getStorage("datacollection-entry").search(filter);
         EntryPB[] pbEntries = new EntryPB[entities.length];

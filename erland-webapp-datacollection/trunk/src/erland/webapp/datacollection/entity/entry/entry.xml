@@ -50,6 +50,32 @@
                 </fields>
                 <orderstring>order by title</orderstring>
             </query>
+            <query id="allforcollectionandversion">
+                <completequerystring>(select entries.collection,entries.id,entries.uniqueentryid,entries.title,entries.description,case when ifnull(datas.url,'')='' then entries.lastchanged else null end as lastchanged from entries	join datas on entries.id=datas.entryid and datas.version=? where entries.collection=? group by entries.id) union (select entries.collection,entries.id,entries.uniqueentryid,entries_history.title,entries_history.description,case when ifnull(datas.url,'')='' then entries_history.lastchanged else null end as lastchanged from entries join entries_history on entries.id=entries_history.id join datas on entries.id=datas.entryid and datas.version!=? join datas_history on entries.id=datas_history.entryid and datas_history.version=? where entries.collection=? group by entries.id)</completequerystring>
+                <fields>
+                    <field id="1">
+                        <field>version</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>collection</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="3">
+                        <field>version</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="4">
+                        <field>version</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="5">
+                        <field>collection</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+                <orderstring>order by title</orderstring>
+            </query>
             <query id="allofficialforapplication">
                 <completequerystring>select entries.* from entries join collections on entries.collection=collections.id where collections.application=? and collections.official=1</completequerystring>
                 <fields>

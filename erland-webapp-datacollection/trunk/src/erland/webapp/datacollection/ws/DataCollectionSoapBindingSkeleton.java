@@ -68,6 +68,19 @@ public class DataCollectionSoapBindingSkeleton implements erland.webapp.datacoll
         }
         ((java.util.List)_myOperations.get("getEntries")).add(_oper);
         _params = new org.apache.axis.description.ParameterDesc [] {
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "application"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false),
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "version"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false),
+        };
+        _oper = new org.apache.axis.description.OperationDesc("getVersionedEntries", _params, new javax.xml.namespace.QName("", "getVersionedEntriesReturn"));
+        _oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        _oper.setElementQName(new javax.xml.namespace.QName("urn:http://erland.homeip.net/datacollection", "getVersionedEntries"));
+        _oper.setSoapAction("");
+        _myOperationsList.add(_oper);
+        if (_myOperations.get("getVersionedEntries") == null) {
+            _myOperations.put("getVersionedEntries", new java.util.ArrayList());
+        }
+        ((java.util.List)_myOperations.get("getVersionedEntries")).add(_oper);
+        _params = new org.apache.axis.description.ParameterDesc [] {
             new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "entryId"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false),
         };
         _oper = new org.apache.axis.description.OperationDesc("getEntry", _params, new javax.xml.namespace.QName("", "getEntryReturn"));
@@ -79,6 +92,19 @@ public class DataCollectionSoapBindingSkeleton implements erland.webapp.datacoll
             _myOperations.put("getEntry", new java.util.ArrayList());
         }
         ((java.util.List)_myOperations.get("getEntry")).add(_oper);
+        _params = new org.apache.axis.description.ParameterDesc [] {
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "entryId"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false),
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "version"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false),
+        };
+        _oper = new org.apache.axis.description.OperationDesc("getVersionedEntry", _params, new javax.xml.namespace.QName("", "getVersionedEntryReturn"));
+        _oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        _oper.setElementQName(new javax.xml.namespace.QName("urn:http://erland.homeip.net/datacollection", "getVersionedEntry"));
+        _oper.setSoapAction("");
+        _myOperationsList.add(_oper);
+        if (_myOperations.get("getVersionedEntry") == null) {
+            _myOperations.put("getVersionedEntry", new java.util.ArrayList());
+        }
+        ((java.util.List)_myOperations.get("getVersionedEntry")).add(_oper);
         _params = new org.apache.axis.description.ParameterDesc [] {
             new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "username"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false),
             new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "application"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false),
@@ -104,6 +130,19 @@ public class DataCollectionSoapBindingSkeleton implements erland.webapp.datacoll
             _myOperations.put("getCollection", new java.util.ArrayList());
         }
         ((java.util.List)_myOperations.get("getCollection")).add(_oper);
+        _params = new org.apache.axis.description.ParameterDesc [] {
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "collectionId"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false),
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "version"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false),
+        };
+        _oper = new org.apache.axis.description.OperationDesc("getVersionedCollection", _params, new javax.xml.namespace.QName("", "getVersionedCollectionReturn"));
+        _oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        _oper.setElementQName(new javax.xml.namespace.QName("urn:http://erland.homeip.net/datacollection", "getVersionedCollection"));
+        _oper.setSoapAction("");
+        _myOperationsList.add(_oper);
+        if (_myOperations.get("getVersionedCollection") == null) {
+            _myOperations.put("getVersionedCollection", new java.util.ArrayList());
+        }
+        ((java.util.List)_myOperations.get("getVersionedCollection")).add(_oper);
         _params = new org.apache.axis.description.ParameterDesc [] {
             new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "username"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false),
             new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "password"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false),
@@ -150,6 +189,24 @@ public class DataCollectionSoapBindingSkeleton implements erland.webapp.datacoll
             _myOperations.put("addDataEntry", new java.util.ArrayList());
         }
         ((java.util.List)_myOperations.get("addDataEntry")).add(_oper);
+        _params = new org.apache.axis.description.ParameterDesc [] {
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "username"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false),
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "password"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false),
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "application"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false),
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "collectionId"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false),
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "overwrite"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false),
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "version"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false),
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "data"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false),
+        };
+        _oper = new org.apache.axis.description.OperationDesc("addVersionedDataEntry", _params, new javax.xml.namespace.QName("", "addVersionedDataEntryReturn"));
+        _oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        _oper.setElementQName(new javax.xml.namespace.QName("urn:http://erland.homeip.net/datacollection", "addVersionedDataEntry"));
+        _oper.setSoapAction("");
+        _myOperationsList.add(_oper);
+        if (_myOperations.get("addVersionedDataEntry") == null) {
+            _myOperations.put("addVersionedDataEntry", new java.util.ArrayList());
+        }
+        ((java.util.List)_myOperations.get("addVersionedDataEntry")).add(_oper);
     }
 
     public DataCollectionSoapBindingSkeleton() {
@@ -171,9 +228,21 @@ public class DataCollectionSoapBindingSkeleton implements erland.webapp.datacoll
         return ret;
     }
 
+    public java.lang.String getVersionedEntries(java.lang.String in0, int in1) throws java.rmi.RemoteException
+    {
+        java.lang.String ret = impl.getVersionedEntries(in0, in1);
+        return ret;
+    }
+
     public java.lang.String getEntry(int in0) throws java.rmi.RemoteException
     {
         java.lang.String ret = impl.getEntry(in0);
+        return ret;
+    }
+
+    public java.lang.String getVersionedEntry(int in0, int in1) throws java.rmi.RemoteException
+    {
+        java.lang.String ret = impl.getVersionedEntry(in0, in1);
         return ret;
     }
 
@@ -189,6 +258,12 @@ public class DataCollectionSoapBindingSkeleton implements erland.webapp.datacoll
         return ret;
     }
 
+    public java.lang.String getVersionedCollection(int in0,int in1) throws java.rmi.RemoteException
+    {
+        java.lang.String ret = impl.getVersionedCollection(in0,in1);
+        return ret;
+    }
+
     public String registerUser(String in0, String in1, String in2, String in3,String in4) throws java.rmi.RemoteException {
         java.lang.String ret = impl.registerUser(in0, in1, in2, in3, in4);
         return ret;
@@ -201,6 +276,11 @@ public class DataCollectionSoapBindingSkeleton implements erland.webapp.datacoll
 
     public String addDataEntry(String in0, String in1, String in2, int in3, int in4, String in5) throws java.rmi.RemoteException {
         java.lang.String ret = impl.addDataEntry(in0, in1, in2, in3, in4, in5);
+        return ret;
+    }
+
+    public String addVersionedDataEntry(String in0, String in1, String in2, int in3, int in4, int in5, String in6) throws java.rmi.RemoteException {
+        java.lang.String ret = impl.addVersionedDataEntry(in0, in1, in2, in3, in4, in5, in6);
         return ret;
     }
 

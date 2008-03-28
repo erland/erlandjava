@@ -34,6 +34,7 @@ public class EntryFB extends BaseFB {
     private String uniqueEntryId;
     private String title;
     private String description;
+    private String versionDisplay;
     private String lastChangedDisplay;
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -110,6 +111,22 @@ public class EntryFB extends BaseFB {
         this.lastChangedDisplay = StringUtil.asString(lastChanged,null,DATE_FORMAT);
     }
 
+    public Integer getVersion() {
+        return StringUtil.asInteger(versionDisplay,null);
+    }
+
+    public void setVersion(Integer version) {
+        this.versionDisplay = StringUtil.asString(version,null);
+    }
+
+    public String getVersionDisplay() {
+        return versionDisplay;
+    }
+
+    public void setVersionDisplay(String versionDisplay) {
+        this.versionDisplay = versionDisplay;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         collectionDisplay = null;
@@ -118,5 +135,6 @@ public class EntryFB extends BaseFB {
         title = null;
         description = null;
         lastChangedDisplay = null;
+        versionDisplay = null;
     }
 }

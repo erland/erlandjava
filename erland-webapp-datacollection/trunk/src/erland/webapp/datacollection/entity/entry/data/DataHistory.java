@@ -10,6 +10,7 @@ public class DataHistory extends BaseEntity {
     private String type;
     private String content;
     private String url;
+    private Integer version;
 
     public Integer getHistoryId() {
         return historyId;
@@ -65,5 +66,13 @@ public class DataHistory extends BaseEntity {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

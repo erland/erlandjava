@@ -66,6 +66,10 @@ public class SearchEntriesAction extends BaseAction {
             pb[i] = new CollectionPB();
             PropertyUtils.copyProperties(pb[i],collection);
             QueryFilter entryFilter = new QueryFilter("allforcollection");
+            if(fb.getVersion()!=null) {
+                entryFilter = new QueryFilter("allforcollectionandversion");
+                entryFilter.setAttribute("version",fb.getVersion());
+            }
             entryFilter.setAttribute("collection",collection.getId());
 
             EntityInterface[] entryEntities = getEnvironment().getEntityStorageFactory().getStorage("datacollection-entry").search(entryFilter);

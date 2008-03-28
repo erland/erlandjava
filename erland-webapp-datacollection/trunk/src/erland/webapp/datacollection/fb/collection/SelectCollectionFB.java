@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 public class SelectCollectionFB extends SelectUserFB {
     private String application;
     private String collectionDisplay;
+    private String versionDisplay;
 
     public String getApplication() {
         return application;
@@ -53,9 +54,26 @@ public class SelectCollectionFB extends SelectUserFB {
         this.collectionDisplay = collectionDisplay;
     }
 
+    public Integer getVersion() {
+        return StringUtil.asInteger(versionDisplay,null);
+    }
+
+    public void setVersion(Integer version) {
+        this.versionDisplay = StringUtil.asString(version,null);
+    }
+
+    public String getVersionDisplay() {
+        return versionDisplay;
+    }
+
+    public void setVersionDisplay(String versionDisplay) {
+        this.versionDisplay = versionDisplay;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest servletRequest) {
         super.reset(actionMapping, servletRequest);
         application=null;
         collectionDisplay=null;
+        versionDisplay=null;
     }
 }

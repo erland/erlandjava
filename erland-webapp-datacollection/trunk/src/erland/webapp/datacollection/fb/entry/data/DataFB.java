@@ -31,6 +31,7 @@ public class DataFB extends BaseFB {
     private String type;
     private String content;
     private String url;
+    private String versionDisplay;
 
     public String getEntryIdDisplay() {
         return entryIdDisplay;
@@ -88,6 +89,22 @@ public class DataFB extends BaseFB {
         this.url = url;
     }
 
+    public Integer getVersion() {
+        return StringUtil.asInteger(versionDisplay,null);
+    }
+
+    public void setVersion(Integer version) {
+        this.versionDisplay = StringUtil.asString(version,null);
+    }
+
+    public String getVersionDisplay() {
+        return versionDisplay;
+    }
+
+    public void setVersionDisplay(String versionDisplay) {
+        this.versionDisplay = versionDisplay;
+    }
+
     public void reset(ActionMapping actionMapping, HttpServletRequest httpServletRequest) {
         super.reset(actionMapping, httpServletRequest);
         entryIdDisplay = null;
@@ -95,5 +112,6 @@ public class DataFB extends BaseFB {
         type = null;
         content = null;
         url = null;
+        versionDisplay = null;
     }
 }

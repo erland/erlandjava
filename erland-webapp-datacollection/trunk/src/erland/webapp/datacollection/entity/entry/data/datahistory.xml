@@ -38,6 +38,10 @@
                 <column>url</column>
                 <type>String</type>
             </field>
+            <field id="version">
+                <column>version</column>
+                <type>Integer</type>
+            </field>
         </fields>
         <queries>
             <query id="all">
@@ -49,6 +53,24 @@
                 <fields>
                     <field id="1">
                         <field>historyentry</field>
+                        <type>Integer</type>
+                    </field>
+                </fields>
+            </query>
+            <query id="allforentryandtypeandversion">
+                <querystring>entryid=? and type=? and version=?</querystring>
+                <orderstring>order by entryhistoryid asc</orderstring>
+                <fields>
+                    <field id="1">
+                        <field>entry</field>
+                        <type>Integer</type>
+                    </field>
+                    <field id="2">
+                        <field>type</field>
+                        <type>String</type>
+                    </field>
+                    <field id="3">
+                        <field>version</field>
                         <type>Integer</type>
                     </field>
                 </fields>

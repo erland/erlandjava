@@ -19,33 +19,36 @@ package erland.webapp.datacollection.act.entry;
  *
  */
 
-import erland.webapp.common.act.BaseAction;
-import erland.webapp.common.ServletParameterHelper;
-import erland.webapp.common.QueryFilter;
+import erland.util.StringUtil;
 import erland.webapp.common.EntityInterface;
-import erland.webapp.datacollection.fb.entry.EntryFB;
-import erland.webapp.datacollection.fb.entry.EntryPB;
-import erland.webapp.datacollection.fb.entry.EntryHistoryPB;
-import erland.webapp.datacollection.fb.entry.data.DataPB;
-import erland.webapp.datacollection.fb.collection.CollectionPB;
+import erland.webapp.common.QueryFilter;
+import erland.webapp.common.ServletParameterHelper;
+import erland.webapp.common.act.BaseAction;
+import erland.webapp.datacollection.entity.collection.Collection;
 import erland.webapp.datacollection.entity.entry.Entry;
 import erland.webapp.datacollection.entity.entry.EntryHistory;
 import erland.webapp.datacollection.entity.entry.data.Data;
-import erland.webapp.datacollection.entity.collection.Collection;
-import erland.util.StringUtil;
+import erland.webapp.datacollection.entity.entry.data.DataHistory;
+import erland.webapp.datacollection.fb.collection.CollectionPB;
+import erland.webapp.datacollection.fb.entry.EntryFB;
+import erland.webapp.datacollection.fb.entry.EntryHistoryPB;
+import erland.webapp.datacollection.fb.entry.EntryPB;
+import erland.webapp.datacollection.fb.entry.data.DataPB;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ViewEntryInfoAction extends BaseAction {
     protected void executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -91,42 +94,83 @@ public class ViewEntryInfoAction extends BaseAction {
             for (int i = 0; i < datas.length; i++) {
                 Data data = (Data) datas[i];
                 datasPB[i] = new DataPB();
-                PropertyUtils.copyProperties(datasPB[i],data);
-                if(StringUtil.asNull(data.getUrl())!=null) {
-                    try {
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(data.getUrl()).openStream()));
-                        StringBuffer buffer = new StringBuffer(10000);
-                        String line = reader.readLine();
-                        while(line!=null) {
-                            buffer.append(line);
-                            buffer.append("\n");
-                            line = reader.readLine();
+                if(fb.getVersion()==null || data.getVersion().equals(fb.getVersion())) {
+                    PropertyUtils.copyProperties(datasPB[i],data);
+                    if(StringUtil.asNull(data.getUrl())!=null) {
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(data.getUrl()).openStream()));
+                            StringBuffer buffer = new StringBuffer(10000);
+                            String line = reader.readLine();
+                            while(line!=null) {
+                                buffer.append(line);
+                                buffer.append("\n");
+                                line = reader.readLine();
+                            }
+                            datasPB[i].setContent(buffer.toString());
+                        } catch (IOException e) {
+                            datasPB[i].setContent(null);
                         }
-                        datasPB[i].setContent(buffer.toString());
-                    } catch (IOException e) {
-                        datasPB[i].setContent(null);
+                    }
+                    if(StringUtil.asEmpty(data.getType()).equals(entry.getTitle())) {
+                        datasPB[i].setType(null);
+                    }
+                }else {
+                    QueryFilter dataHistoryFilter = new QueryFilter("allforentryandtypeandversion");
+                    dataHistoryFilter.setAttribute("entry",pb.getId());
+                    dataHistoryFilter.setAttribute("version",fb.getVersion());
+                    dataHistoryFilter.setAttribute("type",data.getType());
+                    EntityInterface[] datasHistory = getEnvironment().getEntityStorageFactory().getStorage("datacollection-datahistory").search(dataHistoryFilter);
+                    if(datasHistory.length>0) {
+                        DataHistory historyData = (DataHistory) datasHistory[datasHistory.length-1];
+                        PropertyUtils.copyProperties(datasPB[i],historyData);
+                        if(StringUtil.asNull(historyData.getUrl())!=null) {
+                            try {
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(historyData.getUrl()).openStream()));
+                                StringBuffer buffer = new StringBuffer(10000);
+                                String line = reader.readLine();
+                                while(line!=null) {
+                                    buffer.append(line);
+                                    buffer.append("\n");
+                                    line = reader.readLine();
+                                }
+                                datasPB[i].setContent(buffer.toString());
+                            } catch (IOException e) {
+                                datasPB[i].setContent(null);
+                            }
+                        }
+                        if(StringUtil.asEmpty(historyData.getType()).equals(entry.getTitle())) {
+                            datasPB[i].setType(null);
+                        }
+                    }else {
+                        datasPB[i] = null;
                     }
                 }
-                if(StringUtil.asEmpty(data.getType()).equals(entry.getTitle())) {
-                    datasPB[i].setType(null);
-                }
-                parameters.put("data",data.getId());
-                if(dataViewForward!=null) {
-                    datasPB[i].setViewLink(ServletParameterHelper.replaceDynamicParameters(dataViewForward.getPath(),parameters));
-                }
-                if(dataDownloadForward!=null) {
-                    datasPB[i].setDownloadLink(ServletParameterHelper.replaceDynamicParameters(dataDownloadForward.getPath(),parameters));
-                }
-                if(dataUpdateForward!=null) {
-                    datasPB[i].setUpdateLink(ServletParameterHelper.replaceDynamicParameters(dataUpdateForward.getPath(),parameters));
-                }
-                if(dataRemoveForward!=null) {
-                    datasPB[i].setRemoveLink(ServletParameterHelper.replaceDynamicParameters(dataRemoveForward.getPath(),parameters));
-                }
-                if(StringUtil.asNull(datasPB[i].getUrl()) != null) {
-                    pb.setLastChanged(null);
+                if(datasPB[i]!=null) {
+                    parameters.put("data",data.getId());
+                    if(dataViewForward!=null) {
+                        datasPB[i].setViewLink(ServletParameterHelper.replaceDynamicParameters(dataViewForward.getPath(),parameters));
+                    }
+                    if(dataDownloadForward!=null) {
+                        datasPB[i].setDownloadLink(ServletParameterHelper.replaceDynamicParameters(dataDownloadForward.getPath(),parameters));
+                    }
+                    if(dataUpdateForward!=null) {
+                        datasPB[i].setUpdateLink(ServletParameterHelper.replaceDynamicParameters(dataUpdateForward.getPath(),parameters));
+                    }
+                    if(dataRemoveForward!=null) {
+                        datasPB[i].setRemoveLink(ServletParameterHelper.replaceDynamicParameters(dataRemoveForward.getPath(),parameters));
+                    }
+                    if(StringUtil.asNull(datasPB[i].getUrl()) != null) {
+                        pb.setLastChanged(null);
+                    }
                 }
             }
+            List dataList = new ArrayList();
+            for (int i = 0; i < datasPB.length; i++) {
+                if(datasPB[i] != null) {
+                    dataList.add(datasPB[i]);
+                }
+            }
+            datasPB = (DataPB[]) dataList.toArray(new DataPB[0]);
             pb.setDatas(datasPB);
 
             ActionForward entryHistoryForward = mapping.findForward("entry-history-link");
