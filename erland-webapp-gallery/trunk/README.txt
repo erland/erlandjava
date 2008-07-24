@@ -100,6 +100,11 @@ Data scripts:
   Creates a user account for the "test" user.
   Creates the resolutions that should be available for not logged in users
 
+If you like to have Google Analytics support you will need to execute the following additional SQL statement towards the database
+accessed as jdbc/common. The value "UA-XXXXXXX-X" in the SQL statment needs to be replaced with your Google Analytics identifier:
+
+INSERT INTO resorces VALUES ('gallery','resources.google-analytics','%3Cscript+type%3D%22text%2Fjavascript%22%3E+var+gaJsHost+%3D+((%22https%3A%22+%3D%3D+document.location.protocol)+%3F+%22https%3A%2F%2Fssl.%22+%3A+%22http%3A%2F%2Fwww.%22)%3B+document.write(unescape(%22%253Cscript+src%3D'%22+%2B+gaJsHost+%2B+%22google-analytics.com%2Fga.js'+type%3D'text%2Fjavascript'%253E%253C%2Fscript%253E%22))%3B+%3C%2Fscript%3E+%3Cscript+type%3D%22text%2Fjavascript%22%3E+var+pageTracker+%3D+_gat._getTracker(%22UA-XXXXXXX-X%22)%3B+pageTracker._initData()%3B+pageTracker._trackPageview()%3B+%3C%2Fscript%3E');
+
 6. CONFIGURATION OF JDBC DATASOURCES
 ====================================
 You will need to configure tree JDBC datasources in your web-server

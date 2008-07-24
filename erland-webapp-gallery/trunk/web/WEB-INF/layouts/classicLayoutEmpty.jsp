@@ -36,5 +36,6 @@
 </tr>
 </logic:notEmpty>
 </table>
+<tiles:insert attribute="postscript"/>
 </body>
 </html>
