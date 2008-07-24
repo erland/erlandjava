@@ -11,16 +11,19 @@
     <!-- Main page layout used as a root for other page definitions -->
 
     <definition name=".mainLayout" path="/WEB-INF/layouts/classicLayout.jsp">
+        <put name="postscript" value="/WEB-INF/tiles/common/google-analytics.jsp"/>
         <put name="title" value="Homepage"/>
         <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
     </definition>
 
     <definition name=".mainLayoutNoMenu" path="/WEB-INF/layouts/classicLayoutNoMenu.jsp">
+        <put name="postscript" value="/WEB-INF/tiles/common/google-analytics.jsp"/>
         <put name="title" value="Homepage"/>
         <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
     </definition>
 
     <definition name=".mainLayoutEmpty" path="/WEB-INF/layouts/classicLayoutEmpty.jsp">
+        <put name="postscript" value="/WEB-INF/tiles/common/google-analytics.jsp"/>
         <put name="title" value="Homepage"/>
     </definition>
 
