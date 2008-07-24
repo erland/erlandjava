@@ -11,6 +11,7 @@
     <!-- Main page layout used as a root for other page definitions -->
 
     <definition name=".mainLayout" path="/WEB-INF/layouts/classicLayout.jsp">
+        <put name="postscript" value="/WEB-INF/tiles/common/google-analytics.jsp"/>
         <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
         <put name="menu" value="/WEB-INF/tiles/viewapplicationnames.jsp"/>
     </definition>
