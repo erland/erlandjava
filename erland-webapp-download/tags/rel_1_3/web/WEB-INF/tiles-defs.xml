@@ -1,0 +1,44 @@
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration//EN"
+       "http://struts.apache.org/dtds/tiles-config_1_1.dtd">
+
+<!-- Definitions for Tiles documentation   -->
+<tiles-definitions>
+
+    <!-- ========================================================== -->
+    <!-- Master definition                                          -->
+    <!-- ========================================================== -->
+    <!-- Main page layout used as a root for other page definitions -->
+
+    <definition name=".mainLayout" path="/WEB-INF/layouts/classicLayout.jsp">
+        <put name="postscript" value="/WEB-INF/tiles/common/google-analytics.jsp"/>
+        <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
+        <put name="menu" value="/WEB-INF/tiles/viewapplicationnames.jsp"/>
+    </definition>
+
+    <!-- ========================================================== -->
+    <!-- Index page definition                                      -->
+    <!-- ========================================================== -->
+    <!-- This definition inherits from the main definition.
+	  It overloads the page title and the body used.
+	  Use the same mechanism to define new pages sharing common
+	  properties (here header, menu, footer, layout)
+	-->
+
+    <definition name=".index" extends=".viewapplications"/>
+
+    <definition name=".viewapplications" extends=".mainLayout"/>
+
+    <definition name=".viewapplicationversions" extends=".index">
+        <put name="body" value="/WEB-INF/tiles/viewapplicationversions.jsp"/>
+    </definition>
+    <definition name=".viewallapplicationversions" extends=".index">
+        <put name="body" value="/WEB-INF/tiles/viewallapplicationversions.jsp"/>
+    </definition>
+    <definition name=".ws.searchallapplicationversions" path="/WEB-INF/ws/searchallapplicationversions.jsp">
+    </definition>
+    <definition name=".requestapplication" extends=".index">
+        <put name="body" value="/WEB-INF/tiles/requestapplication.jsp"/>
+    </definition>
+
+</tiles-definitions>
