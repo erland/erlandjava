@@ -27,6 +27,7 @@ public class ApplicationFileFB extends BaseFB {
     private String type;
     private String filename;
     private String url;
+    private String email;
 
     public ApplicationFileFB() {}
 
@@ -76,5 +77,13 @@ public class ApplicationFileFB extends BaseFB {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

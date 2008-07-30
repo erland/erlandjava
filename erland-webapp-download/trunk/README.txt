@@ -57,6 +57,9 @@ Table creation scripts:
 - common.sql
   Creates the tables needed in the database which will be accessed as jdbc/common
 
+- download.sql
+  Creates the tables needed in the database which will be accessed as jdbc/download
+
 Data scripts:
 - common_data.sql
   Setup download main directory to "D:\users\erland\downloads" (You probably want to change this)

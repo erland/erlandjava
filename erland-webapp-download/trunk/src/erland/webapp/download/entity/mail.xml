@@ -1,0 +1,31 @@
+<entity id="mail">
+    <class>erland.webapp.download.entity.Mail</class>
+    <data id="storage">
+        <class>erland.webapp.common.GenericEntityStorage</class>
+        <name>sql</name>
+    </data>
+    <data id="sql">
+        <datasource>jdbc/download</datasource>
+        <table>mail</table>
+        <fields>
+            <field id="application">
+                <column>application</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="email">
+                <column>email</column>
+                <type>String</type>
+                <identity>true</identity>
+            </field>
+            <field id="date">
+                <column>date</column>
+                <type>Timestamp</type>
+            </field>
+            <field id="lastDate">
+                <column>lastdate</column>
+                <type>Timestamp</type>
+            </field>
+        </fields>
+    </data>
+</entity>

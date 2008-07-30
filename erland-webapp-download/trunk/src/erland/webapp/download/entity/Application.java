@@ -33,6 +33,8 @@ public class Application extends BaseEntity implements EntityReadUpdateInterface
     private String logo;
     private String description;
     private String language;
+    private String mailingList;
+    private String requestMessage;
 
     public String getId() {
         return id;
@@ -102,6 +104,22 @@ public class Application extends BaseEntity implements EntityReadUpdateInterface
         }
     }
 
+    public String getMailingList() {
+        return mailingList;
+    }
+
+    public void setMailingList(String mailingList) {
+        this.mailingList = mailingList;
+    }
+
+    public String getRequestMessage() {
+        return requestMessage;
+    }
+
+    public void setRequestMessage(String requestMessage) {
+        this.requestMessage = requestMessage;
+    }
+
     public void preReadUpdate() {
         if (id != null) {
             id = id.replaceAll("[@:]", "/");
@@ -153,6 +171,44 @@ public class Application extends BaseEntity implements EntityReadUpdateInterface
                 reader.close();
             } catch (IOException e) {
                 setTitle(null);
+            }
+
+            try {
+                BufferedReader reader = null;
+                try {
+                    reader = new BufferedReader(new FileReader(getId()+"/message_"+(language!=null?language:"")+".txt"));
+                } catch (FileNotFoundException e) {
+                    try {
+                        reader = new BufferedReader(new FileReader(getId()+"/message.txt"));
+                    } catch (FileNotFoundException ex) {
+                    }
+                }
+                if(reader!=null) {
+                    StringBuffer description = new StringBuffer();
+                    String line = reader.readLine();
+                    while(line!=null) {
+                        description.append(line);
+                        line = reader.readLine();
+                        if(line!=null) {
+                            description.append("\n");
+                        }
+                    }
+                    reader.close();
+                    setRequestMessage(description.toString());
+                    reader.close();
+                }else {
+                    setRequestMessage(null);
+                }
+            } catch (IOException e) {
+                setRequestMessage(null);
+            }
+
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(getId()+"/mailinglist.txt"));
+                setMailingList(reader.readLine());
+                reader.close();
+            } catch (IOException e) {
+                setMailingList(null);
             }
 
             try {

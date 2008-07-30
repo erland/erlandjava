@@ -12,16 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Cookie;
 
 import erland.webapp.download.fb.ApplicationFileFB;
+import erland.webapp.download.fb.ApplicationFilePB;
 import erland.webapp.download.entity.ApplicationVersion;
-import erland.webapp.download.entity.Mail;
 import erland.webapp.download.entity.Application;
 import erland.webapp.common.act.WebAppEnvironmentPlugin;
-
-import java.io.*;
-import java.util.Date;
-
 import erland.util.StringUtil;
+import erland.webapp.common.ServletParameterHelper;
 
+import java.util.*;
+import java.io.*;
 
 /*
  * Copyright (C) 2003 Erland Isaksson (erland_i@hotmail.com)
@@ -42,7 +41,7 @@ import erland.util.StringUtil;
  * 
  */
 
-public class DownloadApplication extends Action {
+public class RequestApplication extends Action {
     /** Logging instance */
     private static Log LOG = LogFactory.getLog(DownloadApplication.class);
 
@@ -65,48 +64,44 @@ public class DownloadApplication extends Action {
 
         if(entity!=null) {
             if(entity.getName()!=null) {
-                if(StringUtil.asNull(fb.getEmail())!=null && StringUtil.asNull(entity.getMailingList())!=null) {
-                    Mail mailEntity = (Mail) WebAppEnvironmentPlugin.getEnvironment().getEntityFactory().create("download-mail");
-                    mailEntity.setApplication(entity.getApplicationName());
-                    mailEntity.setEmail(fb.getEmail());
-                    Mail storedMailEntity = (Mail) WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-mail").load(mailEntity);
-                    if(storedMailEntity==null) {
-                        mailEntity.setDate(new Date());
-                        mailEntity.setLastDate(mailEntity.getDate());
-                        WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-mail").store(mailEntity);
-                    }else {
-                        storedMailEntity.setLastDate(new Date());
-                        WebAppEnvironmentPlugin.getEnvironment().getEntityStorageFactory().getStorage("download-mail").store(storedMailEntity);
-                    }
+                ActionForward downloadForward = actionMapping.findForward("download-link");
 
-                    Cookie cookie = new Cookie("erland-webapp-download-email",fb.getEmail());
-                    cookie.setMaxAge(3600*24*365); // Lets keep the cookie for a year
-                    httpServletResponse.addCookie(cookie);
+                Map parameters = new HashMap();
+                if(StringUtil.asNull(httpServletRequest.getServerName())!=null) {
+                    parameters.put("hostname",httpServletRequest.getServerName());
+                    if(httpServletRequest.getServerPort()!=80) {
+                        parameters.put("port",new Integer(httpServletRequest.getServerPort()));
+                    }
                 }
-                String filename = entity.getDirectory()+entity.getName();
-                InputStream input = new BufferedInputStream(new FileInputStream(filename));
-                if(filename.endsWith(".zip")) {
-                    httpServletResponse.setContentType("application/zip");
-                }else {
-                    httpServletResponse.setContentType("application/octet-stream");
+                parameters.put("contextpath",httpServletRequest.getContextPath());
+                parameters.put("application",entity.getApplicationName());
+                parameters.put("filename",entity.getName());
+
+                String url = null;
+                if(downloadForward!=null) {
+                    url = ServletParameterHelper.replaceDynamicParameters(downloadForward.getPath(),parameters);
                 }
-                httpServletResponse.setHeader("Content-Disposition","attachment; filename=\"" +entity.getName()+ "\";");
-                write(input,httpServletResponse.getOutputStream());
-                LOG.debug("Loading application "+filename);
+
+                ApplicationFilePB pb = new ApplicationFilePB(fb.getLanguage(),entity.getName(),entity.getType(),entity.getName(),url);
+                pb.setRequestMessage(entity.getRequestMessage());
+                pb.setMailingList(entity.getMailingList());
+                pb.setApplicationTitle(entity.getApplicationTitle());
+
+
+                Cookie[] cookies = httpServletRequest.getCookies();
+                if(cookies!=null) {
+                    for (int i = 0; i < cookies.length; i++) {
+                        Cookie cookie = cookies[i];
+                        if(cookie.getName().equals("erland-webapp-download-email")) {
+                            fb.setEmail(cookie.getValue());
+                        }
+                    }
+                }
+                
+                httpServletRequest.setAttribute("applicationFilePB",pb);
+                return actionMapping.findForward("success");
             }
-            return null;
-        }else {
-            return actionMapping.findForward("failure");
         }
-    }
-    private void write(InputStream input, OutputStream output) throws IOException {
-        byte[] data = new byte[100000];
-        while (true) {
-            int length = input.read(data);
-            if (length < 0) {
-                return;
-            }
-            output.write(data, 0, length);
-        }
+        return actionMapping.findForward("failure");
     }
 }

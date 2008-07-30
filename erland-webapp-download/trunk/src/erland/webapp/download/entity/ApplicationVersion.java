@@ -40,6 +40,8 @@ public class ApplicationVersion extends BaseEntity implements EntityReadUpdateIn
     private String description;
     private Date date;
     private String language;
+    private String mailingList;
+    private String requestMessage;
 
     public String getId() {
         return id;
@@ -125,7 +127,23 @@ public class ApplicationVersion extends BaseEntity implements EntityReadUpdateIn
         this.language = language;
     }
 
-   public void preReadUpdate() {
+    public String getMailingList() {
+        return mailingList;
+    }
+
+    public void setMailingList(String mailingList) {
+        this.mailingList = mailingList;
+    }
+
+    public String getRequestMessage() {
+        return requestMessage;
+    }
+
+    public void setRequestMessage(String requestMessage) {
+        this.requestMessage = requestMessage;
+    }
+
+    public void preReadUpdate() {
         if (id != null) {
             id = id.replaceAll("[@:]", "/");
             id = directory + id;
@@ -170,6 +188,72 @@ public class ApplicationVersion extends BaseEntity implements EntityReadUpdateIn
                 }
             }else {
                 setApplicationName(null);
+            }
+
+            try {
+                BufferedReader reader = null;
+                try {
+                    reader = new BufferedReader(new FileReader(id.substring(0,pos)+"/message_"+(language!=null?language:"")+".txt"));
+                } catch (FileNotFoundException e) {
+                    try {
+                        reader = new BufferedReader(new FileReader(id.substring(0,pos)+"/message.txt"));
+                    } catch (FileNotFoundException ex) {
+                    }
+                }
+                if(reader!=null) {
+                    StringBuffer description = new StringBuffer();
+                    String line = reader.readLine();
+                    while(line!=null) {
+                        description.append(line);
+                        line = reader.readLine();
+                        if(line!=null) {
+                            description.append("\n");
+                        }
+                    }
+                    setRequestMessage(description.toString());
+                    reader.close();
+                }else {
+                    setRequestMessage(null);
+                }
+
+                reader = null;
+                try {
+                    reader = new BufferedReader(new FileReader(pathWithoutExtension+"_message_"+(language!=null?language:"")+".txt"));
+                } catch (FileNotFoundException e) {
+                    try {
+                        reader = new BufferedReader(new FileReader(pathWithoutExtension+"_message.txt"));
+                    } catch (FileNotFoundException ex) {
+                    }
+                }
+                if(reader!=null) {
+                    StringBuffer description = new StringBuffer();
+                    String line = reader.readLine();
+                    while(line!=null) {
+                        description.append(line);
+                        line = reader.readLine();
+                        if(line!=null) {
+                            description.append("\n");
+                        }
+                    }
+                    if(getRequestMessage()!=null) {
+                        setRequestMessage(getRequestMessage()+"\n\n"+description.toString());
+                    }else {
+                        setRequestMessage(description.toString());
+
+                    }
+                    reader.close();
+                }
+
+            } catch (IOException e) {
+                setRequestMessage(null);
+            }
+
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(id.substring(0,pos)+"/mailinglist.txt"));
+                setMailingList(reader.readLine());
+                reader.close();
+            } catch (IOException e) {
+                setMailingList(null);
             }
 
             try {

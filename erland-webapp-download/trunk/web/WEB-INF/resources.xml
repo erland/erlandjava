@@ -4,5 +4,6 @@
         <entity id="common-resource" reference="resource:erland/webapp/common/resource.xml"/>
         <entity id="download-application" reference="application:erland/webapp/download/entity/application.xml"/>
         <entity id="download-applicationversion" reference="applicationversion:erland/webapp/download/entity/applicationversion.xml"/>
+        <entity id="download-mail" reference="mail:erland/webapp/download/entity/mail.xml"/>
     </entities>
 </resources>
