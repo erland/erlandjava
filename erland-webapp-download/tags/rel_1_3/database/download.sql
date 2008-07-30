@@ -11,7 +11,6 @@
 CREATE TABLE mail (
   application varchar(100) NOT NULL,
   email varchar(100) NOT NULL,
-  mailinglist varchar(100) default NULL,
   date datetime NOT NULL,
   lastdate datetime NOT NULL,
   PRIMARY KEY  (application,email)

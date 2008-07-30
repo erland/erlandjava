@@ -69,7 +69,7 @@ function checkEmailAddress(str) {
 }
 </script>
 
-<html:form action="/downloadapplication" method="POST" onsubmit="return checkEmail();">
+<html:form action="/downloadapplication" method="GET" onsubmit="return checkEmail();">
     <html:hidden property="name"/>
     <html:hidden property="filename"/>
     <table class="propertypage-body" align="center">
