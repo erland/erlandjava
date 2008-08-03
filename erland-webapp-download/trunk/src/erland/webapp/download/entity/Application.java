@@ -205,7 +205,16 @@ public class Application extends BaseEntity implements EntityReadUpdateInterface
 
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(getId()+"/mailinglist.txt"));
-                setMailingList(reader.readLine());
+                StringBuffer buffer = new StringBuffer();
+                String line = reader.readLine();
+                while(line!=null) {
+                    buffer.append(line);
+                    line = reader.readLine();
+                    if(line!=null) {
+                        buffer.append("\n");
+                    }
+                }
+                setMailingList(buffer.toString());
                 reader.close();
             } catch (IOException e) {
                 setMailingList(null);
