@@ -1,0 +1,111 @@
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration//EN"
+       "http://struts.apache.org/dtds/tiles-config_1_1.dtd">
+
+<!-- Definitions for Tiles documentation   -->
+<tiles-definitions>
+
+    <!-- ========================================================== -->
+    <!-- Master definition                                          -->
+    <!-- ========================================================== -->
+    <!-- Main page layout used as a root for other page definitions -->
+
+    <definition name=".mainLayout" path="/WEB-INF/layouts/classicLayout.jsp">
+        <put name="postscript" value="/WEB-INF/tiles/common/google-analytics.jsp"/>
+        <put name="title" value="Homepage"/>
+        <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
+    </definition>
+
+    <definition name=".mainLayoutNoMenu" path="/WEB-INF/layouts/classicLayoutNoMenu.jsp">
+        <put name="postscript" value="/WEB-INF/tiles/common/google-analytics.jsp"/>
+        <put name="title" value="Homepage"/>
+        <put name="header" value="/WEB-INF/tiles/common/header.jsp"/>
+    </definition>
+
+    <definition name=".mainLayoutEmpty" path="/WEB-INF/layouts/classicLayoutEmpty.jsp">
+        <put name="postscript" value="/WEB-INF/tiles/common/google-analytics.jsp"/>
+        <put name="title" value="Homepage"/>
+    </definition>
+
+    <!-- ========================================================== -->
+    <!-- Index page definition                                      -->
+    <!-- ========================================================== -->
+    <!-- This definition inherits from the main definition.
+	  It overloads the page title and the body used.
+	  Use the same mechanism to define new pages sharing common
+	  properties (here header, menu, footer, layout)
+	-->
+
+    <definition name=".index" extends=".login"/>
+
+    <definition name=".login" extends=".mainLayoutNoMenu">
+        <put name="body" value="/WEB-INF/tiles/common/login.jsp"/>
+    </definition>
+
+    <definition name=".guest.newuseraccount" extends=".mainLayoutNoMenu">
+        <put name="body" value="/WEB-INF/tiles/account/newuseraccount.jsp"/>
+    </definition>
+    <definition name=".guest.newuseraccount.success" extends=".mainLayoutNoMenu">
+        <put name="body" value="/WEB-INF/tiles/account/newuseraccountsuccess.jsp"/>
+    </definition>
+
+    <definition name=".user.empty" extends=".mainLayoutEmpty"/>
+
+    <definition name=".user.index" extends=".mainLayout">
+        <put name="menu" value="/WEB-INF/tiles/common/usermenu.jsp"/>
+        <put name="body" value="/WEB-INF/tiles/common/welcometext.jsp"/>
+    </definition>
+    <definition name=".user.edituseraccount" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/account/edituseraccount.jsp"/>
+    </definition>
+    <definition name=".user.viewuseraccounts" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/account/viewuseraccounts.jsp"/>
+    </definition>
+    <definition name=".user.editsection" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/section/editsection.jsp"/>
+    </definition>
+    <definition name=".guest.viewsectionredirect" path="/WEB-INF/tiles/section/viewsectionredirect.jsp">
+        <put name="title" value="Homepage, redirecting..."/>
+    </definition>
+    <definition name=".user.viewsectionredirect" path="/WEB-INF/tiles/section/viewsectionredirect.jsp">
+        <put name="title" value="Homepage, redirecting..."/>
+    </definition>
+    <definition name=".user.viewsection" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/section/viewsection.jsp"/>
+    </definition>
+    <definition name=".guest.viewsection" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/section/viewsection.jsp"/>
+    </definition>
+    <definition name=".user.editservice" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/service/editservice.jsp"/>
+    </definition>
+    <definition name=".user.viewservices" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/service/viewservices.jsp"/>
+    </definition>
+    <definition name=".user.viewservice" extends=".user.index">
+        <put name="body" value="/WEB-INF/tiles/service/viewservicedata.jsp"/>
+    </definition>
+    <definition name=".guest.viewservice" extends=".guest.index">
+        <put name="body" value="/WEB-INF/tiles/service/viewservicedata.jsp"/>
+    </definition>
+    <definition name=".guest.viewservicefull" extends=".guest.empty">
+        <put name="body" value="/WEB-INF/tiles/service/viewservicedata.jsp"/>
+    </definition>
+    <definition name=".guest.empty" extends=".mainLayoutEmpty"/>
+    <definition name=".guest.index" extends=".mainLayout">
+        <put name="menu" value="/WEB-INF/tiles/common/guestmenu.jsp"/>
+        <put name="body" value="/WEB-INF/tiles/common/welcometext.jsp"/>
+    </definition>
+
+    <definition name=".mainSkinLayout" path="/WEB-INF/tiles/skin/layout.jsp">
+        <put name="title" value="Homepage"/>
+        <put name="header" value="/WEB-INF/tiles/skin/header.jsp"/>
+    </definition>
+    <definition name=".mainSkinLayoutEmpty" path="/WEB-INF/tiles/skin/layoutSingle.jsp">
+        <put name="title" value="Homepage"/>
+    </definition>
+    <definition name=".skin.index" extends=".mainSkinLayout">
+        <put name="menu" value="/WEB-INF/tiles/skin/menu.jsp"/>
+    </definition>
+    <definition name=".skin.empty" extends=".mainSkinLayoutEmpty"/>
+</tiles-definitions>
